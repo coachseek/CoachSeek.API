@@ -51,7 +51,14 @@ namespace CoachSeek.WebUI.UseCases
         {
             var admin = BusinessAdminRepository.GetByEmail(registration.Registrant.Email);
             if (admin.IsExisting())
-                throw new ValidationException((int)ErrorCodes.ErrorBusinessAdminDuplicateEmail, Resources.ErrorBusinessAdminDuplicateEmail);       
+                ThrowBusinessAdminDuplicateEmailValiationException();       
+        }
+
+        private void ThrowBusinessAdminDuplicateEmailValiationException()
+        {
+            throw new ValidationException((int)ErrorCodes.ErrorBusinessAdminDuplicateEmail, 
+                                          Resources.ErrorBusinessAdminDuplicateEmail,
+                                          FormField.Email);
         }
 
         private Business Register(BusinessRegistrationRequest registration)

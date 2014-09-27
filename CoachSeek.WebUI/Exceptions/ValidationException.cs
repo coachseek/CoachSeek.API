@@ -9,9 +9,9 @@ namespace CoachSeek.WebUI.Exceptions
         public List<Error> Errors { get; private set; }
 
 
-        public ValidationException(int errorCode, string errorMessage)
+        public ValidationException(int errorCode, string errorMessage, string field = null)
         {
-            Errors = new List<Error> {new Error(errorCode, errorMessage)};
+            Errors = new List<Error> {new Error(errorCode, errorMessage, field)};
         }
 
         public ValidationException(Error error)

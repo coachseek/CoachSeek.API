@@ -197,6 +197,7 @@
     <Compile Include="Models\BusinessRegistrant.cs" />
     <Compile Include="Models\Business.cs" />
     <Compile Include="Models\Error.cs" />
+    <Compile Include="Models\FormField.cs" />
     <Compile Include="Models\Requests\BusinessRegistrationRequest.cs" />
     <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\ErrorCodes.cs" />

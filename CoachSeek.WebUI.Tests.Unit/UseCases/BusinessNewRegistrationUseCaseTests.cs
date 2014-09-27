@@ -147,6 +147,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             var error = response.Errors.First();
             Assert.That(error.Code, Is.EqualTo(1010));
             Assert.That(error.Message, Is.EqualTo("Missing business registration data."));
+            Assert.That(error.Field, Is.Null);
         }
 
         private void AssertDuplicateBusinessAdminEmailError(BusinessRegistrationResponse response)
@@ -157,6 +158,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             var error = response.Errors.First();
             Assert.That(error.Code, Is.EqualTo(1020));
             Assert.That(error.Message, Is.EqualTo("This email address is already in use."));
+            Assert.That(error.Field, Is.EqualTo("Email"));
         }
 
         private void AssertBusinessRegistrationFails()

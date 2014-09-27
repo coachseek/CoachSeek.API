@@ -19,6 +19,8 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', function 
            })
            .error(function (data) {
                $scope.error = data;
+               if (data.field === "Email")
+                   $scope.businessRegForm.email.$setValidity("email", false);
            });
   };
   
