@@ -1,10 +1,8 @@
 ﻿using CoachSeek.WebUI.Builders;
 using CoachSeek.WebUI.Email;
-using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Requests;
 using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -13,14 +11,6 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class BusinessRegistrationController : ApiController
     {
-        private static List<Business> Businesses { get; set; }
-
-        static BusinessRegistrationController()
-        {
-            Businesses = new List<Business>();
-        }
-
-
         // POST: api/BusinessRegistration
         public HttpResponseMessage Post([FromBody]BusinessRegistrationRequest businessRegistration)
         {
