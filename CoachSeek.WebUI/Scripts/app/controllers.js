@@ -10,7 +10,9 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', function 
   $scope.businessReg = {};
   $scope.business = {};
 
-  $scope.registerBusiness = function() {
+  $scope.registerBusiness = function () {
+      $scope.business = {};
+      $scope.error = {};
       $http.post('/api/BusinessRegistration', $scope.businessReg)
            .success(function (data) {
                $scope.business = data;
