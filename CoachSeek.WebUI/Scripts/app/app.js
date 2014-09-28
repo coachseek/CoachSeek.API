@@ -4,33 +4,31 @@
 
 (function(){
 
-var app = angular.module('coachSeekApp', ['coachSeekControllers', 'coachSeekDirectives']);
+var app = angular.module('coachSeekApp', ['ngRoute', 'coachSeekControllers', 'coachSeekDirectives']);
 
 
 
-//var app = angular.module('coachSeekApp', ['ngRoute', 'coachSeekControllers', 'coachSeekDirectives']);
-
-//app.config(['$routeProvider', '$locationProvider',
-//  function($routeProvider, $locationProvider) {
-//    $routeProvider.
-//      when('/', {
-//        templateUrl: 'partials/business-registration.html',
-//        controller: 'BusinessRegCtrl'
-//      }).
-//      when('/business', {
-//        templateUrl: 'partials/business-registration.html',
-//        controller: 'BusinessRegCtrl'
-//      }).
-//      when('/admin', {
-//        templateUrl: 'partials/admin-registration.html',
-//        controller: 'AdminCtrl'
-//      }).
-//      otherwise({
-//        redirectTo: '/business'
-//      });
+app.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'partials/business-registration.html',
+        controller: 'BusinessRegCtrl'
+      }).
+      when('/business/registration', {
+        templateUrl: 'partials/business-registration.html',
+        controller: 'BusinessRegCtrl'
+      }).
+      when('/business/locations', {
+          templateUrl: 'partials/business-locations.html',
+        controller: 'LocationCtrl'
+      }).
+      otherwise({
+        redirectTo: '/business'
+      });
       
-//    // use the HTML5 History API
-//		$locationProvider.html5Mode(true);
-//  }]);
+    // use the HTML5 History API
+		//$locationProvider.html5Mode(true);
+  }]);
 
 })();

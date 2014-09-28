@@ -13,6 +13,9 @@ namespace CoachSeek.WebUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("{page}.html");
+            routes.IgnoreRoute("");
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
