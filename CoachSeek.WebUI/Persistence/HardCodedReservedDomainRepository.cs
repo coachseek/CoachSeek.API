@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CoachSeek.WebUI.Contracts.Persistence;
 
 namespace CoachSeek.WebUI.Persistence

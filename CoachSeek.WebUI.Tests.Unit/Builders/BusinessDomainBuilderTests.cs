@@ -28,10 +28,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Builders
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Add(new Business {Id = 1, Name = "Ian's Cafe", Domain = "ianscafe"});
-            BusinessRepository.Add(new Business {Id = 2, Name = "Bob's Burgers", Domain = "bobsburgers"});
-            BusinessRepository.Add(new Business {Id = 3, Name = "Bobs Burgers", Domain = "bobsburgers1"});
-            BusinessRepository.Add(new Business {Id = 4, Name = "Bob's Burgers #1", Domain = "bobsburgers2"});
+            BusinessRepository.Save(new NewBusiness { Name = "Ian's Cafe", Domain = "ianscafe", Admin = new BusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers", Domain = "bobsburgers", Admin = new BusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bobs Burgers", Domain = "bobsburgers1", Admin = new BusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers #1", Domain = "bobsburgers2", Admin = new BusinessAdmin() });
         }
 
 

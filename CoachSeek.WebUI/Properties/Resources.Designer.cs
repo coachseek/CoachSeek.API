@@ -70,11 +70,38 @@ namespace CoachSeek.WebUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This location already exists..
+        /// </summary>
+        internal static string ErrorDuplicateLocation {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This business does not exist..
+        /// </summary>
+        internal static string ErrorInvalidBusiness {
+            get {
+                return ResourceManager.GetString("ErrorInvalidBusiness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing business registration data..
         /// </summary>
         internal static string ErrorNoBusinessRegistrationData {
             get {
                 return ResourceManager.GetString("ErrorNoBusinessRegistrationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing location data..
+        /// </summary>
+        internal static string ErrorNoLocationAddData {
+            get {
+                return ResourceManager.GetString("ErrorNoLocationAddData", resourceCulture);
             }
         }
     }

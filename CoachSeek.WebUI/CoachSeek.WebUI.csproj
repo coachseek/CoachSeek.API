@@ -185,24 +185,38 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Conversion\BusinessAdminConverter.cs" />
     <Compile Include="Conversion\BusinessConverter.cs" />
+    <Compile Include="Conversion\DbBusinessConverter.cs" />
+    <Compile Include="Conversion\LocationConverter.cs" />
     <Compile Include="Email\StubBusinessRegistrationEmailer.cs" />
+    <Compile Include="Exceptions\DuplicateLocationException.cs" />
+    <Compile Include="Exceptions\InvalidBusinessException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BusinessAdmin.cs" />
+    <Compile Include="Models\BusinessLocations.cs" />
     <Compile Include="Models\BusinessRegistrant.cs" />
     <Compile Include="Models\Business.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\FormField.cs" />
+    <Compile Include="Models\Identifier.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\NewBusiness.cs" />
+    <Compile Include="Models\Persistence\DbBusiness.cs" />
+    <Compile Include="Models\Persistence\DbBusinessAdmin.cs" />
+    <Compile Include="Models\Persistence\DbLocation.cs" />
     <Compile Include="Models\Requests\BusinessRegistrationRequest.cs" />
+    <Compile Include="Models\Requests\LocationAddRequest.cs" />
     <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\ErrorCodes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Responses\LocationAddResponse.cs" />
     <Compile Include="Persistence\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessAdminRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessRepository.cs" />
@@ -214,6 +228,7 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\LocationAddUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

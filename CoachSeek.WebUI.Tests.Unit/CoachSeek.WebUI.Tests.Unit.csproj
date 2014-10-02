@@ -46,6 +46,7 @@
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCaseTests.cs" />
+    <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">

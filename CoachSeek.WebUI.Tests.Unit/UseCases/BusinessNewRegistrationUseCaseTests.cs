@@ -14,7 +14,6 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
     public class BusinessNewRegistrationUseCaseTests
     {
         private InMemoryBusinessRepository BusinessRepository { get; set; }
-        private InMemoryBusinessAdminRepository BusinessAdminRepository { get; set; }
         private BusinessDomainBuilder BusinessDomainBuilder { get; set; }
         private StubBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
         
@@ -22,7 +21,6 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         public void Setup()
         {
             SetupBusinessRepository();
-            SetupBusinessAdminRepository();
             SetupBusinessDomainBuilder();
             SetupBusinessRegistrationEmailer();
         }
@@ -30,21 +28,20 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Add(new Business { Id = 1, Name = "Olaf's Bookshoppe", Domain = "olafsbookshoppe" });
-            BusinessRepository.WasAddCalled = false;
-        }
-
-        private void SetupBusinessAdminRepository()
-        {
-            BusinessAdminRepository = new InMemoryBusinessAdminRepository();
-            BusinessAdminRepository.Add(new BusinessAdmin { Id = 1, 
-                                                            BusinessId = 1, 
-                                                            FirstName = "Olaf", 
-                                                            LastName = "Thielke",
-                                                            Email = "olaft@ihug.co.nz",
-                                                            Password = "abc123"
-                                                          });
-            BusinessAdminRepository.WasAddCalled = false;
+            BusinessRepository.Add(new Business
+            {
+                Name = "Olaf's Bookshoppe",
+                Domain = "olafsbookshoppe",
+                Admin = new BusinessAdmin
+                {
+                    FirstName = "Olaf",
+                    LastName = "Thielke",
+                    Email = "olaft@ihug.co.nz",
+                    Password = "abc123"
+                }
+            });
+            BusinessRepository.WasSaveNewBusinessCalled = false;
+            BusinessRepository.WasSaveBusinessCalled = false;
         }
 
         private void SetupBusinessDomainBuilder()
@@ -120,7 +117,6 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private BusinessRegistrationResponse WhenRegisterANewBusiness(BusinessRegistrationRequest registration)
         {
             var useCase = new BusinessNewRegistrationUseCase(BusinessRepository, 
-                BusinessAdminRepository,
                 BusinessDomainBuilder,
                 BusinessRegistrationEmailer);
 
@@ -164,7 +160,6 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void AssertBusinessRegistrationFails()
         {
             AssertBusinessIsNotRegistered();
-            AssertBusinessAdminIsNotRegistered();
             AssertRegistrationEmailIsNotSent();
         }
 
@@ -172,18 +167,12 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void ThenTheBusinessRegistrationSucceeds(BusinessRegistrationResponse response)
         {
             AssertBusinessIsRegistered();
-            AssertBusinessAdminIsRegistered();
             AssertRegistrationEmailIsSent();
         }
 
         private void AssertBusinessIsNotRegistered()
         {
-            Assert.That(BusinessRepository.WasAddCalled, Is.False);
-        }
-
-        private void AssertBusinessAdminIsNotRegistered()
-        {
-            Assert.That(BusinessAdminRepository.WasAddCalled, Is.False);
+            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.False);
         }
 
         private void AssertRegistrationEmailIsNotSent()
@@ -193,12 +182,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
 
         private void AssertBusinessIsRegistered()
         {
-            Assert.That(BusinessRepository.WasAddCalled, Is.True);
-        }
-
-        private void AssertBusinessAdminIsRegistered()
-        {
-            Assert.That(BusinessAdminRepository.WasAddCalled, Is.True);
+            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.True);
         }
 
         private void AssertRegistrationEmailIsSent()

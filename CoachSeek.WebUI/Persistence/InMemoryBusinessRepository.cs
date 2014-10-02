@@ -1,6 +1,8 @@
 ﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Factories;
 using CoachSeek.WebUI.Models;
-using MoreLinq;
+using CoachSeek.WebUI.Models.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,45 +11,81 @@ namespace CoachSeek.WebUI.Persistence
     public class InMemoryBusinessRepository : IBusinessRepository
     {
         // Spy behaviour is included
-        public bool WasAddCalled; 
+        public bool WasSaveNewBusinessCalled;
+        public bool WasSaveBusinessCalled; 
 
-        private static List<Business> Businesses { get; set; }
+        private static List<DbBusiness> Businesses { get; set; }
 
 
         static InMemoryBusinessRepository()
         {
-            Businesses = new List<Business>();
+            Businesses = new List<DbBusiness>();
         }
 
 
+        public Business Save(NewBusiness newBusiness)
+        {
+            WasSaveNewBusinessCalled = true;
+
+            var dbBusiness = DbBusinessConverter.Convert(newBusiness);
+
+            Businesses.Add(dbBusiness);
+            return newBusiness;
+        }
+
+        public Business Save(Business business)
+        {
+            WasSaveBusinessCalled = true;
+
+            var dbBusiness = DbBusinessConverter.Convert(business);
+
+            var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
+            existingBusiness = dbBusiness;
+            return business;
+        }
+        
         public Business Add(Business business)
         {
-            WasAddCalled = true;
+            WasSaveBusinessCalled = true;
 
-            business.Id = NextId;
-            Businesses.Add(business);
+            var dbBusiness = DbBusinessConverter.Convert(business);
+
+            Businesses.Add(dbBusiness);
             return business;
+        }
+
+        public Business Get(Identifier id)
+        {
+            var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id.Id);
+            return BusinessFactory.Create(dbBusiness);
         }
 
         public Business GetByDomain(string domain)
         {
-            return Businesses.FirstOrDefault(x => x.Domain == domain);
+            var dbBusiness = Businesses.FirstOrDefault(x => x.Domain == domain);
+            return BusinessFactory.Create(dbBusiness);
         }
 
-
-        private static int MaxId
+        public Business GetByAdminEmail(string adminEmail)
         {
-            get 
-            {
-                if (Businesses.Any())
-                    return Businesses.MaxBy(x => x.Id).Id;
-                return 0;
-            }
+            var dbBusiness = Businesses.FirstOrDefault(x => x.Admin.Email == adminEmail);
+            return BusinessFactory.Create(dbBusiness);
         }
 
-        private static int NextId
-        {
-            get { return MaxId + 1; }
-        }
+
+        //private static int MaxId
+        //{
+        //    get 
+        //    {
+        //        if (Businesses.Any())
+        //            return Businesses.MaxBy(x => x.Identifier).Identifier;
+        //        return 0;
+        //    }
+        //}
+
+        //private static int NextId
+        //{
+        //    get { return MaxId + 1; }
+        //}
     }
 }

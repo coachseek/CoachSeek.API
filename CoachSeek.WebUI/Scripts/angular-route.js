@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.2.24
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -298,13 +298,13 @@ function $RouteProvider(){
      *
      *   <file name="book.html">
      *     controller: {{name}}<br />
-     *     Book Id: {{params.bookId}}<br />
+     *     Book Identifier: {{params.bookId}}<br />
      *   </file>
      *
      *   <file name="chapter.html">
      *     controller: {{name}}<br />
-     *     Book Id: {{params.bookId}}<br />
-     *     Chapter Id: {{params.chapterId}}
+     *     Book Identifier: {{params.bookId}}<br />
+     *     Chapter Identifier: {{params.chapterId}}
      *   </file>
      *
      *   <file name="script.js">
@@ -356,14 +356,14 @@ function $RouteProvider(){
      *       element(by.linkText('Moby: Ch1')).click();
      *       var content = element(by.css('[ng-view]')).getText();
      *       expect(content).toMatch(/controller\: ChapterController/);
-     *       expect(content).toMatch(/Book Id\: Moby/);
-     *       expect(content).toMatch(/Chapter Id\: 1/);
+     *       expect(content).toMatch(/Book Identifier\: Moby/);
+     *       expect(content).toMatch(/Chapter Identifier\: 1/);
      *
      *       element(by.partialLinkText('Scarlet')).click();
      *
      *       content = element(by.css('[ng-view]')).getText();
      *       expect(content).toMatch(/controller\: BookController/);
-     *       expect(content).toMatch(/Book Id\: Scarlet/);
+     *       expect(content).toMatch(/Book Identifier\: Scarlet/);
      *     });
      *   </file>
      * </example>
@@ -701,15 +701,15 @@ ngRouteModule.directive('ngView', ngViewFillContentFactory);
       <file name="book.html">
         <div>
           controller: {{book.name}}<br />
-          Book Id: {{book.params.bookId}}<br />
+          Book Identifier: {{book.params.bookId}}<br />
         </div>
       </file>
 
       <file name="chapter.html">
         <div>
           controller: {{chapter.name}}<br />
-          Book Id: {{chapter.params.bookId}}<br />
-          Chapter Id: {{chapter.params.chapterId}}
+          Book Identifier: {{chapter.params.bookId}}<br />
+          Chapter Identifier: {{chapter.params.chapterId}}
         </div>
       </file>
 
@@ -796,14 +796,14 @@ ngRouteModule.directive('ngView', ngViewFillContentFactory);
           element(by.linkText('Moby: Ch1')).click();
           var content = element(by.css('[ng-view]')).getText();
           expect(content).toMatch(/controller\: ChapterCtrl/);
-          expect(content).toMatch(/Book Id\: Moby/);
-          expect(content).toMatch(/Chapter Id\: 1/);
+          expect(content).toMatch(/Book Identifier\: Moby/);
+          expect(content).toMatch(/Chapter Identifier\: 1/);
 
           element(by.partialLinkText('Scarlet')).click();
 
           content = element(by.css('[ng-view]')).getText();
           expect(content).toMatch(/controller\: BookCtrl/);
-          expect(content).toMatch(/Book Id\: Scarlet/);
+          expect(content).toMatch(/Book Identifier\: Scarlet/);
         });
       </file>
     </example>
