@@ -15,7 +15,7 @@ namespace CoachSeek.WebUI.Conversion
                 Name = business.Name,
                 Domain = business.Domain,
                 Admin = Convert(business.Identifier, business.Admin),
-                Locations = Convert(business.Identifier, business.BusinessLocations)
+                Locations = Convert(business.Identifier, business.Locations)
             };
         }
 
@@ -32,9 +32,9 @@ namespace CoachSeek.WebUI.Conversion
             };
         }
 
-        private static List<DbLocation> Convert(Identifier businessId, BusinessLocations locations)
+        private static List<DbLocation> Convert(Identifier businessId, IEnumerable<Location> locations)
         {
-            return locations.Locations.Select(location => new DbLocation()
+            return locations.Select(location => new DbLocation()
             {
                 Id = location.Identifier.Id, 
                 BusinessId = businessId.Id, 

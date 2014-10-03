@@ -104,5 +104,14 @@ namespace CoachSeek.WebUI.Properties {
                 return ResourceManager.GetString("ErrorNoLocationAddData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing location data..
+        /// </summary>
+        internal static string ErrorNoLocationUpdateData {
+            get {
+                return ResourceManager.GetString("ErrorNoLocationUpdateData", resourceCulture);
+            }
+        }
     }
 }

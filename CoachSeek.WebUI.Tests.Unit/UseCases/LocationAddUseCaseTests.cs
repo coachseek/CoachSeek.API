@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Models;
+﻿using System.Collections.Generic;
+using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Requests;
 using CoachSeek.WebUI.Models.Responses;
 using CoachSeek.WebUI.Persistence;
@@ -36,7 +37,9 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var business = new Business
+            var location = new Location { Identifier = new Identifier(new Guid(LOCATION_ID)), Name = "HQ" };
+
+            var business = new Business(new List<Location> { location })
             {
                 Identifier = new Identifier(new Guid(VALID_BUSINESS_ID)),
                 Name = "Olaf's Bookshoppe",
@@ -48,11 +51,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
                     Email = "olaft@ihug.co.nz",
                     Password = "abc123"
                 },
-                BusinessLocations = new BusinessLocations()
             };
-
-            var location = new Location {Identifier = new Identifier(new Guid(LOCATION_ID)), Name = "HQ"};
-            business.BusinessLocations.Add(location);
 
             return business;
         }
@@ -197,13 +196,13 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void AssertSaveBusinessWithTwoLocations(LocationAddResponse response)
         {
             Assert.That(response.Business, Is.Not.Null);
-            Assert.That(response.Business.BusinessLocations.Locations.Count, Is.EqualTo(2));
+            Assert.That(response.Business.Locations.Count, Is.EqualTo(2));
 
-            var firstLocation = response.Business.BusinessLocations.Locations[0];
+            var firstLocation = response.Business.Locations[0];
             Assert.That(firstLocation.Identifier.Id, Is.EqualTo(new Guid(LOCATION_ID)));
             Assert.That(firstLocation.Name, Is.EqualTo("HQ"));
 
-            var secondLocation = response.Business.BusinessLocations.Locations[1];
+            var secondLocation = response.Business.Locations[1];
             Assert.That(secondLocation.Identifier.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(secondLocation.Name, Is.EqualTo("Discount Store"));
         }

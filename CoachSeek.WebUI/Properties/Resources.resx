@@ -132,4 +132,7 @@
   <data name="ErrorNoLocationAddData" xml:space="preserve">
     <value>Missing location data.</value>
   </data>
+  <data name="ErrorNoLocationUpdateData" xml:space="preserve">
+    <value>Missing location data.</value>
+  </data>
 </root>

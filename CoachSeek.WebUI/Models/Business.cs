@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using System.Collections.Generic;
+using CoachSeek.WebUI.Contracts.Persistence;
 
 namespace CoachSeek.WebUI.Models
 {
@@ -8,8 +9,14 @@ namespace CoachSeek.WebUI.Models
         public string Name { get; set; }
         public string Domain { get; set; }
         public BusinessAdmin Admin { get; set; }
-        public BusinessLocations BusinessLocations { get; set; }
 
+        private BusinessLocations BusinessLocations { get; set; }
+
+
+        public IList<Location> Locations
+        {
+            get { return BusinessLocations.Locations; }
+        }
 
         public Business()
         {
@@ -17,10 +24,17 @@ namespace CoachSeek.WebUI.Models
             BusinessLocations = new BusinessLocations();
         }
 
-        public Business(Identifier identifier)
+        public Business(Identifier identifier) 
+            : this()
         {
             Identifier = identifier;
-            BusinessLocations = new BusinessLocations();
+        }
+
+        public Business(IEnumerable<Location> locations) 
+            : this()
+        {
+            foreach (var location in locations)
+                BusinessLocations.Add(location);
         }
 
 

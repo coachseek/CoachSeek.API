@@ -211,11 +211,13 @@
     <Compile Include="Models\Persistence\DbBusinessAdmin.cs" />
     <Compile Include="Models\Persistence\DbLocation.cs" />
     <Compile Include="Models\Requests\BusinessRegistrationRequest.cs" />
+    <Compile Include="Models\Requests\LocationUpdateRequest.cs" />
     <Compile Include="Models\Requests\LocationAddRequest.cs" />
     <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\ErrorCodes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\Responses\LocationAddResponse.cs" />
     <Compile Include="Persistence\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessAdminRepository.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
     <Compile Include="UseCases\LocationAddUseCase.cs" />
+    <Compile Include="UseCases\LocationUpdateUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

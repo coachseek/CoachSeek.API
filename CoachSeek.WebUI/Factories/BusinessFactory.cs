@@ -23,13 +23,12 @@ namespace CoachSeek.WebUI.Factories
             if (dbBusiness == null)
                 return null;
 
-            return new Business
+            return new Business(CreateLocations(dbBusiness.Locations))
             {
                 Identifier = new Identifier(dbBusiness.Id),
                 Name = dbBusiness.Name,
                 Domain = dbBusiness.Domain,
                 Admin = CreateBusinessAdmin(dbBusiness.Admin),
-                BusinessLocations = CreateBusinessLocations(dbBusiness.Locations)
             };
         }
 
@@ -57,9 +56,9 @@ namespace CoachSeek.WebUI.Factories
             };
         }
 
-        private static BusinessLocations CreateBusinessLocations(IEnumerable<DbLocation> dbLocations)
+        private static IEnumerable<Location> CreateLocations(IEnumerable<DbLocation> dbLocations)
         {
-            var businessLocations = new BusinessLocations();
+            var locations = new List<Location>();
 
             foreach (var dbLocation in dbLocations)
             {
@@ -68,11 +67,11 @@ namespace CoachSeek.WebUI.Factories
                     Identifier = new Identifier(dbLocation.Id),
                     Name = dbLocation.Name
                 };
-                
-                businessLocations.Add(location);
+
+                locations.Add(location);
             }
 
-            return businessLocations;
+            return locations;
         }
     }
 }
