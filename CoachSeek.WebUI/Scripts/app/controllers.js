@@ -33,9 +33,9 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
 coachSeekControllers.controller('LocationCtrl',  ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
 
     $scope.locations = [
-      { id: 1, name: 'Browns Bay' },
-      { id: 2, name: 'Orakei' },
-      { id: 3, name: 'Mt Roskill' }
+      //{ id: 1, name: 'Browns Bay' },
+      //{ id: 2, name: 'Orakei' },
+      //{ id: 3, name: 'Mt Roskill' }
     ];
 
     //$scope.groups = [];
@@ -68,16 +68,17 @@ coachSeekControllers.controller('LocationCtrl',  ['$scope', '$filter', '$http', 
         }
     };
 
-    $scope.saveLocation = function (data) {
+    $scope.saveLocation = function (data, id) {
         var location = {};
         location.businessId = $rootScope.business.id;
-        location.id = data.id;
-        location.locationName = data.name;
+        location.id = id;
+        location.name = data.name;
 
         return $http.post('/api/Locations', location)
            .success(function (business) {
                $rootScope.business = business;
-           })
+               $scope.locations = business.locations;
+            })
            .error(function (error) {
                $scope.error = error;
            });

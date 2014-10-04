@@ -8,16 +8,16 @@
     </div>
     <table class="table table-bordered table-hover table-condensed">
         <tr style="font-weight: bold">
-            <td style="width:75%">Name</td>
-            <td style="width:25%">Edit</td>
+            <td style="width:75%">Location Name</td>
+            <td style="width:25%"></td>
         </tr>
         <tr ng-repeat="location in locations">
             <td>
+                <span class="hidden" e-name="id" e-form="rowform">{{location.id}}</span>
                 <!-- editable username (text with validation) -->
-                <span editable-text="location.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, location.id)" e-required>
+                <span editable-text="location.name" e-name="name" e-form="rowform" e-required>
                     {{ location.name || 'empty' }}
                 </span>
-                <span class="hidden" e-name="id" e-form="rowform">{{location.id}}</span>
             </td>
             <td style="white-space: nowrap">
                 <!-- form -->
@@ -35,6 +35,8 @@
             </td>
         </tr>
     </table>
-
-    <button class="btn btn-default" ng-click="addLocation()">Add</button>
+    <button class="btn btn-default" ng-click="addLocation()">Add Location</button>
+    <fieldset class="form-group">
+        <input type="submit" class="btn btn-primary pull-right" value="Next >" />
+    </fieldset>
 </div>

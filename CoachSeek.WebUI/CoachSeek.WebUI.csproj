@@ -186,7 +186,9 @@
     <Compile Include="Conversion\BusinessAdminConverter.cs" />
     <Compile Include="Conversion\BusinessConverter.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
+    <Compile Include="Conversion\LocationAddRequestConverter.cs" />
     <Compile Include="Conversion\LocationConverter.cs" />
+    <Compile Include="Conversion\LocationUpdateRequestConverter.cs" />
     <Compile Include="Email\StubBusinessRegistrationEmailer.cs" />
     <Compile Include="Exceptions\DuplicateLocationException.cs" />
     <Compile Include="Exceptions\InvalidBusinessException.cs" />
@@ -198,6 +200,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Api\ApiLocationSaveRequest.cs" />
     <Compile Include="Models\BusinessAdmin.cs" />
     <Compile Include="Models\BusinessLocations.cs" />
     <Compile Include="Models\BusinessRegistrant.cs" />
@@ -210,15 +213,15 @@
     <Compile Include="Models\Persistence\DbBusiness.cs" />
     <Compile Include="Models\Persistence\DbBusinessAdmin.cs" />
     <Compile Include="Models\Persistence\DbLocation.cs" />
-    <Compile Include="Models\Requests\BusinessRegistrationRequest.cs" />
-    <Compile Include="Models\Requests\LocationUpdateRequest.cs" />
-    <Compile Include="Models\Requests\LocationAddRequest.cs" />
-    <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
+    <Compile Include="Models\UseCases\Requests\BusinessRegistrationRequest.cs" />
+    <Compile Include="Models\UseCases\Requests\LocationUpdateRequest.cs" />
+    <Compile Include="Models\UseCases\Requests\LocationAddRequest.cs" />
+    <Compile Include="Models\UseCases\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\ErrorCodes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
-    <Compile Include="Models\Responses\LocationAddResponse.cs" />
+    <Compile Include="Models\UseCases\Responses\LocationUpdateResponse.cs" />
+    <Compile Include="Models\UseCases\Responses\LocationAddResponse.cs" />
     <Compile Include="Persistence\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessAdminRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessRepository.cs" />

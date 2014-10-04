@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Models.Requests;
+﻿using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Models.Api;
 using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
 using System.Collections.Generic;
@@ -23,12 +24,33 @@ namespace CoachSeek.WebUI.Controllers
         }
 
         // POST: api/Locations
-        public HttpResponseMessage Post([FromBody]LocationAddRequest locationAddRequest)
+        public HttpResponseMessage Post([FromBody]ApiLocationSaveRequest locationSaveRequest)
+        {
+            if (locationSaveRequest.IsExisting())
+                return UpdateLocation(locationSaveRequest);
+            else
+                return AddLocation(locationSaveRequest);
+        }
+
+        private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)
         {
             var businessRepository = new InMemoryBusinessRepository();
 
+            var locationAddRequest = LocationAddRequestConverter.Convert(locationSaveRequest);
             var useCase = new LocationAddUseCase(businessRepository);
             var response = useCase.AddLocation(locationAddRequest);
+            if (response.IsSuccessful)
+                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+        }
+
+        private HttpResponseMessage UpdateLocation(ApiLocationSaveRequest locationSaveRequest)
+        {
+            var businessRepository = new InMemoryBusinessRepository();
+
+            var locationUpdateRequest = LocationUpdateRequestConverter.Convert(locationSaveRequest);
+            var updateUseCase = new LocationUpdateUseCase(businessRepository);
+            var response = updateUseCase.UpdateLocation(locationUpdateRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
