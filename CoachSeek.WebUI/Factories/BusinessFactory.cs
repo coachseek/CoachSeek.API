@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoachSeek.WebUI.Contracts.Builders;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Persistence;
@@ -25,7 +26,7 @@ namespace CoachSeek.WebUI.Factories
 
             return new Business(CreateLocations(dbBusiness.Locations))
             {
-                Identifier = new Identifier(dbBusiness.Id),
+                Id = dbBusiness.Id,
                 Name = dbBusiness.Name,
                 Domain = dbBusiness.Domain,
                 Admin = CreateBusinessAdmin(dbBusiness.Admin),
@@ -48,7 +49,7 @@ namespace CoachSeek.WebUI.Factories
         {
             return new BusinessAdmin
             {
-                Id = new Identifier(dbAdmin.Id),
+                Id = dbAdmin.Id,
                 FirstName = dbAdmin.FirstName,
                 LastName = dbAdmin.LastName,
                 Email = dbAdmin.Email,
@@ -64,7 +65,7 @@ namespace CoachSeek.WebUI.Factories
             {
                 var location = new Location
                 {
-                    Identifier = new Identifier(dbLocation.Id),
+                    Id = dbLocation.Id,
                     Name = dbLocation.Name
                 };
 

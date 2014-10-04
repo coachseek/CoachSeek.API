@@ -38,10 +38,11 @@ namespace CoachSeek.WebUI.Persistence
             WasSaveBusinessCalled = true;
 
             var dbBusiness = DbBusinessConverter.Convert(business);
-
             var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
-            existingBusiness = dbBusiness;
-            return business;
+            var existingIndex = Businesses.IndexOf(existingBusiness);
+            Businesses[existingIndex] = dbBusiness;
+            var updateBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
+            return BusinessFactory.Create(updateBusiness);
         }
         
         public Business Add(Business business)

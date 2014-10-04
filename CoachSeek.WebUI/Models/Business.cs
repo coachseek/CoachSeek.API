@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoachSeek.WebUI.Contracts.Persistence;
 
 namespace CoachSeek.WebUI.Models
 {
     public class Business
     {
-        public Identifier Identifier { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
         public BusinessAdmin Admin { get; set; }
@@ -20,14 +21,14 @@ namespace CoachSeek.WebUI.Models
 
         public Business()
         {
-            Identifier = new Identifier();
+            Id = Guid.NewGuid();
             BusinessLocations = new BusinessLocations();
         }
 
-        public Business(Identifier identifier) 
+        public Business(Guid id) 
             : this()
         {
-            Identifier = identifier;
+            Id = id;
         }
 
         public Business(IEnumerable<Location> locations) 

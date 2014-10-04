@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using System;
+using CoachSeek.WebUI.Contracts.Persistence;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Extensions;
 using CoachSeek.WebUI.Properties;
@@ -7,7 +8,7 @@ namespace CoachSeek.WebUI.Models
 {
     public class BusinessAdmin
     {
-        public Identifier Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -16,7 +17,7 @@ namespace CoachSeek.WebUI.Models
 
         public BusinessAdmin()
         {
-            Id = new Identifier();
+            Id = Guid.NewGuid();
         }
 
 

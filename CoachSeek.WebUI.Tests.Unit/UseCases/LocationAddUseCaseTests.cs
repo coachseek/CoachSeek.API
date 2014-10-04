@@ -37,11 +37,11 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var location = new Location { Identifier = new Identifier(new Guid(LOCATION_ID)), Name = "HQ" };
+            var location = new Location { Id = new Guid(LOCATION_ID), Name = "HQ" };
 
             var business = new Business(new List<Location> { location })
             {
-                Identifier = new Identifier(new Guid(VALID_BUSINESS_ID)),
+                Id = new Guid(VALID_BUSINESS_ID),
                 Name = "Olaf's Bookshoppe",
                 Domain = "olafsbookshoppe",
                 Admin = new BusinessAdmin
@@ -199,11 +199,11 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             Assert.That(response.Business.Locations.Count, Is.EqualTo(2));
 
             var firstLocation = response.Business.Locations[0];
-            Assert.That(firstLocation.Identifier.Id, Is.EqualTo(new Guid(LOCATION_ID)));
+            Assert.That(firstLocation.Id, Is.EqualTo(new Guid(LOCATION_ID)));
             Assert.That(firstLocation.Name, Is.EqualTo("HQ"));
 
             var secondLocation = response.Business.Locations[1];
-            Assert.That(secondLocation.Identifier.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(secondLocation.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(secondLocation.Name, Is.EqualTo("Discount Store"));
         }
     }

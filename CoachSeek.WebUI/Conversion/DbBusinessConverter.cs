@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Persistence;
@@ -11,20 +12,20 @@ namespace CoachSeek.WebUI.Conversion
         {
             return new DbBusiness
             {
-                Id = business.Identifier.Id,
+                Id = business.Id,
                 Name = business.Name,
                 Domain = business.Domain,
-                Admin = Convert(business.Identifier, business.Admin),
-                Locations = Convert(business.Identifier, business.Locations)
+                Admin = Convert(business.Id, business.Admin),
+                Locations = Convert(business.Id, business.Locations)
             };
         }
 
-        private static DbBusinessAdmin Convert(Identifier businessId, BusinessAdmin admin)
+        private static DbBusinessAdmin Convert(Guid businessId, BusinessAdmin admin)
         {
             return new DbBusinessAdmin
             {
-                Id = admin.Id.Id,
-                BusinessId = businessId.Id,
+                Id = admin.Id,
+                BusinessId = businessId,
                 FirstName = admin.FirstName,
                 LastName = admin.LastName,
                 Email = admin.Email,
@@ -32,12 +33,12 @@ namespace CoachSeek.WebUI.Conversion
             };
         }
 
-        private static List<DbLocation> Convert(Identifier businessId, IEnumerable<Location> locations)
+        private static List<DbLocation> Convert(Guid businessId, IEnumerable<Location> locations)
         {
             return locations.Select(location => new DbLocation()
             {
-                Id = location.Identifier.Id, 
-                BusinessId = businessId.Id, 
+                Id = location.Id, 
+                BusinessId = businessId, 
                 Name = location.Name
             }).ToList();
         }

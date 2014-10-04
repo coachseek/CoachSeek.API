@@ -1,20 +1,21 @@
-﻿
+﻿using System;
+
 namespace CoachSeek.WebUI.Models
 {
     public class Location
     {
-        public Identifier Identifier { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
 
         public Location()
         {
-            Identifier = new Identifier();
+            Id = Guid.NewGuid();
         }
 
-        public Location(Identifier identifier)
+        public Location(Guid id)
         {
-            Identifier = identifier;
+            Id = id;
         }
     }
 }
