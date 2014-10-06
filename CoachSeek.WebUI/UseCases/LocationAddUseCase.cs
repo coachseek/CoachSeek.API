@@ -39,7 +39,7 @@ namespace CoachSeek.WebUI.UseCases
 
         private Business GetBusiness(LocationAddRequest request)
         {
-            var business = BusinessRepository.Get(new Identifier(request.BusinessId));
+            var business = BusinessRepository.Get(request.BusinessId);
             if (business == null)
                 throw new InvalidBusinessException();
             return business;

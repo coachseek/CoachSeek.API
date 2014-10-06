@@ -44,8 +44,10 @@
       <HintPath>..\packages\morelinq.1.1.0\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -215,12 +217,15 @@
     <Compile Include="Models\Persistence\DbBusinessAdmin.cs" />
     <Compile Include="Models\Persistence\DbLocation.cs" />
     <Compile Include="Models\UseCases\Requests\BusinessRegistrationRequest.cs" />
+    <Compile Include="Models\UseCases\Requests\CoachAddRequest.cs" />
     <Compile Include="Models\UseCases\Requests\LocationUpdateRequest.cs" />
     <Compile Include="Models\UseCases\Requests\LocationAddRequest.cs" />
+    <Compile Include="Models\UseCases\Requests\Request.cs" />
     <Compile Include="Models\UseCases\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\ErrorCodes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\UseCases\Responses\CoachAddResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationAddResponse.cs" />
     <Compile Include="Persistence\HardCodedReservedDomainRepository.cs" />
@@ -234,6 +239,7 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\CoachAddUseCase.cs" />
     <Compile Include="UseCases\LocationAddUseCase.cs" />
     <Compile Include="UseCases\LocationUpdateUseCase.cs" />
   </ItemGroup>

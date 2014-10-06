@@ -2,9 +2,8 @@
 
 namespace CoachSeek.WebUI.Models.UseCases.Requests
 {
-    public class LocationAddRequest
+    public class LocationAddRequest : Request
     {
-        public Guid BusinessId { get; set; }
         public string LocationName { get; set; }
     }
 }

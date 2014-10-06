@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Models;
+﻿using System;
+using CoachSeek.WebUI.Models;
 
 namespace CoachSeek.WebUI.Contracts.Persistence
 {
@@ -7,8 +8,7 @@ namespace CoachSeek.WebUI.Contracts.Persistence
         Business Save(NewBusiness newBusiness);
         Business Save(Business business);
 
-
-        Business Get(Identifier id);
+        Business Get(Guid id);
         Business GetByDomain(string domain);
         Business GetByAdminEmail(string email);
     }

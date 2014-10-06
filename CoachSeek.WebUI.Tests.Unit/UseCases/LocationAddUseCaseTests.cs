@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using CoachSeek.WebUI.Models;
+﻿using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CoachSeek.WebUI.Tests.Unit.UseCases

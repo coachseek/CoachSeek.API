@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using System;
+using CoachSeek.WebUI.Contracts.Persistence;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Factories;
 using CoachSeek.WebUI.Models;
@@ -60,9 +61,9 @@ namespace CoachSeek.WebUI.Persistence
             return business;
         }
 
-        public Business Get(Identifier id)
+        public Business Get(Guid id)
         {
-            var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id.Id);
+            var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
             return BusinessFactory.Create(dbBusiness);
         }
 

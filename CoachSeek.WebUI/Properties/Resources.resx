@@ -132,6 +132,9 @@
   <data name="ErrorNoBusinessRegistrationData" xml:space="preserve">
     <value>Missing business registration data.</value>
   </data>
+  <data name="ErrorNoCoachAddData" xml:space="preserve">
+    <value>Missing coach data.</value>
+  </data>
   <data name="ErrorNoLocationAddData" xml:space="preserve">
     <value>Missing location data.</value>
   </data>
