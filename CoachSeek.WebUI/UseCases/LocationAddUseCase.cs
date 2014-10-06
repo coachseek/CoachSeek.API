@@ -3,7 +3,6 @@ using CoachSeek.WebUI.Contracts.Persistence;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Models;
-using CoachSeek.WebUI.Models.Responses;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 
@@ -52,6 +51,7 @@ namespace CoachSeek.WebUI.UseCases
                 return HandleInvalidBusinessException();
             if (ex is DuplicateLocationException)
                 return HandleDuplicateLocationException();
+
             //if (ex is ValidationException)
             //    return new LocationAddResponse((ValidationException)ex);
 

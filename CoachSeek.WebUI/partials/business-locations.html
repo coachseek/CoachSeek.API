@@ -15,7 +15,7 @@
             <td>
                 <span class="hidden" e-name="id" e-form="rowform">{{location.id}}</span>
                 <!-- editable username (text with validation) -->
-                <span editable-text="location.name" e-name="name" e-form="rowform" e-required>
+                <span editable-text="location.name" e-name="name" e-form="rowform" onbeforesave="checkLocation($data, location.id)" e-placeholder="Enter location name" e-required>
                     {{ location.name || 'empty' }}
                 </span>
             </td>

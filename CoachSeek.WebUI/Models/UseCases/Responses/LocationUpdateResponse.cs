@@ -32,6 +32,34 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
         }
     }
 
+    public class InvalidLocationUpdateResponse : LocationUpdateResponse
+    {
+        public InvalidLocationUpdateResponse()
+        {
+            Errors = new List<Error> { CreateInvalidLocationError() };
+        }
+
+        private static Error CreateInvalidLocationError()
+        {
+            return new Error((int)ErrorCodes.ErrorInvalidLocation,
+                             Resources.ErrorInvalidLocation);
+        }
+    }
+
+    public class DuplicateLocationUpdateResponse : LocationUpdateResponse
+    {
+        public DuplicateLocationUpdateResponse()
+        {
+            Errors = new List<Error> { CreateDuplicateLocationError() };
+        }
+
+        private static Error CreateDuplicateLocationError()
+        {
+            return new Error((int)ErrorCodes.ErrorDuplicateLocation,
+                             Resources.ErrorDuplicateLocation);
+        }
+    }
+
     
     public class LocationUpdateResponse
     {

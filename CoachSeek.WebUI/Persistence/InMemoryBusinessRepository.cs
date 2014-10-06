@@ -23,6 +23,11 @@ namespace CoachSeek.WebUI.Persistence
         }
 
 
+        public void Clear()
+        {
+            Businesses.Clear();
+        }
+
         public Business Save(NewBusiness newBusiness)
         {
             WasSaveNewBusinessCalled = true;

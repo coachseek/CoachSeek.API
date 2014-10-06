@@ -126,6 +126,9 @@
   <data name="ErrorInvalidBusiness" xml:space="preserve">
     <value>This business does not exist.</value>
   </data>
+  <data name="ErrorInvalidLocation" xml:space="preserve">
+    <value>This location does not exist.</value>
+  </data>
   <data name="ErrorNoBusinessRegistrationData" xml:space="preserve">
     <value>Missing business registration data.</value>
   </data>

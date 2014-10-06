@@ -16,6 +16,7 @@ namespace CoachSeek.WebUI.Conversion
         {
             return new Location
             {
+                Id = request.LocationId,
                 Name = request.LocationName
             };
         }

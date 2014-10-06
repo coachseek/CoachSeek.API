@@ -30,43 +30,53 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
 }]);
 
 
-coachSeekControllers.controller('LocationCtrl',  ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
+coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '$rootScope', '$q', function ($scope, $filter, $http, $rootScope, $q) {
 
-    $scope.locations = [
-      //{ id: 1, name: 'Browns Bay' },
-      //{ id: 2, name: 'Orakei' },
-      //{ id: 3, name: 'Mt Roskill' }
-    ];
+    $scope.locations = [];
 
-    //$scope.groups = [];
-    //$scope.loadGroups = function () {
-    //    return $scope.groups.length ? null : $http.get('/groups').success(function (data) {
-    //        $scope.groups = data;
-    //    });
-    //};
-
-    //$scope.showGroup = function (user) {
-    //    if (user.group && $scope.groups.length) {
-    //        var selected = $filter('filter')($scope.groups, { id: user.group });
-    //        return selected.length ? selected[0].text : 'Not set';
-    //    } else {
-    //        return user.groupName || 'Not set';
-    //    }
-    //};
-
-    //$scope.showStatus = function (user) {
-    //    var selected = [];
-    //    if (user.status) {
-    //        selected = $filter('filter')($scope.statuses, { value: user.status });
-    //    }
-    //    return selected.length ? selected[0].text : 'Not set';
-    //};
-
-    $scope.checkName = function (data, id) {
-        if (id === 2 && data !== 'awesome') {
-            return "Username 2 should be `awesome`";
-        }
+    $scope.checkLocation = function (name, id) {
+        if (isNewLocation(id))
+            return checkNewLocation(name);
+        
+        return checkExistingLocation(name, id);
     };
+
+
+    function isNewLocation(id) {
+        return id === undefined;
+    }
+
+    function checkNewLocation(name) {
+        name = name || "";
+        if (name == "")
+            return "Location name is required.";
+        if (containsLocationName(name))
+            return "Location '" + name + "' already exists.";
+        
+        return true;
+    }
+
+    function checkExistingLocation(name, id) {
+        name = name || "";
+        if (name == "")
+            return "Location name is required.";
+        if (containsLocationName(name, id)) {
+            return "Location '" + name + "' already exists.";
+        }
+        return true;
+    }
+
+    function containsLocationName(name, excludeId) {
+        excludeId = excludeId || "";
+        for (var i = 0; i < $scope.locations.length; i++) {
+            if ($scope.locations[i].id == excludeId)
+                continue;
+            if ($scope.locations[i].name.toLowerCase() == name.toLowerCase())
+                return true;
+        }
+        return false;
+    }
+
 
     $scope.saveLocation = function (data, id) {
         var location = {};

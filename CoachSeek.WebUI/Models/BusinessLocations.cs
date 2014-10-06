@@ -15,14 +15,34 @@ namespace CoachSeek.WebUI.Models
 
         public void Add(Location location)
         {
-            Validate(location);
+            ValidateAdd(location);
             Locations.Add(location);
         }
 
-        private void Validate(Location location)
+        public void Update(Location location)
+        {
+            ValidateUpdate(location);
+
+            var updateLocation = Locations.Single(x => x.Id == location.Id);
+            var updateIndex = Locations.IndexOf(updateLocation);
+            Locations[updateIndex] = location;
+        }
+
+        private void ValidateAdd(Location location)
         {
             var isExistingLocation = Locations.Any(x => x.Name.ToLower() == location.Name.ToLower());
             if (isExistingLocation)
+                throw new DuplicateLocationException();
+        }
+
+        private void ValidateUpdate(Location location)
+        {
+            var isExistingLocation = Locations.Any(x => x.Id == location.Id);
+            if (!isExistingLocation)
+                throw new InvalidLocationException();
+
+            var existingLocation = Locations.FirstOrDefault(x => x.Name.ToLower() == location.Name.ToLower());
+            if (existingLocation != null && existingLocation.Id != location.Id)
                 throw new DuplicateLocationException();
         }
     }

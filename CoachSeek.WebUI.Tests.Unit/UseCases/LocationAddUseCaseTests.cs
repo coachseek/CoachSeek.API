@@ -28,6 +28,8 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
+            BusinessRepository.Clear();
+
             var business = SetupOlafsCafeBusiness();
             BusinessRepository.Add(business);
 
@@ -81,11 +83,11 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         }
 
         [Test]
-        public void GivenAUniqueLocation_WhenAddLocation_ThenTheLocationAddSucceeds()
+        public void GivenAUniqueLocation_WhenAddLocation_ThenLocationAddSucceeds()
         {
             var request = GivenAUniqueLocation();
             var response = WhenAddLocation(request);
-            ThenTheLocationAddSucceeds(response);
+            ThenLocationAddSucceeds(response);
         }
 
         private LocationAddRequest GivenNoLocationAddRequest()
@@ -144,7 +146,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenTheLocationAddSucceeds(LocationAddResponse response)
+        private void ThenLocationAddSucceeds(LocationAddResponse response)
         {
             AssertSaveBusinessIsCalled();
             AssertSaveBusinessWithTwoLocations(response);

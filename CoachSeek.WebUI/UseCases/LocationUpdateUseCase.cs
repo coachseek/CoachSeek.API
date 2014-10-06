@@ -3,7 +3,6 @@ using CoachSeek.WebUI.Contracts.Persistence;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Models;
-using CoachSeek.WebUI.Models.Responses;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 
@@ -29,7 +28,7 @@ namespace CoachSeek.WebUI.UseCases
             {
                 var business = GetBusiness(request);
                 var location = LocationConverter.Convert(request);
-                business.AddLocation(location, BusinessRepository);
+                business.UpdateLocation(location, BusinessRepository);
                 return new LocationUpdateResponse(business);
             }
             catch (Exception ex)
@@ -50,6 +49,11 @@ namespace CoachSeek.WebUI.UseCases
         {
             if (ex is InvalidBusinessException)
                 return HandleInvalidBusinessException();
+            if (ex is InvalidLocationException)
+                return HandleInvalidLocationException();
+            if (ex is DuplicateLocationException)
+                return HandleDuplicateLocationException();
+
             //if (ex is ValidationException)
             //    return new LocationAddResponse((ValidationException)ex);
 
@@ -59,6 +63,16 @@ namespace CoachSeek.WebUI.UseCases
         private LocationUpdateResponse HandleInvalidBusinessException()
         {
             return new InvalidBusinessLocationUpdateResponse();
+        }
+
+        private LocationUpdateResponse HandleInvalidLocationException()
+        {
+            return new InvalidLocationUpdateResponse();
+        }
+
+        private LocationUpdateResponse HandleDuplicateLocationException()
+        {
+            return new DuplicateLocationUpdateResponse();
         }
     }
 }

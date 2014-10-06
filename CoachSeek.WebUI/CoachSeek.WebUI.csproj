@@ -192,6 +192,7 @@
     <Compile Include="Email\StubBusinessRegistrationEmailer.cs" />
     <Compile Include="Exceptions\DuplicateLocationException.cs" />
     <Compile Include="Exceptions\InvalidBusinessException.cs" />
+    <Compile Include="Exceptions\InvalidLocationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

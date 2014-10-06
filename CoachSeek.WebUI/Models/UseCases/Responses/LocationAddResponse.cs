@@ -36,10 +36,10 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
     {
         public DuplicateLocationAddResponse()
         {
-            Errors = new List<Error> { CreateDuplicateLocationAddError() };
+            Errors = new List<Error> { CreateDuplicateLocationError() };
         }
 
-        private static Error CreateDuplicateLocationAddError()
+        private static Error CreateDuplicateLocationError()
         {
             return new Error((int)ErrorCodes.ErrorDuplicateLocation,
                              Resources.ErrorDuplicateLocation);

@@ -44,5 +44,11 @@ namespace CoachSeek.WebUI.Models
             BusinessLocations.Add(location);
             businessRepository.Save(this);
         }
+
+        public void UpdateLocation(Location location, IBusinessRepository businessRepository)
+        {
+            BusinessLocations.Update(location);
+            businessRepository.Save(this);
+        }
     }
 }

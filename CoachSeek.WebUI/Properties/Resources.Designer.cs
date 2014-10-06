@@ -88,6 +88,15 @@ namespace CoachSeek.WebUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This location does not exist..
+        /// </summary>
+        internal static string ErrorInvalidLocation {
+            get {
+                return ResourceManager.GetString("ErrorInvalidLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing business registration data..
         /// </summary>
         internal static string ErrorNoBusinessRegistrationData {
