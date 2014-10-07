@@ -187,13 +187,16 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Conversion\BusinessAdminConverter.cs" />
     <Compile Include="Conversion\BusinessConverter.cs" />
+    <Compile Include="Conversion\CoachConverter.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
     <Compile Include="Conversion\LocationAddRequestConverter.cs" />
     <Compile Include="Conversion\LocationConverter.cs" />
     <Compile Include="Conversion\LocationUpdateRequestConverter.cs" />
     <Compile Include="Email\StubBusinessRegistrationEmailer.cs" />
+    <Compile Include="Exceptions\DuplicateCoachException.cs" />
     <Compile Include="Exceptions\DuplicateLocationException.cs" />
     <Compile Include="Exceptions\InvalidBusinessException.cs" />
+    <Compile Include="Exceptions\InvalidCoachException.cs" />
     <Compile Include="Exceptions\InvalidLocationException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -203,11 +206,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Api\ApiCoachSaveRequest.cs" />
     <Compile Include="Models\Api\ApiLocationSaveRequest.cs" />
     <Compile Include="Models\BusinessAdmin.cs" />
+    <Compile Include="Models\BusinessCoaches.cs" />
     <Compile Include="Models\BusinessLocations.cs" />
     <Compile Include="Models\BusinessRegistrant.cs" />
     <Compile Include="Models\Business.cs" />
+    <Compile Include="Models\Coach.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\FormField.cs" />
     <Compile Include="Models\Identifier.cs" />
@@ -215,9 +221,11 @@
     <Compile Include="Models\NewBusiness.cs" />
     <Compile Include="Models\Persistence\DbBusiness.cs" />
     <Compile Include="Models\Persistence\DbBusinessAdmin.cs" />
+    <Compile Include="Models\Persistence\DbCoach.cs" />
     <Compile Include="Models\Persistence\DbLocation.cs" />
     <Compile Include="Models\UseCases\Requests\BusinessRegistrationRequest.cs" />
     <Compile Include="Models\UseCases\Requests\CoachAddRequest.cs" />
+    <Compile Include="Models\UseCases\Requests\CoachUpdateRequest.cs" />
     <Compile Include="Models\UseCases\Requests\LocationUpdateRequest.cs" />
     <Compile Include="Models\UseCases\Requests\LocationAddRequest.cs" />
     <Compile Include="Models\UseCases\Requests\Request.cs" />
@@ -228,6 +236,7 @@
     <Compile Include="Models\UseCases\Responses\CoachAddResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationAddResponse.cs" />
+    <Compile Include="Models\UseCases\Responses\Response.cs" />
     <Compile Include="Persistence\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessAdminRepository.cs" />
     <Compile Include="Persistence\InMemoryBusinessRepository.cs" />
@@ -252,6 +261,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="index.html" />
+    <Content Include="partials\business-coaches.html" />
     <Content Include="partials\business-locations.html" />
     <Content Include="partials\business-registration.html" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -336,7 +346,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

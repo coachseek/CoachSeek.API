@@ -6,8 +6,8 @@
 
 var app = angular.module('coachSeekApp', ['ngRoute', 'xeditable', 'coachSeekControllers', 'coachSeekDirectives']);
 
-app.config(['$routeProvider', '$locationProvider',
-  function($routeProvider, $locationProvider) {
+app.config(['$routeProvider',
+  function($routeProvider) {
     $routeProvider.
       when('/', {
         templateUrl: 'partials/business-registration.html',
@@ -20,6 +20,10 @@ app.config(['$routeProvider', '$locationProvider',
       when('/business/locations', {
           templateUrl: 'partials/business-locations.html',
         controller: 'LocationCtrl'
+      }).
+      when('/business/coaches', {
+          templateUrl: 'partials/business-coaches.html',
+          controller: 'CoachCtrl'
       }).
       otherwise({
         redirectTo: '/business'

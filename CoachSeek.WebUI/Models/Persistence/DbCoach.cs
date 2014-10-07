@@ -2,7 +2,7 @@
 
 namespace CoachSeek.WebUI.Models.Persistence
 {
-    public class DbBusinessAdmin
+    public class DbCoach
     {
         public Guid Id { get; set; }
         public Guid BusinessId { get; set; }
@@ -10,6 +10,6 @@ namespace CoachSeek.WebUI.Models.Persistence
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string Phone { get; set; }
     }
 }

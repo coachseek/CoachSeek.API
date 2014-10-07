@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoachSeek.WebUI.Models.UseCases.Requests
+﻿namespace CoachSeek.WebUI.Models.UseCases.Requests
 {
     public class LocationAddRequest : Request
     {

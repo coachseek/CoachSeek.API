@@ -30,7 +30,7 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
 }]);
 
 
-coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '$rootScope', '$q', function ($scope, $filter, $http, $rootScope, $q) {
+coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
 
     $scope.locations = [];
 
@@ -97,6 +97,36 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
     $scope.addLocation = function () {
         $scope.inserted = { name: '' };
         $scope.locations.push($scope.inserted);
+    };
+}]);
+
+
+coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
+
+    $scope.coaches = [];
+
+    $scope.saveCoach = function (data, id) {
+        var coach = {};
+        coach.businessId = $rootScope.business.id;
+        coach.id = id;
+        coach.firstname = data.firstname;
+        coach.lastname = data.lastname;
+        coach.email = data.email;
+        coach.phone = data.phone;
+
+        return $http.post('/api/Coaches', coach)
+           .success(function (business) {
+               $rootScope.business = business;
+               $scope.coaches = business.coaches;
+           })
+           .error(function (error) {
+               $scope.error = error;
+           });
+    };
+
+    $scope.addCoach = function () {
+        $scope.inserted = { firstname: '', lastname: '' };
+        $scope.coaches.push($scope.inserted);
     };
 }]);
 

@@ -2,12 +2,15 @@
 
 namespace CoachSeek.WebUI.Models.Api
 {
-    public class ApiLocationSaveRequest
+    public class ApiCoachSaveRequest
     {
         public Guid BusinessId { get; set; }
         public Guid? Id { get; set; }
 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email{ get; set; }
+        public string Phone { get; set; }
 
 
         public bool IsExisting()

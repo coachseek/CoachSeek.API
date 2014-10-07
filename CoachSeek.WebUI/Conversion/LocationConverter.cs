@@ -3,7 +3,7 @@ using CoachSeek.WebUI.Models.UseCases.Requests;
 
 namespace CoachSeek.WebUI.Conversion
 {
-    public class LocationConverter
+    public static class LocationConverter
     {
         public static Location Convert(LocationAddRequest request)
         {

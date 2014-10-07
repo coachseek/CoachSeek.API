@@ -52,9 +52,6 @@ namespace CoachSeek.WebUI.UseCases
             if (ex is DuplicateLocationException)
                 return HandleDuplicateLocationException();
 
-            //if (ex is ValidationException)
-            //    return new LocationAddResponse((ValidationException)ex);
-
             return null;
         }
 

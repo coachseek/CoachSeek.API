@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using CoachSeek.WebUI.Exceptions;
+﻿using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Properties;
+using System.Collections.Generic;
 
 namespace CoachSeek.WebUI.Models.UseCases.Responses
 {
@@ -60,30 +60,18 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
         }
     }
 
-    
-    public class LocationUpdateResponse
+
+    public class LocationUpdateResponse : Response
     {
-        public Business Business { get; private set; }
-
-        public List<Error> Errors { get; protected set; }
-
-
         public LocationUpdateResponse()
         { }
 
         public LocationUpdateResponse(Business business)
-        {
-            Business = business;
-        }
+            : base(business)
+        { }
 
         public LocationUpdateResponse(ValidationException exception)
-        {
-            Errors = exception.Errors;
-        }
-
-        public bool IsSuccessful
-        {
-            get { return Business != null; }
-        }
+            : base(exception)
+        { }
     }
 }

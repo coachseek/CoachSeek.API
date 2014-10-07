@@ -41,18 +41,12 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         {
             var location = new Location { Id = new Guid(LOCATION_ID), Name = "HQ" };
 
-            var business = new Business(new List<Location> { location })
+            var business = new Business(new List<Location> { location }, new List<Coach>())
             {
                 Id = new Guid(VALID_BUSINESS_ID),
                 Name = "Olaf's Bookshoppe",
                 Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Password = "abc123"
-                },
+                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
             };
 
             return business;
@@ -108,7 +102,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             return new LocationAddRequest
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
-                LocationName = "hq"
+                LocationName = "  hq"
             };
         }
 
@@ -117,7 +111,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             return new LocationAddRequest
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
-                LocationName = "Discount Store"
+                LocationName = "Discount Store  "
             };
         }
 
@@ -149,7 +143,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void ThenLocationAddSucceeds(LocationAddResponse response)
         {
             AssertSaveBusinessIsCalled();
-            AssertSaveBusinessWithTwoLocations(response);
+            AssertSavedBusinessWithTwoLocations(response);
         }
 
         private void AssertMissingLocationError(LocationAddResponse response)
@@ -195,7 +189,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
         }
 
-        private void AssertSaveBusinessWithTwoLocations(LocationAddResponse response)
+        private void AssertSavedBusinessWithTwoLocations(LocationAddResponse response)
         {
             Assert.That(response.Business, Is.Not.Null);
             Assert.That(response.Business.Locations.Count, Is.EqualTo(2));

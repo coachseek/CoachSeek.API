@@ -10,5 +10,6 @@ namespace CoachSeek.WebUI.Models.Persistence
         public string Domain { get; set; }
         public DbBusinessAdmin Admin { get; set; }
         public List<DbLocation> Locations { get; set; }
+        public List<DbCoach> Coaches { get; set; }
     }
 }

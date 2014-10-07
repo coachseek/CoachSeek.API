@@ -27,8 +27,8 @@ namespace CoachSeek.WebUI.UseCases
             try
             {
                 var business = GetBusiness(request);
-                //var coach = CoachConverter.Convert(request);
-                //business.AddCoach(coach, BusinessRepository);
+                var coach = CoachConverter.Convert(request);
+                business.AddCoach(coach, BusinessRepository);
                 return new CoachAddResponse(business);
             }
             catch (Exception ex)
@@ -49,8 +49,8 @@ namespace CoachSeek.WebUI.UseCases
         {
             if (ex is InvalidBusinessException)
                 return HandleInvalidBusinessException();
-            //if (ex is DuplicateLocationException)
-            //    return HandleDuplicateLocationException();
+            if (ex is DuplicateCoachException)
+                return HandleDuplicateCoachException();
 
             return null;
         }
@@ -58,6 +58,11 @@ namespace CoachSeek.WebUI.UseCases
         private CoachAddResponse HandleInvalidBusinessException()
         {
             return new InvalidBusinessCoachAddResponse();
+        }
+
+        private CoachAddResponse HandleDuplicateCoachException()
+        {
+            return new DuplicateCoachAddResponse();
         }
     }
 }

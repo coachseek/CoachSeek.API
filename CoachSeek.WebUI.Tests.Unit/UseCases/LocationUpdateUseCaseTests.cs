@@ -47,18 +47,12 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
                 new Location {Id = new Guid(VALID_LOCATION_ID), Name = "Store"},
             };
 
-            var business = new Business(locations)
+            var business = new Business(locations, new List<Coach>())
             {
                 Id = new Guid(VALID_BUSINESS_ID),
                 Name = "Olaf's Bookshoppe",
                 Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Password = "abc123"
-                },
+                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
             };
 
             return business;

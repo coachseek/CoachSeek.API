@@ -28,12 +28,16 @@ namespace CoachSeek.WebUI.Tests.Unit.Builders
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Save(new NewBusiness { Name = "Ian's Cafe", Domain = "ianscafe", Admin = new BusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers", Domain = "bobsburgers", Admin = new BusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bobs Burgers", Domain = "bobsburgers1", Admin = new BusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers #1", Domain = "bobsburgers2", Admin = new BusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Ian's Cafe", Domain = "ianscafe", Admin = SetupBusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers", Domain = "bobsburgers", Admin = SetupBusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bobs Burgers", Domain = "bobsburgers1", Admin = SetupBusinessAdmin() });
+            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers #1", Domain = "bobsburgers2", Admin = SetupBusinessAdmin() });
         }
 
+        private BusinessAdmin SetupBusinessAdmin()
+        {
+            return new BusinessAdmin("Bob", "Smith", "bob@smith.com", "password");
+        }
 
         [Test]
         public void GivenBusinessNameIsNull_WhenBuildDomain_ThenThrowArgumentNullException()
@@ -86,6 +90,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Builders
         [Test]
         public void GivenABusinessWhereTheDomainNameAlreadyExists_WhenBuildDomain_ThenReturnDomainNameWithAppendedNumberOne()
         {
+            
+            
             var businessName = GivenABusinessWhereTheDomainNameAlreadyExists();
             var response = WhenBuildDomain(businessName);
             ThenReturnDomainNameWithAppendedNumberOne(response);

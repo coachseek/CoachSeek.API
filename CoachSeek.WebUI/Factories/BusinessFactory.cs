@@ -24,7 +24,7 @@ namespace CoachSeek.WebUI.Factories
             if (dbBusiness == null)
                 return null;
 
-            return new Business(CreateLocations(dbBusiness.Locations))
+            return new Business(CreateLocations(dbBusiness.Locations), CreateCoaches(dbBusiness.Coaches))
             {
                 Id = dbBusiness.Id,
                 Name = dbBusiness.Name,
@@ -36,25 +36,12 @@ namespace CoachSeek.WebUI.Factories
 
         private static BusinessAdmin CreateBusinessAdmin(BusinessRegistrant registrant)
         {
-            return new BusinessAdmin
-            {
-                FirstName = registrant.FirstName,
-                LastName = registrant.LastName,
-                Email = registrant.Email,
-                Password = registrant.Password,
-            };
+            return new BusinessAdmin(registrant.FirstName, registrant.LastName, registrant.Email, registrant.Password);
         }
 
         private static BusinessAdmin CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
         {
-            return new BusinessAdmin
-            {
-                Id = dbAdmin.Id,
-                FirstName = dbAdmin.FirstName,
-                LastName = dbAdmin.LastName,
-                Email = dbAdmin.Email,
-                Password = dbAdmin.Password,
-            };
+            return new BusinessAdmin(dbAdmin.Id, dbAdmin.FirstName, dbAdmin.LastName, dbAdmin.Email, dbAdmin.Password);
         }
 
         private static IEnumerable<Location> CreateLocations(IEnumerable<DbLocation> dbLocations)
@@ -73,6 +60,27 @@ namespace CoachSeek.WebUI.Factories
             }
 
             return locations;
+        }
+
+        private static IEnumerable<Coach> CreateCoaches(IEnumerable<DbCoach> dbCoaches)
+        {
+            var coaches = new List<Coach>();
+
+            foreach (var dbCoach in dbCoaches)
+            {
+                var coach = new Coach
+                {
+                    Id = dbCoach.Id,
+                    FirstName = dbCoach.FirstName,
+                    LastName = dbCoach.LastName,
+                    Email = dbCoach.Email,
+                    Phone = dbCoach.Phone
+                };
+
+                coaches.Add(coach);
+            }
+
+            return coaches;
         }
     }
 }

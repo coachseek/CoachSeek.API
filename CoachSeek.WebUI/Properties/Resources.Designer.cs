@@ -70,6 +70,15 @@ namespace CoachSeek.WebUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This coach already exists..
+        /// </summary>
+        internal static string ErrorDuplicateCoach {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This location already exists..
         /// </summary>
         internal static string ErrorDuplicateLocation {

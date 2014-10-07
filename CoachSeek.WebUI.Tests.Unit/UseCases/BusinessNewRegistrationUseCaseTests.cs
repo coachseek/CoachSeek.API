@@ -28,17 +28,13 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
+            BusinessRepository.Clear();
+
             BusinessRepository.Add(new Business
             {
                 Name = "Olaf's Bookshoppe",
                 Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Password = "abc123"
-                }
+                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
             });
             BusinessRepository.WasSaveNewBusinessCalled = false;
             BusinessRepository.WasSaveBusinessCalled = false;
@@ -88,12 +84,12 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         {
             return new BusinessRegistrationRequest
             {
-                BusinessName = "Olaf's Cafe",
+                BusinessName = "Olaf's Cafe  ",
                 Registrant = new BusinessRegistrant
                 {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
+                    FirstName = " Olaf ",
+                    LastName = " Thielke  ",
+                    Email = "OLAFT@ihug.co.nz  ",
                     Password = "password"
                 }
             };
@@ -103,12 +99,12 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         {
             return new BusinessRegistrationRequest
             {
-                BusinessName = "Ian's Cafe",
+                BusinessName = "  Ian's Cafe",
                 Registrant = new BusinessRegistrant
                 {
-                    FirstName = "Ian",
-                    LastName = "Bishop",
-                    Email = "ianbish@gmail.com",
+                    FirstName = " Ian",
+                    LastName = "Bishop ",
+                    Email = "  ianbish@GMAIL.com",
                     Password = "password"
                 }
             };

@@ -46,29 +46,18 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
         }
     }
 
-    public class LocationAddResponse
+
+    public class LocationAddResponse : Response
     {
-        public Business Business { get; private set; }
-
-        public List<Error> Errors { get; protected set; }
-
-
         public LocationAddResponse()
         { }
 
-        public LocationAddResponse(Business business)
-        {
-            Business = business;
-        }
+        public LocationAddResponse(Business business) 
+            : base(business)
+        { }
 
-        public LocationAddResponse(ValidationException exception)
-        {
-            Errors = exception.Errors;
-        }
-
-        public bool IsSuccessful
-        {
-            get { return Business != null; }
-        }
+        public LocationAddResponse(ValidationException exception) 
+            : base (exception)
+        { }
     }
 }

@@ -32,31 +32,32 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
         }
     }
 
-
-    public class CoachAddResponse
+    public class DuplicateCoachAddResponse : CoachAddResponse
     {
-        public Business Business { get; private set; }
-
-        public List<Error> Errors { get; protected set; }
-
-
-        public CoachAddResponse()
+        public DuplicateCoachAddResponse()
         {
+            Errors = new List<Error> { CreateDuplicateCoachError() };
         }
+
+        private static Error CreateDuplicateCoachError()
+        {
+            return new Error((int)ErrorCodes.ErrorDuplicateCoach,
+                             Resources.ErrorDuplicateCoach);
+        }
+    }
+
+
+    public class CoachAddResponse : Response
+    {
+        public CoachAddResponse()
+        { }
 
         public CoachAddResponse(Business business)
-        {
-            Business = business;
-        }
+            : base(business)
+        { }
 
         public CoachAddResponse(ValidationException exception)
-        {
-            Errors = exception.Errors;
-        }
-
-        public bool IsSuccessful
-        {
-            get { return Business != null; }
-        }
+            : base(exception)
+        { }
     }
 }

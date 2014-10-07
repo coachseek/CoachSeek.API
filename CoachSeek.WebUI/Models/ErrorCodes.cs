@@ -14,5 +14,6 @@ namespace CoachSeek.WebUI.Models
         ErrorInvalidLocation = 1140,
         // Coaches
         ErrorNoCoachAddData = 1210,
+        ErrorDuplicateCoach = 1220,
     }
 }
