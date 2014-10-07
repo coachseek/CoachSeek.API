@@ -182,11 +182,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessRegistrationController.cs" />
+    <Compile Include="Controllers\CoachesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Conversion\BusinessAdminConverter.cs" />
     <Compile Include="Conversion\BusinessConverter.cs" />
+    <Compile Include="Conversion\CoachAddRequestConverter.cs" />
     <Compile Include="Conversion\CoachConverter.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
     <Compile Include="Conversion\LocationAddRequestConverter.cs" />

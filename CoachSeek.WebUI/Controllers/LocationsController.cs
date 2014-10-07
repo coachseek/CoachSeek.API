@@ -28,8 +28,8 @@ namespace CoachSeek.WebUI.Controllers
         {
             if (locationSaveRequest.IsExisting())
                 return UpdateLocation(locationSaveRequest);
-            else
-                return AddLocation(locationSaveRequest);
+
+            return AddLocation(locationSaveRequest);
         }
 
         private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)

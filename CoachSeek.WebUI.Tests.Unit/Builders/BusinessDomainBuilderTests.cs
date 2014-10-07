@@ -89,9 +89,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Builders
 
         [Test]
         public void GivenABusinessWhereTheDomainNameAlreadyExists_WhenBuildDomain_ThenReturnDomainNameWithAppendedNumberOne()
-        {
-            
-            
+        {   
             var businessName = GivenABusinessWhereTheDomainNameAlreadyExists();
             var response = WhenBuildDomain(businessName);
             ThenReturnDomainNameWithAppendedNumberOne(response);

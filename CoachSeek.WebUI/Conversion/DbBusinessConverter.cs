@@ -30,7 +30,8 @@ namespace CoachSeek.WebUI.Conversion
                 FirstName = admin.FirstName,
                 LastName = admin.LastName,
                 Email = admin.Email,
-                Password = admin.Password
+                Username = admin.Username,
+                PasswordHash = admin.PasswordHash
             };
         }
 

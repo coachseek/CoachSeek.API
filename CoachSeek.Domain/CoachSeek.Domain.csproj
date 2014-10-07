@@ -39,12 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Credential.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\MissingEmailAddress.cs" />
     <Compile Include="Exceptions\MissingFirstName.cs" />
     <Compile Include="Exceptions\MissingLastName.cs" />
     <Compile Include="PersonName.cs" />
+    <Compile Include="PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

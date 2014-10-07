@@ -7,25 +7,15 @@ namespace CoachSeek.WebUI.Conversion
     {
         public static Coach Convert(CoachAddRequest request)
         {
-            return new Coach
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Phone = request.Phone
-            };
+            return new Coach(request.FirstName, request.LastName, 
+                             request.Email, request.Phone);
         }
 
         public static Coach Convert(CoachUpdateRequest request)
         {
-            return new Coach
-            {
-                Id = request.CoachId,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Phone = request.Phone
-            };
+            return new Coach(request.CoachId, 
+                             request.FirstName, request.LastName, 
+                             request.Email, request.Phone);
         }
     }
 }

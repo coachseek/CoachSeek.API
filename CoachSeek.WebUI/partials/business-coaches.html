@@ -11,13 +11,13 @@
         <tr ng-repeat="coach in coaches">
             <td>
                 <span class="hidden" e-name="id" e-form="rowform">{{coach.id}}</span>
-                <span editable-text="coach.firstname" e-name="firstname" e-form="rowform" e-placeholder="Enter coach first name" e-required>
-                    {{ coach.firstname || 'empty' }}
+                <span editable-text="coach.firstName" e-name="firstName" e-form="rowform" e-placeholder="Enter coach first name" e-required>
+                    {{ coach.firstName || 'empty' }}
                 </span>
             </td>
             <td>
-                <span editable-text="coach.lastname" e-name="lastname" e-form="rowform" e-placeholder="Enter coach last name" e-required>
-                    {{ coach.lastname || 'empty' }}
+                <span editable-text="coach.lastName" e-name="lastName" e-form="rowform" e-placeholder="Enter coach last name" e-required>
+                    {{ coach.lastName || 'empty' }}
                 </span>
             </td>
             <td>

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CoachSeek.WebUI.Contracts.Builders;
+﻿using CoachSeek.WebUI.Contracts.Builders;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Persistence;
 using CoachSeek.WebUI.Models.Requests;
+using System.Collections.Generic;
 
 namespace CoachSeek.WebUI.Factories
 {
@@ -41,7 +40,9 @@ namespace CoachSeek.WebUI.Factories
 
         private static BusinessAdmin CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
         {
-            return new BusinessAdmin(dbAdmin.Id, dbAdmin.FirstName, dbAdmin.LastName, dbAdmin.Email, dbAdmin.Password);
+            return new BusinessAdmin(dbAdmin.Id, dbAdmin.Email, 
+                                     dbAdmin.FirstName, dbAdmin.LastName, 
+                                     dbAdmin.Username, dbAdmin.PasswordHash, dbAdmin.PasswordSalt);
         }
 
         private static IEnumerable<Location> CreateLocations(IEnumerable<DbLocation> dbLocations)
@@ -68,14 +69,9 @@ namespace CoachSeek.WebUI.Factories
 
             foreach (var dbCoach in dbCoaches)
             {
-                var coach = new Coach
-                {
-                    Id = dbCoach.Id,
-                    FirstName = dbCoach.FirstName,
-                    LastName = dbCoach.LastName,
-                    Email = dbCoach.Email,
-                    Phone = dbCoach.Phone
-                };
+                var coach = new Coach(dbCoach.Id, 
+                                      dbCoach.FirstName, dbCoach.LastName, 
+                                      dbCoach.Email, dbCoach.Phone);
 
                 coaches.Add(coach);
             }

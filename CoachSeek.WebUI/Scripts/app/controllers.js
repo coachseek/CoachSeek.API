@@ -109,8 +109,8 @@ coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$ro
         var coach = {};
         coach.businessId = $rootScope.business.id;
         coach.id = id;
-        coach.firstname = data.firstname;
-        coach.lastname = data.lastname;
+        coach.firstName = data.firstName;
+        coach.lastName = data.lastName;
         coach.email = data.email;
         coach.phone = data.phone;
 
@@ -125,7 +125,7 @@ coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$ro
     };
 
     $scope.addCoach = function () {
-        $scope.inserted = { firstname: '', lastname: '' };
+        $scope.inserted = { firstName: '', lastName: '' };
         $scope.coaches.push($scope.inserted);
     };
 }]);

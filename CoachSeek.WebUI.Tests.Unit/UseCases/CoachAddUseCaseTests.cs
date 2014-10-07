@@ -65,7 +65,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         {
             return new List<Coach>
             {
-                new Coach {Id = new Guid(COACH_ID), FirstName = "Bob", LastName = "Smith", Email = "bob.smith@example.com", Phone = "021987654"}
+                new Coach(new Guid(COACH_ID), "Bob", "Smith", "bob.smith@example.com", "021987654")
             };
         }
 
