@@ -10,9 +10,9 @@ namespace CoachSeek.WebUI.Models.Api
         public string Name { get; set; }
 
 
-        public bool IsExisting()
+        public bool IsNew()
         {
-            return Id.HasValue;
+            return !Id.HasValue;
         }
     }
 }

@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.UseCases;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.WebUI.Conversion;
-using CoachSeek.WebUI.Persistence;
-using CoachSeek.WebUI.UseCases;
 
 namespace CoachSeek.WebUI.Controllers
 {
     public class BusinessesController : ApiController
     {
-        //// GET: api/Businesses
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        private IBusinessRepository BusinessRepository { get; set; }
+
+        public BusinessesController(IBusinessRepository businessRepository)
+        {
+            BusinessRepository = businessRepository;
+        }
 
         // GET: api/Businesses/olafscafe
         [Route("api/Businesses/{domain}")]
         public HttpResponseMessage Get(string domain)
         {
-            var businessRepository = new InMemoryBusinessRepository();
-
-            var useCase = new BusinessGetByDomainUseCase(businessRepository);
+            var useCase = new BusinessGetByDomainUseCase(BusinessRepository);
             var response = useCase.GetByDomain(domain);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);

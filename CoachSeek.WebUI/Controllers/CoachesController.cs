@@ -1,16 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Models.Api;
+using CoachSeek.WebUI.UseCases;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.WebUI.Conversion;
-using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.Persistence;
-using CoachSeek.WebUI.UseCases;
 
 namespace CoachSeek.WebUI.Controllers
 {
     public class CoachesController : ApiController
     {
+        private IBusinessRepository BusinessRepository { get; set; }
+
+        public CoachesController(IBusinessRepository businessRepository)
+        {
+            BusinessRepository = businessRepository;
+        }
+
         // GET: api/Coaches
         public IEnumerable<string> Get()
         {
@@ -34,10 +41,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage AddCoach(ApiCoachSaveRequest coachSaveRequest)
         {
-            var businessRepository = new InMemoryBusinessRepository();
-
             var coachAddRequest = CoachAddRequestConverter.Convert(coachSaveRequest);
-            var useCase = new CoachAddUseCase(businessRepository);
+            var useCase = new CoachAddUseCase(BusinessRepository);
             var response = useCase.AddCoach(coachAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
@@ -46,10 +51,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage UpdateCoach(ApiCoachSaveRequest coachSaveRequest)
         {
-            //var businessRepository = new InMemoryBusinessRepository();
-
             //var coachUpdateRequest = CoachUpdateRequestConverter.Convert(coachSaveRequest);
-            //var updateUseCase = new CoachUpdateUseCase(businessRepository);
+            //var updateUseCase = new CoachUpdateUseCase(BusinessRepository);
             //var response = updateUseCase.UpdateCoach(coachUpdateRequest);
             //if (response.IsSuccessful)
             //    return Request.CreateResponse(HttpStatusCode.OK, response.Business);

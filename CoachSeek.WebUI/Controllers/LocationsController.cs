@@ -1,6 +1,6 @@
-﻿using CoachSeek.WebUI.Conversion;
+﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
 using System.Collections.Generic;
 using System.Net;
@@ -11,6 +11,13 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class LocationsController : ApiController
     {
+        private IBusinessRepository BusinessRepository { get; set; }
+
+        public LocationsController(IBusinessRepository businessRepository)
+        {
+            BusinessRepository = businessRepository;
+        }
+
         // GET: api/Locations
         public IEnumerable<string> Get()
         {
@@ -26,18 +33,16 @@ namespace CoachSeek.WebUI.Controllers
         // POST: api/Locations
         public HttpResponseMessage Post([FromBody]ApiLocationSaveRequest locationSaveRequest)
         {
-            if (locationSaveRequest.IsExisting())
-                return UpdateLocation(locationSaveRequest);
+            if (locationSaveRequest.IsNew())
+                return AddLocation(locationSaveRequest);
 
-            return AddLocation(locationSaveRequest);
+            return UpdateLocation(locationSaveRequest);
         }
 
         private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)
         {
-            var businessRepository = new InMemoryBusinessRepository();
-
             var locationAddRequest = LocationAddRequestConverter.Convert(locationSaveRequest);
-            var useCase = new LocationAddUseCase(businessRepository);
+            var useCase = new LocationAddUseCase(BusinessRepository);
             var response = useCase.AddLocation(locationAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
@@ -46,10 +51,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage UpdateLocation(ApiLocationSaveRequest locationSaveRequest)
         {
-            var businessRepository = new InMemoryBusinessRepository();
-
             var locationUpdateRequest = LocationUpdateRequestConverter.Convert(locationSaveRequest);
-            var updateUseCase = new LocationUpdateUseCase(businessRepository);
+            var updateUseCase = new LocationUpdateUseCase(BusinessRepository);
             var response = updateUseCase.UpdateLocation(locationUpdateRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
