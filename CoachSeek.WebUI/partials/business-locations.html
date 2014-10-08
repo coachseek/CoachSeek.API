@@ -1,5 +1,5 @@
 <h2>Locations</h2>
-<div ng-controller="LocationCtrl">
+<div>
     <table class="table table-bordered table-hover table-condensed">
         <tr style="font-weight: bold">
             <td style="width:75%">Location Name</td>
@@ -31,7 +31,6 @@
     </table>
     <button class="btn btn-default" ng-click="addLocation()">Add Location</button>
     <fieldset class="form-group">
-        <a href="#/business/coaches">Next ></a>
-        <input type="button" class="btn btn-primary pull-right" value="Next >" />
+        <button go-click="/{{business.domain}}/business/coaches" class="btn btn-primary pull-right">Next ></button>
     </fieldset>
 </div>

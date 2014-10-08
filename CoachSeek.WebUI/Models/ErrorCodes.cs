@@ -7,6 +7,7 @@ namespace CoachSeek.WebUI.Models
         ErrorNoBusinessRegistrationData = 1010,
         ErrorBusinessAdminDuplicateEmail = 1020,
         ErrorInvalidBusiness = 1030,
+        ErrorNoBusinessDomain = 1040,
         // Locations
         ErrorNoLocationAddData = 1110,
         ErrorDuplicateLocation = 1120,

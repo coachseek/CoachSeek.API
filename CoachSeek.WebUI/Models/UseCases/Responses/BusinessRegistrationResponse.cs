@@ -2,7 +2,7 @@
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Properties;
 
-namespace CoachSeek.WebUI.Models.Responses
+namespace CoachSeek.WebUI.Models.UseCases.Responses
 {
     public class NoBusinessRegistrationDataResponse : BusinessRegistrationResponse
     {

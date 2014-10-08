@@ -16,13 +16,13 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
       $scope.business = {};
       $scope.error = {};
       $http.post('/api/BusinessRegistration', $scope.businessReg)
-           .success(function (data) {
-               $rootScope.business = data;
-               $location.path("/business/locations");
+           .success(function (business) {
+               $rootScope.business = business;
+               $location.path("/" + business.domain + "/business/locations");
           })
-           .error(function (data) {
-               $scope.error = data;
-               if (data.field === "Email")
+           .error(function (error) {
+               $scope.error = error;
+               if (error.field === "Email")
                    $scope.businessRegForm.email.$setValidity("email", false);
            });
   };
@@ -30,9 +30,27 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
 }]);
 
 
-coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
+coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '$rootScope', '$routeParams', function ($scope, $filter, $http, $rootScope, $routeParams) {
 
     $scope.locations = [];
+
+    reloadBusiness();
+
+    function reloadBusiness() {
+        if (pageWasReloaded()) {
+            $http.get('/api/Businesses/' + $routeParams.domain)
+               .success(function (business) {
+                   refreshBusinessAndLocations(business);
+               })
+               .error(function (error) {
+                   $scope.error = error;
+               });
+        }
+    };
+
+    function pageWasReloaded() {
+        return $rootScope.business == undefined;
+    }
 
     $scope.checkLocation = function (name, id) {
         if (isNewLocation(id))
@@ -40,7 +58,6 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
         
         return checkExistingLocation(name, id);
     };
-
 
     function isNewLocation(id) {
         return id === undefined;
@@ -77,7 +94,6 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
         return false;
     }
 
-
     $scope.saveLocation = function (data, id) {
         var location = {};
         location.businessId = $rootScope.business.id;
@@ -86,13 +102,17 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
 
         return $http.post('/api/Locations', location)
            .success(function (business) {
-               $rootScope.business = business;
-               $scope.locations = business.locations;
+               refreshBusinessAndLocations(business);
             })
            .error(function (error) {
                $scope.error = error;
            });
     };
+
+    function refreshBusinessAndLocations(business) {
+        $rootScope.business = business;
+        $scope.locations = business.locations;
+    }
 
     $scope.addLocation = function () {
         $scope.inserted = { name: '' };
@@ -101,9 +121,27 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
 }]);
 
 
-coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$rootScope', function ($scope, $filter, $http, $rootScope) {
+coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$rootScope', '$routeParams', function ($scope, $filter, $http, $rootScope, $routeParams) {
 
     $scope.coaches = [];
+
+    reloadBusiness();
+
+    function reloadBusiness() {
+        if (pageWasReloaded()) {
+            $http.get('/api/Businesses/' + $routeParams.domain)
+               .success(function (business) {
+                   refreshBusinessAndCoaches(business);
+               })
+               .error(function (error) {
+                   $scope.error = error;
+               });
+        }
+    };
+
+    function pageWasReloaded() {
+        return $rootScope.business == undefined;
+    }
 
     $scope.saveCoach = function (data, id) {
         var coach = {};
@@ -116,13 +154,17 @@ coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$ro
 
         return $http.post('/api/Coaches', coach)
            .success(function (business) {
-               $rootScope.business = business;
-               $scope.coaches = business.coaches;
-           })
+               refreshBusinessAndCoaches(business);
+            })
            .error(function (error) {
                $scope.error = error;
            });
     };
+
+    function refreshBusinessAndCoaches(business) {
+        $rootScope.business = business;
+        $scope.coaches = business.coaches;
+    }
 
     $scope.addCoach = function () {
         $scope.inserted = { firstName: '', lastName: '' };

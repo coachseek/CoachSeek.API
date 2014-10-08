@@ -5,7 +5,7 @@ using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Factories;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Requests;
-using CoachSeek.WebUI.Models.Responses;
+using CoachSeek.WebUI.Models.UseCases.Responses;
 
 namespace CoachSeek.WebUI.UseCases
 {

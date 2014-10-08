@@ -52,7 +52,6 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         }
 
 
-
         private IEnumerable<Location> SetupLocations()
         {
             return new List<Location>

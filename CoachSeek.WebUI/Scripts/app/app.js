@@ -17,11 +17,11 @@ app.config(['$routeProvider',
         templateUrl: 'partials/business-registration.html',
         controller: 'BusinessRegCtrl'
       }).
-      when('/business/locations', {
+      when('/:domain/business/locations', {
           templateUrl: 'partials/business-locations.html',
         controller: 'LocationCtrl'
       }).
-      when('/business/coaches', {
+      when('/:domain/business/coaches', {
           templateUrl: 'partials/business-coaches.html',
           controller: 'CoachCtrl'
       }).
