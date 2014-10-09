@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoachSeek.Domain;
+using CoachSeek.Domain.Data;
 using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Models.UseCases.Requests;
 
 namespace CoachSeek.WebUI.Models
 {
@@ -53,14 +56,11 @@ namespace CoachSeek.WebUI.Models
             Id = id;
         }
 
-        public Business(IEnumerable<Location> locations, IEnumerable<Coach> coaches) 
+        public Business(IEnumerable<Location> locations, IEnumerable<CoachData> coaches) 
             : this()
         {
-            foreach (var location in locations)
-                BusinessLocations.Add(location);
-
-            foreach (var coach in coaches)
-                BusinessCoaches.Add(coach);
+            AppendExistingLocations(locations);
+            AppendExistingCoaches(coaches);
         }
 
 
@@ -76,16 +76,29 @@ namespace CoachSeek.WebUI.Models
             businessRepository.Save(this);
         }
 
-        public void AddCoach(Coach coach, IBusinessRepository businessRepository)
+        public void AddCoach(CoachAddRequest request, IBusinessRepository businessRepository)
         {
-            BusinessCoaches.Add(coach);
+            BusinessCoaches.Add(request.ToData());
             businessRepository.Save(this);
         }
 
-        public void UpdateCoach(Coach coach, IBusinessRepository businessRepository)
+        public void UpdateCoach(CoachUpdateRequest request, IBusinessRepository businessRepository)
         {
-            BusinessCoaches.Update(coach);
+            BusinessCoaches.Update(request.ToData());
             businessRepository.Save(this);
+        }
+
+
+        private void AppendExistingCoaches(IEnumerable<CoachData> coaches)
+        {
+            foreach (var coach in coaches)
+                BusinessCoaches.Append(coach);
+        }
+
+        private void AppendExistingLocations(IEnumerable<Location> locations)
+        {
+            foreach (var location in locations)
+                BusinessLocations.Add(location);
         }
     }
 }

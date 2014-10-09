@@ -34,3 +34,10 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+//[assembly: InternalsVisibleTo("CoachSeek.Domain.Tests.Unit, PublicKey="+
+//"002400000480000094000000060200000024000052534131000400000100010023af2e5d161e86"+
+//"58d900fafacbf7ec9bb0ce6297f005c80752f54bd4e901b45b2fe486a4b14ba11a5aab8da5bcf0"+
+//"f15580fe7e93d67f1a49dd45e9dcc7743b8d5117fd82fb80ce24649817befa34683657fe37026c"+
+//"27d1d3453d06d18fe1153ae090df36b736770b10336d709b5fb1aba3062125fdc45c6321d35c15"+
+//"a915c7ba")]

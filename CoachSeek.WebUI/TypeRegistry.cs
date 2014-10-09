@@ -24,6 +24,7 @@ namespace CoachSeek.WebUI
             For<ILocationAddUseCase>().Use<LocationAddUseCase>();
             For<ILocationUpdateUseCase>().Use<LocationUpdateUseCase>();
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
+            For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
             For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
         }
     }

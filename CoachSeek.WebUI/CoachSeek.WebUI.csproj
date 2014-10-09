@@ -194,6 +194,7 @@
     <Compile Include="Contracts\UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="Contracts\UseCases\IBusinessNewRegistrationUseCase.cs" />
     <Compile Include="Contracts\UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="Contracts\UseCases\ICoachUpdateUseCase.cs" />
     <Compile Include="Contracts\UseCases\ILocationAddUseCase.cs" />
     <Compile Include="Contracts\UseCases\ILocationUpdateUseCase.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Conversion\BusinessConverter.cs" />
     <Compile Include="Conversion\CoachAddRequestConverter.cs" />
     <Compile Include="Conversion\CoachConverter.cs" />
+    <Compile Include="Conversion\CoachUpdateRequestConverter.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
     <Compile Include="Conversion\LocationAddRequestConverter.cs" />
     <Compile Include="Conversion\LocationConverter.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UseCases\Responses\CoachAddResponse.cs" />
+    <Compile Include="Models\UseCases\Responses\CoachUpdateResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\UseCases\Responses\LocationAddResponse.cs" />
     <Compile Include="Models\UseCases\Responses\Response.cs" />
@@ -273,6 +276,7 @@
     <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
     <Compile Include="UseCases\CoachAddUseCase.cs" />
+    <Compile Include="UseCases\CoachUpdateUseCase.cs" />
     <Compile Include="UseCases\LocationAddUseCase.cs" />
     <Compile Include="UseCases\LocationUpdateUseCase.cs" />
   </ItemGroup>
@@ -356,6 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

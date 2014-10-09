@@ -16,5 +16,6 @@ namespace CoachSeek.WebUI.Models
         // Coaches
         ErrorNoCoachAddData = 1210,
         ErrorDuplicateCoach = 1220,
+        ErrorNoCoachUpdateData = 1230,
     }
 }

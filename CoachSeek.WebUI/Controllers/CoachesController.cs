@@ -1,7 +1,6 @@
 ﻿using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.UseCases;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -12,10 +11,13 @@ namespace CoachSeek.WebUI.Controllers
     public class CoachesController : ApiController
     {
         private ICoachAddUseCase CoachAddUseCase { get; set; }
+        private ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
 
-        public CoachesController(ICoachAddUseCase coachAddUseCase)
+        public CoachesController(ICoachAddUseCase coachAddUseCase,
+                                 ICoachUpdateUseCase coachUpdateUseCase)
         {
             CoachAddUseCase = coachAddUseCase;
+            CoachUpdateUseCase = coachUpdateUseCase;
         }
 
         // GET: api/Coaches
@@ -50,14 +52,11 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage UpdateCoach(ApiCoachSaveRequest coachSaveRequest)
         {
-            //var coachUpdateRequest = CoachUpdateRequestConverter.Convert(coachSaveRequest);
-            //var updateUseCase = new CoachUpdateUseCase(BusinessRepository);
-            //var response = updateUseCase.UpdateCoach(coachUpdateRequest);
-            //if (response.IsSuccessful)
-            //    return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            //return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
-
-            return null;
+            var coachUpdateRequest = CoachUpdateRequestConverter.Convert(coachSaveRequest);
+            var response = CoachUpdateUseCase.UpdateCoach(coachUpdateRequest);
+            if (response.IsSuccessful)
+                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
         }
 
         // PUT: api/Coaches/5

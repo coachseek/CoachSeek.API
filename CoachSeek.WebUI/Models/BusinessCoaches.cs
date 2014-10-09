@@ -1,4 +1,6 @@
-﻿using CoachSeek.WebUI.Exceptions;
+﻿using CoachSeek.Domain;
+using CoachSeek.Domain.Data;
+using CoachSeek.WebUI.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,25 +15,36 @@ namespace CoachSeek.WebUI.Models
             Coaches = new List<Coach>();
         }
 
-        public void Add(Coach coach)
+        public void Add(NewCoachData newCoachData)
         {
-            ValidateAdd(coach);
-
-            Coaches.Add(coach);
+            var newCoach = new NewCoach(newCoachData);
+            ValidateAdd(newCoach);
+            Coaches.Add(newCoach);
         }
 
-        public void Update(Coach coach)
+        public void Append(CoachData coachData)
         {
-            ValidateUpdate(coach);
+            // Data is not Validated. Eg. It comes from the database.
+            Coaches.Add(new Coach(coachData));
+        }
 
+        public void Update(CoachData coachData)
+        {
+            var coach = new Coach(coachData);
+            ValidateUpdate(coach);
+            ReplaceCoachInCoaches(coach);
+        }
+
+        private void ReplaceCoachInCoaches(Coach coach)
+        {
             var updateCoach = Coaches.Single(x => x.Id == coach.Id);
             var updateIndex = Coaches.IndexOf(updateCoach);
             Coaches[updateIndex] = coach;
         }
 
-        private void ValidateAdd(Coach coach)
+        private void ValidateAdd(NewCoach newCoach)
         {
-            var isExistingCoach = Coaches.Any(x => x.Name.ToLower() == coach.Name.ToLower());
+            var isExistingCoach = Coaches.Any(x => x.Name.ToLower() == newCoach.Name.ToLower());
             if (isExistingCoach)
                 throw new DuplicateCoachException();
         }

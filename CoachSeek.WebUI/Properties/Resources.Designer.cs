@@ -133,6 +133,15 @@ namespace CoachSeek.WebUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing coach data..
+        /// </summary>
+        internal static string ErrorNoCoachUpdateData {
+            get {
+                return ResourceManager.GetString("ErrorNoCoachUpdateData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing location data..
         /// </summary>
         internal static string ErrorNoLocationAddData {

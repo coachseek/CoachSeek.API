@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Domain.Data;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
@@ -47,7 +48,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
                 new Location {Id = new Guid(VALID_LOCATION_ID), Name = "Store"},
             };
 
-            var business = new Business(locations, new List<Coach>())
+            var business = new Business(locations, new List<CoachData>())
             {
                 Id = new Guid(VALID_BUSINESS_ID),
                 Name = "Olaf's Bookshoppe",

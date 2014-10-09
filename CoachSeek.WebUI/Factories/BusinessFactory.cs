@@ -1,4 +1,6 @@
-﻿using CoachSeek.WebUI.Contracts.Builders;
+﻿using CoachSeek.Domain;
+using CoachSeek.Domain.Data;
+using CoachSeek.WebUI.Contracts.Builders;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Persistence;
 using CoachSeek.WebUI.Models.Requests;
@@ -63,15 +65,20 @@ namespace CoachSeek.WebUI.Factories
             return locations;
         }
 
-        private static IEnumerable<Coach> CreateCoaches(IEnumerable<DbCoach> dbCoaches)
+        private static IEnumerable<CoachData> CreateCoaches(IEnumerable<DbCoach> dbCoaches)
         {
-            var coaches = new List<Coach>();
+            var coaches = new List<CoachData>();
 
             foreach (var dbCoach in dbCoaches)
             {
-                var coach = new Coach(dbCoach.Id, 
-                                      dbCoach.FirstName, dbCoach.LastName, 
-                                      dbCoach.Email, dbCoach.Phone);
+                var coach = new CoachData
+                {
+                    Id = dbCoach.Id,
+                    FirstName = dbCoach.FirstName,
+                    LastName = dbCoach.LastName,
+                    Email = dbCoach.Email,
+                    Phone = dbCoach.Phone
+                };
 
                 coaches.Add(coach);
             }

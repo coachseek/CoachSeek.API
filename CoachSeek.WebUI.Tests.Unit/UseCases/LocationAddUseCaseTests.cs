@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Models;
+﻿using CoachSeek.Domain.Data;
+using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 using CoachSeek.WebUI.Persistence;
@@ -41,7 +42,7 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
         {
             var location = new Location { Id = new Guid(LOCATION_ID), Name = "HQ" };
 
-            var business = new Business(new List<Location> { location }, new List<Coach>())
+            var business = new Business(new List<Location> { location }, new List<CoachData>())
             {
                 Id = new Guid(VALID_BUSINESS_ID),
                 Name = "Olaf's Bookshoppe",

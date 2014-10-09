@@ -5,12 +5,12 @@ namespace CoachSeek.WebUI.Conversion
 {
     public static class LocationAddRequestConverter
     {
-        public static LocationAddRequest Convert(ApiLocationSaveRequest locationSaveRequest)
+        public static LocationAddRequest Convert(ApiLocationSaveRequest apiRequest)
         {
             return new LocationAddRequest
             {
-                BusinessId = locationSaveRequest.BusinessId,
-                LocationName = locationSaveRequest.Name
+                BusinessId = apiRequest.BusinessId,
+                LocationName = apiRequest.Name
             };
         }
     }

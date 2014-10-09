@@ -48,10 +48,15 @@
     <Compile Include="UseCases\BusinessGetByDomainUseCaseTests.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
+    <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">
       <Project>{6cb18427-b543-4df4-8d9b-4a6ee6b90590}</Project>
       <Name>CoachSeek.WebUI</Name>

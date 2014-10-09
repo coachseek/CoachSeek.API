@@ -1,4 +1,5 @@
-﻿using CoachSeek.WebUI.Models;
+﻿using CoachSeek.Domain.Data;
+using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 using CoachSeek.WebUI.Persistence;
@@ -60,11 +61,18 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             };
         }
 
-        private IEnumerable<Coach> SetupCoaches()
+        private IEnumerable<CoachData> SetupCoaches()
         {
-            return new List<Coach>
+            return new List<CoachData>
             {
-                new Coach(new Guid(COACH_ID), "Bob", "Smith", "bob.smith@example.com", "021987654")
+                new CoachData
+                {
+                    Id = new Guid(COACH_ID),
+                    FirstName = "Bob", 
+                    LastName = "Smith", 
+                    Email = "bob.smith@example.com",
+                    Phone = "021987654"
+                }, 
             };
         }
 

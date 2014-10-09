@@ -1,42 +1,41 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using System;
+using CoachSeek.WebUI.Contracts.Persistence;
 using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
-using System;
 
 namespace CoachSeek.WebUI.UseCases
 {
-    public class CoachAddUseCase : ICoachAddUseCase
+    public class CoachUpdateUseCase : ICoachUpdateUseCase
     {
         private IBusinessRepository BusinessRepository { get; set; }
 
-
-        public CoachAddUseCase(IBusinessRepository businessRepository)
+        public CoachUpdateUseCase(IBusinessRepository businessRepository)
         {
             BusinessRepository = businessRepository;
         }
 
-        
-        public CoachAddResponse AddCoach(CoachAddRequest request)
+
+        public CoachUpdateResponse UpdateCoach(CoachUpdateRequest request)
         {
             if (request == null)
-                return new NoCoachAddDataResponse();
+                return new NoCoachUpdateDataResponse();
 
             try
             {
                 var business = GetBusiness(request);
-                business.AddCoach(request, BusinessRepository);
-                return new CoachAddResponse(business);
+                business.UpdateCoach(request, BusinessRepository);
+                return new CoachUpdateResponse(business);
             }
             catch (Exception ex)
             {
-                return HandleAddCoachException(ex);
+                return HandleUpdateCoachException(ex);
             }
         }
 
-        private Business GetBusiness(CoachAddRequest request)
+        private Business GetBusiness(CoachUpdateRequest request)
         {
             var business = BusinessRepository.Get(request.BusinessId);
             if (business == null)
@@ -44,24 +43,21 @@ namespace CoachSeek.WebUI.UseCases
             return business;
         }
 
-        private CoachAddResponse HandleAddCoachException(Exception ex)
+        private CoachUpdateResponse HandleUpdateCoachException(Exception ex)
         {
             if (ex is InvalidBusinessException)
                 return HandleInvalidBusinessException();
-            if (ex is DuplicateCoachException)
-                return HandleDuplicateCoachException();
+            //if (ex is InvalidLocationException)
+            //    return HandleInvalidLocationException();
+            //if (ex is DuplicateLocationException)
+            //    return HandleDuplicateLocationException();
 
             return null;
         }
 
-        private CoachAddResponse HandleInvalidBusinessException()
+        private CoachUpdateResponse HandleInvalidBusinessException()
         {
-            return new InvalidBusinessCoachAddResponse();
-        }
-
-        private CoachAddResponse HandleDuplicateCoachException()
-        {
-            return new DuplicateCoachAddResponse();
+            return new InvalidBusinessCoachUpdateResponse();
         }
     }
 }

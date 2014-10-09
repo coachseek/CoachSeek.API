@@ -141,6 +141,9 @@
   <data name="ErrorNoCoachAddData" xml:space="preserve">
     <value>Missing coach data.</value>
   </data>
+  <data name="ErrorNoCoachUpdateData" xml:space="preserve">
+    <value>Missing coach data.</value>
+  </data>
   <data name="ErrorNoLocationAddData" xml:space="preserve">
     <value>Missing location data.</value>
   </data>

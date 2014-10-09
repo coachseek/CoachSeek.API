@@ -4,15 +4,15 @@ using CoachSeek.WebUI.Models.UseCases.Requests;
 
 namespace CoachSeek.WebUI.Conversion
 {
-    public class LocationUpdateRequestConverter
+    public static class LocationUpdateRequestConverter
     {
-        public static LocationUpdateRequest Convert(ApiLocationSaveRequest request)
+        public static LocationUpdateRequest Convert(ApiLocationSaveRequest apiRequest)
         {
             return new LocationUpdateRequest
             {
-                BusinessId = request.BusinessId,
-                LocationId = request.Id.HasValue ? request.Id.Value : Guid.Empty,
-                LocationName = request.Name
+                LocationId = apiRequest.Id.HasValue ? apiRequest.Id.Value : Guid.Empty,
+                BusinessId = apiRequest.BusinessId,
+                LocationName = apiRequest.Name
             };
         }
     }

@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -39,15 +45,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coach.cs" />
     <Compile Include="Credential.cs" />
+    <Compile Include="Data\BusinessData.cs" />
+    <Compile Include="Data\CoachData.cs" />
+    <Compile Include="Data\NewCoachData.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\MissingEmailAddress.cs" />
     <Compile Include="Exceptions\MissingFirstName.cs" />
     <Compile Include="Exceptions\MissingLastName.cs" />
+    <Compile Include="NewCoach.cs" />
     <Compile Include="PersonName.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

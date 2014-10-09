@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Domain;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.Persistence;
 
