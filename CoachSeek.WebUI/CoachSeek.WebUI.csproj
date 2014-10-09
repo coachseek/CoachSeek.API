@@ -191,6 +191,11 @@
     <Compile Include="Contracts\Persistence\IBusinessAdminRepository.cs" />
     <Compile Include="Contracts\Persistence\IBusinessRepository.cs" />
     <Compile Include="Contracts\Persistence\IReservedDomainRepository.cs" />
+    <Compile Include="Contracts\UseCases\IBusinessGetByDomainUseCase.cs" />
+    <Compile Include="Contracts\UseCases\IBusinessNewRegistrationUseCase.cs" />
+    <Compile Include="Contracts\UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="Contracts\UseCases\ILocationAddUseCase.cs" />
+    <Compile Include="Contracts\UseCases\ILocationUpdateUseCase.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessesController.cs" />

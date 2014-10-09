@@ -1,6 +1,7 @@
 ﻿using CoachSeek.WebUI.Contracts.Builders;
 using CoachSeek.WebUI.Contracts.Email;
 using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Factories;
 using CoachSeek.WebUI.Models;
@@ -9,7 +10,7 @@ using CoachSeek.WebUI.Models.UseCases.Responses;
 
 namespace CoachSeek.WebUI.UseCases
 {
-    public class BusinessNewRegistrationUseCase
+    public class BusinessNewRegistrationUseCase : IBusinessNewRegistrationUseCase
     {
         private IBusinessRepository BusinessRepository { get; set; }
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }

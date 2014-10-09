@@ -1,4 +1,4 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
 using CoachSeek.WebUI.UseCases;
@@ -11,11 +11,11 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class CoachesController : ApiController
     {
-        private IBusinessRepository BusinessRepository { get; set; }
+        private ICoachAddUseCase CoachAddUseCase { get; set; }
 
-        public CoachesController(IBusinessRepository businessRepository)
+        public CoachesController(ICoachAddUseCase coachAddUseCase)
         {
-            BusinessRepository = businessRepository;
+            CoachAddUseCase = coachAddUseCase;
         }
 
         // GET: api/Coaches
@@ -42,8 +42,7 @@ namespace CoachSeek.WebUI.Controllers
         private HttpResponseMessage AddCoach(ApiCoachSaveRequest coachSaveRequest)
         {
             var coachAddRequest = CoachAddRequestConverter.Convert(coachSaveRequest);
-            var useCase = new CoachAddUseCase(BusinessRepository);
-            var response = useCase.AddCoach(coachAddRequest);
+            var response = CoachAddUseCase.AddCoach(coachAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);

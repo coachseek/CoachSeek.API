@@ -1,9 +1,10 @@
 ﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 
 namespace CoachSeek.WebUI.UseCases
 {
-    public class BusinessGetByDomainUseCase
+    public class BusinessGetByDomainUseCase : IBusinessGetByDomainUseCase
     {
         private IBusinessRepository BusinessRepository { get; set; }
 

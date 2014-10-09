@@ -1,7 +1,6 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.UseCases;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -11,11 +10,14 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class LocationsController : ApiController
     {
-        private IBusinessRepository BusinessRepository { get; set; }
+        private ILocationAddUseCase LocationAddUseCase { get; set; }
+        private ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
 
-        public LocationsController(IBusinessRepository businessRepository)
+        public LocationsController(ILocationAddUseCase locationAddUseCase,
+                                   ILocationUpdateUseCase locationUpdateUseCase)
         {
-            BusinessRepository = businessRepository;
+            LocationAddUseCase = locationAddUseCase;
+            LocationUpdateUseCase = locationUpdateUseCase;
         }
 
         // GET: api/Locations
@@ -42,8 +44,7 @@ namespace CoachSeek.WebUI.Controllers
         private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)
         {
             var locationAddRequest = LocationAddRequestConverter.Convert(locationSaveRequest);
-            var useCase = new LocationAddUseCase(BusinessRepository);
-            var response = useCase.AddLocation(locationAddRequest);
+            var response = LocationAddUseCase.AddLocation(locationAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
@@ -52,8 +53,7 @@ namespace CoachSeek.WebUI.Controllers
         private HttpResponseMessage UpdateLocation(ApiLocationSaveRequest locationSaveRequest)
         {
             var locationUpdateRequest = LocationUpdateRequestConverter.Convert(locationSaveRequest);
-            var updateUseCase = new LocationUpdateUseCase(BusinessRepository);
-            var response = updateUseCase.UpdateLocation(locationUpdateRequest);
+            var response = LocationUpdateUseCase.UpdateLocation(locationUpdateRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);

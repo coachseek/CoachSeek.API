@@ -1,14 +1,15 @@
-﻿using System;
-using CoachSeek.WebUI.Contracts.Persistence;
+﻿using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Exceptions;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
+using System;
 
 namespace CoachSeek.WebUI.UseCases
 {
-    public class LocationAddUseCase
+    public class LocationAddUseCase : ILocationAddUseCase
     {
         private IBusinessRepository BusinessRepository { get; set; }
 
