@@ -40,26 +40,26 @@ namespace CoachSeek.WebUI.UseCases
         {
             var business = BusinessRepository.Get(request.BusinessId);
             if (business == null)
-                throw new InvalidBusinessException();
+                throw new InvalidBusiness();
             return business;
         }
 
         private CoachAddResponse HandleAddCoachException(Exception ex)
         {
-            if (ex is InvalidBusinessException)
-                return HandleInvalidBusinessException();
-            if (ex is DuplicateCoachException)
-                return HandleDuplicateCoachException();
+            if (ex is InvalidBusiness)
+                return HandleInvalidBusiness();
+            if (ex is DuplicateCoach)
+                return HandleDuplicateCoach();
 
             return null;
         }
 
-        private CoachAddResponse HandleInvalidBusinessException()
+        private CoachAddResponse HandleInvalidBusiness()
         {
             return new InvalidBusinessCoachAddResponse();
         }
 
-        private CoachAddResponse HandleDuplicateCoachException()
+        private CoachAddResponse HandleDuplicateCoach()
         {
             return new DuplicateCoachAddResponse();
         }

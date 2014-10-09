@@ -215,11 +215,11 @@
     <Compile Include="Conversion\LocationConverter.cs" />
     <Compile Include="Conversion\LocationUpdateRequestConverter.cs" />
     <Compile Include="Email\StubBusinessRegistrationEmailer.cs" />
-    <Compile Include="Exceptions\DuplicateCoachException.cs" />
-    <Compile Include="Exceptions\DuplicateLocationException.cs" />
-    <Compile Include="Exceptions\InvalidBusinessException.cs" />
-    <Compile Include="Exceptions\InvalidCoachException.cs" />
-    <Compile Include="Exceptions\InvalidLocationException.cs" />
+    <Compile Include="Exceptions\DuplicateCoach.cs" />
+    <Compile Include="Exceptions\DuplicateLocation.cs" />
+    <Compile Include="Exceptions\InvalidBusiness.cs" />
+    <Compile Include="Exceptions\InvalidCoach.cs" />
+    <Compile Include="Exceptions\InvalidLocation.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

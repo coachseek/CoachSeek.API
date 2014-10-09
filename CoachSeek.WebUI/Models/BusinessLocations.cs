@@ -32,18 +32,18 @@ namespace CoachSeek.WebUI.Models
         {
             var isExistingLocation = Locations.Any(x => x.Name.ToLower() == location.Name.ToLower());
             if (isExistingLocation)
-                throw new DuplicateLocationException();
+                throw new DuplicateLocation();
         }
 
         private void ValidateUpdate(Location location)
         {
             var isExistingLocation = Locations.Any(x => x.Id == location.Id);
             if (!isExistingLocation)
-                throw new InvalidLocationException();
+                throw new InvalidLocation();
 
             var existingLocation = Locations.FirstOrDefault(x => x.Name.ToLower() == location.Name.ToLower());
             if (existingLocation != null && existingLocation.Id != location.Id)
-                throw new DuplicateLocationException();
+                throw new DuplicateLocation();
         }
     }
 }

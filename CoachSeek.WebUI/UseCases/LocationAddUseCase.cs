@@ -42,26 +42,26 @@ namespace CoachSeek.WebUI.UseCases
         {
             var business = BusinessRepository.Get(request.BusinessId);
             if (business == null)
-                throw new InvalidBusinessException();
+                throw new InvalidBusiness();
             return business;
         }
 
         private LocationAddResponse HandleAddLocationException(Exception ex)
         {
-            if (ex is InvalidBusinessException)
-                return HandleInvalidBusinessException();
-            if (ex is DuplicateLocationException)
-                return HandleDuplicateLocationException();
+            if (ex is InvalidBusiness)
+                return HandleInvalidBusiness();
+            if (ex is DuplicateLocation)
+                return HandleDuplicateLocation();
 
             return null;
         }
 
-        private LocationAddResponse HandleInvalidBusinessException()
+        private LocationAddResponse HandleInvalidBusiness()
         {
             return new InvalidBusinessLocationAddResponse();
         }
 
-        private LocationAddResponse HandleDuplicateLocationException()
+        private LocationAddResponse HandleDuplicateLocation()
         {
             return new DuplicateLocationAddResponse();
         }

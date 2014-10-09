@@ -46,18 +46,18 @@ namespace CoachSeek.WebUI.Models
         {
             var isExistingCoach = Coaches.Any(x => x.Name.ToLower() == newCoach.Name.ToLower());
             if (isExistingCoach)
-                throw new DuplicateCoachException();
+                throw new DuplicateCoach();
         }
 
         private void ValidateUpdate(Coach coach)
         {
             var isExistingCoach = Coaches.Any(x => x.Id == coach.Id);
             if (!isExistingCoach)
-                throw new InvalidCoachException();
+                throw new InvalidCoach();
 
             var existingCoach = Coaches.FirstOrDefault(x => x.Name.ToLower() == coach.Name.ToLower());
             if (existingCoach != null && existingCoach.Id != coach.Id)
-                throw new DuplicateCoachException();
+                throw new DuplicateCoach();
         }
     }
 }
