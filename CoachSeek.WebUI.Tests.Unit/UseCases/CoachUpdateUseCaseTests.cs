@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoachSeek.Domain;
 using CoachSeek.Domain.Data;
 using CoachSeek.WebUI.Models;
 using CoachSeek.WebUI.Models.UseCases.Requests;
@@ -65,11 +64,19 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             {
                 new CoachData
                 {
-                    Id = new Guid(VALID_COACH_ID),
+                    Id = new Guid("E3CE8AD9-C755-4F06-A930-3B7E30F8B967"),
                     FirstName = "Bob", 
                     LastName = "Smith", 
                     Email = "bob.smith@example.com",
                     Phone = "021987654"
+                }, 
+                new CoachData
+                {
+                    Id = new Guid(VALID_COACH_ID),
+                    FirstName = "Bill", 
+                    LastName = "Gates", 
+                    Email = "bill@microsoft.com",
+                    Phone = "095286912"
                 }, 
             };
         }
@@ -91,6 +98,30 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             ThenCoachUpdateFailsWithInvalidBusinessError(response);
         }
 
+        [Test]
+        public void GivenNonExistentCoach_WhenUpdateCoach_ThenCoachUpdateFailsWithInvalidCoachError()
+        {
+            var request = GivenNonExistentCoach();
+            var response = WhenUpdateCoach(request);
+            ThenCoachUpdateFailsWithInvalidCoachError(response);
+        }
+
+        [Test]
+        public void GivenExistingCoachName_WhenUpdateCoach_ThenCoachUpdateFailsWithDuplicateCoachError()
+        {
+            var request = GivenExistingCoachName();
+            var response = WhenUpdateCoach(request);
+            ThenCoachUpdateFailsWithDuplicateCoachError(response);
+        }
+
+        [Test]
+        public void GivenAUniqueCoachName_WhenUpdateCoach_ThenCoachUpdateSucceeds()
+        {
+            var request = GivenAUniqueCoachName();
+            var response = WhenUpdateCoach(request);
+            ThenCoachUpdateSucceeds(response);
+        }
+
         private CoachUpdateRequest GivenNoCoachUpdateRequest()
         {
             return null;
@@ -101,6 +132,45 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             return new CoachUpdateRequest
             {
                 BusinessId = new Guid(INVALID_BUSINESS_ID)
+            };
+        }
+
+        private CoachUpdateRequest GivenNonExistentCoach()
+        {
+            return new CoachUpdateRequest
+            {
+                BusinessId = new Guid(VALID_BUSINESS_ID),
+                CoachId = new Guid(INVALID_COACH_ID),
+                FirstName = "Warren",
+                LastName = "Buffett",
+                Email = "warren@buffet.com",
+                Phone = "555 1234"
+            };
+        }
+
+        private CoachUpdateRequest GivenExistingCoachName()
+        {
+            return new CoachUpdateRequest
+            {
+                BusinessId = new Guid(VALID_BUSINESS_ID),
+                CoachId = new Guid(VALID_COACH_ID),
+                FirstName = "Bob",
+                LastName = "Smith",
+                Email = "bob.smith@example.com",
+                Phone = "021987654"
+            };
+        }
+
+        private CoachUpdateRequest GivenAUniqueCoachName()
+        {
+            return new CoachUpdateRequest
+            {
+                BusinessId = new Guid(VALID_BUSINESS_ID),
+                CoachId = new Guid(VALID_COACH_ID),
+                FirstName = "Napoleon",
+                LastName = "Bonaparte",
+                Email = "napoleon@waterloo.com",
+                Phone = "18061815"
             };
         }
 
@@ -123,6 +193,24 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             AssertSaveBusinessIsNotCalled();
         }
 
+        private void ThenCoachUpdateFailsWithInvalidCoachError(CoachUpdateResponse response)
+        {
+            AssertInvalidCoachError(response);
+            AssertSaveBusinessIsNotCalled();
+        }
+
+        private void ThenCoachUpdateFailsWithDuplicateCoachError(CoachUpdateResponse response)
+        {
+            AssertDuplicateCoachError(response);
+            AssertSaveBusinessIsNotCalled();
+        }
+
+        private void ThenCoachUpdateSucceeds(CoachUpdateResponse response)
+        {
+            AssertSaveBusinessIsCalled();
+            AssertCoachIsUpdated(response);
+        }
+
         private void AssertMissingCoachError(CoachUpdateResponse response)
         {
             Assert.That(response.Business, Is.Null);
@@ -143,6 +231,50 @@ namespace CoachSeek.WebUI.Tests.Unit.UseCases
             Assert.That(error.Code, Is.EqualTo(1030));
             Assert.That(error.Message, Is.EqualTo("This business does not exist."));
             Assert.That(error.Field, Is.Null);
+        }
+
+        private void AssertInvalidCoachError(CoachUpdateResponse response)
+        {
+            Assert.That(response.Business, Is.Null);
+            Assert.That(response.Errors, Is.Not.Null);
+            Assert.That(response.Errors.Count, Is.EqualTo(1));
+            var error = response.Errors.First();
+            Assert.That(error.Code, Is.EqualTo(1240));
+            Assert.That(error.Message, Is.EqualTo("This coach does not exist."));
+            Assert.That(error.Field, Is.Null);
+        }
+
+        private void AssertDuplicateCoachError(CoachUpdateResponse response)
+        {
+            Assert.That(response.Business, Is.Null);
+            Assert.That(response.Errors, Is.Not.Null);
+            Assert.That(response.Errors.Count, Is.EqualTo(1));
+            var error = response.Errors.First();
+            Assert.That(error.Code, Is.EqualTo(1220));
+            Assert.That(error.Message, Is.EqualTo("This coach already exists."));
+            Assert.That(error.Field, Is.Null);
+        }
+
+        private void AssertCoachIsUpdated(CoachUpdateResponse response)
+        {
+            Assert.That(response.Business, Is.Not.Null);
+            Assert.That(response.Business.Coaches.Count, Is.EqualTo(2));
+
+            var firstCoach = response.Business.Coaches[0];
+            Assert.That(firstCoach.Id, Is.EqualTo(new Guid("E3CE8AD9-C755-4F06-A930-3B7E30F8B967")));
+            Assert.That(firstCoach.FirstName, Is.EqualTo("Bob"));
+            Assert.That(firstCoach.LastName, Is.EqualTo("Smith"));
+            Assert.That(firstCoach.Name, Is.EqualTo("Bob Smith"));
+            Assert.That(firstCoach.Email, Is.EqualTo("bob.smith@example.com"));
+            Assert.That(firstCoach.Phone, Is.EqualTo("021987654"));
+
+            var secondCoach = response.Business.Coaches[1];
+            Assert.That(secondCoach.Id, Is.EqualTo(new Guid(VALID_COACH_ID)));
+            Assert.That(secondCoach.FirstName, Is.EqualTo("Napoleon"));
+            Assert.That(secondCoach.LastName, Is.EqualTo("Bonaparte"));
+            Assert.That(secondCoach.Name, Is.EqualTo("Napoleon Bonaparte"));
+            Assert.That(secondCoach.Email, Is.EqualTo("napoleon@waterloo.com"));
+            Assert.That(secondCoach.Phone, Is.EqualTo("18061815"));
         }
 
         private void AssertSaveBusinessIsNotCalled()

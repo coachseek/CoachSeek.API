@@ -32,6 +32,35 @@ namespace CoachSeek.WebUI.Models.UseCases.Responses
         }
     }
 
+    public class InvalidCoachUpdateResponse : CoachUpdateResponse
+    {
+        public InvalidCoachUpdateResponse()
+        {
+            Errors = new List<Error> { CreateInvalidCoachError() };
+        }
+
+        private static Error CreateInvalidCoachError()
+        {
+            return new Error((int)ErrorCodes.ErrorInvalidCoach,
+                             Resources.ErrorInvalidCoach);
+        }
+    }
+
+    public class DuplicateCoachUpdateResponse : CoachUpdateResponse
+    {
+        public DuplicateCoachUpdateResponse()
+        {
+            Errors = new List<Error> { CreateDuplicateCoachError() };
+        }
+
+        private static Error CreateDuplicateCoachError()
+        {
+            return new Error((int)ErrorCodes.ErrorDuplicateCoach,
+                             Resources.ErrorDuplicateCoach);
+        }
+    }
+
+
     public class CoachUpdateResponse : Response
     {
         public CoachUpdateResponse()

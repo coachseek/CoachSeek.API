@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Domain", "CoachSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Domain.Tests.Unit", "CoachSeek.Domain.Tests.Unit\CoachSeek.Domain.Tests.Unit.csproj", "{C866CC66-5A80-4D65-B0B1-F9EA84B79CF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Application", "CoachSeek.Application\CoachSeek.Application.csproj", "{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C866CC66-5A80-4D65-B0B1-F9EA84B79CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C866CC66-5A80-4D65-B0B1-F9EA84B79CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C866CC66-5A80-4D65-B0B1-F9EA84B79CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

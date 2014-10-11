@@ -97,6 +97,15 @@ namespace CoachSeek.WebUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This coach does not exist..
+        /// </summary>
+        internal static string ErrorInvalidCoach {
+            get {
+                return ResourceManager.GetString("ErrorInvalidCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This location does not exist..
         /// </summary>
         internal static string ErrorInvalidLocation {

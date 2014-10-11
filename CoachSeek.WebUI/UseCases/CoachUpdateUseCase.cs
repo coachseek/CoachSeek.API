@@ -47,10 +47,10 @@ namespace CoachSeek.WebUI.UseCases
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
-            //if (ex is InvalidLocationException)
-            //    return HandleInvalidLocation();
-            //if (ex is DuplicateLocationException)
-            //    return HandleDuplicateLocation();
+            if (ex is InvalidCoach)
+                return HandleInvalidCoach();
+            if (ex is DuplicateCoach)
+                return HandleDuplicateCoach();
 
             return null;
         }
@@ -58,6 +58,16 @@ namespace CoachSeek.WebUI.UseCases
         private CoachUpdateResponse HandleInvalidBusiness()
         {
             return new InvalidBusinessCoachUpdateResponse();
+        }
+
+        private CoachUpdateResponse HandleInvalidCoach()
+        {
+            return new InvalidCoachUpdateResponse();
+        }
+
+        private CoachUpdateResponse HandleDuplicateCoach()
+        {
+            return new DuplicateCoachUpdateResponse();
         }
     }
 }
