@@ -1,4 +1,4 @@
-﻿using CoachSeek.WebUI.Contracts.Persistence;
+﻿using CoachSeek.Domain.Repositories;
 using CoachSeek.WebUI.Contracts.UseCases;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 

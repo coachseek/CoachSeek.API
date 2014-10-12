@@ -1,5 +1,4 @@
-﻿using CoachSeek.WebUI.Exceptions;
-using CoachSeek.WebUI.Models;
+﻿using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;

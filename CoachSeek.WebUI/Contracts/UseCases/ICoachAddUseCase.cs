@@ -1,4 +1,4 @@
-﻿using CoachSeek.WebUI.Models.UseCases.Requests;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 
 namespace CoachSeek.WebUI.Contracts.UseCases

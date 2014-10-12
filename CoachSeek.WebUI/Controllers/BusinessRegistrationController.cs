@@ -1,8 +1,9 @@
-﻿using CoachSeek.WebUI.Contracts.UseCases;
-using CoachSeek.WebUI.Models.Requests;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Models.Api;
 
 namespace CoachSeek.WebUI.Controllers
 {
@@ -16,9 +17,10 @@ namespace CoachSeek.WebUI.Controllers
         }
 
         // POST: api/BusinessRegistration
-        public HttpResponseMessage Post([FromBody]BusinessRegistrationRequest businessRegistration)
+        public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand businessRegistration)
         {
-            var response = BusinessNewRegistrationUseCase.RegisterNewBusiness(businessRegistration);
+            var businessAddCommand = BusinessAddCommandConverter.Convert(businessRegistration);
+            var response = BusinessNewRegistrationUseCase.RegisterNewBusiness(businessAddCommand);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);

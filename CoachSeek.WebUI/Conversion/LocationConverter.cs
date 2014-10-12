@@ -1,4 +1,4 @@
-﻿using CoachSeek.WebUI.Models;
+﻿using CoachSeek.Domain.Entities;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 
 namespace CoachSeek.WebUI.Conversion

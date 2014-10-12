@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Data;
-using CoachSeek.WebUI.Models;
+using CoachSeek.Domain.Entities;
 using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
-using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
 using NUnit.Framework;
 

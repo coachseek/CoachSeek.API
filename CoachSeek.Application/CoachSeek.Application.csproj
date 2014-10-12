@@ -39,10 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UseCases\" />
+    <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
+      <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
+      <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
+      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
+      <Name>CoachSeek.Services.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

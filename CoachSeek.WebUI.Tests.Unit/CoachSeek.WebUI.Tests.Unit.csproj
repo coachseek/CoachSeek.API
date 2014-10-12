@@ -53,9 +53,21 @@
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
+      <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>
+      <Name>CoachSeek.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
+      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
+      <Name>CoachSeek.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Services\CoachSeek.Services.csproj">
+      <Project>{C9D7784E-1598-4A80-8AA0-AB9DA2B1FA3F}</Project>
+      <Name>CoachSeek.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">
       <Project>{6cb18427-b543-4df4-8d9b-4a6ee6b90590}</Project>

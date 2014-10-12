@@ -1,9 +1,9 @@
 ﻿using System;
-using CoachSeek.WebUI.Contracts.Persistence;
+using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Repositories;
 using CoachSeek.WebUI.Contracts.UseCases;
-using CoachSeek.WebUI.Exceptions;
-using CoachSeek.WebUI.Models;
-using CoachSeek.WebUI.Models.UseCases.Requests;
 using CoachSeek.WebUI.Models.UseCases.Responses;
 
 namespace CoachSeek.WebUI.UseCases

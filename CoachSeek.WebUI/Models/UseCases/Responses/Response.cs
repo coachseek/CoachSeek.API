@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.WebUI.Exceptions;
+using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.WebUI.Models.UseCases.Responses
 {

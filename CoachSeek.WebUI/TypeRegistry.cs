@@ -1,10 +1,12 @@
-﻿using CoachSeek.WebUI.Builders;
-using CoachSeek.WebUI.Contracts.Builders;
-using CoachSeek.WebUI.Contracts.Email;
-using CoachSeek.WebUI.Contracts.Persistence;
+﻿using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.UseCases;
+using CoachSeek.DataAccess.Repositories;
+using CoachSeek.Domain.Repositories;
+using CoachSeek.Services.Builders;
+using CoachSeek.Services.Contracts.Builders;
+using CoachSeek.Services.Contracts.Email;
+using CoachSeek.Services.Email;
 using CoachSeek.WebUI.Contracts.UseCases;
-using CoachSeek.WebUI.Email;
-using CoachSeek.WebUI.Persistence;
 using CoachSeek.WebUI.UseCases;
 using StructureMap.Configuration.DSL;
 

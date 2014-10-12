@@ -1,7 +1,7 @@
-﻿using CoachSeek.WebUI.Builders;
-using CoachSeek.WebUI.Contracts.Persistence;
-using CoachSeek.WebUI.Models;
-using CoachSeek.WebUI.Persistence;
+﻿using CoachSeek.DataAccess.Repositories;
+using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Repositories;
+using CoachSeek.Services.Builders;
 using NUnit.Framework;
 using System;
 

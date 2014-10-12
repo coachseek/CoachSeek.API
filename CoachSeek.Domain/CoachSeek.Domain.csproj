@@ -30,13 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,26 +46,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Coach.cs" />
-    <Compile Include="Credential.cs" />
+    <Compile Include="Commands\BusinessRegistrant.cs" />
+    <Compile Include="Commands\BusinessRegistrationCommand.cs" />
+    <Compile Include="Commands\CoachAddRequest.cs" />
+    <Compile Include="Commands\CoachUpdateRequest.cs" />
+    <Compile Include="Commands\IBusinessIdable.cs" />
+    <Compile Include="Data\BusinessAdminData.cs" />
+    <Compile Include="Entities\Business.cs" />
+    <Compile Include="Entities\BusinessAdmin.cs" />
+    <Compile Include="Entities\BusinessCoaches.cs" />
+    <Compile Include="Entities\BusinessLocations.cs" />
+    <Compile Include="Entities\Coach.cs" />
+    <Compile Include="Entities\Credential.cs" />
     <Compile Include="Data\BusinessData.cs" />
     <Compile Include="Data\CoachData.cs" />
     <Compile Include="Data\NewCoachData.cs" />
-    <Compile Include="EmailAddress.cs" />
+    <Compile Include="Entities\EmailAddress.cs" />
+    <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\NewBusiness.cs" />
+    <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
+    <Compile Include="Exceptions\DuplicateCoach.cs" />
+    <Compile Include="Exceptions\DuplicateLocation.cs" />
+    <Compile Include="Exceptions\Error.cs" />
+    <Compile Include="Exceptions\InvalidBusiness.cs" />
+    <Compile Include="Exceptions\InvalidCoach.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
+    <Compile Include="Exceptions\InvalidLocation.cs" />
     <Compile Include="Exceptions\MissingEmailAddress.cs" />
     <Compile Include="Exceptions\MissingFirstName.cs" />
     <Compile Include="Exceptions\MissingLastName.cs" />
-    <Compile Include="NewCoach.cs" />
-    <Compile Include="PersonName.cs" />
-    <Compile Include="PhoneNumber.cs" />
+    <Compile Include="Entities\NewCoach.cs" />
+    <Compile Include="Entities\PersonName.cs" />
+    <Compile Include="Entities\PhoneNumber.cs" />
+    <Compile Include="Exceptions\ValidationException.cs" />
+    <Compile Include="Repositories\IReservedDomainRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
+    <Compile Include="Repositories\IBusinessRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
