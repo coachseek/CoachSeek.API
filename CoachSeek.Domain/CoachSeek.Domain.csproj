@@ -51,7 +51,11 @@
     <Compile Include="Commands\CoachAddRequest.cs" />
     <Compile Include="Commands\CoachUpdateRequest.cs" />
     <Compile Include="Commands\IBusinessIdable.cs" />
+    <Compile Include="Commands\LocationAddRequest.cs" />
+    <Compile Include="Commands\LocationUpdateRequest.cs" />
     <Compile Include="Data\BusinessAdminData.cs" />
+    <Compile Include="Data\LocationData.cs" />
+    <Compile Include="Data\NewLocationData.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\BusinessCoaches.cs" />
@@ -64,6 +68,7 @@
     <Compile Include="Entities\EmailAddress.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
+    <Compile Include="Entities\NewLocation.cs" />
     <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
     <Compile Include="Exceptions\DuplicateCoach.cs" />
     <Compile Include="Exceptions\DuplicateLocation.cs" />
@@ -86,9 +91,7 @@
   <ItemGroup>
     <None Include="key.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>

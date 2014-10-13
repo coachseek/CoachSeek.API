@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorCodes.cs" />
+    <Compile Include="Models\Responses\CoachAddResponse.cs" />
+    <Compile Include="Models\Responses\CoachUpdateResponse.cs" />
+    <Compile Include="Models\Responses\LocationAddResponse.cs" />
+    <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
+    <Compile Include="UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
+    <Compile Include="UseCases\ILocationAddUseCase.cs" />
     <Compile Include="Models\Responses\BusinessGetResponse.cs" />
-    <Compile Include="Models\Commands\BusinessRegistrationCommand.cs" />
-    <Compile Include="Models\Commands\BusinessRegistrant.cs" />
-    <Compile Include="Models\Commands\CoachAddRequest.cs" />
-    <Compile Include="Models\Commands\CoachUpdateRequest.cs" />
-    <Compile Include="Models\Commands\IBusinessIdable.cs" />
     <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
     <Compile Include="Models\Responses\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +59,7 @@
     </Compile>
     <Compile Include="UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\IBusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\ILocationUpdateUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

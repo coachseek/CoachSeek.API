@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Domain.Data;
+﻿using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Domain.Entities
 {

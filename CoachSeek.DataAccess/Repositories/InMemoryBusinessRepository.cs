@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.DataAccess.Conversion;
+﻿using CoachSeek.DataAccess.Conversion;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.DataAccess.Repositories
 {
@@ -105,13 +105,13 @@ namespace CoachSeek.DataAccess.Repositories
                                      dbAdmin.Username, dbAdmin.PasswordHash, dbAdmin.PasswordSalt);
         }
 
-        private static IEnumerable<Location> CreateLocations(IEnumerable<DbLocation> dbLocations)
+        private static IEnumerable<LocationData> CreateLocations(IEnumerable<DbLocation> dbLocations)
         {
-            var locations = new List<Location>();
+            var locations = new List<LocationData>();
 
             foreach (var dbLocation in dbLocations)
             {
-                var location = new Location
+                var location = new LocationData
                 {
                     Id = dbLocation.Id,
                     Name = dbLocation.Name
@@ -143,6 +143,5 @@ namespace CoachSeek.DataAccess.Repositories
 
             return coaches;
         }
-
     }
 }

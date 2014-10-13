@@ -43,6 +43,10 @@
     <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\CoachAddUseCase.cs" />
+    <Compile Include="UseCases\CoachUpdateUseCase.cs" />
+    <Compile Include="UseCases\LocationAddUseCase.cs" />
+    <Compile Include="UseCases\LocationUpdateUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">

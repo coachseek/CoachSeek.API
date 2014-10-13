@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Domain.Exceptions;
 
-namespace CoachSeek.Domain
+namespace CoachSeek.Domain.Entities
 {
     public class PersonName
     {

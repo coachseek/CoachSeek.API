@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Repositories;
+using System;
+using System.Collections.Generic;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -55,7 +55,7 @@ namespace CoachSeek.Domain.Entities
             Id = id;
         }
 
-        public Business(IEnumerable<Location> locations, IEnumerable<CoachData> coaches) 
+        public Business(IEnumerable<LocationData> locations, IEnumerable<CoachData> coaches) 
             : this()
         {
             AppendExistingLocations(locations);
@@ -63,15 +63,15 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public void AddLocation(Location location, IBusinessRepository businessRepository)
+        public void AddLocation(LocationAddRequest request, IBusinessRepository businessRepository)
         {
-            BusinessLocations.Add(location);
+            BusinessLocations.Add(request.ToData());
             businessRepository.Save(this);
         }
 
-        public void UpdateLocation(Location location, IBusinessRepository businessRepository)
+        public void UpdateLocation(LocationUpdateRequest request, IBusinessRepository businessRepository)
         {
-            BusinessLocations.Update(location);
+            BusinessLocations.Update(request.ToData());
             businessRepository.Save(this);
         }
 
@@ -113,10 +113,10 @@ namespace CoachSeek.Domain.Entities
                 BusinessCoaches.Append(coach);
         }
 
-        private void AppendExistingLocations(IEnumerable<Location> locations)
+        private void AppendExistingLocations(IEnumerable<LocationData> locations)
         {
             foreach (var location in locations)
-                BusinessLocations.Add(location);
+                BusinessLocations.Append(location);
         }
     }
 }

@@ -6,8 +6,6 @@ using CoachSeek.Services.Builders;
 using CoachSeek.Services.Contracts.Builders;
 using CoachSeek.Services.Contracts.Email;
 using CoachSeek.Services.Email;
-using CoachSeek.WebUI.Contracts.UseCases;
-using CoachSeek.WebUI.UseCases;
 using StructureMap.Configuration.DSL;
 
 namespace CoachSeek.WebUI

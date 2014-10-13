@@ -191,11 +191,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Contracts\UseCases\IBusinessGetByDomainUseCase.cs" />
-    <Compile Include="Contracts\UseCases\ICoachAddUseCase.cs" />
-    <Compile Include="Contracts\UseCases\ICoachUpdateUseCase.cs" />
-    <Compile Include="Contracts\UseCases\ILocationAddUseCase.cs" />
-    <Compile Include="Contracts\UseCases\ILocationUpdateUseCase.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessesController.cs" />
@@ -208,10 +203,7 @@
     <Compile Include="Conversion\CoachAddRequestConverter.cs" />
     <Compile Include="Conversion\CoachUpdateRequestConverter.cs" />
     <Compile Include="Conversion\LocationAddRequestConverter.cs" />
-    <Compile Include="Conversion\LocationConverter.cs" />
     <Compile Include="Conversion\LocationUpdateRequestConverter.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -220,16 +212,8 @@
     <Compile Include="Models\Api\ApiBusinessRegistrationCommand.cs" />
     <Compile Include="Models\Api\ApiCoachSaveRequest.cs" />
     <Compile Include="Models\Api\ApiLocationSaveRequest.cs" />
-    <Compile Include="Models\UseCases\Requests\LocationUpdateRequest.cs" />
-    <Compile Include="Models\UseCases\Requests\LocationAddRequest.cs" />
-    <Compile Include="Models\UseCases\Requests\Request.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\UseCases\Responses\CoachAddResponse.cs" />
-    <Compile Include="Models\UseCases\Responses\CoachUpdateResponse.cs" />
-    <Compile Include="Models\UseCases\Responses\LocationUpdateResponse.cs" />
-    <Compile Include="Models\UseCases\Responses\LocationAddResponse.cs" />
-    <Compile Include="Models\UseCases\Responses\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -239,10 +223,6 @@
     <Compile Include="ServiceActivator.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistry.cs" />
-    <Compile Include="UseCases\CoachAddUseCase.cs" />
-    <Compile Include="UseCases\CoachUpdateUseCase.cs" />
-    <Compile Include="UseCases\LocationAddUseCase.cs" />
-    <Compile Include="UseCases\LocationUpdateUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

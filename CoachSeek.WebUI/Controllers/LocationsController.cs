@@ -1,4 +1,4 @@
-﻿using CoachSeek.WebUI.Contracts.UseCases;
+﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
 using System.Collections.Generic;

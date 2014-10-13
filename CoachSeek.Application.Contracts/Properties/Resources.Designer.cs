@@ -70,6 +70,51 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This coach already exists..
+        /// </summary>
+        internal static string ErrorDuplicateCoach {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This location already exists..
+        /// </summary>
+        internal static string ErrorDuplicateLocation {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This business does not exist..
+        /// </summary>
+        internal static string ErrorInvalidBusiness {
+            get {
+                return ResourceManager.GetString("ErrorInvalidBusiness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This coach does not exist..
+        /// </summary>
+        internal static string ErrorInvalidCoach {
+            get {
+                return ResourceManager.GetString("ErrorInvalidCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This location does not exist..
+        /// </summary>
+        internal static string ErrorInvalidLocation {
+            get {
+                return ResourceManager.GetString("ErrorInvalidLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing domain..
         /// </summary>
         internal static string ErrorNoBusinessDomain {
@@ -84,6 +129,42 @@ namespace CoachSeek.Application.Contracts.Properties {
         internal static string ErrorNoBusinessRegistrationData {
             get {
                 return ResourceManager.GetString("ErrorNoBusinessRegistrationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing coach data..
+        /// </summary>
+        internal static string ErrorNoCoachAddData {
+            get {
+                return ResourceManager.GetString("ErrorNoCoachAddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing coach data..
+        /// </summary>
+        internal static string ErrorNoCoachUpdateData {
+            get {
+                return ResourceManager.GetString("ErrorNoCoachUpdateData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing location data..
+        /// </summary>
+        internal static string ErrorNoLocationAddData {
+            get {
+                return ResourceManager.GetString("ErrorNoLocationAddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing location data..
+        /// </summary>
+        internal static string ErrorNoLocationUpdateData {
+            get {
+                return ResourceManager.GetString("ErrorNoLocationUpdateData", resourceCulture);
             }
         }
     }

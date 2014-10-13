@@ -1,5 +1,4 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.WebUI.Contracts.UseCases;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;

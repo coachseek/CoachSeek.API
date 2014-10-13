@@ -1,4 +1,4 @@
-﻿namespace CoachSeek.Domain
+﻿namespace CoachSeek.Domain.Entities
 {
     public class PhoneNumber
     {

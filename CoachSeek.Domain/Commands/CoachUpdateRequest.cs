@@ -24,6 +24,5 @@ namespace CoachSeek.Domain.Commands
                 Phone = Phone
             };
         }
-
     }
 }

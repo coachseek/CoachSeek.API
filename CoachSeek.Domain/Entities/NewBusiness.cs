@@ -1,5 +1,4 @@
-﻿using CoachSeek.Domain.Data;
-using CoachSeek.Domain.Repositories;
+﻿using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Entities
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.DataAccess.Models;
-using CoachSeek.Domain;
 using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.DataAccess.Conversion

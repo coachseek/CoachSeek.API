@@ -1,7 +1,7 @@
 ﻿using System;
 using CoachSeek.Domain.Data;
 
-namespace CoachSeek.Domain
+namespace CoachSeek.Domain.Entities
 {
     public class Coach
     {

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Exceptions;
+﻿using CoachSeek.Domain.Data;
+using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,16 +14,28 @@ namespace CoachSeek.Domain.Entities
             Locations = new List<Location>();
         }
 
-        public void Add(Location location)
+        public void Add(NewLocationData newLocationData)
         {
-            ValidateAdd(location);
-            Locations.Add(location);
+            var newLocation = new NewLocation(newLocationData);
+            ValidateAdd(newLocation);
+            Locations.Add(newLocation);
         }
 
-        public void Update(Location location)
+        public void Append(LocationData locationData)
         {
-            ValidateUpdate(location);
+            // Data is not Validated. Eg. It comes from the database.
+            Locations.Add(new Location(locationData));
+        }
 
+        public void Update(LocationData locationData)
+        {
+            var location = new Location(locationData);
+            ValidateUpdate(location);
+            ReplaceLocationInLocations(location);
+        }
+
+        private void ReplaceLocationInLocations(Location location)
+        {
             var updateLocation = Locations.Single(x => x.Id == location.Id);
             var updateIndex = Locations.IndexOf(updateLocation);
             Locations[updateIndex] = location;

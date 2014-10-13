@@ -51,11 +51,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return business;
         }
 
-        private IEnumerable<Location> SetupLocations()
+        private IEnumerable<LocationData> SetupLocations()
         {
-            return new List<Location>
+            return new List<LocationData>
             {
-                new Location {Id = new Guid(LOCATION_ID), Name = "HQ"}
+                new LocationData {Id = new Guid(LOCATION_ID), Name = "HQ"}
             };
         }
 

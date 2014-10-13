@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using CoachSeek.Domain.Exceptions;
 
-namespace CoachSeek.Domain
+namespace CoachSeek.Domain.Entities
 {
     public class EmailAddress
     {

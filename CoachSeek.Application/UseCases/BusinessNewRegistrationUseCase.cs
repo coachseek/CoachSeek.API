@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Factories;
 using CoachSeek.Domain.Commands;
@@ -8,6 +7,7 @@ using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Contracts.Builders;
 using CoachSeek.Services.Contracts.Email;
+using System;
 
 namespace CoachSeek.Application.UseCases
 {
