@@ -30,11 +30,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +55,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\BusinessDomainBuilderTests.cs" />
-    <Compile Include="Exceptions\ValidationExceptionTests.cs" />
+    <Compile Include="Controllers\BusinessesControllerTests.cs" />
+    <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\BusinessGetByDomainUseCaseTests.cs" />
-    <Compile Include="UseCases\BusinessNewRegistrationUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
+      <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
+      <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
       <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>
       <Name>CoachSeek.DataAccess</Name>

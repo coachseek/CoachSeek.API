@@ -48,8 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmailAddressTests.cs" />
-    <Compile Include="PersonNameTests.cs" />
+    <Compile Include="Entities\EmailAddressTests.cs" />
+    <Compile Include="Entities\PersonNameTests.cs" />
+    <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
