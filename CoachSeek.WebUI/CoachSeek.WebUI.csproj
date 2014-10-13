@@ -223,7 +223,6 @@
     <Compile Include="Models\UseCases\Requests\LocationUpdateRequest.cs" />
     <Compile Include="Models\UseCases\Requests\LocationAddRequest.cs" />
     <Compile Include="Models\UseCases\Requests\Request.cs" />
-    <Compile Include="Models\UseCases\Responses\BusinessGetResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UseCases\Responses\CoachAddResponse.cs" />
@@ -240,7 +239,6 @@
     <Compile Include="ServiceActivator.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistry.cs" />
-    <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\CoachAddUseCase.cs" />
     <Compile Include="UseCases\CoachUpdateUseCase.cs" />
     <Compile Include="UseCases\LocationAddUseCase.cs" />

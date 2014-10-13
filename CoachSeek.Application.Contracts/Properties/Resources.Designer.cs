@@ -70,6 +70,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing domain..
+        /// </summary>
+        internal static string ErrorNoBusinessDomain {
+            get {
+                return ResourceManager.GetString("ErrorNoBusinessDomain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing business registration data..
         /// </summary>
         internal static string ErrorNoBusinessRegistrationData {

@@ -58,7 +58,6 @@
     <Compile Include="Controllers\BusinessesControllerTests.cs" />
     <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UseCases\BusinessGetByDomainUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
@@ -68,6 +67,10 @@
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
       <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
+      <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
+      <Name>CoachSeek.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
       <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>

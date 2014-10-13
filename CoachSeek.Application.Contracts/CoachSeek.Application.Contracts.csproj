@@ -41,18 +41,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorCodes.cs" />
+    <Compile Include="Models\Responses\BusinessGetResponse.cs" />
     <Compile Include="Models\Commands\BusinessRegistrationCommand.cs" />
     <Compile Include="Models\Commands\BusinessRegistrant.cs" />
     <Compile Include="Models\Commands\CoachAddRequest.cs" />
     <Compile Include="Models\Commands\CoachUpdateRequest.cs" />
     <Compile Include="Models\Commands\IBusinessIdable.cs" />
     <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
+    <Compile Include="Models\Responses\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\IBusinessNewRegistrationUseCase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
-﻿using CoachSeek.Domain.Entities;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
-using CoachSeek.WebUI.Models.UseCases.Responses;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;

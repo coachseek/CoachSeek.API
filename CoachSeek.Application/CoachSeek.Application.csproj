@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
