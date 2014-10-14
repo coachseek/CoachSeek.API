@@ -10,8 +10,11 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class LocationsController : ApiController
     {
-        private ILocationAddUseCase LocationAddUseCase { get; set; }
-        private ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
+        public ILocationAddUseCase LocationAddUseCase { get; set; }
+        public ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
+
+        public LocationsController()
+        { }
 
         public LocationsController(ILocationAddUseCase locationAddUseCase,
                                    ILocationUpdateUseCase locationUpdateUseCase)
@@ -41,6 +44,16 @@ namespace CoachSeek.WebUI.Controllers
             return UpdateLocation(locationSaveRequest);
         }
 
+        // PUT: api/Locations/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE: api/Locations/5
+        public void Delete(int id)
+        {
+        }
+
         private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)
         {
             var locationAddRequest = LocationAddRequestConverter.Convert(locationSaveRequest);
@@ -57,16 +70,6 @@ namespace CoachSeek.WebUI.Controllers
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
-        }
-
-        // PUT: api/Locations/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Locations/5
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -56,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BusinessesControllerTests.cs" />
+    <Compile Include="Controllers\LocationsControllerTests.cs" />
+    <Compile Include="Fakes\MockLocationUpdateUseCase.cs" />
+    <Compile Include="Fakes\MockLocationAddUseCase.cs" />
     <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
