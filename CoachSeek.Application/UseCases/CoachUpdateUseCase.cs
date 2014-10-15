@@ -1,10 +1,10 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
+using System;
 
 namespace CoachSeek.Application.UseCases
 {

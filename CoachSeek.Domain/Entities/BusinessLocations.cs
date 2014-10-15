@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Entities
 {
     public class BusinessLocations
     {
-        public List<Location> Locations { get; private set; }
+        private List<Location> Locations { get; set; }
 
         public BusinessLocations()
         {
@@ -43,6 +43,12 @@ namespace CoachSeek.Domain.Entities
             ValidateUpdate(location);
             ReplaceLocationInLocations(location);
         }
+
+        public IList<LocationData> ToData()
+        {
+            return Locations.Select(location => location.ToData()).ToList();
+        }
+
 
         private void ReplaceLocationInLocations(Location location)
         {

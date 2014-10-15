@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
@@ -29,6 +30,22 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Configuration = new HttpConfiguration()
             };
         }
+        private Business SetupBusiness()
+        {
+            return new Business(new Guid(BUSINESS_ID),
+                "Olaf's Cafe",
+                "olafscafe",
+                new BusinessAdminData
+                {
+                    FirstName = "Bobby",
+                    LastName = "Tables",
+                    Email = "bobby@tables.hack",
+                    Username = "bobby@tables.hack",
+                },
+                null,
+                null);
+        }
+
 
         private MockLocationAddUseCase AddUseCase
         {
@@ -86,7 +103,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new LocationAddResponse(new Business(new Guid(BUSINESS_ID)))
+                Response = new LocationAddResponse(SetupBusiness())
             };
         }
 
@@ -102,7 +119,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new LocationUpdateResponse(new Business(new Guid(BUSINESS_ID)))
+                Response = new LocationUpdateResponse(SetupBusiness())
             };
         }
 
@@ -172,7 +189,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertSuccessResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Business business;
+            BusinessData business;
             Assert.That(response.TryGetContentValue(out business), Is.True);
             Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
         }

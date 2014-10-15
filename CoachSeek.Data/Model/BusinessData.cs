@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CoachSeek.Data.Model
 {
@@ -9,5 +11,7 @@ namespace CoachSeek.Data.Model
         public string Domain { get; set; }
 
         public BusinessAdminData Admin { get; set; }
+        public IList<LocationData> Locations { get; set; }
+        public IList<CoachData> Coaches { get; set; }
     }
 }

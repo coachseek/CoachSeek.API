@@ -33,5 +33,19 @@ namespace CoachSeek.Domain.Entities
                    data.Email, 
                    data.Phone)
         { }
+
+
+        public CoachData ToData()
+        {
+            return new CoachData
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Name = Name,
+                Email = Email,
+                Phone = Phone,
+            };
+        }
     }
 }

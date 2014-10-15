@@ -36,7 +36,7 @@ namespace CoachSeek.DataAccess.Conversion
             };
         }
 
-        private static List<DbLocation> Convert(Guid businessId, IEnumerable<Location> locations)
+        private static List<DbLocation> Convert(Guid businessId, IEnumerable<LocationData> locations)
         {
             return locations.Select(location => new DbLocation
             {
@@ -46,7 +46,7 @@ namespace CoachSeek.DataAccess.Conversion
             }).ToList();
         }
 
-        private static List<DbCoach> Convert(Guid businessId, IEnumerable<Coach> coaches)
+        private static List<DbCoach> Convert(Guid businessId, IEnumerable<CoachData> coaches)
         {
             return coaches.Select(coach => new DbCoach
             {

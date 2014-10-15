@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
@@ -15,6 +16,22 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
     public class BusinessesControllerTests
     {
         private const string BUSINESS_ID = "7028E5E1-B10E-4C0E-B46F-1386B98CE567";
+
+        private Business SetupBusiness()
+        {
+            return new Business(new Guid(BUSINESS_ID), 
+                "Olaf's Cafe", 
+                "olafscafe", 
+                new BusinessAdminData
+                {
+                    FirstName = "Bobby",
+                    LastName = "Tables",
+                    Email = "bobby@tables.hack",
+                    Username = "bobby@tables.hack",
+                }, 
+                null, 
+                null);
+        }
 
 
         [Test]
@@ -46,9 +63,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new BusinessGetResponse(new Business(new Guid(BUSINESS_ID)))
+                Response = new BusinessGetResponse(SetupBusiness())
             };
         }
+
 
         private HttpResponseMessage WhenGetBusinessByDomain(MockBusinessGetByDomainUseCase useCase)
         {
@@ -73,7 +91,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void ThenReturnSuccessResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Business business;
+            BusinessData business;
             Assert.That(response.TryGetContentValue(out business), Is.True);
             Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));            
         }

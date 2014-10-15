@@ -12,8 +12,8 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
         public BusinessAdminData Admin { get { return BusinessAdmin.ToData(); } }
-        public IList<Location> Locations { get { return BusinessLocations.Locations; } }
-        public IList<Coach> Coaches { get { return BusinessCoaches.Coaches; } }
+        public IList<LocationData> Locations { get { return BusinessLocations.ToData(); } }
+        public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
 
         protected BusinessAdmin BusinessAdmin { get; set; }
         private BusinessLocations BusinessLocations { get; set; }
@@ -42,18 +42,12 @@ namespace CoachSeek.Domain.Entities
             BusinessCoaches = new BusinessCoaches();
         }
 
-        public Business(Guid id) 
+        // Minimal Unit testing constructor.
+        public Business(Guid id)
             : this()
         {
             Id = id;
         }
-
-        //public Business(IEnumerable<LocationData> locations, IEnumerable<CoachData> coaches) 
-        //    : this()
-        //{
-        //    AppendExistingLocations(locations);
-        //    AppendExistingCoaches(coaches);
-        //}
 
 
         public void AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
@@ -87,29 +81,10 @@ namespace CoachSeek.Domain.Entities
                 Id = Id,
                 Name = Name,
                 Domain = Domain,
-                Admin = new BusinessAdminData
-                {
-                    Id = Admin.Id,
-                    FirstName = Admin.FirstName,
-                    LastName = Admin.LastName,
-                    Email = Admin.Email,
-                    Username = Admin.Username,
-                    PasswordHash = Admin.PasswordHash
-                }
+                Admin = Admin,
+                Locations = Locations,
+                Coaches = Coaches
             };
-        }
-
-
-        private void AppendExistingCoaches(IEnumerable<CoachData> coaches)
-        {
-            foreach (var coach in coaches)
-                BusinessCoaches.Append(coach);
-        }
-
-        private void AppendExistingLocations(IEnumerable<LocationData> locations)
-        {
-            foreach (var location in locations)
-                BusinessLocations.Append(location);
         }
     }
 }

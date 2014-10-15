@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Entities
 {
     public class BusinessCoaches
     {
-        public List<Coach> Coaches { get; private set; }
+        private List<Coach> Coaches { get; set; }
 
         public BusinessCoaches()
         {
@@ -43,6 +43,12 @@ namespace CoachSeek.Domain.Entities
             ValidateUpdate(coach);
             ReplaceCoachInCoaches(coach);
         }
+
+        public IList<CoachData> ToData()
+        {
+            return Coaches.Select(coach => coach.ToData()).ToList();
+        }
+
 
         private void ReplaceCoachInCoaches(Coach coach)
         {

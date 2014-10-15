@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 

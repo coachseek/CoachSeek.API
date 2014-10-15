@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
@@ -6,7 +7,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 {
     public abstract class Response
     {
-        public Business Business { get; protected set; }
+        public BusinessData Business { get; protected set; }
 
         public List<Error> Errors { get; protected set; }
 
@@ -16,7 +17,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         protected Response(Business business)
         {
-            Business = business;
+            Business = business == null ? null : business.ToData();
         }
 
         protected Response(ValidationException exception)
