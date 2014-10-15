@@ -56,15 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BusinessesControllerTests.cs" />
+    <Compile Include="Controllers\CoachesControllerTests.cs" />
     <Compile Include="Controllers\LocationsControllerTests.cs" />
+    <Compile Include="Fakes\MockCoachAddUseCase.cs" />
+    <Compile Include="Fakes\MockCoachUpdateUseCase.cs" />
     <Compile Include="Fakes\MockLocationUpdateUseCase.cs" />
     <Compile Include="Fakes\MockLocationAddUseCase.cs" />
     <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
-    <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
-    <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
-    <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">

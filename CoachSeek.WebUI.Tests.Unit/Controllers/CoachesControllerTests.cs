@@ -15,17 +15,17 @@ using System.Web.Http;
 namespace CoachSeek.WebUI.Tests.Unit.Controllers
 {
     [TestFixture]
-    public class LocationsControllerTests
+    public class CoachesControllerTests
     {
         private const string BUSINESS_ID = "12345678-B10E-4C0E-B46F-1386B98CE567";
-        private const string LOCATION_ID = "90ABCDEF-42E7-4D98-8E70-4C12179DE594";
+        private const string COACH_ID = "90ABCDEF-AAAA-429B-8972-EAB6E00C732B";
 
-        private LocationsController Controller { get; set; }
+        private CoachesController Controller { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            Controller = new LocationsController()
+            Controller = new CoachesController
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -48,14 +48,14 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         }
 
 
-        private MockLocationAddUseCase AddUseCase
+        private MockCoachAddUseCase AddUseCase
         {
-            get { return (MockLocationAddUseCase)Controller.LocationAddUseCase; }
+            get { return (MockCoachAddUseCase)Controller.CoachAddUseCase; }
         }
 
-        private MockLocationUpdateUseCase UpdateUseCase
+        private MockCoachUpdateUseCase UpdateUseCase
         {
-            get { return (MockLocationUpdateUseCase)Controller.LocationUpdateUseCase; }
+            get { return (MockCoachUpdateUseCase)Controller.CoachUpdateUseCase; }
         }
 
 
@@ -67,136 +67,135 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GivenLocationAddCommandWithError_WhenPost_ThenCallAddUseCaseAndReturnErrorResponse()
+        public void GivenCoachAddCommandWithError_WhenPost_ThenCallAddUseCaseAndReturnErrorResponse()
         {
-            var useCase = GivenLocationAddCommandWithError();
+            var useCase = GivenCoachAddCommandWithError();
             var response = WhenPost(useCase);
             ThenCallAddUseCaseAndReturnErrorResponse(response);
         }
 
         [Test]
-        public void GivenLocationAddCommandWithoutError_WhenPost_ThenCallAddUseCaseAndReturnSuccessResponse()
+        public void GivenCoachAddCommandWithoutError_WhenPost_ThenCallAddUseCaseAndReturnSuccessResponse()
         {
-            var useCase = GivenLocationAddCommandWithoutError();
+            var useCase = GivenCoachAddCommandWithoutError();
             var response = WhenPost(useCase);
             ThenCallAddUseCaseAndReturnSuccessResponse(response);
         }
 
         [Test]
-        public void GivenLocationUpdateCommandWithError_WhenPost_ThenCallUpdateUseCaseAndReturnErrorResponse()
+        public void GivenCoachUpdateCommandWithError_WhenPost_ThenCallUpdateUseCaseAndReturnErrorResponse()
         {
-            var useCase = GivenLocationUpdateCommandWithError();
+            var useCase = GivenCoachUpdateCommandWithError();
             var response = WhenPost(useCase);
             ThenCallUpdateUseCaseAndReturnErrorResponse(response);
         }
 
         [Test]
-        public void GivenLocationUpdateCommandWithoutError_WhenPost_ThenCallUpdateUseCaseAndReturnSuccessResponse()
+        public void GivenCoachUpdateCommandWithoutError_WhenPost_ThenCallUpdateUseCaseAndReturnSuccessResponse()
         {
-            var useCase = GivenLocationUpdateCommandWithoutError();
+            var useCase = GivenCoachUpdateCommandWithoutError();
             var response = WhenPost(useCase);
             ThenCallUpdateUseCaseAndReturnSuccessResponse(response);
         }
 
-
-        private MockLocationAddUseCase GivenLocationAddCommandWithError()
+        private MockCoachAddUseCase GivenCoachAddCommandWithError()
         {
-            return new MockLocationAddUseCase
+            return new MockCoachAddUseCase
             {
-                Response = new LocationAddResponse(new ValidationException(2, "Error!"))
+                Response = new CoachAddResponse(new ValidationException(2, "Error!"))
             };
         }
 
-        private MockLocationAddUseCase GivenLocationAddCommandWithoutError()
+        private MockCoachAddUseCase GivenCoachAddCommandWithoutError()
         {
-            return new MockLocationAddUseCase
+            return new MockCoachAddUseCase
             {
-                Response = new LocationAddResponse(SetupBusiness())
+                Response = new CoachAddResponse(SetupBusiness())
             };
         }
 
-        private MockLocationUpdateUseCase GivenLocationUpdateCommandWithError()
+        private MockCoachUpdateUseCase GivenCoachUpdateCommandWithError()
         {
-            return new MockLocationUpdateUseCase
+            return new MockCoachUpdateUseCase
             {
-                Response = new LocationUpdateResponse(new ValidationException(2, "Error!"))
+                Response = new CoachUpdateResponse(new ValidationException(2, "Error!"))
             };
         }
 
-        private MockLocationUpdateUseCase GivenLocationUpdateCommandWithoutError()
+        private MockCoachUpdateUseCase GivenCoachUpdateCommandWithoutError()
         {
-            return new MockLocationUpdateUseCase
+            return new MockCoachUpdateUseCase
             {
-                Response = new LocationUpdateResponse(SetupBusiness())
+                Response = new CoachUpdateResponse(SetupBusiness())
             };
         }
 
 
-        private LocationsController WhenConstruct()
+        private CoachesController WhenConstruct()
         {
-            var addUseCase = new LocationAddUseCase(null);
-            var updateUseCase = new LocationUpdateUseCase(null);
+            var addUseCase = new CoachAddUseCase(null);
+            var updateUseCase = new CoachUpdateUseCase(null);
 
-            return new LocationsController(addUseCase, updateUseCase);
+            return new CoachesController(addUseCase, updateUseCase);
         }
 
-        private HttpResponseMessage WhenPost(MockLocationAddUseCase useCase)
+        private HttpResponseMessage WhenPost(MockCoachAddUseCase useCase)
         {
-            var apiLocationSaveCommand = new ApiLocationSaveCommand {BusinessId = new Guid(BUSINESS_ID)};
+            var apiCoachSaveCommand = new ApiCoachSaveCommand { BusinessId = new Guid(BUSINESS_ID) };
 
-            Controller.LocationAddUseCase = useCase;
+            Controller.CoachAddUseCase = useCase;
 
-            return Controller.Post(apiLocationSaveCommand);
+            return Controller.Post(apiCoachSaveCommand);
         }
 
-        private HttpResponseMessage WhenPost(MockLocationUpdateUseCase useCase)
+        private HttpResponseMessage WhenPost(MockCoachUpdateUseCase useCase)
         {
-            var apiLocationSaveCommand = new ApiLocationSaveCommand { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(LOCATION_ID) };
+            var apiCoachSaveCommand = new ApiCoachSaveCommand { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(COACH_ID) };
 
-            Controller.LocationUpdateUseCase = useCase;
+            Controller.CoachUpdateUseCase = useCase;
 
-            return Controller.Post(apiLocationSaveCommand);
+            return Controller.Post(apiCoachSaveCommand);
         }
 
 
-        private void ThenSetDependencies(LocationsController controller)
+        private void ThenSetDependencies(CoachesController controller)
         {
-            Assert.That(controller.LocationAddUseCase, Is.Not.Null);
-            Assert.That(controller.LocationUpdateUseCase, Is.Not.Null);
+            Assert.That(controller.CoachAddUseCase, Is.Not.Null);
+            Assert.That(controller.CoachUpdateUseCase, Is.Not.Null);
         }
 
         private void ThenCallAddUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
-            AssertWasAddLocationCalled();
+            AssertWasAddCoachCalled();
             AssertErrorResponse(response);
         }
 
         private void ThenCallAddUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
-            AssertWasAddLocationCalled();
+            AssertWasAddCoachCalled();
             AssertSuccessResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
-            AssertWasUpdateLocationCalled();
+            AssertWasUpdateCoachCalled();
             AssertErrorResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
-            AssertWasUpdateLocationCalled();
+            AssertWasUpdateCoachCalled();
             AssertSuccessResponse(response);
         }
 
-        private void AssertWasAddLocationCalled()
+        private void AssertWasAddCoachCalled()
         {
-            Assert.That(AddUseCase.WasAddLocationCalled, Is.True);
+            Assert.That(AddUseCase.WasAddCoachCalled, Is.True);
         }
 
-        private void AssertWasUpdateLocationCalled()
+        private void AssertWasUpdateCoachCalled()
         {
-            Assert.That(UpdateUseCase.WasUpdateLocationCalled, Is.True);
+            Assert.That(UpdateUseCase.WasUpdateCoachCalled, Is.True);
         }
 
         private void AssertErrorResponse(HttpResponseMessage response)

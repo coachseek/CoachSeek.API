@@ -23,20 +23,5 @@ namespace CoachSeek.WebUI.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
         }
-
-        // POST: api/Businesses
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Businesses/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Businesses/5
-        public void Delete(int id)
-        {
-        }
     }
 }
