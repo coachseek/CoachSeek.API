@@ -200,18 +200,18 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
-    <Compile Include="Conversion\CoachAddRequestConverter.cs" />
-    <Compile Include="Conversion\CoachUpdateRequestConverter.cs" />
-    <Compile Include="Conversion\LocationAddRequestConverter.cs" />
-    <Compile Include="Conversion\LocationUpdateRequestConverter.cs" />
+    <Compile Include="Conversion\CoachAddCommandConverter.cs" />
+    <Compile Include="Conversion\CoachUpdateCommandConverter.cs" />
+    <Compile Include="Conversion\LocationAddCommandConverter.cs" />
+    <Compile Include="Conversion\LocationUpdateCommandConverter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Api\ApiBusinessRegistrant.cs" />
     <Compile Include="Models\Api\ApiBusinessRegistrationCommand.cs" />
-    <Compile Include="Models\Api\ApiCoachSaveRequest.cs" />
-    <Compile Include="Models\Api\ApiLocationSaveRequest.cs" />
+    <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -333,6 +333,10 @@
     <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
       <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>
       <Name>CoachSeek.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
+      <Name>CoachSeek.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>

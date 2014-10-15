@@ -33,26 +33,26 @@ namespace CoachSeek.WebUI.Controllers
         }
 
         // POST: api/Coaches
-        public HttpResponseMessage Post([FromBody]ApiCoachSaveRequest coachSaveRequest)
+        public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coachSaveCommand)
         {
-            if (coachSaveRequest.IsNew())
-                return AddCoach(coachSaveRequest);
+            if (coachSaveCommand.IsNew())
+                return AddCoach(coachSaveCommand);
 
-            return UpdateCoach(coachSaveRequest);
+            return UpdateCoach(coachSaveCommand);
         }
 
-        private HttpResponseMessage AddCoach(ApiCoachSaveRequest coachSaveRequest)
+        private HttpResponseMessage AddCoach(ApiCoachSaveCommand coachSaveCommand)
         {
-            var coachAddRequest = CoachAddRequestConverter.Convert(coachSaveRequest);
+            var coachAddRequest = CoachAddCommandConverter.Convert(coachSaveCommand);
             var response = CoachAddUseCase.AddCoach(coachAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
         }
 
-        private HttpResponseMessage UpdateCoach(ApiCoachSaveRequest coachSaveRequest)
+        private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coachSaveCommand)
         {
-            var coachUpdateRequest = CoachUpdateRequestConverter.Convert(coachSaveRequest);
+            var coachUpdateRequest = CoachUpdateCommandConverter.Convert(coachSaveCommand);
             var response = CoachUpdateUseCase.UpdateCoach(coachUpdateRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);

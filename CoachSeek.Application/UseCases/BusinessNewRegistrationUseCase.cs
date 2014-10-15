@@ -1,8 +1,8 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Factories;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Contracts.Builders;
@@ -33,7 +33,7 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
-                var newBusiness = BusinessFactory.Create(registrationCommand, BusinessDomainBuilder);
+                var newBusiness = new NewBusiness(registrationCommand, BusinessDomainBuilder);
                 newBusiness.Register(BusinessRepository);
                 SendRegistrationEmail(newBusiness.ToData());
                 return new BusinessRegistrationResponse(newBusiness.ToData());

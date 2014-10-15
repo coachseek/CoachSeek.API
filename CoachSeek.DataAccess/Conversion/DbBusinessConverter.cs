@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.DataAccess.Conversion
 {
@@ -21,17 +22,17 @@ namespace CoachSeek.DataAccess.Conversion
             };
         }
 
-        private static DbBusinessAdmin Convert(Guid businessId, BusinessAdmin admin)
+        private static DbBusinessAdmin Convert(Guid businessId, BusinessAdminData adminData)
         {
             return new DbBusinessAdmin
             {
-                Id = admin.Id,
+                Id = adminData.Id,
                 BusinessId = businessId,
-                FirstName = admin.FirstName,
-                LastName = admin.LastName,
-                Email = admin.Email,
-                Username = admin.Username,
-                PasswordHash = admin.PasswordHash
+                FirstName = adminData.FirstName,
+                LastName = adminData.LastName,
+                Email = adminData.Email,
+                Username = adminData.Username,
+                PasswordHash = adminData.PasswordHash
             };
         }
 

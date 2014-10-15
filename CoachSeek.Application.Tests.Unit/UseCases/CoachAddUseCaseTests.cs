@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
@@ -41,15 +41,19 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var business = new Business(SetupLocations(), SetupCoaches())
-            {
-                Id = new Guid(VALID_BUSINESS_ID),
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            };
-
-            return business;
+            return new Business(new Guid(VALID_BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf",
+                    LastName = "Thielke",
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                },
+                SetupLocations(),
+                SetupCoaches());
         }
 
 
@@ -77,9 +81,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
-        public void GivenNoCoachAddRequest_WhenAddCoach_ThenCoachAddFailsWithMissingCoachError()
+        public void GivenNoCoachAddCommand_WhenAddCoach_ThenCoachAddFailsWithMissingCoachError()
         {
-            var request = GivenNoCoachAddRequest();
+            var request = GivenNoCoachAddCommand();
             var response = WhenAddCoach(request);
             ThenCoachAddFailsWithMissingCoachError(response);
         }
@@ -108,22 +112,22 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenCoachAddSucceeds(response);
         }
 
-        private CoachAddRequest GivenNoCoachAddRequest()
+        private CoachAddCommand GivenNoCoachAddCommand()
         {
             return null;
         }
 
-        private CoachAddRequest GivenNonExistentBusiness()
+        private CoachAddCommand GivenNonExistentBusiness()
         {
-            return new CoachAddRequest
+            return new CoachAddCommand
             {
                 BusinessId = new Guid(INVALID_BUSINESS_ID)
             };
         }
 
-        private CoachAddRequest GivenExistingCoach()
+        private CoachAddCommand GivenExistingCoach()
         {
-            return new CoachAddRequest
+            return new CoachAddCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 FirstName = "  BOB",
@@ -133,9 +137,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachAddRequest GivenAUniqueCoach()
+        private CoachAddCommand GivenAUniqueCoach()
         {
-            return new CoachAddRequest
+            return new CoachAddCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 FirstName = "Steve  ",
@@ -145,11 +149,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachAddResponse WhenAddCoach(CoachAddRequest request)
+        private CoachAddResponse WhenAddCoach(CoachAddCommand command)
         {
             var useCase = new CoachAddUseCase(BusinessRepository);
 
-            return useCase.AddCoach(request);
+            return useCase.AddCoach(command);
         }
 
         private void ThenCoachAddFailsWithMissingCoachError(CoachAddResponse response)

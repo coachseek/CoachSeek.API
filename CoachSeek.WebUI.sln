@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CD1431
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7D36408B-D909-4333-AD29-5621DC713066}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Data", "CoachSeek.Data\CoachSeek.Data.csproj", "{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,16 @@ Global
 		{5CAA42FB-B2B7-436A-866F-6DDF367FA567}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5CAA42FB-B2B7-436A-866F-6DDF367FA567}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5CAA42FB-B2B7-436A-866F-6DDF367FA567}.Release|x86.ActiveCfg = Release|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,5 +195,6 @@ Global
 		{1AF3035A-DCEB-4035-A4E7-89912EDC11E1} = {7D36408B-D909-4333-AD29-5621DC713066}
 		{6DF0A6DA-4ED1-4DA5-835C-929AFDF4FC79} = {CC138F45-D94A-4939-96EB-ADE5982C717A}
 		{5CAA42FB-B2B7-436A-866F-6DDF367FA567} = {7D36408B-D909-4333-AD29-5621DC713066}
+		{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6} = {CD14317E-3030-4DC6-A37B-95DA90EF2E7A}
 	EndGlobalSection
 EndGlobal

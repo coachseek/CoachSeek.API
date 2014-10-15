@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
@@ -40,15 +40,21 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var business = new Business(SetupLocations(), SetupCoaches())
-            {
-                Id = new Guid(VALID_BUSINESS_ID),
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            };
-
-            return business;
+            return new Business(
+                new Guid(VALID_BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf", 
+                    LastName = "Thielke", 
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                },
+                SetupLocations(), 
+                SetupCoaches()
+            );
         }
 
         private IEnumerable<LocationData> SetupLocations()

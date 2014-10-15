@@ -36,12 +36,12 @@ namespace CoachSeek.WebUI.Controllers
         }
 
         // POST: api/Locations
-        public HttpResponseMessage Post([FromBody]ApiLocationSaveRequest locationSaveRequest)
+        public HttpResponseMessage Post([FromBody]ApiLocationSaveCommand locationSaveCommand)
         {
-            if (locationSaveRequest.IsNew())
-                return AddLocation(locationSaveRequest);
+            if (locationSaveCommand.IsNew())
+                return AddLocation(locationSaveCommand);
 
-            return UpdateLocation(locationSaveRequest);
+            return UpdateLocation(locationSaveCommand);
         }
 
         // PUT: api/Locations/5
@@ -54,18 +54,18 @@ namespace CoachSeek.WebUI.Controllers
         {
         }
 
-        private HttpResponseMessage AddLocation(ApiLocationSaveRequest locationSaveRequest)
+        private HttpResponseMessage AddLocation(ApiLocationSaveCommand locationSaveCommand)
         {
-            var locationAddRequest = LocationAddRequestConverter.Convert(locationSaveRequest);
+            var locationAddRequest = LocationAddCommandConverter.Convert(locationSaveCommand);
             var response = LocationAddUseCase.AddLocation(locationAddRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
         }
 
-        private HttpResponseMessage UpdateLocation(ApiLocationSaveRequest locationSaveRequest)
+        private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand locationSaveCommand)
         {
-            var locationUpdateRequest = LocationUpdateRequestConverter.Convert(locationSaveRequest);
+            var locationUpdateRequest = LocationUpdateCommandConverter.Convert(locationSaveCommand);
             var response = LocationUpdateUseCase.UpdateLocation(locationUpdateRequest);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);

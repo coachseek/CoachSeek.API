@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ICoachUpdateUseCase
     {
-        CoachUpdateResponse UpdateCoach(CoachUpdateRequest request);
+        CoachUpdateResponse UpdateCoach(CoachUpdateCommand command);
     }
 }

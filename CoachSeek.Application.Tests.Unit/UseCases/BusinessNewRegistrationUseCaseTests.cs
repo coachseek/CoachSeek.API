@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -14,6 +15,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
     [TestFixture]
     public class BusinessNewRegistrationUseCaseTests
     {
+        private const string BUSINESS_ID = "12345678-90AB-4B1D-B8AA-920DD568681E";
+
         private InMemoryBusinessRepository BusinessRepository { get; set; }
         private BusinessDomainBuilder BusinessDomainBuilder { get; set; }
         private StubBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
@@ -31,12 +34,21 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             BusinessRepository = new InMemoryBusinessRepository();
             BusinessRepository.Clear();
 
-            BusinessRepository.Add(new Business
-            {
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            });
+            var business = new Business(new Guid(BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf",
+                    LastName = "Thielke",
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                }, 
+                null, 
+                null);
+            BusinessRepository.Add(business);
+
             BusinessRepository.WasSaveNewBusinessCalled = false;
             BusinessRepository.WasSaveBusinessCalled = false;
         }
@@ -224,7 +236,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(business.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(business.Name, Is.EqualTo("Ian's Cafe"));
             Assert.That(business.Domain, Is.EqualTo("ianscafe"));
-            var admin = business.BusinessAdmin;
+            var admin = business.Admin;
             Assert.That(admin.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(admin.FirstName, Is.EqualTo("Ian"));
             Assert.That(admin.LastName, Is.EqualTo("Bishop"));

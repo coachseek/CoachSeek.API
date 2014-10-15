@@ -50,6 +50,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
+      <Name>CoachSeek.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
       <Name>CoachSeek.Domain</Name>

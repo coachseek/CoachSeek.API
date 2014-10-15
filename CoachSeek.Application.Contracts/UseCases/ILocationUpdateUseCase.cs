@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ILocationUpdateUseCase
     {
-        LocationUpdateResponse UpdateLocation(LocationUpdateRequest request);
+        LocationUpdateResponse UpdateLocation(LocationUpdateCommand request);
     }
 }

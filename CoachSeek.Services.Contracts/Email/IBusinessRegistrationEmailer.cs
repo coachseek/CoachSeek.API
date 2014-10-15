@@ -1,4 +1,4 @@
-﻿using CoachSeek.Domain.Data;
+﻿using CoachSeek.Data.Model;
 
 namespace CoachSeek.Services.Contracts.Email
 {

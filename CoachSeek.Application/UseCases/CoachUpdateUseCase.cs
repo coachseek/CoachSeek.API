@@ -18,15 +18,15 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public CoachUpdateResponse UpdateCoach(CoachUpdateRequest request)
+        public CoachUpdateResponse UpdateCoach(CoachUpdateCommand command)
         {
-            if (request == null)
+            if (command == null)
                 return new NoCoachUpdateDataResponse();
 
             try
             {
-                var business = GetBusiness(request);
-                business.UpdateCoach(request, BusinessRepository);
+                var business = GetBusiness(command);
+                business.UpdateCoach(command, BusinessRepository);
                 return new CoachUpdateResponse(business);
             }
             catch (Exception ex)
@@ -35,9 +35,9 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Business GetBusiness(CoachUpdateRequest request)
+        private Business GetBusiness(CoachUpdateCommand command)
         {
-            var business = BusinessRepository.Get(request.BusinessId);
+            var business = BusinessRepository.Get(command.BusinessId);
             if (business == null)
                 throw new InvalidBusiness();
             return business;

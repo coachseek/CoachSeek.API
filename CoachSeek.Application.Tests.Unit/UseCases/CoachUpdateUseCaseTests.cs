@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
@@ -41,15 +41,19 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var business = new Business(SetupLocations(), SetupCoaches())
-            {
-                Id = new Guid(VALID_BUSINESS_ID),
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            };
-
-            return business;
+            return new Business(new Guid(VALID_BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf", 
+                    LastName = "Thielke", 
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                },
+                SetupLocations(), 
+                SetupCoaches());
         }
 
 
@@ -83,9 +87,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
 
         [Test]
-        public void GivenNoCoachUpdateRequest_WhenUpdateCoach_ThenCoachUpdateFailsWithMissingCoachError()
+        public void GivenNoCoachUpdateCommand_WhenUpdateCoach_ThenCoachUpdateFailsWithMissingCoachError()
         {
-            var request = GivenNoCoachUpdateRequest();
+            var request = GivenNoCoachUpdateCommand();
             var response = WhenUpdateCoach(request);
             ThenCoachUpdateFailsWithMissingCoachError(response);
         }
@@ -122,22 +126,22 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenCoachUpdateSucceeds(response);
         }
 
-        private CoachUpdateRequest GivenNoCoachUpdateRequest()
+        private CoachUpdateCommand GivenNoCoachUpdateCommand()
         {
             return null;
         }
 
-        private CoachUpdateRequest GivenNonExistentBusiness()
+        private CoachUpdateCommand GivenNonExistentBusiness()
         {
-            return new CoachUpdateRequest
+            return new CoachUpdateCommand
             {
                 BusinessId = new Guid(INVALID_BUSINESS_ID)
             };
         }
 
-        private CoachUpdateRequest GivenNonExistentCoach()
+        private CoachUpdateCommand GivenNonExistentCoach()
         {
-            return new CoachUpdateRequest
+            return new CoachUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 CoachId = new Guid(INVALID_COACH_ID),
@@ -148,9 +152,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachUpdateRequest GivenExistingCoachName()
+        private CoachUpdateCommand GivenExistingCoachName()
         {
-            return new CoachUpdateRequest
+            return new CoachUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 CoachId = new Guid(VALID_COACH_ID),
@@ -161,9 +165,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachUpdateRequest GivenAUniqueCoachName()
+        private CoachUpdateCommand GivenAUniqueCoachName()
         {
-            return new CoachUpdateRequest
+            return new CoachUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 CoachId = new Guid(VALID_COACH_ID),
@@ -174,11 +178,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachUpdateResponse WhenUpdateCoach(CoachUpdateRequest request)
+        private CoachUpdateResponse WhenUpdateCoach(CoachUpdateCommand command)
         {
             var useCase = new CoachUpdateUseCase(BusinessRepository);
 
-            return useCase.UpdateCoach(request);
+            return useCase.UpdateCoach(command);
         }
 
         private void ThenCoachUpdateFailsWithMissingCoachError(CoachUpdateResponse response)

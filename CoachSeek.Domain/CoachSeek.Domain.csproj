@@ -48,11 +48,11 @@
   <ItemGroup>
     <Compile Include="Commands\BusinessRegistrant.cs" />
     <Compile Include="Commands\BusinessRegistrationCommand.cs" />
-    <Compile Include="Commands\CoachAddRequest.cs" />
-    <Compile Include="Commands\CoachUpdateRequest.cs" />
+    <Compile Include="Commands\CoachAddCommand.cs" />
+    <Compile Include="Commands\CoachUpdateCommand.cs" />
     <Compile Include="Commands\IBusinessIdable.cs" />
-    <Compile Include="Commands\LocationAddRequest.cs" />
-    <Compile Include="Commands\LocationUpdateRequest.cs" />
+    <Compile Include="Commands\LocationAddCommand.cs" />
+    <Compile Include="Commands\LocationUpdateCommand.cs" />
     <Compile Include="Data\BusinessAdminData.cs" />
     <Compile Include="Data\LocationData.cs" />
     <Compile Include="Data\NewLocationData.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Entities\EmailAddress.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
+    <Compile Include="Entities\NewBusinessAdmin.cs" />
     <Compile Include="Entities\NewLocation.cs" />
     <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
     <Compile Include="Exceptions\DuplicateCoach.cs" />
@@ -96,6 +97,14 @@
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
+      <Name>CoachSeek.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
+      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
+      <Name>CoachSeek.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

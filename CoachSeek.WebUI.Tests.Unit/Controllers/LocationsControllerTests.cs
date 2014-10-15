@@ -109,7 +109,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockLocationAddUseCase useCase)
         {
-            var apiLocationSaveRequest = new ApiLocationSaveRequest {BusinessId = new Guid(BUSINESS_ID)};
+            var apiLocationSaveRequest = new ApiLocationSaveCommand {BusinessId = new Guid(BUSINESS_ID)};
 
             Controller.LocationAddUseCase = useCase;
 
@@ -118,7 +118,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockLocationUpdateUseCase useCase)
         {
-            var apiLocationSaveRequest = new ApiLocationSaveRequest { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(LOCATION_ID) };
+            var apiLocationSaveRequest = new ApiLocationSaveCommand { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(LOCATION_ID) };
 
             Controller.LocationUpdateUseCase = useCase;
 

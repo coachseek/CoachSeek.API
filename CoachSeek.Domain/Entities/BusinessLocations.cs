@@ -1,4 +1,4 @@
-﻿using CoachSeek.Domain.Data;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,16 @@ namespace CoachSeek.Domain.Entities
         public BusinessLocations()
         {
             Locations = new List<Location>();
+        }
+
+        public BusinessLocations(IEnumerable<LocationData> locations) 
+            : this()
+        {
+            if (locations == null)
+                return;
+
+            foreach(var location in locations)
+                Append(location);
         }
 
         public void Add(NewLocationData newLocationData)

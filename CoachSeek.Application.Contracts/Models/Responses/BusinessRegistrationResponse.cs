@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Common;
-using CoachSeek.Domain.Data;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 

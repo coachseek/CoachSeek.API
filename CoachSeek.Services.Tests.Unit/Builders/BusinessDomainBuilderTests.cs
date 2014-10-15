@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
@@ -11,7 +12,7 @@ namespace CoachSeek.Services.Tests.Unit.Builders
     public class BusinessDomainBuilderTests
     {
         private IReservedDomainRepository ReservedDomainRepository { get; set; }
-        private IBusinessRepository BusinessRepository { get; set; }
+        private InMemoryBusinessRepository BusinessRepository { get; set; }
 
         [SetUp]
         public void Setup()
@@ -28,15 +29,22 @@ namespace CoachSeek.Services.Tests.Unit.Builders
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Save(new NewBusiness { Name = "Ian's Cafe", Domain = "ianscafe", Admin = SetupBusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers", Domain = "bobsburgers", Admin = SetupBusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bobs Burgers", Domain = "bobsburgers1", Admin = SetupBusinessAdmin() });
-            BusinessRepository.Save(new NewBusiness { Name = "Bob's Burgers #1", Domain = "bobsburgers2", Admin = SetupBusinessAdmin() });
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe", SetupBusinessAdmin(), null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers", SetupBusinessAdmin(), null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1", SetupBusinessAdmin(), null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2", SetupBusinessAdmin(), null, null));
         }
 
-        private BusinessAdmin SetupBusinessAdmin()
+        private BusinessAdminData SetupBusinessAdmin()
         {
-            return new BusinessAdmin("Bob", "Smith", "bob@smith.com", "password");
+            return new BusinessAdminData
+            {
+                FirstName = "Bob", 
+                LastName = "Smith", 
+                Email = "bob@smith.com",
+                Username = "bob@smith.com",
+                PasswordHash = "password"
+            };
         }
 
         [Test]

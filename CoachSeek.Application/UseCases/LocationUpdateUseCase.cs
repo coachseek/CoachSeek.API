@@ -19,7 +19,7 @@ namespace CoachSeek.Application.UseCases
         }
 
         
-        public LocationUpdateResponse UpdateLocation(LocationUpdateRequest request)
+        public LocationUpdateResponse UpdateLocation(LocationUpdateCommand request)
         {
             if (request == null)
                 return new NoLocationUpdateDataResponse();
@@ -36,7 +36,7 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Business GetBusiness(LocationUpdateRequest request)
+        private Business GetBusiness(LocationUpdateCommand request)
         {
             var business = BusinessRepository.Get(request.BusinessId);
             if (business == null)

@@ -1,5 +1,5 @@
 ﻿using System;
-using CoachSeek.Domain.Data;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Entities
 {

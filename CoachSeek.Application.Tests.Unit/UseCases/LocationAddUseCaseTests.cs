@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
@@ -40,23 +40,25 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var location = new LocationData { Id = new Guid(LOCATION_ID), Name = "HQ" };
-
-            var business = new Business(new List<LocationData> { location }, new List<CoachData>())
-            {
-                Id = new Guid(VALID_BUSINESS_ID),
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            };
-
-            return business;
+            return new Business(new Guid(VALID_BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf",
+                    LastName = "Thielke",
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                },
+                new List<LocationData> { new LocationData { Id = new Guid(LOCATION_ID), Name = "HQ" }},
+                new List<CoachData>());
         }
 
         [Test]
-        public void GivenNoLocationAddRequest_WhenAddLocation_ThenLocationAddFailsWithMissingLocationError()
+        public void GivenNoLocationAddCommand_WhenAddLocation_ThenLocationAddFailsWithMissingLocationError()
         {
-            var request = GivenNoLocationAddRequest();
+            var request = GivenNoLocationAddCommand();
             var response = WhenAddLocation(request);
             ThenLocationAddFailsWithMissingLocationError(response);
         }
@@ -85,42 +87,42 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenLocationAddSucceeds(response);
         }
 
-        private LocationAddRequest GivenNoLocationAddRequest()
+        private LocationAddCommand GivenNoLocationAddCommand()
         {
             return null;
         }
 
-        private LocationAddRequest GivenNonExistentBusiness()
+        private LocationAddCommand GivenNonExistentBusiness()
         {
-            return new LocationAddRequest
+            return new LocationAddCommand
             {
                 BusinessId = new Guid(INVALID_BUSINESS_ID)
             };
         }
 
-        private LocationAddRequest GivenExistingLocation()
+        private LocationAddCommand GivenExistingLocation()
         {
-            return new LocationAddRequest
+            return new LocationAddCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 LocationName = "  hq"
             };
         }
 
-        private LocationAddRequest GivenAUniqueLocation()
+        private LocationAddCommand GivenAUniqueLocation()
         {
-            return new LocationAddRequest
+            return new LocationAddCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 LocationName = "Discount Store  "
             };
         }
 
-        private LocationAddResponse WhenAddLocation(LocationAddRequest request)
+        private LocationAddResponse WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase(BusinessRepository);
 
-            return useCase.AddLocation(request);
+            return useCase.AddLocation(command);
         }
 
         private void ThenLocationAddFailsWithMissingLocationError(LocationAddResponse response)

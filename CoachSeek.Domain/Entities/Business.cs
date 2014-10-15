@@ -1,5 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
+﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,39 +8,32 @@ namespace CoachSeek.Domain.Entities
 {
     public class Business
     {
-        private string _name;
-        private string _domain;
+        public Guid Id { get; protected set; }
+        public string Name { get; protected set; }
+        public string Domain { get; protected set; }
+        public BusinessAdminData Admin { get { return BusinessAdmin.ToData(); } }
+        public IList<Location> Locations { get { return BusinessLocations.Locations; } }
+        public IList<Coach> Coaches { get { return BusinessCoaches.Coaches; } }
 
-        public Guid Id { get; set; }
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value.Trim(); }
-        }
-
-        public string Domain
-        {
-            get { return _domain; }
-            set { _domain = value.Trim(); }
-        }
-
-        public BusinessAdmin Admin { get; set; }
-
+        protected BusinessAdmin BusinessAdmin { get; set; }
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
 
 
-        public IList<Location> Locations
+        public Business(Guid id, 
+            string name, 
+            string domain, 
+            BusinessAdminData admin,
+            IEnumerable<LocationData> locations, 
+            IEnumerable<CoachData> coaches)
         {
-            get { return BusinessLocations.Locations; }
+            Id = id;
+            Name = name;
+            Domain = domain;
+            BusinessAdmin = new BusinessAdmin(admin);
+            BusinessLocations = new BusinessLocations(locations);
+            BusinessCoaches = new BusinessCoaches(coaches);
         }
-        
-        public IList<Coach> Coaches
-        {
-            get { return BusinessCoaches.Coaches; }
-        }
-
 
         public Business()
         {
@@ -55,35 +48,35 @@ namespace CoachSeek.Domain.Entities
             Id = id;
         }
 
-        public Business(IEnumerable<LocationData> locations, IEnumerable<CoachData> coaches) 
-            : this()
-        {
-            AppendExistingLocations(locations);
-            AppendExistingCoaches(coaches);
-        }
+        //public Business(IEnumerable<LocationData> locations, IEnumerable<CoachData> coaches) 
+        //    : this()
+        //{
+        //    AppendExistingLocations(locations);
+        //    AppendExistingCoaches(coaches);
+        //}
 
 
-        public void AddLocation(LocationAddRequest request, IBusinessRepository businessRepository)
+        public void AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
         {
-            BusinessLocations.Add(request.ToData());
+            BusinessLocations.Add(command.ToData());
             businessRepository.Save(this);
         }
 
-        public void UpdateLocation(LocationUpdateRequest request, IBusinessRepository businessRepository)
+        public void UpdateLocation(LocationUpdateCommand request, IBusinessRepository businessRepository)
         {
             BusinessLocations.Update(request.ToData());
             businessRepository.Save(this);
         }
 
-        public void AddCoach(CoachAddRequest request, IBusinessRepository businessRepository)
+        public void AddCoach(CoachAddCommand command, IBusinessRepository businessRepository)
         {
-            BusinessCoaches.Add(request.ToData());
+            BusinessCoaches.Add(command.ToData());
             businessRepository.Save(this);
         }
 
-        public void UpdateCoach(CoachUpdateRequest request, IBusinessRepository businessRepository)
+        public void UpdateCoach(CoachUpdateCommand command, IBusinessRepository businessRepository)
         {
-            BusinessCoaches.Update(request.ToData());
+            BusinessCoaches.Update(command.ToData());
             businessRepository.Save(this);
         }
 
@@ -94,7 +87,7 @@ namespace CoachSeek.Domain.Entities
                 Id = Id,
                 Name = Name,
                 Domain = Domain,
-                BusinessAdmin = new BusinessAdminData
+                Admin = new BusinessAdminData
                 {
                     Id = Admin.Id,
                     FirstName = Admin.FirstName,

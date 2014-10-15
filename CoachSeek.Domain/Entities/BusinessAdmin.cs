@@ -1,32 +1,35 @@
-﻿using CoachSeek.Common.Extensions;
-using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
+﻿using CoachSeek.Data.Model;
 using System;
 
 namespace CoachSeek.Domain.Entities
 {
     public class BusinessAdmin
     {
-        public Guid Id { get; set; }
-
+        public Guid Id { get; protected set; }
         public string FirstName { get { return Person.FirstName; } }
         public string LastName { get { return Person.LastName; } }
         public string Email { get { return EmailAddress.Email; } }
         public string Username { get { return Credential.Username; } }
         public string PasswordHash { get { return Credential.PasswordHash; } }
+        public string PasswordSalt { get { return Credential.PasswordSalt; } }
 
-        private PersonName Person { get; set; }
-        private EmailAddress EmailAddress { get; set; }
-        private Credential Credential { get; set; }
+        protected PersonName Person { get; set; }
+        protected EmailAddress EmailAddress { get; set; }
+        protected Credential Credential { get; set; }
 
-        public BusinessAdmin(string firstName, string lastName, string email, string password)
-        {
-            Id = Guid.NewGuid();
-            Person = new PersonName(firstName, lastName);
-            EmailAddress = new EmailAddress(email);
-            // Email is also the Username.
-            Credential = new Credential(email, password);
-        }
+
+        protected BusinessAdmin()
+        { }
+
+        public BusinessAdmin(BusinessAdminData data) 
+            : this(data.Id, 
+                   data.Email, 
+                   data.FirstName, 
+                   data.LastName, 
+                   data.Username,
+                   data.PasswordHash, 
+                   data.PasswordSalt)
+        { }
 
         public BusinessAdmin(Guid id, string email, 
                              string firstName, string lastName, 
@@ -39,11 +42,18 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public void Validate(IBusinessRepository repository)
+        public BusinessAdminData ToData()
         {
-            var admin = repository.GetByAdminEmail(Email);
-            if (admin.IsExisting())
-                throw new DuplicateBusinessAdmin();
+            return new BusinessAdminData
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                Username = Username,
+                PasswordHash = PasswordHash,
+                PasswordSalt = PasswordSalt
+            };
         }
     }
 }

@@ -4,13 +4,14 @@
     {
         public string Username { get; private set; }
         public string PasswordHash { get; private set; }
-        private string PasswordSalt { get; set; }
+        public string PasswordSalt { get; private set; }
 
         public Credential(string username, string password)
         {
             Username = username.Trim().ToLower();
             // TODO: Hash password!
             PasswordHash = password;
+            PasswordSalt = string.Empty;
         }
 
         public Credential(string username, string passwordHash, string passwordSalt)

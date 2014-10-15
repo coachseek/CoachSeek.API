@@ -1,6 +1,6 @@
-﻿using CoachSeek.DataAccess.Conversion;
+﻿using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Conversion;
 using CoachSeek.DataAccess.Models;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 using System;
@@ -50,16 +50,6 @@ namespace CoachSeek.DataAccess.Repositories
             var updateBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
             return CreateBusiness(updateBusiness);
         }
-        
-        public Business Add(Business business)
-        {
-            WasSaveBusinessCalled = true;
-
-            var dbBusiness = DbBusinessConverter.Convert(business);
-
-            Businesses.Add(dbBusiness);
-            return business;
-        }
 
         public Business Get(Guid id)
         {
@@ -87,22 +77,20 @@ namespace CoachSeek.DataAccess.Repositories
             if (dbBusiness == null)
                 return null;
 
-            return new Business(CreateLocations(dbBusiness.Locations), 
-                                CreateCoaches(dbBusiness.Coaches))
-            {
-                Id = dbBusiness.Id,
-                Name = dbBusiness.Name,
-                Domain = dbBusiness.Domain,
-                Admin = CreateBusinessAdmin(dbBusiness.Admin),
-            };
+            return new Business(dbBusiness.Id,
+                dbBusiness.Name,
+                dbBusiness.Domain,
+                CreateBusinessAdmin(dbBusiness.Admin),
+                CreateLocations(dbBusiness.Locations), 
+                CreateCoaches(dbBusiness.Coaches));
         }
 
 
-        private static BusinessAdmin CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
+        private static BusinessAdminData CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
         {
             return new BusinessAdmin(dbAdmin.Id, dbAdmin.Email,
                                      dbAdmin.FirstName, dbAdmin.LastName,
-                                     dbAdmin.Username, dbAdmin.PasswordHash, dbAdmin.PasswordSalt);
+                                     dbAdmin.Username, dbAdmin.PasswordHash, dbAdmin.PasswordSalt).ToData();
         }
 
         private static IEnumerable<LocationData> CreateLocations(IEnumerable<DbLocation> dbLocations)
@@ -142,6 +130,16 @@ namespace CoachSeek.DataAccess.Repositories
             }
 
             return coaches;
+        }
+
+
+        // Only used for tests to add a business while bypassing the validation that occurs using Save.
+        public Business Add(Business business)
+        {
+            var dbBusiness = DbBusinessConverter.Convert(business);
+
+            Businesses.Add(dbBusiness);
+            return business;
         }
     }
 }

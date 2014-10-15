@@ -18,16 +18,16 @@ namespace CoachSeek.Application.UseCases
             BusinessRepository = businessRepository;
         }
 
-        
-        public CoachAddResponse AddCoach(CoachAddRequest request)
+
+        public CoachAddResponse AddCoach(CoachAddCommand command)
         {
-            if (request == null)
+            if (command == null)
                 return new NoCoachAddDataResponse();
 
             try
             {
-                var business = GetBusiness(request);
-                business.AddCoach(request, BusinessRepository);
+                var business = GetBusiness(command);
+                business.AddCoach(command, BusinessRepository);
                 return new CoachAddResponse(business);
             }
             catch (Exception ex)
@@ -36,9 +36,9 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Business GetBusiness(CoachAddRequest request)
+        private Business GetBusiness(CoachAddCommand command)
         {
-            var business = BusinessRepository.Get(request.BusinessId);
+            var business = BusinessRepository.Get(command.BusinessId);
             if (business == null)
                 throw new InvalidBusiness();
             return business;

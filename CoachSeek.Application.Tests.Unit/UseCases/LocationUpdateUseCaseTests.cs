@@ -1,8 +1,8 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Data;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -42,21 +42,33 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Business SetupOlafsCafeBusiness()
         {
-            var locations = new List<LocationData>
+            return new Business(new Guid(VALID_BUSINESS_ID),
+                "Olaf's Bookshoppe",
+                "olafsbookshoppe",
+                new BusinessAdminData
+                {
+                    FirstName = "Olaf",
+                    LastName = "Thielke",
+                    Email = "olaft@ihug.co.nz",
+                    Username = "olaft@ihug.co.nz",
+                    PasswordHash = "Password1"
+                },
+                SetupLocations(),
+                SetupCoaches());
+        }
+
+        private IEnumerable<LocationData> SetupLocations()
+        {
+            return new List<LocationData>
             {
                 new LocationData {Id = new Guid("7D72F6E4-07D1-463F-84E6-865DE53D9A67"), Name = "HQ"},
                 new LocationData {Id = new Guid(VALID_LOCATION_ID), Name = "Store"},
             };
+        }
 
-            var business = new Business(locations, new List<CoachData>())
-            {
-                Id = new Guid(VALID_BUSINESS_ID),
-                Name = "Olaf's Bookshoppe",
-                Domain = "olafsbookshoppe",
-                Admin = new BusinessAdmin("Olaf", "Thielke", "olaft@ihug.co.nz", "Password1")
-            };
-
-            return business;
+        private IEnumerable<CoachData> SetupCoaches()
+        {
+            return new List<CoachData>();
         }
 
         
@@ -100,22 +112,22 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenLocationUpdateSucceeds(response);
         }
 
-        private LocationUpdateRequest GivenNoLocationUpdateRequest()
+        private LocationUpdateCommand GivenNoLocationUpdateRequest()
         {
             return null;
         }
 
-        private LocationUpdateRequest GivenNonExistentBusiness()
+        private LocationUpdateCommand GivenNonExistentBusiness()
         {
-            return new LocationUpdateRequest
+            return new LocationUpdateCommand
             {
                 BusinessId = new Guid(INVALID_BUSINESS_ID)
             };
         }
 
-        private LocationUpdateRequest GivenNonExistentLocation()
+        private LocationUpdateCommand GivenNonExistentLocation()
         {
-            return new LocationUpdateRequest
+            return new LocationUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 LocationId = new Guid(INVALID_LOCATION_ID),
@@ -123,9 +135,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private LocationUpdateRequest GivenExistingLocationName()
+        private LocationUpdateCommand GivenExistingLocationName()
         {
-            return new LocationUpdateRequest
+            return new LocationUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 LocationId = new Guid(VALID_LOCATION_ID),
@@ -133,9 +145,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private LocationUpdateRequest GivenAUniqueLocationName()
+        private LocationUpdateCommand GivenAUniqueLocationName()
         {
-            return new LocationUpdateRequest
+            return new LocationUpdateCommand
             {
                 BusinessId = new Guid(VALID_BUSINESS_ID),
                 LocationId = new Guid(VALID_LOCATION_ID),
@@ -143,7 +155,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private LocationUpdateResponse WhenUpdateLocation(LocationUpdateRequest request)
+        private LocationUpdateResponse WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase(BusinessRepository);
 
