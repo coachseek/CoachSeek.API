@@ -2,7 +2,7 @@
 
 namespace CoachSeek.WebUI.Models.Api
 {
-    public class ApiLocationSaveCommand
+    public class ApiLocationSaveCommand : IApiBusinessIdable, IApiIdable
     {
         public Guid BusinessId { get; set; }
         public Guid? Id { get; set; }

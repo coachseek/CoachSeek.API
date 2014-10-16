@@ -216,6 +216,8 @@
     <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
     <Compile Include="Models\Api\ApiWeeklyWorkingHours.cs" />
+    <Compile Include="Models\Api\IApiBusinessIdable.cs" />
+    <Compile Include="Models\Api\IApiIdable.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
