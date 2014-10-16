@@ -31,6 +31,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Configuration = new HttpConfiguration()
             };
         }
+
         private Business SetupBusiness()
         {
             return new Business(new Guid(BUSINESS_ID),

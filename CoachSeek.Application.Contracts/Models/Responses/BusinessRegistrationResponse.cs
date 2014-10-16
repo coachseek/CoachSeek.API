@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Common;
-using CoachSeek.Data.Model;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 
@@ -34,29 +34,17 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class BusinessRegistrationResponse
+    public class BusinessRegistrationResponse : Response
     {
-        public BusinessData Business { get; private set; }
-
-        public List<Error> Errors { get; protected set; }
-
-
         public BusinessRegistrationResponse()
         { }
 
-        public BusinessRegistrationResponse(BusinessData business)
-        {
-            Business = business;
-        }
+        public BusinessRegistrationResponse(Business business)
+            : base(business)
+        { }
 
         public BusinessRegistrationResponse(ValidationException exception)
-        {
-            Errors = exception.Errors;
-        }
-
-        public bool IsSuccessful
-        {
-            get { return Business != null; }
-        }
+            : base(exception)
+        { }
     }
 }

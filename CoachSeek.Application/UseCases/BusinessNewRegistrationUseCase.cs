@@ -36,7 +36,7 @@ namespace CoachSeek.Application.UseCases
                 var newBusiness = new NewBusiness(registrationCommand, BusinessDomainBuilder);
                 newBusiness.Register(BusinessRepository);
                 SendRegistrationEmail(newBusiness.ToData());
-                return new BusinessRegistrationResponse(newBusiness.ToData());
+                return new BusinessRegistrationResponse(newBusiness);
             }
             catch (Exception ex)
             {

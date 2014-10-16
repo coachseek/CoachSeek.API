@@ -9,12 +9,16 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class BusinessRegistrationController : ApiController
     {
-        private IBusinessNewRegistrationUseCase BusinessNewRegistrationUseCase { get; set; }
+        public IBusinessNewRegistrationUseCase BusinessNewRegistrationUseCase { get; set; }
+
+        public BusinessRegistrationController()
+        { }
 
         public BusinessRegistrationController(IBusinessNewRegistrationUseCase businessNewRegistrationUseCase)
         {
             BusinessNewRegistrationUseCase = businessNewRegistrationUseCase;
         }
+
 
         // POST: api/BusinessRegistration
         public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand businessRegistration)
