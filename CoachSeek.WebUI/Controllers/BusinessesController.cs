@@ -7,7 +7,7 @@ namespace CoachSeek.WebUI.Controllers
 {
     public class BusinessesController : ApiController
     {
-        private IBusinessGetByDomainUseCase BusinessGetByDomainUseCase { get; set; }
+        public IBusinessGetByDomainUseCase BusinessGetByDomainUseCase { get; set; }
 
         public BusinessesController(IBusinessGetByDomainUseCase businessGetByDomainUseCase)
         {

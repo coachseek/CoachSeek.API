@@ -17,6 +17,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
     {
         private const string BUSINESS_ID = "7028E5E1-B10E-4C0E-B46F-1386B98CE567";
 
+        private BusinessesController Controller { get; set; }
+
         private Business SetupBusiness()
         {
             return new Business(new Guid(BUSINESS_ID), 
@@ -70,16 +72,34 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenGetBusinessByDomain(MockBusinessGetByDomainUseCase useCase)
         {
-            var controller = new BusinessesController(useCase)
+            Controller = new BusinessesController(useCase)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
             };
 
-            return controller.Get("");
+            return Controller.Get("davesdiscountdisaster");
         }
 
         private void ThenReturnErrorResponse(HttpResponseMessage response)
+        {
+            AssertErrorResponse(response);
+            AssertPassRelevantInfoIntoGetBusinessByDomain();
+        }
+
+        private void ThenReturnSuccessResponse(HttpResponseMessage response)
+        {
+            AssertSuccessResponse(response);
+            AssertPassRelevantInfoIntoGetBusinessByDomain();
+        }
+
+        private void AssertPassRelevantInfoIntoGetBusinessByDomain()
+        {
+            var domain = ((MockBusinessGetByDomainUseCase)Controller.BusinessGetByDomainUseCase).Domain;
+            Assert.That(domain, Is.EqualTo("davesdiscountdisaster"));
+        }
+
+        private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Error error;
@@ -88,12 +108,12 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(error.Message, Is.EqualTo("Error"));
         }
 
-        private void ThenReturnSuccessResponse(HttpResponseMessage response)
+        private void AssertSuccessResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             BusinessData business;
             Assert.That(response.TryGetContentValue(out business), Is.True);
-            Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));            
+            Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
         }
     }
 }

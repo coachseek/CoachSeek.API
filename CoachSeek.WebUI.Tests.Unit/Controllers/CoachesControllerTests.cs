@@ -141,7 +141,14 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockCoachAddUseCase useCase)
         {
-            var apiCoachSaveCommand = new ApiCoachSaveCommand { BusinessId = new Guid(BUSINESS_ID) };
+            var apiCoachSaveCommand = new ApiCoachSaveCommand
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                FirstName = "John",
+                LastName = "Smith",
+                Email = "john@smith.co.nz",
+                Phone = "0987654321"
+            };
 
             Controller.CoachAddUseCase = useCase;
 
@@ -150,7 +157,15 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockCoachUpdateUseCase useCase)
         {
-            var apiCoachSaveCommand = new ApiCoachSaveCommand { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(COACH_ID) };
+            var apiCoachSaveCommand = new ApiCoachSaveCommand
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                Id = new Guid(COACH_ID),
+                FirstName = "John",
+                LastName = "Smith",
+                Email = "john@smith.co.nz",
+                Phone = "0987654321"
+            };
 
             Controller.CoachUpdateUseCase = useCase;
 
@@ -167,24 +182,28 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void ThenCallAddUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
             AssertWasAddCoachCalled();
+            AssertPassRelevantInfoIntoAddCoach();
             AssertErrorResponse(response);
         }
 
         private void ThenCallAddUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
             AssertWasAddCoachCalled();
+            AssertPassRelevantInfoIntoAddCoach();
             AssertSuccessResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
             AssertWasUpdateCoachCalled();
+            AssertPassRelevantInfoIntoUpdateCoach();
             AssertErrorResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
             AssertWasUpdateCoachCalled();
+            AssertPassRelevantInfoIntoUpdateCoach();
             AssertSuccessResponse(response);
         }
 
@@ -196,6 +215,29 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertWasUpdateCoachCalled()
         {
             Assert.That(UpdateUseCase.WasUpdateCoachCalled, Is.True);
+        }
+
+        private void AssertPassRelevantInfoIntoAddCoach()
+        {
+            var command = ((MockCoachAddUseCase)Controller.CoachAddUseCase).Command;
+            Assert.That(command, Is.Not.Null);
+            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
+            Assert.That(command.FirstName, Is.EqualTo("John"));
+            Assert.That(command.LastName, Is.EqualTo("Smith"));
+            Assert.That(command.Email, Is.EqualTo("john@smith.co.nz"));
+            Assert.That(command.Phone, Is.EqualTo("0987654321"));
+        }
+
+        private void AssertPassRelevantInfoIntoUpdateCoach()
+        {
+            var command = ((MockCoachUpdateUseCase)Controller.CoachUpdateUseCase).Command;
+            Assert.That(command, Is.Not.Null);
+            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
+            Assert.That(command.CoachId, Is.EqualTo(new Guid(COACH_ID)));
+            Assert.That(command.FirstName, Is.EqualTo("John"));
+            Assert.That(command.LastName, Is.EqualTo("Smith"));
+            Assert.That(command.Email, Is.EqualTo("john@smith.co.nz"));
+            Assert.That(command.Phone, Is.EqualTo("0987654321"));
         }
 
         private void AssertErrorResponse(HttpResponseMessage response)
