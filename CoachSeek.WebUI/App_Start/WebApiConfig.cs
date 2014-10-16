@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using CoachSeek.Application.Configuration;
+using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 
@@ -9,6 +10,9 @@ namespace CoachSeek.WebUI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+            ApplicationAutoMapperConfigurator.Configure();
+            WebApiAutoMapperConfigurator.Configure();
 
             config.Services.Replace(typeof(IHttpControllerActivator), new ServiceActivator(config));
 

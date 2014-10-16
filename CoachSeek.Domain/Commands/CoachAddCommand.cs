@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
@@ -10,17 +11,12 @@ namespace CoachSeek.Domain.Commands
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public WeeklyWorkingHours WorkingHours { get; set; }
 
 
         public NewCoachData ToData()
         {
-            return new NewCoachData
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Email = Email,
-                Phone = Phone
-            };
+            return Mapper.Map<CoachAddCommand, NewCoachData>(this);
         }
     }
 }

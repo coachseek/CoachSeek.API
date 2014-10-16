@@ -147,7 +147,16 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 FirstName = "John",
                 LastName = "Smith",
                 Email = "john@smith.co.nz",
-                Phone = "0987654321"
+                Phone = "0987654321",
+                WorkingHours = new ApiWeeklyWorkingHours
+                {
+                    Monday = new ApiDailyWorkingHours
+                    {
+                        IsAvailable = true,
+                        StartTime = "9:30",
+                        FinishTime = "15:30"
+                    }
+                }
             };
 
             Controller.CoachAddUseCase = useCase;
@@ -226,6 +235,13 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(command.LastName, Is.EqualTo("Smith"));
             Assert.That(command.Email, Is.EqualTo("john@smith.co.nz"));
             Assert.That(command.Phone, Is.EqualTo("0987654321"));
+            var workingHours = command.WorkingHours;
+            var monday = workingHours.Monday;
+            Assert.That(monday.IsAvailable, Is.True);
+            Assert.That(monday.StartTime, Is.EqualTo("9:30"));
+            Assert.That(monday.FinishTime, Is.EqualTo("15:30"));
+            var tuesday = workingHours.Tuesday;
+            Assert.That(tuesday, Is.Null);
         }
 
         private void AssertPassRelevantInfoIntoUpdateCoach()

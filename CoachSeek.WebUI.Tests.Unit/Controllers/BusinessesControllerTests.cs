@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Configuration;
+using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -18,6 +19,12 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private const string BUSINESS_ID = "7028E5E1-B10E-4C0E-B46F-1386B98CE567";
 
         private BusinessesController Controller { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         private Business SetupBusiness()
         {

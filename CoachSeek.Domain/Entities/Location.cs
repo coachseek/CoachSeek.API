@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Entities
@@ -22,11 +23,7 @@ namespace CoachSeek.Domain.Entities
 
         public LocationData ToData()
         {
-            return new LocationData
-            {
-                Id = Id,
-                Name = Name
-            };
+            return Mapper.Map<Location, LocationData>(this);
         }
     }
 }

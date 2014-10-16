@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Configuration;
+using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
@@ -19,6 +20,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private const string LOCATION_ID = "BE94064D-7033-4CF8-9F47-7E118A393C2E";
 
         private InMemoryBusinessRepository BusinessRepository { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()

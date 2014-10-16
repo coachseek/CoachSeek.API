@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -20,6 +21,13 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private const string BUSINESS_ID = "12345678-B10E-4C0E-B46F-1386B98CE567";
 
         private BusinessRegistrationController Controller { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            WebApiAutoMapperConfigurator.Configure();
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()

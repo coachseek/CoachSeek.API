@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using AutoMapper;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
 using System;
@@ -56,9 +57,9 @@ namespace CoachSeek.Domain.Entities
             businessRepository.Save(this);
         }
 
-        public void UpdateLocation(LocationUpdateCommand request, IBusinessRepository businessRepository)
+        public void UpdateLocation(LocationUpdateCommand command, IBusinessRepository businessRepository)
         {
-            BusinessLocations.Update(request.ToData());
+            BusinessLocations.Update(command.ToData());
             businessRepository.Save(this);
         }
 
@@ -76,15 +77,7 @@ namespace CoachSeek.Domain.Entities
 
         public BusinessData ToData()
         {
-            return new BusinessData
-            {
-                Id = Id,
-                Name = Name,
-                Domain = Domain,
-                Admin = Admin,
-                Locations = Locations,
-                Coaches = Coaches
-            };
+            return Mapper.Map<Business, BusinessData>(this);
         }
     }
 }

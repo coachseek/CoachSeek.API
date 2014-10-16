@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Entities
@@ -37,15 +38,7 @@ namespace CoachSeek.Domain.Entities
 
         public CoachData ToData()
         {
-            return new CoachData
-            {
-                Id = Id,
-                FirstName = FirstName,
-                LastName = LastName,
-                Name = Name,
-                Email = Email,
-                Phone = Phone,
-            };
+            return Mapper.Map<Coach, CoachData>(this);
         }
     }
 }

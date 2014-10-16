@@ -190,6 +190,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiAutoMapperConfigurator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
@@ -211,7 +212,9 @@
     <Compile Include="Models\Api\ApiBusinessRegistrant.cs" />
     <Compile Include="Models\Api\ApiBusinessRegistrationCommand.cs" />
     <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiWeeklyWorkingHours.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

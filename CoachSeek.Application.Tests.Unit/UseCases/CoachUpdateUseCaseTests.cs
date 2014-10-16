@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -20,6 +21,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private const string VALID_COACH_ID = "0EC1B243-DA4A-4B05-B973-EFEE33A1C8C4";
 
         private InMemoryBusinessRepository BusinessRepository { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()

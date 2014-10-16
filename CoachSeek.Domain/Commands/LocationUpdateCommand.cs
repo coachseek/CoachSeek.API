@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
@@ -12,11 +13,7 @@ namespace CoachSeek.Domain.Commands
 
         public LocationData ToData()
         {
-            return new LocationData
-            {
-                Id = LocationId,
-                Name = LocationName
-            };
+            return Mapper.Map<LocationUpdateCommand, LocationData>(this);
         }
     }
 }

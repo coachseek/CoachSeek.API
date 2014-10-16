@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using AutoMapper;
+using CoachSeek.Data.Model;
 using System;
 
 namespace CoachSeek.Domain.Entities
@@ -44,16 +45,7 @@ namespace CoachSeek.Domain.Entities
 
         public BusinessAdminData ToData()
         {
-            return new BusinessAdminData
-            {
-                Id = Id,
-                FirstName = FirstName,
-                LastName = LastName,
-                Email = Email,
-                Username = Username,
-                PasswordHash = PasswordHash,
-                PasswordSalt = PasswordSalt
-            };
+            return Mapper.Map<BusinessAdmin, BusinessAdminData>(this);
         }
     }
 }
