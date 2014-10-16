@@ -1,13 +1,12 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace CoachSeek.WebUI.Controllers
 {
-    public class CoachesController : ApiController
+    public class CoachesController : BaseController
     {
         public ICoachAddUseCase CoachAddUseCase { get; set; }
         public ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
@@ -35,31 +34,27 @@ namespace CoachSeek.WebUI.Controllers
         //}
 
         // POST: api/Coaches
-        public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coachSaveCommand)
+        public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coach)
         {
-            if (coachSaveCommand.IsNew())
-                return AddCoach(coachSaveCommand);
+            if (coach.IsNew())
+                return AddCoach(coach);
 
-            return UpdateCoach(coachSaveCommand);
+            return UpdateCoach(coach);
         }
 
 
-        private HttpResponseMessage AddCoach(ApiCoachSaveCommand coachSaveCommand)
+        private HttpResponseMessage AddCoach(ApiCoachSaveCommand coach)
         {
-            var command = CoachAddCommandConverter.Convert(coachSaveCommand);
+            var command = CoachAddCommandConverter.Convert(coach);
             var response = CoachAddUseCase.AddCoach(command);
-            if (response.IsSuccessful)
-                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return CreateWebResponse(response);
         }
 
-        private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coachSaveCommand)
+        private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coach)
         {
-            var command = CoachUpdateCommandConverter.Convert(coachSaveCommand);
+            var command = CoachUpdateCommandConverter.Convert(coach);
             var response = CoachUpdateUseCase.UpdateCoach(command);
-            if (response.IsSuccessful)
-                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return CreateWebResponse(response);
         }
     }
 }

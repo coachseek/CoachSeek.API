@@ -1,11 +1,10 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace CoachSeek.WebUI.Controllers
 {
-    public class BusinessesController : ApiController
+    public class BusinessesController : BaseController
     {
         public IBusinessGetByDomainUseCase BusinessGetByDomainUseCase { get; set; }
 
@@ -19,9 +18,7 @@ namespace CoachSeek.WebUI.Controllers
         public HttpResponseMessage Get(string domain)
         {
             var response = BusinessGetByDomainUseCase.GetByDomain(domain);
-            if (response.IsSuccessful)
-                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return CreateWebResponse(response);
         }
     }
 }

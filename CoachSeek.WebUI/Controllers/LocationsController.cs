@@ -1,13 +1,12 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Models.Api;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace CoachSeek.WebUI.Controllers
 {
-    public class LocationsController : ApiController
+    public class LocationsController : BaseController
     {
         public ILocationAddUseCase LocationAddUseCase { get; set; }
         public ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
@@ -36,31 +35,27 @@ namespace CoachSeek.WebUI.Controllers
         //}
 
         // POST: api/Locations
-        public HttpResponseMessage Post([FromBody]ApiLocationSaveCommand locationSaveCommand)
+        public HttpResponseMessage Post([FromBody]ApiLocationSaveCommand location)
         {
-            if (locationSaveCommand.IsNew())
-                return AddLocation(locationSaveCommand);
+            if (location.IsNew())
+                return AddLocation(location);
 
-            return UpdateLocation(locationSaveCommand);
+            return UpdateLocation(location);
         }
 
 
-        private HttpResponseMessage AddLocation(ApiLocationSaveCommand locationSaveCommand)
+        private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationAddCommandConverter.Convert(locationSaveCommand);
+            var command = LocationAddCommandConverter.Convert(location);
             var response = LocationAddUseCase.AddLocation(command);
-            if (response.IsSuccessful)
-                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return CreateWebResponse(response);
         }
 
-        private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand locationSaveCommand)
+        private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationUpdateCommandConverter.Convert(locationSaveCommand);
+            var command = LocationUpdateCommandConverter.Convert(location);
             var response = LocationUpdateUseCase.UpdateLocation(command);
-            if (response.IsSuccessful)
-                return Request.CreateResponse(HttpStatusCode.OK, response.Business);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return CreateWebResponse(response);
         }
     }
 }
