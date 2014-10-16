@@ -46,8 +46,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage AddCoach(ApiCoachSaveCommand coachSaveCommand)
         {
-            var coachAddRequest = CoachAddCommandConverter.Convert(coachSaveCommand);
-            var response = CoachAddUseCase.AddCoach(coachAddRequest);
+            var command = CoachAddCommandConverter.Convert(coachSaveCommand);
+            var response = CoachAddUseCase.AddCoach(command);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
@@ -55,8 +55,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coachSaveCommand)
         {
-            var coachUpdateRequest = CoachUpdateCommandConverter.Convert(coachSaveCommand);
-            var response = CoachUpdateUseCase.UpdateCoach(coachUpdateRequest);
+            var command = CoachUpdateCommandConverter.Convert(coachSaveCommand);
+            var response = CoachUpdateUseCase.UpdateCoach(command);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);

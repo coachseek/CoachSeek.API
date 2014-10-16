@@ -7,12 +7,15 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     public class MockLocationUpdateUseCase : ILocationUpdateUseCase
     {
         public bool WasUpdateLocationCalled;
+        public LocationUpdateCommand Command;
         public LocationUpdateResponse Response;
 
 
-        public LocationUpdateResponse UpdateLocation(LocationUpdateCommand request)
+        public LocationUpdateResponse UpdateLocation(LocationUpdateCommand command)
         {
             WasUpdateLocationCalled = true;
+            Command = command;
+
             return Response;
         }
     }

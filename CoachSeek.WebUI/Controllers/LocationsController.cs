@@ -47,8 +47,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage AddLocation(ApiLocationSaveCommand locationSaveCommand)
         {
-            var locationAddRequest = LocationAddCommandConverter.Convert(locationSaveCommand);
-            var response = LocationAddUseCase.AddLocation(locationAddRequest);
+            var command = LocationAddCommandConverter.Convert(locationSaveCommand);
+            var response = LocationAddUseCase.AddLocation(command);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
@@ -56,8 +56,8 @@ namespace CoachSeek.WebUI.Controllers
 
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand locationSaveCommand)
         {
-            var locationUpdateRequest = LocationUpdateCommandConverter.Convert(locationSaveCommand);
-            var response = LocationUpdateUseCase.UpdateLocation(locationUpdateRequest);
+            var command = LocationUpdateCommandConverter.Convert(locationSaveCommand);
+            var response = LocationUpdateUseCase.UpdateLocation(command);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Business);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);

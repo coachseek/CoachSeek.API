@@ -143,7 +143,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockLocationAddUseCase useCase)
         {
-            var apiLocationSaveCommand = new ApiLocationSaveCommand {BusinessId = new Guid(BUSINESS_ID)};
+            var apiLocationSaveCommand = new ApiLocationSaveCommand
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                Name = "High Street Hookers"
+            };
 
             Controller.LocationAddUseCase = useCase;
 
@@ -152,7 +156,12 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private HttpResponseMessage WhenPost(MockLocationUpdateUseCase useCase)
         {
-            var apiLocationSaveCommand = new ApiLocationSaveCommand { BusinessId = new Guid(BUSINESS_ID), Id = new Guid(LOCATION_ID) };
+            var apiLocationSaveCommand = new ApiLocationSaveCommand 
+            { 
+                BusinessId = new Guid(BUSINESS_ID), 
+                Id = new Guid(LOCATION_ID),
+                Name = "High Street Hookers"
+            };
 
             Controller.LocationUpdateUseCase = useCase;
 
@@ -169,24 +178,28 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void ThenCallAddUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
             AssertWasAddLocationCalled();
+            AssertPassRelevantInfoIntoAddLocation();
             AssertErrorResponse(response);
         }
 
         private void ThenCallAddUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
             AssertWasAddLocationCalled();
+            AssertPassRelevantInfoIntoAddLocation();
             AssertSuccessResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnErrorResponse(HttpResponseMessage response)
         {
             AssertWasUpdateLocationCalled();
+            AssertPassRelevantInfoIntoUpdateLocation();
             AssertErrorResponse(response);
         }
 
         private void ThenCallUpdateUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
             AssertWasUpdateLocationCalled();
+            AssertPassRelevantInfoIntoUpdateLocation();
             AssertSuccessResponse(response);
         }
 
@@ -198,6 +211,23 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertWasUpdateLocationCalled()
         {
             Assert.That(UpdateUseCase.WasUpdateLocationCalled, Is.True);
+        }
+
+        private void AssertPassRelevantInfoIntoAddLocation()
+        {
+            var command = ((MockLocationAddUseCase)Controller.LocationAddUseCase).Command;
+            Assert.That(command, Is.Not.Null);
+            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
+            Assert.That(command.LocationName, Is.EqualTo("High Street Hookers"));
+        }
+
+        private void AssertPassRelevantInfoIntoUpdateLocation()
+        {
+            var command = ((MockLocationUpdateUseCase)Controller.LocationUpdateUseCase).Command;
+            Assert.That(command, Is.Not.Null);
+            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
+            Assert.That(command.LocationId, Is.EqualTo(new Guid(LOCATION_ID)));
+            Assert.That(command.LocationName, Is.EqualTo("High Street Hookers"));
         }
 
         private void AssertErrorResponse(HttpResponseMessage response)
