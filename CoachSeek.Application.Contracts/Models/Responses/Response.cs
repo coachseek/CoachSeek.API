@@ -5,29 +5,32 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public abstract class Response
+    public class NotFoundResponse : Response
+    {
+        public NotFoundResponse()
+        {
+            Business = null;
+            Errors = null;
+        }
+    }
+
+    public class Response
     {
         public BusinessData Business { get; protected set; }
-
         public List<Error> Errors { get; protected set; }
-
+        public bool IsSuccessful { get { return Errors == null; } }
 
         protected Response()
         { }
 
-        protected Response(Business business)
+        public Response(Business business)
         {
             Business = business == null ? null : business.ToData();
         }
 
-        protected Response(ValidationException exception)
+        public Response(ValidationException exception)
         {
             Errors = exception.Errors;
-        }
-
-        public bool IsSuccessful
-        {
-            get { return Business != null; }
         }
     }
 }

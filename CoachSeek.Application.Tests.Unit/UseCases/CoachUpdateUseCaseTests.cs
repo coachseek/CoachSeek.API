@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -9,6 +6,9 @@ using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
@@ -185,44 +185,44 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachUpdateResponse WhenUpdateCoach(CoachUpdateCommand command)
+        private Response WhenUpdateCoach(CoachUpdateCommand command)
         {
             var useCase = new CoachUpdateUseCase(BusinessRepository);
 
             return useCase.UpdateCoach(command);
         }
 
-        private void ThenCoachUpdateFailsWithMissingCoachError(CoachUpdateResponse response)
+        private void ThenCoachUpdateFailsWithMissingCoachError(Response response)
         {
             AssertMissingCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachUpdateFailsWithInvalidBusinessError(CoachUpdateResponse response)
+        private void ThenCoachUpdateFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachUpdateFailsWithInvalidCoachError(CoachUpdateResponse response)
+        private void ThenCoachUpdateFailsWithInvalidCoachError(Response response)
         {
             AssertInvalidCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachUpdateFailsWithDuplicateCoachError(CoachUpdateResponse response)
+        private void ThenCoachUpdateFailsWithDuplicateCoachError(Response response)
         {
             AssertDuplicateCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachUpdateSucceeds(CoachUpdateResponse response)
+        private void ThenCoachUpdateSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertCoachIsUpdated(response);
         }
 
-        private void AssertMissingCoachError(CoachUpdateResponse response)
+        private void AssertMissingCoachError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -233,7 +233,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidBusinessError(CoachUpdateResponse response)
+        private void AssertInvalidBusinessError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -244,7 +244,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidCoachError(CoachUpdateResponse response)
+        private void AssertInvalidCoachError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -255,7 +255,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateCoachError(CoachUpdateResponse response)
+        private void AssertDuplicateCoachError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -266,7 +266,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertCoachIsUpdated(CoachUpdateResponse response)
+        private void AssertCoachIsUpdated(Response response)
         {
             Assert.That(response.Business, Is.Not.Null);
             Assert.That(response.Business.Coaches.Count, Is.EqualTo(2));

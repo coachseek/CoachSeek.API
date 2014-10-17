@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -12,6 +8,10 @@ using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace CoachSeek.WebUI.Tests.Unit.Controllers
 {
@@ -89,7 +89,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessNewRegistrationUseCase
             {
-                Response = new BusinessRegistrationResponse(new ValidationException(3, "My Error"))
+                Response = new Response(new ValidationException(3, "My Error"))
             };
         }
 
@@ -97,7 +97,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessNewRegistrationUseCase
             {
-                Response = new BusinessRegistrationResponse(SetupBusiness())
+                Response = new Response(SetupBusiness())
             };
         }
 

@@ -26,7 +26,7 @@ namespace CoachSeek.Application.UseCases
             BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
-        public BusinessRegistrationResponse RegisterNewBusiness(BusinessRegistrationCommand registrationCommand)
+        public Response RegisterNewBusiness(BusinessRegistrationCommand registrationCommand)
         {
             if (registrationCommand == null)
                 return new NoBusinessRegistrationDataResponse();
@@ -36,7 +36,7 @@ namespace CoachSeek.Application.UseCases
                 var newBusiness = new NewBusiness(registrationCommand, BusinessDomainBuilder);
                 newBusiness.Register(BusinessRepository);
                 SendRegistrationEmail(newBusiness.ToData());
-                return new BusinessRegistrationResponse(newBusiness);
+                return new Response(newBusiness);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace CoachSeek.Application.UseCases
             BusinessRegistrationEmailer.SendEmail(newbusiness);
         }
 
-        private BusinessRegistrationResponse HandleBusinessRegistrationException(Exception ex)
+        private Response HandleBusinessRegistrationException(Exception ex)
         {
             if (ex is DuplicateBusinessAdmin)
                 return HandleDuplicateBusinessAdmin();
@@ -57,7 +57,7 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private BusinessRegistrationResponse HandleDuplicateBusinessAdmin()
+        private Response HandleDuplicateBusinessAdmin()
         {
             return new DuplicateBusinessAdminBusinessRegistrationResponse();
         }

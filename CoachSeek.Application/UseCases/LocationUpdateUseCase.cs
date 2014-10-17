@@ -19,7 +19,7 @@ namespace CoachSeek.Application.UseCases
         }
 
         
-        public LocationUpdateResponse UpdateLocation(LocationUpdateCommand request)
+        public Response UpdateLocation(LocationUpdateCommand request)
         {
             if (request == null)
                 return new NoLocationUpdateDataResponse();
@@ -28,7 +28,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var business = GetBusiness(request);
                 business.UpdateLocation(request, BusinessRepository);
-                return new LocationUpdateResponse(business);
+                return new Response(business);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace CoachSeek.Application.UseCases
             return business;
         }
 
-        private LocationUpdateResponse HandleUpdateLocationException(Exception ex)
+        private Response HandleUpdateLocationException(Exception ex)
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
@@ -56,17 +56,17 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private LocationUpdateResponse HandleInvalidBusiness()
+        private Response HandleInvalidBusiness()
         {
             return new InvalidBusinessLocationUpdateResponse();
         }
 
-        private LocationUpdateResponse HandleInvalidLocation()
+        private Response HandleInvalidLocation()
         {
             return new InvalidLocationUpdateResponse();
         }
 
-        private LocationUpdateResponse HandleDuplicateLocation()
+        private Response HandleDuplicateLocation()
         {
             return new DuplicateLocationUpdateResponse();
         }

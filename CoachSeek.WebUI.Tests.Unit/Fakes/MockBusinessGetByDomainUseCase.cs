@@ -6,9 +6,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     public class MockBusinessGetByDomainUseCase : IBusinessGetByDomainUseCase
     {
         public string Domain;
-        public BusinessGetResponse Response; 
+        public Response Response; 
 
-        public BusinessGetResponse GetByDomain(string domain)
+        public Response GetByDomain(string domain)
         {
             Domain = domain;
 

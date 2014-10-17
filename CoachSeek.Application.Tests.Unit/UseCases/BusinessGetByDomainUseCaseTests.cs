@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
@@ -142,7 +142,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private BusinessGetResponse WhenGetBusinessByDomain(string domain)
+        private Response WhenGetBusinessByDomain(string domain)
         {
             var useCase = new BusinessGetByDomainUseCase(BusinessRepository);
 
@@ -150,7 +150,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenBusinessGetFailsWithMissingDomainError(BusinessGetResponse response)
+        private void ThenBusinessGetFailsWithMissingDomainError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -161,7 +161,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void ThenBusinessGetReturnsNoBusiness(BusinessGetResponse response)
+        private void ThenBusinessGetReturnsNoBusiness(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Null);

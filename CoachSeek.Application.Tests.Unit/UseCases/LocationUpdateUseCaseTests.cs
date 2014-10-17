@@ -155,44 +155,44 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private LocationUpdateResponse WhenUpdateLocation(LocationUpdateCommand request)
+        private Response WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase(BusinessRepository);
 
             return useCase.UpdateLocation(request);
         }
 
-        private void ThenLocationUpdateFailsWithMissingLocationError(LocationUpdateResponse response)
+        private void ThenLocationUpdateFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithInvalidBusinessError(LocationUpdateResponse response)
+        private void ThenLocationUpdateFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithInvalidLocationError(LocationUpdateResponse response)
+        private void ThenLocationUpdateFailsWithInvalidLocationError(Response response)
         {
             AssertInvalidLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithDuplicateLocationError(LocationUpdateResponse response)
+        private void ThenLocationUpdateFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateSucceeds(LocationUpdateResponse response)
+        private void ThenLocationUpdateSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertLocationIsUpdated(response);
         }
 
-        private void AssertMissingLocationError(LocationUpdateResponse response)
+        private void AssertMissingLocationError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -203,7 +203,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidBusinessError(LocationUpdateResponse response)
+        private void AssertInvalidBusinessError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -214,7 +214,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidLocationError(LocationUpdateResponse response)
+        private void AssertInvalidLocationError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -225,7 +225,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateLocationError(LocationUpdateResponse response)
+        private void AssertDuplicateLocationError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -236,7 +236,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertLocationIsUpdated(LocationUpdateResponse response)
+        private void AssertLocationIsUpdated(Response response)
         {
             Assert.That(response.Business, Is.Not.Null);
             Assert.That(response.Business.Locations.Count, Is.EqualTo(2));

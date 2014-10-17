@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBusinessNewRegistrationUseCase
     {
-        BusinessRegistrationResponse RegisterNewBusiness(BusinessRegistrationCommand registration);
+        Response RegisterNewBusiness(BusinessRegistrationCommand registration);
     }
 }

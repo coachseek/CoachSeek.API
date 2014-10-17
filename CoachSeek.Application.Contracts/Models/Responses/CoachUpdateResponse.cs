@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoCoachUpdateDataResponse : CoachUpdateResponse
+    public class NoCoachUpdateDataResponse : Response
     {
         public NoCoachUpdateDataResponse()
         {
@@ -19,7 +18,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidBusinessCoachUpdateResponse : CoachUpdateResponse
+    public class InvalidBusinessCoachUpdateResponse : Response
     {
         public InvalidBusinessCoachUpdateResponse()
         {
@@ -33,7 +32,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidCoachUpdateResponse : CoachUpdateResponse
+    public class InvalidCoachUpdateResponse : Response
     {
         public InvalidCoachUpdateResponse()
         {
@@ -47,7 +46,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class DuplicateCoachUpdateResponse : CoachUpdateResponse
+    public class DuplicateCoachUpdateResponse : Response
     {
         public DuplicateCoachUpdateResponse()
         {
@@ -62,17 +61,17 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     }
 
 
-    public class CoachUpdateResponse : Response
-    {
-        public CoachUpdateResponse()
-        { }
+    //public class CoachUpdateResponse : Response
+    //{
+    //    public CoachUpdateResponse()
+    //    { }
 
-        public CoachUpdateResponse(Business business)
-            : base(business)
-        { }
+    //    public CoachUpdateResponse(Business business)
+    //        : base(business)
+    //    { }
 
-        public CoachUpdateResponse(ValidationException exception)
-            : base(exception)
-        { }
-    }
+    //    public CoachUpdateResponse(ValidationException exception)
+    //        : base(exception)
+    //    { }
+    //}
 }

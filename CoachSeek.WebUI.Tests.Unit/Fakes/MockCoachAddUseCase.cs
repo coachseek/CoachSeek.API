@@ -8,10 +8,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasAddCoachCalled;
         public CoachAddCommand Command;
-        public CoachAddResponse Response;
+        public Response Response;
 
 
-        public CoachAddResponse AddCoach(CoachAddCommand command)
+        public Response AddCoach(CoachAddCommand command)
         {
             WasAddCoachCalled = true;
             Command = command;

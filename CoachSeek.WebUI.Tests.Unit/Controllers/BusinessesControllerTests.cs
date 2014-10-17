@@ -44,35 +44,51 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
 
         [Test]
-        public void GivenUseCaseFails_WhenGetBusinessByDomain_ThenReturnErrorResponse()
+        public void GivenErrorOccursInUseCase_WhenGetBusinessByDomain_ThenReturnErrorResponse()
         {
-            var useCase = GivenUseCaseFails();
+            var useCase = GivenErrorOccursInUseCase();
             var response = WhenGetBusinessByDomain(useCase);
             ThenReturnErrorResponse(response);
         }
 
         [Test]
-        public void GivenUseCaseIsSuccessful_WhenGetBusinessByDomain_ThenReturnSuccessResponse()
+        public void GivenNonExistentDomain_WhenGetBusinessByDomain_ThenReturnNotFoundResponse()
         {
-            var useCase = GivenUseCaseIsSuccessful();
+            var useCase = GivenNonExistentDomain();
+            var response = WhenGetBusinessByDomain(useCase);
+            ThenReturnNotFoundResponse(response);
+        }
+
+        [Test]
+        public void GivenExistingDomain_WhenGetBusinessByDomain_ThenReturnSuccessResponse()
+        {
+            var useCase = GivenExistingDomain();
             var response = WhenGetBusinessByDomain(useCase);
             ThenReturnSuccessResponse(response);
         }
 
 
-        private MockBusinessGetByDomainUseCase GivenUseCaseFails()
+        private MockBusinessGetByDomainUseCase GivenErrorOccursInUseCase()
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new BusinessGetResponse(new ValidationException(1, "Error"))
+                Response = new Response(new ValidationException(1, "Error"))
             };
         }
 
-        private MockBusinessGetByDomainUseCase GivenUseCaseIsSuccessful()
+        private MockBusinessGetByDomainUseCase GivenNonExistentDomain()
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new BusinessGetResponse(SetupBusiness())
+                Response = new NotFoundResponse()
+            };
+        }
+
+        private MockBusinessGetByDomainUseCase GivenExistingDomain()
+        {
+            return new MockBusinessGetByDomainUseCase
+            {
+                Response = new Response(SetupBusiness())
             };
         }
 
@@ -91,6 +107,12 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void ThenReturnErrorResponse(HttpResponseMessage response)
         {
             AssertErrorResponse(response);
+            AssertPassRelevantInfoIntoGetBusinessByDomain();
+        }
+
+        private void ThenReturnNotFoundResponse(HttpResponseMessage response)
+        {
+            AssertNotFoundResponse(response);
             AssertPassRelevantInfoIntoGetBusinessByDomain();
         }
 
@@ -113,6 +135,15 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(response.TryGetContentValue(out error), Is.True);
             Assert.That(error.Code, Is.EqualTo(1));
             Assert.That(error.Message, Is.EqualTo("Error"));
+        }
+
+        private void AssertNotFoundResponse(HttpResponseMessage response)
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Error error;
+            Assert.That(response.TryGetContentValue(out error), Is.False);
+            Business business;
+            Assert.That(response.TryGetContentValue(out business), Is.False);
         }
 
         private void AssertSuccessResponse(HttpResponseMessage response)

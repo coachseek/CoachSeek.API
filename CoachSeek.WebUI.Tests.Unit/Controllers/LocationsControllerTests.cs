@@ -104,7 +104,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new LocationAddResponse(new ValidationException(2, "Error!"))
+                Response = new Response(new ValidationException(2, "Error!"))
             };
         }
 
@@ -112,7 +112,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new LocationAddResponse(SetupBusiness())
+                Response = new Response(SetupBusiness())
             };
         }
 
@@ -120,7 +120,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new LocationUpdateResponse(new ValidationException(2, "Error!"))
+                Response = new Response(new ValidationException(2, "Error!"))
             };
         }
 
@@ -128,7 +128,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new LocationUpdateResponse(SetupBusiness())
+                Response = new Response(SetupBusiness())
             };
         }
 

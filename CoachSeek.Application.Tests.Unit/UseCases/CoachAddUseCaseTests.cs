@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -9,6 +6,9 @@ using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
@@ -156,38 +156,38 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private CoachAddResponse WhenAddCoach(CoachAddCommand command)
+        private Response WhenAddCoach(CoachAddCommand command)
         {
             var useCase = new CoachAddUseCase(BusinessRepository);
 
             return useCase.AddCoach(command);
         }
 
-        private void ThenCoachAddFailsWithMissingCoachError(CoachAddResponse response)
+        private void ThenCoachAddFailsWithMissingCoachError(Response response)
         {
             AssertMissingCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddFailsWithInvalidBusinessError(CoachAddResponse response)
+        private void ThenCoachAddFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddFailsWithDuplicateCoachError(CoachAddResponse response)
+        private void ThenCoachAddFailsWithDuplicateCoachError(Response response)
         {
             AssertDuplicateCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddSucceeds(CoachAddResponse response)
+        private void ThenCoachAddSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertSavedBusinessWithTwoCoaches(response);
         }
 
-        private void AssertMissingCoachError(CoachAddResponse response)
+        private void AssertMissingCoachError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -198,7 +198,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidBusinessError(CoachAddResponse response)
+        private void AssertInvalidBusinessError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -209,7 +209,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateCoachError(CoachAddResponse response)
+        private void AssertDuplicateCoachError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -230,7 +230,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
         }
         
-        private void AssertSavedBusinessWithTwoCoaches(CoachAddResponse response)
+        private void AssertSavedBusinessWithTwoCoaches(Response response)
         {
             Assert.That(response.Business, Is.Not.Null);
             Assert.That(response.Business.Coaches.Count, Is.EqualTo(2));

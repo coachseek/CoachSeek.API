@@ -70,6 +70,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business not found..
+        /// </summary>
+        internal static string ErrorBusinessNotFound {
+            get {
+                return ResourceManager.GetString("ErrorBusinessNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This coach already exists..
         /// </summary>
         internal static string ErrorDuplicateCoach {

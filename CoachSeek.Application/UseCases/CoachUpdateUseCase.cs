@@ -18,7 +18,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public CoachUpdateResponse UpdateCoach(CoachUpdateCommand command)
+        public Response UpdateCoach(CoachUpdateCommand command)
         {
             if (command == null)
                 return new NoCoachUpdateDataResponse();
@@ -27,7 +27,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var business = GetBusiness(command);
                 business.UpdateCoach(command, BusinessRepository);
-                return new CoachUpdateResponse(business);
+                return new Response(business);
             }
             catch (Exception ex)
             {
@@ -43,7 +43,7 @@ namespace CoachSeek.Application.UseCases
             return business;
         }
 
-        private CoachUpdateResponse HandleUpdateCoachException(Exception ex)
+        private Response HandleUpdateCoachException(Exception ex)
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
@@ -55,17 +55,17 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private CoachUpdateResponse HandleInvalidBusiness()
+        private Response HandleInvalidBusiness()
         {
             return new InvalidBusinessCoachUpdateResponse();
         }
 
-        private CoachUpdateResponse HandleInvalidCoach()
+        private Response HandleInvalidCoach()
         {
             return new InvalidCoachUpdateResponse();
         }
 
-        private CoachUpdateResponse HandleDuplicateCoach()
+        private Response HandleDuplicateCoach()
         {
             return new DuplicateCoachUpdateResponse();
         }

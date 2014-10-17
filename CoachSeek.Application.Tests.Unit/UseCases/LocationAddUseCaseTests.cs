@@ -125,38 +125,38 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private LocationAddResponse WhenAddLocation(LocationAddCommand command)
+        private Response WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase(BusinessRepository);
 
             return useCase.AddLocation(command);
         }
 
-        private void ThenLocationAddFailsWithMissingLocationError(LocationAddResponse response)
+        private void ThenLocationAddFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddFailsWithInvalidBusinessError(LocationAddResponse response)
+        private void ThenLocationAddFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddFailsWithDuplicateLocationError(LocationAddResponse response)
+        private void ThenLocationAddFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddSucceeds(LocationAddResponse response)
+        private void ThenLocationAddSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertSavedBusinessWithTwoLocations(response);
         }
 
-        private void AssertMissingLocationError(LocationAddResponse response)
+        private void AssertMissingLocationError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -167,7 +167,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertInvalidBusinessError(LocationAddResponse response)
+        private void AssertInvalidBusinessError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -178,7 +178,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateLocationError(LocationAddResponse response)
+        private void AssertDuplicateLocationError(Response response)
         {
             Assert.That(response.Business, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -199,7 +199,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
         }
 
-        private void AssertSavedBusinessWithTwoLocations(LocationAddResponse response)
+        private void AssertSavedBusinessWithTwoLocations(Response response)
         {
             Assert.That(response.Business, Is.Not.Null);
             Assert.That(response.Business.Locations.Count, Is.EqualTo(2));

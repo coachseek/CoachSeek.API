@@ -5,7 +5,7 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoLocationAddDataResponse : LocationAddResponse
+    public class NoLocationAddDataResponse : Response
     {
         public NoLocationAddDataResponse()
         {
@@ -19,7 +19,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidBusinessLocationAddResponse : LocationAddResponse
+    public class InvalidBusinessLocationAddResponse : Response
     {
         public InvalidBusinessLocationAddResponse()
         {
@@ -33,7 +33,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class DuplicateLocationAddResponse : LocationAddResponse
+    public class DuplicateLocationAddResponse : Response
     {
         public DuplicateLocationAddResponse()
         {
@@ -48,17 +48,17 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     }
 
 
-    public class LocationAddResponse : Response
-    {
-        public LocationAddResponse()
-        { }
+    //public class LocationAddResponse : Response
+    //{
+    //    public LocationAddResponse()
+    //    { }
 
-        public LocationAddResponse(Business business) 
-            : base(business)
-        { }
+    //    public LocationAddResponse(Business business) 
+    //        : base(business)
+    //    { }
 
-        public LocationAddResponse(ValidationException exception) 
-            : base (exception)
-        { }
-    }
+    //    public LocationAddResponse(ValidationException exception) 
+    //        : base (exception)
+    //    { }
+    //}
 }

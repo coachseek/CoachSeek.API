@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoLocationUpdateDataResponse : LocationUpdateResponse
+    public class NoLocationUpdateDataResponse : Response
     {
         public NoLocationUpdateDataResponse()
         {
@@ -19,7 +18,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidBusinessLocationUpdateResponse : LocationUpdateResponse
+    public class InvalidBusinessLocationUpdateResponse : Response
     {
         public InvalidBusinessLocationUpdateResponse()
         {
@@ -33,7 +32,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidLocationUpdateResponse : LocationUpdateResponse
+    public class InvalidLocationUpdateResponse : Response
     {
         public InvalidLocationUpdateResponse()
         {
@@ -47,7 +46,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class DuplicateLocationUpdateResponse : LocationUpdateResponse
+    public class DuplicateLocationUpdateResponse : Response
     {
         public DuplicateLocationUpdateResponse()
         {
@@ -62,17 +61,17 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     }
 
 
-    public class LocationUpdateResponse : Response
-    {
-        public LocationUpdateResponse()
-        { }
+    //public class LocationUpdateResponse : Response
+    //{
+    //    public LocationUpdateResponse()
+    //    { }
 
-        public LocationUpdateResponse(Business business)
-            : base(business)
-        { }
+    //    public LocationUpdateResponse(Business business)
+    //        : base(business)
+    //    { }
 
-        public LocationUpdateResponse(ValidationException exception)
-            : base(exception)
-        { }
-    }
+    //    public LocationUpdateResponse(ValidationException exception)
+    //        : base(exception)
+    //    { }
+    //}
 }

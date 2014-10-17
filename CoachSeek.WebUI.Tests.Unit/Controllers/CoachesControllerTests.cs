@@ -1,6 +1,8 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Configuration;
+using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
@@ -21,6 +23,13 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private const string COACH_ID = "90ABCDEF-AAAA-429B-8972-EAB6E00C732B";
 
         private CoachesController Controller { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            WebApiAutoMapperConfigurator.Configure();
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()
@@ -102,7 +111,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new CoachAddResponse(new ValidationException(2, "Error!"))
+                Response = new Response(new ValidationException(2, "Error!"))
             };
         }
 
@@ -110,7 +119,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new CoachAddResponse(SetupBusiness())
+                Response = new Response(SetupBusiness())
             };
         }
 
@@ -118,7 +127,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new CoachUpdateResponse(new ValidationException(2, "Error!"))
+                Response = new Response(new ValidationException(2, "Error!"))
             };
         }
 
@@ -126,7 +135,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new CoachUpdateResponse(SetupBusiness())
+                Response = new Response(SetupBusiness())
             };
         }
 
@@ -155,6 +164,12 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                         IsAvailable = true,
                         StartTime = "9:30",
                         FinishTime = "15:30"
+                    },
+                    Tuesday = new ApiDailyWorkingHours
+                    {
+                        IsAvailable = true,
+                        StartTime = "7:45",
+                        FinishTime = "18:15"
                     }
                 }
             };
@@ -236,12 +251,19 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(command.Email, Is.EqualTo("john@smith.co.nz"));
             Assert.That(command.Phone, Is.EqualTo("0987654321"));
             var workingHours = command.WorkingHours;
-            var monday = workingHours.Monday;
-            Assert.That(monday.IsAvailable, Is.True);
-            Assert.That(monday.StartTime, Is.EqualTo("9:30"));
-            Assert.That(monday.FinishTime, Is.EqualTo("15:30"));
-            var tuesday = workingHours.Tuesday;
-            Assert.That(tuesday, Is.Null);
+            AssertValidWorkingHours(workingHours.Monday, true, "9:30", "15:30");
+            AssertValidWorkingHours(workingHours.Tuesday, true, "7:45", "18:15");
+            Assert.That(workingHours.Wednesday, Is.Null);
+        }
+
+        private void AssertValidWorkingHours(DailyWorkingHours workingHours, 
+            bool isAvailable, 
+            string startTime,
+            string finishTime)
+        {
+            Assert.That(workingHours.IsAvailable, Is.EqualTo(isAvailable));
+            Assert.That(workingHours.StartTime, Is.EqualTo(startTime));
+            Assert.That(workingHours.FinishTime, Is.EqualTo(finishTime));
         }
 
         private void AssertPassRelevantInfoIntoUpdateCoach()

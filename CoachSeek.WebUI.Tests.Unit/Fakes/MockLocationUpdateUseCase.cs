@@ -8,10 +8,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasUpdateLocationCalled;
         public LocationUpdateCommand Command;
-        public LocationUpdateResponse Response;
+        public Response Response;
 
 
-        public LocationUpdateResponse UpdateLocation(LocationUpdateCommand command)
+        public Response UpdateLocation(LocationUpdateCommand command)
         {
             WasUpdateLocationCalled = true;
             Command = command;

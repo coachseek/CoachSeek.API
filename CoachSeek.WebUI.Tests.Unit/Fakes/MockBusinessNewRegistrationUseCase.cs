@@ -8,10 +8,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasRegisterNewBusinessCalled;
         public BusinessRegistrationCommand Command;
-        public BusinessRegistrationResponse Response;
+        public Response Response;
 
 
-        public BusinessRegistrationResponse RegisterNewBusiness(BusinessRegistrationCommand registration)
+        public Response RegisterNewBusiness(BusinessRegistrationCommand registration)
         {
             WasRegisterNewBusinessCalled = true;
             Command = registration;
