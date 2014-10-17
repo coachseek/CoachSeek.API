@@ -8,6 +8,6 @@ namespace CoachSeek.Domain.Commands
         public string BusinessName { get; set; }
 
         [Required]
-        public BusinessRegistrant Registrant { get; set; }
+        public BusinessRegistrantCommand Registrant { get; set; }
     }
 }

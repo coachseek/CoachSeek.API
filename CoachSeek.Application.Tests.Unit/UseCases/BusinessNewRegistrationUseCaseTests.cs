@@ -112,7 +112,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new BusinessRegistrationCommand
             {
                 BusinessName = "Olaf's Cafe  ",
-                Registrant = new BusinessRegistrant
+                Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = " Olaf ",
                     LastName = " Thielke  ",
@@ -127,7 +127,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new BusinessRegistrationCommand
             {
                 BusinessName = "  Ian's Cafe",
-                Registrant = new BusinessRegistrant
+                Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = " Ian",
                     LastName = "Bishop ",

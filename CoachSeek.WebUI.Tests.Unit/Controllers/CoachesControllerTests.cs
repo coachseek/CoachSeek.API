@@ -40,6 +40,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Configuration = new HttpConfiguration()
             };
         }
+
         private Business SetupBusiness()
         {
             return new Business(new Guid(BUSINESS_ID),
@@ -256,7 +257,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(workingHours.Wednesday, Is.Null);
         }
 
-        private void AssertValidWorkingHours(DailyWorkingHours workingHours, 
+        private void AssertValidWorkingHours(DailyWorkingHoursCommand workingHours, 
             bool isAvailable, 
             string startTime,
             string finishTime)

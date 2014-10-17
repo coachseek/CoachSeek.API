@@ -52,15 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\BusinessRegistrant.cs" />
+    <Compile Include="Commands\BusinessRegistrantCommand.cs" />
     <Compile Include="Commands\BusinessRegistrationCommand.cs" />
     <Compile Include="Commands\CoachAddCommand.cs" />
     <Compile Include="Commands\CoachUpdateCommand.cs" />
-    <Compile Include="Commands\DailyWorkingHours.cs" />
+    <Compile Include="Commands\DailyWorkingHoursCommand.cs" />
     <Compile Include="Commands\IBusinessIdable.cs" />
     <Compile Include="Commands\LocationAddCommand.cs" />
     <Compile Include="Commands\LocationUpdateCommand.cs" />
-    <Compile Include="Commands\WeeklyWorkingHours.cs" />
+    <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\BusinessCoaches.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
     <Compile Include="Entities\NewLocation.cs" />
-    <Compile Include="Entities\WorkingHours.cs" />
+    <Compile Include="Entities\WeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
     <Compile Include="Exceptions\DuplicateCoach.cs" />
     <Compile Include="Exceptions\DuplicateLocation.cs" />

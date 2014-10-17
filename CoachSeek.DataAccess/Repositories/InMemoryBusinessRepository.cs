@@ -15,14 +15,13 @@ namespace CoachSeek.DataAccess.Repositories
         public bool WasSaveNewBusinessCalled;
         public bool WasSaveBusinessCalled; 
 
-        private static List<DbBusiness> Businesses { get; set; }
+        public static List<DbBusiness> Businesses { get; private set; }
 
 
         static InMemoryBusinessRepository()
         {
             Businesses = new List<DbBusiness>();
         }
-
 
         public void Clear()
         {

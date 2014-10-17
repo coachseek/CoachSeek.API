@@ -85,7 +85,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 BusinessName = "Auckland Brake Repairs",
 
-                Registrant = new BusinessRegistrant
+                Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = "Steven",
                     LastName = "Armstrong",
@@ -103,7 +103,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 BusinessName = "Olaf's Cafe",
 
-                Registrant = new BusinessRegistrant
+                Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = "  Olaf ",
                     LastName = " Thielke  ",

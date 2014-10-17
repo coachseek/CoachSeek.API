@@ -11,7 +11,7 @@ namespace CoachSeek.Domain.Commands
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public WeeklyWorkingHours WorkingHours { get; set; }
+        public WeeklyWorkingHoursCommand WorkingHours { get; set; }
 
 
         public NewCoachData ToData()

@@ -17,8 +17,8 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<CoachAddCommand, NewCoachData>();
             Mapper.CreateMap<CoachUpdateCommand, CoachData>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CoachId));
-            Mapper.CreateMap<WeeklyWorkingHours, WeeklyWorkingHoursData>();
-            Mapper.CreateMap<DailyWorkingHours, DailyWorkingHoursData>();
+            Mapper.CreateMap<WeeklyWorkingHoursCommand, WeeklyWorkingHoursData>();
+            Mapper.CreateMap<DailyWorkingHoursCommand, DailyWorkingHoursData>();
 
             Mapper.CreateMap<LocationAddCommand, NewLocationData>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.LocationName));

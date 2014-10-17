@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</ProjectGuid>
+    <ProjectGuid>{40BA627F-6DF3-40FF-BAA2-774AFF4720AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CoachSeek.DataAccess</RootNamespace>
-    <AssemblyName>CoachSeek.DataAccess</AssemblyName>
+    <RootNamespace>CoachSeek.WebUI.Tests.Integration</RootNamespace>
+    <AssemblyName>CoachSeek.WebUI.Tests.Integration</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,26 +61,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conversion\DbBusinessConverter.cs" />
-    <Compile Include="Models\DbDailyWorkingHours.cs" />
-    <Compile Include="Models\DbWeeklyWorkingHours.cs" />
-    <Compile Include="Repositories\HardCodedReservedDomainRepository.cs" />
-    <Compile Include="Models\DbBusiness.cs" />
-    <Compile Include="Models\DbBusinessAdmin.cs" />
-    <Compile Include="Models\DbCoach.cs" />
-    <Compile Include="Models\DbLocation.cs" />
+    <Compile Include="CoachesControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\InMemoryBusinessRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
+      <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
+      <Name>CoachSeek.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
+      <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>
+      <Name>CoachSeek.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
       <Name>CoachSeek.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
-      <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">
+      <Project>{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}</Project>
+      <Name>CoachSeek.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

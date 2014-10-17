@@ -11,5 +11,7 @@ namespace CoachSeek.DataAccess.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+
+        public DbWeeklyWorkingHours WorkingHours { get; set; }
     }
 }

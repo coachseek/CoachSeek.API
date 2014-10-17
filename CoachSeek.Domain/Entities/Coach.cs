@@ -17,14 +17,16 @@ namespace CoachSeek.Domain.Entities
         private PersonName Person { get; set; }
         private EmailAddress EmailAddress { get; set; }
         private PhoneNumber PhoneNumber { get; set; }
+        private WeeklyWorkingHours WorkingHours { get; set; }
 
 
-        public Coach(Guid id, string firstName, string lastName, string email, string phone)
+        public Coach(Guid id, string firstName, string lastName, string email, string phone, WeeklyWorkingHoursData workingHoursData)
         {
             Id = id;
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
             PhoneNumber = new PhoneNumber(phone);
+            WorkingHours = new WeeklyWorkingHours(workingHoursData);
         }
 
         public Coach(CoachData data)
@@ -32,7 +34,8 @@ namespace CoachSeek.Domain.Entities
                    data.FirstName, 
                    data.LastName, 
                    data.Email, 
-                   data.Phone)
+                   data.Phone,
+                   data.WorkingHours)
         { }
 
 

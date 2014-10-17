@@ -8,11 +8,11 @@ namespace CoachSeek.WebUI
     {
         public static void Configure()
         {
-            Mapper.CreateMap<ApiBusinessRegistrant, BusinessRegistrant>();
+            Mapper.CreateMap<ApiBusinessRegistrant, BusinessRegistrantCommand>();
             Mapper.CreateMap<ApiBusinessRegistrationCommand, BusinessRegistrationCommand>();
 
-            Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHours>();
-            Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHours>();
+            Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHoursCommand>();
+            Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachAddCommand>();
         }
     }

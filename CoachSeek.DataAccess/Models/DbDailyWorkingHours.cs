@@ -1,15 +1,15 @@
-﻿namespace CoachSeek.WebUI.Models.Api
+﻿namespace CoachSeek.DataAccess.Models
 {
-    public class ApiDailyWorkingHours
+    public class DbDailyWorkingHours
     {
         public bool IsAvailable { get; set; }
         public string StartTime { get; set; }
         public string FinishTime { get; set; }
 
-        public ApiDailyWorkingHours()
+        public DbDailyWorkingHours()
         { }
 
-        public ApiDailyWorkingHours(bool isAvailable, string startTime, string finishTime)
+        public DbDailyWorkingHours(bool isAvailable, string startTime = null, string finishTime = null)
         {
             IsAvailable = isAvailable;
             StartTime = startTime;

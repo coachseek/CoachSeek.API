@@ -34,7 +34,7 @@ namespace CoachSeek.Domain.Entities
 
         private class NewBusinessAdmin : BusinessAdmin
         {
-            public NewBusinessAdmin(BusinessRegistrant registrant)
+            public NewBusinessAdmin(BusinessRegistrantCommand registrant)
                 : this(registrant.FirstName, registrant.LastName, registrant.Email, registrant.Password)
             { }
 
