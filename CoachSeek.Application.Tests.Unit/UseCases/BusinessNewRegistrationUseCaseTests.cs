@@ -137,7 +137,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response WhenRegisterANewBusiness(BusinessRegistrationCommand registration)
+        private Response<BusinessData> WhenRegisterANewBusiness(BusinessRegistrationCommand registration)
         {
             var useCase = new BusinessNewRegistrationUseCase(BusinessRepository, 
                 BusinessDomainBuilder,
@@ -146,7 +146,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return useCase.RegisterNewBusiness(registration);
         }
 
-        private void ThenBusinessRegistrationFailsWithMissingRegistrationError(Response response)
+        private void ThenBusinessRegistrationFailsWithMissingRegistrationError(Response<BusinessData> response)
         {
             AssertMissingRegistrationError(response);
             AssertBusinessRegistrationFails();
@@ -158,22 +158,22 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         //    AssertBusinessRegistrationFails();
         //}
 
-        private void ThenBusinessRegistrationFailsWithDupliateEmailError(Response response)
+        private void ThenBusinessRegistrationFailsWithDupliateEmailError(Response<BusinessData> response)
         {
             AssertDuplicateBusinessAdminEmailError(response);
             AssertBusinessRegistrationFails();
         }
 
-        private void ThenBusinessRegistrationSucceeds(Response response)
+        private void ThenBusinessRegistrationSucceeds(Response<BusinessData> response)
         {
             AssertBusinessIsRegistered();
             AssertRegistrationEmailIsSent();
             AssertRegistrationDataIsPassedToEmailer();
         }
 
-        private void AssertMissingRegistrationError(Response response)
+        private void AssertMissingRegistrationError(Response<BusinessData> response)
         {
-            Assert.That(response.Business, Is.Null);
+            Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
@@ -193,9 +193,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         //    var secondError = response.Errors[1];
         //}
 
-        private void AssertDuplicateBusinessAdminEmailError(Response response)
+        private void AssertDuplicateBusinessAdminEmailError(Response<BusinessData> response)
         {
-            Assert.That(response.Business, Is.Null);
+            Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using CoachSeek.Application.Contracts.Properties;
+﻿using CoachSeek.Application.Contracts.Properties;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
+using System.Collections.Generic;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoCoachAddDataResponse : Response
+    public class NoCoachAddDataResponse : Response<CoachData>
     {
         public NoCoachAddDataResponse()
         {
@@ -18,7 +19,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidBusinessCoachAddResponse : Response
+    public class InvalidBusinessCoachAddResponse : Response<CoachData>
     {
         public InvalidBusinessCoachAddResponse()
         {
@@ -32,7 +33,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class DuplicateCoachAddResponse : Response
+    public class DuplicateCoachAddResponse : Response<CoachData>
     {
         public DuplicateCoachAddResponse()
         {
@@ -45,19 +46,4 @@ namespace CoachSeek.Application.Contracts.Models.Responses
                              Resources.ErrorDuplicateCoach);
         }
     }
-
-
-    //public class CoachAddResponse : Response
-    //{
-    //    public CoachAddResponse()
-    //    { }
-
-    //    public CoachAddResponse(Business business)
-    //        : base(business)
-    //    { }
-
-    //    public CoachAddResponse(ValidationException exception)
-    //        : base(exception)
-    //    { }
-    //}
 }

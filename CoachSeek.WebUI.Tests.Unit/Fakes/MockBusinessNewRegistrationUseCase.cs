@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.WebUI.Tests.Unit.Fakes
@@ -8,10 +9,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasRegisterNewBusinessCalled;
         public BusinessRegistrationCommand Command;
-        public Response Response;
+        public Response<BusinessData> Response;
 
 
-        public Response RegisterNewBusiness(BusinessRegistrationCommand registration)
+        public Response<BusinessData> RegisterNewBusiness(BusinessRegistrationCommand registration)
         {
             WasRegisterNewBusinessCalled = true;
             Command = registration;

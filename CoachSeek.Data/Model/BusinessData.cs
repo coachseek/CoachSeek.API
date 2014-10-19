@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CoachSeek.Data.Model
 {
-    public class BusinessData
+    public class BusinessData : IData
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

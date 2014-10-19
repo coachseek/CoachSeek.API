@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -19,7 +20,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response AddLocation(LocationAddCommand command)
+        public Response<LocationData> AddLocation(LocationAddCommand command)
         {
             if (command == null)
                 return new NoLocationAddDataResponse();
@@ -27,8 +28,8 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var business = GetBusiness(command);
-                business.AddLocation(command, BusinessRepository);
-                return new Response(business);
+                var location = business.AddLocation(command, BusinessRepository);
+                return new Response<LocationData>(location);
             }
             catch (Exception ex)
             {
@@ -44,7 +45,7 @@ namespace CoachSeek.Application.UseCases
             return business;
         }
 
-        private Response HandleAddLocationException(Exception ex)
+        private Response<LocationData> HandleAddLocationException(Exception ex)
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
@@ -54,12 +55,12 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private Response HandleInvalidBusiness()
+        private Response<LocationData> HandleInvalidBusiness()
         {
             return new InvalidBusinessLocationAddResponse();
         }
 
-        private Response HandleDuplicateLocation()
+        private Response<LocationData> HandleDuplicateLocation()
         {
             return new DuplicateLocationAddResponse();
         }

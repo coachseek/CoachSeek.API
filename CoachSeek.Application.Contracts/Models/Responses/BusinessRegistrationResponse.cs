@@ -1,11 +1,12 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Common;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoBusinessRegistrationDataResponse : Response
+    public class NoBusinessRegistrationDataResponse : Response<BusinessData>
     {
         public NoBusinessRegistrationDataResponse()
         {
@@ -18,7 +19,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
                              Resources.ErrorNoBusinessRegistrationData);
         }
     }
-    public class DuplicateBusinessAdminBusinessRegistrationResponse : Response
+    public class DuplicateBusinessAdminBusinessRegistrationResponse : Response<BusinessData>
     {
         public DuplicateBusinessAdminBusinessRegistrationResponse()
         {
@@ -32,18 +33,4 @@ namespace CoachSeek.Application.Contracts.Models.Responses
                              FormField.Email);
         }
     }
-
-    //public class BusinessRegistrationResponse : Response
-    //{
-    //    public BusinessRegistrationResponse()
-    //    { }
-
-    //    public BusinessRegistrationResponse(Business business)
-    //        : base(business)
-    //    { }
-
-    //    public BusinessRegistrationResponse(ValidationException exception)
-    //        : base(exception)
-    //    { }
-    //}
 }

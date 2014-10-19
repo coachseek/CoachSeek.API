@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.WebUI.Tests.Unit.Fakes
@@ -8,10 +9,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasUpdateCoachCalled;
         public CoachUpdateCommand Command;
-        public Response Response;
+        public Response<CoachData> Response;
 
 
-        public Response UpdateCoach(CoachUpdateCommand command)
+        public Response<CoachData> UpdateCoach(CoachUpdateCommand command)
         {
             WasUpdateCoachCalled = true;
             Command = command;

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
@@ -51,33 +52,52 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public void AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
+        public LocationData AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
         {
-            BusinessLocations.Add(command.ToData());
+            var locationId = BusinessLocations.Add(command.ToData());
             businessRepository.Save(this);
+
+            return GetLocationById(locationId, businessRepository);
         }
 
-        public void UpdateLocation(LocationUpdateCommand command, IBusinessRepository businessRepository)
+        public LocationData UpdateLocation(LocationUpdateCommand command, IBusinessRepository businessRepository)
         {
             BusinessLocations.Update(command.ToData());
             businessRepository.Save(this);
+
+            return GetLocationById(command.LocationId, businessRepository);
         }
 
-        public void AddCoach(CoachAddCommand command, IBusinessRepository businessRepository)
+        public CoachData AddCoach(CoachAddCommand command, IBusinessRepository businessRepository)
         {
-            BusinessCoaches.Add(command.ToData());
+            var coachId = BusinessCoaches.Add(command.ToData());
             businessRepository.Save(this);
+
+            return GetCoachById(coachId, businessRepository);
         }
 
-        public void UpdateCoach(CoachUpdateCommand command, IBusinessRepository businessRepository)
+        public CoachData UpdateCoach(CoachUpdateCommand command, IBusinessRepository businessRepository)
         {
             BusinessCoaches.Update(command.ToData());
             businessRepository.Save(this);
+
+            return GetCoachById(command.CoachId, businessRepository);
         }
 
         public BusinessData ToData()
         {
             return Mapper.Map<Business, BusinessData>(this);
+        }
+
+
+        private LocationData GetLocationById(Guid locationId, IBusinessRepository businessRepository)
+        {
+            return businessRepository.Get(Id).Locations.Single(x => x.Id == locationId);
+        }
+
+        private CoachData GetCoachById(Guid coachId, IBusinessRepository businessRepository)
+        {
+            return businessRepository.Get(Id).Coaches.Single(x => x.Id == coachId);
         }
     }
 }

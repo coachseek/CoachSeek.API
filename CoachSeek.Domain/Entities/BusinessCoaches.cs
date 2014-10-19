@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using System;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,13 @@ namespace CoachSeek.Domain.Entities
                 Append(coach);
         }
 
-        public void Add(NewCoachData newCoachData)
+        public Guid Add(NewCoachData newCoachData)
         {
             var newCoach = new NewCoach(newCoachData);
             ValidateAdd(newCoach);
             Coaches.Add(newCoach);
+
+            return newCoach.Id;
         }
 
         public void Append(CoachData coachData)

@@ -1,7 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
@@ -32,21 +31,30 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
         }
 
-        private Business SetupBusiness()
+        private LocationData SetupLocation()
         {
-            return new Business(new Guid(BUSINESS_ID),
-                "Olaf's Cafe",
-                "olafscafe",
-                new BusinessAdminData
-                {
-                    FirstName = "Bobby",
-                    LastName = "Tables",
-                    Email = "bobby@tables.hack",
-                    Username = "bobby@tables.hack",
-                },
-                null,
-                null);
+            return new LocationData
+            {
+                Id = new Guid(LOCATION_ID),
+                Name = "Orakei Tennis Club"
+            };
         }
+
+        //private Business SetupBusiness()
+        //{
+        //    return new Business(new Guid(BUSINESS_ID),
+        //        "Olaf's Cafe",
+        //        "olafscafe",
+        //        new BusinessAdminData
+        //        {
+        //            FirstName = "Bobby",
+        //            LastName = "Tables",
+        //            Email = "bobby@tables.hack",
+        //            Username = "bobby@tables.hack",
+        //        },
+        //        null,
+        //        null);
+        //}
 
 
         private MockLocationAddUseCase AddUseCase
@@ -104,7 +112,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new Response(new ValidationException(2, "Error!"))
+                Response = new Response<LocationData>(new ValidationException(2, "Error!"))
             };
         }
 
@@ -112,7 +120,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<LocationData>(SetupLocation())
             };
         }
 
@@ -120,7 +128,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new Response(new ValidationException(2, "Error!"))
+                Response = new Response<LocationData>(new ValidationException(2, "Error!"))
             };
         }
 
@@ -128,7 +136,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<LocationData>(SetupLocation())
             };
         }
 
@@ -242,9 +250,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertSuccessResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            BusinessData business;
-            Assert.That(response.TryGetContentValue(out business), Is.True);
-            Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
+            LocationData location;
+            Assert.That(response.TryGetContentValue(out location), Is.True);
+            Assert.That(location.Id, Is.EqualTo(new Guid(LOCATION_ID)));
         }
     }
 }

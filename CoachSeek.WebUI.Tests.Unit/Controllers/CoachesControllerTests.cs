@@ -2,8 +2,8 @@
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Configuration;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
@@ -29,6 +29,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             WebApiAutoMapperConfigurator.Configure();
             ApplicationAutoMapperConfigurator.Configure();
+            DbAutoMapperConfigurator.Configure();
         }
 
         [SetUp]
@@ -41,22 +42,43 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
         }
 
-        private Business SetupBusiness()
+        private CoachData SetupCoach()
         {
-            return new Business(new Guid(BUSINESS_ID),
-                "Olaf's Cafe",
-                "olafscafe",
-                new BusinessAdminData
+            return new CoachData
+            {
+                Id = new Guid(COACH_ID),
+                FirstName = "",
+                LastName = "",
+                Email = "",
+                Phone = "",
+                WorkingHours = new WeeklyWorkingHoursData
                 {
-                    FirstName = "Bobby",
-                    LastName = "Tables",
-                    Email = "bobby@tables.hack",
-                    Username = "bobby@tables.hack",
-                },
-                null,
-                null);
+                    Monday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                    Tuesday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                    Wednesday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                    Thursday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                    Friday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                    Saturday = new DailyWorkingHoursData(false),
+                    Sunday = new DailyWorkingHoursData(false),
+                }
+            };
         }
 
+        //private Business SetupBusiness()
+        //{
+        //    return new Business(new Guid(BUSINESS_ID),
+        //        "Olaf's Cafe",
+        //        "olafscafe",
+        //        new BusinessAdminData
+        //        {
+        //            FirstName = "Bobby",
+        //            LastName = "Tables",
+        //            Email = "bobby@tables.hack",
+        //            Username = "bobby@tables.hack",
+        //        },
+        //        null,
+        //        null);
+        //}
 
         private MockCoachAddUseCase AddUseCase
         {
@@ -112,7 +134,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new Response(new ValidationException(2, "Error!"))
+                Response = new Response<CoachData>(new ValidationException(2, "Error!"))
             };
         }
 
@@ -120,7 +142,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<CoachData>(SetupCoach())
             };
         }
 
@@ -128,7 +150,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new Response(new ValidationException(2, "Error!"))
+                Response = new Response<CoachData>(new ValidationException(2, "Error!"))
             };
         }
 
@@ -136,7 +158,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<CoachData>(SetupCoach())
             };
         }
 
@@ -291,9 +313,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertSuccessResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            BusinessData business;
-            Assert.That(response.TryGetContentValue(out business), Is.True);
-            Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
+            CoachData coach;
+            Assert.That(response.TryGetContentValue(out coach), Is.True);
+            Assert.That(coach.Id, Is.EqualTo(new Guid(COACH_ID)));
         }
     }
 }

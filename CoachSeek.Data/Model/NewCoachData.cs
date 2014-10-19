@@ -1,8 +1,6 @@
-﻿using System.Dynamic;
-
-namespace CoachSeek.Data.Model
+﻿namespace CoachSeek.Data.Model
 {
-    public class NewCoachData
+    public class NewCoachData : IData
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -19,7 +20,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response AddCoach(CoachAddCommand command)
+        public Response<CoachData> AddCoach(CoachAddCommand command)
         {
             if (command == null)
                 return new NoCoachAddDataResponse();
@@ -27,13 +28,14 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var business = GetBusiness(command);
-                business.AddCoach(command, BusinessRepository);
-                return new Response(business);
+                var coach = business.AddCoach(command, BusinessRepository);
+                return new Response<CoachData>(coach);
             }
             catch (Exception ex)
             {
                 return HandleAddCoachException(ex);
             }
+        
         }
 
         private Business GetBusiness(CoachAddCommand command)
@@ -44,7 +46,7 @@ namespace CoachSeek.Application.UseCases
             return business;
         }
 
-        private Response HandleAddCoachException(Exception ex)
+        private Response<CoachData> HandleAddCoachException(Exception ex)
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
@@ -54,12 +56,12 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private Response HandleInvalidBusiness()
+        private Response<CoachData> HandleInvalidBusiness()
         {
             return new InvalidBusinessCoachAddResponse();
         }
 
-        private Response HandleDuplicateCoach()
+        private Response<CoachData> HandleDuplicateCoach()
         {
             return new DuplicateCoachAddResponse();
         }

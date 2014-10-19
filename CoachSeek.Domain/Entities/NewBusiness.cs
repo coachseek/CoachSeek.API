@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
@@ -11,6 +12,7 @@ namespace CoachSeek.Domain.Entities
     {
         public NewBusiness(BusinessRegistrationCommand registrationCommand, IBusinessDomainBuilder domainBuilder)
         {
+            // Id is set via base clas 
             Name = registrationCommand.BusinessName.Trim();
             Domain = domainBuilder.BuildDomain(registrationCommand.BusinessName);
             BusinessAdmin = new NewBusinessAdmin(registrationCommand.Registrant);
@@ -18,11 +20,12 @@ namespace CoachSeek.Domain.Entities
 
 
 
-        public void Register(IBusinessRepository repository)
+        public BusinessData Register(IBusinessRepository repository)
         {
             Validate(repository);
-
             repository.Save(this);
+
+            return ToData();
         }
 
 

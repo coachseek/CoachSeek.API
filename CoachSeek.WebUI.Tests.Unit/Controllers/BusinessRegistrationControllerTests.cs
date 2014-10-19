@@ -39,20 +39,21 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
         }
 
-        private Business SetupBusiness()
+        private BusinessData SetupBusiness()
         {
-            return new Business(new Guid(BUSINESS_ID),
-                "Olaf's Cafe",
-                "olafscafe",
-                new BusinessAdminData
+            return new BusinessData
+            {
+                Id = new Guid(BUSINESS_ID),
+                Name = "Olaf's Cafe",
+                Domain = "olafscafe",
+                Admin = new BusinessAdminData
                 {
                     FirstName = "Bobby",
                     LastName = "Tables",
                     Email = "bobby@tables.hack",
                     Username = "bobby@tables.hack",
-                },
-                null,
-                null);
+                }
+            };
         }
 
         private MockBusinessNewRegistrationUseCase RegisterUseCase
@@ -89,7 +90,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessNewRegistrationUseCase
             {
-                Response = new Response(new ValidationException(3, "My Error"))
+                Response = new Response<BusinessData>(new ValidationException(3, "My Error"))
             };
         }
 
@@ -97,7 +98,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessNewRegistrationUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<BusinessData>(SetupBusiness())
             };
         }
 

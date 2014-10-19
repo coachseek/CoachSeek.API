@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoDomainBusinessGetResponse : Response
+    public class NoDomainBusinessGetResponse : Response<BusinessData>
     {
         public NoDomainBusinessGetResponse()
         {
@@ -18,7 +19,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class NotFoundBusinessGetResponse : Response
+    public class NotFoundBusinessGetResponse : Response<BusinessData>
     {
         public NotFoundBusinessGetResponse()
         {
@@ -31,18 +32,4 @@ namespace CoachSeek.Application.Contracts.Models.Responses
                              Resources.ErrorNoBusinessDomain);
         }
     }
-
-    //public class BusinessGetResponse : Response
-    //{
-    //    public BusinessGetResponse()
-    //    { }
-
-    //    public BusinessGetResponse(Business business)
-    //        : base(business)
-    //    { }
-
-    //    public BusinessGetResponse(ValidationException exception)
-    //        : base(exception)
-    //    { }
-    //}
 }

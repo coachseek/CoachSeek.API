@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -19,7 +20,7 @@ namespace CoachSeek.Application.UseCases
         }
 
         
-        public Response UpdateLocation(LocationUpdateCommand request)
+        public Response<LocationData> UpdateLocation(LocationUpdateCommand request)
         {
             if (request == null)
                 return new NoLocationUpdateDataResponse();
@@ -27,8 +28,8 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var business = GetBusiness(request);
-                business.UpdateLocation(request, BusinessRepository);
-                return new Response(business);
+                var location = business.UpdateLocation(request, BusinessRepository);
+                return new Response<LocationData>(location);
             }
             catch (Exception ex)
             {
@@ -44,7 +45,7 @@ namespace CoachSeek.Application.UseCases
             return business;
         }
 
-        private Response HandleUpdateLocationException(Exception ex)
+        private Response<LocationData> HandleUpdateLocationException(Exception ex)
         {
             if (ex is InvalidBusiness)
                 return HandleInvalidBusiness();
@@ -56,17 +57,17 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private Response HandleInvalidBusiness()
+        private Response<LocationData> HandleInvalidBusiness()
         {
             return new InvalidBusinessLocationUpdateResponse();
         }
 
-        private Response HandleInvalidLocation()
+        private Response<LocationData> HandleInvalidLocation()
         {
             return new InvalidLocationUpdateResponse();
         }
 
-        private Response HandleDuplicateLocation()
+        private Response<LocationData> HandleDuplicateLocation()
         {
             return new DuplicateLocationUpdateResponse();
         }

@@ -26,20 +26,21 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             ApplicationAutoMapperConfigurator.Configure();
         }
 
-        private Business SetupBusiness()
+        private BusinessData SetupBusiness()
         {
-            return new Business(new Guid(BUSINESS_ID), 
-                "Olaf's Cafe", 
-                "olafscafe", 
-                new BusinessAdminData
+            return new BusinessData
+            {
+                Id = new Guid(BUSINESS_ID),
+                Name = "Olaf's Cafe",
+                Domain = "olafscafe",
+                Admin = new BusinessAdminData
                 {
                     FirstName = "Bobby",
                     LastName = "Tables",
                     Email = "bobby@tables.hack",
                     Username = "bobby@tables.hack",
-                }, 
-                null, 
-                null);
+                }
+            };
         }
 
 
@@ -72,7 +73,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new Response(new ValidationException(1, "Error"))
+                Response = new Response<BusinessData>(new ValidationException(1, "Error"))
             };
         }
 
@@ -80,7 +81,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new NotFoundResponse()
+                Response = new NotFoundResponse<BusinessData>()
             };
         }
 
@@ -88,7 +89,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new Response(SetupBusiness())
+                Response = new Response<BusinessData>(SetupBusiness())
             };
         }
 

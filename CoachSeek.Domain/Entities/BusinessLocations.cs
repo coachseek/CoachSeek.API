@@ -1,4 +1,6 @@
-﻿using CoachSeek.Data.Model;
+﻿using System;
+using System.Runtime.InteropServices;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +26,13 @@ namespace CoachSeek.Domain.Entities
                 Append(location);
         }
 
-        public void Add(NewLocationData newLocationData)
+        public Guid Add(NewLocationData newLocationData)
         {
             var newLocation = new NewLocation(newLocationData);
             ValidateAdd(newLocation);
             Locations.Add(newLocation);
+
+            return newLocation.Id;
         }
 
         public void Append(LocationData locationData)

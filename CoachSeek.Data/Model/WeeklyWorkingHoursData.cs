@@ -9,6 +9,5 @@
         public DailyWorkingHoursData Friday { get; set; }
         public DailyWorkingHoursData Saturday { get; set; }
         public DailyWorkingHoursData Sunday { get; set; }
-
     }
 }

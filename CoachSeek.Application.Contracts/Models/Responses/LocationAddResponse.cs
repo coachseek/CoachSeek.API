@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
-using CoachSeek.Domain.Entities;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoLocationAddDataResponse : Response
+    public class NoLocationAddDataResponse : Response<LocationData>
     {
         public NoLocationAddDataResponse()
         {
@@ -19,7 +19,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class InvalidBusinessLocationAddResponse : Response
+    public class InvalidBusinessLocationAddResponse : Response<LocationData>
     {
         public InvalidBusinessLocationAddResponse()
         {
@@ -33,7 +33,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class DuplicateLocationAddResponse : Response
+    public class DuplicateLocationAddResponse : Response<LocationData>
     {
         public DuplicateLocationAddResponse()
         {
@@ -46,19 +46,4 @@ namespace CoachSeek.Application.Contracts.Models.Responses
                              Resources.ErrorDuplicateLocation);
         }
     }
-
-
-    //public class LocationAddResponse : Response
-    //{
-    //    public LocationAddResponse()
-    //    { }
-
-    //    public LocationAddResponse(Business business) 
-    //        : base(business)
-    //    { }
-
-    //    public LocationAddResponse(ValidationException exception) 
-    //        : base (exception)
-    //    { }
-    //}
 }

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using AutoMapper;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Conversion;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
@@ -79,9 +80,9 @@ namespace CoachSeek.DataAccess.Repositories
             return new Business(dbBusiness.Id,
                 dbBusiness.Name,
                 dbBusiness.Domain,
-                CreateBusinessAdmin(dbBusiness.Admin),
-                CreateLocations(dbBusiness.Locations), 
-                CreateCoaches(dbBusiness.Coaches));
+                Mapper.Map<DbBusinessAdmin, BusinessAdminData>(dbBusiness.Admin),
+                Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations),
+                Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches));
         }
 
 

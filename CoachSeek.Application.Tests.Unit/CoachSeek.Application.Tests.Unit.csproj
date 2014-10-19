@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoachUseCaseTests.cs" />
+    <Compile Include="LocationUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="UseCases\BusinessNewRegistrationUseCaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
+    <Compile Include="UseCaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,6 +13,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<BusinessAdmin, BusinessAdminData>();
             Mapper.CreateMap<Coach, CoachData>();
             Mapper.CreateMap<Location, LocationData>();
+            Mapper.CreateMap<WeeklyWorkingHours, WeeklyWorkingHoursData>();
 
             Mapper.CreateMap<CoachAddCommand, NewCoachData>();
             Mapper.CreateMap<CoachUpdateCommand, CoachData>()

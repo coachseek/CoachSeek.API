@@ -13,11 +13,12 @@ namespace CoachSeek.Domain.Entities
         public string Name { get { return Person.Name; } }
         public string Email { get { return EmailAddress.Email; } }
         public string Phone { get { return PhoneNumber.Phone; } }
+        public WeeklyWorkingHoursData WorkingHours { get { return WeeklyWorkingHours.ToData(); } }
 
         private PersonName Person { get; set; }
         private EmailAddress EmailAddress { get; set; }
         private PhoneNumber PhoneNumber { get; set; }
-        private WeeklyWorkingHours WorkingHours { get; set; }
+        private WeeklyWorkingHours WeeklyWorkingHours { get; set; }
 
 
         public Coach(Guid id, string firstName, string lastName, string email, string phone, WeeklyWorkingHoursData workingHoursData)
@@ -26,7 +27,7 @@ namespace CoachSeek.Domain.Entities
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
             PhoneNumber = new PhoneNumber(phone);
-            WorkingHours = new WeeklyWorkingHours(workingHoursData);
+            WeeklyWorkingHours = new WeeklyWorkingHours(workingHoursData);
         }
 
         public Coach(CoachData data)

@@ -1,31 +1,19 @@
-﻿using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
-using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
     [TestFixture]
-    public class CoachAddUseCaseTests
+    public class CoachAddUseCaseTests : CoachUseCaseTests
     {
-        private const string INVALID_BUSINESS_ID = "A031E489-C1D4-4889-A3E0-196930BA35DD";
-        private const string VALID_BUSINESS_ID = "87738006-7E54-4FA6-9CF5-7FEAB5940668";
-        private const string LOCATION_ID = "BE94064D-7033-4CF8-9F47-7E118A393C2E";
-        private const string COACH_ID = "65FF663E-C858-444B-800D-268D61F17E43";
-
-        private InMemoryBusinessRepository BusinessRepository { get; set; }
-
         [TestFixtureSetUp]
         public void SetupAllTests()
         {
-            ApplicationAutoMapperConfigurator.Configure();
+            ConfigureAutoMapper();
         }
 
         [SetUp]
@@ -34,58 +22,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupBusinessRepository();
         }
 
-        private void SetupBusinessRepository()
-        {
-            BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Clear();
-
-            var business = SetupOlafsCafeBusiness();
-            BusinessRepository.Add(business);
-
-            BusinessRepository.WasSaveNewBusinessCalled = false;
-            BusinessRepository.WasSaveBusinessCalled = false;
-        }
-
-        private Business SetupOlafsCafeBusiness()
-        {
-            return new Business(new Guid(VALID_BUSINESS_ID),
-                "Olaf's Bookshoppe",
-                "olafsbookshoppe",
-                new BusinessAdminData
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Username = "olaft@ihug.co.nz",
-                    PasswordHash = "Password1"
-                },
-                SetupLocations(),
-                SetupCoaches());
-        }
-
-
-        private IEnumerable<LocationData> SetupLocations()
-        {
-            return new List<LocationData>
-            {
-                new LocationData {Id = new Guid(LOCATION_ID), Name = "HQ"}
-            };
-        }
-
-        private IEnumerable<CoachData> SetupCoaches()
-        {
-            return new List<CoachData>
-            {
-                new CoachData
-                {
-                    Id = new Guid(COACH_ID),
-                    FirstName = "Bob", 
-                    LastName = "Smith", 
-                    Email = "bob.smith@example.com",
-                    Phone = "021987654"
-                }, 
-            };
-        }
 
         [Test]
         public void GivenNoCoachAddCommand_WhenAddCoach_ThenCoachAddFailsWithMissingCoachError()
@@ -136,11 +72,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachAddCommand
             {
-                BusinessId = new Guid(VALID_BUSINESS_ID),
-                FirstName = "  BOB",
-                LastName = "smith  ",
-                Email = " Bob.Smith@Test.Com ",
-                Phone = "021345678  "
+                BusinessId = new Guid(BUSINESS_ID),
+                FirstName = "  Bill",
+                LastName = "Gates  ",
+                Email = " bgates@Gmail.Com ",
+                Phone = "021345678  ",
+                WorkingHours = SetupStandardWorkingHoursCommand()
             };
         }
 
@@ -148,108 +85,72 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachAddCommand
             {
-                BusinessId = new Guid(VALID_BUSINESS_ID),
+                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "Steve  ",
                 LastName = "  Jobs",
                 Email = "  Steve.Jobs@APPLE.com",
-                Phone = "021888888  "
+                Phone = "021888888  ",
+                WorkingHours = SetupStandardWorkingHoursCommand()
             };
         }
 
-        private Response WhenAddCoach(CoachAddCommand command)
+        private Response<CoachData> WhenAddCoach(CoachAddCommand command)
         {
             var useCase = new CoachAddUseCase(BusinessRepository);
 
             return useCase.AddCoach(command);
         }
 
-        private void ThenCoachAddFailsWithMissingCoachError(Response response)
+        private void ThenCoachAddFailsWithMissingCoachError(Response<CoachData> response)
         {
             AssertMissingCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddFailsWithInvalidBusinessError(Response response)
+        private void ThenCoachAddFailsWithInvalidBusinessError(Response<CoachData> response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddFailsWithDuplicateCoachError(Response response)
+        private void ThenCoachAddFailsWithDuplicateCoachError(Response<CoachData> response)
         {
             AssertDuplicateCoachError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenCoachAddSucceeds(Response response)
+        private void ThenCoachAddSucceeds(Response<CoachData> response)
         {
             AssertSaveBusinessIsCalled();
-            AssertSavedBusinessWithTwoCoaches(response);
+            AssertResponseReturnsNewCoach(response);
         }
 
-        private void AssertMissingCoachError(Response response)
+        private void AssertMissingCoachError(Response<CoachData> response)
         {
-            Assert.That(response.Business, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(1));
-            var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(1210));
-            Assert.That(error.Message, Is.EqualTo("Missing coach data."));
-            Assert.That(error.Field, Is.Null);
+            AssertSingleError(response, 1210, "Missing coach data.");
         }
 
-        private void AssertInvalidBusinessError(Response response)
+        private void AssertInvalidBusinessError(Response<CoachData> response)
         {
-            Assert.That(response.Business, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(1));
-            var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(1030));
-            Assert.That(error.Message, Is.EqualTo("This business does not exist."));
-            Assert.That(error.Field, Is.Null);
+            AssertSingleError(response, 1030, "This business does not exist.");
         }
 
-        private void AssertDuplicateCoachError(Response response)
+        private void AssertDuplicateCoachError(Response<CoachData> response)
         {
-            Assert.That(response.Business, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(1));
-            var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(1220));
-            Assert.That(error.Message, Is.EqualTo("This coach already exists."));
-            Assert.That(error.Field, Is.Null);
+            AssertSingleError(response, 1220, "This coach already exists.");
         }
 
-        private void AssertSaveBusinessIsNotCalled()
+        private void AssertResponseReturnsNewCoach(Response<CoachData> response)
         {
-            Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.False);
-        }
-
-        private void AssertSaveBusinessIsCalled()
-        {
-            Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
-        }
-        
-        private void AssertSavedBusinessWithTwoCoaches(Response response)
-        {
-            Assert.That(response.Business, Is.Not.Null);
-            Assert.That(response.Business.Coaches.Count, Is.EqualTo(2));
-
-            var firstCoach = response.Business.Coaches[0];
-            Assert.That(firstCoach.Id, Is.EqualTo(new Guid(COACH_ID)));
-            Assert.That(firstCoach.FirstName, Is.EqualTo("Bob"));
-            Assert.That(firstCoach.LastName, Is.EqualTo("Smith"));
-            Assert.That(firstCoach.Name, Is.EqualTo("Bob Smith"));
-            Assert.That(firstCoach.Email, Is.EqualTo("bob.smith@example.com"));
-            Assert.That(firstCoach.Phone, Is.EqualTo("021987654"));
-
-            var secondCoach = response.Business.Coaches[1];
-            Assert.That(secondCoach.Id, Is.Not.EqualTo(Guid.Empty));
-            Assert.That(secondCoach.FirstName, Is.EqualTo("Steve"));
-            Assert.That(secondCoach.LastName, Is.EqualTo("Jobs"));
-            Assert.That(secondCoach.Name, Is.EqualTo("Steve Jobs"));
-            Assert.That(secondCoach.Email, Is.EqualTo("steve.jobs@apple.com"));
-            Assert.That(secondCoach.Phone, Is.EqualTo("021888888"));
+            var coach = response.Data;
+            Assert.That(coach, Is.Not.Null);
+            Assert.That(coach.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(coach.FirstName, Is.EqualTo("Steve"));
+            Assert.That(coach.LastName, Is.EqualTo("Jobs"));
+            Assert.That(coach.Name, Is.EqualTo("Steve Jobs"));
+            Assert.That(coach.Email, Is.EqualTo("steve.jobs@apple.com"));
+            Assert.That(coach.Phone, Is.EqualTo("021888888"));
+            AssertStandardWorkingHours(coach);
         }
     }
 }

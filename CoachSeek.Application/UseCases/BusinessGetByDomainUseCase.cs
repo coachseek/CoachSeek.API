@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
@@ -15,16 +16,16 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response GetByDomain(string domain)
+        public Response<BusinessData> GetByDomain(string domain)
         {
             if (string.IsNullOrWhiteSpace(domain))
                 return new NoDomainBusinessGetResponse();
 
             var business = BusinessRepository.GetByDomain(domain);
             if (business == null)
-                return new NotFoundResponse();
+                return new NotFoundResponse<BusinessData>();
 
-            return new Response(business);
+            return new Response<BusinessData>(business.ToData());
         }
     }
 }

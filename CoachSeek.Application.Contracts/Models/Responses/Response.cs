@@ -1,31 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NotFoundResponse : Response
+    public class NotFoundResponse<TData> : Response<TData> where TData : class, IData
     {
         public NotFoundResponse()
         {
-            Business = null;
+            Data = null;
             Errors = null;
         }
     }
 
-    public class Response
+    public class Response<TData> where TData : class, IData
     {
-        public BusinessData Business { get; protected set; }
+        public TData Data { get; protected set; }
         public List<Error> Errors { get; protected set; }
         public bool IsSuccessful { get { return Errors == null; } }
 
         protected Response()
         { }
 
-        public Response(Business business)
+        public Response(TData data)
         {
-            Business = business == null ? null : business.ToData();
+            Data = data;
         }
 
         public Response(ValidationException exception)
