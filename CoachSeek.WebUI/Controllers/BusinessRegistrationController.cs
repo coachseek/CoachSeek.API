@@ -2,6 +2,7 @@
 using System.Web.Http;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Filters;
 using CoachSeek.WebUI.Models.Api;
 
 namespace CoachSeek.WebUI.Controllers
@@ -18,8 +19,9 @@ namespace CoachSeek.WebUI.Controllers
             BusinessNewRegistrationUseCase = businessNewRegistrationUseCase;
         }
 
-
         // POST: api/BusinessRegistration
+        [CheckModelForNull]
+        [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand registration)
         {
             var command = BusinessAddCommandConverter.Convert(registration);
