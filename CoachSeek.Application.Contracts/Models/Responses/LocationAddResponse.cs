@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
@@ -9,13 +8,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoLocationAddDataResponse()
         {
-            Errors = new List<Error> { CreateNoLocationAddDataError() };
+            Errors = new List<ErrorData> { CreateNoLocationAddDataError() };
         }
 
-        private static Error CreateNoLocationAddDataError()
+        private static ErrorData CreateNoLocationAddDataError()
         {
-            return new Error((int)ErrorCodes.ErrorNoLocationAddData,
-                             Resources.ErrorNoLocationAddData);
+            return new ErrorData(Resources.ErrorNoLocationAddData);
         }
     }
 
@@ -23,13 +21,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidBusinessLocationAddResponse()
         {
-            Errors = new List<Error> { CreateInvalidBusinessError() };
+            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
         }
 
-        private static Error CreateInvalidBusinessError()
+        private static ErrorData CreateInvalidBusinessError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidBusiness,
-                             Resources.ErrorInvalidBusiness);
+            return new ErrorData(Resources.ErrorInvalidBusiness);
         }
     }
 
@@ -37,13 +34,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public DuplicateLocationAddResponse()
         {
-            Errors = new List<Error> { CreateDuplicateLocationError() };
+            Errors = new List<ErrorData> { CreateDuplicateLocationError() };
         }
 
-        private static Error CreateDuplicateLocationError()
+        private static ErrorData CreateDuplicateLocationError()
         {
-            return new Error((int)ErrorCodes.ErrorDuplicateLocation,
-                             Resources.ErrorDuplicateLocation);
+            return new ErrorData(Resources.ErrorDuplicateLocation);
         }
     }
 }

@@ -2,6 +2,7 @@
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Configuration
 {
@@ -26,6 +27,8 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<LocationUpdateCommand, LocationData>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.LocationId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.LocationName));
+
+            Mapper.CreateMap<Error, ErrorData>();
         }
     }
 }

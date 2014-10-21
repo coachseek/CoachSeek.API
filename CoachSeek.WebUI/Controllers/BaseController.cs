@@ -1,5 +1,4 @@
-﻿using System.Web.Mvc;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -13,9 +12,10 @@ namespace CoachSeek.WebUI.Controllers
         {
             if (response is NotFoundResponse<TData>)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
+
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Data);
-            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors[0]);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
     }
 }

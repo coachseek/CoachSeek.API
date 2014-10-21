@@ -9,13 +9,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoCoachUpdateDataResponse()
         {
-            Errors = new List<Error> { CreateNoCoachUpdateDataError() };
+            Errors = new List<ErrorData> { CreateNoCoachUpdateDataError() };
         }
 
-        private static Error CreateNoCoachUpdateDataError()
+        private static ErrorData CreateNoCoachUpdateDataError()
         {
-            return new Error((int)ErrorCodes.ErrorNoCoachUpdateData,
-                             Resources.ErrorNoCoachUpdateData);
+            return new ErrorData(Resources.ErrorNoCoachUpdateData);
         }
     }
 
@@ -23,13 +22,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidBusinessCoachUpdateResponse()
         {
-            Errors = new List<Error> { CreateInvalidBusinessError() };
+            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
         }
 
-        private static Error CreateInvalidBusinessError()
+        private static ErrorData CreateInvalidBusinessError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidBusiness,
-                             Resources.ErrorInvalidBusiness);
+            return new ErrorData(Resources.ErrorInvalidBusiness);
         }
     }
 
@@ -37,13 +35,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidCoachUpdateResponse()
         {
-            Errors = new List<Error> { CreateInvalidCoachError() };
+            Errors = new List<ErrorData> { CreateInvalidCoachError() };
         }
 
-        private static Error CreateInvalidCoachError()
+        private static ErrorData CreateInvalidCoachError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidCoach,
-                             Resources.ErrorInvalidCoach);
+            return new ErrorData(Resources.ErrorInvalidCoach);
         }
     }
 
@@ -51,13 +48,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public DuplicateCoachUpdateResponse()
         {
-            Errors = new List<Error> { CreateDuplicateCoachError() };
+            Errors = new List<ErrorData> { CreateDuplicateCoachError() };
         }
 
-        private static Error CreateDuplicateCoachError()
+        private static ErrorData CreateDuplicateCoachError()
         {
-            return new Error((int)ErrorCodes.ErrorDuplicateCoach,
-                             Resources.ErrorDuplicateCoach);
+            return new ErrorData(Resources.ErrorDuplicateCoach);
         }
     }
 }

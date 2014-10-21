@@ -13,14 +13,19 @@ using System.Linq;
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
     [TestFixture]
-    public class BusinessNewRegistrationUseCaseTests
+    public class BusinessNewRegistrationUseCaseTests : UseCaseTests
     {
         private const string BUSINESS_ID = "12345678-90AB-4B1D-B8AA-920DD568681E";
 
-        private InMemoryBusinessRepository BusinessRepository { get; set; }
         private BusinessDomainBuilder BusinessDomainBuilder { get; set; }
         private StubBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
-        
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            ConfigureAutoMapper();
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -72,17 +77,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenBusinessRegistrationFailsWithMissingRegistrationError(response);
         }
 
-        //[Test]
-        //public void GivenEmptyRegistration_WhenRegisterANewBusiness_ThenBusinessRegistrationFailsWithInvalidRegistrationErrors()
-        //{
-        //    var registration = GivenEmptyRegistration();
-        //    var response = WhenRegisterANewBusiness(registration);
-        //    ThenBusinessRegistrationFailsWithInvalidRegistrationErrors(response);
-        //}
-
         [Test]
-        public void 
-            GivenAnExistingEmailAddress_WhenRegisterANewBusiness_ThenBusinessRegistrationFailsWithDupliateEmailError()
+        public void GivenAnExistingEmailAddress_WhenRegisterANewBusiness_ThenBusinessRegistrationFailsWithDupliateEmailError()
         {
             var registration = GivenAnExistingEmailAddress();
             var response = WhenRegisterANewBusiness(registration);
@@ -100,11 +96,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private BusinessRegistrationCommand GivenNoRegistration()
         {
             return null;
-        }
-
-        private BusinessRegistrationCommand GivenEmptyRegistration()
-        {
-            return new BusinessRegistrationCommand();
         }
 
         private BusinessRegistrationCommand GivenAnExistingEmailAddress()
@@ -152,12 +143,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertBusinessRegistrationFails();
         }
 
-        //private void ThenBusinessRegistrationFailsWithInvalidRegistrationErrors(BusinessRegistrationResponse response)
-        //{
-        //    AssertInvalidRegistrationError(response);
-        //    AssertBusinessRegistrationFails();
-        //}
-
         private void ThenBusinessRegistrationFailsWithDupliateEmailError(Response<BusinessData> response)
         {
             AssertDuplicateBusinessAdminEmailError(response);
@@ -177,21 +162,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(1010));
             Assert.That(error.Message, Is.EqualTo("Missing business registration data."));
             Assert.That(error.Field, Is.Null);
         }
-
-        //private void AssertInvalidRegistrationError(BusinessRegistrationResponse response)
-        //{
-        //    Assert.That(response.Business, Is.Null);
-        //    Assert.That(response.Errors, Is.Not.Null);
-        //    Assert.That(response.Errors.Count, Is.EqualTo(2));
-        //    var firstError = response.Errors.First();
-        //    //Assert.That(firstError.Code, Is.EqualTo(1010));
-        //    //Assert.That(firstError.Field, Is.Null);
-        //    var secondError = response.Errors[1];
-        //}
 
         private void AssertDuplicateBusinessAdminEmailError(Response<BusinessData> response)
         {
@@ -199,9 +172,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(1020));
             Assert.That(error.Message, Is.EqualTo("This email address is already in use."));
-            Assert.That(error.Field, Is.EqualTo("Email"));
+            Assert.That(error.Field, Is.EqualTo("registration.registrant.email"));
         }
 
         private void AssertBusinessRegistrationFails()

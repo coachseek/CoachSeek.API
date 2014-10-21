@@ -153,7 +153,6 @@ namespace CoachSeek.Application.Tests.Unit
         }
 
         protected void AssertSingleError<TData>(Response<TData> response, 
-                                                int expectedCode, 
                                                 string expectedMessage, 
                                                 string expectedField = null) where TData : class, IData
         {
@@ -161,7 +160,6 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
-            Assert.That(error.Code, Is.EqualTo(expectedCode));
             Assert.That(error.Message, Is.EqualTo(expectedMessage));
             Assert.That(error.Field, Is.EqualTo(expectedField));
         }

@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.WebUI.Filters
 {
@@ -11,7 +13,19 @@ namespace CoachSeek.WebUI.Filters
         {
             if (!actionContext.ModelState.IsValid)
             {
-                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
+                var errors = new List<ErrorData>();
+
+                foreach (var key in actionContext.ModelState.Keys)
+                {
+                    var value = actionContext.ModelState[key];
+                    foreach (var error in value.Errors)
+                    {
+                        var errorData = new ErrorData(key, error.ErrorMessage);
+                        errors.Add(errorData);
+                    }
+                }
+
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
             }
         }
     }

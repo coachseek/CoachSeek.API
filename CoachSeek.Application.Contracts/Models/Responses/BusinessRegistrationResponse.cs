@@ -10,27 +10,25 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoBusinessRegistrationDataResponse()
         {
-            Errors = new List<Error> { CreateNoBusinessRegistrationDataError() };
+            Errors = new List<ErrorData> { CreateNoBusinessRegistrationDataError() };
         }
 
-        private static Error CreateNoBusinessRegistrationDataError()
+        private static ErrorData CreateNoBusinessRegistrationDataError()
         {
-            return new Error((int)ErrorCodes.ErrorNoBusinessRegistrationData,
-                             Resources.ErrorNoBusinessRegistrationData);
+            return new ErrorData(Resources.ErrorNoBusinessRegistrationData);
         }
     }
     public class DuplicateBusinessAdminBusinessRegistrationResponse : Response<BusinessData>
     {
         public DuplicateBusinessAdminBusinessRegistrationResponse()
         {
-            Errors = new List<Error> { CreateDuplicateBusinessAdminError() };
+            Errors = new List<ErrorData> { CreateDuplicateBusinessAdminError() };
         }
 
-        private static Error CreateDuplicateBusinessAdminError()
+        private static ErrorData CreateDuplicateBusinessAdminError()
         {
-            return new Error((int)ErrorCodes.ErrorBusinessAdminDuplicateEmail,
-                             Resources.ErrorBusinessAdminDuplicateEmail,
-                             FormField.Email);
+            return new ErrorData("registration.registrant.email",
+                                 Resources.ErrorBusinessAdminDuplicateEmail);
         }
     }
 }

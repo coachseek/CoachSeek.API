@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
@@ -9,13 +8,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoLocationUpdateDataResponse()
         {
-            Errors = new List<Error> { CreateNoLocationUpdateDataError() };
+            Errors = new List<ErrorData> { CreateNoLocationUpdateDataError() };
         }
 
-        private static Error CreateNoLocationUpdateDataError()
+        private static ErrorData CreateNoLocationUpdateDataError()
         {
-            return new Error((int)ErrorCodes.ErrorNoLocationUpdateData,
-                             Resources.ErrorNoLocationUpdateData);
+            return new ErrorData(Resources.ErrorNoLocationUpdateData);
         }
     }
 
@@ -23,13 +21,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidBusinessLocationUpdateResponse()
         {
-            Errors = new List<Error> { CreateInvalidBusinessError() };
+            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
         }
 
-        private static Error CreateInvalidBusinessError()
+        private static ErrorData CreateInvalidBusinessError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidBusiness,
-                             Resources.ErrorInvalidBusiness);
+            return new ErrorData(Resources.ErrorInvalidBusiness);
         }
     }
 
@@ -37,13 +34,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidLocationUpdateResponse()
         {
-            Errors = new List<Error> { CreateInvalidLocationError() };
+            Errors = new List<ErrorData> { CreateInvalidLocationError() };
         }
 
-        private static Error CreateInvalidLocationError()
+        private static ErrorData CreateInvalidLocationError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidLocation,
-                             Resources.ErrorInvalidLocation);
+            return new ErrorData(Resources.ErrorInvalidLocation);
         }
     }
 
@@ -51,13 +47,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public DuplicateLocationUpdateResponse()
         {
-            Errors = new List<Error> { CreateDuplicateLocationError() };
+            Errors = new List<ErrorData> { CreateDuplicateLocationError() };
         }
 
-        private static Error CreateDuplicateLocationError()
+        private static ErrorData CreateDuplicateLocationError()
         {
-            return new Error((int)ErrorCodes.ErrorDuplicateLocation,
-                             Resources.ErrorDuplicateLocation);
+            return new ErrorData(Resources.ErrorDuplicateLocation);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using CoachSeek.Application.Configuration;
+﻿using System.Collections.Generic;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
@@ -32,7 +32,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         [SetUp]
         public void Setup()
         {
-            Controller = new BusinessRegistrationController()
+            Controller = new BusinessRegistrationController
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -169,9 +169,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Error error;
-            Assert.That(response.TryGetContentValue(out error), Is.True);
-            Assert.That(error.Code, Is.EqualTo(3));
+            List<ErrorData> errors;
+            Assert.That(response.TryGetContentValue(out errors), Is.True);
+            var error = errors[0];
+            Assert.That(error.Field, Is.Null);
             Assert.That(error.Message, Is.EqualTo("My Error"));
         }
 

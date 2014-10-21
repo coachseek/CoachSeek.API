@@ -1,6 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
@@ -9,13 +8,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoCoachAddDataResponse()
         {
-            Errors = new List<Error> { CreateNoCoachAddDataError() };
+            Errors = new List<ErrorData> { CreateNoCoachAddDataError() };
         }
 
-        private static Error CreateNoCoachAddDataError()
+        private static ErrorData CreateNoCoachAddDataError()
         {
-            return new Error((int)ErrorCodes.ErrorNoCoachAddData,
-                             Resources.ErrorNoCoachAddData);
+            return new ErrorData(Resources.ErrorNoCoachAddData);
         }
     }
 
@@ -23,13 +21,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public InvalidBusinessCoachAddResponse()
         {
-            Errors = new List<Error> { CreateInvalidBusinessError() };
+            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
         }
 
-        private static Error CreateInvalidBusinessError()
+        private static ErrorData CreateInvalidBusinessError()
         {
-            return new Error((int)ErrorCodes.ErrorInvalidBusiness,
-                             Resources.ErrorInvalidBusiness);
+            return new ErrorData(Resources.ErrorInvalidBusiness);
         }
     }
 
@@ -37,13 +34,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public DuplicateCoachAddResponse()
         {
-            Errors = new List<Error> { CreateDuplicateCoachError() };
+            Errors = new List<ErrorData> { CreateDuplicateCoachError() };
         }
 
-        private static Error CreateDuplicateCoachError()
+        private static ErrorData CreateDuplicateCoachError()
         {
-            return new Error((int)ErrorCodes.ErrorDuplicateCoach,
-                             Resources.ErrorDuplicateCoach);
+            return new ErrorData(Resources.ErrorDuplicateCoach);
         }
     }
 }

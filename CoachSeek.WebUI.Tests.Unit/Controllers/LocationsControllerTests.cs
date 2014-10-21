@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using System.Collections.Generic;
+using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
@@ -241,9 +242,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Error error;
-            Assert.That(response.TryGetContentValue(out error), Is.True);
-            Assert.That(error.Code, Is.EqualTo(2));
+            List<ErrorData> errors;
+            Assert.That(response.TryGetContentValue(out errors), Is.True);
+            var error = errors[0];
+            Assert.That(error.Field, Is.Null);
             Assert.That(error.Message, Is.EqualTo("Error!"));
         }
 

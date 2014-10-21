@@ -119,17 +119,17 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertMissingLocationError(Response<LocationData> response)
         {
-            AssertSingleError(response, 1110, "Missing location data.");
+            AssertSingleError(response, "Missing location data.");
         }
 
         private void AssertInvalidBusinessError(Response<LocationData> response)
         {
-            AssertSingleError(response, 1030, "This business does not exist.");
+            AssertSingleError(response, "This business does not exist.");
         }
 
         private void AssertDuplicateLocationError(Response<LocationData> response)
         {
-            AssertSingleError(response, 1120, "This location already exists.");
+            AssertSingleError(response, "This location already exists.");
         }
 
         private void AssertResponseReturnsNewLocation(Response<LocationData> response)

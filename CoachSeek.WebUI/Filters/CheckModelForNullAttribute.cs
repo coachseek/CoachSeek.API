@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.WebUI.Filters
 {
@@ -13,8 +14,7 @@ namespace CoachSeek.WebUI.Filters
         private readonly Func<Dictionary<string, object>, bool> _validate;
 
         public CheckModelForNullAttribute()
-            : this(arguments =>
-                arguments.ContainsValue(null))
+            : this(arguments => arguments.ContainsValue(null))
         { }
 
         public CheckModelForNullAttribute(Func<Dictionary<string, object>, bool> checkCondition)
@@ -26,7 +26,9 @@ namespace CoachSeek.WebUI.Filters
         {
             if (_validate(actionContext.ActionArguments))
             {
-                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Please post us some data!");
+                var errors = new [] { new ErrorData("Please post us some data!") };
+
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
             }
         }
     }

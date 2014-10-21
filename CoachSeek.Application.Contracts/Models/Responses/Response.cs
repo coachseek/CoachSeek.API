@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
@@ -18,7 +17,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     public class Response<TData> where TData : class, IData
     {
         public TData Data { get; protected set; }
-        public List<Error> Errors { get; protected set; }
+        public List<ErrorData> Errors { get; protected set; }
         public bool IsSuccessful { get { return Errors == null; } }
 
         protected Response()
@@ -31,7 +30,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         public Response(ValidationException exception)
         {
-            Errors = exception.Errors;
+            Errors = exception.Errors.Select(error => error.ToData()).ToList();
         }
     }
 }

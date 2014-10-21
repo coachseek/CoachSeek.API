@@ -127,17 +127,17 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertMissingCoachError(Response<CoachData> response)
         {
-            AssertSingleError(response, 1210, "Missing coach data.");
+            AssertSingleError(response, "Missing coach data.");
         }
 
         private void AssertInvalidBusinessError(Response<CoachData> response)
         {
-            AssertSingleError(response, 1030, "This business does not exist.");
+            AssertSingleError(response, "This business does not exist.");
         }
 
         private void AssertDuplicateCoachError(Response<CoachData> response)
         {
-            AssertSingleError(response, 1220, "This coach already exists.");
+            AssertSingleError(response, "This coach already exists.");
         }
 
         private void AssertResponseReturnsNewCoach(Response<CoachData> response)

@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Configuration;
 using CoachSeek.DataAccess.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
@@ -20,6 +21,7 @@ namespace CoachSeek.WebUI
 
             // Use camel case for JSON data.
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
             // Web API routes
             config.MapHttpAttributeRoutes();

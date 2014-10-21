@@ -9,13 +9,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NoDomainBusinessGetResponse()
         {
-            Errors = new List<Error> { CreateNoDomainBusinessGetError() };
+            Errors = new List<ErrorData> { CreateNoDomainBusinessGetError() };
         }
 
-        private static Error CreateNoDomainBusinessGetError()
+        private static ErrorData CreateNoDomainBusinessGetError()
         {
-            return new Error((int)ErrorCodes.ErrorNoBusinessDomain,
-                             Resources.ErrorNoBusinessDomain);
+            return new ErrorData(Resources.ErrorNoBusinessDomain);
         }
     }
 
@@ -23,13 +22,12 @@ namespace CoachSeek.Application.Contracts.Models.Responses
     {
         public NotFoundBusinessGetResponse()
         {
-            Errors = new List<Error> { CreateNoDomainBusinessGetError() };
+            Errors = new List<ErrorData> { CreateNoDomainBusinessGetError() };
         }
 
-        private static Error CreateNoDomainBusinessGetError()
+        private static ErrorData CreateNoDomainBusinessGetError()
         {
-            return new Error((int)ErrorCodes.ErrorNoBusinessDomain,
-                             Resources.ErrorNoBusinessDomain);
+            return new ErrorData(Resources.ErrorNoBusinessDomain);
         }
     }
 }

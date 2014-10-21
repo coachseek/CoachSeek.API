@@ -10,6 +10,7 @@ using CoachSeek.WebUI.Models.Api;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -63,22 +64,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 }
             };
         }
-
-        //private Business SetupBusiness()
-        //{
-        //    return new Business(new Guid(BUSINESS_ID),
-        //        "Olaf's Cafe",
-        //        "olafscafe",
-        //        new BusinessAdminData
-        //        {
-        //            FirstName = "Bobby",
-        //            LastName = "Tables",
-        //            Email = "bobby@tables.hack",
-        //            Username = "bobby@tables.hack",
-        //        },
-        //        null,
-        //        null);
-        //}
 
         private MockCoachAddUseCase AddUseCase
         {
@@ -304,9 +289,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Error error;
-            Assert.That(response.TryGetContentValue(out error), Is.True);
-            Assert.That(error.Code, Is.EqualTo(2));
+            List<ErrorData> errors;
+            Assert.That(response.TryGetContentValue(out errors), Is.True);
+            var error = errors[0];
+            Assert.That(error.Field, Is.Null);
             Assert.That(error.Message, Is.EqualTo("Error!"));
         }
 

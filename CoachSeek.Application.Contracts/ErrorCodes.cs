@@ -3,6 +3,9 @@ namespace CoachSeek.Application.Contracts
 {
     public enum ErrorCodes
     {
+        // Common
+        ErrorNoPostData = 1010,
+
         // Business
         ErrorNoBusinessRegistrationData = 1010,
         ErrorBusinessAdminDuplicateEmail = 1020,

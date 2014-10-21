@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Configuration;
+﻿using System.Collections.Generic;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -132,17 +133,18 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Error error;
-            Assert.That(response.TryGetContentValue(out error), Is.True);
-            Assert.That(error.Code, Is.EqualTo(1));
+            List<ErrorData> errors;
+            Assert.That(response.TryGetContentValue(out errors), Is.True);
+            var error = errors[0];
+            Assert.That(error.Field, Is.Null);
             Assert.That(error.Message, Is.EqualTo("Error"));
         }
 
         private void AssertNotFoundResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-            Error error;
-            Assert.That(response.TryGetContentValue(out error), Is.False);
+            List<ErrorData> errors;
+            Assert.That(response.TryGetContentValue(out errors), Is.False);
             Business business;
             Assert.That(response.TryGetContentValue(out business), Is.False);
         }

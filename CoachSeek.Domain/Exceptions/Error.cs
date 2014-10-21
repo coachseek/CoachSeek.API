@@ -1,4 +1,6 @@
-﻿namespace CoachSeek.Domain.Exceptions
+﻿using CoachSeek.Data.Model;
+
+namespace CoachSeek.Domain.Exceptions
 {
     public class Error
     {
@@ -11,6 +13,12 @@
             Code = code;
             Message = message;
             Field = field;
+        }
+
+
+        public ErrorData ToData()
+        {
+            return AutoMapper.Mapper.Map<Error, ErrorData>(this);
         }
     }
 }
