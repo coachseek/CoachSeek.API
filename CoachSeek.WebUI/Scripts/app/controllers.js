@@ -15,18 +15,23 @@ coachSeekControllers.controller('BusinessRegCtrl', ['$scope', '$http', '$locatio
   $scope.registerBusiness = function () {
       $scope.business = {};
       $scope.error = {};
+
       $http.post('/api/BusinessRegistration', $scope.businessReg)
            .success(function (business) {
                $rootScope.business = business;
                $location.path("/" + business.domain + "/business/locations");
           })
-           .error(function (error) {
-               $scope.error = error;
-               if (error.field === "Email")
+           .error(function (errors) {
+               $scope.error = errors[0];
+               if (endsWith(errors[0].field, "email"))
                    $scope.businessRegForm.email.$setValidity("email", false);
            });
   };
   
+  function endsWith(str, endString) {
+      return str.indexOf(endString, str.length - endString.length) !== -1;
+  }
+
 }]);
 
 
@@ -56,6 +61,7 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
         if (isNewLocation(id))
             return checkNewLocation(name);
         
+
         return checkExistingLocation(name, id);
     };
 
@@ -101,9 +107,13 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
         location.name = data.name;
 
         return $http.post('/api/Locations', location)
-           .success(function (business) {
-               refreshBusinessAndLocations(business);
-            })
+           .success(function (savedLocation) {
+               if (id == null) {
+                   var x = id;
+               } else {
+                   var y = id;
+               }
+           })
            .error(function (error) {
                $scope.error = error;
            });

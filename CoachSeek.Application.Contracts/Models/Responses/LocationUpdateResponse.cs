@@ -26,7 +26,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateInvalidBusinessError()
         {
-            return new ErrorData(Resources.ErrorInvalidBusiness);
+            return new ErrorData("location.businessId", Resources.ErrorInvalidBusiness);
         }
     }
 
@@ -39,7 +39,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateInvalidLocationError()
         {
-            return new ErrorData(Resources.ErrorInvalidLocation);
+            return new ErrorData("location.id", Resources.ErrorInvalidLocation);
         }
     }
 
@@ -52,7 +52,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateDuplicateLocationError()
         {
-            return new ErrorData(Resources.ErrorDuplicateLocation);
+            return new ErrorData("location.name", Resources.ErrorDuplicateLocation);
         }
     }
 }

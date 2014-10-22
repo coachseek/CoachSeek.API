@@ -9,7 +9,7 @@ namespace CoachSeek.WebUI.Conversion
         {
             return new LocationAddCommand
             {
-                BusinessId = apiCommand.BusinessId,
+                BusinessId = apiCommand.BusinessId.Value,
                 LocationName = apiCommand.Name
             };
         }

@@ -11,7 +11,7 @@ namespace CoachSeek.WebUI.Conversion
             return new LocationUpdateCommand
             {
                 LocationId = apiCommand.Id.HasValue ? apiCommand.Id.Value : Guid.Empty,
-                BusinessId = apiCommand.BusinessId,
+                BusinessId = apiCommand.BusinessId.Value,
                 LocationName = apiCommand.Name
             };
         }

@@ -124,12 +124,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertInvalidBusinessError(Response<LocationData> response)
         {
-            AssertSingleError(response, "This business does not exist.");
+            AssertSingleError(response, "This business does not exist.", "location.businessId");
         }
 
         private void AssertDuplicateLocationError(Response<LocationData> response)
         {
-            AssertSingleError(response, "This location already exists.");
+            AssertSingleError(response, "This location already exists.", "location.name");
         }
 
         private void AssertResponseReturnsNewLocation(Response<LocationData> response)

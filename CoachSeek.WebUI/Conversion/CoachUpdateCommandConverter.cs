@@ -11,7 +11,7 @@ namespace CoachSeek.WebUI.Conversion
             return new CoachUpdateCommand
             {
                 CoachId = apiCommand.Id.HasValue ? apiCommand.Id.Value : Guid.Empty,
-                BusinessId = apiCommand.BusinessId,
+                BusinessId = apiCommand.BusinessId.Value,
                 FirstName = apiCommand.FirstName,
                 LastName = apiCommand.LastName,
                 Email = apiCommand.Email,
