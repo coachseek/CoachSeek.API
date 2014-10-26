@@ -119,7 +119,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new Response<CoachData>(new ValidationException(2, "Error!"))
+                Response = new Response<CoachData>(new ValidationException("Error!"))
             };
         }
 
@@ -135,7 +135,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new Response<CoachData>(new ValidationException(2, "Error!"))
+                Response = new Response<CoachData>(new ValidationException("Error!"))
             };
         }
 

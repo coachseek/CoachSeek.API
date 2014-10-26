@@ -26,7 +26,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateInvalidBusinessError()
         {
-            return new ErrorData(Resources.ErrorInvalidBusiness);
+            return new ErrorData("coach.businessId", Resources.ErrorInvalidBusiness);
         }
     }
 

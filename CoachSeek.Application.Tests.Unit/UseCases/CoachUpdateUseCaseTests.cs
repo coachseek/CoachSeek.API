@@ -58,6 +58,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
+        public void GivenInvalidWorkingHours_Update_ThenCoachUpdateFailsWithInvalidWorkingHoursError()
+        {
+            var request = GivenInvalidWorkingHours();
+            var response = WhenUpdateCoach(request);
+            ThenCoachUpdateFailsWithInvalidWorkingHoursError(response);
+        }
+
+        [Test]
         public void GivenAUniqueCoachName_WhenUpdateCoach_ThenCoachUpdateSucceeds()
         {
             var request = GivenAUniqueCoachName();
@@ -88,7 +96,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 FirstName = "Warren",
                 LastName = "Buffett",
                 Email = "warren@buffet.com",
-                Phone = "555 1234"
+                Phone = "555 1234",
+                WorkingHours = SetupStandardWorkingHoursCommand()
             };
         }
 
@@ -107,6 +116,20 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
+        private CoachUpdateCommand GivenInvalidWorkingHours()
+        {
+            return new CoachUpdateCommand
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                CoachId = new Guid(COACH_ALBERT_ID),
+                FirstName = "Albert E.",
+                LastName = "Neuman",
+                Email = "albert@mad.com",
+                Phone = "1234567890",
+                WorkingHours = SetupInvalidWorkingHoursCommand()
+            };
+        }
+
         private CoachUpdateCommand GivenAUniqueCoachName()
         {
             return new CoachUpdateCommand
@@ -120,6 +143,21 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 WorkingHours = SetupWeekendWorkingHoursCommand()
             };
         }
+
+        private WeeklyWorkingHoursCommand SetupInvalidWorkingHoursCommand()
+        {
+            return new WeeklyWorkingHoursCommand
+            {
+                Monday = new DailyWorkingHoursCommand(true, "91:00", ":00"),        // NOT VALID 
+                Tuesday = new DailyWorkingHoursCommand(true, "9:00", "17:00"),      // VALID
+                Wednesday = new DailyWorkingHoursCommand(false, "9:00", "fred"),    // VALID
+                Thursday = new DailyWorkingHoursCommand(true, "hello", "world"),    // NOT VALID
+                Friday = new DailyWorkingHoursCommand(true, "9:00", "12:45"),       // VALID
+                Saturday = new DailyWorkingHoursCommand(true, "0:00", "8:00"),      // VALID
+                Sunday = new DailyWorkingHoursCommand(true, "7:15", "3:33")         // NOT VALID
+            };
+        }
+
 
         private Response<CoachData> WhenUpdateCoach(CoachUpdateCommand command)
         {
@@ -152,6 +190,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertSaveBusinessIsNotCalled();
         }
 
+        private void ThenCoachUpdateFailsWithInvalidWorkingHoursError(Response<CoachData> response)
+        {
+            AssertInvalidWorkingHoursError(response);
+            AssertSaveBusinessIsNotCalled();
+        }
+
         private void ThenCoachUpdateSucceeds(Response<CoachData> response)
         {
             AssertSaveBusinessIsCalled();
@@ -177,6 +221,17 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void AssertDuplicateCoachError(Response<CoachData> response)
         {
             AssertSingleError(response, "This coach already exists.");
+        }
+
+        private void AssertInvalidWorkingHoursError(Response<CoachData> response)
+        {
+            Assert.That(response.Data, Is.Null);
+            Assert.That(response.Errors, Is.Not.Null);
+            Assert.That(response.Errors.Count, Is.EqualTo(3));
+
+            AssertError(response.Errors[0], "The monday working hours are not valid.", "coach.workingHours.monday");
+            AssertError(response.Errors[1], "The thursday working hours are not valid.", "coach.workingHours.thursday");
+            AssertError(response.Errors[2], "The sunday working hours are not valid.", "coach.workingHours.sunday");
         }
 
         private void AssertResponseReturnsUpdatedCoach(Response<CoachData> response)

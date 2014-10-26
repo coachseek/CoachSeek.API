@@ -74,7 +74,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new Response<BusinessData>(new ValidationException(1, "Error"))
+                Response = new Response<BusinessData>(new ValidationException("Error"))
             };
         }
 

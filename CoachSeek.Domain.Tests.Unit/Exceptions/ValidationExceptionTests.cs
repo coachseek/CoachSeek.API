@@ -40,15 +40,15 @@ namespace CoachSeek.Domain.Tests.Unit.Exceptions
 
         private IEnumerable<Error> GivenOneError()
         {
-            return new List<Error> { new Error(19, "A big error has occurred!") };
+            return new List<Error> { new Error("A big error has occurred!") };
         }
 
         private IEnumerable<Error> GivenTwoErrors()
         {
             return new List<Error>
             {
-                new Error(19, "A big error has occurred!"),
-                new Error(23, "A smaller error has occurred.")
+                new Error("A big error has occurred!"),
+                new Error("A smaller error has occurred.")
             };
         }
 

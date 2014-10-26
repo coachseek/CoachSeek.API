@@ -67,10 +67,13 @@
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Credential.cs" />
+    <Compile Include="Entities\DailyWorkingHours.cs" />
     <Compile Include="Entities\EmailAddress.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
     <Compile Include="Entities\NewLocation.cs" />
+    <Compile Include="Entities\PointInTime.cs" />
+    <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
     <Compile Include="Exceptions\DuplicateCoach.cs" />
@@ -78,8 +81,11 @@
     <Compile Include="Exceptions\Error.cs" />
     <Compile Include="Exceptions\InvalidBusiness.cs" />
     <Compile Include="Exceptions\InvalidCoach.cs" />
+    <Compile Include="Exceptions\InvalidDailyWorkingHours.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\InvalidLocation.cs" />
+    <Compile Include="Exceptions\InvalidPointInTime.cs" />
+    <Compile Include="Exceptions\InvalidWeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\MissingEmailAddress.cs" />
     <Compile Include="Exceptions\MissingFirstName.cs" />
     <Compile Include="Exceptions\MissingLastName.cs" />

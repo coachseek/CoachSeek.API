@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace CoachSeek.Common.Extensions
 {
@@ -23,6 +24,20 @@ namespace CoachSeek.Common.Extensions
             catch
             {
                 return default(T);                
+            }
+        }
+
+        public static T ParseOrThrow<T>(this string input)
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+
+            try
+            {
+                return (T)converter.ConvertFromString(input);
+            }
+            catch(Exception)
+            {
+                throw new FormatException();
             }
         }
     }

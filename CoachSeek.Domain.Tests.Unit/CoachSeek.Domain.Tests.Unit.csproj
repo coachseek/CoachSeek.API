@@ -48,9 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\EmailAddressTests.cs" />
     <Compile Include="Entities\NewBusinessTests.cs" />
     <Compile Include="Entities\PersonNameTests.cs" />
+    <Compile Include="Entities\PointInTimeTests.cs" />
+    <Compile Include="Entities\UnavailableDailyWorkingHoursTests.cs" />
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

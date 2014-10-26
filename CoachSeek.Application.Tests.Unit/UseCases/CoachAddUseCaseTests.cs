@@ -48,6 +48,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
+        public void GivenInvalidWorkingHours_WhenAddCoach_ThenCoachAddFailsWithInvalidWorkingHoursError()
+        {
+            var request = GivenInvalidWorkingHours();
+            var response = WhenAddCoach(request);
+            ThenCoachAddFailsWithInvalidWorkingHoursError(response);
+        }
+
+        [Test]
         public void GivenAUniqueCoach_WhenAddCoach_ThenCoachAddSucceeds()
         {
             var request = GivenAUniqueCoach();
@@ -81,6 +89,19 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
+        private CoachAddCommand GivenInvalidWorkingHours()
+        {
+            return new CoachAddCommand
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                FirstName = "Bob",
+                LastName = "Marley",
+                Email = "  Bob.Marley@wailers.com",
+                Phone = "0215555555",
+                WorkingHours = SetupInvalidWorkingHoursCommand()
+            };
+        }
+
         private CoachAddCommand GivenAUniqueCoach()
         {
             return new CoachAddCommand
@@ -94,12 +115,28 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
+        private WeeklyWorkingHoursCommand SetupInvalidWorkingHoursCommand()
+        {
+            return new WeeklyWorkingHoursCommand
+            {
+                Monday = new DailyWorkingHoursCommand(true, "91:00", ":00"),
+                Tuesday = new DailyWorkingHoursCommand(true, "abc", "17:00"),
+                Wednesday = new DailyWorkingHoursCommand(true, "9:00", "fred"),
+                Thursday = new DailyWorkingHoursCommand(true, "hello", "world"),
+                Friday = new DailyWorkingHoursCommand(true, "9:00", "12:34:56"),
+                Saturday = new DailyWorkingHoursCommand(true, "-1:00", "5:00"),
+                Sunday = new DailyWorkingHoursCommand(true, "7:15", "3:33")
+            };
+        }
+
+
         private Response<CoachData> WhenAddCoach(CoachAddCommand command)
         {
             var useCase = new CoachAddUseCase(BusinessRepository);
 
             return useCase.AddCoach(command);
         }
+
 
         private void ThenCoachAddFailsWithMissingCoachError(Response<CoachData> response)
         {
@@ -119,6 +156,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertSaveBusinessIsNotCalled();
         }
 
+        private void ThenCoachAddFailsWithInvalidWorkingHoursError(Response<CoachData> response)
+        {
+            AssertInvalidWorkingHoursError(response);
+            AssertSaveBusinessIsNotCalled();
+        }
+
         private void ThenCoachAddSucceeds(Response<CoachData> response)
         {
             AssertSaveBusinessIsCalled();
@@ -132,12 +175,27 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertInvalidBusinessError(Response<CoachData> response)
         {
-            AssertSingleError(response, "This business does not exist.");
+            AssertSingleError(response, "This business does not exist.", "coach.businessId");
         }
 
         private void AssertDuplicateCoachError(Response<CoachData> response)
         {
             AssertSingleError(response, "This coach already exists.");
+        }
+
+        private void AssertInvalidWorkingHoursError(Response<CoachData> response)
+        {
+            Assert.That(response.Data, Is.Null);
+            Assert.That(response.Errors, Is.Not.Null);
+            Assert.That(response.Errors.Count, Is.EqualTo(7));
+
+            AssertError(response.Errors[0], "The monday working hours are not valid.", "coach.workingHours.monday");
+            AssertError(response.Errors[1], "The tuesday working hours are not valid.", "coach.workingHours.tuesday");
+            AssertError(response.Errors[2], "The wednesday working hours are not valid.", "coach.workingHours.wednesday");
+            AssertError(response.Errors[3], "The thursday working hours are not valid.", "coach.workingHours.thursday");
+            AssertError(response.Errors[4], "The friday working hours are not valid.", "coach.workingHours.friday");
+            AssertError(response.Errors[5], "The saturday working hours are not valid.", "coach.workingHours.saturday");
+            AssertError(response.Errors[6], "The sunday working hours are not valid.", "coach.workingHours.sunday");
         }
 
         private void AssertResponseReturnsNewCoach(Response<CoachData> response)

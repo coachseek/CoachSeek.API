@@ -52,6 +52,8 @@ namespace CoachSeek.Application.UseCases
                 return HandleInvalidCoach();
             if (ex is DuplicateCoach)
                 return HandleDuplicateCoach();
+            if (ex is ValidationException)
+                return new Response<CoachData>((ValidationException)ex);
 
             return null;
         }

@@ -113,7 +113,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationAddUseCase
             {
-                Response = new Response<LocationData>(new ValidationException(2, "Error!"))
+                Response = new Response<LocationData>(new ValidationException("Error!"))
             };
         }
 
@@ -129,7 +129,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockLocationUpdateUseCase
             {
-                Response = new Response<LocationData>(new ValidationException(2, "Error!"))
+                Response = new Response<LocationData>(new ValidationException("Error!"))
             };
         }
 

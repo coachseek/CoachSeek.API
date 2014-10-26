@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
+using CoachSeek.WebUI.Filters;
 using CoachSeek.WebUI.Models.Api;
 using System.Net.Http;
 using System.Web.Http;
@@ -34,6 +35,8 @@ namespace CoachSeek.WebUI.Controllers
         //}
 
         // POST: api/Coaches
+        [CheckModelForNull]
+        [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coach)
         {
             if (coach.IsNew())

@@ -90,7 +90,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessNewRegistrationUseCase
             {
-                Response = new Response<BusinessData>(new ValidationException(3, "My Error"))
+                Response = new Response<BusinessData>(new ValidationException("My Error"))
             };
         }
 

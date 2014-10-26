@@ -40,19 +40,19 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             BusinessRepository = new InMemoryBusinessRepository();
             BusinessRepository.Clear();
 
-            var business = SetupOlafsCafeBusiness();
+            var business = SetupOlafsCoachingBusiness();
             BusinessRepository.Add(business);
 
             BusinessRepository.WasSaveNewBusinessCalled = false;
             BusinessRepository.WasSaveBusinessCalled = false;
         }
 
-        private Business SetupOlafsCafeBusiness()
+        private Business SetupOlafsCoachingBusiness()
         {
             return new Business(
                 new Guid(VALID_BUSINESS_ID),
-                "Olaf's Bookshoppe",
-                "olafsbookshoppe",
+                "Olaf's Coaching",
+                "olafscoaching",
                 new BusinessAdminData
                 {
                     FirstName = "Olaf",
@@ -84,8 +84,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                     FirstName = "Bob", 
                     LastName = "Smith", 
                     Email = "bob.smith@example.com",
-                    Phone = "021987654"
+                    Phone = "021987654",
+                    WorkingHours = SetupStandardWorkingHourDatas()
                 }, 
+            };
+        }
+
+        private WeeklyWorkingHoursData SetupStandardWorkingHourDatas()
+        {
+            return new WeeklyWorkingHoursData
+            {
+                Monday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                Tuesday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                Wednesday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                Thursday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                Friday = new DailyWorkingHoursData(true, "9:00", "17:00"),
+                Saturday = new DailyWorkingHoursData(false),
+                Sunday = new DailyWorkingHoursData(false)
             };
         }
 

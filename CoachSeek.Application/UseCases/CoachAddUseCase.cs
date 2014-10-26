@@ -1,11 +1,11 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
+using System;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -35,7 +35,6 @@ namespace CoachSeek.Application.UseCases
             {
                 return HandleAddCoachException(ex);
             }
-        
         }
 
         private Business GetBusiness(CoachAddCommand command)
@@ -52,6 +51,8 @@ namespace CoachSeek.Application.UseCases
                 return HandleInvalidBusiness();
             if (ex is DuplicateCoach)
                 return HandleDuplicateCoach();
+            if (ex is ValidationException)
+                return new Response<CoachData>((ValidationException)ex);
 
             return null;
         }

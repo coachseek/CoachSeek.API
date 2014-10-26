@@ -15,8 +15,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
     [TestFixture]
     public class BusinessNewRegistrationUseCaseTests : UseCaseTests
     {
-        private const string BUSINESS_ID = "12345678-90AB-4B1D-B8AA-920DD568681E";
-
         private BusinessDomainBuilder BusinessDomainBuilder { get; set; }
         private StubBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
@@ -32,30 +30,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupBusinessRepository();
             SetupBusinessDomainBuilder();
             SetupBusinessRegistrationEmailer();
-        }
-
-        private void SetupBusinessRepository()
-        {
-            BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Clear();
-
-            var business = new Business(new Guid(BUSINESS_ID),
-                "Olaf's Bookshoppe",
-                "olafsbookshoppe",
-                new BusinessAdminData
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Username = "olaft@ihug.co.nz",
-                    PasswordHash = "Password1"
-                }, 
-                null, 
-                null);
-            BusinessRepository.Add(business);
-
-            BusinessRepository.WasSaveNewBusinessCalled = false;
-            BusinessRepository.WasSaveBusinessCalled = false;
         }
 
         private void SetupBusinessDomainBuilder()
@@ -102,12 +76,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new BusinessRegistrationCommand
             {
-                BusinessName = "Olaf's Cafe  ",
+                BusinessName = "Olaf's Soccer Coaching  ",
                 Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = " Olaf ",
                     LastName = " Thielke  ",
-                    Email = "OLAFT@ihug.co.nz  ",
+                    Email = "OLAF@gmaiL.com  ",
                     Password = "password"
                 }
             };
@@ -117,7 +91,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new BusinessRegistrationCommand
             {
-                BusinessName = "  Ian's Cafe",
+                BusinessName = "  Ian's Tennis Coaching",
                 Registrant = new BusinessRegistrantCommand
                 {
                     FirstName = " Ian",
@@ -206,8 +180,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var business = BusinessRegistrationEmailer.PassedInBusinessData;
             Assert.That(business.Id, Is.Not.EqualTo(Guid.Empty));
-            Assert.That(business.Name, Is.EqualTo("Ian's Cafe"));
-            Assert.That(business.Domain, Is.EqualTo("ianscafe"));
+            Assert.That(business.Name, Is.EqualTo("Ian's Tennis Coaching"));
+            Assert.That(business.Domain, Is.EqualTo("ianstenniscoaching"));
             var admin = business.Admin;
             Assert.That(admin.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(admin.FirstName, Is.EqualTo("Ian"));

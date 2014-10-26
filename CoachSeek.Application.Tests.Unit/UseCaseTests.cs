@@ -7,6 +7,7 @@ using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit
@@ -160,6 +161,14 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
+            Assert.That(error.Message, Is.EqualTo(expectedMessage));
+            Assert.That(error.Field, Is.EqualTo(expectedField));
+        }
+
+        protected void AssertError(ErrorData error,
+                                   string expectedMessage,
+                                   string expectedField = null)
+        {
             Assert.That(error.Message, Is.EqualTo(expectedMessage));
             Assert.That(error.Field, Is.EqualTo(expectedField));
         }
