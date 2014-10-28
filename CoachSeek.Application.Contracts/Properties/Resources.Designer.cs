@@ -97,6 +97,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This service already exists..
+        /// </summary>
+        internal static string ErrorDuplicateService {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This business does not exist..
         /// </summary>
         internal static string ErrorInvalidBusiness {
@@ -156,6 +165,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         internal static string ErrorNoCoachUpdateData {
             get {
                 return ResourceManager.GetString("ErrorNoCoachUpdateData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing {0} data..
+        /// </summary>
+        internal static string ErrorNoData {
+            get {
+                return ResourceManager.GetString("ErrorNoData", resourceCulture);
             }
         }
         

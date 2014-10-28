@@ -201,11 +201,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachUpdateCommandConverter.cs" />
     <Compile Include="Conversion\LocationAddCommandConverter.cs" />
     <Compile Include="Conversion\LocationUpdateCommandConverter.cs" />
+    <Compile Include="Conversion\ServiceAddCommandConverter.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -217,6 +219,8 @@
     <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
     <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiServiceDefaults.cs" />
+    <Compile Include="Models\Api\ApiServiceSaveCommand.cs" />
     <Compile Include="Models\Api\ApiWeeklyWorkingHours.cs" />
     <Compile Include="Models\Api\IApiBusinessIdable.cs" />
     <Compile Include="Models\Api\IApiIdable.cs" />

@@ -2,5 +2,7 @@
 {
     public interface IData
     {
+        string GetName();
+        string GetBusinessIdPath();
     }
 }

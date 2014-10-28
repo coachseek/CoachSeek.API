@@ -43,8 +43,11 @@
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Models\Responses\CoachAddResponse.cs" />
     <Compile Include="Models\Responses\CoachUpdateResponse.cs" />
+    <Compile Include="Models\Responses\InvalidBusinessResponse.cs" />
+    <Compile Include="Models\Responses\ServiceAddResponse.cs" />
     <Compile Include="Models\Responses\LocationAddResponse.cs" />
     <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
+    <Compile Include="Models\Responses\NoDataResponse.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
     <Compile Include="UseCases\ILocationAddUseCase.cs" />
@@ -60,11 +63,13 @@
     <Compile Include="UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\IBusinessNewRegistrationUseCase.cs" />
     <Compile Include="UseCases\ILocationUpdateUseCase.cs" />
+    <Compile Include="UseCases\IServiceAddUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,18 @@
 ﻿namespace CoachSeek.Data.Model
 {
-    public class NewLocationData : IData
+    public class NewServiceData : IData
     {
         public string Name { get; set; }
 
 
         public string GetName()
         {
-            return "location";
+            return "service";
         }
 
         public string GetBusinessIdPath()
         {
-            return "location.businessId";
+            return "service.businessId";
         }
     }
 }

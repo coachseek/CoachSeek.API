@@ -46,10 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="UseCases\BaseUseCase.cs" />
     <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\ServiceAddUseCase.cs" />
     <Compile Include="UseCases\CoachAddUseCase.cs" />
     <Compile Include="UseCases\CoachUpdateUseCase.cs" />
     <Compile Include="UseCases\LocationAddUseCase.cs" />

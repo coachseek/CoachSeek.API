@@ -129,6 +129,9 @@
   <data name="ErrorDuplicateLocation" xml:space="preserve">
     <value>This location already exists.</value>
   </data>
+  <data name="ErrorDuplicateService" xml:space="preserve">
+    <value>This service already exists.</value>
+  </data>
   <data name="ErrorInvalidBusiness" xml:space="preserve">
     <value>This business does not exist.</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="ErrorNoCoachUpdateData" xml:space="preserve">
     <value>Missing coach data.</value>
+  </data>
+  <data name="ErrorNoData" xml:space="preserve">
+    <value>Missing {0} data.</value>
   </data>
   <data name="ErrorNoLocationAddData" xml:space="preserve">
     <value>Missing location data.</value>

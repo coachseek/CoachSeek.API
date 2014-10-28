@@ -8,5 +8,16 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public WeeklyWorkingHoursData WorkingHours { get; set; }
+
+
+        public string GetName()
+        {
+            return "coach";
+        }
+
+        public string GetBusinessIdPath()
+        {
+            return "coach.businessId";
+        }
     }
 }

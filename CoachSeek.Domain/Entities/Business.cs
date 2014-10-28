@@ -16,10 +16,12 @@ namespace CoachSeek.Domain.Entities
         public BusinessAdminData Admin { get { return BusinessAdmin.ToData(); } }
         public IList<LocationData> Locations { get { return BusinessLocations.ToData(); } }
         public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
+        public IList<ServiceData> Services { get { return BusinessServices.ToData(); } }
 
         protected BusinessAdmin BusinessAdmin { get; set; }
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
+        private BusinessServices BusinessServices { get; set; }
 
 
         public Business(Guid id, 
@@ -84,6 +86,22 @@ namespace CoachSeek.Domain.Entities
             return GetCoachById(command.CoachId, businessRepository);
         }
 
+        public ServiceData AddService(ServiceAddCommand command, IBusinessRepository businessRepository)
+        {
+            var serviceId = BusinessServices.Add(command.ToData());
+            businessRepository.Save(this);
+
+            return GetServiceById(serviceId, businessRepository);
+        }
+
+        //public ServiceData UpdateService(ServiceUpdateCommand command, IBusinessRepository businessRepository)
+        //{
+        //    BusinessServices.Update(command.ToData());
+        //    businessRepository.Save(this);
+
+        //    return GetServiceById(command.ServiceId, businessRepository);
+        //}
+
         public BusinessData ToData()
         {
             return Mapper.Map<Business, BusinessData>(this);
@@ -98,6 +116,11 @@ namespace CoachSeek.Domain.Entities
         private CoachData GetCoachById(Guid coachId, IBusinessRepository businessRepository)
         {
             return businessRepository.Get(Id).Coaches.Single(x => x.Id == coachId);
+        }
+
+        private ServiceData GetServiceById(Guid serviceId, IBusinessRepository businessRepository)
+        {
+            return businessRepository.Get(Id).Services.Single(x => x.Id == serviceId);
         }
     }
 }

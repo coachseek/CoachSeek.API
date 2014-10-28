@@ -29,6 +29,9 @@ namespace CoachSeek.Application.Configuration
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.LocationId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.LocationName));
 
+            Mapper.CreateMap<ServiceAddCommand, NewServiceData>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ServiceName));
+
             Mapper.CreateMap<Error, ErrorData>();
         }
     }

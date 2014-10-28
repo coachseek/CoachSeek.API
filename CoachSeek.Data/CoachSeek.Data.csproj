@@ -48,7 +48,8 @@
     <Compile Include="Model\LocationData.cs" />
     <Compile Include="Model\NewCoachData.cs" />
     <Compile Include="Model\NewLocationData.cs" />
-    <Compile Include="Model\NullData.cs" />
+    <Compile Include="Model\NewServiceData.cs" />
+    <Compile Include="Model\ServiceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\WeeklyWorkingHoursData.cs" />
   </ItemGroup>

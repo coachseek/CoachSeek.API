@@ -12,5 +12,16 @@ namespace CoachSeek.Data.Model
         public BusinessAdminData Admin { get; set; }
         public IList<LocationData> Locations { get; set; }
         public IList<CoachData> Coaches { get; set; }
+
+
+        public string GetName()
+        {
+            return "Business";
+        }
+
+        public string GetBusinessIdPath()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
