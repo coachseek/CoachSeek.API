@@ -210,12 +210,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertInvalidBusinessError(Response<CoachData> response)
         {
-            AssertSingleError(response, "This business does not exist.");
+            AssertSingleError(response, "This business does not exist.", "coach.businessId");
         }
 
         private void AssertInvalidCoachError(Response<CoachData> response)
         {
-            AssertSingleError(response, "This coach does not exist.");
+            AssertSingleError(response, "This coach does not exist.", "coach.id");
         }
 
         private void AssertDuplicateCoachError(Response<CoachData> response)

@@ -20,12 +20,14 @@ namespace CoachSeek.WebUI
             For<IBusinessDomainBuilder>().Use<BusinessDomainBuilder>();
             For<IBusinessRegistrationEmailer>().Use<StubBusinessRegistrationEmailer>();
 
+            For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
+
             For<IBusinessNewRegistrationUseCase>().Use<BusinessNewRegistrationUseCase>();
             For<ILocationAddUseCase>().Use<LocationAddUseCase>();
             For<ILocationUpdateUseCase>().Use<LocationUpdateUseCase>();
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
             For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
-            For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
+            For<IServiceAddUseCase>().Use<ServiceAddUseCase>();
         }
     }
 }

@@ -4,32 +4,6 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoLocationUpdateDataResponse : Response<LocationData>
-    {
-        public NoLocationUpdateDataResponse()
-        {
-            Errors = new List<ErrorData> { CreateNoLocationUpdateDataError() };
-        }
-
-        private static ErrorData CreateNoLocationUpdateDataError()
-        {
-            return new ErrorData(Resources.ErrorNoLocationUpdateData);
-        }
-    }
-
-    public class InvalidBusinessLocationUpdateResponse : Response<LocationData>
-    {
-        public InvalidBusinessLocationUpdateResponse()
-        {
-            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
-        }
-
-        private static ErrorData CreateInvalidBusinessError()
-        {
-            return new ErrorData("location.businessId", Resources.ErrorInvalidBusiness);
-        }
-    }
-
     public class InvalidLocationUpdateResponse : Response<LocationData>
     {
         public InvalidLocationUpdateResponse()

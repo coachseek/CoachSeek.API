@@ -1,36 +1,9 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Properties;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NoCoachUpdateDataResponse : Response<CoachData>
-    {
-        public NoCoachUpdateDataResponse()
-        {
-            Errors = new List<ErrorData> { CreateNoCoachUpdateDataError() };
-        }
-
-        private static ErrorData CreateNoCoachUpdateDataError()
-        {
-            return new ErrorData(Resources.ErrorNoCoachUpdateData);
-        }
-    }
-
-    public class InvalidBusinessCoachUpdateResponse : Response<CoachData>
-    {
-        public InvalidBusinessCoachUpdateResponse()
-        {
-            Errors = new List<ErrorData> { CreateInvalidBusinessError() };
-        }
-
-        private static ErrorData CreateInvalidBusinessError()
-        {
-            return new ErrorData(Resources.ErrorInvalidBusiness);
-        }
-    }
-
     public class InvalidCoachUpdateResponse : Response<CoachData>
     {
         public InvalidCoachUpdateResponse()
@@ -40,7 +13,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateInvalidCoachError()
         {
-            return new ErrorData(Resources.ErrorInvalidCoach);
+            return new ErrorData("coach.id", Resources.ErrorInvalidCoach);
         }
     }
 

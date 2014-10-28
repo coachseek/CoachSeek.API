@@ -9,62 +9,29 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CoachAddUseCase : ICoachAddUseCase
+    public class CoachAddUseCase : AddUseCase<CoachData>, ICoachAddUseCase
     {
-        private IBusinessRepository BusinessRepository { get; set; }
-
-
         public CoachAddUseCase(IBusinessRepository businessRepository)
-        {
-            BusinessRepository = businessRepository;
-        }
+            : base(businessRepository)
+        { }
 
 
         public Response<CoachData> AddCoach(CoachAddCommand command)
         {
-            if (command == null)
-                return new NoCoachAddDataResponse();
-
-            try
-            {
-                var business = GetBusiness(command);
-                var coach = business.AddCoach(command, BusinessRepository);
-                return new Response<CoachData>(coach);
-            }
-            catch (Exception ex)
-            {
-                return HandleAddCoachException(ex);
-            }
+            return Add(command);
         }
 
-        private Business GetBusiness(CoachAddCommand command)
+        protected override CoachData AddToBusiness(Business business, IBusinessIdable command)
         {
-            var business = BusinessRepository.Get(command.BusinessId);
-            if (business == null)
-                throw new InvalidBusiness();
-            return business;
+            return business.AddCoach((CoachAddCommand)command, BusinessRepository);
         }
 
-        private Response<CoachData> HandleAddCoachException(Exception ex)
+        protected override Response<CoachData> HandleSpecificException(Exception ex)
         {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
             if (ex is DuplicateCoach)
-                return HandleDuplicateCoach();
-            if (ex is ValidationException)
-                return new Response<CoachData>((ValidationException)ex);
+                return new DuplicateCoachAddResponse();
 
             return null;
-        }
-
-        private Response<CoachData> HandleInvalidBusiness()
-        {
-            return new InvalidBusinessCoachAddResponse();
-        }
-
-        private Response<CoachData> HandleDuplicateCoach()
-        {
-            return new DuplicateCoachAddResponse();
         }
     }
 }

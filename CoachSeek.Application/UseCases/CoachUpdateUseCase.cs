@@ -9,68 +9,31 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CoachUpdateUseCase : ICoachUpdateUseCase
+    public class CoachUpdateUseCase : UpdateUseCase<CoachData>, ICoachUpdateUseCase
     {
-        private IBusinessRepository BusinessRepository { get; set; }
-
         public CoachUpdateUseCase(IBusinessRepository businessRepository)
-        {
-            BusinessRepository = businessRepository;
-        }
+            : base(businessRepository)
+        { }
 
 
         public Response<CoachData> UpdateCoach(CoachUpdateCommand command)
         {
-            if (command == null)
-                return new NoCoachUpdateDataResponse();
-
-            try
-            {
-                var business = GetBusiness(command);
-                var coach = business.UpdateCoach(command, BusinessRepository);
-                return new Response<CoachData>(coach);
-            }
-            catch (Exception ex)
-            {
-                return HandleUpdateCoachException(ex);
-            }
+            return Update(command);
         }
 
-        private Business GetBusiness(CoachUpdateCommand command)
+        protected override CoachData UpdateInBusiness(Business business, IBusinessIdable command)
         {
-            var business = BusinessRepository.Get(command.BusinessId);
-            if (business == null)
-                throw new InvalidBusiness();
-            return business;
+            return business.UpdateCoach((CoachUpdateCommand)command, BusinessRepository);
         }
 
-        private Response<CoachData> HandleUpdateCoachException(Exception ex)
+        protected override Response<CoachData> HandleSpecificException(Exception ex)
         {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
             if (ex is InvalidCoach)
-                return HandleInvalidCoach();
+                return new InvalidCoachUpdateResponse();
             if (ex is DuplicateCoach)
-                return HandleDuplicateCoach();
-            if (ex is ValidationException)
-                return new Response<CoachData>((ValidationException)ex);
+                return new DuplicateCoachUpdateResponse();
 
             return null;
-        }
-
-        private Response<CoachData> HandleInvalidBusiness()
-        {
-            return new InvalidBusinessCoachUpdateResponse();
-        }
-
-        private Response<CoachData> HandleInvalidCoach()
-        {
-            return new InvalidCoachUpdateResponse();
-        }
-
-        private Response<CoachData> HandleDuplicateCoach()
-        {
-            return new DuplicateCoachUpdateResponse();
         }
     }
 }
