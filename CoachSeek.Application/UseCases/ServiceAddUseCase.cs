@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -8,7 +9,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class ServiceAddUseCase : BaseUseCase<ServiceData>
+    public class ServiceAddUseCase : AddUseCase<ServiceData>, IServiceAddUseCase
     {
         public ServiceAddUseCase(IBusinessRepository businessRepository)
             : base(businessRepository)
@@ -25,17 +26,12 @@ namespace CoachSeek.Application.UseCases
             return business.AddService((ServiceAddCommand)command, BusinessRepository);
         }
 
-        protected override Response<ServiceData> HandleSpecificAddException(Exception ex)
+        protected override Response<ServiceData> HandleSpecificException(Exception ex)
         {
             if (ex is DuplicateService)
-                return HandleDuplicateService();
+                return new DuplicateServiceAddResponse();
 
             return null;
-        }
-
-        private Response<ServiceData> HandleDuplicateService()
-        {
-            return new DuplicateServiceAddResponse();
         }
     }
 }

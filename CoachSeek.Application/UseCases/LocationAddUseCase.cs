@@ -9,60 +9,29 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class LocationAddUseCase : ILocationAddUseCase
+    public class LocationAddUseCase : AddUseCase<LocationData>, ILocationAddUseCase
     {
-        private IBusinessRepository BusinessRepository { get; set; }
-
-
         public LocationAddUseCase(IBusinessRepository businessRepository)
-        {
-            BusinessRepository = businessRepository;
-        }
+            : base(businessRepository)
+        { }
 
 
         public Response<LocationData> AddLocation(LocationAddCommand command)
         {
-            if (command == null)
-                return new NoLocationAddDataResponse();
-
-            try
-            {
-                var business = GetBusiness(command);
-                var location = business.AddLocation(command, BusinessRepository);
-                return new Response<LocationData>(location);
-            }
-            catch (Exception ex)
-            {
-                return HandleAddLocationException(ex);
-            }
+            return Add(command);
         }
 
-        private Business GetBusiness(LocationAddCommand command)
+        protected override LocationData AddToBusiness(Business business, IBusinessIdable command)
         {
-            var business = BusinessRepository.Get(command.BusinessId);
-            if (business == null)
-                throw new InvalidBusiness();
-            return business;
+            return business.AddLocation((LocationAddCommand)command, BusinessRepository);
         }
 
-        private Response<LocationData> HandleAddLocationException(Exception ex)
+        protected override Response<LocationData> HandleSpecificException(Exception ex)
         {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
             if (ex is DuplicateLocation)
-                return HandleDuplicateLocation();
+                return new DuplicateLocationAddResponse();
 
             return null;
-        }
-
-        private Response<LocationData> HandleInvalidBusiness()
-        {
-            return new InvalidBusinessLocationAddResponse();
-        }
-
-        private Response<LocationData> HandleDuplicateLocation()
-        {
-            return new DuplicateLocationAddResponse();
         }
     }
 }

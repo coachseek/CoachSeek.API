@@ -9,67 +9,31 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class LocationUpdateUseCase : ILocationUpdateUseCase
+    public class LocationUpdateUseCase : UpdateUseCase<LocationData>, ILocationUpdateUseCase
     {
-        private IBusinessRepository BusinessRepository { get; set; }
-
-
         public LocationUpdateUseCase(IBusinessRepository businessRepository)
+            : base(businessRepository)
+        { }
+
+
+        public Response<LocationData> UpdateLocation(LocationUpdateCommand command)
         {
-            BusinessRepository = businessRepository;
+            return Update(command);
         }
 
-        
-        public Response<LocationData> UpdateLocation(LocationUpdateCommand request)
+        protected override LocationData UpdateInBusiness(Business business, IBusinessIdable command)
         {
-            if (request == null)
-                return new NoLocationUpdateDataResponse();
-
-            try
-            {
-                var business = GetBusiness(request);
-                var location = business.UpdateLocation(request, BusinessRepository);
-                return new Response<LocationData>(location);
-            }
-            catch (Exception ex)
-            {
-                return HandleUpdateLocationException(ex);
-            }
+            return business.UpdateLocation((LocationUpdateCommand)command, BusinessRepository);
         }
 
-        private Business GetBusiness(LocationUpdateCommand request)
+        protected override Response<LocationData> HandleSpecificException(Exception ex)
         {
-            var business = BusinessRepository.Get(request.BusinessId);
-            if (business == null)
-                throw new InvalidBusiness();
-            return business;
-        }
-
-        private Response<LocationData> HandleUpdateLocationException(Exception ex)
-        {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
             if (ex is InvalidLocation)
-                return HandleInvalidLocation();
+                return new InvalidLocationUpdateResponse();
             if (ex is DuplicateLocation)
-                return HandleDuplicateLocation();
+                return new DuplicateLocationUpdateResponse();
 
             return null;
-        }
-
-        private Response<LocationData> HandleInvalidBusiness()
-        {
-            return new InvalidBusinessLocationUpdateResponse();
-        }
-
-        private Response<LocationData> HandleInvalidLocation()
-        {
-            return new InvalidLocationUpdateResponse();
-        }
-
-        private Response<LocationData> HandleDuplicateLocation()
-        {
-            return new DuplicateLocationUpdateResponse();
         }
     }
 }

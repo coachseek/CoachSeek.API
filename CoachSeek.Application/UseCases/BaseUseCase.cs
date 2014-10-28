@@ -18,44 +18,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        protected Response<TData> Add(IBusinessIdable command)
-        {
-            if (command == null)
-                return new NoDataResponse<TData>();
-
-            try
-            {
-                var business = GetBusiness(command);
-                var data = AddToBusiness(business, command);
-                return new Response<TData>(data);
-            }
-            catch (Exception ex)
-            {
-                return HandleAddException(ex);
-            }
-        }
-
-        protected abstract TData AddToBusiness(Business business, IBusinessIdable command);
-
-        private Response<TData> HandleAddException(Exception ex)
-        {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
-
-            var response = HandleSpecificAddException(ex);
-            if (response != null)
-                return response;
-
-            if (ex is ValidationException)
-                return new Response<TData>((ValidationException)ex);
-
-            return null;
-        }
-
-        protected abstract Response<TData> HandleSpecificAddException(Exception ex);
-
-
-        private Response<TData> HandleInvalidBusiness()
+        protected Response<TData> HandleInvalidBusiness()
         {
             return new InvalidBusinessResponse<TData>();
         }

@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="UseCases\AddUseCase.cs" />
+    <Compile Include="UseCases\UpdateUseCase.cs" />
     <Compile Include="UseCases\BaseUseCase.cs" />
     <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="Factories\BusinessFactory.cs" />
