@@ -7,8 +7,9 @@ namespace CoachSeek.Domain.Commands
     public class LocationUpdateCommand : IBusinessIdable
     {
         public Guid BusinessId { get; set; }
-        public Guid LocationId { get; set; }
-        public string LocationName { get; set; }
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
 
 
         public LocationData ToData()

@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Configuration;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -21,6 +23,14 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private const string LOCATION_ID = "90ABCDEF-42E7-4D98-8E70-4C12179DE594";
 
         private LocationsController Controller { get; set; }
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            WebApiAutoMapperConfigurator.Configure();
+            ApplicationAutoMapperConfigurator.Configure();
+            DbAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()
@@ -40,22 +50,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "Orakei Tennis Club"
             };
         }
-
-        //private Business SetupBusiness()
-        //{
-        //    return new Business(new Guid(BUSINESS_ID),
-        //        "Olaf's Cafe",
-        //        "olafscafe",
-        //        new BusinessAdminData
-        //        {
-        //            FirstName = "Bobby",
-        //            LastName = "Tables",
-        //            Email = "bobby@tables.hack",
-        //            Username = "bobby@tables.hack",
-        //        },
-        //        null,
-        //        null);
-        //}
 
 
         private MockLocationAddUseCase AddUseCase
@@ -227,7 +221,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var command = ((MockLocationAddUseCase)Controller.LocationAddUseCase).Command;
             Assert.That(command, Is.Not.Null);
             Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
-            Assert.That(command.LocationName, Is.EqualTo("High Street Hookers"));
+            Assert.That(command.Name, Is.EqualTo("High Street Hookers"));
         }
 
         private void AssertPassRelevantInfoIntoUpdateLocation()
@@ -235,8 +229,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var command = ((MockLocationUpdateUseCase)Controller.LocationUpdateUseCase).Command;
             Assert.That(command, Is.Not.Null);
             Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
-            Assert.That(command.LocationId, Is.EqualTo(new Guid(LOCATION_ID)));
-            Assert.That(command.LocationName, Is.EqualTo("High Street Hookers"));
+            Assert.That(command.Id, Is.EqualTo(new Guid(LOCATION_ID)));
+            Assert.That(command.Name, Is.EqualTo("High Street Hookers"));
         }
 
         private void AssertErrorResponse(HttpResponseMessage response)

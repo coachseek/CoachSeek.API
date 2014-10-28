@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Commands
     public class CoachUpdateCommand : IBusinessIdable
     {
         public Guid BusinessId { get; set; }
-        public Guid CoachId { get; set; }
+        public Guid Id { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

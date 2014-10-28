@@ -7,7 +7,6 @@ namespace CoachSeek.WebUI.Models.Api
     {
         [Required]
         public Guid? BusinessId { get; set; }
-
         public Guid? Id { get; set; }
         
         [Required]

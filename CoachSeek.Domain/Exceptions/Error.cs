@@ -4,7 +4,6 @@ namespace CoachSeek.Domain.Exceptions
 {
     public class Error
     {
-        //public int Code { get; private set; }
         public string Message { get; private set; }
         public string Field { get; private set; }
 

@@ -83,8 +83,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new LocationUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                LocationId = new Guid(LOCATION_REMUERA_ID),
-                LocationName = "Remuera Tennis Club"
+                Id = new Guid(LOCATION_REMUERA_ID),
+                Name = "Remuera Tennis Club"
             };
         }
 
@@ -94,8 +94,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new LocationUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                LocationId = new Guid(LOCATION_ORAKEI_ID),
-                LocationName = "  Browns Bay Racquets Club   "
+                Id = new Guid(LOCATION_ORAKEI_ID),
+                Name = "  Browns Bay Racquets Club   "
             };
         }
 
@@ -104,8 +104,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new LocationUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                LocationId = new Guid(LOCATION_BROWNS_BAY_ID),
-                LocationName = "  Browns Bay Tennis & Squash Club  "
+                Id = new Guid(LOCATION_BROWNS_BAY_ID),
+                Name = "  Browns Bay Tennis & Squash Club  "
             };
         }
 

@@ -67,7 +67,7 @@ namespace CoachSeek.Domain.Entities
             BusinessLocations.Update(command.ToData());
             businessRepository.Save(this);
 
-            return GetLocationById(command.LocationId, businessRepository);
+            return GetLocationById(command.Id, businessRepository);
         }
 
         public CoachData AddCoach(CoachAddCommand command, IBusinessRepository businessRepository)
@@ -83,7 +83,7 @@ namespace CoachSeek.Domain.Entities
             BusinessCoaches.Update(command.ToData());
             businessRepository.Save(this);
 
-            return GetCoachById(command.CoachId, businessRepository);
+            return GetCoachById(command.Id, businessRepository);
         }
 
         public ServiceData AddService(ServiceAddCommand command, IBusinessRepository businessRepository)

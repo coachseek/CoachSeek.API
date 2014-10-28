@@ -18,19 +18,14 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<DailyWorkingHours, DailyWorkingHoursData>();
 
             Mapper.CreateMap<CoachAddCommand, NewCoachData>();
-            Mapper.CreateMap<CoachUpdateCommand, CoachData>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CoachId));
+            Mapper.CreateMap<CoachUpdateCommand, CoachData>();
             Mapper.CreateMap<WeeklyWorkingHoursCommand, WeeklyWorkingHoursData>();
             Mapper.CreateMap<DailyWorkingHoursCommand, DailyWorkingHoursData>();
 
-            Mapper.CreateMap<LocationAddCommand, NewLocationData>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.LocationName));
-            Mapper.CreateMap<LocationUpdateCommand, LocationData>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.LocationId))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.LocationName));
+            Mapper.CreateMap<LocationAddCommand, NewLocationData>();
+            Mapper.CreateMap<LocationUpdateCommand, LocationData>();
 
-            Mapper.CreateMap<ServiceAddCommand, NewServiceData>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ServiceName));
+            Mapper.CreateMap<ServiceAddCommand, NewServiceData>();
 
             Mapper.CreateMap<Error, ErrorData>();
         }

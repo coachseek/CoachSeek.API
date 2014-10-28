@@ -73,7 +73,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new LocationAddCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                LocationName = "  oraKei Tennis Club  "
+                Name = "  oraKei Tennis Club  "
             };
         }
 
@@ -82,7 +82,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new LocationAddCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                LocationName = "Mt Roskill Squash Club"
+                Name = "Mt Roskill Squash Club"
             };
         }
 

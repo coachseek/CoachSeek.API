@@ -279,7 +279,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var command = ((MockCoachUpdateUseCase)Controller.CoachUpdateUseCase).Command;
             Assert.That(command, Is.Not.Null);
             Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
-            Assert.That(command.CoachId, Is.EqualTo(new Guid(COACH_ID)));
+            Assert.That(command.Id, Is.EqualTo(new Guid(COACH_ID)));
             Assert.That(command.FirstName, Is.EqualTo("John"));
             Assert.That(command.LastName, Is.EqualTo("Smith"));
             Assert.That(command.Email, Is.EqualTo("john@smith.co.nz"));

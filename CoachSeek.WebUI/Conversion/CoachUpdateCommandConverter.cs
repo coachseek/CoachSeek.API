@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AutoMapper;
 using CoachSeek.Domain.Commands;
 using CoachSeek.WebUI.Models.Api;
 
@@ -8,15 +8,17 @@ namespace CoachSeek.WebUI.Conversion
     {
         public static CoachUpdateCommand Convert(ApiCoachSaveCommand apiCommand)
         {
-            return new CoachUpdateCommand
-            {
-                CoachId = apiCommand.Id.HasValue ? apiCommand.Id.Value : Guid.Empty,
-                BusinessId = apiCommand.BusinessId.Value,
-                FirstName = apiCommand.FirstName,
-                LastName = apiCommand.LastName,
-                Email = apiCommand.Email,
-                Phone = apiCommand.Phone,
-            };
+            return Mapper.Map<ApiCoachSaveCommand, CoachUpdateCommand>(apiCommand);
+
+            //return new CoachUpdateCommand
+            //{
+            //    CoachId = apiCommand.Id.HasValue ? apiCommand.Id.Value : Guid.Empty,
+            //    BusinessId = apiCommand.BusinessId.Value,
+            //    FirstName = apiCommand.FirstName,
+            //    LastName = apiCommand.LastName,
+            //    Email = apiCommand.Email,
+            //    Phone = apiCommand.Phone,
+            //};
         }
     }
 }

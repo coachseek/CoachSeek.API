@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Commands
     public class ServiceAddCommand : IBusinessIdable
     {
         public Guid BusinessId { get; set; }
-        public string ServiceName { get; set; }
+        public string Name { get; set; }
 
 
         public NewServiceData ToData()

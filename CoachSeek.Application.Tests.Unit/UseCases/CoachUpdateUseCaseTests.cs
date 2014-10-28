@@ -92,7 +92,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new CoachUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                CoachId = new Guid(COACH_WARREN_ID),
+                Id = new Guid(COACH_WARREN_ID),
                 FirstName = "Warren",
                 LastName = "Buffett",
                 Email = "warren@buffet.com",
@@ -107,7 +107,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new CoachUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                CoachId = new Guid(COACH_ALBERT_ID),
+                Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Bill",
                 LastName = "Gates",
                 Email = "william@gates.com",
@@ -121,7 +121,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new CoachUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                CoachId = new Guid(COACH_ALBERT_ID),
+                Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Albert E.",
                 LastName = "Neuman",
                 Email = "albert@mad.com",
@@ -135,7 +135,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return new CoachUpdateCommand
             {
                 BusinessId = new Guid(BUSINESS_ID),
-                CoachId = new Guid(COACH_ALBERT_ID),
+                Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Albert E.",
                 LastName = "Neuman",
                 Email = "albert@mad.com",
