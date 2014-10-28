@@ -10,13 +10,11 @@ namespace CoachSeek.WebUI.Models.Api
         public Guid? Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
 
 
 
         //public ApiSericeDefaults Defaults { get; set; }
-        public int Duration { get; set; }
         //public ApiSericeRepeatability Repeatability { get; set; }
         //[Required]
         //ApiServiceUiCommand UiDetails { get; set; }

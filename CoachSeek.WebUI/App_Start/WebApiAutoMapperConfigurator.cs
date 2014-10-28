@@ -18,6 +18,8 @@ namespace CoachSeek.WebUI
             Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachAddCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachUpdateCommand>();
+
+            Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
         }
     }
 }
