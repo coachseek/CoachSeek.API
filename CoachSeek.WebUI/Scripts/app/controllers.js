@@ -101,23 +101,32 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
     }
 
     $scope.saveLocation = function (data, id) {
-        var location = {};
-        location.businessId = $rootScope.business.id;
-        location.id = id;
-        location.name = data.name;
+        var location = buildLocationForSave(data, id);
 
         return $http.post('/api/Locations', location)
            .success(function (savedLocation) {
-               if (id == null) {
-                   var x = id;
-               } else {
-                   var y = id;
+               if (isNewLocation(id)) {
+                   updateLocationInArray(savedLocation);
                }
            })
            .error(function (error) {
                $scope.error = error;
            });
     };
+
+    function buildLocationForSave(data, id) {
+        var location = {};
+        location.businessId = $rootScope.business.id;
+        location.id = id;
+        location.name = data.name;
+
+        return location;
+    }
+
+    function updateLocationInArray(savedLocation) {
+        $scope.inserted.id = savedLocation.id;
+        $scope.locations.push($scope.inserted);
+    }
 
     function refreshBusinessAndLocations(business) {
         $rootScope.business = business;

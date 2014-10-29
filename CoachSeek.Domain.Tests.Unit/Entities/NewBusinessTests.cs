@@ -43,7 +43,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                     Username = "olaf@gmail.com",
                     PasswordHash = "password"
                 },
-                null, 
+                null,
+                null,
                 null));
         }
 

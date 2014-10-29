@@ -60,6 +60,7 @@
     <Compile Include="Commands\IBusinessIdable.cs" />
     <Compile Include="Commands\LocationAddCommand.cs" />
     <Compile Include="Commands\LocationUpdateCommand.cs" />
+    <Compile Include="Commands\ServiceUpdateCommand.cs" />
     <Compile Include="Commands\ServiceAddCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Entities\Business.cs" />

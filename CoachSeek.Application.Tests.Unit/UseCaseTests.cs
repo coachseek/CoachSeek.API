@@ -20,7 +20,8 @@ namespace CoachSeek.Application.Tests.Unit
         protected const string COACH_BILL_ID = "30FF663E-C858-444B-800D-268D61F17E43";
         protected const string LOCATION_BROWNS_BAY_ID = "40318FFD-CB3E-46FE-9DDF-A2D03854DB69";
         protected const string LOCATION_ORAKEI_ID = "504E832A-F051-4FF8-86A4-829054E3BF93";
-
+        protected const string SERVICE_MINI_RED_ID = "60D57C9C-58B0-4A10-94CA-2B12EBBF13AE";
+        protected const string SERVICE_MINI_ORANGE_ID = "7018EC02-67B0-4F51-BD1A-A0D2E395D8FC";
 
         protected InMemoryBusinessRepository BusinessRepository { get; set; }
 
@@ -56,7 +57,8 @@ namespace CoachSeek.Application.Tests.Unit
                     PasswordHash = "Password1"
                 },
                 SetupLocations(),
-                SetupCoaches());
+                SetupCoaches(),
+                SetupServices());
         }
 
         protected IEnumerable<LocationData> SetupLocations()
@@ -68,6 +70,24 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
+        protected IEnumerable<CoachData> SetupCoaches()
+        {
+            return new List<CoachData>
+            {
+                SetupCoachAlbert(),
+                SetupCoachBill()
+            };
+        }
+
+        protected IEnumerable<ServiceData> SetupServices()
+        {
+            return new List<ServiceData>
+            {
+                SetupServiceMiniRed(),
+                SetupServiceMiniOrange()
+            };
+        }
+
         private LocationData SetupBrownsBayLocation()
         {
             return new LocationData { Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club" };
@@ -76,16 +96,6 @@ namespace CoachSeek.Application.Tests.Unit
         protected LocationData SetupOrakeiLocation()
         {
             return new LocationData { Id = new Guid(LOCATION_ORAKEI_ID), Name = "Orakei Tennis Club" };
-        }
-
-
-        protected IEnumerable<CoachData> SetupCoaches()
-        {
-            return new List<CoachData>
-            {
-                SetupCoachAlbert(),
-                SetupCoachBill()
-            };
         }
 
         protected CoachData SetupCoachAlbert()
@@ -140,6 +150,16 @@ namespace CoachSeek.Application.Tests.Unit
                 Saturday = new DailyWorkingHoursData(true, "9:00", "17:00"),
                 Sunday = new DailyWorkingHoursData(true, "9:00", "17:00")
             };
+        }
+
+        private ServiceData SetupServiceMiniRed()
+        {
+            return new ServiceData { Id = new Guid(SERVICE_MINI_RED_ID), Name = "Mini Red" };
+        }
+
+        private ServiceData SetupServiceMiniOrange()
+        {
+            return new ServiceData { Id = new Guid(SERVICE_MINI_ORANGE_ID), Name = "Mini Orange" };
         }
 
 

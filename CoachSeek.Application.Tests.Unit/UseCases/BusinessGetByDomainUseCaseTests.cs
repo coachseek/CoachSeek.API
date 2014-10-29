@@ -19,6 +19,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private const string VALID_BUSINESS_ID = "87738006-7E54-4FA6-9CF5-7FEAB5940668";
         private const string LOCATION_ID = "BE94064D-7033-4CF8-9F47-7E118A393C2E";
         private const string COACH_ID = "65FF663E-C858-444B-800D-268D61F17E43";
+        private const string SERVICE_ID = "FBE6C397-6D3E-48B6-A2DF-1BD685C034AE";
 
         private InMemoryBusinessRepository BusinessRepository { get; set; }
 
@@ -62,7 +63,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                     PasswordHash = "Password1"
                 },
                 SetupLocations(),
-                SetupCoaches()
+                SetupCoaches(),
+                SetupServices()
             );
         }
 
@@ -87,6 +89,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                     Phone = "021987654",
                     WorkingHours = SetupStandardWorkingHourDatas()
                 }, 
+            };
+        }
+
+        private IEnumerable<ServiceData> SetupServices()
+        {
+            return new List<ServiceData>
+            {
+                new ServiceData { Id = new Guid(SERVICE_ID), Name = "Mini Red" }
             };
         }
 

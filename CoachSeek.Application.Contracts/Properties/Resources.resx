@@ -141,6 +141,9 @@
   <data name="ErrorInvalidLocation" xml:space="preserve">
     <value>This location does not exist.</value>
   </data>
+  <data name="ErrorInvalidService" xml:space="preserve">
+    <value>This service does not exist.</value>
+  </data>
   <data name="ErrorNoBusinessDomain" xml:space="preserve">
     <value>Missing domain.</value>
   </data>

@@ -11,5 +11,13 @@ namespace CoachSeek.DataAccess.Models
         public DbBusinessAdmin Admin { get; set; }
         public List<DbLocation> Locations { get; set; }
         public List<DbCoach> Coaches { get; set; }
+        public List<DbService> Services { get; set; }
+
+        public DbBusiness()
+        {
+            Locations = new List<DbLocation>();
+            Coaches = new List<DbCoach>();
+            Services = new List<DbService>();
+        }
     }
 }

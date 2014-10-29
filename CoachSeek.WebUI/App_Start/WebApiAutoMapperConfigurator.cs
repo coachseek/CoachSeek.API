@@ -20,6 +20,7 @@ namespace CoachSeek.WebUI
             Mapper.CreateMap<ApiCoachSaveCommand, CoachUpdateCommand>();
 
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
+            Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
         }
     }
 }

@@ -133,6 +133,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This service does not exist..
+        /// </summary>
+        internal static string ErrorInvalidService {
+            get {
+                return ResourceManager.GetString("ErrorInvalidService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing domain..
         /// </summary>
         internal static string ErrorNoBusinessDomain {

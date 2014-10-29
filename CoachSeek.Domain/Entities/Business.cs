@@ -29,7 +29,9 @@ namespace CoachSeek.Domain.Entities
             string domain, 
             BusinessAdminData admin,
             IEnumerable<LocationData> locations, 
-            IEnumerable<CoachData> coaches)
+            IEnumerable<CoachData> coaches,
+            IEnumerable<ServiceData> services
+            )
         {
             Id = id;
             Name = name;
@@ -37,6 +39,7 @@ namespace CoachSeek.Domain.Entities
             BusinessAdmin = new BusinessAdmin(admin);
             BusinessLocations = new BusinessLocations(locations);
             BusinessCoaches = new BusinessCoaches(coaches);
+            BusinessServices = new BusinessServices(services);
         }
 
         public Business()
@@ -44,6 +47,7 @@ namespace CoachSeek.Domain.Entities
             Id = Guid.NewGuid();
             BusinessLocations = new BusinessLocations();
             BusinessCoaches = new BusinessCoaches();
+            BusinessServices = new BusinessServices();
         }
 
         // Minimal Unit testing constructor.
@@ -94,13 +98,13 @@ namespace CoachSeek.Domain.Entities
             return GetServiceById(serviceId, businessRepository);
         }
 
-        //public ServiceData UpdateService(ServiceUpdateCommand command, IBusinessRepository businessRepository)
-        //{
-        //    BusinessServices.Update(command.ToData());
-        //    businessRepository.Save(this);
+        public ServiceData UpdateService(ServiceUpdateCommand command, IBusinessRepository businessRepository)
+        {
+            BusinessServices.Update(command.ToData());
+            businessRepository.Save(this);
 
-        //    return GetServiceById(command.ServiceId, businessRepository);
-        //}
+            return GetServiceById(command.Id, businessRepository);
+        }
 
         public BusinessData ToData()
         {

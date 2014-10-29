@@ -10,13 +10,15 @@ namespace CoachSeek.WebUI.Controllers
     public class ServicesController : BaseController
     {
         public IServiceAddUseCase ServiceAddUseCase { get; set; }
+        public IServiceUpdateUseCase ServiceUpdateUseCase { get; set; }
 
         public ServicesController()
         { }
 
-        public ServicesController(IServiceAddUseCase serviceAddUseCase)
+        public ServicesController(IServiceAddUseCase serviceAddUseCase, IServiceUpdateUseCase serviceUpdateUseCase)
         {
             ServiceAddUseCase = serviceAddUseCase;
+            ServiceUpdateUseCase = serviceUpdateUseCase;
         }
 
 
@@ -25,10 +27,10 @@ namespace CoachSeek.WebUI.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiServiceSaveCommand service)
         {
-            //if (service.IsNew())
+            if (service.IsNew())
                 return AddService(service);
 
-            //return UpdateCoach(service);
+            return UpdateService(service);
         }
 
 
@@ -39,11 +41,11 @@ namespace CoachSeek.WebUI.Controllers
             return CreateWebResponse(response);
         }
 
-        //private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
-        //{
-        //    var command = ServiceUpdateCommandConverter.Convert(service);
-        //    var response = CoachUpdateUseCase.UpdateCoach(command);
-        //    return CreateWebResponse(response);
-        //}
+        private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
+        {
+            var command = ServiceUpdateCommandConverter.Convert(service);
+            var response = ServiceUpdateUseCase.UpdateService(command);
+            return CreateWebResponse(response);
+        }
     }
 }

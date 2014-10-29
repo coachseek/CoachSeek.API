@@ -13,7 +13,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateDuplicateServiceError()
         {
-            return new ErrorData("location.name", Resources.ErrorDuplicateService);
+            return new ErrorData("service.name", Resources.ErrorDuplicateService);
         }
     }
 }

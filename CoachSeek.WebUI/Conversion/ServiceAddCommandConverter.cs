@@ -6,7 +6,6 @@ namespace CoachSeek.WebUI.Conversion
 {
     public class ServiceAddCommandConverter
     {
-
         public static ServiceAddCommand Convert(ApiServiceSaveCommand apiCommand)
         {
             return Mapper.Map<ApiServiceSaveCommand, ServiceAddCommand>(apiCommand);
