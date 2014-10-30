@@ -8,6 +8,7 @@ namespace CoachSeek.Domain.Commands
     {
         public Guid BusinessId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
 
 
         public NewServiceData ToData()
