@@ -220,6 +220,7 @@
     <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
     <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiRepetition.cs" />
     <Compile Include="Models\Api\ApiServiceDefaults.cs" />
     <Compile Include="Models\Api\ApiServiceSaveCommand.cs" />
     <Compile Include="Models\Api\ApiWeeklyWorkingHours.cs" />
@@ -261,7 +262,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

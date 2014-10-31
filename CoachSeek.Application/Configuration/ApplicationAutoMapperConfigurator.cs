@@ -28,6 +28,7 @@ namespace CoachSeek.Application.Configuration
 
             Mapper.CreateMap<ServiceAddCommand, NewServiceData>();
             Mapper.CreateMap<ServiceUpdateCommand, ServiceData>();
+            Mapper.CreateMap<ServiceDefaultsCommand, ServiceDefaultsData>();
 
             Mapper.CreateMap<Error, ErrorData>();
         }

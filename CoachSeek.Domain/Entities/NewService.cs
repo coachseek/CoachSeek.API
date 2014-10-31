@@ -5,12 +5,12 @@ namespace CoachSeek.Domain.Entities
 {
     public class NewService : Service
     {
-        public NewService(string name, string description)
-            : base(Guid.NewGuid(), name, description)
+        public NewService(string name, string description, ServiceDefaultsData defaults)
+            : base(Guid.NewGuid(), name, description, defaults)
         { }
 
         public NewService(NewServiceData data)
-            : this(data.Name, data.Description)
+            : this(data.Name, data.Description, data.Defaults)
         { }
     }
 }
