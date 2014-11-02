@@ -1,6 +1,6 @@
-﻿namespace CoachSeek.Data.Model
+﻿namespace CoachSeek.DataAccess.Models
 {
-    public class ServiceDefaultsData
+    public class DbServiceDefaults
     {
         public int? Duration { get; set; }
         public decimal? Price { get; set; }

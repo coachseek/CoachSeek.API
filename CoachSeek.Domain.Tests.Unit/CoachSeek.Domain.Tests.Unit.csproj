@@ -55,7 +55,8 @@
     <Compile Include="Entities\PersonNameTests.cs" />
     <Compile Include="Entities\PointInTimeTests.cs" />
     <Compile Include="Entities\PriceTests.cs" />
-    <Compile Include="Entities\UnavailableDailyWorkingHoursTests.cs" />
+    <Compile Include="Entities\ServiceDefaultsTests.cs" />
+    <Compile Include="Entities\StudentCapacityTests.cs" />
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Schema;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities

@@ -51,6 +51,7 @@
     <Compile Include="Conversion\DbBusinessConverter.cs" />
     <Compile Include="Models\DbDailyWorkingHours.cs" />
     <Compile Include="Models\DbService.cs" />
+    <Compile Include="Models\DbServiceDefaults.cs" />
     <Compile Include="Models\DbWeeklyWorkingHours.cs" />
     <Compile Include="Repositories\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Models\DbBusiness.cs" />

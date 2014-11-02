@@ -5,32 +5,35 @@ namespace CoachSeek.Domain.Entities
 {
     public class ServiceDefaults
     {
-        public int? Duration { get; private set; }
-        public decimal? Price { get; set; }
-        public int? StudentCapacity { get; set; }
-        public bool? IsOnlineBookable { get; set; }
-        public string Colour { get; set; }
+        public int? Duration { get { return _duration.Minutes; } }
+        public decimal? Price { get { return _price.Amount; } }
+        public int? StudentCapacity { get { return _capacity.Maximum; } }
+        public bool? IsOnlineBookable { get; private set; }
+        public string Colour { get { return _colour.Colouration; } }
 
         private Duration _duration { get; set; }
         private Price _price { get; set; }
+        private StudentCapacity _capacity { get; set; }
+        private Colour _colour { get; set; }
 
         public ServiceDefaults(ServiceDefaultsData defaultsData)
         {
             var errors = new ValidationException();
 
             CreateDuration(defaultsData.Duration, errors);
-            CreatePrice(defaultsData.Duration, errors);
-
-            //_tuesday = CreateWorkingHours(workingHoursData.Tuesday, errors, "tuesday");
-            //_wednesday = CreateWorkingHours(workingHoursData.Wednesday, errors, "wednesday");
-            //_thursday = CreateWorkingHours(workingHoursData.Thursday, errors, "thursday");
-            //_friday = CreateWorkingHours(workingHoursData.Friday, errors, "friday");
-            //_saturday = CreateWorkingHours(workingHoursData.Saturday, errors, "saturday");
-            //_sunday = CreateWorkingHours(workingHoursData.Sunday, errors, "sunday");
+            CreatePrice(defaultsData.Price, errors);
+            CreateStudentCapacity(defaultsData.StudentCapacity, errors);
+            CreateColour(defaultsData.Colour, errors);
+            IsOnlineBookable = defaultsData.IsOnlineBookable;
 
             errors.ThrowIfErrors();
         }
 
+
+        public ServiceDefaultsData ToData()
+        {
+            return AutoMapper.Mapper.Map<ServiceDefaults, ServiceDefaultsData>(this);
+        }
 
         private void CreateDuration(int? duration, ValidationException errors)
         {
@@ -53,6 +56,30 @@ namespace CoachSeek.Domain.Entities
             catch (InvalidPrice)
             {
                 errors.Add("The price is not valid.", "service.price");
+            }
+        }
+
+        private void CreateStudentCapacity(int? maximum, ValidationException errors)
+        {
+            try
+            {
+                _capacity = new StudentCapacity(maximum);
+            }
+            catch (InvalidStudentCapacity)
+            {
+                errors.Add("The studentCapacity is not valid.", "service.studentCapacity");
+            }
+        }
+
+        private void CreateColour(string colour, ValidationException errors)
+        {
+            try
+            {
+                _colour = new Colour(colour);
+            }
+            catch (InvalidColour)
+            {
+                errors.Add("The colour is not valid.", "service.colour");
             }
         }
     }

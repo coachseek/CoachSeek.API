@@ -10,6 +10,14 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; private set; }
         public string Description { get; private set; }
 
+        public ServiceDefaultsData Defaults
+        {
+            get
+            {
+                return ServiceDefaults == null ? null : ServiceDefaults.ToData();
+            }
+        }
+
         private ServiceDefaults ServiceDefaults { get; set; }
 
 
