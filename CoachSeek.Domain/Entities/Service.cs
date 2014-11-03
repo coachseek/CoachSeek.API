@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -12,27 +13,53 @@ namespace CoachSeek.Domain.Entities
 
         public ServiceDefaultsData Defaults
         {
-            get
-            {
-                return ServiceDefaults == null ? null : ServiceDefaults.ToData();
-            }
+            get { return ServiceDefaults == null ? null : ServiceDefaults.ToData(); }
+        }
+
+        public ServiceRepetitionData Repetition
+        {
+            get { return ServiceRepetition == null ? null : ServiceRepetition.ToData(); }
         }
 
         private ServiceDefaults ServiceDefaults { get; set; }
 
+        private ServiceRepetition ServiceRepetition { get; set; }
 
-        public Service(Guid id, string name, string description, ServiceDefaultsData defaults)
+
+        public Service(Guid id, string name, string description, ServiceDefaultsData defaults, ServiceRepetitionData repetition)
         {
             Id = id;
             Name = name.Trim();
             if (description != null)
                 Description = description.Trim();
-            if (defaults != null)
-                ServiceDefaults = new ServiceDefaults(defaults);
+
+            var errors = new ValidationException();
+
+            try
+            {
+                if (defaults != null)
+                    ServiceDefaults = new ServiceDefaults(defaults);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+
+            try
+            {
+                if (repetition != null)
+                    ServiceRepetition = new ServiceRepetition(repetition);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+
+            errors.ThrowIfErrors();
         }
 
         public Service(ServiceData data)
-            : this(data.Id, data.Name, data.Description, data.Defaults)
+            : this(data.Id, data.Name, data.Description, data.Defaults, data.Repetition)
         { }
 
 

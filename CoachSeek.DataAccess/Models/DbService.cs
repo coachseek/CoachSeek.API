@@ -9,5 +9,6 @@ namespace CoachSeek.DataAccess.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DbServiceDefaults Defaults { get; set; }
+        public DbServiceRepetition Repetition { get; set; }
     }
 }

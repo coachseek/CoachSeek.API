@@ -18,6 +18,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<DailyWorkingHours, DailyWorkingHoursData>();
             Mapper.CreateMap<Service, ServiceData>();
             Mapper.CreateMap<ServiceDefaults, ServiceDefaultsData>();
+            Mapper.CreateMap<ServiceRepetition, ServiceRepetitionData>();
 
             Mapper.CreateMap<CoachAddCommand, NewCoachData>();
             Mapper.CreateMap<CoachUpdateCommand, CoachData>();
@@ -30,6 +31,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<ServiceAddCommand, NewServiceData>();
             Mapper.CreateMap<ServiceUpdateCommand, ServiceData>();
             Mapper.CreateMap<ServiceDefaultsCommand, ServiceDefaultsData>();
+            Mapper.CreateMap<ServiceRepetitionCommand, ServiceRepetitionData>();
 
             Mapper.CreateMap<Error, ErrorData>();
         }

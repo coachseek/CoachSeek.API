@@ -35,6 +35,11 @@ namespace CoachSeek.Domain.Exceptions
             Errors.Add(new Error(errorMessage, field));
         }
 
+        public void Add(ValidationException exception)
+        {
+            Errors.AddRange(exception.Errors);
+        }
+
         public bool HasErrors
         {
             get { return Errors.Any(); }

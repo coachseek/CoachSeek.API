@@ -43,7 +43,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidDuration)
             {
-                errors.Add("The duration is not valid.", "service.duration");
+                errors.Add("The duration is not valid.", "service.defaults.duration");
             }
         }
 
@@ -55,7 +55,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidPrice)
             {
-                errors.Add("The price is not valid.", "service.price");
+                errors.Add("The price is not valid.", "service.defaults.price");
             }
         }
 
@@ -67,7 +67,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidStudentCapacity)
             {
-                errors.Add("The studentCapacity is not valid.", "service.studentCapacity");
+                errors.Add("The studentCapacity is not valid.", "service.defaults.studentCapacity");
             }
         }
 
@@ -79,7 +79,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidColour)
             {
-                errors.Add("The colour is not valid.", "service.colour");
+                errors.Add("The colour is not valid.", "service.defaults.colour");
             }
         }
     }

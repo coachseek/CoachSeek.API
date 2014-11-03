@@ -61,6 +61,7 @@
     <Compile Include="Commands\LocationAddCommand.cs" />
     <Compile Include="Commands\LocationUpdateCommand.cs" />
     <Compile Include="Commands\ServiceDefaultsCommand.cs" />
+    <Compile Include="Commands\ServiceRepetitionCommand.cs" />
     <Compile Include="Commands\ServiceUpdateCommand.cs" />
     <Compile Include="Commands\ServiceAddCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Entities\BusinessCoaches.cs" />
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
+    <Compile Include="Entities\RepeatTimes.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Colour.cs" />
     <Compile Include="Entities\Credential.cs" />
@@ -81,8 +83,10 @@
     <Compile Include="Entities\NewLocation.cs" />
     <Compile Include="Entities\PointInTime.cs" />
     <Compile Include="Entities\Price.cs" />
+    <Compile Include="Entities\RepeatFrequency.cs" />
     <Compile Include="Entities\Service.cs" />
     <Compile Include="Entities\ServiceDefaults.cs" />
+    <Compile Include="Entities\ServiceRepetition.cs" />
     <Compile Include="Entities\StudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />
@@ -98,6 +102,8 @@
     <Compile Include="Exceptions\InvalidDuration.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\InvalidPrice.cs" />
+    <Compile Include="Exceptions\InvalidRepeatFrequency.cs" />
+    <Compile Include="Exceptions\InvalidRepeatTimes.cs" />
     <Compile Include="Exceptions\InvalidService.cs" />
     <Compile Include="Exceptions\InvalidLocation.cs" />
     <Compile Include="Exceptions\InvalidPointInTime.cs" />

@@ -13,6 +13,7 @@ namespace CoachSeek.WebUI.Models.Api
         public string Description { get; set; }
 
         public ApiServiceDefaults Defaults { get; set; }
+        public ApiServiceRepetition Repetition { get; set; }
             
 
         public bool IsNew()
