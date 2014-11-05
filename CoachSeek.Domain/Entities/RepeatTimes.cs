@@ -15,9 +15,13 @@ namespace CoachSeek.Domain.Entities
             Validate();
         }
 
+        public bool IsOpenEnded { get { return Count == -1; } }
+
+
         private void Validate()
         {
-            // TODO: What about a never-ending service?
+            if (IsOpenEnded)
+                return;
 
             if (Count <= 0)
                 throw new InvalidRepeatTimes();

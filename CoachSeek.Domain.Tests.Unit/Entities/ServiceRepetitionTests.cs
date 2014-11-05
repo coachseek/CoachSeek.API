@@ -16,6 +16,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var response = WhenConstruct(data);
             ThenThrowValidationExceptionWithSingleError(response, "service.repetition.repeatFrequency", "The repeatFrequency is not valid.");
         }
+
         [Test]
         public void GivenInvalidRepeatTimes_WhenConstruct_ThenErrorWithInvalidRepeatTimes()
         {
@@ -25,11 +26,19 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void GivenValidServiceRepetition_WhenConstruct_ThenCreateServiceRepetition()
+        public void GivenOpenEndedService_WhenConstruct_ThenCreateOpenEndedServiceRepetition()
         {
-            var data = GivenValidServiceRepetition();
+            var data = GivenOpenEndedService("2W");
             var response = WhenConstruct(data);
-            ThenCreateServiceRepetition(response);
+            ThenCreateOpenEndedServiceRepetition(response, "2w");
+        }
+
+        [Test]
+        public void GivenValidServiceRepetition_WhenConstruct_ThenCreateFiniteServiceRepetition()
+        {
+            var data = GivenValidServiceRepetition("W ", 5);
+            var response = WhenConstruct(data);
+            ThenCreateFiniteServiceRepetition(response, "w", 5);
         }
 
         [Test]
@@ -55,16 +64,25 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             return new ServiceRepetitionData
             {
                 RepeatFrequency = "d",
-                RepeatTimes = -1
+                RepeatTimes = -2
             };
         }
 
-        private ServiceRepetitionData GivenValidServiceRepetition()
+        private ServiceRepetitionData GivenOpenEndedService(string repeatFrequency)
         {
             return new ServiceRepetitionData
             {
-                RepeatFrequency = "W ",
-                RepeatTimes = 5
+                RepeatFrequency = repeatFrequency,
+                RepeatTimes = -1        // -1 is for open-ended.
+            };
+        }
+
+        private ServiceRepetitionData GivenValidServiceRepetition(string repeatFrequency, int repeatTimes)
+        {
+            return new ServiceRepetitionData
+            {
+                RepeatFrequency = repeatFrequency,
+                RepeatTimes = repeatTimes
             };
         }
 
@@ -102,13 +120,20 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(error.Message, Is.EqualTo(message));
         }
 
-        private void ThenCreateServiceRepetition(object response)
+        private void ThenCreateOpenEndedServiceRepetition(object response, string repeatFrequency)
         {
-            Assert.That(response, Is.InstanceOf<ServiceRepetition>());
-            var repetition = (ServiceRepetition)response;
-            Assert.That(repetition, Is.Not.Null);
-            Assert.That(repetition.RepeatFrequency, Is.EqualTo("w"));
-            Assert.That(repetition.RepeatTimes, Is.EqualTo(5));
+            var repetition = AssertServiceRepetition(response);
+            Assert.That(repetition.RepeatFrequency, Is.EqualTo(repeatFrequency));
+            Assert.That(repetition.RepeatTimes, Is.EqualTo(-1));
+            Assert.That(repetition.IsOpenEnded, Is.True);
+        }
+
+        private void ThenCreateFiniteServiceRepetition(object response, string repeatFrequency, int? repeatTimes)
+        {
+            var repetition = AssertServiceRepetition(response);
+            Assert.That(repetition.RepeatFrequency, Is.EqualTo(repeatFrequency));
+            Assert.That(repetition.RepeatTimes, Is.EqualTo(repeatTimes));
+            Assert.That(repetition.IsOpenEnded, Is.False);
         }
 
         private void ThenThrowValidationExceptionWithMultipleErrors(object response)
@@ -123,6 +148,15 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var secondError = errors.Errors[1];
             Assert.That(secondError.Field, Is.EqualTo("service.repetition.repeatTimes"));
             Assert.That(secondError.Message, Is.EqualTo("The repeatTimes is not valid."));
+        }
+
+        private ServiceRepetition AssertServiceRepetition(object response)
+        {
+            Assert.That(response, Is.InstanceOf<ServiceRepetition>());
+            var repetition = (ServiceRepetition)response;
+            Assert.That(repetition, Is.Not.Null);
+
+            return repetition;
         }
     }
 }

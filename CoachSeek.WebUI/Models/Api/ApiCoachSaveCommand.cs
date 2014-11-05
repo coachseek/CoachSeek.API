@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CoachSeek.WebUI.Models.Api
 {
-    public class ApiCoachSaveCommand : IApiBusinessIdable, IApiIdable
+    public class ApiCoachSaveCommand : ApiSaveCommand, IApiBusinessIdable
     {
         [Required]
         public Guid? BusinessId { get; set; }
-        public Guid? Id { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -19,11 +18,5 @@ namespace CoachSeek.WebUI.Models.Api
         public string Phone { get; set; }
         [Required]
         public ApiWeeklyWorkingHours WorkingHours { get; set; }
-
-
-        public bool IsNew()
-        {
-            return !Id.HasValue;
-        }
     }
 }

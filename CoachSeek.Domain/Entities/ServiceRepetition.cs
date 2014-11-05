@@ -10,7 +10,8 @@ namespace CoachSeek.Domain.Entities
 
         private RepeatFrequency _frequency { get; set; }
         private RepeatTimes _times { get; set; }
-        
+
+        public bool IsOpenEnded { get { return _times.IsOpenEnded; } }
         
         public ServiceRepetition(ServiceRepetitionData repetitionData)
         {

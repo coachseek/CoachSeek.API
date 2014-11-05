@@ -61,6 +61,7 @@
     <Compile Include="Commands\LocationAddCommand.cs" />
     <Compile Include="Commands\LocationUpdateCommand.cs" />
     <Compile Include="Commands\ServiceDefaultsCommand.cs" />
+    <Compile Include="Commands\ServicePricingCommand.cs" />
     <Compile Include="Commands\ServiceRepetitionCommand.cs" />
     <Compile Include="Commands\ServiceUpdateCommand.cs" />
     <Compile Include="Commands\ServiceAddCommand.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Entities\RepeatFrequency.cs" />
     <Compile Include="Entities\Service.cs" />
     <Compile Include="Entities\ServiceDefaults.cs" />
+    <Compile Include="Entities\ServicePricing.cs" />
     <Compile Include="Entities\ServiceRepetition.cs" />
     <Compile Include="Entities\StudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />

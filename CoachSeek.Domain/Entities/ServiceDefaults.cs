@@ -16,6 +16,7 @@ namespace CoachSeek.Domain.Entities
         private StudentCapacity _capacity { get; set; }
         private Colour _colour { get; set; }
 
+
         public ServiceDefaults(ServiceDefaultsData defaultsData)
         {
             var errors = new ValidationException();

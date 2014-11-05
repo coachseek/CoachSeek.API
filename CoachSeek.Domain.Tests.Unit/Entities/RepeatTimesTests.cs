@@ -12,9 +12,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void RepeatTimesCreationTests()
         {
             RepeatTimesCreationFailure(-50);
-            RepeatTimesCreationFailure(-1);
+            RepeatTimesCreationFailure(-5);
+            RepeatTimesCreationFailure(-3);
+            RepeatTimesCreationFailure(-2);
             RepeatTimesCreationFailure(0);
 
+            RepeatTimesCreationSuccess(-1); // -1 is used for Open-Ended.
             RepeatTimesCreationSuccess(1);
             RepeatTimesCreationSuccess(2);
             RepeatTimesCreationSuccess(3);

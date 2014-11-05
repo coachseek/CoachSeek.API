@@ -220,6 +220,8 @@
     <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
     <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiServicePricing.cs" />
     <Compile Include="Models\Api\ApiServiceRepetition.cs" />
     <Compile Include="Models\Api\ApiServiceDefaults.cs" />
     <Compile Include="Models\Api\ApiServiceSaveCommand.cs" />

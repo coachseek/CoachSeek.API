@@ -16,6 +16,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<DailyWorkingHoursData, DbDailyWorkingHours>();
             Mapper.CreateMap<ServiceData, DbService>();
             Mapper.CreateMap<ServiceDefaultsData, DbServiceDefaults>();
+            Mapper.CreateMap<ServicePricingData, DbServicePricing>();
             Mapper.CreateMap<ServiceRepetitionData, DbServiceRepetition>();
 
             Mapper.CreateMap<DbBusiness, BusinessData>();
@@ -26,6 +27,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<DbDailyWorkingHours, DailyWorkingHoursData>();
             Mapper.CreateMap<DbService, ServiceData>();
             Mapper.CreateMap<DbServiceDefaults, ServiceDefaultsData>();
+            Mapper.CreateMap<DbServicePricing, ServicePricingData>();
             Mapper.CreateMap<DbServiceRepetition, ServiceRepetitionData>();
         }
     }
