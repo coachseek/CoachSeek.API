@@ -6,13 +6,11 @@ namespace CoachSeek.Domain.Entities
     public class ServiceDefaults
     {
         public int? Duration { get { return _duration.Minutes; } }
-        public decimal? Price { get { return _price.Amount; } }
         public int? StudentCapacity { get { return _capacity.Maximum; } }
         public bool? IsOnlineBookable { get; private set; }
         public string Colour { get { return _colour.Colouration; } }
 
         private Duration _duration { get; set; }
-        private Price _price { get; set; }
         private StudentCapacity _capacity { get; set; }
         private Colour _colour { get; set; }
 
@@ -22,7 +20,6 @@ namespace CoachSeek.Domain.Entities
             var errors = new ValidationException();
 
             CreateDuration(defaultsData.Duration, errors);
-            CreatePrice(defaultsData.Price, errors);
             CreateStudentCapacity(defaultsData.StudentCapacity, errors);
             CreateColour(defaultsData.Colour, errors);
             IsOnlineBookable = defaultsData.IsOnlineBookable;
@@ -45,18 +42,6 @@ namespace CoachSeek.Domain.Entities
             catch (InvalidDuration)
             {
                 errors.Add("The duration is not valid.", "service.defaults.duration");
-            }
-        }
-
-        private void CreatePrice(decimal? price, ValidationException errors)
-        {
-            try
-            {
-                _price = new Price(price);
-            }
-            catch (InvalidPrice)
-            {
-                errors.Add("The price is not valid.", "service.defaults.price");
             }
         }
 
