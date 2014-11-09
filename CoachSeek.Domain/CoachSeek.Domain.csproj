@@ -65,11 +65,13 @@
     <Compile Include="Commands\ServiceRepetitionCommand.cs" />
     <Compile Include="Commands\ServiceUpdateCommand.cs" />
     <Compile Include="Commands\ServiceAddCommand.cs" />
+    <Compile Include="Commands\SessionAddCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\BusinessCoaches.cs" />
     <Compile Include="Entities\BusinessLocations.cs" />
+    <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
     <Compile Include="Entities\RepeatTimes.cs" />
     <Compile Include="Entities\Coach.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Entities\ServiceDefaults.cs" />
     <Compile Include="Entities\ServicePricing.cs" />
     <Compile Include="Entities\ServiceRepetition.cs" />
+    <Compile Include="Entities\Session.cs" />
     <Compile Include="Entities\StudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />

@@ -66,6 +66,7 @@
     <Compile Include="UseCases\ILocationUpdateUseCase.cs" />
     <Compile Include="UseCases\IServiceUpdateUseCase.cs" />
     <Compile Include="UseCases\IServiceAddUseCase.cs" />
+    <Compile Include="UseCases\ISessionAddUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

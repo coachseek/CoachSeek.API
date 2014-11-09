@@ -5,6 +5,7 @@ using CoachSeek.DataAccess.Models;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
+using CoachSeek.WebUI.Models.Api.Setup;
 using NUnit.Framework;
 using StructureMap;
 using System;

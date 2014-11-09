@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CoachSeek.Domain.Commands;
 using CoachSeek.WebUI.Models.Api;
+using CoachSeek.WebUI.Models.Api.Scheduling;
+using CoachSeek.WebUI.Models.Api.Setup;
 
 namespace CoachSeek.WebUI
 {
@@ -24,6 +26,8 @@ namespace CoachSeek.WebUI
             Mapper.CreateMap<ApiServiceRepetition, ServiceRepetitionCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
+
+            Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
         }
     }
 }

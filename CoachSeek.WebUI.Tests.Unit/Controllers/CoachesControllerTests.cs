@@ -7,6 +7,7 @@ using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Models.Api;
+using CoachSeek.WebUI.Models.Api.Setup;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;

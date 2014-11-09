@@ -4,6 +4,7 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Filters;
 using CoachSeek.WebUI.Models.Api;
+using CoachSeek.WebUI.Models.Api.Setup;
 
 namespace CoachSeek.WebUI.Controllers
 {

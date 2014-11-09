@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CoachSeek.WebUI.Models.Api
+namespace CoachSeek.WebUI.Models.Api.Setup
 {
     public class ApiCoachSaveCommand : ApiSaveCommand, IApiBusinessIdable
     {

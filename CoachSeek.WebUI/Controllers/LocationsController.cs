@@ -1,9 +1,9 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.WebUI.Conversion;
 using CoachSeek.WebUI.Filters;
-using CoachSeek.WebUI.Models.Api;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.WebUI.Models.Api.Setup;
 
 namespace CoachSeek.WebUI.Controllers
 {

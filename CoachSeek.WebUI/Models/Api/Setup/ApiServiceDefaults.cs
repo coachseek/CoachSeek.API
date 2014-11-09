@@ -1,4 +1,4 @@
-﻿namespace CoachSeek.WebUI.Models.Api
+﻿namespace CoachSeek.WebUI.Models.Api.Setup
 {
     public class ApiServiceDefaults
     {

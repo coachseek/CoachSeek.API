@@ -22,6 +22,7 @@ namespace CoachSeek.Domain.Entities
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
         private BusinessServices BusinessServices { get; set; }
+        private BusinessSessions BusinessSessions { get; set; }
 
 
         public Business(Guid id, 
@@ -106,6 +107,15 @@ namespace CoachSeek.Domain.Entities
             return GetServiceById(command.Id, businessRepository);
         }
 
+        public SessionData AddSession(SessionAddCommand command, IBusinessRepository businessRepository)
+        {
+            var sessionId = BusinessSessions.Add(command.ToData());
+            businessRepository.Save(this);
+
+            return GetSessionById(sessionId, businessRepository);
+        }
+
+
         public BusinessData ToData()
         {
             return Mapper.Map<Business, BusinessData>(this);
@@ -125,6 +135,13 @@ namespace CoachSeek.Domain.Entities
         private ServiceData GetServiceById(Guid serviceId, IBusinessRepository businessRepository)
         {
             return businessRepository.Get(Id).Services.Single(x => x.Id == serviceId);
+        }
+
+        private SessionData GetSessionById(Guid sessionId, IBusinessRepository businessRepository)
+        {
+            return null;
+
+            //return businessRepository.Get(Id).Sessions.Single(x => x.Id == sessionId);
         }
     }
 }

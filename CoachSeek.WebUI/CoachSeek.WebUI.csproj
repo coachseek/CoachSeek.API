@@ -202,6 +202,7 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachUpdateCommandConverter.cs" />
@@ -209,23 +210,28 @@
     <Compile Include="Conversion\LocationUpdateCommandConverter.cs" />
     <Compile Include="Conversion\ServiceUpdateCommandConverter.cs" />
     <Compile Include="Conversion\ServiceAddCommandConverter.cs" />
+    <Compile Include="Conversion\SessionAddCommandConverter.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Api\ApiBusinessRegistrant.cs" />
-    <Compile Include="Models\Api\ApiBusinessRegistrationCommand.cs" />
-    <Compile Include="Models\Api\ApiCoachSaveCommand.cs" />
-    <Compile Include="Models\Api\ApiDailyWorkingHours.cs" />
-    <Compile Include="Models\Api\ApiLocationSaveCommand.cs" />
+    <Compile Include="Models\Api\ApiCoachKey.cs" />
+    <Compile Include="Models\Api\ApiLocationKey.cs" />
+    <Compile Include="Models\Api\ApiServiceKey.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessRegistrant.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessRegistrationCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiCoachSaveCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiDailyWorkingHours.cs" />
+    <Compile Include="Models\Api\Setup\ApiLocationSaveCommand.cs" />
     <Compile Include="Models\Api\ApiSaveCommand.cs" />
-    <Compile Include="Models\Api\ApiServicePricing.cs" />
-    <Compile Include="Models\Api\ApiServiceRepetition.cs" />
-    <Compile Include="Models\Api\ApiServiceDefaults.cs" />
-    <Compile Include="Models\Api\ApiServiceSaveCommand.cs" />
-    <Compile Include="Models\Api\ApiWeeklyWorkingHours.cs" />
+    <Compile Include="Models\Api\Setup\ApiServicePricing.cs" />
+    <Compile Include="Models\Api\Setup\ApiServiceRepetition.cs" />
+    <Compile Include="Models\Api\Setup\ApiServiceDefaults.cs" />
+    <Compile Include="Models\Api\Setup\ApiServiceSaveCommand.cs" />
+    <Compile Include="Models\Api\Scheduling\ApiSessionSaveCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiWeeklyWorkingHours.cs" />
     <Compile Include="Models\Api\IApiBusinessIdable.cs" />
     <Compile Include="Models\Api\IApiIdable.cs" />
     <Compile Include="Models\IdentityModels.cs" />

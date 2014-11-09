@@ -49,10 +49,12 @@
     <Compile Include="Model\NewCoachData.cs" />
     <Compile Include="Model\NewLocationData.cs" />
     <Compile Include="Model\NewServiceData.cs" />
+    <Compile Include="Model\NewSessionData.cs" />
     <Compile Include="Model\ServiceDefaultsData.cs" />
     <Compile Include="Model\ServiceData.cs" />
     <Compile Include="Model\ServicePricingData.cs" />
     <Compile Include="Model\ServiceRepetitionData.cs" />
+    <Compile Include="Model\SessionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\WeeklyWorkingHoursData.cs" />
   </ItemGroup>
