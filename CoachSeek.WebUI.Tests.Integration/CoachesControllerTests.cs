@@ -1,11 +1,11 @@
-﻿using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Api;
+using CoachSeek.Api.Controllers;
+using CoachSeek.Api.Models.Api.Setup;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.DataAccess.Repositories;
-using CoachSeek.WebUI.Controllers;
-using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.Models.Api.Setup;
 using NUnit.Framework;
 using StructureMap;
 using System;

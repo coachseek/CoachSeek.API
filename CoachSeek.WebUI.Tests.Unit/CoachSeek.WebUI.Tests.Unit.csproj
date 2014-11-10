@@ -68,6 +68,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Api\CoachSeek.Api.csproj">
+      <Project>{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}</Project>
+      <Name>CoachSeek.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
       <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
@@ -95,10 +99,6 @@
     <ProjectReference Include="..\CoachSeek.Services\CoachSeek.Services.csproj">
       <Project>{C9D7784E-1598-4A80-8AA0-AB9DA2B1FA3F}</Project>
       <Name>CoachSeek.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">
-      <Project>{6cb18427-b543-4df4-8d9b-4a6ee6b90590}</Project>
-      <Name>CoachSeek.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

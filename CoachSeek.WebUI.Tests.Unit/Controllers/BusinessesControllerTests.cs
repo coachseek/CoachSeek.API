@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using CoachSeek.Api.Controllers;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.WebUI.Controllers;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;

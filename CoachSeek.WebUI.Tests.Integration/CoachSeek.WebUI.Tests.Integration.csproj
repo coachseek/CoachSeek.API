@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Api\CoachSeek.Api.csproj">
+      <Project>{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}</Project>
+      <Name>CoachSeek.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
@@ -84,10 +88,6 @@
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.WebUI\CoachSeek.WebUI.csproj">
-      <Project>{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}</Project>
-      <Name>CoachSeek.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

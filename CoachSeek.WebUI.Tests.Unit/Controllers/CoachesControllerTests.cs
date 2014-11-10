@@ -1,13 +1,13 @@
-﻿using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Api;
+using CoachSeek.Api.Controllers;
+using CoachSeek.Api.Models.Api.Setup;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.WebUI.Controllers;
-using CoachSeek.WebUI.Models.Api;
-using CoachSeek.WebUI.Models.Api.Setup;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;
