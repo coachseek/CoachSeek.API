@@ -213,7 +213,7 @@
     <Compile Include="Conversion\SessionAddCommandConverter.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />
-    <Compile Include="Scripts\Global.asax.cs">
+    <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
@@ -252,7 +252,7 @@
     <Content Include="Content\xeditable.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Scripts\Global.asax" />
+    <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="index.html" />
     <Content Include="partials\business-coaches.html" />
