@@ -30,6 +30,8 @@ namespace CoachSeek.WebUI
 
             For<IServiceAddUseCase>().Use<ServiceAddUseCase>();
             For<IServiceUpdateUseCase>().Use<ServiceUpdateUseCase>();
+
+            For<ISessionAddUseCase>().Use<SessionAddUseCase>();
         }
     }
 }
