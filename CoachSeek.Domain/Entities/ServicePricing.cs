@@ -12,19 +12,19 @@ namespace CoachSeek.Domain.Entities
         private Price _coursePrice { get; set; }
 
 
-        public ServicePricing(ServicePricingData pricingData)
+        public ServicePricing(PricingData pricingData)
         {
             ValidateHavePrices(pricingData);
             ValidateAndSetPrices(pricingData);
         }
 
-        private void ValidateHavePrices(ServicePricingData pricingData)
+        private void ValidateHavePrices(PricingData pricingData)
         {
             if (!pricingData.SessionPrice.HasValue && !pricingData.CoursePrice.HasValue)
                 throw new ValidationException("This service is priced but has neither sessionPrice nor coursePrice.", "service.pricing");
         }
 
-        private void ValidateAndSetPrices(ServicePricingData pricingData)
+        private void ValidateAndSetPrices(PricingData pricingData)
         {
             var errors = new ValidationException();
 
@@ -40,9 +40,9 @@ namespace CoachSeek.Domain.Entities
             _coursePrice = new Price(pricing.SessionPrice.Value, sessionCount);
         }
 
-        public ServicePricingData ToData()
+        public PricingData ToData()
         {
-            return AutoMapper.Mapper.Map<ServicePricing, ServicePricingData>(this);
+            return AutoMapper.Mapper.Map<ServicePricing, PricingData>(this);
         }
 
         private void CreateSessionPrice(decimal? sessionPrice, ValidationException errors)

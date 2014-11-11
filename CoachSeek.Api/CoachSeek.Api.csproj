@@ -229,8 +229,8 @@
     <Compile Include="Models\Api\Setup\ApiDailyWorkingHours.cs" />
     <Compile Include="Models\Api\Setup\ApiLocationSaveCommand.cs" />
     <Compile Include="Models\Api\ApiSaveCommand.cs" />
-    <Compile Include="Models\Api\Setup\ApiServicePricing.cs" />
-    <Compile Include="Models\Api\Setup\ApiServiceRepetition.cs" />
+    <Compile Include="Models\Api\Setup\ApiPricing.cs" />
+    <Compile Include="Models\Api\Setup\ApiRepetition.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceDefaults.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceSaveCommand.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionSaveCommand.cs" />

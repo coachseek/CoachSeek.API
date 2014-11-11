@@ -1,6 +1,6 @@
-﻿namespace CoachSeek.Data.Model
+﻿namespace CoachSeek.Domain.Commands
 {
-    public class ServicePricingData
+    public class PricingCommand
     {
         public decimal? SessionPrice { get; set; }
         public decimal? CoursePrice { get; set; }

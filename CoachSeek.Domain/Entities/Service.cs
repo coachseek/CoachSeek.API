@@ -16,12 +16,12 @@ namespace CoachSeek.Domain.Entities
             get { return HasDefaults ? ServiceDefaults.ToData() : null; }
         }
 
-        public ServicePricingData Pricing
+        public PricingData Pricing
         {
             get { return IsPriced ? ServicePricing.ToData() : null; }
         }
 
-        public ServiceRepetitionData Repetition
+        public RepetitionData Repetition
         {
             get { return IsCourse ? ServiceRepetition.ToData() : null; }
         }
@@ -41,8 +41,8 @@ namespace CoachSeek.Domain.Entities
                        string name, 
                        string description, 
                        ServiceDefaultsData defaults, 
-                       ServicePricingData pricing, 
-                       ServiceRepetitionData repetition)
+                       PricingData pricing, 
+                       RepetitionData repetition)
         {
             Id = id;
             Name = name.Trim();
@@ -56,7 +56,7 @@ namespace CoachSeek.Domain.Entities
                 ServicePricing = new ServicePricing(ServicePricing, Repetition.RepeatTimes);
         }
 
-        private void ValidateAndCreateEntities(ServiceDefaultsData defaults, ServicePricingData pricing, ServiceRepetitionData repetition)
+        private void ValidateAndCreateEntities(ServiceDefaultsData defaults, PricingData pricing, RepetitionData repetition)
         {
             var errors = new ValidationException();
 
@@ -91,7 +91,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateRepetition(ServiceRepetitionData repetition, ValidationException errors)
+        private void ValidateAndCreateRepetition(RepetitionData repetition, ValidationException errors)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreatePricing(ServicePricingData pricing, ValidationException errors)
+        private void ValidateAndCreatePricing(PricingData pricing, ValidationException errors)
         {
             try
             {

@@ -1,6 +1,6 @@
-﻿namespace CoachSeek.Api.Models.Api.Setup
+﻿namespace CoachSeek.Domain.Commands
 {
-    public class ApiServiceRepetition
+    public class RepetitionCommand
     {
         public string RepeatFrequency { get; set; }
         public int RepeatTimes { get; set; }

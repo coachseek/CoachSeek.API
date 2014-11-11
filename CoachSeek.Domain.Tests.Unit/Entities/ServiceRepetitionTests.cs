@@ -50,45 +50,45 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private ServiceRepetitionData GivenInvalidRepeatFrequency()
+        private RepetitionData GivenInvalidRepeatFrequency()
         {
-            return new ServiceRepetitionData
+            return new RepetitionData
             {
                 RepeatFrequency = null,
                 RepeatTimes = 8
             };
         }
 
-        private ServiceRepetitionData GivenInvalidRepeatTimes()
+        private RepetitionData GivenInvalidRepeatTimes()
         {
-            return new ServiceRepetitionData
+            return new RepetitionData
             {
                 RepeatFrequency = "d",
                 RepeatTimes = -2
             };
         }
 
-        private ServiceRepetitionData GivenOpenEndedService(string repeatFrequency)
+        private RepetitionData GivenOpenEndedService(string repeatFrequency)
         {
-            return new ServiceRepetitionData
+            return new RepetitionData
             {
                 RepeatFrequency = repeatFrequency,
                 RepeatTimes = -1        // -1 is for open-ended.
             };
         }
 
-        private ServiceRepetitionData GivenValidServiceRepetition(string repeatFrequency, int repeatTimes)
+        private RepetitionData GivenValidServiceRepetition(string repeatFrequency, int repeatTimes)
         {
-            return new ServiceRepetitionData
+            return new RepetitionData
             {
                 RepeatFrequency = repeatFrequency,
                 RepeatTimes = repeatTimes
             };
         }
 
-        private ServiceRepetitionData GivenMultipleInvalidServiceRepetitionErrors()
+        private RepetitionData GivenMultipleInvalidServiceRepetitionErrors()
         {
-            return new ServiceRepetitionData
+            return new RepetitionData
             {
                 RepeatFrequency = "x",
                 RepeatTimes = -6
@@ -96,7 +96,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private object WhenConstruct(ServiceRepetitionData data)
+        private object WhenConstruct(RepetitionData data)
         {
             try
             {

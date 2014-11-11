@@ -13,7 +13,7 @@ namespace CoachSeek.Domain.Entities
 
         public bool IsOpenEnded { get { return _times.IsOpenEnded; } }
         
-        public ServiceRepetition(ServiceRepetitionData repetitionData)
+        public ServiceRepetition(RepetitionData repetitionData)
         {
             var errors = new ValidationException();
 
@@ -23,9 +23,9 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
         }
 
-        public ServiceRepetitionData ToData()
+        public RepetitionData ToData()
         {
-            return AutoMapper.Mapper.Map<ServiceRepetition, ServiceRepetitionData>(this);
+            return AutoMapper.Mapper.Map<ServiceRepetition, RepetitionData>(this);
         }
 
 

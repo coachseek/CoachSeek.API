@@ -8,8 +8,8 @@ namespace CoachSeek.Domain.Entities
         public NewService(string name, 
                           string description, 
                           ServiceDefaultsData defaults, 
-                          ServicePricingData pricing, 
-                          ServiceRepetitionData repetition)
+                          PricingData pricing, 
+                          RepetitionData repetition)
             : base(Guid.NewGuid(), name, description, defaults, pricing,repetition)
         { }
 

@@ -1,6 +1,6 @@
 ﻿namespace CoachSeek.Api.Models.Api.Setup
 {
-    public class ApiServicePricing
+    public class ApiPricing
     {
         public decimal? SessionPrice { get; set; }
         public decimal? CoursePrice { get; set; }

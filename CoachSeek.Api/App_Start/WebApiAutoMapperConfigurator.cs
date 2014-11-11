@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoachSeek.Api.Models.Api;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Domain.Commands;
@@ -21,12 +22,21 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiCoachSaveCommand, CoachUpdateCommand>();
 
             Mapper.CreateMap<ApiServiceDefaults, ServiceDefaultsCommand>();
-            Mapper.CreateMap<ApiServicePricing, ServicePricingCommand>();
-            Mapper.CreateMap<ApiServiceRepetition, ServiceRepetitionCommand>();
+            Mapper.CreateMap<ApiPricing, PricingCommand>();
+            Mapper.CreateMap<ApiRepetition, RepetitionCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
 
             Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
+            Mapper.CreateMap<ApiServiceKey, ServiceKeyCommand>();
+            Mapper.CreateMap<ApiLocationKey, LocationKeyCommand>();
+            Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
+
+            Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
+            Mapper.CreateMap<ApiSessionBooking, SessionBookingCommand>();
+            Mapper.CreateMap<ApiPricing, PricingCommand>();
+            Mapper.CreateMap<ApiRepetition, RepetitionCommand>();
+            Mapper.CreateMap<ApiPresentation, PresentationCommand>();
         }
     }
 }
