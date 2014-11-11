@@ -14,19 +14,10 @@ namespace CoachSeek.Api.Models.Api.Scheduling
         public ApiLocationKey Location { get; set; }
         [Required]
         public ApiCoachKey Coach { get; set; }
-
         [Required]
-        public string StartDate { get; set; }
+        public ApiSessionTiming Timing { get; set; }
         [Required]
-        public string StartTime { get; set; }
-        [Required]
-        public int? Duration { get; set; }
-        [Required]
-        public int? StudentCapacity { get; set; }
-        public bool IsOnlineBookable { get; set; } // eg. Is private or not
-        public string Colour { get; set; }
-
-        //public ApiSessionPricing Pricing { get; set; }
-        //public ApiSessionRepetition Repetition { get; set; }
+        public ApiSessionBooking Booking { get; set; }
+        public ApiPresentation Presentation { get; set; }
     }
 }
