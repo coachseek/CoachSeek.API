@@ -58,7 +58,8 @@ namespace CoachSeek.Application.Tests.Unit
                 },
                 SetupLocations(),
                 SetupCoaches(),
-                SetupServices());
+                SetupServices(),
+                null);
         }
 
         protected IEnumerable<LocationData> SetupLocations()

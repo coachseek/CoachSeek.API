@@ -80,6 +80,9 @@
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
+    <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\NewSession.cs" />
+    <Compile Include="Entities\Presentation.cs" />
     <Compile Include="Entities\RepeatTimes.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Colour.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Entities\ServicePricing.cs" />
     <Compile Include="Entities\ServiceRepetition.cs" />
     <Compile Include="Entities\Session.cs" />
+    <Compile Include="Entities\SessionTiming.cs" />
     <Compile Include="Entities\StudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Exceptions\InvalidCoach.cs" />
     <Compile Include="Exceptions\InvalidColour.cs" />
     <Compile Include="Exceptions\InvalidDailyWorkingHours.cs" />
+    <Compile Include="Exceptions\InvalidDate.cs" />
     <Compile Include="Exceptions\InvalidDuration.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\InvalidPrice.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="Exceptions\InvalidService.cs" />
     <Compile Include="Exceptions\InvalidLocation.cs" />
     <Compile Include="Exceptions\InvalidPointInTime.cs" />
+    <Compile Include="Exceptions\InvalidSession.cs" />
     <Compile Include="Exceptions\InvalidStudentCapacity.cs" />
     <Compile Include="Exceptions\InvalidWeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\MissingEmailAddress.cs" />

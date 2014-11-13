@@ -49,11 +49,19 @@
   <ItemGroup>
     <Compile Include="Configuration\DbAutoMapperConfigurator.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
+    <Compile Include="Models\DbCoachKey.cs" />
     <Compile Include="Models\DbDailyWorkingHours.cs" />
+    <Compile Include="Models\DbKey.cs" />
+    <Compile Include="Models\DbLocationKey.cs" />
+    <Compile Include="Models\DbPresentation.cs" />
     <Compile Include="Models\DbService.cs" />
     <Compile Include="Models\DbServiceDefaults.cs" />
-    <Compile Include="Models\DbServicePricing.cs" />
-    <Compile Include="Models\DbServiceRepetition.cs" />
+    <Compile Include="Models\DbServiceKey.cs" />
+    <Compile Include="Models\DbPricing.cs" />
+    <Compile Include="Models\DbRepetition.cs" />
+    <Compile Include="Models\DbSession.cs" />
+    <Compile Include="Models\DbSessionBooking.cs" />
+    <Compile Include="Models\DbSessionTiming.cs" />
     <Compile Include="Models\DbWeeklyWorkingHours.cs" />
     <Compile Include="Repositories\HardCodedReservedDomainRepository.cs" />
     <Compile Include="Models\DbBusiness.cs" />

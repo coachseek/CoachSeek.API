@@ -1,6 +1,6 @@
 ﻿namespace CoachSeek.DataAccess.Models
 {
-    public class DbServiceRepetition
+    public class DbRepetition
     {
         public string RepeatFrequency { get; set; }
         public int RepeatTimes { get; set; }

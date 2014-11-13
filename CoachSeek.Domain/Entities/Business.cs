@@ -2,6 +2,7 @@
 using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace CoachSeek.Domain.Entities
         public IList<LocationData> Locations { get { return BusinessLocations.ToData(); } }
         public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
         public IList<ServiceData> Services { get { return BusinessServices.ToData(); } }
+        public IList<SessionData> Sessions { get { return BusinessSessions.ToData(); } }
 
         protected BusinessAdmin BusinessAdmin { get; set; }
         private BusinessLocations BusinessLocations { get; set; }
@@ -31,7 +33,8 @@ namespace CoachSeek.Domain.Entities
             BusinessAdminData admin,
             IEnumerable<LocationData> locations, 
             IEnumerable<CoachData> coaches,
-            IEnumerable<ServiceData> services
+            IEnumerable<ServiceData> services,
+            IEnumerable<SessionData> sessions
             )
         {
             Id = id;
@@ -41,6 +44,7 @@ namespace CoachSeek.Domain.Entities
             BusinessLocations = new BusinessLocations(locations);
             BusinessCoaches = new BusinessCoaches(coaches);
             BusinessServices = new BusinessServices(services);
+            BusinessSessions = new BusinessSessions(sessions, BusinessLocations, BusinessCoaches, BusinessServices);
         }
 
         public Business()
@@ -49,6 +53,7 @@ namespace CoachSeek.Domain.Entities
             BusinessLocations = new BusinessLocations();
             BusinessCoaches = new BusinessCoaches();
             BusinessServices = new BusinessServices();
+            BusinessSessions = new BusinessSessions();
         }
 
         // Minimal Unit testing constructor.
@@ -109,7 +114,11 @@ namespace CoachSeek.Domain.Entities
 
         public SessionData AddSession(SessionAddCommand command, IBusinessRepository businessRepository)
         {
-            var sessionId = BusinessSessions.Add(command.ToData());
+            var service = GetServiceById(command.Service.Id, businessRepository);
+            var location = GetLocationById(command.Location.Id, businessRepository);
+            var coach = GetCoachById(command.Coach.Id, businessRepository);
+
+            var sessionId = BusinessSessions.Add(command.ToData(), service, location, coach);
             businessRepository.Save(this);
 
             return GetSessionById(sessionId, businessRepository);
@@ -124,24 +133,34 @@ namespace CoachSeek.Domain.Entities
 
         private LocationData GetLocationById(Guid locationId, IBusinessRepository businessRepository)
         {
-            return businessRepository.Get(Id).Locations.Single(x => x.Id == locationId);
+            var location = businessRepository.Get(Id).Locations.FirstOrDefault(x => x.Id == locationId);
+            if (location == null)
+                throw new InvalidLocation();
+            return location;
         }
 
         private CoachData GetCoachById(Guid coachId, IBusinessRepository businessRepository)
         {
-            return businessRepository.Get(Id).Coaches.Single(x => x.Id == coachId);
+            var coach = businessRepository.Get(Id).Coaches.FirstOrDefault(x => x.Id == coachId);
+            if (coach == null)
+                throw new InvalidCoach();
+            return coach;
         }
 
         private ServiceData GetServiceById(Guid serviceId, IBusinessRepository businessRepository)
         {
-            return businessRepository.Get(Id).Services.Single(x => x.Id == serviceId);
+            var service = businessRepository.Get(Id).Services.FirstOrDefault(x => x.Id == serviceId);
+            if (service == null)
+                throw new InvalidService();
+            return service;
         }
 
         private SessionData GetSessionById(Guid sessionId, IBusinessRepository businessRepository)
         {
-            return null;
-
-            //return businessRepository.Get(Id).Sessions.Single(x => x.Id == sessionId);
+            var session = businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
+            if (session == null)
+                throw new InvalidSession();
+            return session;
         }
     }
 }

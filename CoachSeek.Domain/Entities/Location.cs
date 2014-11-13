@@ -25,5 +25,10 @@ namespace CoachSeek.Domain.Entities
         {
             return Mapper.Map<Location, LocationData>(this);
         }
+
+        public LocationKeyData ToKeyData()
+        {
+            return Mapper.Map<Location, LocationKeyData>(this);
+        }
     }
 }

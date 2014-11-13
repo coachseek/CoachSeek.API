@@ -37,6 +37,11 @@ namespace CoachSeek.Domain.Entities
         private bool HasCoursePrice { get { return (IsPriced && ServicePricing.CoursePrice.HasValue); } }
         private bool IsOpenEnded { get { return (IsCourse && ServiceRepetition.IsOpenEnded); } }
 
+
+        public Service(ServiceData data)
+            : this(data.Id, data.Name, data.Description, data.Defaults, data.Pricing, data.Repetition)
+        { }
+
         public Service(Guid id, 
                        string name, 
                        string description, 
@@ -55,6 +60,18 @@ namespace CoachSeek.Domain.Entities
             if (IsCourse && HasSessionPrice && !HasCoursePrice)
                 ServicePricing = new ServicePricing(ServicePricing, Repetition.RepeatTimes);
         }
+
+
+        public ServiceData ToData()
+        {
+            return Mapper.Map<Service, ServiceData>(this);
+        }
+
+        public ServiceKeyData ToKeyData()
+        {
+            return Mapper.Map<Service, ServiceKeyData>(this);
+        }
+
 
         private void ValidateAndCreateEntities(ServiceDefaultsData defaults, PricingData pricing, RepetitionData repetition)
         {
@@ -115,16 +132,6 @@ namespace CoachSeek.Domain.Entities
             {
                 errors.Add(ex);
             }
-        }
-
-        public Service(ServiceData data)
-            : this(data.Id, data.Name, data.Description, data.Defaults, data.Pricing, data.Repetition)
-        { }
-
-
-        public ServiceData ToData()
-        {
-            return Mapper.Map<Service, ServiceData>(this);
         }
     }
 }

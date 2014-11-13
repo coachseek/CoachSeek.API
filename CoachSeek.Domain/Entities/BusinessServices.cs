@@ -25,6 +25,15 @@ namespace CoachSeek.Domain.Entities
                 Append(service);
         }
 
+
+        public ServiceData GetById(Guid id)
+        {
+            var service = Services.FirstOrDefault(x => x.Id == id);
+            if (service == null)
+                return null;
+            return service.ToData();
+        }
+
         public Guid Add(NewServiceData newServiceData)
         {
             var newService = new NewService(newServiceData);

@@ -44,5 +44,10 @@ namespace CoachSeek.Domain.Entities
         {
             return Mapper.Map<Coach, CoachData>(this);
         }
+
+        public CoachKeyData ToKeyData()
+        {
+            return Mapper.Map<Coach, CoachKeyData>(this);
+        }
     }
 }

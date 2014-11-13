@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
@@ -15,31 +14,37 @@ namespace CoachSeek.Domain.Entities
             Sessions = new List<Session>();
         }
 
-        public BusinessSessions(IEnumerable<SessionData> sessions)
+        public BusinessSessions(IEnumerable<SessionData> sessions,
+                                BusinessLocations locations, 
+                                BusinessCoaches coaches,
+                                BusinessServices services)
             : this()
         {
-            if (sessions == null)
+            if (sessions == null || locations == null || coaches == null || services == null)
                 return;
 
             foreach (var session in sessions)
-                Append(session);
+            {
+                var location = locations.GetById(session.Location.Id);
+                var coach = coaches.GetById(session.Coach.Id);
+                var service = services.GetById(session.Service.Id);
+                Append(session, location, coach, service);                
+            }
         }
 
-        public Guid Add(NewSessionData newSessionData)
+        public Guid Add(NewSessionData newSessionData, ServiceData service, LocationData location, CoachData coach)
         {
-            return new Guid();
+            var newSession = new NewSession(newSessionData, service, location, coach);
+            ValidateAdd(newSession);
+            Sessions.Add(newSession);
 
-            //var newService = new NewService(newServiceData);
-            //ValidateAdd(newService);
-            //Services.Add(newService);
-
-            //return newService.Id;
+            return newSession.Id;
         }
 
-        public void Append(SessionData sessionData)
+        public void Append(SessionData sessionData, LocationData locationData, CoachData coachData, ServiceData serviceData)
         {
-            //// Data is already valid. Eg. It comes from the database.
-            //Services.Add(new Service(serviceData));
+            // Data is already valid. Eg. It comes from the database.
+            Sessions.Add(new Session(sessionData, locationData, coachData, serviceData));
         }
 
         //public void Update(ServiceData serviceData)
@@ -49,10 +54,10 @@ namespace CoachSeek.Domain.Entities
         //    ReplaceServiceInServices(service);
         //}
 
-        //public IList<ServiceData> ToData()
-        //{
-        //    return Services.Select(service => service.ToData()).ToList();
-        //}
+        public IList<SessionData> ToData()
+        {
+            return Sessions.Select(session => session.ToData()).ToList();
+        }
 
 
         //private void ReplaceServiceInServices(Service service)
@@ -62,12 +67,14 @@ namespace CoachSeek.Domain.Entities
         //    Services[updateIndex] = service;
         //}
 
-        //private void ValidateAdd(NewService newService)
-        //{
-        //    var isExistingService = Services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
-        //    if (isExistingService)
-        //        throw new DuplicateService();
-        //}
+        private void ValidateAdd(NewSession newSession)
+        {
+            // Check for clashing sessions.
+
+            //var isExistingService = Services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
+            //if (isExistingService)
+            //    throw new DuplicateService();
+        }
 
         //private void ValidateUpdate(Service service)
         //{

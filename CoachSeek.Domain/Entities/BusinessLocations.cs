@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
@@ -24,6 +23,15 @@ namespace CoachSeek.Domain.Entities
 
             foreach(var location in locations)
                 Append(location);
+        }
+
+
+        public LocationData GetById(Guid id)
+        {
+            var location = Locations.FirstOrDefault(x => x.Id == id);
+            if (location == null)
+                return null;
+            return location.ToData();
         }
 
         public Guid Add(NewLocationData newLocationData)

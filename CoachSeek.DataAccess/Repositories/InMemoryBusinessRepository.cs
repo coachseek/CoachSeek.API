@@ -83,7 +83,8 @@ namespace CoachSeek.DataAccess.Repositories
                 Mapper.Map<DbBusinessAdmin, BusinessAdminData>(dbBusiness.Admin),
                 Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations),
                 Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches),
-                Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services));
+                Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services),
+                Mapper.Map<IEnumerable<DbSession>, IEnumerable<SessionData>>(dbBusiness.Sessions));
         }
 
 

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
+    <Compile Include="Entities\DateTests.cs" />
     <Compile Include="Entities\DurationTests.cs" />
     <Compile Include="Entities\EmailAddressTests.cs" />
     <Compile Include="Entities\NewBusinessTests.cs" />
