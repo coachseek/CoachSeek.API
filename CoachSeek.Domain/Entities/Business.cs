@@ -114,11 +114,11 @@ namespace CoachSeek.Domain.Entities
 
         public SessionData AddSession(SessionAddCommand command, IBusinessRepository businessRepository)
         {
-            var service = GetServiceById(command.Service.Id, businessRepository);
             var location = GetLocationById(command.Location.Id, businessRepository);
             var coach = GetCoachById(command.Coach.Id, businessRepository);
+            var service = GetServiceById(command.Service.Id, businessRepository);
 
-            var sessionId = BusinessSessions.Add(command.ToData(), service, location, coach);
+            var sessionId = BusinessSessions.Add(command.ToData(), location, coach, service);
             businessRepository.Save(this);
 
             return GetSessionById(sessionId, businessRepository);

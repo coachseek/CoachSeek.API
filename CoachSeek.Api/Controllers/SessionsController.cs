@@ -56,7 +56,6 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
             var command = SessionAddCommandConverter.Convert(session);

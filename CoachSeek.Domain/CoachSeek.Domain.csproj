@@ -102,6 +102,8 @@
     <Compile Include="Entities\ServicePricing.cs" />
     <Compile Include="Entities\ServiceRepetition.cs" />
     <Compile Include="Entities\Session.cs" />
+    <Compile Include="Entities\SessionBooking.cs" />
+    <Compile Include="Entities\SessionPricing.cs" />
     <Compile Include="Entities\SessionTiming.cs" />
     <Compile Include="Entities\StudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />

@@ -32,9 +32,9 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        public Guid Add(NewSessionData newSessionData, ServiceData service, LocationData location, CoachData coach)
+        public Guid Add(NewSessionData newSessionData, LocationData location, CoachData coach, ServiceData service)
         {
-            var newSession = new NewSession(newSessionData, service, location, coach);
+            var newSession = new NewSession(newSessionData, location, coach, service);
             ValidateAdd(newSession);
             Sessions.Add(newSession);
 

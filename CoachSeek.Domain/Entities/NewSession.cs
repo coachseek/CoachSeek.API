@@ -16,7 +16,7 @@ namespace CoachSeek.Domain.Entities
             : base(Guid.NewGuid(), location, coach, service, timing, booking, pricing, repetition, presentation)
         { }
 
-        public NewSession(NewSessionData data, ServiceData service, LocationData location, CoachData coach)
+        public NewSession(NewSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(location, coach, service, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
         { }
     }

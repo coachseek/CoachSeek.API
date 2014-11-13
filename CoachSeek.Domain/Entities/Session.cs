@@ -10,6 +10,8 @@ namespace CoachSeek.Domain.Entities
         private Location _location;
         private Coach _coach;
         private SessionTiming _timing;
+        private SessionBooking _booking;
+        private SessionPricing _pricing;
         private Presentation _presentation;
 
 
@@ -18,8 +20,8 @@ namespace CoachSeek.Domain.Entities
         public LocationKeyData Location { get { return _location.ToKeyData(); } }
         public CoachKeyData Coach { get { return _coach.ToKeyData(); } }
         public SessionTimingData Timing { get { return _timing.ToData(); } }
-        public SessionBookingData Booking { get; set; }
-        public PricingData Pricing { get; set; }
+        public SessionBookingData Booking { get { return _booking.ToData(); } }
+        public PricingData Pricing { get { return _pricing.ToData(); } }
         public RepetitionData Repetition { get; set; }
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
@@ -44,6 +46,8 @@ namespace CoachSeek.Domain.Entities
             _service = new Service(service);
 
             _timing = new SessionTiming(timing);
+            _booking = new SessionBooking(booking);
+            _pricing = new SessionPricing(pricing);
 
             _presentation = new Presentation(presentation);
         }
