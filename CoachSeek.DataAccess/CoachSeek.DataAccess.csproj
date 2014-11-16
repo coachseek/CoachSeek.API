@@ -60,6 +60,7 @@
     <Compile Include="Models\DbPricing.cs" />
     <Compile Include="Models\DbRepetition.cs" />
     <Compile Include="Models\DbSession.cs" />
+    <Compile Include="Models\DbServiceBooking.cs" />
     <Compile Include="Models\DbSessionBooking.cs" />
     <Compile Include="Models\DbSessionTiming.cs" />
     <Compile Include="Models\DbWeeklyWorkingHours.cs" />

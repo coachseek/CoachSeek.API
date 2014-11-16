@@ -7,7 +7,6 @@ using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit
@@ -155,12 +154,22 @@ namespace CoachSeek.Application.Tests.Unit
 
         private ServiceData SetupServiceMiniRed()
         {
-            return new ServiceData { Id = new Guid(SERVICE_MINI_RED_ID), Name = "Mini Red" };
+            return new ServiceData
+            {
+                Id = new Guid(SERVICE_MINI_RED_ID),
+                Name = "Mini Red",
+                Repetition = new RepetitionData { RepeatTimes = 1 }
+            };
         }
 
         private ServiceData SetupServiceMiniOrange()
         {
-            return new ServiceData { Id = new Guid(SERVICE_MINI_ORANGE_ID), Name = "Mini Orange" };
+            return new ServiceData
+            {
+                Id = new Guid(SERVICE_MINI_ORANGE_ID),
+                Name = "Mini Orange",
+                Repetition = new RepetitionData { RepeatTimes = 1 }
+            };
         }
 
 

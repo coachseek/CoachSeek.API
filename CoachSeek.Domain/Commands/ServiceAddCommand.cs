@@ -9,7 +9,10 @@ namespace CoachSeek.Domain.Commands
         public Guid BusinessId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
         public ServiceDefaultsCommand Defaults { get; set; }
+
+        public ServiceBookingCommand Booking { get; set; }
         public PricingCommand Pricing { get; set; }
         public RepetitionCommand Repetition { get; set; }
 

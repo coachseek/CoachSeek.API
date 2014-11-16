@@ -116,7 +116,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var apiBusinessRegistrationCommand = new ApiBusinessRegistrationCommand
             {
                 BusinessName = "Olaf's Cafe",
-                Registrant = new ApiBusinessRegistrant
+                Registrant = new ApiBusinessRegistrantCommand
                 {
                     FirstName = "Olaf",
                     LastName = "Thielke",

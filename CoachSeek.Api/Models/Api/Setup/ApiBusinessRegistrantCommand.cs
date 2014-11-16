@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Api.Models.Api.Setup
 {
-    public class ApiBusinessRegistrant
+    public class ApiBusinessRegistrantCommand
     {
         [Required, StringLength(50)]
         public string FirstName { get; set; }

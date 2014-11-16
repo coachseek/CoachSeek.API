@@ -6,12 +6,9 @@ namespace CoachSeek.Domain.Entities
     public class ServiceDefaults
     {
         public int? Duration { get { return _duration.Minutes; } }
-        public int? StudentCapacity { get { return _capacity.Maximum; } }
-        public bool? IsOnlineBookable { get; private set; }
         public string Colour { get { return _colour.Colouration; } }
 
         private Duration _duration { get; set; }
-        private StudentCapacity _capacity { get; set; }
         private Colour _colour { get; set; }
 
 
@@ -20,9 +17,7 @@ namespace CoachSeek.Domain.Entities
             var errors = new ValidationException();
 
             CreateDuration(defaultsData.Duration, errors);
-            CreateStudentCapacity(defaultsData.StudentCapacity, errors);
             CreateColour(defaultsData.Colour, errors);
-            IsOnlineBookable = defaultsData.IsOnlineBookable;
 
             errors.ThrowIfErrors();
         }
@@ -42,18 +37,6 @@ namespace CoachSeek.Domain.Entities
             catch (InvalidDuration)
             {
                 errors.Add("The duration is not valid.", "service.defaults.duration");
-            }
-        }
-
-        private void CreateStudentCapacity(int? maximum, ValidationException errors)
-        {
-            try
-            {
-                _capacity = new StudentCapacity(maximum);
-            }
-            catch (InvalidStudentCapacity)
-            {
-                errors.Add("The studentCapacity is not valid.", "service.defaults.studentCapacity");
             }
         }
 

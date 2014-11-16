@@ -16,6 +16,11 @@ namespace CoachSeek.Domain.Entities
             get { return HasDefaults ? ServiceDefaults.ToData() : null; }
         }
 
+        public ServiceBookingData Booking
+        {
+            get { return ServiceBooking != null ? ServiceBooking.ToData() : null; }
+        }
+
         public PricingData Pricing
         {
             get { return IsPriced ? ServicePricing.ToData() : null; }
@@ -23,29 +28,32 @@ namespace CoachSeek.Domain.Entities
 
         public RepetitionData Repetition
         {
-            get { return IsCourse ? ServiceRepetition.ToData() : null; }
+            get { return ServiceRepetition.ToData(); }
         }
 
         private ServiceDefaults ServiceDefaults { get; set; }
+        private ServiceBooking ServiceBooking { get; set; }
         private ServicePricing ServicePricing { get; set; }
         private ServiceRepetition ServiceRepetition { get; set; }
 
         private bool HasDefaults { get { return ServiceDefaults != null; } }
         private bool IsPriced { get { return ServicePricing != null; } }
-        private bool IsCourse { get { return ServiceRepetition != null; } }
+        private bool IsCourse { get { return ServiceRepetition.IsRepeatingSession; } }
+        private bool IsSingleSession { get { return ServiceRepetition.IsSingleSession; } }
         private bool HasSessionPrice { get { return (IsPriced && ServicePricing.SessionPrice.HasValue); } }
         private bool HasCoursePrice { get { return (IsPriced && ServicePricing.CoursePrice.HasValue); } }
         private bool IsOpenEnded { get { return (IsCourse && ServiceRepetition.IsOpenEnded); } }
 
 
         public Service(ServiceData data)
-            : this(data.Id, data.Name, data.Description, data.Defaults, data.Pricing, data.Repetition)
+            : this(data.Id, data.Name, data.Description, data.Defaults, data.Booking, data.Pricing, data.Repetition)
         { }
 
         public Service(Guid id, 
                        string name, 
-                       string description, 
-                       ServiceDefaultsData defaults, 
+                       string description,
+                       ServiceDefaultsData defaults,
+                       ServiceBookingData booking,
                        PricingData pricing, 
                        RepetitionData repetition)
         {
@@ -54,7 +62,7 @@ namespace CoachSeek.Domain.Entities
             if (description != null)
                 Description = description.Trim();
 
-            ValidateAndCreateEntities(defaults, pricing, repetition);
+            ValidateAndCreateEntities(defaults, booking, pricing, repetition);
             ValidateEntityInteractions();
 
             if (IsCourse && HasSessionPrice && !HasCoursePrice)
@@ -73,11 +81,15 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateEntities(ServiceDefaultsData defaults, PricingData pricing, RepetitionData repetition)
+        private void ValidateAndCreateEntities(ServiceDefaultsData defaults, 
+                                               ServiceBookingData booking, 
+                                               PricingData pricing, 
+                                               RepetitionData repetition)
         {
             var errors = new ValidationException();
 
             ValidateAndCreateDefaults(defaults, errors);
+            ValidateAndCreateBooking(booking, errors);
             ValidateAndCreatePricing(pricing, errors);
             ValidateAndCreateRepetition(repetition, errors);
 
@@ -108,12 +120,30 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateRepetition(RepetitionData repetition, ValidationException errors)
+        private void ValidateAndCreateBooking(ServiceBookingData booking, ValidationException errors)
         {
             try
             {
-                if (repetition != null)
-                    ServiceRepetition = new ServiceRepetition(repetition);
+                if (booking != null)
+                    ServiceBooking = new ServiceBooking(booking);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateRepetition(RepetitionData repetition, ValidationException errors)
+        {
+            if (repetition == null)
+            {
+                errors.Add("The repetition field is required.", "service.repetition");
+                return;
+            }
+
+            try
+            {
+                ServiceRepetition = new ServiceRepetition(repetition);
             }
             catch (ValidationException ex)
             {

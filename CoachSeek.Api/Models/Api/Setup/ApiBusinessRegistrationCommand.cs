@@ -8,6 +8,6 @@ namespace CoachSeek.Api.Models.Api.Setup
         public string BusinessName { get; set; }
 
         [Required]
-        public ApiBusinessRegistrant Registrant { get; set; }
+        public ApiBusinessRegistrantCommand Registrant { get; set; }
     }
 }

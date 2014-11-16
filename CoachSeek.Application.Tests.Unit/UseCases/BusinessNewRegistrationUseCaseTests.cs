@@ -3,7 +3,6 @@ using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Services.Builders;
 using CoachSeek.Services.Email;
 using NUnit.Framework;

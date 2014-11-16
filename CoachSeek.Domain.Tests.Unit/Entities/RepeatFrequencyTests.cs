@@ -11,13 +11,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void RepeatFrequencyCreationTests()
         {
-            RepeatFrequencyCreationFailure(null);
             RepeatFrequencyCreationFailure("");
             RepeatFrequencyCreationFailure("hello world!");
             RepeatFrequencyCreationFailure("3d");
             RepeatFrequencyCreationFailure("3w");
             RepeatFrequencyCreationFailure("2m");
 
+            RepeatFrequencyCreationSuccess(null);   // RepeatFrequency must be null for single session.
             RepeatFrequencyCreationSuccess("d");
             RepeatFrequencyCreationSuccess("D ");
             RepeatFrequencyCreationSuccess("2d");
@@ -35,7 +35,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var frequency = new RepeatFrequency(inputFrequnecy);
             Assert.That(frequency, Is.Not.Null);
-            Assert.That(frequency.Frequency, Is.EqualTo(inputFrequnecy.Trim().ToLower()));
+            if (inputFrequnecy == null)
+                Assert.That(frequency.Frequency, Is.Null);
+            else
+                Assert.That(frequency.Frequency, Is.EqualTo(inputFrequnecy.Trim().ToLower()));
         }
 
         private void RepeatFrequencyCreationFailure(string inputFrequnecy)

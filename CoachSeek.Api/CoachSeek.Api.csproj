@@ -223,7 +223,7 @@
     <Compile Include="Models\Api\Scheduling\ApiPresentation.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionBooking.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionTiming.cs" />
-    <Compile Include="Models\Api\Setup\ApiBusinessRegistrant.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessRegistrantCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessRegistrationCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCoachSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiDailyWorkingHours.cs" />
@@ -231,6 +231,7 @@
     <Compile Include="Models\Api\ApiSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiPricing.cs" />
     <Compile Include="Models\Api\Setup\ApiRepetition.cs" />
+    <Compile Include="Models\Api\Setup\ApiServiceBooking.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceDefaults.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceSaveCommand.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionSaveCommand.cs" />

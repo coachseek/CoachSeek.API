@@ -34,14 +34,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void GivenInvalidStudentCapacity_WhenConstruct_ThenThrowValidationExceptionWithSingleError()
-        {
-            var data = GivenInvalidStudentCapacity();
-            var response = WhenConstruct(data);
-            ThenThrowValidationExceptionWithSingleError(response, "service.defaults.studentCapacity", "The studentCapacity is not valid.");
-        }
-
-        [Test]
         public void GivenInvalidColour_WhenConstruct_ThenThrowValidationExceptionWithSingleError()
         {
             var data = GivenInvalidColour();
@@ -129,8 +121,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var defaults = (ServiceDefaults) response;
             Assert.That(defaults, Is.Not.Null);
             Assert.That(defaults.Duration, Is.Null);
-            Assert.That(defaults.StudentCapacity, Is.Null);
-            Assert.That(defaults.IsOnlineBookable, Is.Null);
             Assert.That(defaults.Colour, Is.Null);
         }
 
@@ -140,8 +130,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var defaults = (ServiceDefaults)response;
             Assert.That(defaults, Is.Not.Null);
             Assert.That(defaults.Duration, Is.EqualTo(75));
-            Assert.That(defaults.StudentCapacity, Is.EqualTo(13));
-            Assert.That(defaults.IsOnlineBookable, Is.EqualTo(true));
             Assert.That(defaults.Colour, Is.EqualTo("blue"));
         }
 
@@ -161,16 +149,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(response, Is.InstanceOf<ValidationException>());
             var errors = (ValidationException)response;
             Assert.That(errors, Is.Not.Null);
-            Assert.That(errors.Errors.Count, Is.EqualTo(3));
+            Assert.That(errors.Errors.Count, Is.EqualTo(2));
             var firstError = errors.Errors[0];
             Assert.That(firstError.Field, Is.EqualTo("service.defaults.duration"));
             Assert.That(firstError.Message, Is.EqualTo("The duration is not valid."));
             var secondError = errors.Errors[1];
-            Assert.That(secondError.Field, Is.EqualTo("service.defaults.studentCapacity"));
-            Assert.That(secondError.Message, Is.EqualTo("The studentCapacity is not valid."));
-            var thirdError = errors.Errors[2];
-            Assert.That(thirdError.Field, Is.EqualTo("service.defaults.colour"));
-            Assert.That(thirdError.Message, Is.EqualTo("The colour is not valid."));
+            Assert.That(secondError.Field, Is.EqualTo("service.defaults.colour"));
+            Assert.That(secondError.Message, Is.EqualTo("The colour is not valid."));
         }
     }
 }

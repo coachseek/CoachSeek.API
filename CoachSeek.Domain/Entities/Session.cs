@@ -45,9 +45,9 @@ namespace CoachSeek.Domain.Entities
             _coach = new Coach(coach);
             _service = new Service(service);
 
-            _timing = new SessionTiming(timing);
-            _booking = new SessionBooking(booking);
-            _pricing = new SessionPricing(pricing);
+            _timing = new SessionTiming(timing, service);
+            _booking = new SessionBooking(booking, service);
+            _pricing = new SessionPricing(pricing, service, repetition);
 
             _presentation = new Presentation(presentation);
         }

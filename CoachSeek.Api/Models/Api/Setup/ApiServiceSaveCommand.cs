@@ -14,7 +14,9 @@ namespace CoachSeek.Api.Models.Api.Setup
 
         public ApiServiceDefaults Defaults { get; set; }
 
-        public ApiPricing Pricing { get; set; }
+        public ApiServiceBooking Booking { get; set; }
+        [Required]
         public ApiRepetition Repetition { get; set; }
+        public ApiPricing Pricing { get; set; }
     }
 }

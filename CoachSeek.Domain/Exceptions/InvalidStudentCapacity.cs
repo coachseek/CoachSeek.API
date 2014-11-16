@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class InvalidStudentCapacity : Exception
+    public class InvalidStudentCapacity : ValidationException
     {
     }
 }

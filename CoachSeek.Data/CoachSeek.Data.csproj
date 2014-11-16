@@ -59,6 +59,7 @@
     <Compile Include="Model\ServiceKeyData.cs" />
     <Compile Include="Model\PricingData.cs" />
     <Compile Include="Model\RepetitionData.cs" />
+    <Compile Include="Model\ServiceBookingData.cs" />
     <Compile Include="Model\SessionBookingData.cs" />
     <Compile Include="Model\SessionData.cs" />
     <Compile Include="Model\SessionTimingData.cs" />

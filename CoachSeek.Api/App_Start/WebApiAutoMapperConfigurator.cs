@@ -10,33 +10,27 @@ namespace CoachSeek.Api
     {
         public static void Configure()
         {
-            Mapper.CreateMap<ApiBusinessRegistrant, BusinessRegistrantCommand>();
+            Mapper.CreateMap<ApiBusinessRegistrantCommand, BusinessRegistrantCommand>();
             Mapper.CreateMap<ApiBusinessRegistrationCommand, BusinessRegistrationCommand>();
-
-            Mapper.CreateMap<ApiLocationSaveCommand, LocationAddCommand>();
-            Mapper.CreateMap<ApiLocationSaveCommand, LocationUpdateCommand>();
-
-            Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHoursCommand>();
-            Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
+            Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachAddCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachUpdateCommand>();
-
-            Mapper.CreateMap<ApiServiceDefaults, ServiceDefaultsCommand>();
+            Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHoursCommand>();
+            Mapper.CreateMap<ApiLocationKey, LocationKeyCommand>();
+            Mapper.CreateMap<ApiLocationSaveCommand, LocationAddCommand>();
+            Mapper.CreateMap<ApiLocationSaveCommand, LocationUpdateCommand>();
+            Mapper.CreateMap<ApiPresentation, PresentationCommand>();
             Mapper.CreateMap<ApiPricing, PricingCommand>();
             Mapper.CreateMap<ApiRepetition, RepetitionCommand>();
+            Mapper.CreateMap<ApiServiceBooking, ServiceBookingCommand>();
+            Mapper.CreateMap<ApiServiceDefaults, ServiceDefaultsCommand>();
+            Mapper.CreateMap<ApiServiceKey, ServiceKeyCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
-
-            Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
-            Mapper.CreateMap<ApiServiceKey, ServiceKeyCommand>();
-            Mapper.CreateMap<ApiLocationKey, LocationKeyCommand>();
-            Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
-
-            Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
             Mapper.CreateMap<ApiSessionBooking, SessionBookingCommand>();
-            Mapper.CreateMap<ApiPricing, PricingCommand>();
-            Mapper.CreateMap<ApiRepetition, RepetitionCommand>();
-            Mapper.CreateMap<ApiPresentation, PresentationCommand>();
+            Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
+            Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
+            Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
         }
     }
 }

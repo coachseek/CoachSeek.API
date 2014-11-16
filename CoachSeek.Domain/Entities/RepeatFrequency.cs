@@ -18,7 +18,7 @@ namespace CoachSeek.Domain.Entities
         private void Validate()
         {
             if (_frequency == null)
-                throw new InvalidRepeatFrequency();
+                return;
 
             if (!(IsRepeatEveryDay ||
                   IsRepeatEverySecondDay ||

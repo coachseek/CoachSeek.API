@@ -1,6 +1,6 @@
-﻿namespace CoachSeek.Data.Model
+﻿namespace CoachSeek.Domain.Commands
 {
-    public class SessionBookingData
+    public class ServiceBookingCommand
     {
         public int? StudentCapacity { get; set; }
         public bool? IsOnlineBookable { get; set; } // eg. Is private or not
