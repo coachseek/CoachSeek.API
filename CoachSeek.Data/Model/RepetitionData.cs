@@ -2,7 +2,17 @@
 {
     public class RepetitionData
     {
-        public string RepeatFrequency { get; set; }
         public int RepeatTimes { get; set; }
+        public string RepeatFrequency { get; set; }
+
+
+        public RepetitionData()
+        { }
+
+        public RepetitionData(int repeatTimes, string repeatFrequency = null)
+        {
+            RepeatTimes = repeatTimes;
+            RepeatFrequency = repeatFrequency;
+        }
     }
 }

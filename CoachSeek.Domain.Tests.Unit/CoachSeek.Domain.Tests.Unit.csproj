@@ -64,6 +64,7 @@
     <Compile Include="Entities\ServiceDefaultsTests.cs" />
     <Compile Include="Entities\ServiceRepetitionTests.cs" />
     <Compile Include="Entities\ServiceStudentCapacityTests.cs" />
+    <Compile Include="Entities\SessionRepetitionTests.cs" />
     <Compile Include="Entities\SessionTests.cs" />
     <Compile Include="Entities\SessionTimingTests.cs" />
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
