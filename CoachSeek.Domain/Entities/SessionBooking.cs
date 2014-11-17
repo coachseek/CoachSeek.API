@@ -6,50 +6,56 @@ namespace CoachSeek.Domain.Entities
 {
     public class SessionBooking
     {
-        private readonly StudentCapacity _studentCapacity;
+        private SessionStudentCapacity _studentCapacity;
 
         public bool IsOnlineBookable { get; private set; }
 
-        public int? StudentCapacity { get { return _studentCapacity.Maximum; } }
+        public int StudentCapacity { get { return _studentCapacity.Maximum; } }
 
 
-        public SessionBooking(SessionBookingData data, ServiceData serviceData)
+        public SessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking)
         {
-            data = BackfillMissingValuesFromService(data, serviceData);
-            Validate(data);
+            sessionBooking = BackfillMissingValuesFromService(sessionBooking, serviceBooking);
+            Validate(sessionBooking);
 
-            _studentCapacity = new StudentCapacity(data.StudentCapacity);
-            IsOnlineBookable = data.IsOnlineBookable.Value;
+            CreateStudentCapacity(sessionBooking.StudentCapacity.Value);
+            IsOnlineBookable = sessionBooking.IsOnlineBookable.Value;
         }
 
-        public SessionBooking(int? studentCapacity, bool isOnlineBookable)
+        public SessionBooking(int studentCapacity, bool isOnlineBookable)
         {
-            _studentCapacity = new StudentCapacity(studentCapacity);
+            CreateStudentCapacity(studentCapacity);
             IsOnlineBookable = isOnlineBookable;
         }
 
-
-        private SessionBookingData BackfillMissingValuesFromService(SessionBookingData data, ServiceData serviceData)
+        public SessionBookingData ToData()
         {
-            if (data == null &&
-                serviceData.Defaults != null &&
-                serviceData.Defaults.StudentCapacity.HasValue &&
-                serviceData.Defaults.IsOnlineBookable.HasValue)
+            return Mapper.Map<SessionBooking, SessionBookingData>(this);
+        }
+
+
+        private SessionBookingData BackfillMissingValuesFromService(SessionBookingData sessionBooking, ServiceBookingData serviceBooking)
+        {
+            if (sessionBooking == null)
             {
-                return new SessionBookingData
+                var booking = new SessionBookingData();
+
+                if (serviceBooking != null)
                 {
-                    StudentCapacity = serviceData.Defaults.StudentCapacity.Value,
-                    IsOnlineBookable = serviceData.Defaults.IsOnlineBookable.Value
-                };
+                    booking.StudentCapacity = serviceBooking.StudentCapacity;
+                    booking.IsOnlineBookable = serviceBooking.IsOnlineBookable;
+                }
+
+                return booking;
             }
 
-            if (data.StudentCapacity == null && serviceData.Defaults != null)
-                data.StudentCapacity = serviceData.Defaults.StudentCapacity;
+            if (sessionBooking.StudentCapacity == null && serviceBooking != null)
+                sessionBooking.StudentCapacity = serviceBooking.StudentCapacity;
 
-            if (data.IsOnlineBookable == null && serviceData.Defaults != null)
-                data.IsOnlineBookable = serviceData.Defaults.IsOnlineBookable;
+            if (sessionBooking.IsOnlineBookable == null && serviceBooking != null)
+                sessionBooking.IsOnlineBookable = serviceBooking.IsOnlineBookable;
 
-            return data;
+            return sessionBooking;
         }
 
         private void Validate(SessionBookingData data)
@@ -65,9 +71,16 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
         }
 
-        public SessionBookingData ToData()
+        private void CreateStudentCapacity(int studentCapacity)
         {
-            return Mapper.Map<SessionBooking, SessionBookingData>(this);
+            try
+            {
+                _studentCapacity = new SessionStudentCapacity(studentCapacity);
+            }
+            catch (InvalidStudentCapacity)
+            {
+                throw new ValidationException("The studentCapacity is not valid.", "session.booking.studentCapacity");
+            }
         }
     }
 }

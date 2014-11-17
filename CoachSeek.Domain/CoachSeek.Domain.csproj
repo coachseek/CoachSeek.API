@@ -83,6 +83,8 @@
     <Compile Include="Entities\BusinessServices.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\ServiceBooking.cs" />
+    <Compile Include="Entities\Repetition.cs" />
+    <Compile Include="Entities\SessionRepetition.cs" />
     <Compile Include="Entities\SessionDuration.cs" />
     <Compile Include="Entities\NewSession.cs" />
     <Compile Include="Entities\Presentation.cs" />
@@ -108,7 +110,8 @@
     <Compile Include="Entities\SessionBooking.cs" />
     <Compile Include="Entities\SessionPricing.cs" />
     <Compile Include="Entities\SessionTiming.cs" />
-    <Compile Include="Entities\StudentCapacity.cs" />
+    <Compile Include="Entities\SessionStudentCapacity.cs" />
+    <Compile Include="Entities\ServiceStudentCapacity.cs" />
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />

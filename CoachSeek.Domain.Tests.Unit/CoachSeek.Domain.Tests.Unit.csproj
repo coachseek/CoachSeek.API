@@ -62,7 +62,9 @@
     <Compile Include="Entities\RepeatTimesTests.cs" />
     <Compile Include="Entities\ServiceDefaultsTests.cs" />
     <Compile Include="Entities\ServiceRepetitionTests.cs" />
-    <Compile Include="Entities\StudentCapacityTests.cs" />
+    <Compile Include="Entities\ServiceStudentCapacityTests.cs" />
+    <Compile Include="Entities\SessionTests.cs" />
+    <Compile Include="Entities\SessionTimingTests.cs" />
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

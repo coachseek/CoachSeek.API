@@ -60,9 +60,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             return new ServiceDefaultsData
             {
                 Duration = 75,
-                StudentCapacity = 13,
                 Colour = "Blue",
-                IsOnlineBookable = true
             };
         }
 
@@ -70,14 +68,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var defaults = GivenValidServiceDefaults();
             defaults.Duration = -9;
-
-            return defaults;
-        }
-
-        private ServiceDefaultsData GivenInvalidStudentCapacity()
-        {
-            var defaults = GivenValidServiceDefaults();
-            defaults.StudentCapacity = -5;
 
             return defaults;
         }
@@ -95,9 +85,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             return new ServiceDefaultsData
             {
                 Duration = 7665,
-                StudentCapacity = -2,
                 Colour = "Ochre",
-                IsOnlineBookable = null
             };
         }
 

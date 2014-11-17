@@ -6,7 +6,7 @@ namespace CoachSeek.Domain.Entities
 {
     public class ServiceBooking
     {
-        private StudentCapacity _studentCapacity;
+        private ServiceStudentCapacity _studentCapacity;
 
         public bool? IsOnlineBookable { get; private set; }
 
@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
-                _studentCapacity = new StudentCapacity(studentCapacity);
+                _studentCapacity = new ServiceStudentCapacity(studentCapacity);
             }
             catch (InvalidStudentCapacity)
             {

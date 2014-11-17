@@ -2,13 +2,13 @@
 
 namespace CoachSeek.Domain.Entities
 {
-    public class StudentCapacity
+    public class ServiceStudentCapacity
     {
         private readonly int? _maximum;
 
         public int? Maximum { get { return _maximum; } }
 
-        public StudentCapacity(int? maximum)
+        public ServiceStudentCapacity(int? maximum)
         {
             _maximum = maximum;
 

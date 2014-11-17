@@ -6,9 +6,9 @@ namespace CoachSeek.Domain.Entities
 {
     public class SessionTiming
     {
-        private readonly Date _startDate;
-        private readonly PointInTime _startTime;
-        private readonly SessionDuration _duration;
+        private Date _startDate;
+        private PointInTime _startTime;
+        private SessionDuration _duration;
 
         public string StartDate { get { return _startDate.ToData(); } }
         public string StartTime { get { return _startTime.ToData(); } }
@@ -18,40 +18,83 @@ namespace CoachSeek.Domain.Entities
         public SessionTiming(SessionTimingData data, ServiceData serviceData)
         {
             BackfillMissingValuesFromService(data, serviceData);
-            Validate(data);
-
-            _startDate = new Date(data.StartDate);
-            _startTime = new PointInTime(data.StartTime);
-            _duration = new SessionDuration(data.Duration.Value);
+            CreateSessionTiming(data);
         }
 
-        public SessionTiming(string startDate, string startTime, int duration)
-        {
-            _startDate = new Date(startDate);
-            _startTime = new PointInTime(startTime);
-            _duration = new SessionDuration(duration);
-        }
-
-
-        private void BackfillMissingValuesFromService(SessionTimingData data, ServiceData serviceData)
-        {
-            if (data.Duration == null && serviceData.Defaults != null)
-                data.Duration = serviceData.Defaults.Duration;
-        }
-
-        private void Validate(SessionTimingData data)
-        {
-            var errors = new ValidationException();
-
-            if (data.Duration == null)
-                errors.Add("The duration is not valid.", "session.timing.duration");
-
-            errors.ThrowIfErrors();
-        }
 
         public SessionTimingData ToData()
         {
             return Mapper.Map<SessionTiming, SessionTimingData>(this);
+        }
+
+
+        private void BackfillMissingValuesFromService(SessionTimingData sessionTiming, ServiceData service)
+        {
+            if (SessionIsMissingDuration(sessionTiming) && ServiceHasDuration(service))
+                sessionTiming.Duration = service.Defaults.Duration;
+        }
+
+        private bool SessionIsMissingDuration(SessionTimingData timing)
+        {
+            return timing.Duration == null;
+        }
+
+        private bool ServiceHasDuration(ServiceData service)
+        {
+            return service.Defaults != null && service.Defaults.Duration.HasValue;
+        }
+
+        private void CreateSessionTiming(SessionTimingData data)
+        {
+            var errors = new ValidationException();
+
+            ValidateAndCreateStartDate(data.StartDate, errors);
+            ValidateAndCreateStartTime(data.StartTime, errors);
+            ValidateAndCreateDuration(data.Duration, errors);
+
+            errors.ThrowIfErrors();
+        }
+
+        private void ValidateAndCreateStartDate(string startDate, ValidationException errors)
+        {
+            try
+            {
+                _startDate = new Date(startDate);
+            }
+            catch (InvalidDate)
+            {
+                errors.Add("The startDate is not valid.", "session.timing.startDate");
+            }
+        }
+
+        private void ValidateAndCreateStartTime(string startTime, ValidationException errors)
+        {
+            try
+            {
+                _startTime = new PointInTime(startTime);
+            }
+            catch (InvalidPointInTime)
+            {
+                errors.Add("The startTime is not valid.", "session.timing.startTime");
+            }
+        }
+
+        private void ValidateAndCreateDuration(int? duration, ValidationException errors)
+        {
+            if (!duration.HasValue)
+            {
+                errors.Add("The duration is required.", "session.timing.duration");
+                return;
+            }
+
+            try
+            {
+                _duration = new SessionDuration(duration.Value);
+            }
+            catch (InvalidDuration)
+            {
+                errors.Add("The duration is not valid.", "session.timing.duration");
+            }
         }
     }
 }

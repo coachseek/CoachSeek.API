@@ -11,6 +11,7 @@ namespace CoachSeek.Domain.Entities
         private Coach _coach;
         private SessionTiming _timing;
         private SessionBooking _booking;
+        private SessionRepetition _repetition;
         private SessionPricing _pricing;
         private Presentation _presentation;
 
@@ -46,7 +47,9 @@ namespace CoachSeek.Domain.Entities
             _service = new Service(service);
 
             _timing = new SessionTiming(timing, service);
-            _booking = new SessionBooking(booking, service);
+            _booking = new SessionBooking(booking, service.Booking);
+            _repetition = new SessionRepetition(repetition, service.Repetition);
+
             _pricing = new SessionPricing(pricing, service, repetition);
 
             _presentation = new Presentation(presentation);

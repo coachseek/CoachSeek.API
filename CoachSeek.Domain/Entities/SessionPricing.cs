@@ -13,13 +13,13 @@ namespace CoachSeek.Domain.Entities
         public decimal? CoursePrice { get { return _coursePrice.Amount; } }
 
 
-        public SessionPricing(PricingData data, ServiceData serviceData, RepetitionData repetitionData)
+        public SessionPricing(PricingData pricing, ServiceData service, RepetitionData repetition)
         {
-            //data = BackfillMissingValuesFromService(data, serviceData, repetitionData);
-            //Validate(data);
+            pricing = BackfillMissingValuesFromService(pricing, service, repetition);
+            Validate(pricing);
 
-            _sessionPrice = new Price(data.SessionPrice);
-            _coursePrice = new Price(data.CoursePrice);
+            _sessionPrice = new Price(pricing.SessionPrice);
+            _coursePrice = new Price(pricing.CoursePrice);
         }
 
         public SessionPricing(decimal? sessionPrice, decimal? coursePrice)
@@ -35,7 +35,7 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private SessionBookingData BackfillMissingValuesFromService(PricingData data, ServiceData serviceData, RepetitionData repetitionData)
+        private PricingData BackfillMissingValuesFromService(PricingData pricing, ServiceData service, RepetitionData repetition)
         {
             //if (IsSession(serviceData, repetitionData))
             //{
@@ -72,17 +72,17 @@ namespace CoachSeek.Domain.Entities
         //    throw new System.NotImplementedException();
         //}
 
-        private void Validate(SessionBookingData data)
+        private void Validate(PricingData data)
         {
-            var errors = new ValidationException();
+            //var errors = new ValidationException();
 
-            if (data.StudentCapacity == null)
-                errors.Add("The studentCapacity is not valid.", "session.booking.studentCapacity");
+            //if (data.StudentCapacity == null)
+            //    errors.Add("The studentCapacity is not valid.", "session.booking.studentCapacity");
 
-            if (data.IsOnlineBookable == null)
-                errors.Add("The isOnlineBookable is not valid.", "session.booking.isOnlineBookable");
+            //if (data.IsOnlineBookable == null)
+            //    errors.Add("The isOnlineBookable is not valid.", "session.booking.isOnlineBookable");
 
-            errors.ThrowIfErrors();
+            //errors.ThrowIfErrors();
         }
     }
 }
