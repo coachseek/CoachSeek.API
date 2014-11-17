@@ -16,17 +16,9 @@ namespace CoachSeek.Domain.Entities
         public SessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking)
         {
             sessionBooking = BackfillMissingValuesFromService(sessionBooking, serviceBooking);
-            Validate(sessionBooking);
-
-            CreateStudentCapacity(sessionBooking.StudentCapacity.Value);
-            IsOnlineBookable = sessionBooking.IsOnlineBookable.Value;
+            CreateSessionBooking(sessionBooking);
         }
 
-        public SessionBooking(int studentCapacity, bool isOnlineBookable)
-        {
-            CreateStudentCapacity(studentCapacity);
-            IsOnlineBookable = isOnlineBookable;
-        }
 
         public SessionBookingData ToData()
         {
@@ -58,18 +50,42 @@ namespace CoachSeek.Domain.Entities
             return sessionBooking;
         }
 
-        private void Validate(SessionBookingData data)
+        private void CreateSessionBooking(SessionBookingData data)
         {
             var errors = new ValidationException();
 
-            if (data.StudentCapacity == null)
-                errors.Add("The studentCapacity is not valid.", "session.booking.studentCapacity");
-
-            if (data.IsOnlineBookable == null)
-                errors.Add("The isOnlineBookable is not valid.", "session.booking.isOnlineBookable");
+            ValidateAndCreateStudentCapacity(data.StudentCapacity, errors);
+            ValidateAndCreateIsOnlineBookable(data.IsOnlineBookable, errors);
 
             errors.ThrowIfErrors();
         }
+
+        private void ValidateAndCreateStudentCapacity(int? studentCapacity, ValidationException errors)
+        {
+            if (!studentCapacity.HasValue)
+            {
+                errors.Add("The studentCapacity is required.", "session.booking.studentCapacity");
+                return;
+            }
+
+            try
+            {
+                _studentCapacity = new SessionStudentCapacity(studentCapacity.Value);
+            }
+            catch (InvalidStudentCapacity)
+            {
+                errors.Add("The studentCapacity is not valid.", "session.booking.studentCapacity");
+            }
+        }
+
+        private void ValidateAndCreateIsOnlineBookable(bool? isOnlineBookable, ValidationException errors)
+        {
+            if (!isOnlineBookable.HasValue)
+                errors.Add("The isOnlineBookable is required.", "session.booking.isOnlineBookable");
+            else
+                IsOnlineBookable = isOnlineBookable.Value;
+        }
+
 
         private void CreateStudentCapacity(int studentCapacity)
         {

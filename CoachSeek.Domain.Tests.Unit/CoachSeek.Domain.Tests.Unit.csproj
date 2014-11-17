@@ -51,6 +51,7 @@
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\DateTests.cs" />
     <Compile Include="Entities\ServiceTests.cs" />
+    <Compile Include="Entities\SessionBookingTests.cs" />
     <Compile Include="Entities\SessionDurationTests.cs" />
     <Compile Include="Entities\DurationTests.cs" />
     <Compile Include="Entities\EmailAddressTests.cs" />
