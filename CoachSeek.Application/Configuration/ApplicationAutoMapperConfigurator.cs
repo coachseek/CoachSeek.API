@@ -27,7 +27,9 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<ServiceRepetition, RepetitionData>();
             Mapper.CreateMap<Session, SessionData>();
             Mapper.CreateMap<SessionBooking, SessionBookingData>();
+            Mapper.CreateMap<SessionPresentation, PresentationData>();
             Mapper.CreateMap<SessionPricing, PricingData>();
+            Mapper.CreateMap<SessionRepetition, RepetitionData>();
             Mapper.CreateMap<SessionTiming, SessionTimingData>();
             Mapper.CreateMap<WeeklyWorkingHours, WeeklyWorkingHoursData>();
 

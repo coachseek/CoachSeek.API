@@ -13,7 +13,7 @@ namespace CoachSeek.Domain.Entities
         private SessionBooking _booking;
         private SessionRepetition _repetition;
         private SessionPricing _pricing;
-        private Presentation _presentation;
+        private SessionPresentation _presentation;
 
 
         public Guid Id { get; private set; }
@@ -23,7 +23,7 @@ namespace CoachSeek.Domain.Entities
         public SessionTimingData Timing { get { return _timing.ToData(); } }
         public SessionBookingData Booking { get { return _booking.ToData(); } }
         public PricingData Pricing { get { return _pricing.ToData(); } }
-        public RepetitionData Repetition { get; set; }
+        public RepetitionData Repetition { get { return _repetition.ToData(); } }
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
 
@@ -50,7 +50,7 @@ namespace CoachSeek.Domain.Entities
             _booking = new SessionBooking(booking, service.Booking);
             _repetition = new SessionRepetition(repetition, service.Repetition);
             _pricing = new SessionPricing(pricing, service.Pricing, _repetition);
-            _presentation = new Presentation(presentation);
+            _presentation = new SessionPresentation(presentation, service);
         }
 
         public SessionData ToData()

@@ -15,10 +15,10 @@ namespace CoachSeek.Domain.Entities
         public int Duration { get { return _duration.Minutes; } }
 
 
-        public SessionTiming(SessionTimingData data, ServiceData serviceData)
+        public SessionTiming(SessionTimingData sessionTiming, ServiceData service)
         {
-            BackfillMissingValuesFromService(data, serviceData);
-            CreateSessionTiming(data);
+            BackfillMissingValuesFromService(sessionTiming, service);
+            CreateSessionTiming(sessionTiming);
         }
 
 

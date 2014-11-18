@@ -71,15 +71,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        //[Test]
-        //public void GivenServiceAndSessionMissingDuration_WhenConstruct_ThenThrowValidationException()
-        //{
-        //    var data = GivenServiceAndSessionMissingDuration();
-        //    var response = WhenConstruct(data);
-        //    AssertSingleError(response, "The duration is not valid.", "session.timing.duration");
-        //}
-
-
         private SessionData GivenServiceAndSessionMissingDuration()
         {
             Service.Defaults.Duration = null;

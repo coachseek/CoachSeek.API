@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\DateTests.cs" />
+    <Compile Include="Entities\SessionPresentationTests.cs" />
     <Compile Include="Entities\ServiceTests.cs" />
     <Compile Include="Entities\SessionBookingTests.cs" />
     <Compile Include="Entities\SessionDurationTests.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />

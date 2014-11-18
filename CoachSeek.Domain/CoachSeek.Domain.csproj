@@ -82,6 +82,7 @@
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
     <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\SessionPresentation.cs" />
     <Compile Include="Entities\ServiceBooking.cs" />
     <Compile Include="Entities\Repetition.cs" />
     <Compile Include="Entities\SessionRepetition.cs" />
