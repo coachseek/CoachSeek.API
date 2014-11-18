@@ -6,20 +6,27 @@ namespace CoachSeek.Domain.Entities
 {
     public class SessionPricing
     {
-        private readonly Price _sessionPrice;
-        private readonly Price _coursePrice;
+        private Price _sessionPrice;
+        private Price _coursePrice;
+        private readonly SessionRepetition _repetition;
 
         public decimal? SessionPrice { get { return _sessionPrice.Amount; } }
         public decimal? CoursePrice { get { return _coursePrice.Amount; } }
+        private bool IsCourse { get { return _repetition.IsRepeatingSession; } }
+        private bool IsSingleSession { get { return _repetition.IsSingleSession; } }
 
 
-        public SessionPricing(PricingData pricing, ServiceData service, RepetitionData repetition)
+        public SessionPricing(PricingData sessionPricing, PricingData servicePricing, SessionRepetition repetition)
         {
-            pricing = BackfillMissingValuesFromService(pricing, service, repetition);
-            Validate(pricing);
+            _repetition = repetition;
 
-            _sessionPrice = new Price(pricing.SessionPrice);
-            _coursePrice = new Price(pricing.CoursePrice);
+            sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
+            Validate(sessionPricing);
+
+            if (IsSingleSession)
+                ValidateAndCreateSingleSessionPricing(sessionPricing);
+            else
+                ValidateAndCreateCoursePricing(sessionPricing);
         }
 
         public SessionPricing(decimal? sessionPrice, decimal? coursePrice)
@@ -35,54 +42,82 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private PricingData BackfillMissingValuesFromService(PricingData pricing, ServiceData service, RepetitionData repetition)
+        private void ValidateAndCreateSingleSessionPricing(PricingData pricing)
         {
-            //if (IsSession(serviceData, repetitionData))
-            //{
-                
-            //}
+            var errors = new ValidationException();
 
+            try
+            {
+                _sessionPrice = new Price(pricing.SessionPrice);
+            }
+            catch (InvalidPrice)
+            {
+                errors.Add("The sessionPrice is not valid.", "session.pricing.sessionPrice");
+            }
 
-            //if (data == null &&
-            //    serviceData.Pricing != null &&
-            //    serviceData.Pricing.StudentCapacity.HasValue &&
-            //    serviceData.Pricing.IsOnlineBookable.HasValue)
-            //{
-            //    return new SessionBookingData
-            //    {
-            //        StudentCapacity = serviceData.Defaults.StudentCapacity.Value,
-            //        IsOnlineBookable = serviceData.Defaults.IsOnlineBookable.Value
-            //    };
-            //}
+            if (pricing.CoursePrice.HasValue)
+                errors.Add("The coursePrice cannot be specified for a single session.", "session.pricing.coursePrice");
+            else
+                _coursePrice = new Price(null);
 
-            //if (data.StudentCapacity == null && serviceData.Defaults != null)
-            //    data.StudentCapacity = serviceData.Defaults.StudentCapacity;
-
-            //if (data.IsOnlineBookable == null && serviceData.Defaults != null)
-            //    data.IsOnlineBookable = serviceData.Defaults.IsOnlineBookable;
-
-            //return data;
-
-            return null;
+            errors.ThrowIfErrors();
         }
 
-        //private bool IsSession(ServiceData serviceData, RepetitionData repetitionData)
-        //{
-        //    if (repetitionData == null && serviceData.Repetition != null )
-        //    throw new System.NotImplementedException();
-        //}
-
-        private void Validate(PricingData data)
+        private void ValidateAndCreateCoursePricing(PricingData sessionPricing)
         {
-            //var errors = new ValidationException();
+            var errors = new ValidationException();
 
-            //if (data.StudentCapacity == null)
-            //    errors.Add("The studentCapacity is not valid.", "session.booking.studentCapacity");
+            ValidateAndCreateSessionPrice(sessionPricing.SessionPrice, errors);
+            ValidateAndCreateCoursePrice(sessionPricing.CoursePrice, errors);
 
-            //if (data.IsOnlineBookable == null)
-            //    errors.Add("The isOnlineBookable is not valid.", "session.booking.isOnlineBookable");
+            errors.ThrowIfErrors();
+        }
 
-            //errors.ThrowIfErrors();
+        private void ValidateAndCreateSessionPrice(decimal? sessionPrice, ValidationException errors)
+        {
+            try
+            {
+                _sessionPrice = new Price(sessionPrice);
+            }
+            catch (InvalidPrice)
+            {
+                errors.Add("The sessionPrice is not valid.", "session.pricing.sessionPrice");
+            }
+        }
+
+        private void ValidateAndCreateCoursePrice(decimal? coursePrice, ValidationException errors)
+        {
+            try
+            {
+                _coursePrice = new Price(coursePrice);
+            }
+            catch (InvalidPrice)
+            {
+                errors.Add("The coursePrice is not valid.", "session.pricing.coursePrice");
+            }
+        }
+
+        private PricingData BackfillMissingValuesFromService(PricingData sessionPricing, PricingData servicePricing)
+        {
+            if (sessionPricing == null)
+                return servicePricing;
+
+            if (servicePricing != null)
+            {
+                if (!sessionPricing.SessionPrice.HasValue)
+                    sessionPricing.SessionPrice = servicePricing.SessionPrice;
+
+                if (!sessionPricing.CoursePrice.HasValue)
+                    sessionPricing.CoursePrice = servicePricing.CoursePrice;
+            }
+
+            return sessionPricing;
+        }
+
+        private void Validate(PricingData sessionPricing)
+        {
+            if (sessionPricing == null)
+                throw new ValidationException("The pricing is required.", "session.pricing");
         }
     }
 }

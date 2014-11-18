@@ -9,7 +9,6 @@ namespace CoachSeek.Domain.Entities
         {
             sessionRepetition = BackfillMissingValuesFromService(sessionRepetition, serviceRepetition);
             CreateSessionRepetition(sessionRepetition);
-
         }
 
         public SessionRepetition(RepetitionData repetitionData)
