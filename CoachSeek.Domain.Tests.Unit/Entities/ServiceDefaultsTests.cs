@@ -1,13 +1,13 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
+using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class ServiceDefaultsTests
+    public class ServiceDefaultsTests : Tests
     {
         [Test]
         public void GivenEmptyServiceDefaultsData_WhenConstruct_ThenCreateDegenerateServiceDefaults()
@@ -123,13 +123,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private void ThenThrowValidationExceptionWithSingleError(object response, string field, string message)
         {
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = (ValidationException)response;
-            Assert.That(errors, Is.Not.Null);
-            Assert.That(errors.Errors.Count, Is.EqualTo(1));
-            var error = errors.Errors[0];
-            Assert.That(error.Field, Is.EqualTo(field));
-            Assert.That(error.Message, Is.EqualTo(message));
+            AssertSingleError(response, message, field);
         }
 
         private void ThenThrowValidationExceptionWithMultipleErrors(object response)

@@ -12,10 +12,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void ServiceRepetitionCreationTests()
         {
-            ServiceRepetitionCreationFailure("x", 8, new[,] { { "The repeatFrequency is not valid.", "service.repetition.repeatFrequency" } });
-            ServiceRepetitionCreationFailure("d", -2, new[,] { { "The repeatTimes is not valid.", "service.repetition.repeatTimes" } });
-            ServiceRepetitionCreationFailure("z", -6, new[,] { { "The repeatTimes is not valid.", "service.repetition.repeatTimes" },
-                                                               { "The repeatFrequency is not valid.", "service.repetition.repeatFrequency" } });
+            ServiceRepetitionCreationFailure("x", 8, new[,] { { "The repeatFrequency field is not valid.", "service.repetition.repeatFrequency" } });
+            ServiceRepetitionCreationFailure("d", -2, new[,] { { "The repeatTimes field is not valid.", "service.repetition.repeatTimes" } });
+            ServiceRepetitionCreationFailure("z", -6, new[,] { { "The repeatTimes field is not valid.", "service.repetition.repeatTimes" },
+                                                               { "The repeatFrequency field is not valid.", "service.repetition.repeatFrequency" } });
             ServiceRepetitionCreationFailure("d", 1, new[,] { { "For a single session the repeatFrequency must not be set.", "service.repetition.repeatFrequency" } });
             ServiceRepetitionCreationFailure(null, 12, new[,] { { "For a repeated session the repeatFrequency must be set.", "service.repetition.repeatFrequency" } });
             ServiceRepetitionCreationFailure(null, -1, new[,] { { "For a repeated session the repeatFrequency must be set.", "service.repetition.repeatFrequency" } });

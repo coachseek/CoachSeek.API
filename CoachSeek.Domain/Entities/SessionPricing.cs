@@ -52,11 +52,11 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidPrice)
             {
-                errors.Add("The sessionPrice is not valid.", "session.pricing.sessionPrice");
+                errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
             }
 
             if (pricing.CoursePrice.HasValue)
-                errors.Add("The coursePrice cannot be specified for a single session.", "session.pricing.coursePrice");
+                errors.Add("The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice");
             else
                 _coursePrice = new Price(null);
 
@@ -81,7 +81,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidPrice)
             {
-                errors.Add("The sessionPrice is not valid.", "session.pricing.sessionPrice");
+                errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
             }
         }
 
@@ -93,7 +93,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidPrice)
             {
-                errors.Add("The coursePrice is not valid.", "session.pricing.coursePrice");
+                errors.Add("The coursePrice field is not valid.", "session.pricing.coursePrice");
             }
         }
 
@@ -117,7 +117,7 @@ namespace CoachSeek.Domain.Entities
         private void Validate(PricingData sessionPricing)
         {
             if (sessionPricing == null)
-                throw new ValidationException("The pricing is required.", "session.pricing");
+                throw new ValidationException("The pricing field is required.", "session.pricing");
         }
     }
 }

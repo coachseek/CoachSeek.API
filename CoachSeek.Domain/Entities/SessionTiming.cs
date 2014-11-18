@@ -63,7 +63,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidDate)
             {
-                errors.Add("The startDate is not valid.", "session.timing.startDate");
+                errors.Add("The startDate field is not valid.", "session.timing.startDate");
             }
         }
 
@@ -75,7 +75,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidPointInTime)
             {
-                errors.Add("The startTime is not valid.", "session.timing.startTime");
+                errors.Add("The startTime field is not valid.", "session.timing.startTime");
             }
         }
 
@@ -83,7 +83,7 @@ namespace CoachSeek.Domain.Entities
         {
             if (!duration.HasValue)
             {
-                errors.Add("The duration is required.", "session.timing.duration");
+                errors.Add("The duration field is required.", "session.timing.duration");
                 return;
             }
 
@@ -93,7 +93,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidDuration)
             {
-                errors.Add("The duration is not valid.", "session.timing.duration");
+                errors.Add("The duration field is not valid.", "session.timing.duration");
             }
         }
     }

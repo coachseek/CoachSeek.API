@@ -50,7 +50,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidRepeatTimes)
             {
-                errors.Add("The repeatTimes is not valid.", RepeatTimesPath);
+                errors.Add("The repeatTimes field is not valid.", RepeatTimesPath);
             }
         }
 
@@ -62,7 +62,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidRepeatFrequency)
             {
-                errors.Add("The repeatFrequency is not valid.", RepeatFrequencyPath);
+                errors.Add("The repeatFrequency field is not valid.", RepeatFrequencyPath);
             }
         }
     }

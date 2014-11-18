@@ -1,13 +1,12 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
+using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class SessionTimingTests
+    public class SessionTimingTests : Tests
     {
         private const string SERVICE_ID = "F1524EFA-C5A9-4731-8E56-E0BD6DC388D2";
                                           
@@ -35,7 +34,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingData("2014-02-31", "12:45", 75);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The startDate is not valid.", "session.timing.startDate");
+            AssertSingleError(response, "The startDate field is not valid.", "session.timing.startDate");
         }
 
         [Test]
@@ -43,7 +42,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingData("2014-02-28", "25:00", 75);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The startTime is not valid.", "session.timing.startTime");
+            AssertSingleError(response, "The startTime field is not valid.", "session.timing.startTime");
         }
 
         [Test]
@@ -51,7 +50,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingData("2014-02-28", "23:00", 69);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The duration is not valid.", "session.timing.duration");
+            AssertSingleError(response, "The duration field is not valid.", "session.timing.duration");
         }
 
         [Test]
@@ -60,7 +59,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Service.Defaults.Duration = null;
             var sessionTiming = new SessionTimingData("2014-12-31", "12:45");
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The duration is required.", "session.timing.duration");
+            AssertSingleError(response, "The duration field is required.", "session.timing.duration");
         }
 
         [Test]
@@ -88,6 +87,16 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             AssertSessionTiming(response, "2014-12-31", "12:45", 75);
         }
 
+        [Test]
+        public void GivenMultipleErrorsInTiming_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+        {
+            var sessionTiming = new SessionTimingData("2014-15-15", "27:45", 35);
+            var response = WhenConstruct(sessionTiming);
+            AssertMultipleErrors(response, new[,] { { "The startDate field is not valid.", "session.timing.startDate" },
+                                                    { "The startTime field is not valid.", "session.timing.startTime" },
+                                                    { "The duration field is not valid.", "session.timing.duration" } });
+        }
+
 
         private object WhenConstruct(SessionTimingData data)
         {
@@ -101,16 +110,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-        private void AssertSingleError(object response, string message, string field)
-        {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
-        }
 
         private void AssertSessionTiming(object response, string startDate, string startTime, int duration)
         {

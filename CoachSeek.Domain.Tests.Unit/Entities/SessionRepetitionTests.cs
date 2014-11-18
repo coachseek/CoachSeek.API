@@ -1,13 +1,12 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
+using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class SessionRepetitionTests
+    public class SessionRepetitionTests : Tests
     {
         [Test]
         public void GivenInvalidRepeatTimes_WhenConstruct_ThenThrowValidationException()
@@ -15,7 +14,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var serviceRepetition = new RepetitionData(1);
             var sessionRepetition = new RepetitionData(-10, "w");
             var response = WhenConstruct(sessionRepetition, serviceRepetition);
-            AssertSingleError(response, "The repeatTimes is not valid.", "session.repetition.repeatTimes");
+            AssertSingleError(response, "The repeatTimes field is not valid.", "session.repetition.repeatTimes");
         }
 
         [Test]
@@ -24,7 +23,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var serviceRepetition = new RepetitionData(5, "d");
             var sessionRepetition = new RepetitionData(10, "xxx");
             var response = WhenConstruct(sessionRepetition, serviceRepetition);
-            AssertSingleError(response, "The repeatFrequency is not valid.", "session.repetition.repeatFrequency");
+            AssertSingleError(response, "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency");
         }
 
         [Test]
@@ -43,6 +42,15 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             AssertSessionRepetition(response, 8, "w");
         }
 
+        [Test]
+        public void GivenMultipleErrorsInSessionRepetition_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+        {
+            var sessionRepetition = new RepetitionData(-3, "abc");
+            var response = WhenConstruct(sessionRepetition, null);
+            AssertMultipleErrors(response, new[,] { { "The repeatTimes field is not valid.", "session.repetition.repeatTimes" },
+                                                    { "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency" } });
+        }
+
 
         private object WhenConstruct(RepetitionData sessionRepetition, RepetitionData serviceRepetition)
         {
@@ -56,17 +64,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-
-        private void AssertSingleError(object response, string message, string field)
-        {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
-        }
 
         private void AssertSessionRepetition(object response, int repeatTimes, string repeatFrequency)
         {

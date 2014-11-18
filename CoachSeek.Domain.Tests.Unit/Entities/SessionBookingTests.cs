@@ -1,13 +1,12 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
+using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class SessionBookingTests
+    public class SessionBookingTests : Tests
     {
         private ServiceBookingData ServiceBooking { get; set; }
 
@@ -22,8 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenNoSessionBooking_WhenConstruct_ThenUseServiceBooking()
         {
-            SessionBookingData sessionBooking = null;
-            var response = WhenConstruct(sessionBooking);
+            var response = WhenConstruct(null);
             AssertSessionBooking(response, 17, true);
         }
 
@@ -32,7 +30,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionBooking = new SessionBookingData(-3);
             var response = WhenConstruct(sessionBooking);
-            AssertSingleError(response, "The studentCapacity is not valid.", "session.booking.studentCapacity");
+            AssertSingleError(response, "The studentCapacity field is not valid.", "session.booking.studentCapacity");
         }
 
         [Test]
@@ -41,7 +39,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             ServiceBooking.StudentCapacity = null;
             var sessionBooking = new SessionBookingData(null, true);
             var response = WhenConstruct(sessionBooking);
-            AssertSingleError(response, "The studentCapacity is required.", "session.booking.studentCapacity");
+            AssertSingleError(response, "The studentCapacity field is required.", "session.booking.studentCapacity");
         }
 
         [Test]
@@ -75,7 +73,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             ServiceBooking.IsOnlineBookable = null;
             var sessionBooking = new SessionBookingData(13, null);
             var response = WhenConstruct(sessionBooking);
-            AssertSingleError(response, "The isOnlineBookable is required.", "session.booking.isOnlineBookable");
+            AssertSingleError(response, "The isOnlineBookable field is required.", "session.booking.isOnlineBookable");
         }
 
         [Test]
@@ -104,6 +102,17 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
+        [Test]
+        public void GivenMultipleErrorsInSessionBooking_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+        {
+            ServiceBooking = null;
+            var sessionBooking = new SessionBookingData(-5, null);
+            var response = WhenConstruct(sessionBooking);
+            AssertMultipleErrors(response, new[,] { { "The studentCapacity field is not valid.", "session.booking.studentCapacity" },
+                                                    { "The isOnlineBookable field is required.", "session.booking.isOnlineBookable" } });
+        }
+
+
         private object WhenConstruct(SessionBookingData data)
         {
             try
@@ -116,17 +125,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-
-        private void AssertSingleError(object response, string message, string field)
-        {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
-        }
 
         private void AssertSessionBooking(object response, int studentCapacity, bool isOnlineBookable)
         {

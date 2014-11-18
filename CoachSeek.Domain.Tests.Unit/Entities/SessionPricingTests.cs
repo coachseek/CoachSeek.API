@@ -1,12 +1,11 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
+using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
-    public class SessionPricingTests
+    public class SessionPricingTests : Tests
     {
         [TestFixture]
         public class SingleSessionPricingTests : SessionPricingTests
@@ -19,12 +18,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Repetition = new RepetitionData(1);
             }
 
+
             [Test]
             public void GivenNegativeSessionPrice_WhenConstruct_ThenThrowValidationException()
             {
                 var sessionPricing = new PricingData(-10, null);
                 var response = WhenConstruct(sessionPricing, null, Repetition);
-                AssertSingleError(response, "The sessionPrice is not valid.", "session.pricing.sessionPrice");
+                AssertSingleError(response, "The sessionPrice field is not valid.", "session.pricing.sessionPrice");
             }
 
             [Test]
@@ -32,7 +32,16 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 var sessionPricing = new PricingData(10, 100);
                 var response = WhenConstruct(sessionPricing, null, Repetition);
-                AssertSingleError(response, "The coursePrice cannot be specified for a single session.", "session.pricing.coursePrice");
+                AssertSingleError(response, "The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice");
+            }
+
+            [Test]
+            public void GivenMultipleErrorsInSessionPricing_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+            {
+                var sessionPricing = new PricingData(-10, 100);
+                var response = WhenConstruct(sessionPricing, null, Repetition);
+                AssertMultipleErrors(response, new[,] { { "The sessionPrice field is not valid.", "session.pricing.sessionPrice" },
+                                                        { "The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice" } });
             }
 
             [Test]
@@ -47,7 +56,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void GivenMissingPricing_WhenConstruct_ThenThrowValidationException()
             {
                 var response = WhenConstruct(null, null, Repetition);
-                AssertSingleError(response, "The pricing is required.", "session.pricing");
+                AssertSingleError(response, "The pricing field is required.", "session.pricing");
             }
 
             [Test]
@@ -76,7 +85,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 var sessionPricing = new PricingData(null, -100);
                 var response = WhenConstruct(sessionPricing, null, Repetition);
-                AssertSingleError(response, "The coursePrice is not valid.", "session.pricing.coursePrice");
+                AssertSingleError(response, "The coursePrice field is not valid.", "session.pricing.coursePrice");
             }
 
             [Test]
@@ -152,16 +161,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-        private void AssertSingleError(object response, string message, string field)
-        {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
-        }
 
         private void AssertSessionPricing(object response, decimal? sessionPrice, decimal? coursePrice)
         {

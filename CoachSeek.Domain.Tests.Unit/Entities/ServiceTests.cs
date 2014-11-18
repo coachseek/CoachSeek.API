@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class ServiceTests
+    public class ServiceTests : Tests
     {
         [Test]
         public void GivenServiceMissingRepetition_WhenConstruct_ThenThrowValidationException()
@@ -89,18 +89,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 return ex;
             }
-        }
-
-
-        private void AssertSingleError(object response, string message, string field)
-        {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException) response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
         }
     }
 }
