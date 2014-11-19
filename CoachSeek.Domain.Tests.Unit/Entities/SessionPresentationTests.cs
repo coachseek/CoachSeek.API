@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionPresentation = new PresentationData {Colour = "aquamarine"};
             var response = WhenConstruct(sessionPresentation, null);
-            AssertSingleError(response, "The colour is not valid.", "session.presentation.colour");
+            AssertSingleError(response, "The colour field is not valid.", "session.presentation.colour");
         }
 
         [Test]

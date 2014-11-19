@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidColour)
             {
-                throw new ValidationException("The colour is not valid.", "session.presentation.colour");
+                throw new ValidationException("The colour field is not valid.", "session.presentation.colour");
             }
         }
 

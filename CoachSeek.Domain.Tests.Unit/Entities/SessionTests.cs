@@ -1,13 +1,13 @@
 ﻿using System;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class SessionTests
+    public class SessionTests : Tests
     {
         private const string LOCATION_ID = "1F2A567D-58D2-4BE3-9AF4-2CEA7B477C83";
         private const string COACH_ID = "66045F50-4E8E-4ED4-B31F-A0740B25494F";
@@ -16,6 +16,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         private LocationData Location { get; set; }
         private CoachData Coach { get; set; }
         private ServiceData Service { get; set; }
+
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            ApplicationAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()
@@ -70,25 +77,59 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             };
         }
 
-
-        private SessionData GivenServiceAndSessionMissingDuration()
+        private SessionData CreateValidSingleSession()
         {
-            Service.Defaults.Duration = null;
-
             return new SessionData
             {
-                Location = new LocationKeyData {Id = new Guid(LOCATION_ID)},
-                Coach = new CoachKeyData {Id = new Guid(COACH_ID)},
-                Service = new ServiceKeyData {Id = new Guid(SERVICE_ID)},
-                Timing = new SessionTimingData { StartDate = "2014-11-20", StartTime = "12:30" }
+                Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
+                Timing = new SessionTimingData { StartDate = "2014-11-20", StartTime = "12:30", Duration = 45 },
+                Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
+                Repetition = new RepetitionData { RepeatTimes = 1 },
+                Pricing = new PricingData { SessionPrice = 15 },
+                Presentation = new PresentationData { Colour = "Red" }
             };
-        } 
+        }
 
-        private object WhenConstruct(SessionData data)
+
+        [Test]
+        public void GivenMultipleErrorsInSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+        {
+            Coach = null;
+            Service.Booking.IsOnlineBookable = null;
+
+            var session = CreateValidSingleSession();
+            session.Timing.StartDate = "2014-02-30";
+            session.Timing.Duration = 25;
+            session.Booking.IsOnlineBookable = null;
+            session.Pricing.CoursePrice = 120;
+            session.Presentation.Colour = "maroon";
+
+            var response = WhenConstruct(session);
+
+            AssertMultipleErrors(response, new[,] { { "The coach field is required.", "session.coach" },
+                                                    { "The startDate field is not valid.", "session.timing.startDate" },
+                                                    { "The duration field is not valid.", "session.timing.duration" },
+                                                    { "The isOnlineBookable field is required.", "session.booking.isOnlineBookable" },
+                                                    { "The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice" },
+                                                    { "The colour field is not valid.", "session.presentation.colour" } });
+        }
+
+        [Test]
+        public void GivenValidSession_WhenConstruct_ThenConstructSession()
+        {
+            var session = CreateValidSingleSession();
+            var response = WhenConstruct(session);
+            AssertSession(response);
+        }
+
+
+        private object WhenConstruct(SessionData session)
         {
             try
             {
-                return new Session(data, Location, Coach, Service);
+                return new Session(session, Location, Coach, Service);
             }
             catch (Exception ex)
             {
@@ -96,15 +137,36 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-        private void AssertSingleError(object response, string message, string field)
+
+        private void AssertSession(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException) response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo(message));
-            Assert.That(error.Field, Is.EqualTo(field));
+            Assert.That(response, Is.InstanceOf<Session>());
+            var session = ((Session)response);
+
+            Assert.That(session.Location.Id, Is.EqualTo(new Guid(LOCATION_ID)));
+            Assert.That(session.Coach.Id, Is.EqualTo(new Guid(COACH_ID)));
+            Assert.That(session.Service.Id, Is.EqualTo(new Guid(SERVICE_ID)));
+
+            var timing = session.Timing;
+            Assert.That(timing.StartDate, Is.EqualTo("2014-11-20"));
+            Assert.That(timing.StartTime, Is.EqualTo("12:30"));
+            Assert.That(timing.Duration, Is.EqualTo(45));
+
+            var booking = session.Booking;
+            Assert.That(booking.StudentCapacity, Is.EqualTo(12));
+            Assert.That(booking.IsOnlineBookable, Is.EqualTo(true));
+
+            var repetition = session.Repetition;
+            Assert.That(repetition.RepeatTimes, Is.EqualTo(1));
+            Assert.That(repetition.RepeatFrequency, Is.Null);
+
+            var pricing = session.Pricing;
+            Assert.That(pricing.SessionPrice, Is.EqualTo(15));
+            Assert.That(pricing.CoursePrice, Is.Null);
+
+            var presentation = session.Presentation;
+            Assert.That(presentation.Colour, Is.EqualTo("red"));
         }
     }
 }

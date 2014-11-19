@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -42,20 +43,140 @@ namespace CoachSeek.Domain.Entities
                        PresentationData presentation)
         {
             Id = id;
-            _location = new Location(location);
-            _coach = new Coach(coach);
-            _service = new Service(service);
 
-            _timing = new SessionTiming(timing, service);
-            _booking = new SessionBooking(booking, service.Booking);
-            _repetition = new SessionRepetition(repetition, service.Repetition);
-            _pricing = new SessionPricing(pricing, service.Pricing, _repetition);
-            _presentation = new SessionPresentation(presentation, service);
+            var errors = new ValidationException();
+
+            ValidateAndCreateLocation(location, errors);
+            ValidateAndCreateCoach(coach, errors);
+            ValidateAndCreateService(service, errors);
+            ValidateAndCreateSessionTiming(timing, service, errors);
+            ValidateAndCreateSessionBooking(booking, service.Booking, errors);
+            ValidateAndCreateSessionRepetition(repetition, service.Repetition, errors);
+            ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
+            ValidateAndCreateSessionPresentation(presentation, service, errors);
+
+            errors.ThrowIfErrors();
         }
+
 
         public SessionData ToData()
         {
             return Mapper.Map<Session, SessionData>(this);
+        }
+
+
+        private void ValidateAndCreateLocation(LocationData location, ValidationException errors)
+        {
+            if (location == null)
+            {
+                errors.Add("The location field is required.", "session.location");
+                return;
+            }
+
+            try
+            {
+                _location = new Location(location);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
+        {
+            if (coach == null)
+            {
+                errors.Add("The coach field is required.", "session.coach");
+                return;
+            }
+
+            try
+            {
+                _coach = new Coach(coach);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateService(ServiceData service, ValidationException errors)
+        {
+            if (service == null)
+            {
+                errors.Add("The service field is required.", "session.service");
+                return;
+            }
+
+            try
+            {
+                _service = new Service(service);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateSessionTiming(SessionTimingData timing, ServiceData service, ValidationException errors)
+        {
+            try
+            {
+                _timing = new SessionTiming(timing, service);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateSessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
+        {
+            try
+            {
+                _booking = new SessionBooking(sessionBooking, serviceBooking);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateSessionRepetition(RepetitionData sessionRepetition, RepetitionData serviceRepetition, ValidationException errors)
+        {
+            try
+            {
+                _repetition = new SessionRepetition(sessionRepetition, serviceRepetition);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateSessionPricing(PricingData sessionPricing, PricingData servicePricing, ValidationException errors)
+        {
+            try
+            {
+                _pricing = new SessionPricing(sessionPricing, servicePricing, _repetition);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreateSessionPresentation(PresentationData presentation, ServiceData service, ValidationException errors)
+        {
+            try
+            {
+                _presentation = new SessionPresentation(presentation, service);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
         }
     }
 }
