@@ -58,7 +58,7 @@
     <Compile Include="Entities\EmailAddressTests.cs" />
     <Compile Include="Entities\NewBusinessTests.cs" />
     <Compile Include="Entities\PersonNameTests.cs" />
-    <Compile Include="Entities\PointInTimeTests.cs" />
+    <Compile Include="Entities\TimeOfDayTests.cs" />
     <Compile Include="Entities\PriceTests.cs" />
     <Compile Include="Entities\RepeatFrequencyTests.cs" />
     <Compile Include="Entities\RepeatTimesTests.cs" />

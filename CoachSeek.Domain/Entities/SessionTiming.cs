@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Entities
     public class SessionTiming
     {
         private Date _startDate;
-        private PointInTime _startTime;
+        private TimeOfDay _startTime;
         private SessionDuration _duration;
 
         public string StartDate { get { return _startDate.ToData(); } }
@@ -71,9 +71,9 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
-                _startTime = new PointInTime(startTime);
+                _startTime = new TimeOfDay(startTime);
             }
-            catch (InvalidPointInTime)
+            catch (InvalidTimeOfDay)
             {
                 errors.Add("The startTime field is not valid.", "session.timing.startTime");
             }

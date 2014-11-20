@@ -2,19 +2,18 @@
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
 {
     [TestFixture]
-    public class PointInTimeTests
+    public class TimeOfDayTests
     {
         [Test]
         public void GivenNullTimeString_WhenConstruct_ThenThrowInvalidTime()
         {
             var timeString = GivenNullTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -22,7 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenEmptyTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -30,7 +29,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenWhitespaceTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -38,7 +37,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenRandomTextTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -46,7 +45,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenRandomTextWithColonTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -54,7 +53,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenTooBigHourTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -62,7 +61,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenTooBigMinuteTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -70,7 +69,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenTooSmallHourTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -78,7 +77,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenTooSmallMinuteTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
@@ -86,23 +85,23 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var timeString = GivenNonQuarterOfHourTimeString();
             var respond = WhenConstruct(timeString);
-            ThenThrowInvalidPointInTime(respond);
+            ThenThrowInvalidTimeOfDay(respond);
         }
 
         [Test]
-        public void GivenValidTimeString_WhenConstruct_ThenCreatePointInTime()
+        public void GivenValidTimeString_WhenConstruct_ThenCreateTimeOfDay()
         {
             var timeString = GivenValidTimeString();
             var respond = WhenConstruct(timeString);
-            ThenCreatePointInTime(respond);
+            ThenCreateTimeOfDay(respond);
         }
 
         [Test]
-        public void GivenMidnightTimeString_WhenConstruct_ThenCreateMidnightPointInTime()
+        public void GivenMidnightTimeString_WhenConstruct_ThenCreateMidnightTimeOfDay()
         {
             var timeString = GivenMidnightTimeString();
             var respond = WhenConstruct(timeString);
-            ThenCreateMidnightPointInTime(respond);
+            ThenCreateMidnightTimeOfDay(respond);
         }
 
         [Test]
@@ -205,7 +204,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new PointInTime(timeString);
+                return new TimeOfDay(timeString);
             }
             catch (Exception ex)
             {
@@ -214,50 +213,50 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private void ThenThrowInvalidPointInTime(object response)
+        private void ThenThrowInvalidTimeOfDay(object response)
         {
-            Assert.That(response, Is.InstanceOf<InvalidPointInTime>());
+            Assert.That(response, Is.InstanceOf<InvalidTimeOfDay>());
         }
 
-        private void ThenCreatePointInTime(object response)
+        private void ThenCreateTimeOfDay(object response)
         {
-            Assert.That(response, Is.InstanceOf<PointInTime>());
-            var pointInTime = (PointInTime)response;
-            Assert.That(pointInTime.Hour, Is.EqualTo(9));
-            Assert.That(pointInTime.Minute, Is.EqualTo(45));
+            Assert.That(response, Is.InstanceOf<TimeOfDay>());
+            var timeOfDay = (TimeOfDay)response;
+            Assert.That(timeOfDay.Hour, Is.EqualTo(9));
+            Assert.That(timeOfDay.Minute, Is.EqualTo(45));
         }
 
-        private void ThenCreateMidnightPointInTime(object response)
+        private void ThenCreateMidnightTimeOfDay(object response)
         {
-            Assert.That(response, Is.InstanceOf<PointInTime>());
-            var pointInTime = (PointInTime)response;
-            Assert.That(pointInTime.Hour, Is.EqualTo(0));
-            Assert.That(pointInTime.Minute, Is.EqualTo(0));
+            Assert.That(response, Is.InstanceOf<TimeOfDay>());
+            var timeOfDay = (TimeOfDay)response;
+            Assert.That(timeOfDay.Hour, Is.EqualTo(0));
+            Assert.That(timeOfDay.Minute, Is.EqualTo(0));
         }
 
         private void AssertIsAfter(string later, string earlier, bool isAfter)
         {
-            var laterPit = new PointInTime(later);
-            var earlierPit = new PointInTime(earlier);
+            var laterPit = new TimeOfDay(later);
+            var earlierPit = new TimeOfDay(earlier);
 
             Assert.That(laterPit.IsAfter(earlierPit), Is.EqualTo(isAfter));
         }
 
         private void AssertToData(string time)
         {
-            Assert.That(new PointInTime(time).ToData(), Is.EqualTo(time));
+            Assert.That(new TimeOfDay(time).ToData(), Is.EqualTo(time));
         }
 
 
         public class TimePoints
         {
-            public PointInTime Earlier { get; set; }
-            public PointInTime Later { get; set; }
+            public TimeOfDay Earlier { get; set; }
+            public TimeOfDay Later { get; set; }
 
             public TimePoints(string earlier, string later)
             {
-                Earlier = new PointInTime(earlier);
-                Later = new PointInTime(later);
+                Earlier = new TimeOfDay(earlier);
+                Later = new TimeOfDay(later);
             }
         }
     }

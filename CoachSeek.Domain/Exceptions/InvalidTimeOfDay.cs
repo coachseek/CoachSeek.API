@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class InvalidPointInTime : Exception
+    public class InvalidTimeOfDay : Exception
     {
     }
 }

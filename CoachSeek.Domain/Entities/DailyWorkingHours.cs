@@ -6,8 +6,8 @@ namespace CoachSeek.Domain.Entities
 {
     public class DailyWorkingHours
     {
-        private PointInTime _start;
-        private PointInTime _finish;
+        private TimeOfDay _start;
+        private TimeOfDay _finish;
 
         public bool IsAvailable { get; private set; }
         public string StartTime { get { return _start != null ? _start.ToData() : null; } }
@@ -19,7 +19,7 @@ namespace CoachSeek.Domain.Entities
             if (data.IsAvailable)
                 CreateAvailableWorkingHours(data.StartTime, data.FinishTime);
             else
-                CreateUnavailableWorkingHours();
+                CreateUnavailableWorkingHours(data.StartTime, data.FinishTime);
         }
 
 
@@ -40,8 +40,8 @@ namespace CoachSeek.Domain.Entities
 
             try
             {
-                _start = new PointInTime(startTime);
-                _finish = new PointInTime(finishTime);
+                _start = new TimeOfDay(startTime);
+                _finish = new TimeOfDay(finishTime);
             }
             catch (Exception)
             {
@@ -52,12 +52,25 @@ namespace CoachSeek.Domain.Entities
                 throw new InvalidDailyWorkingHours();
         }
 
-        private void CreateUnavailableWorkingHours()
+        private void CreateUnavailableWorkingHours(string startTime, string finishTime)
         {
             IsAvailable = false;
 
-            _start = null;
-            _finish = null;
+            try
+            {
+                _start = startTime != null ? new TimeOfDay(startTime) : null;
+                _finish = finishTime != null ? new TimeOfDay(finishTime) : null;
+            }
+            catch (Exception)
+            {
+                throw new InvalidDailyWorkingHours();
+            }
+
+            if (_finish == null || _start == null)
+                return;
+
+            if (!_finish.IsAfter(_start))
+                throw new InvalidDailyWorkingHours();
         }
     }
 }

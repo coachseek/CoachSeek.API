@@ -4,16 +4,16 @@ using System;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class PointInTime
+    public class TimeOfDay
     {
         public int Hour { get; private set; }
         public int Minute { get; private set; }
 
 
-        public PointInTime(string time)
+        public TimeOfDay(string time)
         {
             if (time == null)
-                throw new InvalidPointInTime();
+                throw new InvalidTimeOfDay();
 
             var components = SplitIntoHourAndMinute(time);
             Hour = ParseOutHour(components[0]);
@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public bool IsAfter(PointInTime earlier)
+        public bool IsAfter(TimeOfDay earlier)
         {
             if (earlier.Hour > Hour)
                 return false;
@@ -42,14 +42,14 @@ namespace CoachSeek.Domain.Entities
         {
             var components = time.Trim().Split(':');
             if (components.GetLength(0) != 2)
-                throw new InvalidPointInTime();
+                throw new InvalidTimeOfDay();
             return components;
         }
 
         private int ParseOutHour(string hourString)
         {
             if (hourString.Length < 1 || hourString.Length > 2)
-                throw new InvalidPointInTime();
+                throw new InvalidTimeOfDay();
 
             int hourInt;
             try
@@ -58,11 +58,11 @@ namespace CoachSeek.Domain.Entities
             }
             catch (Exception)
             {
-                throw new InvalidPointInTime();
+                throw new InvalidTimeOfDay();
             }
 
             if (hourInt < 0 || hourInt > 23)
-                throw new InvalidPointInTime();
+                throw new InvalidTimeOfDay();
 
             return hourInt;
         }
@@ -75,7 +75,7 @@ namespace CoachSeek.Domain.Entities
                 minuteString == "45")
                 return minuteString.Parse<int>();
 
-            throw new InvalidPointInTime();
+            throw new InvalidTimeOfDay();
         }
     }
 }

@@ -150,10 +150,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             {
                 Monday = new DailyWorkingHoursCommand(true, "91:00", ":00"),        // NOT VALID 
                 Tuesday = new DailyWorkingHoursCommand(true, "9:00", "17:00"),      // VALID
-                Wednesday = new DailyWorkingHoursCommand(false, "9:00", "fred"),    // VALID
+                Wednesday = new DailyWorkingHoursCommand(false, "9:00", "fred"),    // NOT VALID
                 Thursday = new DailyWorkingHoursCommand(true, "hello", "world"),    // NOT VALID
                 Friday = new DailyWorkingHoursCommand(true, "9:00", "12:45"),       // VALID
-                Saturday = new DailyWorkingHoursCommand(true, "0:00", "8:00"),      // VALID
+                Saturday = new DailyWorkingHoursCommand(false, "0:00", "8:00"),     // VALID
                 Sunday = new DailyWorkingHoursCommand(true, "7:15", "3:33")         // NOT VALID
             };
         }
@@ -227,11 +227,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(3));
+            Assert.That(response.Errors.Count, Is.EqualTo(4));
 
             AssertError(response.Errors[0], "The monday working hours are not valid.", "coach.workingHours.monday");
-            AssertError(response.Errors[1], "The thursday working hours are not valid.", "coach.workingHours.thursday");
-            AssertError(response.Errors[2], "The sunday working hours are not valid.", "coach.workingHours.sunday");
+            AssertError(response.Errors[1], "The wednesday working hours are not valid.", "coach.workingHours.wednesday");
+            AssertError(response.Errors[2], "The thursday working hours are not valid.", "coach.workingHours.thursday");
+            AssertError(response.Errors[3], "The sunday working hours are not valid.", "coach.workingHours.sunday");
         }
 
         private void AssertResponseReturnsUpdatedCoach(Response<CoachData> response)
