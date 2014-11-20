@@ -70,10 +70,11 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Id = new Guid(SERVICE_ID),
                 Name = "Mini Red",
                 Description = "Mini Red Service",
-                Repetition = new RepetitionData { RepeatTimes = 1 },
-                Defaults = new ServiceDefaultsData { Duration = 105, Colour = "Red" },
-                Booking = new ServiceBookingData { StudentCapacity = 17, IsOnlineBookable = true },
-                Pricing = new PricingData { SessionPrice = 25 }
+                Repetition = new RepetitionData {RepeatTimes = 1},
+                Timing = new ServiceTimingData {Duration = 105},
+                Booking = new ServiceBookingData {StudentCapacity = 17, IsOnlineBookable = true},
+                Pricing = new PricingData {SessionPrice = 25},
+                Presentation = new PresentationData {Colour = "Red"},
             };
         }
 

@@ -10,11 +10,11 @@ namespace CoachSeek.Domain.Commands
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ServiceDefaultsCommand Defaults { get; set; }
-
+        public ServiceTimingCommand Timing { get; set; }
         public ServiceBookingCommand Booking { get; set; }
         public PricingCommand Pricing { get; set; }
         public RepetitionCommand Repetition { get; set; }
+        public PresentationCommand Presentation { get; set; }
 
         public NewServiceData ToData()
         {

@@ -6,16 +6,17 @@ namespace CoachSeek.Domain.Entities
     public class NewService : Service
     {
         public NewService(string name, 
-                          string description, 
-                          ServiceDefaultsData defaults,
+                          string description,
+                          ServiceTimingData timing,
                           ServiceBookingData booking,
-                          PricingData pricing, 
-                          RepetitionData repetition)
-            : base(Guid.NewGuid(), name, description, defaults, booking, pricing, repetition)
+                          PricingData pricing,
+                          RepetitionData repetition,
+                          PresentationData presentation)
+            : base(Guid.NewGuid(), name, description, timing, booking, pricing, repetition, presentation)
         { }
 
         public NewService(NewServiceData data)
-            : this(data.Name, data.Description, data.Defaults, data.Booking, data.Pricing, data.Repetition)
+            : this(data.Name, data.Description, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
         { }
     }
 }

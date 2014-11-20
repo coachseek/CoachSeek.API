@@ -21,8 +21,8 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<RepetitionData, DbRepetition>();
             Mapper.CreateMap<ServiceBookingData, DbServiceBooking>();
             Mapper.CreateMap<ServiceData, DbService>();
-            Mapper.CreateMap<ServiceDefaultsData, DbServiceDefaults>();
             Mapper.CreateMap<ServiceKeyData, DbServiceKey>();
+            Mapper.CreateMap<ServiceTimingData, DbServiceTiming>();
             Mapper.CreateMap<SessionBookingData, DbSessionBooking>();
             Mapper.CreateMap<SessionData, DbSession>();
             Mapper.CreateMap<SessionTimingData, DbSessionTiming>();
@@ -41,8 +41,8 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<DbRepetition, RepetitionData>();
             Mapper.CreateMap<DbService, ServiceData>();
             Mapper.CreateMap<DbServiceBooking, ServiceBookingData>();
-            Mapper.CreateMap<DbServiceDefaults, ServiceDefaultsData>();
             Mapper.CreateMap<DbServiceKey, ServiceKeyData>();
+            Mapper.CreateMap<DbServiceTiming, ServiceTimingData>(); 
             Mapper.CreateMap<DbSession, SessionData>();
             Mapper.CreateMap<DbSessionBooking, SessionBookingData>();
             Mapper.CreateMap<DbSessionTiming, SessionTimingData>();

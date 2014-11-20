@@ -11,9 +11,9 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public ServiceDefaultsData Defaults
+        public ServiceTimingData Timing
         {
-            get { return HasDefaults ? ServiceDefaults.ToData() : null; }
+            get { return ServiceTiming != null ? ServiceTiming.ToData() : null; }
         }
 
         public ServiceBookingData Booking
@@ -31,12 +31,17 @@ namespace CoachSeek.Domain.Entities
             get { return ServiceRepetition.ToData(); }
         }
 
-        private ServiceDefaults ServiceDefaults { get; set; }
+        public PresentationData Presentation
+        {
+            get { return ServicePresentation != null ? ServicePresentation.ToData() : null; }
+        }
+
+        private ServiceTiming ServiceTiming { get; set; }
         private ServiceBooking ServiceBooking { get; set; }
         private ServicePricing ServicePricing { get; set; }
         private ServiceRepetition ServiceRepetition { get; set; }
+        private ServicePresentation ServicePresentation { get; set; }
 
-        private bool HasDefaults { get { return ServiceDefaults != null; } }
         private bool IsPriced { get { return ServicePricing != null; } }
         private bool IsCourse { get { return ServiceRepetition.IsRepeatingSession; } }
         private bool IsSingleSession { get { return ServiceRepetition.IsSingleSession; } }
@@ -46,23 +51,24 @@ namespace CoachSeek.Domain.Entities
 
 
         public Service(ServiceData data)
-            : this(data.Id, data.Name, data.Description, data.Defaults, data.Booking, data.Pricing, data.Repetition)
+            : this(data.Id, data.Name, data.Description, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
         { }
 
         public Service(Guid id, 
                        string name, 
                        string description,
-                       ServiceDefaultsData defaults,
+                       ServiceTimingData timing,
                        ServiceBookingData booking,
                        PricingData pricing, 
-                       RepetitionData repetition)
+                       RepetitionData repetition,
+                       PresentationData presentation)
         {
             Id = id;
             Name = name.Trim();
             if (description != null)
                 Description = description.Trim();
 
-            ValidateAndCreateEntities(defaults, booking, pricing, repetition);
+            ValidateAndCreateEntities(timing, booking, pricing, repetition, presentation);
             ValidateEntityInteractions();
 
             if (IsCourse && HasSessionPrice && !HasCoursePrice)
@@ -81,17 +87,19 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateEntities(ServiceDefaultsData defaults, 
+        private void ValidateAndCreateEntities(ServiceTimingData timing, 
                                                ServiceBookingData booking, 
                                                PricingData pricing, 
-                                               RepetitionData repetition)
+                                               RepetitionData repetition,
+                                               PresentationData presentation)
         {
             var errors = new ValidationException();
 
-            ValidateAndCreateDefaults(defaults, errors);
+            ValidateAndCreateTiming(timing, errors);
             ValidateAndCreateBooking(booking, errors);
             ValidateAndCreatePricing(pricing, errors);
             ValidateAndCreateRepetition(repetition, errors);
+            ValidateAndCreatePresentation(presentation, errors);
 
             errors.ThrowIfErrors();
         }
@@ -107,12 +115,12 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
         }
 
-        private void ValidateAndCreateDefaults(ServiceDefaultsData defaults, ValidationException errors)
+        private void ValidateAndCreateTiming(ServiceTimingData timing, ValidationException errors)
         {
             try
             {
-                if (defaults != null)
-                    ServiceDefaults = new ServiceDefaults(defaults);
+                if (timing != null)
+                    ServiceTiming = new ServiceTiming(timing);
             }
             catch (ValidationException ex)
             {
@@ -157,6 +165,19 @@ namespace CoachSeek.Domain.Entities
             {
                 if (pricing != null)
                     ServicePricing = new ServicePricing(pricing);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
+        }
+
+        private void ValidateAndCreatePresentation(PresentationData presentation, ValidationException errors)
+        {
+            try
+            {
+                if (presentation != null)
+                    ServicePresentation = new ServicePresentation(presentation);
             }
             catch (ValidationException ex)
             {

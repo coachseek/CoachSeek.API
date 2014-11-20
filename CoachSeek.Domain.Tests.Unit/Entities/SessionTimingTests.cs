@@ -8,24 +8,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     [TestFixture]
     public class SessionTimingTests : Tests
     {
-        private const string SERVICE_ID = "F1524EFA-C5A9-4731-8E56-E0BD6DC388D2";
-                                          
-        private ServiceData Service { get; set; }
+        private ServiceTimingData ServiceTiming { get; set; }
 
 
         [SetUp]
         public void Setup()
         {
-            Service = new ServiceData
-            {
-                Id = new Guid(SERVICE_ID),
-                Name = "Mini Red",
-                Description = "Mini Red Service",
-                Repetition = new RepetitionData { RepeatTimes = 1 },
-                Defaults = new ServiceDefaultsData { Duration = 105, Colour = "Red" },
-                Booking = new ServiceBookingData { StudentCapacity = 17, IsOnlineBookable = true },
-                Pricing = new PricingData { SessionPrice = 25 }
-            };
+            ServiceTiming = new ServiceTimingData {Duration = 105};
         }
 
 
@@ -56,7 +45,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenDurationMissingInServiceAndSession_WhenConstruct_ThenThrowValidationException()
         {
-            Service.Defaults.Duration = null;
+            ServiceTiming.Duration = null;
             var sessionTiming = new SessionTimingData("2014-12-31", "12:45");
             var response = WhenConstruct(sessionTiming);
             AssertSingleError(response, "The duration field is required.", "session.timing.duration");
@@ -65,7 +54,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenDurationMissingInService_WhenConstruct_ThenUseSessionDuration()
         {
-            Service.Defaults.Duration = null;
+            ServiceTiming.Duration = null;
             var sessionTiming = new SessionTimingData("2014-12-31", "12:45", 75);
             var response = WhenConstruct(sessionTiming);
             AssertSessionTiming(response, "2014-12-31", "12:45", 75);
@@ -102,7 +91,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new SessionTiming(data, Service);
+                return new SessionTiming(data, ServiceTiming);
             }
             catch (Exception ex)
             {

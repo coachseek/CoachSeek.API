@@ -15,9 +15,9 @@ namespace CoachSeek.Domain.Entities
         public int Duration { get { return _duration.Minutes; } }
 
 
-        public SessionTiming(SessionTimingData sessionTiming, ServiceData service)
+        public SessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming)
         {
-            BackfillMissingValuesFromService(sessionTiming, service);
+            BackfillMissingValuesFromService(sessionTiming, serviceTiming);
             CreateSessionTiming(sessionTiming);
         }
 
@@ -28,10 +28,10 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void BackfillMissingValuesFromService(SessionTimingData sessionTiming, ServiceData service)
+        private void BackfillMissingValuesFromService(SessionTimingData sessionTiming, ServiceTimingData serviceTiming)
         {
-            if (SessionIsMissingDuration(sessionTiming) && ServiceHasDuration(service))
-                sessionTiming.Duration = service.Defaults.Duration;
+            if (SessionIsMissingDuration(sessionTiming) && ServiceHasDuration(serviceTiming))
+                sessionTiming.Duration = serviceTiming.Duration;
         }
 
         private bool SessionIsMissingDuration(SessionTimingData timing)
@@ -39,9 +39,9 @@ namespace CoachSeek.Domain.Entities
             return timing.Duration == null;
         }
 
-        private bool ServiceHasDuration(ServiceData service)
+        private bool ServiceHasDuration(ServiceTimingData serviceTiming)
         {
-            return service.Defaults != null && service.Defaults.Duration.HasValue;
+            return serviceTiming != null && serviceTiming.Duration.HasValue;
         }
 
         private void CreateSessionTiming(SessionTimingData data)

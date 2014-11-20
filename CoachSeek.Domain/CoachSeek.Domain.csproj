@@ -68,6 +68,7 @@
     <Compile Include="Commands\ServiceKeyCommand.cs" />
     <Compile Include="Commands\PricingCommand.cs" />
     <Compile Include="Commands\RepetitionCommand.cs" />
+    <Compile Include="Commands\ServiceTimingCommand.cs" />
     <Compile Include="Commands\ServiceUpdateCommand.cs" />
     <Compile Include="Commands\ServiceAddCommand.cs" />
     <Compile Include="Commands\SessionAddCommand.cs" />
@@ -82,13 +83,14 @@
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
     <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\ServiceTiming.cs" />
     <Compile Include="Entities\SessionPresentation.cs" />
     <Compile Include="Entities\ServiceBooking.cs" />
     <Compile Include="Entities\Repetition.cs" />
     <Compile Include="Entities\SessionRepetition.cs" />
     <Compile Include="Entities\SessionDuration.cs" />
     <Compile Include="Entities\NewSession.cs" />
-    <Compile Include="Entities\Presentation.cs" />
+    <Compile Include="Entities\ServicePresentation.cs" />
     <Compile Include="Entities\RepeatTimes.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Colour.cs" />

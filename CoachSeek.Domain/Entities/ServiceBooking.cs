@@ -37,7 +37,7 @@ namespace CoachSeek.Domain.Entities
             }
             catch (InvalidStudentCapacity)
             {
-                throw new ValidationException("The studentCapacity is not valid.", "service.booking.studentCapacity");
+                throw new ValidationException("The studentCapacity field is not valid.", "service.booking.studentCapacity");
             }
         }
     }

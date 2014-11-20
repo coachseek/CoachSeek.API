@@ -23,10 +23,10 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiPricing, PricingCommand>();
             Mapper.CreateMap<ApiRepetition, RepetitionCommand>();
             Mapper.CreateMap<ApiServiceBooking, ServiceBookingCommand>();
-            Mapper.CreateMap<ApiServiceDefaults, ServiceDefaultsCommand>();
             Mapper.CreateMap<ApiServiceKey, ServiceKeyCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceAddCommand>();
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
+            Mapper.CreateMap<ApiServiceTiming, ServiceTimingCommand>();
             Mapper.CreateMap<ApiSessionBooking, SessionBookingCommand>();
             Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
             Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();

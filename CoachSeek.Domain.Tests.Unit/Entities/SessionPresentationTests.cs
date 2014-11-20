@@ -8,23 +8,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     [TestFixture]
     public class SessionPresentationTests : Tests
     {
-        private const string SERVICE_ID = "F1524EFA-C5A9-4731-8E56-E0BD6DC388D2";
-
-        private ServiceData Service { get; set; }
+        private PresentationData ServicePresentation { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            Service = new ServiceData
-            {
-                Id = new Guid(SERVICE_ID),
-                Name = "Mini Red",
-                Description = "Mini Red Service",
-                Repetition = new RepetitionData { RepeatTimes = 1 },
-                Defaults = new ServiceDefaultsData { Duration = 105, Colour = "Red" },
-                Booking = new ServiceBookingData { StudentCapacity = 17, IsOnlineBookable = true },
-                Pricing = new PricingData { SessionPrice = 25 }
-            };
+            ServicePresentation = new PresentationData {Colour = "Red"};
         }
 
 
@@ -39,16 +28,16 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenServiceColourButNoSessionColour_WhenConstruct_ThenUseServiceColour()
         {
-            var response = WhenConstruct(null, Service);
+            var response = WhenConstruct(null, ServicePresentation);
             AssertSessionPresentation(response, "red");
         }
 
 
-        private object WhenConstruct(PresentationData sessionPresentation, ServiceData service)
+        private object WhenConstruct(PresentationData sessionPresentation, PresentationData servicePresentation)
         {
             try
             {
-                return new SessionPresentation(sessionPresentation, service);
+                return new SessionPresentation(sessionPresentation, servicePresentation);
             }
             catch (Exception ex)
             {

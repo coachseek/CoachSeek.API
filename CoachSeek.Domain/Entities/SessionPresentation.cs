@@ -11,9 +11,9 @@ namespace CoachSeek.Domain.Entities
         private Colour _colour { get; set; }
 
 
-        public SessionPresentation(PresentationData sessionPresentation, ServiceData service)
+        public SessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation)
         {
-            sessionPresentation = BackfillMissingValuesFromService(sessionPresentation, service);
+            sessionPresentation = BackfillMissingValuesFromService(sessionPresentation, servicePresentation);
 
             try
             {
@@ -32,22 +32,22 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private PresentationData BackfillMissingValuesFromService(PresentationData sessionPresentation, ServiceData service)
+        private PresentationData BackfillMissingValuesFromService(PresentationData sessionPresentation, PresentationData servicePresentation)
         {
             if (sessionPresentation == null)
             {
                 var presentation = new PresentationData();
 
-                if (service.Defaults != null && service.Defaults.Colour != null)
+                if (servicePresentation != null && servicePresentation.Colour != null)
                 {
-                    presentation.Colour = service.Defaults.Colour;
+                    presentation.Colour = servicePresentation.Colour;
                 }
 
                 return presentation;
             }
 
-            if (SessionIsMissingColour(sessionPresentation) && ServiceHasColour(service))
-                sessionPresentation.Colour = service.Defaults.Colour;
+            if (SessionIsMissingColour(sessionPresentation) && ServiceHasColour(servicePresentation))
+                sessionPresentation.Colour = servicePresentation.Colour;
 
             return sessionPresentation;
         }
@@ -57,9 +57,9 @@ namespace CoachSeek.Domain.Entities
             return sessionPresentation.Colour == null;
         }
 
-        private bool ServiceHasColour(ServiceData service)
+        private bool ServiceHasColour(PresentationData servicePresentation)
         {
-            return service.Defaults != null && service.Defaults.Colour != null;
+            return servicePresentation != null && servicePresentation.Colour != null;
         }
     }
 }

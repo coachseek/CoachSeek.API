@@ -49,11 +49,11 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreateLocation(location, errors);
             ValidateAndCreateCoach(coach, errors);
             ValidateAndCreateService(service, errors);
-            ValidateAndCreateSessionTiming(timing, service, errors);
+            ValidateAndCreateSessionTiming(timing, service.Timing, errors);
             ValidateAndCreateSessionBooking(booking, service.Booking, errors);
             ValidateAndCreateSessionRepetition(repetition, service.Repetition, errors);
             ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-            ValidateAndCreateSessionPresentation(presentation, service, errors);
+            ValidateAndCreateSessionPresentation(presentation, service.Presentation, errors);
 
             errors.ThrowIfErrors();
         }
@@ -119,11 +119,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionTiming(SessionTimingData timing, ServiceData service, ValidationException errors)
+        private void ValidateAndCreateSessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
         {
             try
             {
-                _timing = new SessionTiming(timing, service);
+                _timing = new SessionTiming(sessionTiming, serviceTiming);
             }
             catch (ValidationException ex)
             {
@@ -167,11 +167,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionPresentation(PresentationData presentation, ServiceData service, ValidationException errors)
+        private void ValidateAndCreateSessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation, ValidationException errors)
         {
             try
             {
-                _presentation = new SessionPresentation(presentation, service);
+                _presentation = new SessionPresentation(sessionPresentation, servicePresentation);
             }
             catch (ValidationException ex)
             {
