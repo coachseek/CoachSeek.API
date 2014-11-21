@@ -5,14 +5,14 @@ namespace CoachSeek.Domain.Entities
 {
     public abstract class Repetition
     {
-        public int RepeatTimes { get { return _times.Count; } }
+        public int SessionCount { get { return _sessionCount.Count; } }
         public string RepeatFrequency { get { return _frequency.Frequency; } }
 
-        protected RepeatTimes _times { get; set; }
+        protected SessionCount _sessionCount { get; set; }
         protected RepeatFrequency _frequency { get; set; }
 
-        public bool IsOpenEnded { get { return _times.IsOpenEnded; } }
-        public bool IsSingleSession { get { return _times.Count == 1; } }
+        public bool IsOpenEnded { get { return _sessionCount.IsOpenEnded; } }
+        public bool IsSingleSession { get { return _sessionCount.Count == 1; } }
         public bool IsRepeatingSession { get { return !IsSingleSession; } }
         public bool HasRepeatFrequency { get { return RepeatFrequency != null; } }
 
@@ -24,7 +24,7 @@ namespace CoachSeek.Domain.Entities
         {
             var errors = new ValidationException();
 
-            CreateRepeatTimes(repetitionData.RepeatTimes, errors);
+            CreateSessionCount(repetitionData.SessionCount, errors);
             CreateRepeatFrequency(repetitionData.RepeatFrequency, errors);
 
             errors.ThrowIfErrors();
@@ -38,19 +38,19 @@ namespace CoachSeek.Domain.Entities
         public abstract RepetitionData ToData();
 
 
-        protected abstract string RepeatTimesPath { get; }
+        protected abstract string SessionCountPath { get; }
         protected abstract string RepeatFrequencyPath { get; }
 
 
-        protected void CreateRepeatTimes(int times, ValidationException errors)
+        protected void CreateSessionCount(int count, ValidationException errors)
         {
             try
             {
-                _times = new RepeatTimes(times);
+                _sessionCount = new SessionCount(count);
             }
-            catch (InvalidRepeatTimes)
+            catch (InvalidSessionCount)
             {
-                errors.Add("The repeatTimes field is not valid.", RepeatTimesPath);
+                errors.Add("The sessionCount field is not valid.", SessionCountPath);
             }
         }
 

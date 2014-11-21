@@ -2,7 +2,7 @@
 {
     public class ApiRepetition
     {
+        public int SessionCount { get; set; }
         public string RepeatFrequency { get; set; }
-        public int RepeatTimes { get; set; }
     }
 }

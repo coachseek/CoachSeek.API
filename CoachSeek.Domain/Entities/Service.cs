@@ -72,7 +72,7 @@ namespace CoachSeek.Domain.Entities
             ValidateEntityInteractions();
 
             if (IsCourse && HasSessionPrice && !HasCoursePrice)
-                ServicePricing = new ServicePricing(ServicePricing, Repetition.RepeatTimes);
+                ServicePricing = new ServicePricing(ServicePricing, Repetition.SessionCount);
         }
 
 

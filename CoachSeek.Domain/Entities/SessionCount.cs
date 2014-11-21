@@ -2,13 +2,13 @@
 
 namespace CoachSeek.Domain.Entities
 {
-    public class RepeatTimes
+    public class SessionCount
     {
         private readonly int _count;
 
         public int Count { get { return _count; } }
 
-        public RepeatTimes(int count)
+        public SessionCount(int count)
         {
             _count = count;
 
@@ -24,7 +24,7 @@ namespace CoachSeek.Domain.Entities
                 return;
 
             if (Count <= 0)
-                throw new InvalidRepeatTimes();
+                throw new InvalidSessionCount();
         }
     }
 }

@@ -22,9 +22,9 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        protected override string RepeatTimesPath
+        protected override string SessionCountPath
         {
-            get { return "session.repetition.repeatTimes"; }
+            get { return "session.repetition.sessionCount"; }
         }
 
         protected override string RepeatFrequencyPath
@@ -37,7 +37,7 @@ namespace CoachSeek.Domain.Entities
         {
             var errors = new ValidationException();
 
-            CreateRepeatTimes(sessionRepetition.RepeatTimes, errors);
+            CreateSessionCount(sessionRepetition.SessionCount, errors);
             CreateRepeatFrequency(sessionRepetition.RepeatFrequency, errors);
 
             errors.ThrowIfErrors();

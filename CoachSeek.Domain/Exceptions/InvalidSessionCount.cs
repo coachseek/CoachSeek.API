@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class InvalidRepeatTimes : Exception
+    public class InvalidSessionCount : Exception
     {
     }
 }

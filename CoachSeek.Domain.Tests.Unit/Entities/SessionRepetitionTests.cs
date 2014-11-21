@@ -9,12 +9,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     public class SessionRepetitionTests : Tests
     {
         [Test]
-        public void GivenInvalidRepeatTimes_WhenConstruct_ThenThrowValidationException()
+        public void GivenInvalidSessionCount_WhenConstruct_ThenThrowValidationException()
         {
             var serviceRepetition = new RepetitionData(1);
             var sessionRepetition = new RepetitionData(-10, "w");
             var response = WhenConstruct(sessionRepetition, serviceRepetition);
-            AssertSingleError(response, "The repeatTimes field is not valid.", "session.repetition.repeatTimes");
+            AssertSingleError(response, "The sessionCount field is not valid.", "session.repetition.sessionCount");
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionData(-3, "abc");
             var response = WhenConstruct(sessionRepetition, null);
-            AssertMultipleErrors(response, new[,] { { "The repeatTimes field is not valid.", "session.repetition.repeatTimes" },
+            AssertMultipleErrors(response, new[,] { { "The sessionCount field is not valid.", "session.repetition.sessionCount" },
                                                     { "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency" } });
         }
 
@@ -65,12 +65,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private void AssertSessionRepetition(object response, int repeatTimes, string repeatFrequency)
+        private void AssertSessionRepetition(object response, int sessionCount, string repeatFrequency)
         {
             Assert.That(response, Is.Not.Null);
             Assert.That(response, Is.InstanceOf<SessionRepetition>());
             var repetition = ((SessionRepetition)response);
-            Assert.That(repetition.RepeatTimes, Is.EqualTo(repeatTimes));
+            Assert.That(repetition.SessionCount, Is.EqualTo(sessionCount));
             Assert.That(repetition.RepeatFrequency, Is.EqualTo(repeatFrequency));
         }
     }

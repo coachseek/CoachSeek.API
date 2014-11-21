@@ -91,7 +91,7 @@
     <Compile Include="Entities\SessionDuration.cs" />
     <Compile Include="Entities\NewSession.cs" />
     <Compile Include="Entities\ServicePresentation.cs" />
-    <Compile Include="Entities\RepeatTimes.cs" />
+    <Compile Include="Entities\SessionCount.cs" />
     <Compile Include="Entities\Coach.cs" />
     <Compile Include="Entities\Colour.cs" />
     <Compile Include="Entities\Credential.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Exceptions\InvalidEmailAddressFormat.cs" />
     <Compile Include="Exceptions\InvalidPrice.cs" />
     <Compile Include="Exceptions\InvalidRepeatFrequency.cs" />
-    <Compile Include="Exceptions\InvalidRepeatTimes.cs" />
+    <Compile Include="Exceptions\InvalidSessionCount.cs" />
     <Compile Include="Exceptions\InvalidService.cs" />
     <Compile Include="Exceptions\InvalidLocation.cs" />
     <Compile Include="Exceptions\InvalidTimeOfDay.cs" />

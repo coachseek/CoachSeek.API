@@ -101,7 +101,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 {
                     Id = new Guid(SERVICE_ID),
                     Name = "Mini Red",
-                    Repetition = new RepetitionData { RepeatTimes = 1 }
+                    Repetition = new RepetitionData { SessionCount = 1 }
                 }
             };
         }

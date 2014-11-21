@@ -1,7 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
@@ -51,7 +50,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Description = "Mini Orange Service",
                 Repetition = new RepetitionData
                 {
-                    RepeatTimes = 1
+                    SessionCount = 1
                 },
                 Pricing = new PricingData
                 {
@@ -68,7 +67,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Description = "Mini Orange Service",
                 Repetition = new RepetitionData
                 {
-                    RepeatTimes = -1,
+                    SessionCount = -1,
                     RepeatFrequency = "w"
                 },
                 Pricing = new PricingData

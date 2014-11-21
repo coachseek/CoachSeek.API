@@ -70,11 +70,11 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Id = new Guid(SERVICE_ID),
                 Name = "Mini Red",
                 Description = "Mini Red Service",
-                Repetition = new RepetitionData {RepeatTimes = 1},
-                Timing = new ServiceTimingData {Duration = 105},
-                Booking = new ServiceBookingData {StudentCapacity = 17, IsOnlineBookable = true},
-                Pricing = new PricingData {SessionPrice = 25},
-                Presentation = new PresentationData {Colour = "Red"},
+                Repetition = new RepetitionData { SessionCount = 1 },
+                Timing = new ServiceTimingData { Duration = 105 },
+                Booking = new ServiceBookingData { StudentCapacity = 17, IsOnlineBookable = true },
+                Pricing = new PricingData { SessionPrice = 25 },
+                Presentation = new PresentationData { Colour = "Red" },
             };
         }
 
@@ -87,7 +87,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
                 Timing = new SessionTimingData { StartDate = "2014-11-20", StartTime = "12:30", Duration = 45 },
                 Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
-                Repetition = new RepetitionData { RepeatTimes = 1 },
+                Repetition = new RepetitionData { SessionCount = 1 },
                 Pricing = new PricingData { SessionPrice = 15 },
                 Presentation = new PresentationData { Colour = "Red" }
             };
@@ -159,7 +159,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(booking.IsOnlineBookable, Is.EqualTo(true));
 
             var repetition = session.Repetition;
-            Assert.That(repetition.RepeatTimes, Is.EqualTo(1));
+            Assert.That(repetition.SessionCount, Is.EqualTo(1));
             Assert.That(repetition.RepeatFrequency, Is.Null);
 
             var pricing = session.Pricing;

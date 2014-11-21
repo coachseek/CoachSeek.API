@@ -2,16 +2,16 @@
 {
     public class RepetitionData
     {
-        public int RepeatTimes { get; set; }
+        public int SessionCount { get; set; }
         public string RepeatFrequency { get; set; }
 
 
         public RepetitionData()
         { }
 
-        public RepetitionData(int repeatTimes, string repeatFrequency = null)
+        public RepetitionData(int sessionCount, string repeatFrequency = null)
         {
-            RepeatTimes = repeatTimes;
+            SessionCount = sessionCount;
             RepeatFrequency = repeatFrequency;
         }
     }

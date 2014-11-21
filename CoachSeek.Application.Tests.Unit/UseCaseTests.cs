@@ -158,7 +158,7 @@ namespace CoachSeek.Application.Tests.Unit
             {
                 Id = new Guid(SERVICE_MINI_RED_ID),
                 Name = "Mini Red",
-                Repetition = new RepetitionData { RepeatTimes = 1 }
+                Repetition = new RepetitionData { SessionCount = 1 }
             };
         }
 
@@ -168,7 +168,7 @@ namespace CoachSeek.Application.Tests.Unit
             {
                 Id = new Guid(SERVICE_MINI_ORANGE_ID),
                 Name = "Mini Orange",
-                Repetition = new RepetitionData { RepeatTimes = 1 }
+                Repetition = new RepetitionData { SessionCount = 1 }
             };
         }
 
