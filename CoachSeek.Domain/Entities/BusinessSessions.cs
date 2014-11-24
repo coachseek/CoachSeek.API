@@ -2,6 +2,7 @@
 using CoachSeek.Data.Model;
 using System;
 using System.Collections.Generic;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -69,11 +70,8 @@ namespace CoachSeek.Domain.Entities
 
         private void ValidateAdd(NewSession newSession)
         {
-            // Check for clashing sessions.
-
-            //var isExistingService = Services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
-            //if (isExistingService)
-            //    throw new DuplicateService();
+            if (Sessions.Any(session => session.IsOverlapping(newSession)))
+                throw new ClashingSession();
         }
 
         //private void ValidateUpdate(Service service)

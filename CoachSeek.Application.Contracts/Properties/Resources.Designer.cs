@@ -79,6 +79,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This session clashes with another session..
+        /// </summary>
+        internal static string ErrorClashingSession {
+            get {
+                return ResourceManager.GetString("ErrorClashingSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This coach already exists..
         /// </summary>
         internal static string ErrorDuplicateCoach {

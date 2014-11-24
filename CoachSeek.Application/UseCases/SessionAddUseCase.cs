@@ -28,6 +28,9 @@ namespace CoachSeek.Application.UseCases
 
         protected override Response<SessionData> HandleSpecificException(Exception ex)
         {
+            if (ex is ClashingSession)
+                return new ClashingSessionAddResponse();
+
             return null;
         }
     }

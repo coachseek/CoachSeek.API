@@ -27,6 +27,9 @@ namespace CoachSeek.Domain.Entities
         public RepetitionData Repetition { get { return _repetition.ToData(); } }
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
+        private PointInTime Start { get { return _timing.Start; } }
+        private PointInTime Finish { get { return _timing.Finish; } }
+
 
         public Session(SessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
@@ -58,6 +61,24 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
         }
 
+        public bool IsOverlapping(Session otherSession)
+        {
+            if (otherSession == null || otherSession.Equals(this))
+                return false;
+
+            if (Contains(otherSession.Start) ||
+                Contains(otherSession.Finish) ||
+                otherSession.Contains(Start) ||
+                otherSession.Contains(Finish))
+                return true;
+
+            return false;
+        }
+
+        public bool Contains(PointInTime pointInTime)
+        {
+            return pointInTime.IsAfter(Start) && Finish.IsAfter(pointInTime);
+        }
 
         public SessionData ToData()
         {

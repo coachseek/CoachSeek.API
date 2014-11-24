@@ -14,6 +14,18 @@ namespace CoachSeek.Domain.Entities
         public string StartTime { get { return _startTime.ToData(); } }
         public int Duration { get { return _duration.Minutes; } }
 
+        public PointInTime Start { get { return new PointInTime(_startDate, _startTime); } }
+        public PointInTime Finish 
+        {
+            get
+            {
+                var finish = new PointInTime(Start);
+                finish.AddMinutes(Duration);
+
+                return finish;
+            } 
+        }
+
 
         public SessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming)
         {

@@ -85,12 +85,29 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
-                Timing = new SessionTimingData { StartDate = "2014-11-20", StartTime = "12:30", Duration = 45 },
+                Timing = new SessionTimingData { StartDate = GetDateFormatOneWeekOut(), StartTime = "12:30", Duration = 45 },
                 Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
                 Repetition = new RepetitionData { SessionCount = 1 },
                 Pricing = new PricingData { SessionPrice = 15 },
                 Presentation = new PresentationData { Colour = "Red" }
             };
+        }
+
+        private Session CreateSingleSession(CoachData coachData, string startTime, int duration)
+        {
+            var data = new SessionData
+            {
+                Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
+                Coach = new CoachKeyData { Id = coachData.Id },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
+                Timing = new SessionTimingData { StartDate = GetDateFormatOneWeekOut(), StartTime = startTime, Duration = duration },
+                Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
+                Repetition = new RepetitionData { SessionCount = 1 },
+                Pricing = new PricingData { SessionPrice = 15 },
+                Presentation = new PresentationData { Colour = "Red" }
+            };
+
+            return new Session(data, Location, coachData, Service);
         }
 
 
@@ -125,12 +142,103 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             AssertSession(response);
         }
 
+        [Test]
+        public void GivenNullOtherSession_WhenCallIsOverlapping_ThenReturnFalse()
+        {
+            var session = new Session(CreateValidSingleSession(), Location, Coach, Service);
+            var response = WhenCallIsOverlapping(session, null);
+            Assert.That(response, Is.False);
+        }
+
+        [Test]
+        public void GivenSessionIsOtherSession_WhenCallIsOverlapping_ThenReturnFalse()
+        {
+            var session = new Session(CreateValidSingleSession(), Location, Coach, Service);
+            var response = WhenCallIsOverlapping(session, session);
+            Assert.That(response, Is.False);
+        }
+
+        [Test]
+        public void GivenSessionIsOverlappingStartOfOtherSession_WhenCallIsOverlapping_ThenReturnTrue()
+        {
+            var session = CreateSingleSession(Coach, "12:30", 45);
+            var otherSession = CreateSingleSession(Coach, "13:00", 60);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.True);
+        }
+
+        [Test]
+        public void GivenSessionIsOverlappingFinishOfOtherSession_WhenCallIsOverlapping_ThenReturnTrue()
+        {
+            var session = CreateSingleSession(Coach, "13:45", 45);
+            var otherSession = CreateSingleSession(Coach, "13:00", 60);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.True);
+        }
+
+        [Test]
+        public void GivenSessionIsSpannedByOtherSession_WhenCallIsOverlapping_ThenReturnTrue()
+        {
+            var session = CreateSingleSession(Coach, "15:30", 30);
+            var otherSession = CreateSingleSession(Coach, "15:00", 120);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.True);
+        }
+
+        [Test]
+        public void GivenSessionIsSpanningOtherSession_WhenCallIsOverlapping_ThenReturnTrue()
+        {
+            var session = CreateSingleSession(Coach, "18:00", 30);
+            var otherSession = CreateSingleSession(Coach, "17:45", 60);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.True);
+        }
+
+        [Test]
+        public void GivenSessionIsNotOverlappingOtherSession_WhenCallIsOverlapping_ThenReturnFalse()
+        {
+            var session = CreateSingleSession(Coach, "12:45", 30);
+            var otherSession = CreateSingleSession(Coach, "13:45", 45);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.False);
+        }
+
+        [Test]
+        public void GivenSessionIsTouchingOtherSessionAtStart_WhenCallIsOverlapping_ThenReturnFalse()
+        {
+            var session = CreateSingleSession(Coach, "13:30", 30);
+            var otherSession = CreateSingleSession(Coach, "14:00", 60);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.False);
+        }
+
+        [Test]
+        public void GivenSessionIsTouchingOtherSessionAtFinish_WhenCallIsOverlapping_ThenReturnFalse()
+        {
+            var session = CreateSingleSession(Coach, "12:00", 60);
+            var otherSession = CreateSingleSession(Coach, "11:00", 60);
+            var response = WhenCallIsOverlapping(session, otherSession);
+            Assert.That(response, Is.False);
+        }
+
 
         private object WhenConstruct(SessionData session)
         {
             try
             {
                 return new Session(session, Location, Coach, Service);
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
+        }
+
+        private object WhenCallIsOverlapping(Session session, Session otherSession)
+        {
+            try
+            {
+                return session.IsOverlapping(otherSession);
             }
             catch (Exception ex)
             {
@@ -150,7 +258,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(session.Service.Id, Is.EqualTo(new Guid(SERVICE_ID)));
 
             var timing = session.Timing;
-            Assert.That(timing.StartDate, Is.EqualTo("2014-11-20"));
+            Assert.That(timing.StartDate, Is.EqualTo(GetDateFormatOneWeekOut()));
             Assert.That(timing.StartTime, Is.EqualTo("12:30"));
             Assert.That(timing.Duration, Is.EqualTo(45));
 

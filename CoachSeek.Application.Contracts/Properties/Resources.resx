@@ -123,6 +123,9 @@
   <data name="ErrorBusinessNotFound" xml:space="preserve">
     <value>Business not found.</value>
   </data>
+  <data name="ErrorClashingSession" xml:space="preserve">
+    <value>This session clashes with another session.</value>
+  </data>
   <data name="ErrorDuplicateCoach" xml:space="preserve">
     <value>This coach already exists.</value>
   </data>

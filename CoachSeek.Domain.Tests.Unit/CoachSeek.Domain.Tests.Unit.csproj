@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\DateTests.cs" />
+    <Compile Include="Entities\PointInTimeTests.cs" />
     <Compile Include="Entities\SessionPresentationTests.cs" />
     <Compile Include="Entities\ServiceTests.cs" />
     <Compile Include="Entities\SessionBookingTests.cs" />

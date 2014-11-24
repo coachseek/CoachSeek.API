@@ -44,6 +44,7 @@
     <Compile Include="Models\Responses\CoachAddResponse.cs" />
     <Compile Include="Models\Responses\CoachUpdateResponse.cs" />
     <Compile Include="Models\Responses\InvalidBusinessResponse.cs" />
+    <Compile Include="Models\Responses\ClashingSessionAddResponse.cs" />
     <Compile Include="Models\Responses\ServiceUpdateResponse.cs" />
     <Compile Include="Models\Responses\ServiceAddResponse.cs" />
     <Compile Include="Models\Responses\LocationAddResponse.cs" />

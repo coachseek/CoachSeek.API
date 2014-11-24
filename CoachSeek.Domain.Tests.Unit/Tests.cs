@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Exceptions;
+﻿using System;
+using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit
@@ -18,7 +19,6 @@ namespace CoachSeek.Domain.Tests.Unit
             Assert.That(error.Field, Is.EqualTo(expectedField));
         }
 
-
         protected void AssertMultipleErrors(object response, string[,] expectedErrors)
         {
             Assert.That(response, Is.Not.Null);
@@ -34,6 +34,14 @@ namespace CoachSeek.Domain.Tests.Unit
                 Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
                 i++;
             }
+        }
+
+        protected string GetDateFormatOneWeekOut()
+        {
+            var today = DateTime.Today;
+            var oneWeekFromToday = today.AddDays(7);
+
+            return oneWeekFromToday.ToString("yyyy-MM-dd");
         }
     }
 }
