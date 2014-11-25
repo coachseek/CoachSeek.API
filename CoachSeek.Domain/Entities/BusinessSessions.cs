@@ -48,12 +48,12 @@ namespace CoachSeek.Domain.Entities
             Sessions.Add(new Session(sessionData, locationData, coachData, serviceData));
         }
 
-        //public void Update(ServiceData serviceData)
-        //{
-        //    var service = new Service(serviceData);
-        //    ValidateUpdate(service);
-        //    ReplaceServiceInServices(service);
-        //}
+        public void Update(SessionData sessionData, LocationData locationData, CoachData coachData, ServiceData serviceData)
+        {
+            var session = new Session(sessionData, locationData, coachData, serviceData);
+            ValidateUpdate(session);
+            ReplaceSessionInSessions(session);
+        }
 
         public IList<SessionData> ToData()
         {
@@ -61,12 +61,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        //private void ReplaceServiceInServices(Service service)
-        //{
-        //    var updateService = Services.Single(x => x.Id == service.Id);
-        //    var updateIndex = Services.IndexOf(updateService);
-        //    Services[updateIndex] = service;
-        //}
+        private void ReplaceSessionInSessions(Session session)
+        {
+            var updateSession = Sessions.Single(x => x.Id == session.Id);
+            var updateIndex = Sessions.IndexOf(updateSession);
+            Sessions[updateIndex] = session;
+        }
 
         private void ValidateAdd(NewSession newSession)
         {
@@ -74,15 +74,15 @@ namespace CoachSeek.Domain.Entities
                 throw new ClashingSession();
         }
 
-        //private void ValidateUpdate(Service service)
-        //{
-        //    var isExistingService = Services.Any(x => x.Id == service.Id);
-        //    if (!isExistingService)
-        //        throw new InvalidService();
+        private void ValidateUpdate(Session existingSession)
+        {
+            var isExistingSession = Sessions.Any(x => x.Id == existingSession.Id);
+            if (!isExistingSession)
+                throw new InvalidSession();
 
-        //    var existingService = Services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
-        //    if (existingService != null && existingService.Id != service.Id)
-        //        throw new DuplicateService();
-        //}
+            // TODO: Exclude the session from the overlapping search.
+            if (Sessions.Any(session => session.IsOverlapping(existingSession)))
+                throw new ClashingSession();
+        }
     }
 }

@@ -151,6 +151,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This session does not exist..
+        /// </summary>
+        internal static string ErrorInvalidSession {
+            get {
+                return ResourceManager.GetString("ErrorInvalidSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing domain..
         /// </summary>
         internal static string ErrorNoBusinessDomain {

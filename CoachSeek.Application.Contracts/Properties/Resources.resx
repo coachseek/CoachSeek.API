@@ -147,6 +147,9 @@
   <data name="ErrorInvalidService" xml:space="preserve">
     <value>This service does not exist.</value>
   </data>
+  <data name="ErrorInvalidSession" xml:space="preserve">
+    <value>This session does not exist.</value>
+  </data>
   <data name="ErrorNoBusinessDomain" xml:space="preserve">
     <value>Missing domain.</value>
   </data>

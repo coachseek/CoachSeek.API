@@ -29,6 +29,7 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiServiceTiming, ServiceTimingCommand>();
             Mapper.CreateMap<ApiSessionBooking, SessionBookingCommand>();
             Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
+            Mapper.CreateMap<ApiSessionSaveCommand, SessionUpdateCommand>();
             Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
             Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
         }

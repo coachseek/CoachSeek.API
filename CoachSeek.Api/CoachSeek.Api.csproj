@@ -210,6 +210,7 @@
     <Compile Include="Conversion\LocationUpdateCommandConverter.cs" />
     <Compile Include="Conversion\ServiceUpdateCommandConverter.cs" />
     <Compile Include="Conversion\ServiceAddCommandConverter.cs" />
+    <Compile Include="Conversion\SessionUpdateCommandConverter.cs" />
     <Compile Include="Conversion\SessionAddCommandConverter.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />

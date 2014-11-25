@@ -52,6 +52,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<SessionAddCommand, NewSessionData>();
             Mapper.CreateMap<SessionBookingCommand, SessionBookingData>();
             Mapper.CreateMap<SessionTimingCommand, SessionTimingData>();
+            Mapper.CreateMap<SessionUpdateCommand, SessionData>();
             Mapper.CreateMap<WeeklyWorkingHoursCommand, WeeklyWorkingHoursData>();
         }
     }

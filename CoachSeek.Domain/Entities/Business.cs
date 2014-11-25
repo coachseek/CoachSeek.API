@@ -124,6 +124,18 @@ namespace CoachSeek.Domain.Entities
             return GetSessionById(sessionId, businessRepository);
         }
 
+        public SessionData UpdateSession(SessionUpdateCommand command, IBusinessRepository businessRepository)
+        {
+            var location = GetLocationById(command.Location.Id, businessRepository);
+            var coach = GetCoachById(command.Coach.Id, businessRepository);
+            var service = GetServiceById(command.Service.Id, businessRepository);
+
+            BusinessSessions.Update(command.ToData(), location, coach, service);
+            businessRepository.Save(this);
+
+            return GetSessionById(command.Id, businessRepository);
+        }
+
 
         public BusinessData ToData()
         {

@@ -1,24 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Web.Http;
-using CoachSeek.Api.Conversion;
+﻿using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace CoachSeek.Api.Controllers
 {
     public class SessionsController : BaseController
     {
         public ISessionAddUseCase SessionAddUseCase { get; set; }
+        public ISessionUpdateUseCase SessionUpdateUseCase { get; set; }
 
 
         public SessionsController()
         { }
 
-        public SessionsController(ISessionAddUseCase sessionAddUseCase)
+        public SessionsController(ISessionAddUseCase sessionAddUseCase, 
+                                  ISessionUpdateUseCase sessionUpdateUseCase)
         {
             SessionAddUseCase = sessionAddUseCase;
+            SessionUpdateUseCase = sessionUpdateUseCase;
         }
 
 
@@ -42,7 +45,7 @@ namespace CoachSeek.Api.Controllers
             if (session.IsNew())
                 return AddSession(session);
 
-            return null;
+            return UpdateSession(session);
         }
 
         // PUT: api/Sessions/5
@@ -63,11 +66,11 @@ namespace CoachSeek.Api.Controllers
             return CreateWebResponse(response);
         }
 
-        //private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
-        //{
-        //    var command = CoachUpdateCommandConverter.Convert(coach);
-        //    var response = CoachUpdateUseCase.UpdateCoach(command);
-        //    return CreateWebResponse(response);
-        //}
+        private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
+        {
+            var command = SessionUpdateCommandConverter.Convert(session);
+            var response = SessionUpdateUseCase.UpdateSession(command);
+            return CreateWebResponse(response);
+        }
     }
 }

@@ -4,7 +4,7 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
 {
-    public class LocationUpdateCommand : LocationAddCommand
+    public class LocationUpdateCommand : LocationAddCommand, IIdentifiable
     {
         public Guid Id { get; set; }
 

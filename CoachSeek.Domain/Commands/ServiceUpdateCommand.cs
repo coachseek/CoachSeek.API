@@ -4,7 +4,7 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
 {
-    public class ServiceUpdateCommand : ServiceAddCommand
+    public class ServiceUpdateCommand : ServiceAddCommand, IIdentifiable
     {
         public Guid Id { get; set; }
 

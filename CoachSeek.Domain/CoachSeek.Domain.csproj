@@ -59,6 +59,7 @@
     <Compile Include="Commands\CoachUpdateCommand.cs" />
     <Compile Include="Commands\DailyWorkingHoursCommand.cs" />
     <Compile Include="Commands\IBusinessIdable.cs" />
+    <Compile Include="Commands\IIdentifiable.cs" />
     <Compile Include="Commands\KeyCommand.cs" />
     <Compile Include="Commands\LocationAddCommand.cs" />
     <Compile Include="Commands\LocationKeyCommand.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Commands\ServiceBookingCommand.cs" />
     <Compile Include="Commands\SessionBookingCommand.cs" />
     <Compile Include="Commands\SessionTimingCommand.cs" />
+    <Compile Include="Commands\SessionUpdateCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />

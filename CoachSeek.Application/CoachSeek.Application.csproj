@@ -48,6 +48,7 @@
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
     <Compile Include="UseCases\AddUseCase.cs" />
     <Compile Include="UseCases\ServiceUpdateUseCase.cs" />
+    <Compile Include="UseCases\SessionUpdateUseCase.cs" />
     <Compile Include="UseCases\SessionAddUseCase.cs" />
     <Compile Include="UseCases\UpdateUseCase.cs" />
     <Compile Include="UseCases\BaseUseCase.cs" />
