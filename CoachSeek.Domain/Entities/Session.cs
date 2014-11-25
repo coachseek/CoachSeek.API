@@ -63,16 +63,13 @@ namespace CoachSeek.Domain.Entities
 
         public bool IsOverlapping(Session otherSession)
         {
-            if (otherSession == null || otherSession.Equals(this))
+            if (IsNoOrSameSession(otherSession))
                 return false;
 
-            if (Contains(otherSession.Start) ||
-                Contains(otherSession.Finish) ||
-                otherSession.Contains(Start) ||
-                otherSession.Contains(Finish))
-                return true;
-
-            return false;
+            return (Contains(otherSession.Start) ||
+                    Contains(otherSession.Finish) ||
+                    otherSession.Contains(Start) ||
+                    otherSession.Contains(Finish));
         }
 
         public bool Contains(PointInTime pointInTime)
@@ -198,6 +195,11 @@ namespace CoachSeek.Domain.Entities
             {
                 errors.Add(ex);
             }
+        }
+
+        private bool IsNoOrSameSession(Session otherSession)
+        {
+            return (otherSession == null || otherSession.Equals(this) || otherSession.Id == Id);
         }
     }
 }
