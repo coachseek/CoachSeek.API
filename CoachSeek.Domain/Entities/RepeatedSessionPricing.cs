@@ -4,7 +4,7 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class SessionPricing
+    public class RepeatedSessionPricing
     {
         private Price _sessionPrice;
         private Price _coursePrice;
@@ -12,24 +12,19 @@ namespace CoachSeek.Domain.Entities
 
         public decimal? SessionPrice { get { return _sessionPrice.Amount; } }
         public decimal? CoursePrice { get { return _coursePrice.Amount; } }
-        private bool IsCourse { get { return _repetition.IsRepeatingSession; } }
-        private bool IsSingleSession { get { return _repetition.IsSingleSession; } }
 
 
-        public SessionPricing(PricingData sessionPricing, PricingData servicePricing, SessionRepetition repetition)
+        public RepeatedSessionPricing(PricingData sessionPricing, PricingData servicePricing, SessionRepetition repetition)
         {
             _repetition = repetition;
 
             sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
             Validate(sessionPricing);
 
-            if (IsSingleSession)
-                ValidateAndCreateSingleSessionPricing(sessionPricing);
-            else
-                ValidateAndCreateCoursePricing(sessionPricing);
+            ValidateAndCreateCoursePricing(sessionPricing);
         }
 
-        public SessionPricing(decimal? sessionPrice, decimal? coursePrice)
+        public RepeatedSessionPricing(decimal? sessionPrice, decimal? coursePrice)
         {
             _sessionPrice = new Price(sessionPrice);
             _coursePrice = new Price(coursePrice);
@@ -38,30 +33,9 @@ namespace CoachSeek.Domain.Entities
 
         public PricingData ToData()
         {
-            return Mapper.Map<SessionPricing, PricingData>(this);
+            return Mapper.Map<RepeatedSessionPricing, PricingData>(this);
         }
 
-
-        private void ValidateAndCreateSingleSessionPricing(PricingData pricing)
-        {
-            var errors = new ValidationException();
-
-            try
-            {
-                _sessionPrice = new Price(pricing.SessionPrice);
-            }
-            catch (InvalidPrice)
-            {
-                errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
-            }
-
-            if (pricing.CoursePrice.HasValue)
-                errors.Add("The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice");
-            else
-                _coursePrice = new Price(null);
-
-            errors.ThrowIfErrors();
-        }
 
         private void ValidateAndCreateCoursePricing(PricingData sessionPricing)
         {

@@ -13,6 +13,21 @@
         public PresentationData Presentation { get; set; }
 
 
+        public NewSessionData()
+        { }
+
+        public NewSessionData(NewSessionData data)
+        {
+            Location = data.Location;
+            Coach = data.Coach;
+            Service = data.Service;
+            Timing = data.Timing;
+            Booking = data.Booking;
+            Pricing = data.Pricing;
+            Repetition = data.Repetition;
+            Presentation = data.Presentation;
+        }
+
         public string GetName()
         {
             return "session";

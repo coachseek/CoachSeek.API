@@ -21,6 +21,11 @@ namespace CoachSeek.Domain.Entities
             _date = date;
         }
 
+        public Date(DateTime date)
+        {
+            _date = date;
+        }
+
         public string ToData()
         {
             return string.Format("{0:yyyy-MM-dd}", _date);

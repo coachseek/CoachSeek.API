@@ -1,89 +1,36 @@
 ﻿using System;
-using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class Session
+    public abstract class Session
     {
-        private Service _service;
-        private Location _location;
-        private Coach _coach;
-        private SessionTiming _timing;
-        private SessionBooking _booking;
-        private SessionRepetition _repetition;
-        private SessionPricing _pricing;
-        private SessionPresentation _presentation;
+        protected Service _service;
+        protected Location _location;
+        protected Coach _coach;
+
+        protected SessionTiming _timing;
+        protected SessionBooking _booking;
+        protected SessionPresentation _presentation;
 
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
         public ServiceKeyData Service { get { return _service.ToKeyData(); } }
         public LocationKeyData Location { get { return _location.ToKeyData(); } }
         public CoachKeyData Coach { get { return _coach.ToKeyData(); } }
         public SessionTimingData Timing { get { return _timing.ToData(); } }
         public SessionBookingData Booking { get { return _booking.ToData(); } }
-        public PricingData Pricing { get { return _pricing.ToData(); } }
-        public RepetitionData Repetition { get { return _repetition.ToData(); } }
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
-        private PointInTime Start { get { return _timing.Start; } }
-        private PointInTime Finish { get { return _timing.Finish; } }
+
+        public abstract bool IsOverlapping(Session otherSession);
 
 
-        public Session(SessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
-        { }
-
-        public Session(Guid id, 
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionTimingData timing,
-                       SessionBookingData booking,
-                       PricingData pricing,
-                       RepetitionData repetition,
-                       PresentationData presentation)
-        {
-            Id = id;
-
-            var errors = new ValidationException();
-
-            ValidateAndCreateLocation(location, errors);
-            ValidateAndCreateCoach(coach, errors);
-            ValidateAndCreateService(service, errors);
-            ValidateAndCreateSessionTiming(timing, service.Timing, errors);
-            ValidateAndCreateSessionBooking(booking, service.Booking, errors);
-            ValidateAndCreateSessionRepetition(repetition, service.Repetition, errors);
-            ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-            ValidateAndCreateSessionPresentation(presentation, service.Presentation, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-        public bool IsOverlapping(Session otherSession)
-        {
-            if (IsNoOrSameSession(otherSession))
-                return false;
-
-            return (Contains(otherSession.Start) ||
-                    Contains(otherSession.Finish) ||
-                    otherSession.Contains(Start) ||
-                    otherSession.Contains(Finish));
-        }
-
-        public bool Contains(PointInTime pointInTime)
-        {
-            return pointInTime.IsAfter(Start) && Finish.IsAfter(pointInTime);
-        }
-
-        public SessionData ToData()
-        {
-            return Mapper.Map<Session, SessionData>(this);
-        }
+        public abstract SessionData ToData();
 
 
-        private void ValidateAndCreateLocation(LocationData location, ValidationException errors)
+        protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
         {
             if (location == null)
             {
@@ -101,7 +48,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
+        protected void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
         {
             if (coach == null)
             {
@@ -119,7 +66,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateService(ServiceData service, ValidationException errors)
+        protected void ValidateAndCreateService(ServiceData service, ValidationException errors)
         {
             if (service == null)
             {
@@ -137,7 +84,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
+        protected void ValidateAndCreateSessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
         {
             try
             {
@@ -149,7 +96,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
+        protected void ValidateAndCreateSessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
         {
             try
             {
@@ -161,31 +108,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionRepetition(RepetitionData sessionRepetition, RepetitionData serviceRepetition, ValidationException errors)
-        {
-            try
-            {
-                _repetition = new SessionRepetition(sessionRepetition, serviceRepetition);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreateSessionPricing(PricingData sessionPricing, PricingData servicePricing, ValidationException errors)
-        {
-            try
-            {
-                _pricing = new SessionPricing(sessionPricing, servicePricing, _repetition);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreateSessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation, ValidationException errors)
+        protected void ValidateAndCreateSessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation, ValidationException errors)
         {
             try
             {
@@ -197,7 +120,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private bool IsNoOrSameSession(Session otherSession)
+        protected bool IsNullOrSameSession(Session otherSession)
         {
             return (otherSession == null || otherSession.Equals(this) || otherSession.Id == Id);
         }

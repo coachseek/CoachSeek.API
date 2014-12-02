@@ -9,6 +9,11 @@ namespace CoachSeek.Domain.Entities
 
         public decimal? Amount { get { return _amount; } }
 
+
+        public Price() 
+            : this(null)
+        { }
+
         public Price(decimal itemAmount, int quantity)
         {
             Validate(itemAmount, quantity);
@@ -37,16 +42,6 @@ namespace CoachSeek.Domain.Entities
                 throw new InvalidPrice();
             if (GetDecimalPlaces(Amount) > 2)
                 throw new InvalidPrice();
-        }
-
-        private int DecimalPlaces 
-        {
-            get
-            {
-                if (Amount.HasValue)
-                    return BitConverter.GetBytes(decimal.GetBits((decimal)(double)Amount)[3])[2];
-                return 0;
-            }
         }
 
         private int GetDecimalPlaces(decimal? amount)

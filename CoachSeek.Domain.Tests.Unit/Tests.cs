@@ -6,7 +6,9 @@ namespace CoachSeek.Domain.Tests.Unit
 {
     public abstract class Tests
     {
-        protected void AssertSingleError(object response, string expectedMessage, string expectedField)
+        protected const int DAYS_IN_WEEK = 7;
+
+        protected void AssertSingleError(object response, string expectedMessage, string expectedField = null)
         {
             Assert.That(response, Is.Not.Null);
             Assert.That(response, Is.InstanceOf<ValidationException>());
@@ -36,10 +38,18 @@ namespace CoachSeek.Domain.Tests.Unit
             }
         }
 
-        protected string GetDateFormatOneWeekOut()
+        protected string GetDateFormatNumberOfDaysOut(int dayCount, DateTime? today = null)
         {
-            var today = DateTime.Today;
-            var oneWeekFromToday = today.AddDays(7);
+            today = today ?? DateTime.Today;
+            var oneWeekFromToday = today.Value.AddDays(dayCount);
+
+            return oneWeekFromToday.ToString("yyyy-MM-dd");
+        }
+
+        protected string GetDateFormatOneWeekOut(DateTime? today = null)
+        {
+            today = today ?? DateTime.Today;
+            var oneWeekFromToday = today.Value.AddDays(7);
 
             return oneWeekFromToday.ToString("yyyy-MM-dd");
         }

@@ -20,6 +20,12 @@ namespace CoachSeek.Domain.Entities
             Minute = ParseOutMinute(components[1]);
         }
 
+        public TimeOfDay(DateTime time)
+        {
+            Hour = time.Hour;
+            Minute = time.Minute;
+        }
+
 
         public bool IsAfter(TimeOfDay earlier)
         {

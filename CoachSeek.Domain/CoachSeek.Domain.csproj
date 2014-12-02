@@ -78,21 +78,26 @@
     <Compile Include="Commands\SessionTimingCommand.cs" />
     <Compile Include="Commands\SessionUpdateCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
+    <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\BusinessCoaches.cs" />
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
+    <Compile Include="Entities\DailySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\NewRepeatedSession.cs" />
+    <Compile Include="Entities\NewSingleSession.cs" />
     <Compile Include="Entities\PointInTime.cs" />
+    <Compile Include="Entities\RepeatedSession.cs" />
+    <Compile Include="Entities\RepeatedSessionPricing.cs" />
     <Compile Include="Entities\ServiceTiming.cs" />
     <Compile Include="Entities\SessionPresentation.cs" />
     <Compile Include="Entities\ServiceBooking.cs" />
     <Compile Include="Entities\Repetition.cs" />
     <Compile Include="Entities\SessionRepetition.cs" />
     <Compile Include="Entities\SessionDuration.cs" />
-    <Compile Include="Entities\NewSession.cs" />
     <Compile Include="Entities\ServicePresentation.cs" />
     <Compile Include="Entities\SessionCount.cs" />
     <Compile Include="Entities\Coach.cs" />
@@ -105,6 +110,10 @@
     <Compile Include="Entities\NewBusiness.cs" />
     <Compile Include="Entities\NewService.cs" />
     <Compile Include="Entities\NewLocation.cs" />
+    <Compile Include="Entities\SingleSession.cs" />
+    <Compile Include="Entities\StandaloneSessionPricing.cs" />
+    <Compile Include="Services\SingleSessionListCalculator.cs" />
+    <Compile Include="Entities\SingleSessionPricing.cs" />
     <Compile Include="Entities\TimeOfDay.cs" />
     <Compile Include="Entities\Price.cs" />
     <Compile Include="Entities\RepeatFrequency.cs" />
@@ -114,7 +123,6 @@
     <Compile Include="Entities\ServiceRepetition.cs" />
     <Compile Include="Entities\Session.cs" />
     <Compile Include="Entities\SessionBooking.cs" />
-    <Compile Include="Entities\SessionPricing.cs" />
     <Compile Include="Entities\SessionTiming.cs" />
     <Compile Include="Entities\SessionStudentCapacity.cs" />
     <Compile Include="Entities\ServiceStudentCapacity.cs" />
@@ -150,9 +158,12 @@
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Exceptions\NoCommand.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
+    <Compile Include="Factories\SessionFactory.cs" />
     <Compile Include="Repositories\IReservedDomainRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IBusinessRepository.cs" />
+    <Compile Include="Services\SingleSessionListCalculatorSelector.cs" />
+    <Compile Include="Entities\StandaloneSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />

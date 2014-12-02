@@ -3,6 +3,7 @@ using CoachSeek.Data.Model;
 using System;
 using System.Collections.Generic;
 using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Factories;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -35,7 +36,8 @@ namespace CoachSeek.Domain.Entities
 
         public Guid Add(NewSessionData newSessionData, LocationData location, CoachData coach, ServiceData service)
         {
-            var newSession = new NewSession(newSessionData, location, coach, service);
+            var newSession = SessionFactory.CreateNewSession(newSessionData, location, coach, service);
+
             ValidateAdd(newSession);
             Sessions.Add(newSession);
 
@@ -45,12 +47,14 @@ namespace CoachSeek.Domain.Entities
         public void Append(SessionData sessionData, LocationData locationData, CoachData coachData, ServiceData serviceData)
         {
             // Data is already valid. Eg. It comes from the database.
-            Sessions.Add(new Session(sessionData, locationData, coachData, serviceData));
+            var session = SessionFactory.CreateSession(sessionData, locationData, coachData, serviceData);
+
+            Sessions.Add(session);
         }
 
         public void Update(SessionData sessionData, LocationData locationData, CoachData coachData, ServiceData serviceData)
         {
-            var session = new Session(sessionData, locationData, coachData, serviceData);
+            var session = SessionFactory.CreateSession(sessionData, locationData, coachData, serviceData);
             ValidateUpdate(session);
             ReplaceSessionInSessions(session);
         }
@@ -68,7 +72,7 @@ namespace CoachSeek.Domain.Entities
             Sessions[updateIndex] = session;
         }
 
-        private void ValidateAdd(NewSession newSession)
+        private void ValidateAdd(Session newSession)
         {
             if (Sessions.Any(session => session.IsOverlapping(newSession)))
                 throw new ClashingSession();
@@ -80,7 +84,6 @@ namespace CoachSeek.Domain.Entities
             if (!isExistingSession)
                 throw new InvalidSession();
 
-            // TODO: Exclude the session from the overlapping search.
             if (Sessions.Any(session => session.IsOverlapping(existingSession)))
                 throw new ClashingSession();
         }

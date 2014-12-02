@@ -2,6 +2,7 @@
 using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Factories;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
@@ -108,10 +109,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Presentation = new PresentationData { Colour = "Red" }
             };
 
-            return new Session(data, Location, coachData, Service);
+            return SessionFactory.CreateSession(data, Location, coachData, Service);
         }
 
-        private NewSession CreateNewSingleSession(CoachData coachData, string startTime, int duration)
+        private Session CreateNewSingleSession(CoachData coachData, string startTime, int duration)
         {
             var data = new NewSessionData
             {
@@ -125,12 +126,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Presentation = new PresentationData { Colour = "Red" }
             };
 
-            return new NewSession(data, Location, coachData, Service);
+            return SessionFactory.CreateNewSession(data, Location, coachData, Service);
         }
 
 
         [Test]
-        public void GivenMultipleErrorsInSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+        public void GivenMultipleErrorsInSingleSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
         {
             Coach = null;
             Service.Booking.IsOnlineBookable = null;
@@ -148,12 +149,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                                                     { "The startDate field is not valid.", "session.timing.startDate" },
                                                     { "The duration field is not valid.", "session.timing.duration" },
                                                     { "The isOnlineBookable field is required.", "session.booking.isOnlineBookable" },
-                                                    { "The coursePrice field cannot be specified for a single session.", "session.pricing.coursePrice" },
-                                                    { "The colour field is not valid.", "session.presentation.colour" } });
+                                                    { "The colour field is not valid.", "session.presentation.colour" },
+                                                    { "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice" } });
         }
 
         [Test]
-        public void GivenValidSession_WhenConstruct_ThenConstructSession()
+        public void GivenValidSingleSession_WhenConstruct_ThenConstructSession()
         {
             var session = CreateValidSingleSession();
             var response = WhenConstruct(session);
@@ -163,7 +164,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenNullOtherSession_WhenCallIsOverlapping_ThenReturnFalse()
         {
-            var session = new Session(CreateValidSingleSession(), Location, Coach, Service);
+            var session = SessionFactory.CreateSession(CreateValidSingleSession(), Location, Coach, Service);
             var response = WhenCallIsOverlapping(session, null);
             Assert.That(response, Is.False);
         }
@@ -171,7 +172,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenSessionIsOtherSession_WhenCallIsOverlapping_ThenReturnFalse()
         {
-            var session = new Session(CreateValidSingleSession(), Location, Coach, Service);
+            var session = SessionFactory.CreateSession(CreateValidSingleSession(), Location, Coach, Service);
             var response = WhenCallIsOverlapping(session, session);
             Assert.That(response, Is.False);
         }
@@ -252,7 +253,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new Session(session, Location, Coach, Service);
+                return new SingleSession(session, Location, Coach, Service);
             }
             catch (Exception ex)
             {
@@ -276,8 +277,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         private void AssertSession(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<Session>());
-            var session = ((Session)response);
+            Assert.That(response, Is.InstanceOf<SingleSession>());
+            var session = ((SingleSession)response);
 
             Assert.That(session.Location.Id, Is.EqualTo(new Guid(LOCATION_ID)));
             Assert.That(session.Coach.Id, Is.EqualTo(new Guid(COACH_ID)));
@@ -292,9 +293,9 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(booking.StudentCapacity, Is.EqualTo(12));
             Assert.That(booking.IsOnlineBookable, Is.EqualTo(true));
 
-            var repetition = session.Repetition;
-            Assert.That(repetition.SessionCount, Is.EqualTo(1));
-            Assert.That(repetition.RepeatFrequency, Is.Null);
+            //var repetition = session.Repetition;
+            //Assert.That(repetition.SessionCount, Is.EqualTo(1));
+            //Assert.That(repetition.RepeatFrequency, Is.Null);
 
             var pricing = session.Pricing;
             Assert.That(pricing.SessionPrice, Is.EqualTo(15));

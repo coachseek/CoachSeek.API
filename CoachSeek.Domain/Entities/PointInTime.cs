@@ -5,6 +5,9 @@ namespace CoachSeek.Domain.Entities
     public class PointInTime
     {
         public DateTime DateTime { get; private set; }
+        public Date Date { get { return new Date(DateTime); } }
+        public TimeOfDay Time { get { return new TimeOfDay(DateTime); } }
+
 
         public PointInTime(Date date, TimeOfDay time)
         {
@@ -20,6 +23,11 @@ namespace CoachSeek.Domain.Entities
         public void AddMinutes(int minutes)
         {
             DateTime = DateTime.AddMinutes(minutes);
+        }
+
+        public void AddDays(int days)
+        {
+            DateTime = DateTime.AddDays(days);
         }
 
         public bool IsAfter(PointInTime other)
