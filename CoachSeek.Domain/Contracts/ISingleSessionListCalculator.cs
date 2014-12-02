@@ -6,5 +6,6 @@ namespace CoachSeek.Domain.Contracts
     public interface ISingleSessionListCalculator
     {
         IList<SingleSession> Calculate(SingleSession firstSession, SessionCount sessionCount);
+        IList<SingleSession> Calculate(SingleSession firstSession, int sessionCount);
     }
 }

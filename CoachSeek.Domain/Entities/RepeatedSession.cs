@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -11,18 +12,19 @@ namespace CoachSeek.Domain.Entities
     {
         private RepeatedSessionPricing _pricing;
         private SessionRepetition _repetition;
-        private readonly List<SingleSession> _sessions;
+        //private readonly List<SingleSession> _sessions;
 
         public PricingData Pricing { get { return _pricing.ToData(); } }
         public RepetitionData Repetition { get { return _repetition.ToData(); } }
 
         public IList<SingleSession> Sessions { get { return CalculateSingleSessions(); } }
 
-        // TODO
+
         private SingleSession FirstSession
         {
-            get { return null; }
+            get { return CalculateFirstSession(); }
         }
+
 
         public RepeatedSession(SessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Pricing, data.Presentation, data.Repetition)
@@ -55,7 +57,7 @@ namespace CoachSeek.Domain.Entities
 
             errors.ThrowIfErrors();
 
-            _sessions = new List<SingleSession>();
+            //_sessions = new List<SingleSession>();
         }
 
 
@@ -112,11 +114,18 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
+        private SingleSession CalculateFirstSession()
+        {
+            var data = ToData();
+            data.Repetition = null;
+
+            return new SingleSession(data, _location.ToData(), _coach.ToData(), _service.ToData());
+        }
+
         private IList<SingleSession> CalculateSingleSessions()
         {
-
-
-            return _sessions;
+            var calculator = SingleSessionListCalculatorSelector.SelectCalculator(Repetition.RepeatFrequency);
+            return calculator.Calculate(FirstSession, Repetition.SessionCount);
         }
     }
 }

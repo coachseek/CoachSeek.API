@@ -5,10 +5,24 @@ namespace CoachSeek.Domain.Services
 {
     public static class SingleSessionListCalculatorSelector
     {
+        public static ISingleSessionListCalculator SelectCalculator(string repeatFrequency)
+        {
+            if (repeatFrequency == "d")
+                return new DailySingleSessionListCalculator();
+
+            if (repeatFrequency == "w")
+                return new WeeklySingleSessionListCalculator();
+
+            return null;
+        }
+
         public static ISingleSessionListCalculator SelectCalculator(RepeatFrequency repeatFrequency)
         {
             if (repeatFrequency.Frequency == "d")
                 return new DailySingleSessionListCalculator();
+
+            if (repeatFrequency.Frequency == "w")
+                return new WeeklySingleSessionListCalculator();
 
             return null;
         }

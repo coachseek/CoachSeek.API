@@ -2,6 +2,7 @@
 using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Services;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit.Services
@@ -107,7 +108,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
 
         private void AssertDailySessions(int sessionCount)
         {
-            var calculator = new DailySingleSessionListCalculator();
+            var calculator = new WeeklySingleSessionListCalculator();
             var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
 
             Assert.That(sessions.Count, Is.EqualTo(sessionCount));

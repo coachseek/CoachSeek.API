@@ -85,7 +85,9 @@
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
-    <Compile Include="Entities\DailySingleSessionListCalculator.cs" />
+    <Compile Include="Services\DailySingleSessionListCalculator.cs" />
+    <Compile Include="Services\SingleSessionListCalculator.cs" />
+    <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\NewRepeatedSession.cs" />
     <Compile Include="Entities\NewSingleSession.cs" />
@@ -112,7 +114,6 @@
     <Compile Include="Entities\NewLocation.cs" />
     <Compile Include="Entities\SingleSession.cs" />
     <Compile Include="Entities\StandaloneSessionPricing.cs" />
-    <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Entities\SingleSessionPricing.cs" />
     <Compile Include="Entities\TimeOfDay.cs" />
     <Compile Include="Entities\Price.cs" />
