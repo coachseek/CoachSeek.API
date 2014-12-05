@@ -86,7 +86,10 @@
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
+    <Compile Include="Services\MonthlySingleSessionListCalculator.cs" />
+    <Compile Include="Services\SecondDaySingleSessionListCalculator.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
+    <Compile Include="Services\FortnightlySingleSessionListCalculator.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\NewRepeatedSession.cs" />

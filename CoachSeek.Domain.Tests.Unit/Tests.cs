@@ -46,6 +46,14 @@ namespace CoachSeek.Domain.Tests.Unit
             return oneWeekFromToday.ToString("yyyy-MM-dd");
         }
 
+        protected string GetDateFormatNumberOfWeeksOut(int numberOfWeeks, DateTime? today = null)
+        {
+            today = today ?? DateTime.Today;
+            var twoWeeksFromToday = today.Value.AddDays(7 * numberOfWeeks);
+
+            return twoWeeksFromToday.ToString("yyyy-MM-dd");
+        }
+
         protected string GetDateFormatOneWeekOut(DateTime? today = null)
         {
             today = today ?? DateTime.Today;

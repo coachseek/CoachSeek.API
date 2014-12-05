@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace CoachSeek.Domain.Tests.Unit.Services
 {
     [TestFixture]
-    public class DailySingleSessionListCalculatorTests : Tests
+    public class SingleSessionListCalculatorTests : Tests
     {
         private const string LOCATION_ID = "1F2A567D-58D2-4BE3-1111-2CEA7B477C83";
         private const string COACH_ID = "66045F50-4E8E-4ED4-2222-A0740B25494F";
@@ -103,10 +103,84 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             AssertDailySessions(5);
             AssertDailySessions(8);
             AssertDailySessions(13);
-            AssertDailySessions(21);
+            AssertDailySessions(20);
+            AssertDailySessions(40);
+            AssertDailySessions(60);
+            AssertDailySessions(100);
         }
 
+        [Test]
+        public void TestSecondDaySingleSessionListCalculator()
+        {
+            AssertSecondDaySessions(2);
+            AssertSecondDaySessions(3);
+            AssertSecondDaySessions(5);
+            AssertSecondDaySessions(8);
+            AssertSecondDaySessions(13);
+            AssertSecondDaySessions(20);
+            AssertSecondDaySessions(40);
+            AssertSecondDaySessions(60);
+            AssertSecondDaySessions(100);
+        }
+
+        [Test]
+        public void TestWeeklySingleSessionListCalculator()
+        {
+            AssertWeeklySessions(2);
+            AssertWeeklySessions(3);
+            AssertWeeklySessions(5);
+            AssertWeeklySessions(8);
+            AssertWeeklySessions(13);
+            AssertWeeklySessions(20);
+            AssertWeeklySessions(40);
+            AssertWeeklySessions(60);
+            AssertWeeklySessions(100);
+        }
+
+        [Test]
+        public void TestFortnightlySingleSessionListCalculator()
+        {
+            AssertFortnightlySessions(2);
+            AssertFortnightlySessions(3);
+            AssertFortnightlySessions(5);
+            AssertFortnightlySessions(8);
+            AssertFortnightlySessions(13);
+            AssertFortnightlySessions(20);
+            AssertFortnightlySessions(40);
+            AssertFortnightlySessions(60);
+            AssertFortnightlySessions(100);
+        }
+
+        [Test]
+        public void TestMonthlySingleSessionListCalculator()
+        {
+            //AssertMonthlySessions(2);
+        }
+
+
         private void AssertDailySessions(int sessionCount)
+        {
+            var calculator = new DailySingleSessionListCalculator();
+            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
+
+            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
+            AssertFirstSession(sessions[0]);
+            for (var i = 1; i < sessionCount; i++)
+                AssertSubsequentDailySession(sessions[i], i);
+        }
+
+        private void AssertSecondDaySessions(int sessionCount)
+        {
+            var calculator = new SecondDaySingleSessionListCalculator();
+            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
+
+            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
+            AssertFirstSession(sessions[0]);
+            for (var i = 1; i < sessionCount; i++)
+                AssertSubsequentSecondDaySession(sessions[i], i);
+        }
+
+        private void AssertWeeklySessions(int sessionCount)
         {
             var calculator = new WeeklySingleSessionListCalculator();
             var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
@@ -114,7 +188,29 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             Assert.That(sessions.Count, Is.EqualTo(sessionCount));
             AssertFirstSession(sessions[0]);
             for (var i = 1; i < sessionCount; i++)
-                AssertSubsequentSession(sessions[i], i);
+                AssertSubsequentWeeklySession(sessions[i], i);
+        }
+
+        private void AssertFortnightlySessions(int sessionCount)
+        {
+            var calculator = new FortnightlySingleSessionListCalculator();
+            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
+
+            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
+            AssertFirstSession(sessions[0]);
+            for (var i = 1; i < sessionCount; i++)
+                AssertSubsequentFortnightlySession(sessions[i], i);
+        }
+
+        private void AssertMonthlySessions(int sessionCount)
+        {
+            var calculator = new MonthlySingleSessionListCalculator();
+            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
+
+            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
+            AssertFirstSession(sessions[0]);
+            for (var i = 1; i < sessionCount; i++)
+                AssertSubsequentFortnightlySession(sessions[i], i);
         }
 
 
@@ -127,14 +223,40 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             AssertSession(firstSession, GetDateFormatOneWeekOut());
         }
 
-
-        private void AssertSubsequentSession(SingleSession session, int sessionIndex)
+        private void AssertSubsequentDailySession(SingleSession session, int sessionIndex)
         {
             Assert.That(session, Is.Not.Null);
             Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(session.Id, Is.Not.EqualTo(FirstSession.Id));
 
             AssertSession(session, GetDateFormatNumberOfDaysOut(DAYS_IN_WEEK + sessionIndex));
+        }
+
+        private void AssertSubsequentSecondDaySession(SingleSession session, int sessionIndex)
+        {
+            Assert.That(session, Is.Not.Null);
+            Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(session.Id, Is.Not.EqualTo(FirstSession.Id));
+
+            AssertSession(session, GetDateFormatNumberOfDaysOut(DAYS_IN_WEEK + 2 * sessionIndex));
+        }
+
+        private void AssertSubsequentWeeklySession(SingleSession session, int sessionIndex)
+        {
+            Assert.That(session, Is.Not.Null);
+            Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(session.Id, Is.Not.EqualTo(FirstSession.Id));
+
+            AssertSession(session, GetDateFormatNumberOfDaysOut(DAYS_IN_WEEK * (sessionIndex + 1)));
+        }
+
+        private void AssertSubsequentFortnightlySession(SingleSession session, int sessionIndex)
+        {
+            Assert.That(session, Is.Not.Null);
+            Assert.That(session.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(session.Id, Is.Not.EqualTo(FirstSession.Id));
+
+            AssertSession(session, GetDateFormatNumberOfDaysOut(DAYS_IN_WEEK + 2 * DAYS_IN_WEEK * sessionIndex));
         }
 
         private void AssertSession(SingleSession session, string data)

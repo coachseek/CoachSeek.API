@@ -83,7 +83,7 @@
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DailySingleSessionListCalculatorTests.cs" />
+    <Compile Include="Services\SingleSessionListCalculatorTests.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>

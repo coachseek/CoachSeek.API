@@ -10,21 +10,21 @@ namespace CoachSeek.Domain.Services
             if (repeatFrequency == "d")
                 return new DailySingleSessionListCalculator();
 
+            if (repeatFrequency == "2d")
+                return new SecondDaySingleSessionListCalculator();
+
             if (repeatFrequency == "w")
                 return new WeeklySingleSessionListCalculator();
+
+            if (repeatFrequency == "2w")
+                return new FortnightlySingleSessionListCalculator();
 
             return null;
         }
 
         public static ISingleSessionListCalculator SelectCalculator(RepeatFrequency repeatFrequency)
         {
-            if (repeatFrequency.Frequency == "d")
-                return new DailySingleSessionListCalculator();
-
-            if (repeatFrequency.Frequency == "w")
-                return new WeeklySingleSessionListCalculator();
-
-            return null;
+            return SelectCalculator(repeatFrequency.Frequency);
         }
     }
 }

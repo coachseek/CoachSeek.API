@@ -12,7 +12,6 @@ namespace CoachSeek.Domain.Entities
     {
         private RepeatedSessionPricing _pricing;
         private SessionRepetition _repetition;
-        //private readonly List<SingleSession> _sessions;
 
         public PricingData Pricing { get { return _pricing.ToData(); } }
         public RepetitionData Repetition { get { return _repetition.ToData(); } }
@@ -27,7 +26,7 @@ namespace CoachSeek.Domain.Entities
 
 
         public RepeatedSession(SessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Pricing, data.Presentation, data.Repetition)
+            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing)
         { }
 
 
@@ -37,9 +36,9 @@ namespace CoachSeek.Domain.Entities
                        ServiceData service,
                        SessionTimingData timing,
                        SessionBookingData booking,
-                       PricingData pricing,
                        PresentationData presentation,
-                       RepetitionData repetition)
+                       RepetitionData repetition,
+                       PricingData pricing)
         {
             Id = id;
 
@@ -56,8 +55,6 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
 
             errors.ThrowIfErrors();
-
-            //_sessions = new List<SingleSession>();
         }
 
 
@@ -85,8 +82,7 @@ namespace CoachSeek.Domain.Entities
 
         private bool IsOverlapping(RepeatedSession otherSessions)
         {
-            // TODO
-            return false;
+            return Sessions.Any(otherSessions.IsOverlapping);
         }
 
 
