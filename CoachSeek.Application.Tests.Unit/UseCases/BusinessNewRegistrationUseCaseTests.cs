@@ -26,6 +26,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         [SetUp]
         public void Setup()
         {
+            SetupUserRepository();
             SetupBusinessRepository();
             SetupBusinessDomainBuilder();
             SetupBusinessRegistrationEmailer();

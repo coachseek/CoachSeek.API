@@ -22,7 +22,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupBusinessRepository();
         }
 
-
         [Test]
         public void GivenNoCoachAddCommand_WhenAddCoach_ThenCoachAddFailsWithMissingCoachError()
         {
@@ -30,6 +29,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var response = WhenAddCoach(request);
             ThenCoachAddFailsWithMissingCoachError(response);
         }
+
 
         [Test]
         public void GivenNonExistentBusiness_WhenAddCoach_ThenCoachAddFailsWithInvalidBusinessError()

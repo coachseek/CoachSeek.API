@@ -80,6 +80,7 @@
     <Compile Include="Entities\SessionRepetitionTests.cs" />
     <Compile Include="Entities\SessionTests.cs" />
     <Compile Include="Entities\SessionTimingTests.cs" />
+    <Compile Include="Entities\UserTests.cs" />
     <Compile Include="Exceptions\ValidationExceptionTests.cs" />
     <Compile Include="Fakes\MockBusinessDomainBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

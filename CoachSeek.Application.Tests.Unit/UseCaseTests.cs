@@ -4,6 +4,7 @@ using System.Linq;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Configuration;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
@@ -22,12 +23,25 @@ namespace CoachSeek.Application.Tests.Unit
         protected const string SERVICE_MINI_RED_ID = "60D57C9C-58B0-4A10-94CA-2B12EBBF13AE";
         protected const string SERVICE_MINI_ORANGE_ID = "7018EC02-67B0-4F51-BD1A-A0D2E395D8FC";
 
+        protected InMemoryUserRepository UserRepository { get; set; }
         protected InMemoryBusinessRepository BusinessRepository { get; set; }
 
         protected void ConfigureAutoMapper()
         {
             ApplicationAutoMapperConfigurator.Configure();
             DbAutoMapperConfigurator.Configure();
+        }
+
+        protected void SetupUserRepository()
+        {
+            UserRepository = new InMemoryUserRepository();
+            UserRepository.Clear();
+
+            var users = SetupUsers();
+            UserRepository.Add(users);
+
+            UserRepository.WasSaveNewUserCalled = false;
+            UserRepository.WasSaveUserCalled = false;
         }
 
         protected void SetupBusinessRepository()
@@ -40,6 +54,14 @@ namespace CoachSeek.Application.Tests.Unit
 
             BusinessRepository.WasSaveNewBusinessCalled = false;
             BusinessRepository.WasSaveBusinessCalled = false;
+        }
+
+        protected IList<User> SetupUsers()
+        {
+            return new List<User> 
+            {
+                new User(Guid.NewGuid(), "bgates@gmail.com", "William", "Gates", "bgates@gmail.com", "Microsoft75")
+            };
         }
 
         protected Business SetupBusiness()
@@ -185,7 +207,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected void AssertSingleError<TData>(Response<TData> response, 
                                                 string expectedMessage, 
-                                                string expectedField = null) where TData : class, IData
+                                                string expectedField = null) where TData : class//, IData
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

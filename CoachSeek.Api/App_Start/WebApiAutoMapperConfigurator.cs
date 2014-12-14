@@ -11,6 +11,7 @@ namespace CoachSeek.Api
         public static void Configure()
         {
             Mapper.CreateMap<ApiBusinessRegistrantCommand, BusinessRegistrantCommand>();
+            Mapper.CreateMap<ApiBusinessRegistrantCommand, UserAddCommand>();
             Mapper.CreateMap<ApiBusinessRegistrationCommand, BusinessRegistrationCommand>();
             Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachAddCommand>();

@@ -8,7 +8,7 @@ namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
-        protected HttpResponseMessage CreateWebResponse<TData>(Response<TData> response) where TData : class, IData
+        protected HttpResponseMessage CreateWebResponse<TData>(Response<TData> response) where TData : class//, IData
         {
             if (response is NotFoundResponse<TData>)
                 return Request.CreateResponse(HttpStatusCode.NotFound);

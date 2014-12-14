@@ -5,7 +5,7 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
 {
-    public class NotFoundResponse<TData> : Response<TData> where TData : class, IData
+    public class NotFoundResponse<TData> : Response<TData> where TData : class//, IData
     {
         public NotFoundResponse()
         {
@@ -14,7 +14,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
         }
     }
 
-    public class Response<TData> where TData : class, IData
+    public class Response<TData> where TData : class//, IData
     {
         public TData Data { get; protected set; }
         public List<ErrorData> Errors { get; protected set; }

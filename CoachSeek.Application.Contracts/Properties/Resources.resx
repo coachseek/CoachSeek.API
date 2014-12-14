@@ -171,4 +171,7 @@
   <data name="ErrorNoLocationUpdateData" xml:space="preserve">
     <value>Missing location data.</value>
   </data>
+  <data name="ErrorUserDuplicateEmail" xml:space="preserve">
+    <value>This user with this email address already exists.</value>
+  </data>
 </root>

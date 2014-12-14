@@ -221,5 +221,14 @@ namespace CoachSeek.Application.Contracts.Properties {
                 return ResourceManager.GetString("ErrorNoLocationUpdateData", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user with this email address already exists..
+        /// </summary>
+        internal static string ErrorUserDuplicateEmail {
+            get {
+                return ResourceManager.GetString("ErrorUserDuplicateEmail", resourceCulture);
+            }
+        }
     }
 }

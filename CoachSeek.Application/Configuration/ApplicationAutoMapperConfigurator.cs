@@ -34,6 +34,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<SingleSessionPricing, PricingData>();
             Mapper.CreateMap<WeeklyWorkingHours, WeeklyWorkingHoursData>();
 
+            Mapper.CreateMap<User, UserData>();
 
             Mapper.CreateMap<SingleSession, SessionData>();
             Mapper.CreateMap<StandaloneSession, SessionData>();

@@ -1,7 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
-using CoachSeek.Common;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
 
 namespace CoachSeek.Application.Contracts.Models.Responses
@@ -18,6 +16,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
             return new ErrorData(Resources.ErrorNoBusinessRegistrationData);
         }
     }
+
     public class DuplicateBusinessAdminBusinessRegistrationResponse : Response<BusinessData>
     {
         public DuplicateBusinessAdminBusinessRegistrationResponse()

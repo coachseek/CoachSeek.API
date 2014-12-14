@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Data.Tests.Unit",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.Api", "CoachSeek.Api\CoachSeek.Api.csproj", "{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoachSeek.DataAccess.Authentication", "CoachSeek.DataAccess.Authentication\CoachSeek.DataAccess.Authentication.csproj", "{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -203,6 +205,16 @@ Global
 		{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6CB18427-B543-4DF4-8D9B-4A6EE6B90590}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,5 +234,6 @@ Global
 		{40BA627F-6DF3-40FF-BAA2-774AFF4720AE} = {A3A81634-C2B1-4CDF-A1F0-ABE4F6FD30DB}
 		{75F4425E-99F9-4022-9370-C8696C7EAA0C} = {CD14317E-3030-4DC6-A37B-95DA90EF2E7A}
 		{6CB18427-B543-4DF4-8D9B-4A6EE6B90590} = {A3A81634-C2B1-4CDF-A1F0-ABE4F6FD30DB}
+		{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9} = {E415E6AC-CF57-434C-B2BB-9714912A2F38}
 	EndGlobalSection
 EndGlobal

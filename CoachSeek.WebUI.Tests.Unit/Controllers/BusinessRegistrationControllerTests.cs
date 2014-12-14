@@ -22,6 +22,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private const string BUSINESS_ID = "12345678-B10E-4C0E-B46F-1386B98CE567";
 
         private BusinessRegistrationController Controller { get; set; }
+        private MockUserAddUseCase UserAddUseCase { get; set; }
+        private MockBusinessNewRegistrationUseCase BusinessAddUseCase { get; set; }
+        private UserData UserData { get; set; }
+        private BusinessData BusinessData { get; set; }
 
         [TestFixtureSetUp]
         public void SetupAllTests()
@@ -38,28 +42,44 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
             };
-        }
 
-        private BusinessData SetupBusiness()
-        {
-            return new BusinessData
+            UserData = new UserData
             {
-                Id = new Guid(BUSINESS_ID),
-                Name = "Olaf's Cafe",
-                Domain = "olafscafe",
-                Admin = new BusinessAdminData
-                {
-                    FirstName = "Bobby",
-                    LastName = "Tables",
-                    Email = "bobby@tables.hack",
-                    Username = "bobby@tables.hack",
-                }
+                FirstName = "Olaf",
+                LastName = "Thielke",
+                Email = "olaf@gmail.com",
+                Username = "olaf@gmail.com"
+            };
+
+            UserAddUseCase = new MockUserAddUseCase
+            {
+                Response = new Response<UserData>(UserData)
+            };
+
+            BusinessData = new BusinessData {Id = new Guid(BUSINESS_ID), Name = "Olaf's Cafe"};
+
+            BusinessAddUseCase = new MockBusinessNewRegistrationUseCase
+            {
+                Response = new Response<BusinessData>(BusinessData)
             };
         }
 
-        private MockBusinessNewRegistrationUseCase RegisterUseCase
+        private ApiBusinessRegistrationCommand Command
         {
-            get { return (MockBusinessNewRegistrationUseCase)Controller.BusinessNewRegistrationUseCase; }
+            get
+            {
+                return new ApiBusinessRegistrationCommand
+                {
+                    BusinessName = "Olaf's Cafe",
+                    Registrant = new ApiBusinessRegistrantCommand
+                    {
+                        FirstName = "Olaf",
+                        LastName = "Thielke",
+                        Email = "olaf@gmail.com",
+                        Password = "password1"
+                    }
+                };   
+            }
         }
 
 
@@ -71,21 +91,39 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GivenBusinessRegistrationCommandWithError_WhenPost_ThenCallRegistrationUseCaseAndReturnErrorResponse()
+        public void GivenUserAddUseCaseFails_WhenPost_ThenReturnErrorResponse()
         {
-            var useCase = GivenBusinessRegistrationCommandWithError();
-            var response = WhenPost(useCase);
-            ThenCallRegistrationUseCaseAndReturnErrorResponse(response);
+            GivenUserAddUseCaseFails("An error has occurred!");
+            var response = WhenPost();
+            ThenReturnUserAddErrorResponse(response, "An error has occurred!");
         }
 
         [Test]
-        public void GivenBusinessRegistrationCommandWithoutError_WhenPost_ThenCallRegistrationUseCaseAndReturnSuccessResponse()
+        public void GivenBusinessAddUseCaseFails_WhenPost_ThenReturnErrorResponse()
         {
-            var useCase = GivenBusinessRegistrationCommandWithoutError();
-            var response = WhenPost(useCase);
+            GivenBusinessAddUseCaseFails("An error has occurred!");
+            var response = WhenPost();
+            ThenReturnBusinessAddErrorResponse(response, "An error has occurred!");
+        }
+
+        [Test]
+        public void GivenUserAddAndBusinessAddUseCasesSucceed_WhenPost_ThenReturnSuccessResponse()
+        {
+            GivenUserAddAndBusinessAddUseCasesSucceed();
+            var response = WhenPost();
             ThenCallRegistrationUseCaseAndReturnSuccessResponse(response);
         }
 
+
+        private void GivenUserAddUseCaseFails(string errorMessage)
+        {
+            UserAddUseCase.Response = new Response<UserData>(new ValidationException(errorMessage));
+        }
+
+        private void GivenBusinessAddUseCaseFails(string errorMessage)
+        {
+            BusinessAddUseCase.Response = new Response<BusinessData>(new ValidationException(errorMessage));
+        }
 
         private MockBusinessNewRegistrationUseCase GivenBusinessRegistrationCommandWithError()
         {
@@ -95,64 +133,80 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
         }
 
-        private MockBusinessNewRegistrationUseCase GivenBusinessRegistrationCommandWithoutError()
+        private void GivenUserAddAndBusinessAddUseCasesSucceed()
         {
-            return new MockBusinessNewRegistrationUseCase
-            {
-                Response = new Response<BusinessData>(SetupBusiness())
-            };
         }
 
 
         private BusinessRegistrationController WhenConstruct()
         {
+            var userAddUseCase = new UserAddUseCase(null);
             var registrationUseCase = new BusinessNewRegistrationUseCase(null, null, null);
 
-            return new BusinessRegistrationController(registrationUseCase);
+            return new BusinessRegistrationController(userAddUseCase, registrationUseCase);
         }
 
-        private HttpResponseMessage WhenPost(MockBusinessNewRegistrationUseCase useCase)
+        private HttpResponseMessage WhenPost()
         {
-            var apiBusinessRegistrationCommand = new ApiBusinessRegistrationCommand
-            {
-                BusinessName = "Olaf's Cafe",
-                Registrant = new ApiBusinessRegistrantCommand
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaf@gmail.com",
-                    Password = "password1"
-                }
-            };
+            Controller.UserAddUseCase = UserAddUseCase;
+            Controller.BusinessNewRegistrationUseCase = BusinessAddUseCase;
 
-            Controller.BusinessNewRegistrationUseCase = useCase;
-
-            return Controller.Post(apiBusinessRegistrationCommand);
+            return Controller.Post(Command);
         }
 
 
         private void ThenSetDependencies(BusinessRegistrationController controller)
         {
+            Assert.That(controller.UserAddUseCase, Is.Not.Null);
             Assert.That(controller.BusinessNewRegistrationUseCase, Is.Not.Null);
         }
 
-        private void ThenCallRegistrationUseCaseAndReturnErrorResponse(HttpResponseMessage response)
+        private void ThenReturnUserAddErrorResponse(HttpResponseMessage response, string errorMessage)
         {
-            AssertWasRegisterNewBusinessCalledCalled();
-            AssertPassRelevantInfoIntoRegister();
-            AssertErrorResponse(response);
+            AssertWasAddUserCalled(true);
+            AssertErrorResponse(response, errorMessage);
+
+            AssertWasAddBusinessCalled(false);
+        }
+
+        private void ThenReturnBusinessAddErrorResponse(HttpResponseMessage response, string errorMessage)
+        {
+            AssertWasAddUserCalled(true);
+
+            AssertWasAddBusinessCalled(true);
+            AssertErrorResponse(response, errorMessage);
         }
 
         private void ThenCallRegistrationUseCaseAndReturnSuccessResponse(HttpResponseMessage response)
         {
-            AssertWasRegisterNewBusinessCalledCalled();
+            AssertWasAddUserCalled(true);
+            AssertPassRelevantInfoIntoAddUser();
+
+            AssertWasAddBusinessCalled(true);
             AssertPassRelevantInfoIntoRegister();
+
             AssertSuccessResponse(response);
         }
 
-        private void AssertWasRegisterNewBusinessCalledCalled()
+
+        private void AssertWasAddUserCalled(bool wasCalled)
         {
-            Assert.That(RegisterUseCase.WasRegisterNewBusinessCalled, Is.True);
+            Assert.That(UserAddUseCase.WasAddUserCalled, Is.EqualTo(wasCalled));
+        }
+
+        private void AssertWasAddBusinessCalled(bool wasCalled)
+        {
+            Assert.That(BusinessAddUseCase.WasRegisterNewBusinessCalled, Is.EqualTo(wasCalled));
+        }
+
+        private void AssertPassRelevantInfoIntoAddUser()
+        {
+            var command = ((MockUserAddUseCase)Controller.UserAddUseCase).Command;
+            Assert.That(command, Is.Not.Null);
+            Assert.That(command.FirstName, Is.EqualTo("Olaf"));
+            Assert.That(command.LastName, Is.EqualTo("Thielke"));
+            Assert.That(command.Email, Is.EqualTo("olaf@gmail.com"));
+            Assert.That(command.Password, Is.EqualTo("password1"));
         }
 
         private void AssertPassRelevantInfoIntoRegister()
@@ -167,14 +221,14 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(registrant.Password, Is.EqualTo("password1"));
         }
 
-        private void AssertErrorResponse(HttpResponseMessage response)
+        private void AssertErrorResponse(HttpResponseMessage response, string errorMessage)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             List<ErrorData> errors;
             Assert.That(response.TryGetContentValue(out errors), Is.True);
             var error = errors[0];
             Assert.That(error.Field, Is.Null);
-            Assert.That(error.Message, Is.EqualTo("My Error"));
+            Assert.That(error.Message, Is.EqualTo(errorMessage));
         }
 
         private void AssertSuccessResponse(HttpResponseMessage response)

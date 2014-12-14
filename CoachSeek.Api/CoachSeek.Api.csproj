@@ -192,6 +192,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiAutoMapperConfigurator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\BasicAuthenticationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
+    <Compile Include="Conversion\UserAddCommandConverter.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachUpdateCommandConverter.cs" />
@@ -248,6 +250,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Results\AuthenticationFailureResult.cs" />
     <Compile Include="ServiceActivator.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TypeRegistry.cs" />
@@ -357,6 +360,10 @@
     <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.DataAccess.Authentication\CoachSeek.DataAccess.Authentication.csproj">
+      <Project>{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}</Project>
+      <Name>CoachSeek.DataAccess.Authentication</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
       <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>

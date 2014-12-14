@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\BasicAuthenticationAttributeTests.cs" />
     <Compile Include="Controllers\BusinessesControllerTests.cs" />
     <Compile Include="Controllers\BusinessRegistrationControllerTests.cs" />
     <Compile Include="Controllers\CoachesControllerTests.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Fakes\MockLocationUpdateUseCase.cs" />
     <Compile Include="Fakes\MockLocationAddUseCase.cs" />
     <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
+    <Compile Include="Fakes\MockUserAddUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

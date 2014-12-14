@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Models;
-using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.DataAccess.Configuration
 {
@@ -26,6 +25,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<SessionBookingData, DbSessionBooking>();
             Mapper.CreateMap<SessionData, DbSession>();
             Mapper.CreateMap<SessionTimingData, DbSessionTiming>();
+            Mapper.CreateMap<UserData, DbUser>();
             Mapper.CreateMap<WeeklyWorkingHoursData, DbWeeklyWorkingHours>();
 
 
@@ -46,6 +46,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<DbSession, SessionData>();
             Mapper.CreateMap<DbSessionBooking, SessionBookingData>();
             Mapper.CreateMap<DbSessionTiming, SessionTimingData>();
+            Mapper.CreateMap<DbUser, UserData>();
             Mapper.CreateMap<DbWeeklyWorkingHours, WeeklyWorkingHoursData>();
         }
     }
