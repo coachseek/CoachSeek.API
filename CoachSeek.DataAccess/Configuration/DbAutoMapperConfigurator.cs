@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Authentication.Models;
 using CoachSeek.DataAccess.Models;
 
 namespace CoachSeek.DataAccess.Configuration

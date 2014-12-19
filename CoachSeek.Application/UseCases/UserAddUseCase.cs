@@ -27,18 +27,18 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var newUser = new NewUser(command);
-                var user = newUser.Save(UserRepository).Result;
+                var user = newUser.Save(UserRepository);
                 return new Response<UserData>(user);
             }
-            catch (AggregateException ex)
+            catch (Exception ex)
             {
                 return HandleUserAddException(ex);
             }
         }
 
-        private Response<UserData> HandleUserAddException(AggregateException ex)
+        private Response<UserData> HandleUserAddException(Exception ex)
         {
-            if (ex.InnerException is DuplicateUser)
+            if (ex is DuplicateUser)
                 return HandleDuplicateUser();
 
             return null;

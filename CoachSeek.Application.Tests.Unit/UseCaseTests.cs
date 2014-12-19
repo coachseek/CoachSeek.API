@@ -60,7 +60,7 @@ namespace CoachSeek.Application.Tests.Unit
         {
             return new List<User> 
             {
-                new User(Guid.NewGuid(), "bgates@gmail.com", "William", "Gates", "bgates@gmail.com", "Microsoft75")
+                new User(Guid.NewGuid(), Guid.NewGuid(), "my business", "bgates@gmail.com", "William", "Gates", "bgates@gmail.com", "Microsoft75")
             };
         }
 

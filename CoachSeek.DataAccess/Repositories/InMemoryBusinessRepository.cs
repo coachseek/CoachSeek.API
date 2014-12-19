@@ -92,7 +92,7 @@ namespace CoachSeek.DataAccess.Repositories
         {
             return new BusinessAdmin(dbAdmin.Id, dbAdmin.Email,
                                      dbAdmin.FirstName, dbAdmin.LastName,
-                                     dbAdmin.Username, dbAdmin.PasswordHash, dbAdmin.PasswordSalt).ToData();
+                                     dbAdmin.Username, dbAdmin.PasswordHash).ToData();
         }
 
         private static IEnumerable<LocationData> CreateLocations(IEnumerable<DbLocation> dbLocations)

@@ -1,35 +1,29 @@
 ﻿using System;
 using AutoMapper;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
-using Microsoft.AspNet.Identity;
+using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class User : IUser<string>
+    public class User
     {
-        // Note: The ASP.NET Identity framework forces us to use string for Id where we would rather have Guid.
-        public string Id { get; protected set; }
+        public Guid Id { get; protected set; }
+
         public string UserName
         {
             get { return Credential.Username; }
-            set
-            {
-                // Immutable object so cannot set UserName even though it is enforced by the ASP.NET identity IUser interface.
-                throw new NotImplementedException();
-            }
         }
 
-        public Guid BusinessId { get; set; }
+        // When the user is first registered it will have no associated business.
+        public Guid? BusinessId { get; set; }
         public string BusinessName { get; set; } // Debug
 
         public string FirstName { get { return Person.FirstName; } }
         public string LastName { get { return Person.LastName; } }
         public string Email { get { return EmailAddress.Email; } }
-
-        public string Password { get { return Credential.Password; } }
-
-        //public string PasswordHash { get { return Credential.PasswordHash; } }
-        //public string PasswordSalt { get { return Credential.PasswordSalt; } }
+        public string PasswordHash { get { return Credential.PasswordHash; } }
 
         protected PersonName Person { get; set; }
         protected EmailAddress EmailAddress { get; set; }
@@ -40,24 +34,39 @@ namespace CoachSeek.Domain.Entities
         { }
 
         public User(UserData data) 
-            : this(data.Id, 
-                   data.Email, 
+            : this(data.Id,
+                   data.BusinessId,
+                   data.BusinessName,
+                   data.Email,
                    data.FirstName, 
                    data.LastName, 
                    data.Username,
-                   data.Password)
+                   data.PasswordHash)
         { }
 
-        public User(Guid id, string email, 
-                    string firstName, string lastName, 
+        public User(Guid id, Guid? businessId, string businessName,
+                    string email, string firstName, string lastName, 
                     string username, string password)
         {
-            Id = id.ToString();
+            Id = id;
+            BusinessId = businessId;
+            BusinessName = businessName;
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
             Credential = new Credential(username, password);
         }
 
+
+        public virtual UserData Save(IUserRepository repository)
+        {
+            var user = repository.GetByUsername(Email);
+            if (!user.IsExisting())
+                throw new InvalidUser();
+
+            var existingUser = repository.Save(this);
+
+            return existingUser.ToData();
+        }
 
         public UserData ToData()
         {

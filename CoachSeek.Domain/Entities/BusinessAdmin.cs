@@ -12,7 +12,6 @@ namespace CoachSeek.Domain.Entities
         public string Email { get { return EmailAddress.Email; } }
         public string Username { get { return Credential.Username; } }
         public string PasswordHash { get { return Credential.PasswordHash; } }
-        public string PasswordSalt { get { return Credential.PasswordSalt; } }
 
         protected PersonName Person { get; set; }
         protected EmailAddress EmailAddress { get; set; }
@@ -28,18 +27,17 @@ namespace CoachSeek.Domain.Entities
                    data.FirstName, 
                    data.LastName, 
                    data.Username,
-                   data.PasswordHash, 
-                   data.PasswordSalt)
+                   data.PasswordHash)
         { }
 
         public BusinessAdmin(Guid id, string email, 
                              string firstName, string lastName, 
-                             string username, string passwordHash, string passwordSalt)
+                             string username, string passwordHash)
         {
             Id = id;
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
-            Credential = new Credential(username, passwordHash, passwordSalt);
+            Credential = new Credential(username, passwordHash);
         }
 
 

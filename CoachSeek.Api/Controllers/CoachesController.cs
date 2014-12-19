@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
@@ -35,6 +36,8 @@ namespace CoachSeek.Api.Controllers
         //}
 
         // POST: api/Coaches
+        [BasicAuthentication]
+        [Authorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coach)

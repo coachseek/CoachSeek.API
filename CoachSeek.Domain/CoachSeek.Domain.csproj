@@ -84,6 +84,7 @@
     <Compile Include="Commands\SessionBookingCommand.cs" />
     <Compile Include="Commands\SessionTimingCommand.cs" />
     <Compile Include="Commands\SessionUpdateCommand.cs" />
+    <Compile Include="Commands\UserAssociateWithBusinessCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\Business.cs" />
@@ -92,13 +93,16 @@
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
+    <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateUser.cs" />
+    <Compile Include="Exceptions\InvalidUser.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserStore.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\MonthlySingleSessionListCalculator.cs" />
+    <Compile Include="Services\PasswordHash.cs" />
     <Compile Include="Services\SecondDaySingleSessionListCalculator.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Services\FortnightlySingleSessionListCalculator.cs" />

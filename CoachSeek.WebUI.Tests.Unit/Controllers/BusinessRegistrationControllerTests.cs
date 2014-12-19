@@ -143,7 +143,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var userAddUseCase = new UserAddUseCase(null);
             var registrationUseCase = new BusinessNewRegistrationUseCase(null, null, null);
 
-            return new BusinessRegistrationController(userAddUseCase, registrationUseCase);
+            return new BusinessRegistrationController(userAddUseCase, registrationUseCase, null);
         }
 
         private HttpResponseMessage WhenPost()

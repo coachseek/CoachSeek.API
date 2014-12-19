@@ -6,19 +6,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using CoachSeek.Api.Results;
-using CoachSeek.Domain.Entities;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using CoachSeek.Domain.Repositories;
+using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Api.Attributes
 {
     public class BasicAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
-        private IUserStore<User> UserStore { get; set; }
+        private IUserRepository UserRepository { get; set; }
 
         public BasicAuthenticationAttribute()
         {
-            UserStore = MvcApplication.IocContainer.GetInstance<IUserStore<User>>();
+            UserRepository = MvcApplication.IocContainer.GetInstance<IUserRepository>();
         }
 
 
@@ -60,7 +59,7 @@ namespace CoachSeek.Api.Attributes
             var username = userNameAndPasword.Item1;
             var password = userNameAndPasword.Item2;
 
-            IPrincipal principal = await AuthenticateAsync(username, password, cancellationToken);
+            var principal = Authenticate(username, password, cancellationToken);
 
             if (principal == null)
             {
@@ -84,18 +83,21 @@ namespace CoachSeek.Api.Attributes
         }
 
 
-        private async Task<IPrincipal> AuthenticateAsync(string username, string password, CancellationToken cancellationToken)
+        private IPrincipal Authenticate(string username, string password, CancellationToken cancellationToken)
         {
-            var userManager = CreateUserManager();
-
             cancellationToken.ThrowIfCancellationRequested();
-            var user = await userManager.FindAsync(username, password);
+            var user = UserRepository.GetByUsername(username);
             if (user == null)
                 return null;
 
+            var isAuthenticated = PasswordHasher.ValidatePassword(password, user.PasswordHash);
+            if (!isAuthenticated)
+                return null;
+
             cancellationToken.ThrowIfCancellationRequested();
-            var identity = await userManager.ClaimsIdentityFactory.CreateAsync(userManager, user, "Basic");
-            return new ClaimsPrincipal(identity);
+            var identity = new GenericIdentity(username, "Basic");
+            var principal = new GenericPrincipal(identity, new[]{"BusinessAdmin"});
+            return principal;
         }
 
         private static Tuple<string, string> ExtractUserNameAndPassword(string authorizationParameter)
@@ -147,11 +149,11 @@ namespace CoachSeek.Api.Attributes
             return new Tuple<string, string>(userName, password);
         }
 
-        private UserManager<User> CreateUserManager()
-        {
-            var userStore = UserStore;
+        //private UserManager<User> CreateUserManager()
+        //{
+        //    var userStore = UserStore;
 
-            return new UserManager<User>(userStore);
-        }
+        //    return new UserManager<User>(userStore);
+        //}
     }
 }

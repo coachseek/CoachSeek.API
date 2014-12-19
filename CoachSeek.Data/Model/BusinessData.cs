@@ -33,5 +33,10 @@ namespace CoachSeek.Data.Model
         {
             throw new NotImplementedException();
         }
+
+        public bool ShouldSerializeLocations() { return Locations.Count > 0; }
+        public bool ShouldSerializeCoaches() { return Coaches.Count > 0; }
+        public bool ShouldSerializeServices() { return Services.Count > 0; }
+        public bool ShouldSerializeSessions() { return Sessions.Count > 0; }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CoachSeek.DataAccess.Authentication.Conversion;
-using CoachSeek.DataAccess.Models;
+using CoachSeek.DataAccess.Authentication.Models;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 
@@ -28,7 +27,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             Users.Clear();
         }
 
-        public async Task<User> SaveAsync(NewUser newUser)
+        public User Save(NewUser newUser)
         {
             WasSaveNewUserCalled = true;
 
@@ -69,12 +68,15 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
                 return null;
 
             return new User(dbUser.Id,
+                dbUser.BusinessId,
+                dbUser.BusinessName,
                 dbUser.Email,
                 dbUser.FirstName,
                 dbUser.LastName,
                 dbUser.Username,
-                dbUser.Password);
+                dbUser.PasswordHash);
         }
+
 
         // Only used for tests to add a user while bypassing the validation that occurs using Save.
         public void Add(User user)
