@@ -60,13 +60,14 @@
     <Compile Include="Controllers\BusinessRegistrationControllerTests.cs" />
     <Compile Include="Controllers\CoachesControllerTests.cs" />
     <Compile Include="Controllers\LocationsControllerTests.cs" />
-    <Compile Include="Fakes\MockBusinessNewRegistrationUseCase.cs" />
+    <Compile Include="Fakes\MockBusinessAddUseCase.cs" />
     <Compile Include="Fakes\MockCoachAddUseCase.cs" />
     <Compile Include="Fakes\MockCoachUpdateUseCase.cs" />
     <Compile Include="Fakes\MockLocationUpdateUseCase.cs" />
     <Compile Include="Fakes\MockLocationAddUseCase.cs" />
     <Compile Include="Fakes\MockBusinessGetByDomainUseCase.cs" />
     <Compile Include="Fakes\MockUserAddUseCase.cs" />
+    <Compile Include="Fakes\MockUserAssociateWithBusinessUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

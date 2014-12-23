@@ -4,6 +4,6 @@ namespace CoachSeek.Services.Contracts.Email
 {
     public interface IBusinessRegistrationEmailer
     {
-        void SendEmail(BusinessData newbusinessData);
+        void SendEmail(RegistrationData registration);
     }
 }

@@ -59,7 +59,7 @@
     <Compile Include="UseCases\BusinessGetByDomainUseCase.cs" />
     <Compile Include="Factories\BusinessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UseCases\BusinessNewRegistrationUseCase.cs" />
+    <Compile Include="UseCases\BusinessAddUseCase.cs" />
     <Compile Include="UseCases\ServiceAddUseCase.cs" />
     <Compile Include="UseCases\CoachAddUseCase.cs" />
     <Compile Include="UseCases\CoachUpdateUseCase.cs" />

@@ -6,9 +6,9 @@ namespace CoachSeek.Api.Conversion
 {
     public static class UserAddCommandConverter
     {
-        public static UserAddCommand Convert(ApiBusinessRegistrantCommand apiBusinessRegistrantCommand)
+        public static UserAddCommand Convert(ApiBusinessAdminCommand apiBusinessRegistrantCommand)
         {
-            return Mapper.Map<ApiBusinessRegistrantCommand, UserAddCommand>(apiBusinessRegistrantCommand);
+            return Mapper.Map<ApiBusinessAdminCommand, UserAddCommand>(apiBusinessRegistrantCommand);
         }
     }
 }

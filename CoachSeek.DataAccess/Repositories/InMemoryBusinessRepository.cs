@@ -80,7 +80,6 @@ namespace CoachSeek.DataAccess.Repositories
             return new Business(dbBusiness.Id,
                 dbBusiness.Name,
                 dbBusiness.Domain,
-                Mapper.Map<DbBusinessAdmin, BusinessAdminData>(dbBusiness.Admin),
                 Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations),
                 Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches),
                 Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services),

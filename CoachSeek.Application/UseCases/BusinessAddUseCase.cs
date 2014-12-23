@@ -6,47 +6,37 @@ using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Contracts.Builders;
-using CoachSeek.Services.Contracts.Email;
 using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BusinessNewRegistrationUseCase : IBusinessNewRegistrationUseCase
+    public class BusinessAddUseCase : IBusinessAddUseCase
     {
         private IBusinessRepository BusinessRepository { get; set; }
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }
-        private IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
-        public BusinessNewRegistrationUseCase(IBusinessRepository businessRepository, 
-                                              IBusinessDomainBuilder businessDomainBuilder,
-                                              IBusinessRegistrationEmailer businessRegistrationEmailer)
+        public BusinessAddUseCase(IBusinessRepository businessRepository, 
+                                              IBusinessDomainBuilder businessDomainBuilder)
         {
             BusinessRepository = businessRepository;
             BusinessDomainBuilder = businessDomainBuilder;
-            BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
-        public Response<BusinessData> RegisterNewBusiness(BusinessRegistrationCommand registrationCommand)
+        public Response<BusinessData> AddBusiness(BusinessAddCommand command)
         {
-            if (registrationCommand == null)
+            if (command == null)
                 return new NoBusinessRegistrationDataResponse();
 
             try
             {
-                var newBusiness = new NewBusiness(registrationCommand, BusinessDomainBuilder);
+                var newBusiness = new NewBusiness(command, BusinessDomainBuilder);
                 var business = newBusiness.Register(BusinessRepository);
-                SendRegistrationEmail(business);
                 return new Response<BusinessData>(business);
             }
             catch (Exception ex)
             {
                 return HandleBusinessRegistrationException(ex);
             }
-        }
-
-        private void SendRegistrationEmail(BusinessData newbusiness)
-        {
-            BusinessRegistrationEmailer.SendEmail(newbusiness);
         }
 
         private Response<BusinessData> HandleBusinessRegistrationException(Exception ex)

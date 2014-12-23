@@ -69,14 +69,6 @@ namespace CoachSeek.Application.Tests.Unit
             return new Business(new Guid(BUSINESS_ID),
                 "Olaf's Tennis Coaching",
                 "olafstenniscoaching",
-                new BusinessAdminData
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaf@gmail.com",
-                    Username = "olaf@gmail.com",
-                    PasswordHash = "Password1"
-                },
                 SetupLocations(),
                 SetupCoaches(),
                 SetupServices(),

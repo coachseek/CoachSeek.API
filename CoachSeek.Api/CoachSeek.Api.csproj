@@ -218,10 +218,11 @@
     <Compile Include="Models\Api\ApiCoachKey.cs" />
     <Compile Include="Models\Api\ApiLocationKey.cs" />
     <Compile Include="Models\Api\ApiServiceKey.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionBooking.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionTiming.cs" />
-    <Compile Include="Models\Api\Setup\ApiBusinessRegistrantCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessAdminCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessRegistrationCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCoachSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiDailyWorkingHours.cs" />

@@ -54,14 +54,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 new Guid(VALID_BUSINESS_ID),
                 "Olaf's Coaching",
                 "olafscoaching",
-                new BusinessAdminData
-                {
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaft@ihug.co.nz",
-                    Username = "olaft@ihug.co.nz",
-                    PasswordHash = "Password1"
-                },
                 SetupLocations(),
                 SetupCoaches(),
                 SetupServices(),

@@ -6,12 +6,12 @@ namespace CoachSeek.Services.Email
     public class StubBusinessRegistrationEmailer : IBusinessRegistrationEmailer
     {
         public bool WasSendEmailCalled;
-        public BusinessData PassedInBusinessData;
+        public RegistrationData PassedInRegistrationData;
 
-        public void SendEmail(BusinessData business)
+        public void SendEmail(RegistrationData registration)
         {
             WasSendEmailCalled = true;
-            PassedInBusinessData = business;
+            PassedInRegistrationData = registration;
         }
     }
 }

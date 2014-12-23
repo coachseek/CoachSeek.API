@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BusinessAddCommand.cs" />
     <Compile Include="Commands\UserAddCommand.cs" />
     <Compile Include="Commands\BusinessRegistrantCommand.cs" />
     <Compile Include="Commands\BusinessRegistrationCommand.cs" />

@@ -4,10 +4,10 @@ namespace CoachSeek.Api.Models.Api.Setup
 {
     public class ApiBusinessRegistrationCommand
     {
-        [Required, StringLength(100)]
-        public string BusinessName { get; set; }
+        [Required]
+        public ApiBusinessCommand Business { get; set; }
 
         [Required]
-        public ApiBusinessRegistrantCommand Registrant { get; set; }
+        public ApiBusinessAdminCommand Admin { get; set; }
     }
 }

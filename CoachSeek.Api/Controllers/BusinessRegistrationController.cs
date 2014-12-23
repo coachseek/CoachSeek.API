@@ -3,28 +3,35 @@ using System.Web.Http;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
+using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.UseCases;
+using CoachSeek.Data.Model;
+using CoachSeek.Services.Contracts.Email;
 
 namespace CoachSeek.Api.Controllers
 {
     public class BusinessRegistrationController : BaseController
     {
         public IUserAddUseCase UserAddUseCase { get; set; }
-        public IBusinessNewRegistrationUseCase BusinessNewRegistrationUseCase { get; set; }
+        public IBusinessAddUseCase BusinessAddUseCase { get; set; }
         public IUserAssociateWithBusinessUseCase UserAssociateWithBusinessUseCase { get; set; }
+        public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
+
 
         public BusinessRegistrationController()
         { }
 
         public BusinessRegistrationController(IUserAddUseCase userAddUseCase,
-                                              IBusinessNewRegistrationUseCase businessNewRegistrationUseCase,
-                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase)
+                                              IBusinessAddUseCase businessAddUseCase,
+                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase,
+                                              IBusinessRegistrationEmailer businessRegistrationEmailer)
         {
             UserAddUseCase = userAddUseCase;
-            BusinessNewRegistrationUseCase = businessNewRegistrationUseCase;
+            BusinessAddUseCase = businessAddUseCase;
             UserAssociateWithBusinessUseCase = userAssociateWithBusinessUseCase;
+            BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
+
 
         // POST: api/BusinessRegistration
         [AllowAnonymous]
@@ -32,23 +39,36 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand registration)
         {
-            var userAddCommand = UserAddCommandConverter.Convert(registration.Registrant);
+            var userAddCommand = UserAddCommandConverter.Convert(registration.Admin);
             var userAddResponse = UserAddUseCase.AddUser(userAddCommand);
             if (!userAddResponse.IsSuccessful)
-                return CreateWebResponse(userAddResponse);
+                return CreateWebErrorResponse(userAddResponse);
+            var userData = userAddResponse.Data;
 
-            var businessAddCommand = BusinessAddCommandConverter.Convert(registration);
-            var businessAddResponse = BusinessNewRegistrationUseCase.RegisterNewBusiness(businessAddCommand);
+            var businessAddCommand = BusinessAddCommandConverter.Convert(registration.Business);
+            var businessAddResponse = BusinessAddUseCase.AddBusiness(businessAddCommand);
             if (!businessAddResponse.IsSuccessful)
-                return CreateWebResponse(businessAddResponse);
+                return CreateWebErrorResponse(businessAddResponse);
+            var businessData = businessAddResponse.Data;
 
             // var associate user to business use case.
             // Link a user to a business in a capacity/role.
-            var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(userAddResponse.Data, businessAddResponse.Data);
-            var userResponse = UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
+            var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(userData, businessData);
+            var userUpdateResponse = UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
+            if (!userUpdateResponse.IsSuccessful)
+                return CreateWebErrorResponse(userUpdateResponse);
 
-            // TODO: We will have to include the business info. 
-            return CreateWebResponse(userResponse);
+            var registrationData = new RegistrationData(userData, businessData);
+            SendRegistrationEmail(registrationData);
+
+            // TODO: We will have to include the business info.
+            return CreateWebSuccessResponse(new Response<RegistrationData>(registrationData));
+        }
+
+
+        private void SendRegistrationEmail(RegistrationData registration)
+        {
+            BusinessRegistrationEmailer.SendEmail(registration);
         }
     }
 }

@@ -4,8 +4,8 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface IBusinessNewRegistrationUseCase
+    public interface IBusinessAddUseCase
     {
-        Response<BusinessData> RegisterNewBusiness(BusinessRegistrationCommand registration);
+        Response<BusinessData> AddBusiness(BusinessAddCommand command);
     }
 }
