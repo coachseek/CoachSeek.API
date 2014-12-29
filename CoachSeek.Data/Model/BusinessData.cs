@@ -9,7 +9,6 @@ namespace CoachSeek.Data.Model
         public string Name { get; set; }
         public string Domain { get; set; }
 
-        public BusinessAdminData Admin { get; set; }
         public IList<LocationData> Locations { get; set; }
         public IList<CoachData> Coaches { get; set; }
         public IList<ServiceData> Services { get; set; }

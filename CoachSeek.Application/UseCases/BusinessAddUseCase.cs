@@ -25,7 +25,7 @@ namespace CoachSeek.Application.UseCases
         public Response<BusinessData> AddBusiness(BusinessAddCommand command)
         {
             if (command == null)
-                return new NoBusinessRegistrationDataResponse();
+                return new NoBusinessAddDataResponse();
 
             try
             {

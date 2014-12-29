@@ -351,14 +351,14 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
             Assert.That(business.Name, Is.EqualTo(BUSINESS_NAME));
             Assert.That(business.Domain, Is.EqualTo(BUSINESS_DOMAIN));
-            Assert.That(registration.User, Is.Not.Null);
-            Assert.That(registration.User, Is.InstanceOf<UserData>());
-            var user = registration.User;
-            Assert.That(user.Id, Is.EqualTo(new Guid(USER_ID)));
-            Assert.That(user.FirstName, Is.EqualTo("Olaf"));
-            Assert.That(user.LastName, Is.EqualTo("Thielke"));
-            Assert.That(user.Email, Is.EqualTo("olaf@gmail.com"));
-            Assert.That(user.Username, Is.EqualTo("olaf@gmail.com"));
+            Assert.That(registration.Admin, Is.Not.Null);
+            Assert.That(registration.Admin, Is.InstanceOf<UserData>());
+            var admin = registration.Admin;
+            Assert.That(admin.Id, Is.EqualTo(new Guid(USER_ID)));
+            Assert.That(admin.FirstName, Is.EqualTo("Olaf"));
+            Assert.That(admin.LastName, Is.EqualTo("Thielke"));
+            Assert.That(admin.Email, Is.EqualTo("olaf@gmail.com"));
+            Assert.That(admin.Username, Is.EqualTo("olaf@gmail.com"));
         }
     }
 }

@@ -150,11 +150,11 @@
   <data name="ErrorInvalidSession" xml:space="preserve">
     <value>This session does not exist.</value>
   </data>
+  <data name="ErrorNoBusinessAddData" xml:space="preserve">
+    <value>Missing business registration data.</value>
+  </data>
   <data name="ErrorNoBusinessDomain" xml:space="preserve">
     <value>Missing domain.</value>
-  </data>
-  <data name="ErrorNoBusinessRegistrationData" xml:space="preserve">
-    <value>Missing business registration data.</value>
   </data>
   <data name="ErrorNoCoachAddData" xml:space="preserve">
     <value>Missing coach data.</value>
@@ -172,6 +172,6 @@
     <value>Missing location data.</value>
   </data>
   <data name="ErrorUserDuplicateEmail" xml:space="preserve">
-    <value>This user with this email address already exists.</value>
+    <value>The user with this email address already exists.</value>
   </data>
 </root>

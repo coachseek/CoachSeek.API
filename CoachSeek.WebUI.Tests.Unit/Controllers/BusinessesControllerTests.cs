@@ -34,13 +34,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Id = new Guid(BUSINESS_ID),
                 Name = "Olaf's Cafe",
                 Domain = "olafscafe",
-                Admin = new BusinessAdminData
-                {
-                    FirstName = "Bobby",
-                    LastName = "Tables",
-                    Email = "bobby@tables.hack",
-                    Username = "bobby@tables.hack",
-                }
             };
         }
 

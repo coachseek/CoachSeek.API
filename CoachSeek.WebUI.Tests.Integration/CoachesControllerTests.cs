@@ -20,7 +20,6 @@ namespace CoachSeek.WebUI.Tests.Integration
     public class CoachesControllerTests
     {
         private const string BUSINESS_ID = "12345678-B10E-4C0E-B46F-1386B98CE567";
-        private const string ADMIN_ID = "D3F7C50D-5DBA-4787-B7A5-764BA140C319";
         private const string COACH_ID = "E8394D72-6960-44AE-BE44-79BCA3BC3A88";
         private const string LOCATION_ID = "52467312-087B-4F1C-B743-F55058FD0473";
 
@@ -60,17 +59,6 @@ namespace CoachSeek.WebUI.Tests.Integration
                 Id = new Guid(BUSINESS_ID),
                 Name = "Olaf's Tennis Coaching",
                 Domain = "olafstenniscoaching",
-                Admin = new DbBusinessAdmin
-                {
-                    //BusinessId = new Guid(BUSINESS_ID),
-                    Id = new Guid(ADMIN_ID),
-                    FirstName = "Olaf",
-                    LastName = "Thielke",
-                    Email = "olaf@gmail.com",
-                    Username = "olaf@gmail.com",
-                    PasswordHash = "PasswordHash",
-                    PasswordSalt = "PasswordSalt"
-                },
                 Locations = new List<DbLocation>
                 {
                     new DbLocation

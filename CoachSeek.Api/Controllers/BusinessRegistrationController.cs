@@ -39,32 +39,41 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand registration)
         {
-            var userAddCommand = UserAddCommandConverter.Convert(registration.Admin);
-            var userAddResponse = UserAddUseCase.AddUser(userAddCommand);
+            var userAddResponse = AddUser(registration.Admin);
             if (!userAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(userAddResponse);
-            var userData = userAddResponse.Data;
 
-            var businessAddCommand = BusinessAddCommandConverter.Convert(registration.Business);
-            var businessAddResponse = BusinessAddUseCase.AddBusiness(businessAddCommand);
+            var businessAddResponse = AddBusiness(registration.Business);
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
-            var businessData = businessAddResponse.Data;
 
-            // var associate user to business use case.
-            // Link a user to a business in a capacity/role.
-            var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(userData, businessData);
-            var userUpdateResponse = UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
+            var userUpdateResponse = AssociateUserWithBusiness(userAddResponse.Data, businessAddResponse.Data);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);
 
-            var registrationData = new RegistrationData(userData, businessData);
+            var registrationData = new RegistrationData(userUpdateResponse.Data, businessAddResponse.Data);
             SendRegistrationEmail(registrationData);
 
-            // TODO: We will have to include the business info.
             return CreateWebSuccessResponse(new Response<RegistrationData>(registrationData));
         }
 
+        private Response<UserData> AddUser(ApiBusinessAdminCommand command)
+        {
+            var userAddCommand = UserAddCommandConverter.Convert(command);
+            return UserAddUseCase.AddUser(userAddCommand);
+        }
+
+        private Response<BusinessData> AddBusiness(ApiBusinessCommand command)
+        {
+            var businessAddCommand = BusinessAddCommandConverter.Convert(command);
+            return BusinessAddUseCase.AddBusiness(businessAddCommand);
+        }
+
+        private Response<UserData> AssociateUserWithBusiness(UserData user, BusinessData business)
+        {
+            var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
+            return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
+        }
 
         private void SendRegistrationEmail(RegistrationData registration)
         {

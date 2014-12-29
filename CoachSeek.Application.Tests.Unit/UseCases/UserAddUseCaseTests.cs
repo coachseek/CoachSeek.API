@@ -107,7 +107,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertDuplicateUserError(Response<UserData> response)
         {
-            AssertSingleError(response, "This user with this email address already exists.", "registration.registrant.email");
+            AssertSingleError(response, "The user with this email address already exists.", "registration.admin.email");
         }
 
 

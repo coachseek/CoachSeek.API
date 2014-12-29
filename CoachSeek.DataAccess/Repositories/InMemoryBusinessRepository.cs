@@ -63,11 +63,11 @@ namespace CoachSeek.DataAccess.Repositories
             return CreateBusiness(dbBusiness);
         }
 
-        public Business GetByAdminEmail(string adminEmail)
-        {
-            var dbBusiness = Businesses.FirstOrDefault(x => x.Admin.Email == adminEmail);
-            return CreateBusiness(dbBusiness);
-        }
+        //public Business GetByAdminEmail(string adminEmail)
+        //{
+        //    var dbBusiness = Businesses.FirstOrDefault(x => x.Admin.Email == adminEmail);
+        //    return CreateBusiness(dbBusiness);
+        //}
 
 
 

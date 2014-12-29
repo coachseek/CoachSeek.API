@@ -18,18 +18,11 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-
         public BusinessData Register(IBusinessRepository repository)
         {
-            Validate(repository);
-            repository.Save(this);
+            var newBusiness = repository.Save(this);
 
-            return ToData();
-        }
-
-
-        private void Validate(IBusinessRepository repository)
-        {
+            return newBusiness.ToData();
         }
 
 

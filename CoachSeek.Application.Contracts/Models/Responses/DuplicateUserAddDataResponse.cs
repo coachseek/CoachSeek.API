@@ -13,8 +13,7 @@ namespace CoachSeek.Application.Contracts.Models.Responses
 
         private static ErrorData CreateDuplicateUserError()
         {
-            return new ErrorData("registration.registrant.email",
-                                 Resources.ErrorUserDuplicateEmail);
+            return new ErrorData("registration.admin.email", Resources.ErrorUserDuplicateEmail);
         }
     }
 }
