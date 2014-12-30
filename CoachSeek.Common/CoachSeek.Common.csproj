@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NoBusinessPrincipal.cs" />
+    <Compile Include="CoachseekIdentity.cs" />
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

@@ -1,12 +1,29 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
+        private Guid? _businessId;
+
+        public Guid BusinessId
+        {
+            // Make BusinessId public and setable for unit testing.
+            set { _businessId = value; }
+            get
+            {
+                if (_businessId.HasValue)
+                    return _businessId.Value;
+                return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessId;
+            }
+        }
+
+
         protected HttpResponseMessage CreateWebResponse<TData>(Response<TData> response) where TData : class
         {
             if (response is NotFoundResponse<TData>)

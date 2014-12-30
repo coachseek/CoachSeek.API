@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
@@ -50,17 +49,17 @@ namespace CoachSeek.Api.Controllers
             return UpdateLocation(location);
         }
 
-
+        
         private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationAddCommandConverter.Convert(location);
+            var command = LocationAddCommandConverter.Convert(BusinessId, location);
             var response = LocationAddUseCase.AddLocation(command);
             return CreateWebResponse(response);
         }
 
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationUpdateCommandConverter.Convert(location);
+            var command = LocationUpdateCommandConverter.Convert(BusinessId, location);
             var response = LocationUpdateUseCase.UpdateLocation(command);
             return CreateWebResponse(response);
         }

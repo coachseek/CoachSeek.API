@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using CoachSeek.Api.Results;
+using CoachSeek.Common;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;
 
@@ -47,7 +47,7 @@ namespace CoachSeek.Api.Attributes
                 return;
             }
 
-            Tuple<string, string> userNameAndPasword = ExtractUserNameAndPassword(authorization.Parameter);
+            var userNameAndPasword = ExtractUserNameAndPassword(authorization.Parameter);
 
             if (userNameAndPasword == null)
             {
@@ -64,13 +64,19 @@ namespace CoachSeek.Api.Attributes
             if (principal == null)
             {
                 // Authentication was attempted but failed. Set ErrorResult to indicate an error.
-                context.ErrorResult = new AuthenticationFailureResult("Invalid username or password", request);
+                context.ErrorResult = new AuthenticationFailureResult("Invalid username or password.", request);
+                return;
             }
-            else
+            
+            if (principal is NoBusinessPrincipal)
             {
-                // Authentication was attempted and succeeded. Set Principal to the authenticated user.
-                context.Principal = principal;
+                // Authentication was successful but the user is not associated with a business.
+                context.ErrorResult = new AuthenticationFailureResult("User is not associated with a business.", request);
+                return;
             }
+
+            // Authentication was attempted and succeeded. Set Principal to the authenticated user.
+            context.Principal = principal;
         }
 
         public async Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
@@ -94,9 +100,12 @@ namespace CoachSeek.Api.Attributes
             if (!isAuthenticated)
                 return null;
 
+            if (!user.BusinessId.HasValue)
+                return new NoBusinessPrincipal();
+
             cancellationToken.ThrowIfCancellationRequested();
-            var identity = new GenericIdentity(username, "Basic");
-            var principal = new GenericPrincipal(identity, new[]{"BusinessAdmin"});
+            var identity = new CoachseekIdentity(username, "Basic", user.BusinessId.Value);
+            var principal = new GenericPrincipal(identity, new[] { "BusinessAdmin" });
             return principal;
         }
 

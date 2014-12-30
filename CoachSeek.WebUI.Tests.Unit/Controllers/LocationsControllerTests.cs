@@ -36,7 +36,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         [SetUp]
         public void Setup()
         {
-            Controller = new LocationsController()
+            Controller = new LocationsController
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -149,10 +149,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var apiLocationSaveCommand = new ApiLocationSaveCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Name = "High Street Hookers"
             };
 
+            Controller.BusinessId = new Guid(BUSINESS_ID);
             Controller.LocationAddUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);
@@ -162,11 +162,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var apiLocationSaveCommand = new ApiLocationSaveCommand 
             { 
-                BusinessId = new Guid(BUSINESS_ID), 
                 Id = new Guid(LOCATION_ID),
                 Name = "High Street Hookers"
             };
 
+            Controller.BusinessId = new Guid(BUSINESS_ID);
             Controller.LocationUpdateUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);
