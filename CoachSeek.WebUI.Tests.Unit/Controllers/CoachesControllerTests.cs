@@ -161,7 +161,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var apiCoachSaveCommand = new ApiCoachSaveCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "John",
                 LastName = "Smith",
                 Email = "john@smith.co.nz",
@@ -183,6 +182,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 }
             };
 
+            Controller.BusinessId = new Guid(BUSINESS_ID);
             Controller.CoachAddUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);
@@ -192,7 +192,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var apiCoachSaveCommand = new ApiCoachSaveCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(COACH_ID),
                 FirstName = "John",
                 LastName = "Smith",
@@ -200,6 +199,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Phone = "0987654321"
             };
 
+            Controller.BusinessId = new Guid(BUSINESS_ID);
             Controller.CoachUpdateUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);

@@ -125,7 +125,7 @@ namespace CoachSeek.Api.Attributes
             // The currently approved HTTP 1.1 specification says characters here are ISO-8859-1.
             // However, the current draft updated specification for HTTP 1.1 indicates this encoding is infrequently
             // used in practice and defines behavior only for ASCII.
-            Encoding encoding = Encoding.ASCII;
+            var encoding = Encoding.ASCII;
             // Make a writable copy of the encoding to enable setting a decoder fallback.
             encoding = (Encoding)encoding.Clone();
             // Fail on invalid bytes rather than silently replacing and continuing.
@@ -141,28 +141,22 @@ namespace CoachSeek.Api.Attributes
                 return null;
             }
 
-            if (String.IsNullOrEmpty(decodedCredentials))
+            if (string.IsNullOrEmpty(decodedCredentials))
             {
                 return null;
             }
 
-            int colonIndex = decodedCredentials.IndexOf(':');
+            var colonIndex = decodedCredentials.IndexOf(':');
 
             if (colonIndex == -1)
             {
                 return null;
             }
 
-            string userName = decodedCredentials.Substring(0, colonIndex);
-            string password = decodedCredentials.Substring(colonIndex + 1);
+            var userName = decodedCredentials.Substring(0, colonIndex);
+            var password = decodedCredentials.Substring(colonIndex + 1);
+
             return new Tuple<string, string>(userName, password);
         }
-
-        //private UserManager<User> CreateUserManager()
-        //{
-        //    var userStore = UserStore;
-
-        //    return new UserManager<User>(userStore);
-        //}
     }
 }

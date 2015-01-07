@@ -47,6 +47,7 @@ namespace CoachSeek.WebUI.Tests.Integration
             Controller.Request = new HttpRequestMessage();
             Controller.Configuration = new HttpConfiguration();
 
+            Controller.BusinessId = new Guid(BUSINESS_ID);
             SetupDatabase();
         }
 
@@ -63,7 +64,6 @@ namespace CoachSeek.WebUI.Tests.Integration
                 {
                     new DbLocation
                     {
-                        //BusinessId = new Guid(BUSINESS_ID),
                         Id = new Guid(LOCATION_ID),
                         Name = "Orakei Tennis Club",
                     }
@@ -72,7 +72,6 @@ namespace CoachSeek.WebUI.Tests.Integration
                 {
                     new DbCoach
                     {
-                        //BusinessId = new Guid(BUSINESS_ID),
                         Id = new Guid(COACH_ID),
                         FirstName = "Steve",
                         LastName = "McQueen",
@@ -105,7 +104,6 @@ namespace CoachSeek.WebUI.Tests.Integration
         {
             return new ApiCoachSaveCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "Olaf",
                 LastName = "Thielke",
                 Email = "olaf@gmail.com",

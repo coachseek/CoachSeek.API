@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Domain.Commands;
 
@@ -6,19 +7,12 @@ namespace CoachSeek.Api.Conversion
 {
     public static class CoachUpdateCommandConverter
     {
-        public static CoachUpdateCommand Convert(ApiCoachSaveCommand apiCommand)
+        public static CoachUpdateCommand Convert(Guid businessId, ApiCoachSaveCommand apiCommand)
         {
-            return Mapper.Map<ApiCoachSaveCommand, CoachUpdateCommand>(apiCommand);
+            var command = Mapper.Map<ApiCoachSaveCommand, CoachUpdateCommand>(apiCommand);
+            command.BusinessId = businessId;
 
-            //return new CoachUpdateCommand
-            //{
-            //    CoachId = apiCommand.Id.HasValue ? apiCommand.Id.Value : Guid.Empty,
-            //    BusinessId = apiCommand.BusinessId.Value,
-            //    FirstName = apiCommand.FirstName,
-            //    LastName = apiCommand.LastName,
-            //    Email = apiCommand.Email,
-            //    Phone = apiCommand.Phone,
-            //};
+            return command;
         }
     }
 }
