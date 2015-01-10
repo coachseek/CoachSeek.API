@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
@@ -23,6 +24,8 @@ namespace CoachSeek.Api.Controllers
 
 
         // POST: api/Services
+        [BasicAuthentication]
+        [Authorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiServiceSaveCommand service)
@@ -36,14 +39,14 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddService(ApiServiceSaveCommand service)
         {
-            var command = ServiceAddCommandConverter.Convert(service);
+            var command = ServiceAddCommandConverter.Convert(BusinessId, service);
             var response = ServiceAddUseCase.AddService(command);
             return CreateWebResponse(response);
         }
 
         private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
         {
-            var command = ServiceUpdateCommandConverter.Convert(service);
+            var command = ServiceUpdateCommandConverter.Convert(BusinessId, service);
             var response = ServiceUpdateUseCase.UpdateService(command);
             return CreateWebResponse(response);
         }

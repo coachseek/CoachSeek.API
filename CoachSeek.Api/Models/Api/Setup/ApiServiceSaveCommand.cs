@@ -1,13 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CoachSeek.Api.Models.Api.Setup
 {
-    public class ApiServiceSaveCommand : ApiSaveCommand, IApiBusinessIdable
+    public class ApiServiceSaveCommand : ApiSaveCommand
     {
-        [Required]
-        public Guid? BusinessId { get; set; }
-
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
