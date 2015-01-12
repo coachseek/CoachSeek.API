@@ -4,18 +4,14 @@ using CoachSeek.Api.Models.Api.Setup;
 
 namespace CoachSeek.Api.Models.Api.Scheduling
 {
-    public class ApiSessionSaveCommand : ApiSaveCommand, IApiBusinessIdable
+    public class ApiSessionSaveCommand : ApiSaveCommand
     {
-        [Required]
-        public Guid? BusinessId { get; set; }
-
         [Required]
         public ApiServiceKey Service { get; set; }
         [Required]
         public ApiLocationKey Location { get; set; }
         [Required]
         public ApiCoachKey Coach { get; set; }
-
         // Timing is required because we need the StartDate and StartTime.
         [Required]
         public ApiSessionTiming Timing { get; set; }

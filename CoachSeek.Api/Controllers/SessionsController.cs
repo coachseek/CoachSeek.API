@@ -1,4 +1,5 @@
-﻿using CoachSeek.Api.Conversion;
+﻿using CoachSeek.Api.Attributes;
+using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
@@ -38,6 +39,8 @@ namespace CoachSeek.Api.Controllers
         }
 
         // POST: api/Services
+        [BasicAuthentication]
+        [Authorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiSessionSaveCommand session)
@@ -61,14 +64,14 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
-            var command = SessionAddCommandConverter.Convert(session);
+            var command = SessionAddCommandConverter.Convert(BusinessId, session);
             var response = SessionAddUseCase.AddSession(command);
             return CreateWebResponse(response);
         }
 
         private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
         {
-            var command = SessionUpdateCommandConverter.Convert(session);
+            var command = SessionUpdateCommandConverter.Convert(BusinessId, session);
             var response = SessionUpdateUseCase.UpdateSession(command);
             return CreateWebResponse(response);
         }
