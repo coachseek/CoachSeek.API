@@ -6,11 +6,13 @@ using CoachSeek.Application.Contracts.UseCases;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Controllers
 {
     public class SessionsController : BaseController
     {
+        public ISessionSearchUseCase SessionSearchUseCase { get; set; }
         public ISessionAddUseCase SessionAddUseCase { get; set; }
         public ISessionUpdateUseCase SessionUpdateUseCase { get; set; }
 
@@ -18,18 +20,20 @@ namespace CoachSeek.Api.Controllers
         public SessionsController()
         { }
 
-        public SessionsController(ISessionAddUseCase sessionAddUseCase, 
+        public SessionsController(ISessionSearchUseCase sessionSearchUseCase,
+                                  ISessionAddUseCase sessionAddUseCase, 
                                   ISessionUpdateUseCase sessionUpdateUseCase)
         {
+            SessionSearchUseCase = sessionSearchUseCase;
             SessionAddUseCase = sessionAddUseCase;
             SessionUpdateUseCase = sessionUpdateUseCase;
         }
 
 
         // GET: api/Sessions
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get(string startDate, string endDate)
         {
-            return new string[] { "value1", "value2" };
+            return SearchForSessions(startDate, endDate);
         }
 
         // GET: api/Sessions/5
@@ -61,6 +65,13 @@ namespace CoachSeek.Api.Controllers
         {
         }
 
+
+        private HttpResponseMessage SearchForSessions(string startDate, string endDate)
+        {
+            //SessionSearchUseCase.BusinessId = BusinessId;
+            var response = SessionSearchUseCase.SearchForSessions(startDate, endDate);
+            return CreateWebResponse(response);
+        }
 
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {

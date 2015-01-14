@@ -23,12 +23,17 @@ namespace CoachSeek.Application.UseCases
             return new InvalidBusinessResponse<TData>();
         }
 
-        protected Business GetBusiness(IBusinessIdable command)
+        protected Business GetBusiness(Guid businessId)
         {
-            var business = BusinessRepository.Get(command.BusinessId);
+            var business = BusinessRepository.Get(businessId);
             if (business == null)
                 throw new InvalidBusiness();
             return business;
+        }
+
+        protected Business GetBusiness(IBusinessIdable command)
+        {
+            return GetBusiness(command.BusinessId);
         }
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\IBusinessAddUseCase.cs" />
     <Compile Include="UseCases\ILocationUpdateUseCase.cs" />
+    <Compile Include="UseCases\ISessionSearchUseCase.cs" />
     <Compile Include="UseCases\IUserAssociateWithBusinessUseCase.cs" />
     <Compile Include="UseCases\IServiceUpdateUseCase.cs" />
     <Compile Include="UseCases\IServiceAddUseCase.cs" />

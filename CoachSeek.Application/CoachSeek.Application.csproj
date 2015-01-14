@@ -52,6 +52,7 @@
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
     <Compile Include="UseCases\AddUseCase.cs" />
     <Compile Include="UseCases\ServiceUpdateUseCase.cs" />
+    <Compile Include="UseCases\SessionSearchUseCase.cs" />
     <Compile Include="UseCases\SessionUpdateUseCase.cs" />
     <Compile Include="UseCases\SessionAddUseCase.cs" />
     <Compile Include="UseCases\UpdateUseCase.cs" />
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
       <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>

@@ -102,6 +102,14 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
+        protected IEnumerable<SessionData> SetupSessions()
+        {
+            return new List<SessionData>
+            {
+                SetupSessionAlbertMiniRedBrownsBayTuesday14To15()
+            };
+        }
+
         private LocationData SetupBrownsBayLocation()
         {
             return new LocationData { Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club" };
@@ -183,6 +191,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Id = new Guid(SERVICE_MINI_ORANGE_ID),
                 Name = "Mini Orange",
                 Repetition = new RepetitionData { SessionCount = 1 }
+            };
+        }
+
+        private SessionData SetupSessionAlbertMiniRedBrownsBayTuesday14To15()
+        {
+            return new SessionData
+            {
             };
         }
 

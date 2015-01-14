@@ -55,6 +55,7 @@
     <Compile Include="UseCases\BusinessAddUseCaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
+    <Compile Include="UseCases\SessionSearchUseCaseTests.cs" />
     <Compile Include="UseCases\UserAddUseCaseTests.cs" />
     <Compile Include="UseCaseTests.cs" />
   </ItemGroup>

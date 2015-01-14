@@ -98,6 +98,8 @@
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateUser.cs" />
+    <Compile Include="Exceptions\InvalidEndDate.cs" />
+    <Compile Include="Exceptions\InvalidStartDate.cs" />
     <Compile Include="Exceptions\InvalidUser.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserStore.cs" />
