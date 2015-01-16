@@ -55,6 +55,7 @@
     <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\Responses\NoDataResponse.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="UseCases\IServiceGetUseCase.cs" />
     <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
     <Compile Include="UseCases\ILocationAddUseCase.cs" />
     <Compile Include="Models\Responses\BusinessGetResponse.cs" />
