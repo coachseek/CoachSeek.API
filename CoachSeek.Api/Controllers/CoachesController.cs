@@ -1,24 +1,29 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
     public class CoachesController : BaseController
     {
+        public ICoachGetUseCase CoachGetUseCase { get; set; }
         public ICoachAddUseCase CoachAddUseCase { get; set; }
         public ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
 
         public CoachesController()
         { }
 
-        public CoachesController(ICoachAddUseCase coachAddUseCase,
+        public CoachesController(ICoachGetUseCase coachGetUseCase,
+                                 ICoachAddUseCase coachAddUseCase,
                                  ICoachUpdateUseCase coachUpdateUseCase)
         {
+            CoachGetUseCase = coachGetUseCase;
             CoachAddUseCase = coachAddUseCase;
             CoachUpdateUseCase = coachUpdateUseCase;
         }
@@ -29,11 +34,15 @@ namespace CoachSeek.Api.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        //// GET: api/Coaches/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        // GET: api/Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get(Guid id)
+        {
+            CoachGetUseCase.BusinessId = BusinessId;
+            var response = CoachGetUseCase.GetCoach(id);
+            return CreateGetWebResponse(response);
+        }
 
         // POST: api/Coaches
         [BasicAuthentication]

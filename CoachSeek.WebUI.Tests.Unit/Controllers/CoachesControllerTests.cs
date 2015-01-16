@@ -151,10 +151,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private CoachesController WhenConstruct()
         {
+            var getUseCase = new CoachGetUseCase(null);
             var addUseCase = new CoachAddUseCase(null);
             var updateUseCase = new CoachUpdateUseCase(null);
 
-            return new CoachesController(addUseCase, updateUseCase);
+            return new CoachesController(getUseCase, addUseCase, updateUseCase);
         }
 
         private HttpResponseMessage WhenPost(MockCoachAddUseCase useCase)
@@ -208,6 +209,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private void ThenSetDependencies(CoachesController controller)
         {
+            Assert.That(controller.CoachGetUseCase, Is.Not.Null);
             Assert.That(controller.CoachAddUseCase, Is.Not.Null);
             Assert.That(controller.CoachUpdateUseCase, Is.Not.Null);
         }

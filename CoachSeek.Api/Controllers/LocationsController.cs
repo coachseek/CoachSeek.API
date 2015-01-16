@@ -35,7 +35,7 @@ namespace CoachSeek.Api.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET: api/Locations/5
+        // GET: api/Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
