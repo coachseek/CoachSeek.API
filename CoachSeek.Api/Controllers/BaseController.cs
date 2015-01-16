@@ -23,12 +23,22 @@ namespace CoachSeek.Api.Controllers
             }
         }
 
-
-        protected HttpResponseMessage CreateWebResponse<TData>(Response<TData> response) where TData : class
+        protected HttpResponseMessage CreateNotFoundWebResponse()
         {
-            if (response is NotFoundResponse<TData>)
+            return Request.CreateResponse(HttpStatusCode.NotFound);
+        }
+
+
+        protected HttpResponseMessage CreateGetWebResponse<TData>(TData data) where TData : class
+        {
+            if (data == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        protected HttpResponseMessage CreatePostWebResponse<TData>(Response<TData> response) where TData : class
+        {
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Data);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);

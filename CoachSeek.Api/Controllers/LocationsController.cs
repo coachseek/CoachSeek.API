@@ -1,24 +1,29 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Controllers
 {
     public class LocationsController : BaseController
     {
+        public ILocationGetUseCase LocationGetUseCase { get; set; }
         public ILocationAddUseCase LocationAddUseCase { get; set; }
         public ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
 
         public LocationsController()
         { }
 
-        public LocationsController(ILocationAddUseCase locationAddUseCase,
+        public LocationsController(ILocationGetUseCase locationGetUseCase,
+                                   ILocationAddUseCase locationAddUseCase,
                                    ILocationUpdateUseCase locationUpdateUseCase)
         {
+            LocationGetUseCase = locationGetUseCase;
             LocationAddUseCase = locationAddUseCase;
             LocationUpdateUseCase = locationUpdateUseCase;
         }
@@ -30,11 +35,15 @@ namespace CoachSeek.Api.Controllers
         //    return new string[] { "value1", "value2" };
         //}
 
-        //// GET: api/Locations/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        // GET: api/Locations/5
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get(Guid id)
+        {
+            LocationGetUseCase.BusinessId = BusinessId;
+            var response = LocationGetUseCase.GetLocation(id);
+            return CreateGetWebResponse(response);
+        }
 
         // POST: api/Locations
         [BasicAuthentication]
@@ -54,14 +63,14 @@ namespace CoachSeek.Api.Controllers
         {
             var command = LocationAddCommandConverter.Convert(BusinessId, location);
             var response = LocationAddUseCase.AddLocation(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
             var command = LocationUpdateCommandConverter.Convert(BusinessId, location);
             var response = LocationUpdateUseCase.UpdateLocation(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
     }
 }

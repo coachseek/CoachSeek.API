@@ -114,27 +114,27 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
 
         [Test]
-        public void GivenNullDomainName_WhenGetBusinessByDomain_ThenBusinessGetFailsWithMissingDomainError()
+        public void GivenNullDomainName_WhenGetBusinessByDomain_ThenBusinessGetReturnsNoBusiness()
         {
             var domain = GivenNullDomainName();
             var response = WhenGetBusinessByDomain(domain);
-            ThenBusinessGetFailsWithMissingDomainError(response);
+            ThenBusinessGetReturnsNoBusiness(response);
         }
 
         [Test]
-        public void GivenEmptyDomainName_WhenGetBusinessByDomain_ThenBusinessGetFailsWithMissingDomainError()
+        public void GivenEmptyDomainName_WhenGetBusinessByDomain_ThenBusinessGetReturnsNoBusiness()
         {
             var domain = GivenEmptyDomainName();
             var response = WhenGetBusinessByDomain(domain);
-            ThenBusinessGetFailsWithMissingDomainError(response);
+            ThenBusinessGetReturnsNoBusiness(response);
         }
 
         [Test]
-        public void GivenWhitespaceDomainName_WhenGetBusinessByDomain_ThenBusinessGetFailsWithMissingDomainError()
+        public void GivenWhitespaceDomainName_WhenGetBusinessByDomain_ThenBusinessGetReturnsNoBusiness()
         {
             var domain = GivenWhitespaceDomainName();
             var response = WhenGetBusinessByDomain(domain);
-            ThenBusinessGetFailsWithMissingDomainError(response);
+            ThenBusinessGetReturnsNoBusiness(response);
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response<BusinessData> WhenGetBusinessByDomain(string domain)
+        private BusinessData WhenGetBusinessByDomain(string domain)
         {
             var useCase = new BusinessGetByDomainUseCase(BusinessRepository);
 
@@ -185,10 +185,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void ThenBusinessGetReturnsNoBusiness(Response<BusinessData> response)
+        private void ThenBusinessGetReturnsNoBusiness(BusinessData response)
         {
-            Assert.That(response.Data, Is.Null);
-            Assert.That(response.Errors, Is.Null);
+            Assert.That(response, Is.Null);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBusinessGetByDomainUseCase
     {
-        Response<BusinessData> GetByDomain(string domain);
+        BusinessData GetByDomain(string domain);
     }
 }

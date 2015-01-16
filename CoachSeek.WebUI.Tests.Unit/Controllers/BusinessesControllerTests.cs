@@ -39,14 +39,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
 
         [Test]
-        public void GivenErrorOccursInUseCase_WhenGetBusinessByDomain_ThenReturnErrorResponse()
-        {
-            var useCase = GivenErrorOccursInUseCase();
-            var response = WhenGetBusinessByDomain(useCase);
-            ThenReturnErrorResponse(response);
-        }
-
-        [Test]
         public void GivenNonExistentDomain_WhenGetBusinessByDomain_ThenReturnNotFoundResponse()
         {
             var useCase = GivenNonExistentDomain();
@@ -63,19 +55,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         }
 
 
-        private MockBusinessGetByDomainUseCase GivenErrorOccursInUseCase()
-        {
-            return new MockBusinessGetByDomainUseCase
-            {
-                Response = new Response<BusinessData>(new ValidationException("Error"))
-            };
-        }
-
         private MockBusinessGetByDomainUseCase GivenNonExistentDomain()
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new NotFoundResponse<BusinessData>()
+                Response = null
             };
         }
 
@@ -83,7 +67,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockBusinessGetByDomainUseCase
             {
-                Response = new Response<BusinessData>(SetupBusiness())
+                Response = SetupBusiness()
             };
         }
 

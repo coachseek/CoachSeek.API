@@ -70,21 +70,21 @@ namespace CoachSeek.Api.Controllers
         {
             //SessionSearchUseCase.BusinessId = BusinessId;
             var response = SessionSearchUseCase.SearchForSessions(startDate, endDate);
-            return CreateWebResponse(response);
+            return CreateGetWebResponse(response);
         }
 
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
             var command = SessionAddCommandConverter.Convert(BusinessId, session);
             var response = SessionAddUseCase.AddSession(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
         {
             var command = SessionUpdateCommandConverter.Convert(BusinessId, session);
             var response = SessionUpdateUseCase.UpdateSession(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
     }
 }

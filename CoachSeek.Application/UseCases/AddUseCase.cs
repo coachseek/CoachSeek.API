@@ -46,7 +46,7 @@ namespace CoachSeek.Application.UseCases
             if (ex is ValidationException)
                 return new Response<TData>((ValidationException)ex);
 
-            return null;
+            throw new InvalidOperationException();
         }
 
         protected abstract Response<TData> HandleSpecificException(Exception ex);

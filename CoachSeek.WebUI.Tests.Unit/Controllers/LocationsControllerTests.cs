@@ -139,10 +139,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private LocationsController WhenConstruct()
         {
+            var getUseCase = new LocationGetUseCase(null);
             var addUseCase = new LocationAddUseCase(null);
             var updateUseCase = new LocationUpdateUseCase(null);
 
-            return new LocationsController(addUseCase, updateUseCase);
+            return new LocationsController(getUseCase, addUseCase, updateUseCase);
         }
 
         private HttpResponseMessage WhenPost(MockLocationAddUseCase useCase)
@@ -175,6 +176,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private void ThenSetDependencies(LocationsController controller)
         {
+            Assert.That(controller.LocationGetUseCase, Is.Not.Null);
             Assert.That(controller.LocationAddUseCase, Is.Not.Null);
             Assert.That(controller.LocationUpdateUseCase, Is.Not.Null);
         }

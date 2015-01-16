@@ -18,7 +18,7 @@ namespace CoachSeek.Api.Controllers
         public HttpResponseMessage Get(string domain)
         {
             var response = BusinessGetByDomainUseCase.GetByDomain(domain);
-            return CreateWebResponse(response);
+            return CreateGetWebResponse(response);
         }
     }
 }

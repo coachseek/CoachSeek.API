@@ -27,8 +27,11 @@ namespace CoachSeek.Api
             For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
 
             For<IBusinessAddUseCase>().Use<BusinessAddUseCase>();
+
+            For<ILocationGetUseCase>().Use<LocationGetUseCase>();
             For<ILocationAddUseCase>().Use<LocationAddUseCase>();
             For<ILocationUpdateUseCase>().Use<LocationUpdateUseCase>();
+
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
             For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
 

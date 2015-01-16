@@ -16,16 +16,16 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response<BusinessData> GetByDomain(string domain)
+        public BusinessData GetByDomain(string domain)
         {
             if (string.IsNullOrWhiteSpace(domain))
-                return new NoDomainBusinessGetResponse();
+                return null;
 
             var business = BusinessRepository.GetByDomain(domain);
             if (business == null)
-                return new NotFoundResponse<BusinessData>();
+                return null;
 
-            return new Response<BusinessData>(business.ToData());
+            return business.ToData();
         }
     }
 }

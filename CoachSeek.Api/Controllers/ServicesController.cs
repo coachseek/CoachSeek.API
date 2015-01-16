@@ -41,14 +41,14 @@ namespace CoachSeek.Api.Controllers
         {
             var command = ServiceAddCommandConverter.Convert(BusinessId, service);
             var response = ServiceAddUseCase.AddService(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
         {
             var command = ServiceUpdateCommandConverter.Convert(BusinessId, service);
             var response = ServiceUpdateUseCase.UpdateService(command);
-            return CreateWebResponse(response);
+            return CreatePostWebResponse(response);
         }
     }
 }
