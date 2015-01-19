@@ -14,13 +14,11 @@ namespace CoachSeek.Domain.Entities
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
-        //public BusinessAdminData Admin { get { return BusinessAdmin.ToData(); } }
         public IList<LocationData> Locations { get { return BusinessLocations.ToData(); } }
         public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
         public IList<ServiceData> Services { get { return BusinessServices.ToData(); } }
         public IList<SessionData> Sessions { get { return BusinessSessions.ToData(); } }
 
-        //protected BusinessAdmin BusinessAdmin { get; set; }
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
         private BusinessServices BusinessServices { get; set; }
@@ -30,7 +28,6 @@ namespace CoachSeek.Domain.Entities
         public Business(Guid id, 
             string name, 
             string domain, 
-            //BusinessAdminData admin,
             IEnumerable<LocationData> locations, 
             IEnumerable<CoachData> coaches,
             IEnumerable<ServiceData> services,
@@ -40,7 +37,6 @@ namespace CoachSeek.Domain.Entities
             Id = id;
             Name = name;
             Domain = domain;
-            //BusinessAdmin = new BusinessAdmin(admin);
             BusinessLocations = new BusinessLocations(locations);
             BusinessCoaches = new BusinessCoaches(coaches);
             BusinessServices = new BusinessServices(services);
@@ -63,6 +59,14 @@ namespace CoachSeek.Domain.Entities
             Id = id;
         }
 
+
+        //public IEnumerable<SessionData> SearchForSessions(Date searchStartDate, Date searchEndDate, IBusinessRepository businessRepository)
+        //{
+        //    var session = businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
+        //    if (session == null)
+        //        throw new InvalidSession();
+        //    return session;
+        //}
 
         public LocationData AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
         {

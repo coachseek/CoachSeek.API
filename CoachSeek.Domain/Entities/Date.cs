@@ -5,7 +5,7 @@ namespace CoachSeek.Domain.Entities
 {
     public class Date
     {
-        private DateTime _date;
+        internal DateTime _date;
 
         public int Year { get { return _date.Year; } }
         public int Month { get { return _date.Month; } }
@@ -29,6 +29,26 @@ namespace CoachSeek.Domain.Entities
         public string ToData()
         {
             return string.Format("{0:yyyy-MM-dd}", _date);
+        }
+
+        public bool IsAfter(Date otherDate)
+        {
+            return _date.Ticks > otherDate._date.Ticks;
+        }
+
+        public bool IsOnOrAfter(Date otherDate)
+        {
+            return _date.Ticks >= otherDate._date.Ticks;
+        }
+
+        public bool IsOnOrBefore(Date otherDate)
+        {
+            return _date.Ticks <= otherDate._date.Ticks;
+        }
+
+        public bool IsBefore(Date otherDate)
+        {
+            return _date.Ticks < otherDate._date.Ticks;
         }
     }
 }

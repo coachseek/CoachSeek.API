@@ -68,7 +68,7 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage SearchForSessions(string startDate, string endDate)
         {
-            //SessionSearchUseCase.BusinessId = BusinessId;
+            SessionSearchUseCase.BusinessId = BusinessId;
             var response = SessionSearchUseCase.SearchForSessions(startDate, endDate);
             return CreateGetWebResponse(response);
         }

@@ -9,7 +9,7 @@
         public PricingData()
         { }
 
-        public PricingData(decimal? sessionPrice, decimal? coursePrice)
+        public PricingData(decimal? sessionPrice, decimal? coursePrice = null)
         {
             SessionPrice = sessionPrice;
             CoursePrice = coursePrice;

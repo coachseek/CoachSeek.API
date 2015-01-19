@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
@@ -24,8 +25,16 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 Validate(startDate, endDate);
+                var searchStartDate = new Date(startDate);
+                var searchEndDate = new Date(endDate);
 
-                return new Response<IEnumerable<SessionData>>(new List<SessionData>());
+                var business = GetBusiness(BusinessId);
+
+                var sessions = business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(searchStartDate))
+                                                .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(searchEndDate))
+                                                .OrderBy(x => x.Timing.StartDate).ToList();
+
+                return new Response<IEnumerable<SessionData>>(sessions);
             }
             catch (Exception ex)
             {
@@ -38,35 +47,41 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void Validate(string startDate, string endDate)
+        private void Validate(string searchStartDate, string searchEndDate)
         {
-            ValidateStartDate(startDate);
-            ValidateEndDate(endDate);
+            var startDate = ValidateStartDate(searchStartDate);
+            var endDate = ValidateEndDate(searchEndDate);
+
+            //if (startDate.IsAfter() > endDate)
+
+
         }
 
-        private static void ValidateStartDate(string startDate)
+        private static Date ValidateStartDate(string startDate)
         {
             if (string.IsNullOrEmpty(startDate))
                 throw new InvalidStartDate();
+
             try
             {
-                var start = new Date(startDate);
+                return new Date(startDate);
             }
-            catch (InvalidDate ex)
+            catch (InvalidDate)
             {
                 throw new InvalidStartDate();
             }
         }
 
-        private static void ValidateEndDate(string endDate)
+        private static Date ValidateEndDate(string endDate)
         {
             if (string.IsNullOrEmpty(endDate))
                 throw new InvalidEndDate();
+            
             try
             {
-                var end = new Date(endDate);
+                return new Date(endDate);
             }
-            catch (InvalidDate ex)
+            catch (InvalidDate)
             {
                 throw new InvalidEndDate();
             }

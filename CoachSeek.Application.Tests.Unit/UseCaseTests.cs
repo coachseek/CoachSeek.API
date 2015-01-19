@@ -22,6 +22,11 @@ namespace CoachSeek.Application.Tests.Unit
         protected const string LOCATION_ORAKEI_ID = "504E832A-F051-4FF8-86A4-829054E3BF93";
         protected const string SERVICE_MINI_RED_ID = "60D57C9C-58B0-4A10-94CA-2B12EBBF13AE";
         protected const string SERVICE_MINI_ORANGE_ID = "7018EC02-67B0-4F51-BD1A-A0D2E395D8FC";
+        protected const string SESSION_ONE = "1ABEBA68-8F90-45AB-8E56-C2B34E8DB657";
+        protected const string SESSION_TWO = "0C2B472C-0DFA-4545-94B8-DE5A807FF52F";
+        protected const string SESSION_THREE = "33648896-460D-409D-A2BA-D8F1EA852757";
+        protected const string SESSION_FOUR = "B715BFC7-B9D4-4C67-8014-17B2825C081C";
+        protected const string SESSION_FIVE = "B76E3493-01CA-40A5-8B90-B3157A7AAB21";
 
         protected InMemoryUserRepository UserRepository { get; set; }
         protected InMemoryBusinessRepository BusinessRepository { get; set; }
@@ -72,7 +77,7 @@ namespace CoachSeek.Application.Tests.Unit
                 SetupLocations(),
                 SetupCoaches(),
                 SetupServices(),
-                null);
+                SetupSessions());
         }
 
         protected IEnumerable<LocationData> SetupLocations()
@@ -106,7 +111,11 @@ namespace CoachSeek.Application.Tests.Unit
         {
             return new List<SessionData>
             {
-                SetupSessionAlbertMiniRedBrownsBayTuesday14To15()
+                SetupSessionBillMiniRedBrownsBayOnJan21From14To15(),
+                SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14(),
+                SetupSessionBillMiniRedOrakeiOnJan25From18To19(),
+                SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10(),
+                SetupSessionAlbertMiniRedOrakeiOnJan23From11To12(),
             };
         }
 
@@ -194,13 +203,85 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
-        private SessionData SetupSessionAlbertMiniRedBrownsBayTuesday14To15()
+        private SessionData SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10()
         {
             return new SessionData
             {
+                Id = new Guid(SESSION_ONE),
+                Location = new LocationKeyData {Id = new Guid(LOCATION_BROWNS_BAY_ID)},
+                Coach = new CoachKeyData {Id = new Guid(COACH_ALBERT_ID)},
+                Service = new ServiceKeyData {Id = new Guid(SERVICE_MINI_RED_ID)},
+                Timing = new SessionTimingData("2015-01-20", "9:00", 60),
+                Booking = new SessionBookingData(8, true),
+                Presentation = new PresentationData {Colour = "Red"},
+                Repetition = new RepetitionData(1),
+                Pricing = new PricingData(20)
             };
         }
 
+        private SessionData SetupSessionBillMiniRedBrownsBayOnJan21From14To15()
+        {
+            return new SessionData
+            {
+                Id = new Guid(SESSION_TWO),
+                Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                Booking = new SessionBookingData(8, true),
+                Presentation = new PresentationData { Colour = "Red" },
+                Repetition = new RepetitionData(1),
+                Pricing = new PricingData(20)
+            };
+        }
+
+        private SessionData SetupSessionAlbertMiniRedOrakeiOnJan23From11To12()
+        {
+            return new SessionData
+            {
+                Id = new Guid(SESSION_THREE),
+                Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                Timing = new SessionTimingData("2015-01-23", "11:00", 60),
+                Booking = new SessionBookingData(8, true),
+                Presentation = new PresentationData { Colour = "Red" },
+                Repetition = new RepetitionData(1),
+                Pricing = new PricingData(20)
+            };
+        }
+
+        private SessionData SetupSessionBillMiniRedOrakeiOnJan25From18To19()
+        {
+            return new SessionData
+            {
+                Id = new Guid(SESSION_FOUR),
+                Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                Timing = new SessionTimingData("2015-01-25", "18:00", 60),
+                Booking = new SessionBookingData(8, true),
+                Presentation = new PresentationData { Colour = "Red" },
+                Repetition = new RepetitionData(1),
+                Pricing = new PricingData(20)
+            };
+        }
+
+        private SessionData SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14()
+        {
+            return new SessionData
+            {
+                Id = new Guid(SESSION_FIVE),
+                Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                Timing = new SessionTimingData("2015-01-26", "13:00", 60),
+                Booking = new SessionBookingData(8, true),
+                Presentation = new PresentationData { Colour = "Red" },
+                Repetition = new RepetitionData(1),
+                Pricing = new PricingData(20)
+            };
+        }
 
         protected void AssertSaveBusinessIsNotCalled()
         {
