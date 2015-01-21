@@ -198,7 +198,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var useCase = new SessionSearchUseCase(BusinessRepository,
                 new CoachGetUseCase(BusinessRepository),
-                new LocationGetUseCase(BusinessRepository))
+                new LocationGetByIdUseCase(BusinessRepository))
             {BusinessId = new Guid(BUSINESS_ID)};
 
             try

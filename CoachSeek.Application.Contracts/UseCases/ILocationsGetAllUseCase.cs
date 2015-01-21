@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ILocationGetUseCase
+    public interface ILocationsGetAllUseCase
     {
         Guid BusinessId { get; set; }
 
-        LocationData GetLocation(Guid id);
+        IList<LocationData> GetLocations();
     }
 }

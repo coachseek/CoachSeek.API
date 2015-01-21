@@ -14,11 +14,11 @@ namespace CoachSeek.Application.UseCases
         public Guid BusinessId { get; set; }
 
         private ICoachGetUseCase CoachGetUseCase { get; set; }
-        private ILocationGetUseCase LocationGetUseCase { get; set; }
+        private ILocationGetByIdUseCase LocationGetUseCase { get; set; }
 
         public SessionSearchUseCase(IBusinessRepository businessRepository,
                                     ICoachGetUseCase coachGetUseCase,
-                                    ILocationGetUseCase locationGetUseCase)
+                                    ILocationGetByIdUseCase locationGetUseCase)
             : base(businessRepository)
         {
             CoachGetUseCase = coachGetUseCase;

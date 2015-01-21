@@ -6,42 +6,48 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Controllers
 {
     public class LocationsController : BaseController
     {
-        public ILocationGetUseCase LocationGetUseCase { get; set; }
+        public ILocationsGetAllUseCase LocationsGetAllUseCase { get; set; }
+        public ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
         public ILocationAddUseCase LocationAddUseCase { get; set; }
         public ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
 
         public LocationsController()
         { }
 
-        public LocationsController(ILocationGetUseCase locationGetUseCase,
+        public LocationsController(ILocationsGetAllUseCase locationsGetAllUseCase,
+                                   ILocationGetByIdUseCase locationGetByIdUseCase,
                                    ILocationAddUseCase locationAddUseCase,
                                    ILocationUpdateUseCase locationUpdateUseCase)
         {
-            LocationGetUseCase = locationGetUseCase;
+            LocationsGetAllUseCase = locationsGetAllUseCase;
+            LocationGetByIdUseCase = locationGetByIdUseCase;
             LocationAddUseCase = locationAddUseCase;
             LocationUpdateUseCase = locationUpdateUseCase;
         }
 
 
-        //// GET: api/Locations
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        // GET: api/Locations
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get()
+        {
+            LocationsGetAllUseCase.BusinessId = BusinessId;
+            var response = LocationsGetAllUseCase.GetLocations();
+            return CreateGetWebResponse(response);
+        }
 
         // GET: api/Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            LocationGetUseCase.BusinessId = BusinessId;
-            var response = LocationGetUseCase.GetLocation(id);
+            LocationGetByIdUseCase.BusinessId = BusinessId;
+            var response = LocationGetByIdUseCase.GetLocation(id);
             return CreateGetWebResponse(response);
         }
 
