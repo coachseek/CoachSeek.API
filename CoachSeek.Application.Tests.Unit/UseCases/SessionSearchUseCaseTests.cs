@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
@@ -96,61 +95,86 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenSessionSearchWillReturnMultipleSessions(response);
         }
 
-
-        private Tuple<string, string> GivenNoStartDate()
+        [Test]
+        public void GivenNoValidCoachId_WhenCallSearchForSessions_ThenSessionSearchFailsWithInvalidCoachIdError()
         {
-            return new Tuple<string, string>(null, "2015-01-26");
+            var criteria = GivenNoValidCoachId();
+            var response = WhenCallSearchForSessions(criteria);
+            ThenSessionSearchFailsWithInvalidCoachIdError(response);
         }
 
-        private Tuple<string, string> GivenNoValidStartDate()
+        [Test]
+        public void GivenValidCoachId_WhenCallSearchForSessions_ThenSessionSearchWillReturnSessionsForCoach()
         {
-            return new Tuple<string, string>("abc", "2015-01-26");
-        }
-
-        private Tuple<string, string> GivenNoEndDate()
-        {
-            return new Tuple<string, string>("2015-01-20", null);
-        }
-
-        private Tuple<string, string> GivenNoValidEndDate()
-        {
-            return new Tuple<string, string>("2015-01-20", "xyz");
-        }
-
-        private Tuple<string, string> GivenNoValidStartAndEndDate()
-        {
-            return new Tuple<string, string>("hello", "world!");
-        }
-
-        private Tuple<string, string> GivenStartDateIsAfterEndDate()
-        {
-            return new Tuple<string, string>("2015-01-26", "2015-01-20");
-        }
-
-        private Tuple<string, string> GivenNoMatchingSessions()
-        {
-            return new Tuple<string, string>("2015-01-13", "2015-01-18");
-        }
-
-        private Tuple<string, string> GivenSingleMatchingSession()
-        {
-            return new Tuple<string, string>("2015-01-22", "2015-01-24");
-        }
-
-        private Tuple<string, string> GivenMultipleMatchingSessions()
-        {
-            return new Tuple<string, string>("2015-01-21", "2015-01-25");
+            var criteria = GivenValidCoachId();
+            var response = WhenCallSearchForSessions(criteria);
+            ThenSessionSearchWillReturnSessionsForCoach(response);
         }
 
 
-        private object WhenCallSearchForSessions(Tuple<string, string> criteria)
+        private Tuple<string, string, Guid?> GivenNoStartDate()
         {
-            var useCase = new SessionSearchUseCase(BusinessRepository);
-            useCase.BusinessId = new Guid(BUSINESS_ID);
+            return new Tuple<string, string, Guid?>(null, "2015-01-26", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoValidStartDate()
+        {
+            return new Tuple<string, string, Guid?>("abc", "2015-01-26", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoEndDate()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-20", null, null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoValidEndDate()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-20", "xyz", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoValidStartAndEndDate()
+        {
+            return new Tuple<string, string, Guid?>("hello", "world!", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenStartDateIsAfterEndDate()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-26", "2015-01-20", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoMatchingSessions()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-13", "2015-01-18", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenSingleMatchingSession()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-22", "2015-01-24", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenMultipleMatchingSessions()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-21", "2015-01-25", null);
+        }
+
+        private Tuple<string, string, Guid?> GivenNoValidCoachId()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-21", "2015-01-25", Guid.NewGuid());
+        }
+
+        private Tuple<string, string, Guid?> GivenValidCoachId()
+        {
+            return new Tuple<string, string, Guid?>("2015-01-20", "2015-01-25", new Guid(COACH_ALBERT_ID));
+        }
+
+
+        private object WhenCallSearchForSessions(Tuple<string, string, Guid?> criteria)
+        {
+            var useCase = new SessionSearchUseCase(BusinessRepository, new CoachGetUseCase(BusinessRepository)) { BusinessId = new Guid(BUSINESS_ID) };
 
             try
             {
-                return useCase.SearchForSessions(criteria.Item1, criteria.Item2);
+                return useCase.SearchForSessions(criteria.Item1, criteria.Item2, criteria.Item3);
             }
             catch (Exception ex)
             {
@@ -259,6 +283,30 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_THREE)));
             var sessionThree = sessions[2];
             Assert.That(sessionThree.Id, Is.EqualTo(new Guid(SESSION_FOUR)));
+        }
+
+        private void ThenSessionSearchFailsWithInvalidCoachIdError(object response)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var errors = ((ValidationException)response).Errors;
+            Assert.That(errors.Count, Is.EqualTo(1));
+            var error = errors[0];
+            Assert.That(error.Message, Is.EqualTo("Not a valid coachId."));
+            Assert.That(error.Field, Is.EqualTo("coachId"));
+        }
+
+        private void ThenSessionSearchWillReturnSessionsForCoach(object response)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<IList<SessionData>>());
+            var sessions = (IList<SessionData>)response;
+            Assert.That(sessions.Count, Is.EqualTo(2));
+
+            var sessionOne = sessions[0];
+            Assert.That(sessionOne.Id, Is.EqualTo(new Guid(SESSION_ONE)));
+            var sessionTwo = sessions[1];
+            Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_THREE)));
         }
     }
 }

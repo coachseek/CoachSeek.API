@@ -8,6 +8,6 @@ namespace CoachSeek.Application.Contracts.UseCases
     {
         Guid BusinessId { get; set; }
 
-        IList<SessionData> SearchForSessions(string startDate, string endDate);
+        IList<SessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null);
     }
 }

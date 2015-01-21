@@ -13,24 +13,48 @@ namespace CoachSeek.Application.UseCases
     {
         public Guid BusinessId { get; set; }
 
+        private ICoachGetUseCase CoachGetUseCase { get; set; }
 
-        public SessionSearchUseCase(IBusinessRepository businessRepository)
+        public SessionSearchUseCase(IBusinessRepository businessRepository,
+            ICoachGetUseCase coachGetUseCase)
             : base(businessRepository)
-        { }
-
-
-        public IList<SessionData> SearchForSessions(string startDate, string endDate)
         {
-            Validate(startDate, endDate);
-
-            var business = GetBusiness(BusinessId);
-
-            return business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
-                                    .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)))
-                                    .OrderBy(x => x.Timing.StartDate).ToList();
+            CoachGetUseCase = coachGetUseCase;
         }
 
-        private void Validate(string searchStartDate, string searchEndDate)
+
+        public IList<SessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null)
+        {
+            Validate(startDate, endDate, coachId);
+
+            var business = GetBusiness(BusinessId);
+            
+            var query = business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
+                                         .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)));
+
+            if (coachId.HasValue)
+                query = query.Where(x => x.Coach.Id == coachId);
+
+            return query.OrderBy(x => x.Timing.StartDate).ToList();
+        }
+
+        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId)
+        {
+            ValidateDates(searchStartDate, searchEndDate);
+            ValidateCoach(coachId);
+        }
+
+        private void ValidateCoach(Guid? coachId)
+        {
+            if (!coachId.HasValue)
+                return;
+            CoachGetUseCase.BusinessId = BusinessId;
+            var coach = CoachGetUseCase.GetCoach(coachId.Value);
+            if (coach == null)
+                throw new ValidationException("Not a valid coachId.", "coachId");
+        }
+
+        private void ValidateDates(string searchStartDate, string searchEndDate)
         {
             var errors = new ValidationException();
             ValidateStartDate(searchStartDate, errors);

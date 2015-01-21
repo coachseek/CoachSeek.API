@@ -257,7 +257,7 @@ namespace CoachSeek.Application.Tests.Unit
             {
                 Id = new Guid(SESSION_FOUR),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
-                Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
                 Timing = new SessionTimingData("2015-01-25", "18:00", 60),
                 Booking = new SessionBookingData(8, true),
