@@ -14,18 +14,21 @@ namespace CoachSeek.Application.UseCases
         public Guid BusinessId { get; set; }
 
         private ICoachGetUseCase CoachGetUseCase { get; set; }
+        private ILocationGetUseCase LocationGetUseCase { get; set; }
 
         public SessionSearchUseCase(IBusinessRepository businessRepository,
-            ICoachGetUseCase coachGetUseCase)
+                                    ICoachGetUseCase coachGetUseCase,
+                                    ILocationGetUseCase locationGetUseCase)
             : base(businessRepository)
         {
             CoachGetUseCase = coachGetUseCase;
+            LocationGetUseCase = locationGetUseCase;
         }
 
 
-        public IList<SessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null)
+        public IList<SessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
         {
-            Validate(startDate, endDate, coachId);
+            Validate(startDate, endDate, coachId, locationId);
 
             var business = GetBusiness(BusinessId);
             
@@ -35,13 +38,17 @@ namespace CoachSeek.Application.UseCases
             if (coachId.HasValue)
                 query = query.Where(x => x.Coach.Id == coachId);
 
+            if (locationId.HasValue)
+                query = query.Where(x => x.Location.Id == locationId);
+
             return query.OrderBy(x => x.Timing.StartDate).ToList();
         }
 
-        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId)
+        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId, Guid? locationId)
         {
             ValidateDates(searchStartDate, searchEndDate);
             ValidateCoach(coachId);
+            ValidateLocation(locationId);
         }
 
         private void ValidateCoach(Guid? coachId)
@@ -52,6 +59,16 @@ namespace CoachSeek.Application.UseCases
             var coach = CoachGetUseCase.GetCoach(coachId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid coachId.", "coachId");
+        }
+
+        private void ValidateLocation(Guid? locationId)
+        {
+            if (!locationId.HasValue)
+                return;
+            LocationGetUseCase.BusinessId = BusinessId;
+            var coach = LocationGetUseCase.GetLocation(locationId.Value);
+            if (coach == null)
+                throw new ValidationException("Not a valid locationId.", "locationId");
         }
 
         private void ValidateDates(string searchStartDate, string searchEndDate)

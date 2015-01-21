@@ -111,70 +111,99 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenSessionSearchWillReturnSessionsForCoach(response);
         }
 
-
-        private Tuple<string, string, Guid?> GivenNoStartDate()
+        [Test]
+        public void GivenNoValidLocationId_WhenCallSearchForSessions_ThenSessionSearchFailsWithInvalidLocationIdError()
         {
-            return new Tuple<string, string, Guid?>(null, "2015-01-26", null);
+            var criteria = GivenNoValidLocationId();
+            var response = WhenCallSearchForSessions(criteria);
+            ThenSessionSearchFailsWithInvalidLocationIdError(response);
         }
 
-        private Tuple<string, string, Guid?> GivenNoValidStartDate()
+        [Test]
+        public void GivenValidLocationId_WhenCallSearchForSessions_ThenSessionSearchWillReturnSessionsForLocation()
         {
-            return new Tuple<string, string, Guid?>("abc", "2015-01-26", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenNoEndDate()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-20", null, null);
-        }
-
-        private Tuple<string, string, Guid?> GivenNoValidEndDate()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-20", "xyz", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenNoValidStartAndEndDate()
-        {
-            return new Tuple<string, string, Guid?>("hello", "world!", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenStartDateIsAfterEndDate()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-26", "2015-01-20", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenNoMatchingSessions()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-13", "2015-01-18", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenSingleMatchingSession()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-22", "2015-01-24", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenMultipleMatchingSessions()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-21", "2015-01-25", null);
-        }
-
-        private Tuple<string, string, Guid?> GivenNoValidCoachId()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-21", "2015-01-25", Guid.NewGuid());
-        }
-
-        private Tuple<string, string, Guid?> GivenValidCoachId()
-        {
-            return new Tuple<string, string, Guid?>("2015-01-20", "2015-01-25", new Guid(COACH_ALBERT_ID));
+            var criteria = GivenValidLocationId();
+            var response = WhenCallSearchForSessions(criteria);
+            ThenSessionSearchWillReturnSessionsForLocation(response);
         }
 
 
-        private object WhenCallSearchForSessions(Tuple<string, string, Guid?> criteria)
+        private Tuple<string, string, Guid?, Guid?> GivenNoStartDate()
         {
-            var useCase = new SessionSearchUseCase(BusinessRepository, new CoachGetUseCase(BusinessRepository)) { BusinessId = new Guid(BUSINESS_ID) };
+            return new Tuple<string, string, Guid?, Guid?>(null, "2015-01-26", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoValidStartDate()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("abc", "2015-01-26", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoEndDate()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", null, null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoValidEndDate()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", "xyz", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoValidStartAndEndDate()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("hello", "world!", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenStartDateIsAfterEndDate()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-26", "2015-01-20", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoMatchingSessions()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-13", "2015-01-18", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenSingleMatchingSession()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-22", "2015-01-24", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenMultipleMatchingSessions()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", null, null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoValidCoachId()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", Guid.NewGuid(), null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenValidCoachId()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", "2015-01-25", new Guid(COACH_ALBERT_ID), null);
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenNoValidLocationId()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", null, Guid.NewGuid());
+        }
+
+        private Tuple<string, string, Guid?, Guid?> GivenValidLocationId()
+        {
+            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-27", null, new Guid(LOCATION_BROWNS_BAY_ID));
+        }
+
+
+        private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?> criteria)
+        {
+            var useCase = new SessionSearchUseCase(BusinessRepository,
+                new CoachGetUseCase(BusinessRepository),
+                new LocationGetUseCase(BusinessRepository))
+            {BusinessId = new Guid(BUSINESS_ID)};
 
             try
             {
-                return useCase.SearchForSessions(criteria.Item1, criteria.Item2, criteria.Item3);
+                return useCase.SearchForSessions(criteria.Item1, criteria.Item2, criteria.Item3, criteria.Item4);
             }
             catch (Exception ex)
             {
@@ -307,6 +336,30 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(sessionOne.Id, Is.EqualTo(new Guid(SESSION_ONE)));
             var sessionTwo = sessions[1];
             Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_THREE)));
+        }
+
+        private void ThenSessionSearchFailsWithInvalidLocationIdError(object response)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var errors = ((ValidationException)response).Errors;
+            Assert.That(errors.Count, Is.EqualTo(1));
+            var error = errors[0];
+            Assert.That(error.Message, Is.EqualTo("Not a valid locationId."));
+            Assert.That(error.Field, Is.EqualTo("locationId"));
+        }
+
+        private void ThenSessionSearchWillReturnSessionsForLocation(object response)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<IList<SessionData>>());
+            var sessions = (IList<SessionData>)response;
+            Assert.That(sessions.Count, Is.EqualTo(2));
+
+            var sessionOne = sessions[0];
+            Assert.That(sessionOne.Id, Is.EqualTo(new Guid(SESSION_TWO)));
+            var sessionTwo = sessions[1];
+            Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_FIVE)));
         }
     }
 }

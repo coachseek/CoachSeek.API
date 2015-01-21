@@ -68,12 +68,12 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null)
+        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
         {
             SessionSearchUseCase.BusinessId = BusinessId;
             try
             {
-                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId);
+                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId);
                 return CreateGetWebResponse(response);
             }
             catch (ValidationException ex)
