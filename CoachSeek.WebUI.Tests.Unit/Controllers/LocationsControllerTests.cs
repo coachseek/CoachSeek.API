@@ -177,6 +177,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private void ThenSetDependencies(LocationsController controller)
         {
+            Assert.That(controller.LocationsGetAllUseCase, Is.Not.Null);
             Assert.That(controller.LocationGetByIdUseCase, Is.Not.Null);
             Assert.That(controller.LocationAddUseCase, Is.Not.Null);
             Assert.That(controller.LocationUpdateUseCase, Is.Not.Null);

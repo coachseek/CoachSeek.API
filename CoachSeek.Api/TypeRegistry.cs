@@ -33,7 +33,8 @@ namespace CoachSeek.Api
             For<ILocationAddUseCase>().Use<LocationAddUseCase>();
             For<ILocationUpdateUseCase>().Use<LocationUpdateUseCase>();
 
-            For<ICoachGetUseCase>().Use<CoachGetUseCase>();
+            For<ICoachesGetAllUseCase>().Use<CoachesGetAllUseCase>();
+            For<ICoachGetByIdUseCase>().Use<CoachGetByIdUseCase>();
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
             For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
 

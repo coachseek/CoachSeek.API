@@ -55,6 +55,7 @@
     <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
     <Compile Include="Models\Responses\NoDataResponse.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
     <Compile Include="UseCases\ILocationsGetAllUseCase.cs" />
     <Compile Include="UseCases\IServiceGetUseCase.cs" />
     <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
@@ -70,7 +71,7 @@
     </Compile>
     <Compile Include="UseCases\IBusinessGetByDomainUseCase.cs" />
     <Compile Include="UseCases\IBusinessAddUseCase.cs" />
-    <Compile Include="UseCases\ICoachGetUseCase.cs" />
+    <Compile Include="UseCases\ICoachGetByIdUseCase.cs" />
     <Compile Include="UseCases\ILocationGetByIdUseCase.cs" />
     <Compile Include="UseCases\ILocationUpdateUseCase.cs" />
     <Compile Include="UseCases\ISessionSearchUseCase.cs" />

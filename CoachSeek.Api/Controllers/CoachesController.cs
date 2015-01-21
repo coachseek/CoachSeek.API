@@ -6,41 +6,48 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
     public class CoachesController : BaseController
     {
-        public ICoachGetUseCase CoachGetUseCase { get; set; }
+        public ICoachesGetAllUseCase CoachesGetAllUseCase { get; set; }
+        public ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         public ICoachAddUseCase CoachAddUseCase { get; set; }
         public ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
 
         public CoachesController()
         { }
 
-        public CoachesController(ICoachGetUseCase coachGetUseCase,
+        public CoachesController(ICoachesGetAllUseCase coachesGetAllUseCase,
+                                 ICoachGetByIdUseCase coachGetByIdUseCase,
                                  ICoachAddUseCase coachAddUseCase,
                                  ICoachUpdateUseCase coachUpdateUseCase)
         {
-            CoachGetUseCase = coachGetUseCase;
+            CoachesGetAllUseCase = coachesGetAllUseCase;
+            CoachGetByIdUseCase = coachGetByIdUseCase;
             CoachAddUseCase = coachAddUseCase;
             CoachUpdateUseCase = coachUpdateUseCase;
         }
 
-        //// GET: api/Coaches
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+
+        // GET: api/Coaches
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get()
+        {
+            CoachesGetAllUseCase.BusinessId = BusinessId;
+            var response = CoachesGetAllUseCase.GetCoaches();
+            return CreateGetWebResponse(response);
+        }
 
         // GET: api/Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            CoachGetUseCase.BusinessId = BusinessId;
-            var response = CoachGetUseCase.GetCoach(id);
+            CoachGetByIdUseCase.BusinessId = BusinessId;
+            var response = CoachGetByIdUseCase.GetCoach(id);
             return CreateGetWebResponse(response);
         }
 
