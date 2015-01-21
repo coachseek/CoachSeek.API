@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Common;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -28,6 +29,10 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
+        protected HttpResponseMessage CreateGetErrorWebResponse(ValidationException errors)
+        {
+            return Request.CreateResponse(HttpStatusCode.BadRequest, errors.ToData());
+        }
 
         protected HttpResponseMessage CreateGetWebResponse<TData>(TData data) where TData : class
         {

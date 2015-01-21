@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Exceptions
 {
@@ -49,6 +50,18 @@ namespace CoachSeek.Domain.Exceptions
         {
             if (HasErrors)
                 throw this;
+        }
+
+        public IList<ErrorData> ToData()
+        {
+            var data = new List<ErrorData>();
+
+            if (!HasErrors)
+                return data;
+
+            data.AddRange(Errors.Select(error => error.ToData()));
+
+            return data;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoachSeek.Application.Contracts.Models.Responses;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -20,70 +19,64 @@ namespace CoachSeek.Application.UseCases
         { }
 
 
-        public Response<IEnumerable<SessionData>> SearchForSessions(string startDate, string endDate)
+        public IList<SessionData> SearchForSessions(string startDate, string endDate)
         {
-            try
-            {
-                Validate(startDate, endDate);
-                var searchStartDate = new Date(startDate);
-                var searchEndDate = new Date(endDate);
+            Validate(startDate, endDate);
 
-                var business = GetBusiness(BusinessId);
+            var business = GetBusiness(BusinessId);
 
-                var sessions = business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(searchStartDate))
-                                                .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(searchEndDate))
-                                                .OrderBy(x => x.Timing.StartDate).ToList();
-
-                return new Response<IEnumerable<SessionData>>(sessions);
-            }
-            catch (Exception ex)
-            {
-                if (ex is InvalidStartDate)
-                    return new ErrorResponse<IEnumerable<SessionData>>(new ErrorData("Invalid start date."));
-                if (ex is InvalidEndDate)
-                    return new ErrorResponse<IEnumerable<SessionData>>(new ErrorData("Invalid end date."));
-
-                return null;
-            }
+            return business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
+                                    .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)))
+                                    .OrderBy(x => x.Timing.StartDate).ToList();
         }
 
         private void Validate(string searchStartDate, string searchEndDate)
         {
-            var startDate = ValidateStartDate(searchStartDate);
-            var endDate = ValidateEndDate(searchEndDate);
+            var errors = new ValidationException();
+            ValidateStartDate(searchStartDate, errors);
+            ValidateEndDate(searchEndDate, errors);
+            errors.ThrowIfErrors();
 
-            //if (startDate.IsAfter() > endDate)
+            var startDate = new Date(searchStartDate);
+            var endDate = new Date(searchEndDate);
 
-
+            if (startDate.IsAfter(endDate))
+                throw new ValidationException("The startDate is after the endDate.", "startDate");
         }
 
-        private static Date ValidateStartDate(string startDate)
+        private static void ValidateStartDate(string startDate, ValidationException errors)
         {
             if (string.IsNullOrEmpty(startDate))
-                throw new InvalidStartDate();
+            {
+                errors.Add("The startDate is missing.", "startDate");
+                return;
+            }
 
             try
             {
-                return new Date(startDate);
+                var start = new Date(startDate);
             }
             catch (InvalidDate)
             {
-                throw new InvalidStartDate();
+                errors.Add("The startDate is not a valid date.", "startDate");
             }
         }
 
-        private static Date ValidateEndDate(string endDate)
+        private static void ValidateEndDate(string endDate, ValidationException errors)
         {
             if (string.IsNullOrEmpty(endDate))
-                throw new InvalidEndDate();
-            
+            {
+                errors.Add("The endDate is missing.", "endDate");
+                return;
+            }
+
             try
             {
-                return new Date(endDate);
+                var end = new Date(endDate);
             }
             catch (InvalidDate)
             {
-                throw new InvalidEndDate();
+                errors.Add("The endDate is not a valid date.", "endDate");
             }
         }
     }

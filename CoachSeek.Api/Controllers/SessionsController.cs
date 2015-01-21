@@ -3,10 +3,9 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -30,7 +29,9 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: api/Sessions
+        // GET: api/Sessions?startDate=2015-01-20&endDate=2015-01-26
+        [BasicAuthentication]
+        [Authorize]
         public HttpResponseMessage Get(string startDate, string endDate)
         {
             return SearchForSessions(startDate, endDate);
@@ -69,8 +70,15 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage SearchForSessions(string startDate, string endDate)
         {
             SessionSearchUseCase.BusinessId = BusinessId;
-            var response = SessionSearchUseCase.SearchForSessions(startDate, endDate);
-            return CreateGetWebResponse(response);
+            try
+            {
+                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate);
+                return CreateGetWebResponse(response);
+            }
+            catch (ValidationException ex)
+            {
+                return CreateGetErrorWebResponse(ex);
+            }
         }
 
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
