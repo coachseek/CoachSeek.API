@@ -57,7 +57,8 @@
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
     <Compile Include="UseCases\ILocationsGetAllUseCase.cs" />
-    <Compile Include="UseCases\IServiceGetUseCase.cs" />
+    <Compile Include="UseCases\IServicesGetAllUseCase.cs" />
+    <Compile Include="UseCases\IServiceGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
     <Compile Include="UseCases\ILocationAddUseCase.cs" />
     <Compile Include="Models\Responses\BusinessGetResponse.cs" />

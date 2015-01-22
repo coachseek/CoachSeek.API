@@ -53,7 +53,8 @@
     <Compile Include="UseCases\AddUseCase.cs" />
     <Compile Include="UseCases\CoachesGetAllUseCase.cs" />
     <Compile Include="UseCases\LocationsGetAllUseCase.cs" />
-    <Compile Include="UseCases\ServiceGetUseCase.cs" />
+    <Compile Include="UseCases\ServicesGetAllUseCase.cs" />
+    <Compile Include="UseCases\ServiceGetByIdUseCase.cs" />
     <Compile Include="UseCases\CoachGetByIdUseCase.cs" />
     <Compile Include="UseCases\LocationGetByIdUseCase.cs" />
     <Compile Include="UseCases\ServiceUpdateUseCase.cs" />

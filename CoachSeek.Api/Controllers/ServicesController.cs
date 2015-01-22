@@ -12,30 +12,43 @@ namespace CoachSeek.Api.Controllers
 {
     public class ServicesController : BaseController
     {
-        public IServiceGetUseCase ServiceGetUseCase { get; set; }
+        public IServicesGetAllUseCase ServicesGetAllUseCase { get; set; }
+        public IServiceGetByIdUseCase ServiceGetByIdUseCase { get; set; }
         public IServiceAddUseCase ServiceAddUseCase { get; set; }
         public IServiceUpdateUseCase ServiceUpdateUseCase { get; set; }
 
         public ServicesController()
         { }
 
-        public ServicesController(IServiceGetUseCase serviceGetUseCase,
+        public ServicesController(IServicesGetAllUseCase servicesGetAllUseCase,
+                                  IServiceGetByIdUseCase serviceGetByIdUseCase,
                                   IServiceAddUseCase serviceAddUseCase, 
                                   IServiceUpdateUseCase serviceUpdateUseCase)
         {
-            ServiceGetUseCase = serviceGetUseCase;
+            ServicesGetAllUseCase = servicesGetAllUseCase;
+            ServiceGetByIdUseCase = serviceGetByIdUseCase;
             ServiceAddUseCase = serviceAddUseCase;
             ServiceUpdateUseCase = serviceUpdateUseCase;
         }
 
+
+        // GET: api/Services
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get()
+        {
+            ServicesGetAllUseCase.BusinessId = BusinessId;
+            var response = ServicesGetAllUseCase.GetServices();
+            return CreateGetWebResponse(response);
+        }
 
         // GET: api/Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            ServiceGetUseCase.BusinessId = BusinessId;
-            var response = ServiceGetUseCase.GetService(id);
+            ServiceGetByIdUseCase.BusinessId = BusinessId;
+            var response = ServiceGetByIdUseCase.GetService(id);
             return CreateGetWebResponse(response);
         }
 

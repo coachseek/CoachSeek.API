@@ -38,7 +38,8 @@ namespace CoachSeek.Api
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
             For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
 
-            For<IServiceGetUseCase>().Use<ServiceGetUseCase>();
+            For<IServicesGetAllUseCase>().Use<ServicesGetAllUseCase>();
+            For<IServiceGetByIdUseCase>().Use<ServiceGetByIdUseCase>();
             For<IServiceAddUseCase>().Use<ServiceAddUseCase>();
             For<IServiceUpdateUseCase>().Use<ServiceUpdateUseCase>();
 
