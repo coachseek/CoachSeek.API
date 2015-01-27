@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
@@ -11,7 +12,7 @@ namespace CoachSeek.Api.Controllers
     public class CustomersController : BaseController
     {
         //public ICoachesGetAllUseCase CoachesGetAllUseCase { get; set; }
-        //public ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
+        public ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
         public ICustomerAddUseCase CustomerAddUseCase { get; set; }
         public ICustomerUpdateUseCase CustomerUpdateUseCase { get; set; }
 
@@ -19,12 +20,12 @@ namespace CoachSeek.Api.Controllers
         { }
 
         public CustomersController(//ICoachesGetAllUseCase coachesGetAllUseCase,
-                                   //ICoachGetByIdUseCase coachGetByIdUseCase,
+                                   ICustomerGetByIdUseCase customerGetByIdUseCase,
                                    ICustomerAddUseCase customerAddUseCase,
                                    ICustomerUpdateUseCase customerUpdateUseCase)
         {
             //CoachesGetAllUseCase = coachesGetAllUseCase;
-            //CoachGetByIdUseCase = coachGetByIdUseCase;
+            CustomerGetByIdUseCase = customerGetByIdUseCase;
             CustomerAddUseCase = customerAddUseCase;
             CustomerUpdateUseCase = customerUpdateUseCase;
         }
@@ -40,15 +41,15 @@ namespace CoachSeek.Api.Controllers
         //    return CreateGetWebResponse(response);
         //}
 
-        //// GET: api/Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
-        //[BasicAuthentication]
-        //[Authorize]
-        //public HttpResponseMessage Get(Guid id)
-        //{
-        //    CoachGetByIdUseCase.BusinessId = BusinessId;
-        //    var response = CoachGetByIdUseCase.GetCoach(id);
-        //    return CreateGetWebResponse(response);
-        //}
+        // GET: api/Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get(Guid id)
+        {
+            CustomerGetByIdUseCase.BusinessId = BusinessId;
+            var response = CustomerGetByIdUseCase.GetCustomer(id);
+            return CreateGetWebResponse(response);
+        }
 
         // POST: api/Customers
         [BasicAuthentication]

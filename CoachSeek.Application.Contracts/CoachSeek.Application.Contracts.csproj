@@ -57,6 +57,7 @@
     <Compile Include="Models\Responses\NoDataResponse.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
+    <Compile Include="UseCases\ICustomerGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICustomerUpdateUseCase.cs" />
     <Compile Include="UseCases\ICustomerAddUseCase.cs" />
     <Compile Include="UseCases\ILocationsGetAllUseCase.cs" />
