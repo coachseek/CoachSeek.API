@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CustomerKeyData.cs" />
+    <Compile Include="Model\CustomerData.cs" />
+    <Compile Include="Model\NewCustomerData.cs" />
     <Compile Include="Model\RegistrationData.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Model\BusinessAdminData.cs" />

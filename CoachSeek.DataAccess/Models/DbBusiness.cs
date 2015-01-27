@@ -13,6 +13,7 @@ namespace CoachSeek.DataAccess.Models
         public List<DbCoach> Coaches { get; set; }
         public List<DbService> Services { get; set; }
         public List<DbSession> Sessions { get; set; }
+        public List<DbCustomer> Customers { get; set; }
 
         public DbBusiness()
         {
@@ -20,6 +21,7 @@ namespace CoachSeek.DataAccess.Models
             Coaches = new List<DbCoach>();
             Services = new List<DbService>();
             Sessions = new List<DbSession>();
+            Customers = new List<DbCustomer>();
         }
     }
 }

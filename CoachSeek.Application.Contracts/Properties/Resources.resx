@@ -141,6 +141,9 @@
   <data name="ErrorInvalidCoach" xml:space="preserve">
     <value>This coach does not exist.</value>
   </data>
+  <data name="ErrorInvalidCustomer" xml:space="preserve">
+    <value>This customer does not exist.</value>
+  </data>
   <data name="ErrorInvalidLocation" xml:space="preserve">
     <value>This location does not exist.</value>
   </data>

@@ -13,6 +13,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<BusinessData, DbBusiness>();
             Mapper.CreateMap<CoachData, DbCoach>();
             Mapper.CreateMap<CoachKeyData, DbCoachKey>();
+            Mapper.CreateMap<CustomerData, DbCustomer>();
             Mapper.CreateMap<DailyWorkingHoursData, DbDailyWorkingHours>();
             Mapper.CreateMap<LocationData, DbLocation>();
             Mapper.CreateMap<LocationKeyData, DbLocationKey>();
@@ -34,6 +35,7 @@ namespace CoachSeek.DataAccess.Configuration
             Mapper.CreateMap<DbBusinessAdmin, BusinessAdminData>();
             Mapper.CreateMap<DbCoach, CoachData>();
             Mapper.CreateMap<DbCoachKey, CoachKeyData>();
+            Mapper.CreateMap<DbCustomer, CustomerData>();
             Mapper.CreateMap<DbDailyWorkingHours, DailyWorkingHoursData>();
             Mapper.CreateMap<DbLocation, LocationData>();
             Mapper.CreateMap<DbLocationKey, LocationKeyData>();

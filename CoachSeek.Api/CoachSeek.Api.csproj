@@ -198,12 +198,15 @@
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessesController.cs" />
     <Compile Include="Controllers\BusinessRegistrationController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
+    <Compile Include="Conversion\CustomerUpdateCommandConverter.cs" />
+    <Compile Include="Conversion\CustomerAddCommandConverter.cs" />
     <Compile Include="Conversion\UserAddCommandConverter.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachAddCommandConverter.cs" />
@@ -225,6 +228,7 @@
     <Compile Include="Models\Api\ApiLocationKey.cs" />
     <Compile Include="Models\Api\ApiServiceKey.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiCustomerSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionBooking.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionTiming.cs" />

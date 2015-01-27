@@ -37,6 +37,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 null,
                 null,
                 null,
+                null,
                 null));
         }
 

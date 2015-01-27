@@ -77,7 +77,8 @@ namespace CoachSeek.Application.Tests.Unit
                 SetupLocations(),
                 SetupCoaches(),
                 SetupServices(),
-                SetupSessions());
+                SetupSessions(),
+                SetupCustomers());
         }
 
         protected IEnumerable<LocationData> SetupLocations()
@@ -117,6 +118,11 @@ namespace CoachSeek.Application.Tests.Unit
                 SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10(),
                 SetupSessionAlbertMiniRedOrakeiOnJan23From11To12(),
             };
+        }
+
+        protected IEnumerable<CustomerData> SetupCustomers()
+        {
+            return new List<CustomerData>();
         }
 
         private LocationData SetupBrownsBayLocation()

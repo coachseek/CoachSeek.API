@@ -43,6 +43,7 @@
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Models\Responses\ClashingSessionUpdateResponse.cs" />
     <Compile Include="Models\Responses\CoachAddResponse.cs" />
+    <Compile Include="Models\Responses\CustomerUpdateResponse.cs" />
     <Compile Include="Models\Responses\CoachUpdateResponse.cs" />
     <Compile Include="Models\Responses\DuplicateUserAddDataResponse.cs" />
     <Compile Include="Models\Responses\InvalidBusinessResponse.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Models\Responses\NoDataResponse.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
+    <Compile Include="UseCases\ICustomerUpdateUseCase.cs" />
+    <Compile Include="UseCases\ICustomerAddUseCase.cs" />
     <Compile Include="UseCases\ILocationsGetAllUseCase.cs" />
     <Compile Include="UseCases\IServicesGetAllUseCase.cs" />
     <Compile Include="UseCases\IServiceGetByIdUseCase.cs" />

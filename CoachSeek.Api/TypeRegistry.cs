@@ -47,6 +47,9 @@ namespace CoachSeek.Api
             For<ISessionAddUseCase>().Use<SessionAddUseCase>();
             For<ISessionUpdateUseCase>().Use<SessionUpdateUseCase>();
 
+            For<ICustomerAddUseCase>().Use<CustomerAddUseCase>();
+            For<ICustomerUpdateUseCase>().Use<CustomerUpdateUseCase>();
+
             For<IUserAddUseCase>().Use<UserAddUseCase>();
             For<IUserAssociateWithBusinessUseCase>().Use<UserAssociateWithBusinessUseCase>();
         }

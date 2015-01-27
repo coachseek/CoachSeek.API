@@ -18,11 +18,13 @@ namespace CoachSeek.Domain.Entities
         public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
         public IList<ServiceData> Services { get { return BusinessServices.ToData(); } }
         public IList<SessionData> Sessions { get { return BusinessSessions.ToData(); } }
+        public IList<CustomerData> Customers { get { return BusinessCustomers.ToData(); } }
 
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
         private BusinessServices BusinessServices { get; set; }
         private BusinessSessions BusinessSessions { get; set; }
+        private BusinessCustomers BusinessCustomers { get; set; }
 
 
         public Business(Guid id, 
@@ -31,7 +33,8 @@ namespace CoachSeek.Domain.Entities
             IEnumerable<LocationData> locations, 
             IEnumerable<CoachData> coaches,
             IEnumerable<ServiceData> services,
-            IEnumerable<SessionData> sessions
+            IEnumerable<SessionData> sessions,
+            IEnumerable<CustomerData> customers
             )
         {
             Id = id;
@@ -41,6 +44,7 @@ namespace CoachSeek.Domain.Entities
             BusinessCoaches = new BusinessCoaches(coaches);
             BusinessServices = new BusinessServices(services);
             BusinessSessions = new BusinessSessions(sessions, BusinessLocations, BusinessCoaches, BusinessServices);
+            BusinessCustomers = new BusinessCustomers(customers);
         }
 
         public Business()
@@ -50,6 +54,7 @@ namespace CoachSeek.Domain.Entities
             BusinessCoaches = new BusinessCoaches();
             BusinessServices = new BusinessServices();
             BusinessSessions = new BusinessSessions();
+            BusinessCustomers = new BusinessCustomers();
         }
 
         // Minimal Unit testing constructor.
@@ -116,6 +121,22 @@ namespace CoachSeek.Domain.Entities
             return GetServiceById(command.Id, businessRepository);
         }
 
+        public CustomerData AddCustomer(CustomerAddCommand command, IBusinessRepository businessRepository)
+        {
+            var customerId = BusinessCustomers.Add(command.ToData());
+            businessRepository.Save(this);
+
+            return GetCustomerById(customerId, businessRepository);
+        }
+
+        public CustomerData UpdateCustomer(CustomerUpdateCommand command, IBusinessRepository businessRepository)
+        {
+            BusinessCustomers.Update(command.ToData());
+            businessRepository.Save(this);
+
+            return GetCustomerById(command.Id, businessRepository);
+        }
+
         public SessionData AddSession(SessionAddCommand command, IBusinessRepository businessRepository)
         {
             var location = GetLocationById(command.Location.Id, businessRepository);
@@ -177,6 +198,14 @@ namespace CoachSeek.Domain.Entities
             if (session == null)
                 throw new InvalidSession();
             return session;
+        }
+
+        private CustomerData GetCustomerById(Guid customerId, IBusinessRepository businessRepository)
+        {
+            var customer = businessRepository.Get(Id).Customers.FirstOrDefault(x => x.Id == customerId);
+            if (customer == null)
+                throw new InvalidCustomer();
+            return customer;
         }
     }
 }

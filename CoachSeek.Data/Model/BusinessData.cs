@@ -13,6 +13,7 @@ namespace CoachSeek.Data.Model
         public IList<CoachData> Coaches { get; set; }
         public IList<ServiceData> Services { get; set; }
         public IList<SessionData> Sessions { get; set; }
+        public IList<CustomerData> Customers { get; set; }
 
 
         public BusinessData()
@@ -21,6 +22,7 @@ namespace CoachSeek.Data.Model
             Coaches = new List<CoachData>();
             Services = new List<ServiceData>();
             Sessions = new List<SessionData>();
+            Customers = new List<CustomerData>();
         }
 
         public string GetName()
@@ -37,5 +39,6 @@ namespace CoachSeek.Data.Model
         public bool ShouldSerializeCoaches() { return Coaches.Count > 0; }
         public bool ShouldSerializeServices() { return Services.Count > 0; }
         public bool ShouldSerializeSessions() { return Sessions.Count > 0; }
+        public bool ShouldSerializeCustomers() { return Customers.Count > 0; }
     }
 }

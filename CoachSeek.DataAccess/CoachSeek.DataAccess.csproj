@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Configuration\DbAutoMapperConfigurator.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
+    <Compile Include="Models\DbCustomer.cs" />
     <Compile Include="Models\DbCoachKey.cs" />
     <Compile Include="Models\DbDailyWorkingHours.cs" />
     <Compile Include="Models\DbKey.cs" />
