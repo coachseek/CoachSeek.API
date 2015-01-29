@@ -35,6 +35,17 @@ namespace CoachSeek.Domain.Entities
         {
             Id = id;
 
+            Validate(location, coach, service, timing, booking, presentation, pricing);
+        }
+
+        private void Validate(LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionTimingData timing,
+                       SessionBookingData booking,
+                       PresentationData presentation,
+                       PricingData pricing)
+        {
             var errors = new ValidationException();
 
             ValidateAndCreateLocation(location, errors);
@@ -43,11 +54,22 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreateSessionTiming(timing, service.Timing, errors);
             ValidateAndCreateSessionBooking(booking, service.Booking, errors);
             ValidateAndCreateSessionPresentation(presentation, service.Presentation, errors);
-
             ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
+
+            ValidateAdditional(errors, location, coach, service, timing, booking, presentation, pricing);
 
             errors.ThrowIfErrors();
         }
+
+        protected virtual void ValidateAdditional(ValidationException errors, 
+                       LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionTimingData timing,
+                       SessionBookingData booking,
+                       PresentationData presentation,
+                       PricingData pricing)
+        { }
 
 
         public override bool IsOverlapping(Session otherSession)

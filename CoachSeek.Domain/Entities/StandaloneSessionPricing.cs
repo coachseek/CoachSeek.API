@@ -10,19 +10,19 @@ namespace CoachSeek.Domain.Entities
 
         public StandaloneSessionPricing(PricingData sessionPricing, PricingData servicePricing)
             : base(sessionPricing, servicePricing)
-        {
-            Validate(sessionPricing);
-        }
+        { }
 
         public StandaloneSessionPricing(decimal sessionPrice)
             : base(sessionPrice)
         { }
 
-
-        private void Validate(PricingData pricing)
+        protected override void ValidateAdditional(ValidationException errors, PricingData pricing)
         {
-            if (_sessionPrice.Amount == null)
-                throw new ValidationException("A sessionPrice is required.");
+            if (!pricing.SessionPrice.HasValue)
+                errors.Add("A sessionPrice is required.", "session.pricing.sessionPrice");
+
+            if (pricing.CoursePrice.HasValue)
+                errors.Add("The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
         }
     }
 }

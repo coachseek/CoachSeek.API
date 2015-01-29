@@ -150,8 +150,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public class StandaloneSessionTests : SessionTests
         {
             [Test]
-            public void
-                GivenMultipleErrorsInStandaloneSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+            public void GivenMultipleErrorsInStandaloneSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
             {
                 Coach = null;
                 Service.Booking.IsOnlineBookable = null;

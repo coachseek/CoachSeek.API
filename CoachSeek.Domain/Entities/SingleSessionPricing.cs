@@ -18,7 +18,9 @@ namespace CoachSeek.Domain.Entities
         {
             sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
 
-            ValidateAndCreateSingleSessionPricing(sessionPricing);
+            Validate(sessionPricing);
+
+            _sessionPrice = new Price(sessionPricing.SessionPrice);
         }
 
         public SingleSessionPricing(decimal? sessionPrice)
@@ -33,35 +35,36 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateSingleSessionPricing(PricingData pricing)
+        private void Validate(PricingData pricing)
         {
-            if (pricing == null)
-            {
-                _sessionPrice = new Price();
-                return;
-            }
-
             var errors = new ValidationException();
 
+            ValidateSessionPrice(errors, pricing);
+
+            ValidateAdditional(errors, pricing);
+
+            errors.ThrowIfErrors();
+        }
+
+        private static void ValidateSessionPrice(ValidationException errors, PricingData pricing)
+        {
             try
             {
-                _sessionPrice = new Price(pricing.SessionPrice);
+                var sessionPrice = new Price(pricing.SessionPrice);
             }
             catch (InvalidPrice)
             {
                 errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
             }
-
-            if (pricing.CoursePrice.HasValue)
-                errors.Add("The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
-
-            errors.ThrowIfErrors();
         }
 
-        private PricingData BackfillMissingValuesFromService(PricingData sessionPricing, PricingData servicePricing)
+        protected virtual void ValidateAdditional(ValidationException errors, PricingData pricing)
+        { }
+
+        protected PricingData BackfillMissingValuesFromService(PricingData sessionPricing, PricingData servicePricing)
         {
             if (sessionPricing == null)
-                return servicePricing;
+                return servicePricing ?? new PricingData();
 
             if (servicePricing != null && !sessionPricing.SessionPrice.HasValue)
                 sessionPricing.SessionPrice = servicePricing.SessionPrice;

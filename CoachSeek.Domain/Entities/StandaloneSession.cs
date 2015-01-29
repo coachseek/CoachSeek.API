@@ -23,14 +23,19 @@ namespace CoachSeek.Domain.Entities
                        PresentationData presentation,
                        PricingData pricing)
             : base(id, location, coach, service, timing, booking, presentation, pricing)
+        { }
+
+        protected override void ValidateAdditional(ValidationException errors,
+                       LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionTimingData timing,
+                       SessionBookingData booking,
+                       PresentationData presentation,
+                       PricingData pricing)
         {
-            var errors = new ValidationException();
-
             ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-
-            errors.ThrowIfErrors();
         }
-
 
         public override SessionData ToData()
         {

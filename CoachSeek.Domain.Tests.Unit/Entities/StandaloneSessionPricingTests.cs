@@ -19,6 +19,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenCoursePrice_WhenConstruct_ThenThrowValidationException()
         {
+            // A StandaloneSession is standalone and so should never have a CoursePrice passed in.
             var sessionPricing = new PricingData(10, 100);
             var response = WhenConstruct(sessionPricing, null);
             AssertSingleError(response, "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
@@ -45,7 +46,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void GivenMissingPricing_WhenConstruct_ThenThrowValidationException()
         {
             var response = WhenConstruct(null, null);
-            AssertSingleError(response, "A sessionPrice is required.");
+            AssertSingleError(response, "A sessionPrice is required.", "session.pricing.sessionPrice");
         }
 
         [Test]
