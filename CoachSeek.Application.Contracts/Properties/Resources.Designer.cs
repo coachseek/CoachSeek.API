@@ -79,7 +79,7 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This session clashes with one or more session(s)..
+        ///   Looks up a localized string similar to This session clashes with one or more sessions..
         /// </summary>
         internal static string ErrorClashingSession {
             get {
