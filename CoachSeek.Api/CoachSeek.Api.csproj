@@ -299,9 +299,12 @@
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\xeditable.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -370,6 +373,10 @@
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.DataAccess.Authentication.TableStorage\Coachseek.DataAccess.Authentication.TableStorage.csproj">
+      <Project>{2875AD19-2538-4D25-B9BC-6E71E999C0E9}</Project>
+      <Name>Coachseek.DataAccess.Authentication.TableStorage</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess.Authentication\CoachSeek.DataAccess.Authentication.csproj">
       <Project>{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}</Project>

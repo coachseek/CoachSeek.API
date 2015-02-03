@@ -46,14 +46,14 @@ namespace CoachSeek.Domain.Entities
 
         public User(Guid id, Guid? businessId, string businessName,
                     string email, string firstName, string lastName, 
-                    string username, string password)
+                    string username, string passwordHash)
         {
             Id = id;
             BusinessId = businessId;
             BusinessName = businessName;
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
-            Credential = new Credential(username, password);
+            Credential = new Credential(username, passwordHash);
         }
 
 
