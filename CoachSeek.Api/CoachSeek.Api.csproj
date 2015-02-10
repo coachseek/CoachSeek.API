@@ -195,6 +195,7 @@
     <Compile Include="Attributes\BasicAuthenticationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessesController.cs" />
     <Compile Include="Controllers\BusinessRegistrationController.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
+    <Compile Include="Conversion\BookingAddCommandConverter.cs" />
     <Compile Include="Conversion\CustomerUpdateCommandConverter.cs" />
     <Compile Include="Conversion\CustomerAddCommandConverter.cs" />
     <Compile Include="Conversion\UserAddCommandConverter.cs" />
@@ -224,9 +226,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Api\ApiSessionKey.cs" />
+    <Compile Include="Models\Api\ApiCustomerKey.cs" />
     <Compile Include="Models\Api\ApiCoachKey.cs" />
     <Compile Include="Models\Api\ApiLocationKey.cs" />
     <Compile Include="Models\Api\ApiServiceKey.cs" />
+    <Compile Include="Models\Api\Booking\ApiBookingSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomerSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />

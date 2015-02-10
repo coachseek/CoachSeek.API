@@ -26,6 +26,8 @@ namespace CoachSeek.Domain.Entities
         private BusinessSessions BusinessSessions { get; set; }
         private BusinessCustomers BusinessCustomers { get; set; }
 
+        public Booking.Business BookingBusiness { get { return new Booking.Business(Id); } }
+
 
         public Business(Guid id, 
             string name, 

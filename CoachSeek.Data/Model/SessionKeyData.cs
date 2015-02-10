@@ -1,6 +1,6 @@
 ﻿namespace CoachSeek.Data.Model
 {
-    public class CustomerKeyData : KeyData
+    public class SessionKeyData : KeyData
     {
     }
 }

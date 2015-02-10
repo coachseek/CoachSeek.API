@@ -56,8 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BusinessAddCommand.cs" />
+    <Compile Include="Commands\BookingAddCommand.cs" />
     <Compile Include="Commands\CustomerUpdateCommand.cs" />
     <Compile Include="Commands\CustomerAddCommand.cs" />
+    <Compile Include="Commands\CustomerKeyCommand.cs" />
+    <Compile Include="Commands\SessionKeyCommand.cs" />
     <Compile Include="Commands\UserAddCommand.cs" />
     <Compile Include="Commands\BusinessRegistrantCommand.cs" />
     <Compile Include="Commands\BusinessRegistrationCommand.cs" />
@@ -87,23 +90,30 @@
     <Compile Include="Commands\UserAssociateWithBusinessCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
+    <Compile Include="Entities\Booking\Business.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
+    <Compile Include="Entities\Booking\BusinessBookings.cs" />
     <Compile Include="Entities\BusinessCustomers.cs" />
     <Compile Include="Entities\BusinessCoaches.cs" />
     <Compile Include="Entities\BusinessLocations.cs" />
     <Compile Include="Entities\BusinessSessions.cs" />
     <Compile Include="Entities\BusinessServices.cs" />
+    <Compile Include="Entities\Booking\Booking.cs" />
     <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Booking\NewBooking.cs" />
     <Compile Include="Entities\NewCustomer.cs" />
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Exceptions\DuplicateBooking.cs" />
     <Compile Include="Exceptions\DuplicateUser.cs" />
+    <Compile Include="Exceptions\InvalidBooking.cs" />
     <Compile Include="Exceptions\InvalidCustomer.cs" />
     <Compile Include="Exceptions\InvalidEndDate.cs" />
     <Compile Include="Exceptions\InvalidStartDate.cs" />
     <Compile Include="Exceptions\InvalidUser.cs" />
+    <Compile Include="Repositories\IBookingRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserStore.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />

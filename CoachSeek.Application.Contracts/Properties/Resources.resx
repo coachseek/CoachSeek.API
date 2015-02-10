@@ -135,6 +135,9 @@
   <data name="ErrorDuplicateService" xml:space="preserve">
     <value>This service already exists.</value>
   </data>
+  <data name="ErrorInvalidBooking" xml:space="preserve">
+    <value>This booking does not exist.</value>
+  </data>
   <data name="ErrorInvalidBusiness" xml:space="preserve">
     <value>This business does not exist.</value>
   </data>

@@ -13,7 +13,7 @@ namespace CoachSeek.Domain.Entities
         public Location(Guid id, string name)
         {
             Id = id;
-            Name = name.Trim();
+            Name = name != null ? name.Trim() : string.Empty;
         }
 
         public Location(LocationData data)

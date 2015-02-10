@@ -183,6 +183,15 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 AssertStandaloneSession(response);
             }
 
+            [Test]
+            public void GivenStandaloneSession_WhenCallSessionNameProperty_ThenReturnSessionName()
+            {
+                var sessionData = CreateValidStandaloneSessionData();
+                var session = SessionFactory.CreateNewSession(sessionData, Location, Coach, Service);
+                var name = session.Name;
+                Assert.That(name, Is.EqualTo("Mini Red at Orakei Tennis Club with Bob Jones on 2015-02-17 at 12:30"));
+            }
+
             private object WhenConstructStandaloneSession(SessionData session)
             {
                 try

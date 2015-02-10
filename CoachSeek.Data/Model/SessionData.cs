@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 
 namespace CoachSeek.Data.Model
 {
@@ -14,6 +15,12 @@ namespace CoachSeek.Data.Model
             : base(newSession)
         {
             Id = id;
+        }
+
+
+        public SessionKeyData ToKeyData()
+        {
+            return Mapper.Map<SessionData, SessionKeyData>(this);
         }
     }
 }

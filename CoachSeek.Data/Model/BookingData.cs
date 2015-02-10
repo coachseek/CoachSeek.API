@@ -2,10 +2,8 @@
 
 namespace CoachSeek.Data.Model
 {
-    public class KeyData
+    public class BookingData : NewBookingData
     {
         public Guid Id { get; set; }
-
-        public string Name { get; set; } // For debug, human readability.
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 
@@ -16,6 +17,7 @@ namespace CoachSeek.Domain.Entities
 
 
         public Guid Id { get; protected set; }
+        public string Name { get { return FormatSessionName(); } }
         public ServiceKeyData Service { get { return _service.ToKeyData(); } }
         public LocationKeyData Location { get { return _location.ToKeyData(); } }
         public CoachKeyData Coach { get { return _coach.ToKeyData(); } }
@@ -28,6 +30,11 @@ namespace CoachSeek.Domain.Entities
 
 
         public abstract SessionData ToData();
+
+        public SessionKeyData ToKeyData()
+        {
+            return Mapper.Map<Session, SessionKeyData>(this);
+        }
 
 
         protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
@@ -123,6 +130,16 @@ namespace CoachSeek.Domain.Entities
         protected bool IsNullOrSameSession(Session otherSession)
         {
             return (otherSession == null || otherSession.Equals(this) || otherSession.Id == Id);
+        }
+
+        protected virtual string FormatSessionName()
+        {
+            return string.Format("{0} at {1} with {2} on {3} at {4}", 
+                                 Service.Name, 
+                                 Location.Name, 
+                                 Coach.Name, 
+                                 Timing.StartDate, 
+                                 Timing.StartTime);
         }
     }
 }

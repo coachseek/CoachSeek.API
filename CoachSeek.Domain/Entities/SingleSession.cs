@@ -20,6 +20,13 @@ namespace CoachSeek.Domain.Entities
         public PointInTime Finish { get { return _timing.Finish; } }
 
 
+        //public SingleSession(SessionData data)
+        //{
+        //    Id = data.Id;
+        //    _location = new Location(data.Location);
+        //    _coach = new Coach(data.Coach);
+        //}
+
         public SingleSession(SessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing)
         { }

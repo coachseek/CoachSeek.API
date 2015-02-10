@@ -115,6 +115,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This booking does not exist..
+        /// </summary>
+        internal static string ErrorInvalidBooking {
+            get {
+                return ResourceManager.GetString("ErrorInvalidBooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This business does not exist..
         /// </summary>
         internal static string ErrorInvalidBusiness {

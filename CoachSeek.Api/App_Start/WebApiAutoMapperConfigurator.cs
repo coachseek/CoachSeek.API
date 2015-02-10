@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Api.Models.Api;
+using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Domain.Commands;
@@ -10,6 +11,7 @@ namespace CoachSeek.Api
     {
         public static void Configure()
         {
+            Mapper.CreateMap<ApiBookingSaveCommand, BookingAddCommand>();
             Mapper.CreateMap<ApiBusinessAdminCommand, BusinessRegistrantCommand>();
             Mapper.CreateMap<ApiBusinessAdminCommand, UserAddCommand>();
             Mapper.CreateMap<ApiBusinessCommand, BusinessAddCommand>();
@@ -17,6 +19,7 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachAddCommand>();
             Mapper.CreateMap<ApiCoachSaveCommand, CoachUpdateCommand>();
+            Mapper.CreateMap<ApiCustomerKey, CustomerKeyCommand>();
             Mapper.CreateMap<ApiCustomerSaveCommand, CustomerAddCommand>();
             Mapper.CreateMap<ApiCustomerSaveCommand, CustomerUpdateCommand>();
             Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHoursCommand>();
@@ -32,6 +35,7 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiServiceSaveCommand, ServiceUpdateCommand>();
             Mapper.CreateMap<ApiServiceTiming, ServiceTimingCommand>();
             Mapper.CreateMap<ApiSessionBooking, SessionBookingCommand>();
+            Mapper.CreateMap<ApiSessionKey, SessionKeyCommand>();
             Mapper.CreateMap<ApiSessionSaveCommand, SessionAddCommand>();
             Mapper.CreateMap<ApiSessionSaveCommand, SessionUpdateCommand>();
             Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
