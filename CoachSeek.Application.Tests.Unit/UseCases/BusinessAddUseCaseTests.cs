@@ -1,12 +1,10 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Services.Builders;
 using CoachSeek.Services.Email;
 using NUnit.Framework;
-using System;
 using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -80,14 +78,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response<BusinessData> WhenAddBusiness(BusinessAddCommand command)
+        private Response WhenAddBusiness(BusinessAddCommand command)
         {
             var useCase = new BusinessAddUseCase(BusinessRepository, BusinessDomainBuilder);
 
             return useCase.AddBusiness(command);
         }
 
-        private void ThenBusinessAddFailsWithMissingBusinessError(Response<BusinessData> response)
+        private void ThenBusinessAddFailsWithMissingBusinessError(Response response)
         {
             AssertMissingRegistrationError(response);
             AssertBusinessRegistrationFails();
@@ -100,7 +98,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         //    AssertRegistrationDataIsPassedToEmailer();
         //}
 
-        private void AssertMissingRegistrationError(Response<BusinessData> response)
+        private void AssertMissingRegistrationError(Response response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -110,7 +108,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateBusinessAdminEmailError(Response<BusinessData> response)
+        private void AssertDuplicateBusinessAdminEmailError(Response response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

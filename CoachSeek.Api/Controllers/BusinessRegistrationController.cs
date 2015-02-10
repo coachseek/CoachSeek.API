@@ -3,7 +3,7 @@ using System.Web.Http;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Services.Contracts.Email;
@@ -47,29 +47,29 @@ namespace CoachSeek.Api.Controllers
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
 
-            var userUpdateResponse = AssociateUserWithBusiness(userAddResponse.Data, businessAddResponse.Data);
+            var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (BusinessData)businessAddResponse.Data);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);
 
-            var registrationData = new RegistrationData(userUpdateResponse.Data, businessAddResponse.Data);
+            var registrationData = new RegistrationData((UserData)userUpdateResponse.Data, (BusinessData)businessAddResponse.Data);
             SendRegistrationEmail(registrationData);
 
-            return CreateWebSuccessResponse(new Response<RegistrationData>(registrationData));
+            return CreateWebSuccessResponse(new Response(registrationData));
         }
 
-        private Response<UserData> AddUser(ApiBusinessAdminCommand command)
+        private Response AddUser(ApiBusinessAdminCommand command)
         {
             var userAddCommand = UserAddCommandConverter.Convert(command);
             return UserAddUseCase.AddUser(userAddCommand);
         }
 
-        private Response<BusinessData> AddBusiness(ApiBusinessCommand command)
+        private Response AddBusiness(ApiBusinessCommand command)
         {
             var businessAddCommand = BusinessAddCommandConverter.Convert(command);
             return BusinessAddUseCase.AddBusiness(businessAddCommand);
         }
 
-        private Response<UserData> AssociateUserWithBusiness(UserData user, BusinessData business)
+        private Response AssociateUserWithBusiness(UserData user, BusinessData business)
         {
             var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);

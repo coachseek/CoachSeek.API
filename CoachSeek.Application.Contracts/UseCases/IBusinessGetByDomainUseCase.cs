@@ -1,5 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {

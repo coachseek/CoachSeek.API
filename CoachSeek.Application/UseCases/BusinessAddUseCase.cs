@@ -1,6 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -16,22 +15,22 @@ namespace CoachSeek.Application.UseCases
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }
 
         public BusinessAddUseCase(IBusinessRepository businessRepository, 
-                                              IBusinessDomainBuilder businessDomainBuilder)
+                                  IBusinessDomainBuilder businessDomainBuilder)
         {
             BusinessRepository = businessRepository;
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
-        public Response<BusinessData> AddBusiness(BusinessAddCommand command)
+        public Response AddBusiness(BusinessAddCommand command)
         {
             if (command == null)
-                return new NoBusinessAddDataResponse();
+                return new MissingBusinessRegistrationDataErrorResponse();
 
             try
             {
                 var newBusiness = new NewBusiness(command, BusinessDomainBuilder);
                 var business = newBusiness.Register(BusinessRepository);
-                return new Response<BusinessData>(business);
+                return new Response(business);
             }
             catch (Exception ex)
             {
@@ -39,17 +38,12 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Response<BusinessData> HandleBusinessRegistrationException(Exception ex)
+        private Response HandleBusinessRegistrationException(Exception ex)
         {
             if (ex is DuplicateBusinessAdmin)
-                return HandleDuplicateBusinessAdmin();
+                return new DuplicateBusinessAdminErrorResponse();
 
             return null;
-        }
-
-        private Response<BusinessData> HandleDuplicateBusinessAdmin()
-        {
-            return new DuplicateBusinessAdminBusinessRegistrationResponse();
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
@@ -18,7 +15,7 @@ namespace CoachSeek.Application.UseCases
             UserRepository = userRepository;
         }
 
-        public Response<UserData> AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
+        public Response AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
         {
             //if (command == null)
             //    return new NoUserAddDataResponse();
@@ -33,7 +30,7 @@ namespace CoachSeek.Application.UseCases
             // Update user.
             var updatedUser = user.Save(UserRepository);
 
-            return new Response<UserData>(updatedUser);
+            return new Response(updatedUser);
         }
     }
 }

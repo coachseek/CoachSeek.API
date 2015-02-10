@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common;
 using CoachSeek.Domain.Exceptions;
 
@@ -34,7 +34,7 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, errors.ToData());
         }
 
-        protected HttpResponseMessage CreateGetWebResponse<TData>(TData data) where TData : class
+        protected HttpResponseMessage CreateGetWebResponse(object data)
         {
             if (data == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -42,7 +42,7 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
-        protected HttpResponseMessage CreatePostWebResponse<TData>(Response<TData> response) where TData : class
+        protected HttpResponseMessage CreatePostWebResponse(Response response)
         {
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Data);
@@ -50,15 +50,15 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        protected HttpResponseMessage CreateWebErrorResponse<TData>(Response<TData> response) where TData : class
+        protected HttpResponseMessage CreateWebErrorResponse(Response response)
         {
-            if (response is NotFoundResponse<TData>)
+            if (response is NotFoundResponse)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
 
-        protected HttpResponseMessage CreateWebSuccessResponse<TData>(Response<TData> response) where TData : class
+        protected HttpResponseMessage CreateWebSuccessResponse(Response response)
         {
             return Request.CreateResponse(HttpStatusCode.OK, response.Data);
         }

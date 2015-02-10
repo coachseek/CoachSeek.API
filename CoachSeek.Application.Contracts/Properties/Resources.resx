@@ -169,7 +169,7 @@
     <value>Missing coach data.</value>
   </data>
   <data name="ErrorNoData" xml:space="preserve">
-    <value>Missing {0} data.</value>
+    <value>Missing data.</value>
   </data>
   <data name="ErrorNoLocationAddData" xml:space="preserve">
     <value>Missing location data.</value>

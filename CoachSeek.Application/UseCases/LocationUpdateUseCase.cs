@@ -1,6 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -9,29 +8,29 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class LocationUpdateUseCase : UpdateUseCase<LocationData>, ILocationUpdateUseCase
+    public class LocationUpdateUseCase : UpdateUseCase, ILocationUpdateUseCase
     {
         public LocationUpdateUseCase(IBusinessRepository businessRepository)
             : base(businessRepository)
         { }
 
 
-        public Response<LocationData> UpdateLocation(LocationUpdateCommand command)
+        public Response UpdateLocation(LocationUpdateCommand command)
         {
             return Update(command);
         }
 
-        protected override LocationData UpdateInBusiness(Business business, IBusinessIdable command)
+        protected override object UpdateInBusiness(Business business, IBusinessIdable command)
         {
             return business.UpdateLocation((LocationUpdateCommand)command, BusinessRepository);
         }
 
-        protected override Response<LocationData> HandleSpecificException(Exception ex)
+        protected override ErrorResponse HandleSpecificException(Exception ex)
         {
             if (ex is InvalidLocation)
-                return new InvalidLocationUpdateResponse();
+                return new InvalidLocationErrorResponse();
             if (ex is DuplicateLocation)
-                return new DuplicateLocationUpdateResponse();
+                return new DuplicateLocationErrorResponse();
 
             return null;
         }

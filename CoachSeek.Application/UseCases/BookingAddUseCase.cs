@@ -1,6 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -9,7 +8,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingAddUseCase : AddUseCase<BookingData>, IBookingAddUseCase
+    public class BookingAddUseCase : AddUseCase, IBookingAddUseCase
     {
         private IBookingRepository BookingRepository { get; set; }
 
@@ -21,21 +20,23 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response<BookingData> AddBooking(BookingAddCommand command)
+        public Response AddBooking(BookingAddCommand command)
         {
             return Add(command);
         }
 
-        protected override BookingData AddToBusiness(Business business, IBusinessIdable command)
+        protected override object AddToBusiness(Business business, IBusinessIdable command)
         {
             var bookingBusiness = business.BookingBusiness;
             return bookingBusiness.AddBooking((BookingAddCommand)command, BusinessRepository, BookingRepository);
         }
 
-        protected override Response<BookingData> HandleSpecificException(Exception ex)
+        protected override ErrorResponse HandleSpecificException(Exception ex)
         {
             if (ex is InvalidSession)
-                return new InvalidSessionResponse();
+                return new InvalidSessionErrorResponse("booking.session.id");
+            if (ex is InvalidCustomer)
+                return new InvalidCustomerErrorResponse("booking.customer.id");
 
             return null;
         }

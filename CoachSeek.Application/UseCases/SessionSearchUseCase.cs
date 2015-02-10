@@ -9,7 +9,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class SessionSearchUseCase : BaseUseCase<SessionData>, ISessionSearchUseCase
+    public class SessionSearchUseCase : BaseUseCase, ISessionSearchUseCase
     {
         public Guid BusinessId { get; set; }
 

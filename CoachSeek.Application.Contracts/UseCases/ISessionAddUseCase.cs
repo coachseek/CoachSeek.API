@@ -1,11 +1,10 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ISessionAddUseCase
     {
-        Response<SessionData> AddSession(SessionAddCommand command);
+        Response AddSession(SessionAddCommand command);
     }
 }

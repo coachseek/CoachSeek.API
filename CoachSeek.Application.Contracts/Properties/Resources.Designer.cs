@@ -214,7 +214,7 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing {0} data..
+        ///   Looks up a localized string similar to Missing data..
         /// </summary>
         internal static string ErrorNoData {
             get {

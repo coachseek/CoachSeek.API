@@ -1,4 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -31,14 +31,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var request = GivenNoLocationUpdateRequest();
             var response = WhenUpdateLocation(request);
             ThenLocationUpdateFailsWithMissingLocationError(response);
-        }
-
-        [Test]
-        public void GivenNonExistentBusiness_WhenUpdateLocation_ThenLocationUpdateFailsWithInvalidBusinessError()
-        {
-            var request = GivenNonExistentBusiness();
-            var response = WhenUpdateLocation(request);
-            ThenLocationUpdateFailsWithInvalidBusinessError(response);
         }
 
         [Test]
@@ -109,66 +101,66 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response<LocationData> WhenUpdateLocation(LocationUpdateCommand request)
+        private Response WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase(BusinessRepository);
 
             return useCase.UpdateLocation(request);
         }
 
-        private void ThenLocationUpdateFailsWithMissingLocationError(Response<LocationData> response)
+        private void ThenLocationUpdateFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithInvalidBusinessError(Response<LocationData> response)
+        private void ThenLocationUpdateFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithInvalidLocationError(Response<LocationData> response)
+        private void ThenLocationUpdateFailsWithInvalidLocationError(Response response)
         {
             AssertInvalidLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateFailsWithDuplicateLocationError(Response<LocationData> response)
+        private void ThenLocationUpdateFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationUpdateSucceeds(Response<LocationData> response)
+        private void ThenLocationUpdateSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertResponseReturnsUpdatedLocation(response);
         }
 
-        private void AssertMissingLocationError(Response<LocationData> response)
+        private void AssertMissingLocationError(Response response)
         {
-            AssertSingleError(response, "Missing location data.");
+            AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertInvalidBusinessError(Response<LocationData> response)
+        private void AssertInvalidBusinessError(Response response)
         {
             AssertSingleError(response, "This business does not exist.", "location.businessId");
         }
 
-        private void AssertInvalidLocationError(Response<LocationData> response)
+        private void AssertInvalidLocationError(Response response)
         {
             AssertSingleError(response, "This location does not exist.", "location.id");
         }
 
-        private void AssertDuplicateLocationError(Response<LocationData> response)
+        private void AssertDuplicateLocationError(Response response)
         {
             AssertSingleError(response, "This location already exists.", "location.name");
         }
 
-        private void AssertResponseReturnsUpdatedLocation(Response<LocationData> response)
+        private void AssertResponseReturnsUpdatedLocation(Response response)
         {
-            var location = response.Data;
+            var location = (LocationData)response.Data;
             Assert.That(location, Is.Not.Null);
             Assert.That(location.Id, Is.EqualTo(new Guid(LOCATION_BROWNS_BAY_ID)));
             Assert.That(location.Name, Is.EqualTo("Browns Bay Tennis & Squash Club"));

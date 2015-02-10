@@ -1,6 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.WebUI.Tests.Unit.Fakes
@@ -9,10 +8,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasAddUserCalled;
         public UserAddCommand Command;
-        public Response<UserData> Response;
+        public Response Response;
 
         
-        public Response<UserData> AddUser(UserAddCommand command)
+        public Response AddUser(UserAddCommand command)
         {
             WasAddUserCalled = true;
 

@@ -41,22 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorCodes.cs" />
-    <Compile Include="Models\Responses\ClashingSessionUpdateResponse.cs" />
-    <Compile Include="Models\Responses\InvalidSessionResponse.cs" />
-    <Compile Include="Models\Responses\InvalidBookingAddResponse.cs" />
-    <Compile Include="Models\Responses\CoachAddResponse.cs" />
-    <Compile Include="Models\Responses\CustomerUpdateResponse.cs" />
-    <Compile Include="Models\Responses\CoachUpdateResponse.cs" />
-    <Compile Include="Models\Responses\DuplicateUserAddDataResponse.cs" />
-    <Compile Include="Models\Responses\InvalidBusinessResponse.cs" />
-    <Compile Include="Models\Responses\ClashingSessionAddResponse.cs" />
-    <Compile Include="Models\Responses\InvalidSessionUpdateResponse.cs" />
-    <Compile Include="Models\Responses\NoBusinessAddDataResponse.cs" />
-    <Compile Include="Models\Responses\ServiceUpdateResponse.cs" />
-    <Compile Include="Models\Responses\ServiceAddResponse.cs" />
-    <Compile Include="Models\Responses\LocationAddResponse.cs" />
-    <Compile Include="Models\Responses\LocationUpdateResponse.cs" />
-    <Compile Include="Models\Responses\NoDataResponse.cs" />
+    <Compile Include="Models\ErrorResponses.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
@@ -68,9 +53,7 @@
     <Compile Include="UseCases\IServiceGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICoachUpdateUseCase.cs" />
     <Compile Include="UseCases\ILocationAddUseCase.cs" />
-    <Compile Include="Models\Responses\BusinessGetResponse.cs" />
-    <Compile Include="Models\Responses\BusinessRegistrationResponse.cs" />
-    <Compile Include="Models\Responses\Response.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -111,6 +94,7 @@
       <Name>CoachSeek.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,7 +7,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class LocationsGetAllUseCase : BaseUseCase<LocationData>, ILocationsGetAllUseCase
+    public class LocationsGetAllUseCase : BaseUseCase, ILocationsGetAllUseCase
     {
         public Guid BusinessId { get; set; }
 

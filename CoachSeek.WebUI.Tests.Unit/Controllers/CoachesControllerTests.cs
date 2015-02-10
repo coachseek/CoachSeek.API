@@ -2,7 +2,7 @@
 using CoachSeek.Api.Controllers;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
@@ -120,7 +120,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new Response<CoachData>(new ValidationException("Error!"))
+                Response = new ErrorResponse(new ValidationException("Error!"))
             };
         }
 
@@ -128,7 +128,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new Response<CoachData>(SetupCoach())
+                Response = new Response(SetupCoach())
             };
         }
 
@@ -136,7 +136,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new Response<CoachData>(new ValidationException("Error!"))
+                Response = new ErrorResponse(new ValidationException("Error!"))
             };
         }
 
@@ -144,7 +144,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new Response<CoachData>(SetupCoach())
+                Response = new Response(SetupCoach())
             };
         }
 

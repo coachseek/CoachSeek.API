@@ -1,4 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -29,14 +29,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var request = GivenNoLocationAddCommand();
             var response = WhenAddLocation(request);
             ThenLocationAddFailsWithMissingLocationError(response);
-        }
-
-        [Test]
-        public void GivenNonExistentBusiness_WhenAddLocation_ThenLocationAddFailsWithInvalidBusinessError()
-        {
-            var request = GivenNonExistentBusiness();
-            var response = WhenAddLocation(request);
-            ThenLocationAddFailsWithInvalidBusinessError(response);
         }
 
         [Test]
@@ -86,55 +78,55 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response<LocationData> WhenAddLocation(LocationAddCommand command)
+        private Response WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase(BusinessRepository);
 
             return useCase.AddLocation(command);
         }
 
-        private void ThenLocationAddFailsWithMissingLocationError(Response<LocationData> response)
+        private void ThenLocationAddFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddFailsWithInvalidBusinessError(Response<LocationData> response)
+        private void ThenLocationAddFailsWithInvalidBusinessError(Response response)
         {
             AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddFailsWithDuplicateLocationError(Response<LocationData> response)
+        private void ThenLocationAddFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
             AssertSaveBusinessIsNotCalled();
         }
 
-        private void ThenLocationAddSucceeds(Response<LocationData> response)
+        private void ThenLocationAddSucceeds(Response response)
         {
             AssertSaveBusinessIsCalled();
             AssertResponseReturnsNewLocation(response);
         }
 
-        private void AssertMissingLocationError(Response<LocationData> response)
+        private void AssertMissingLocationError(Response response)
         {
-            AssertSingleError(response, "Missing location data.");
+            AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertInvalidBusinessError(Response<LocationData> response)
+        private void AssertInvalidBusinessError(Response response)
         {
             AssertSingleError(response, "This business does not exist.", "location.businessId");
         }
 
-        private void AssertDuplicateLocationError(Response<LocationData> response)
+        private void AssertDuplicateLocationError(Response response)
         {
             AssertSingleError(response, "This location already exists.", "location.name");
         }
 
-        private void AssertResponseReturnsNewLocation(Response<LocationData> response)
+        private void AssertResponseReturnsNewLocation(Response response)
         {
-            var location = response.Data;
+            var location = (LocationData)response.Data;
             Assert.That(location, Is.Not.Null);
             Assert.That(location.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(location.Name, Is.EqualTo("Mt Roskill Squash Club"));

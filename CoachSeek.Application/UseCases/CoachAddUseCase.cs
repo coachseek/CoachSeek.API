@@ -1,4 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -9,27 +9,27 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CoachAddUseCase : AddUseCase<CoachData>, ICoachAddUseCase
+    public class CoachAddUseCase : AddUseCase, ICoachAddUseCase
     {
         public CoachAddUseCase(IBusinessRepository businessRepository)
             : base(businessRepository)
         { }
 
 
-        public Response<CoachData> AddCoach(CoachAddCommand command)
+        public Response AddCoach(CoachAddCommand command)
         {
             return Add(command);
         }
 
-        protected override CoachData AddToBusiness(Business business, IBusinessIdable command)
+        protected override object AddToBusiness(Business business, IBusinessIdable command)
         {
             return business.AddCoach((CoachAddCommand)command, BusinessRepository);
         }
 
-        protected override Response<CoachData> HandleSpecificException(Exception ex)
+        protected override ErrorResponse HandleSpecificException(Exception ex)
         {
             if (ex is DuplicateCoach)
-                return new DuplicateCoachAddResponse();
+                return new DuplicateCoachErrorResponse();
 
             return null;
         }

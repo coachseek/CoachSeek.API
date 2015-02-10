@@ -6,7 +6,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CustomerGetByIdUseCase : BaseUseCase<CoachData>, ICustomerGetByIdUseCase
+    public class CustomerGetByIdUseCase : BaseUseCase, ICustomerGetByIdUseCase
     {
         public Guid BusinessId { get; set; }
 

@@ -1,12 +1,10 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using System;
-using System.Collections.Generic;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -19,16 +17,16 @@ namespace CoachSeek.Application.UseCases
             UserRepository = userRepository;
         }
 
-        public Response<UserData> AddUser(UserAddCommand command)
+        public Response AddUser(UserAddCommand command)
         {
             if (command == null)
-                return new NoUserAddDataResponse();
+                return new NoDataErrorResponse();
 
             try
             {
                 var newUser = new NewUser(command);
                 var user = newUser.Save(UserRepository);
-                return new Response<UserData>(user);
+                return new Response(user);
             }
             catch (Exception ex)
             {
@@ -36,25 +34,20 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Response<UserData> HandleUserAddException(Exception ex)
+        private ErrorResponse HandleUserAddException(Exception ex)
         {
             if (ex is DuplicateUser)
-                return HandleDuplicateUser();
+                return new DuplicateUserErrorResponse();
 
             return null;
         }
-
-        private Response<UserData> HandleDuplicateUser()
-        {
-            return new DuplicateUserAddDataResponse();
-        }
     }
 
-    public class NoUserAddDataResponse : Response<UserData>
-    {
-        public NoUserAddDataResponse()
-        {
-            Errors = new List<ErrorData> { new ErrorData("Missing user data.") };
-        }
-    }
+    //public class NoUserAddDataResponse : Response<UserData>
+    //{
+    //    public NoUserAddDataResponse()
+    //    {
+    //        Errors = new List<ErrorData> { new ErrorData("Missing user data.") };
+    //    }
+    //}
 }

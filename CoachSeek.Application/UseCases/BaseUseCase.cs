@@ -1,6 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Data.Model;
-using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
@@ -8,7 +6,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public abstract class BaseUseCase<TData> where TData : class, IData, new()
+    public abstract class BaseUseCase
     {
         protected IBusinessRepository BusinessRepository { get; set; }
 
@@ -18,10 +16,10 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        protected Response<TData> HandleInvalidBusiness()
-        {
-            return new InvalidBusinessResponse<TData>();
-        }
+        //protected Response HandleInvalidBusiness()
+        //{
+        //    return new InvalidBusinessResponse();
+        //}
 
         protected Business GetBusiness(Guid businessId)
         {

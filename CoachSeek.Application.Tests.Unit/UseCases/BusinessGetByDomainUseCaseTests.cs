@@ -1,5 +1,5 @@
 ﻿using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Configuration;
@@ -176,7 +176,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenBusinessGetFailsWithMissingDomainError(Response<BusinessData> response)
+        private void ThenBusinessGetFailsWithMissingDomainError(Response response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

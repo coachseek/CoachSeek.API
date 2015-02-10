@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Configuration;
@@ -299,9 +299,9 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
         }
 
-        protected void AssertSingleError<TData>(Response<TData> response, 
-                                                string expectedMessage, 
-                                                string expectedField = null) where TData : class//, IData
+        protected void AssertSingleError(Response response, 
+                                         string expectedMessage, 
+                                         string expectedField = null)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

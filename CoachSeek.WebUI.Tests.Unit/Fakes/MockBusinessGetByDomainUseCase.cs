@@ -1,5 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Application.Contracts.UseCases;
+﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.WebUI.Tests.Unit.Fakes

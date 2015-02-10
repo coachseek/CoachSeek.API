@@ -1,4 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -75,7 +75,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response<UserData> WhenAddUser(UserAddCommand command)
+        private Response WhenAddUser(UserAddCommand command)
         {
             var useCase = new UserAddUseCase(UserRepository);
 
@@ -83,29 +83,29 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenUserAddFailsWithMissingUserError(Response<UserData> response)
+        private void ThenUserAddFailsWithMissingUserError(Response response)
         {
             AssertMissingUserError(response);
             AssertSaveNewUserIsCalled(false);
         }
 
-        private void ThenUserAddFailsWithDuplicateUserError(Response<UserData> response)
+        private void ThenUserAddFailsWithDuplicateUserError(Response response)
         {
             AssertDuplicateUserError(response);
             AssertSaveNewUserIsCalled(false);
         }
 
-        private void ThenUserAddSucceeds(Response<UserData> response)
+        private void ThenUserAddSucceeds(Response response)
         {
             AssertSaveNewUserIsCalled(true);
         }
 
-        private void AssertMissingUserError(Response<UserData> response)
+        private void AssertMissingUserError(Response response)
         {
-            AssertSingleError(response, "Missing user data.");
+            AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertDuplicateUserError(Response<UserData> response)
+        private void AssertDuplicateUserError(Response response)
         {
             AssertSingleError(response, "The user with this email address already exists.", "registration.admin.email");
         }

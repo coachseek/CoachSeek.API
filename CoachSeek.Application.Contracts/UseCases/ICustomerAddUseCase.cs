@@ -1,11 +1,10 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ICustomerAddUseCase
     {
-        Response<CustomerData> AddCustomer(CustomerAddCommand command);
+        Response AddCustomer(CustomerAddCommand command);
     }
 }

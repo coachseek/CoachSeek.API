@@ -1,5 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
-using CoachSeek.Application.Contracts.UseCases;
+﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;
 

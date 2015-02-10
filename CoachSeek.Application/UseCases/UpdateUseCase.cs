@@ -1,4 +1,4 @@
-﻿using CoachSeek.Application.Contracts.Models.Responses;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -8,23 +8,23 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public abstract class UpdateUseCase<TData> : BaseUseCase<TData> where TData : class, IData, new()
+    public abstract class UpdateUseCase : BaseUseCase
     {
         protected UpdateUseCase(IBusinessRepository businessRepository)
             : base(businessRepository)
         { }
 
 
-        protected Response<TData> Update(IBusinessIdable command)
+        protected Response Update(IBusinessIdable command)
         {
             if (command == null)
-                return new NoDataResponse<TData>();
+                return new NoDataErrorResponse();
 
             try
             {
                 var business = GetBusiness(command);
                 var data = UpdateInBusiness(business, command);
-                return new Response<TData>(data);
+                return new Response(data);
             }
             catch (Exception ex)
             {
@@ -32,23 +32,23 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        protected abstract TData UpdateInBusiness(Business business, IBusinessIdable command);
+        protected abstract object UpdateInBusiness(Business business, IBusinessIdable command);
 
-        private Response<TData> HandleUpdateException(Exception ex)
+        private Response HandleUpdateException(Exception ex)
         {
-            if (ex is InvalidBusiness)
-                return HandleInvalidBusiness();
+            //if (ex is InvalidBusiness)
+            //    return HandleInvalidBusiness();
 
             var response = HandleSpecificException(ex);
             if (response != null)
                 return response;
 
             if (ex is ValidationException)
-                return new Response<TData>((ValidationException)ex);
+                return new ErrorResponse((ValidationException)ex);
 
             return null;
         }
 
-        protected abstract Response<TData> HandleSpecificException(Exception ex);
+        protected abstract ErrorResponse HandleSpecificException(Exception ex);
     }
 }

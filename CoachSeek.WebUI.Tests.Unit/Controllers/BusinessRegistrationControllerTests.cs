@@ -2,7 +2,7 @@
 using CoachSeek.Api.Controllers;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.Models.Responses;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
@@ -75,7 +75,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
             UserAddUseCase = new MockUserAddUseCase
             {
-                Response = new Response<UserData>(UserData)
+                Response = new Response(UserData)
             };
         }
 
@@ -90,7 +90,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
             BusinessAddUseCase = new MockBusinessAddUseCase
             {
-                Response = new Response<BusinessData>(BusinessData)
+                Response = new Response(BusinessData)
             };
         }
 
@@ -109,7 +109,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
             AssociateUseCase = new MockUserAssociateWithBusinessUseCase
             {
-                Response = new Response<UserData>(UserData)
+                Response = new Response(UserData)
             };
         }
 
@@ -177,17 +177,17 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private void GivenUserAddUseCaseFails(string errorMessage)
         {
-            UserAddUseCase.Response = new Response<UserData>(new ValidationException(errorMessage));
+            UserAddUseCase.Response = new ErrorResponse(new ValidationException(errorMessage));
         }
 
         private void GivenBusinessAddUseCaseFails(string errorMessage)
         {
-            BusinessAddUseCase.Response = new Response<BusinessData>(new ValidationException(errorMessage));
+            BusinessAddUseCase.Response = new ErrorResponse(new ValidationException(errorMessage));
         }
 
         private void GivenAssociateUseCaseFails(string errorMessage)
         {
-            AssociateUseCase.Response = new Response<UserData>(new ValidationException(errorMessage));
+            AssociateUseCase.Response = new ErrorResponse(new ValidationException(errorMessage));
         }
 
         private void GivenAllUseCasesSucceed()
