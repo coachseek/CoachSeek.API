@@ -110,20 +110,6 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         }
 
         [Test]
-        public void TestSecondDaySingleSessionListCalculator()
-        {
-            AssertSecondDaySessions(2);
-            AssertSecondDaySessions(3);
-            AssertSecondDaySessions(5);
-            AssertSecondDaySessions(8);
-            AssertSecondDaySessions(13);
-            AssertSecondDaySessions(20);
-            AssertSecondDaySessions(40);
-            AssertSecondDaySessions(60);
-            AssertSecondDaySessions(100);
-        }
-
-        [Test]
         public void TestWeeklySingleSessionListCalculator()
         {
             AssertWeeklySessions(2);
@@ -135,26 +121,6 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             AssertWeeklySessions(40);
             AssertWeeklySessions(60);
             AssertWeeklySessions(100);
-        }
-
-        [Test]
-        public void TestFortnightlySingleSessionListCalculator()
-        {
-            AssertFortnightlySessions(2);
-            AssertFortnightlySessions(3);
-            AssertFortnightlySessions(5);
-            AssertFortnightlySessions(8);
-            AssertFortnightlySessions(13);
-            AssertFortnightlySessions(20);
-            AssertFortnightlySessions(40);
-            AssertFortnightlySessions(60);
-            AssertFortnightlySessions(100);
-        }
-
-        [Test]
-        public void TestMonthlySingleSessionListCalculator()
-        {
-            //AssertMonthlySessions(2);
         }
 
 
@@ -169,17 +135,6 @@ namespace CoachSeek.Domain.Tests.Unit.Services
                 AssertSubsequentDailySession(sessions[i], i);
         }
 
-        private void AssertSecondDaySessions(int sessionCount)
-        {
-            var calculator = new SecondDaySingleSessionListCalculator();
-            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
-
-            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
-            AssertFirstSession(sessions[0]);
-            for (var i = 1; i < sessionCount; i++)
-                AssertSubsequentSecondDaySession(sessions[i], i);
-        }
-
         private void AssertWeeklySessions(int sessionCount)
         {
             var calculator = new WeeklySingleSessionListCalculator();
@@ -189,28 +144,6 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             AssertFirstSession(sessions[0]);
             for (var i = 1; i < sessionCount; i++)
                 AssertSubsequentWeeklySession(sessions[i], i);
-        }
-
-        private void AssertFortnightlySessions(int sessionCount)
-        {
-            var calculator = new FortnightlySingleSessionListCalculator();
-            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
-
-            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
-            AssertFirstSession(sessions[0]);
-            for (var i = 1; i < sessionCount; i++)
-                AssertSubsequentFortnightlySession(sessions[i], i);
-        }
-
-        private void AssertMonthlySessions(int sessionCount)
-        {
-            var calculator = new MonthlySingleSessionListCalculator();
-            var sessions = calculator.Calculate(FirstSession, new SessionCount(sessionCount));
-
-            Assert.That(sessions.Count, Is.EqualTo(sessionCount));
-            AssertFirstSession(sessions[0]);
-            for (var i = 1; i < sessionCount; i++)
-                AssertSubsequentFortnightlySession(sessions[i], i);
         }
 
 

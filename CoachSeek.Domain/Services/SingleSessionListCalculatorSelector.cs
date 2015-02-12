@@ -10,14 +10,8 @@ namespace CoachSeek.Domain.Services
             if (repeatFrequency == "d")
                 return new DailySingleSessionListCalculator();
 
-            if (repeatFrequency == "2d")
-                return new SecondDaySingleSessionListCalculator();
-
             if (repeatFrequency == "w")
                 return new WeeklySingleSessionListCalculator();
-
-            if (repeatFrequency == "2w")
-                return new FortnightlySingleSessionListCalculator();
 
             return null;
         }
