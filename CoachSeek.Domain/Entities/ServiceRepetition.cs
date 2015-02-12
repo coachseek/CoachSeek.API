@@ -5,8 +5,9 @@ namespace CoachSeek.Domain.Entities
     public class ServiceRepetition : Repetition
     {
         public ServiceRepetition(RepetitionData repetitionData)
-            : base(repetitionData)
-        { }
+        {
+            CreateAndValidateRepetition(repetitionData);
+        }
 
         public override RepetitionData ToData()
         {

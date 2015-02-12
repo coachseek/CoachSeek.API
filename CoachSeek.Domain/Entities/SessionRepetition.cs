@@ -5,15 +5,19 @@ namespace CoachSeek.Domain.Entities
 {
     public class SessionRepetition : Repetition
     {
+        // Constructor for overriding service data with session data
         public SessionRepetition(RepetitionData sessionRepetition, RepetitionData serviceRepetition)
         {
             sessionRepetition = BackfillMissingValuesFromService(sessionRepetition, serviceRepetition);
-            CreateSessionRepetition(sessionRepetition);
+
+            CreateAndValidateRepetition(sessionRepetition);
         }
 
+        // Constructor for working with existing session repetitionData.
         public SessionRepetition(RepetitionData repetitionData)
-            : base(repetitionData)
-        { }
+        {
+            CreateAndValidateRepetition(repetitionData);
+        }
 
 
         public override RepetitionData ToData()

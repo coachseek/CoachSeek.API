@@ -13,21 +13,21 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             RepeatFrequencyCreationFailure("");
             RepeatFrequencyCreationFailure("hello world!");
+            RepeatFrequencyCreationFailure("2d");
+            RepeatFrequencyCreationFailure(" 2D");
+            RepeatFrequencyCreationFailure("2w");
+            RepeatFrequencyCreationFailure(" 2W");
             RepeatFrequencyCreationFailure("3d");
             RepeatFrequencyCreationFailure("3w");
+            RepeatFrequencyCreationFailure("m");
+            RepeatFrequencyCreationFailure("M ");
             RepeatFrequencyCreationFailure("2m");
 
             RepeatFrequencyCreationSuccess(null);   // RepeatFrequency must be null for single session.
             RepeatFrequencyCreationSuccess("d");
             RepeatFrequencyCreationSuccess("D ");
-            RepeatFrequencyCreationSuccess("2d");
-            RepeatFrequencyCreationSuccess(" 2D");
             RepeatFrequencyCreationSuccess("w ");
             RepeatFrequencyCreationSuccess("  W");
-            RepeatFrequencyCreationSuccess("2w");
-            RepeatFrequencyCreationSuccess(" 2W");
-            RepeatFrequencyCreationSuccess("m");
-            RepeatFrequencyCreationSuccess("M ");
         }
 
 

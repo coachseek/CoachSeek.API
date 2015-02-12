@@ -332,7 +332,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void GivenRepeatedSessionIsOverlappingAnotherRepeatedSession_WhenCallIsOverlapping_ThenReturnTrue()
             {
                 var session = CreateRepeatedSession(GetDateFormatNumberOfWeeksOut(2), "12:30", 45, "w");
-                var otherSession = CreateRepeatedSession(GetDateFormatNumberOfWeeksOut(1), "13:00", 60, "2w");
+                var otherSession = CreateRepeatedSession(GetDateFormatNumberOfWeeksOut(1), "13:00", 60, "w");
                 var response = WhenCallIsOverlapping(session, otherSession);
                 Assert.That(response, Is.True);
             }

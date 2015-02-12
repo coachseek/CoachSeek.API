@@ -20,37 +20,18 @@ namespace CoachSeek.Domain.Entities
             if (_frequency == null)
                 return;
 
-            if (!(IsRepeatEveryDay ||
-                  IsRepeatEverySecondDay ||
-                  IsRepeatEveryWeek ||
-                  IsRepeatEverySecondWeek ||
-                  IsRepeatEveryMonth))
+            if (!(IsRepeatEveryDay || IsRepeatEveryWeek))
                 throw new InvalidRepeatFrequency();
         }
 
-        private bool IsRepeatEveryDay
+        public bool IsRepeatEveryDay
         {
             get { return _frequency == "d"; }
         }
-    
-        private bool IsRepeatEverySecondDay
-        {
-            get { return _frequency == "2d"; }
-        }
 
-        private bool IsRepeatEveryWeek
+        public bool IsRepeatEveryWeek
         {
             get { return _frequency == "w"; }
-        }
-    
-        private bool IsRepeatEverySecondWeek
-        {
-            get { return _frequency == "2w"; }
-        }
-
-        private bool IsRepeatEveryMonth
-        {
-            get { return _frequency == "m"; }
         }
     }
 }

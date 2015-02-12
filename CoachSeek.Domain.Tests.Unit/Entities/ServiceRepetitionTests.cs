@@ -20,10 +20,14 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             ServiceRepetitionCreationFailure(null, 12, new[,] { { "For a repeated session the repeatFrequency must be set.", "service.repetition.repeatFrequency" } });
             ServiceRepetitionCreationFailure(null, -1, new[,] { { "For a repeated session the repeatFrequency must be set.", "service.repetition.repeatFrequency" } });
 
+            ServiceRepetitionCreationFailure("d", 40, new[,] { { "The maximum number of daily sessions is 30.", "service.repetition.sessionCount" } });
+            ServiceRepetitionCreationFailure("w", 30, new[,] { { "The maximum number of weekly sessions is 26.", "service.repetition.sessionCount" } });
 
             ServiceRepetitionCreationSuccess(null, 1, false);   // Single session
             ServiceRepetitionCreationSuccess("w", -1, true);    // SessionCount of -1 is for open-ended course.
+            ServiceRepetitionCreationSuccess("w", 26, false);    // The maximum number of weekly sessions is 26.
             ServiceRepetitionCreationSuccess("d", 5, false);
+            ServiceRepetitionCreationSuccess("d", 30, false);    // The maximum number of daily sessions is 30.
         }
 
 

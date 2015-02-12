@@ -51,6 +51,24 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                                                     { "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency" } });
         }
 
+        [Test]
+        public void GivenDailyRepeatSessionCountTooLarge_WhenConstruct_ThenThrowValidationExceptions()
+        {
+            var serviceRepetition = new RepetitionData(5, "d");
+            var sessionRepetition = new RepetitionData(100, "d");
+            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            AssertSingleError(response, "The maximum number of daily sessions is 30.", "session.repetition.sessionCount");
+        }
+
+        [Test]
+        public void GivenWeeklyRepeatSessionCountTooLarge_WhenConstruct_ThenThrowValidationExceptions()
+        {
+            var serviceRepetition = new RepetitionData(2, "w");
+            var sessionRepetition = new RepetitionData(90, "w");
+            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            AssertSingleError(response, "The maximum number of weekly sessions is 26.", "session.repetition.sessionCount");
+        }
+
 
         private object WhenConstruct(RepetitionData sessionRepetition, RepetitionData serviceRepetition)
         {
