@@ -72,7 +72,6 @@ namespace CoachSeek.DataAccess.Repositories
             var locations = Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations);
             var coaches = Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches);
             var services = Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services);
-            //var sessions = Mapper.Map<IEnumerable<DbSession>, IEnumerable<SessionData>>(dbBusiness.Sessions);
             var sessions = Mapper.Map<IEnumerable<DbSingleSession>, IEnumerable<SingleSessionData>>(dbBusiness.Sessions);
             var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
             var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);

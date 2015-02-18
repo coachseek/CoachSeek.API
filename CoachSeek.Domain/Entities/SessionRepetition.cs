@@ -1,6 +1,5 @@
 ﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -37,16 +36,6 @@ namespace CoachSeek.Domain.Entities
             get { return "session.repetition.repeatFrequency"; }
         }
 
-
-        //private void CreateSessionRepetition(RepetitionData sessionRepetition)
-        //{
-        //    var errors = new ValidationException();
-
-        //    CreateSessionCount(sessionRepetition.SessionCount, errors);
-        //    CreateRepeatFrequency(sessionRepetition.RepeatFrequency, errors);
-
-        //    errors.ThrowIfErrors();
-        //}
 
         private RepetitionCommand BackfillMissingValuesFromService(RepetitionCommand sessionRepetition, RepetitionData serviceRepetition)
         {

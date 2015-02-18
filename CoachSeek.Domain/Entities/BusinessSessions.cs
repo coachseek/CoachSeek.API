@@ -60,7 +60,7 @@ namespace CoachSeek.Domain.Entities
         public void Append(SingleSessionData session, LocationData location, CoachData coach, ServiceData service)
         {
             // Data is already valid. Eg. It comes from the database.
-            Sessions.Add(new SingleSession(session, location, coach, service));
+            Sessions.Add(new StandaloneSession(session, location, coach, service));
         }
 
         public bool IsOverlappingSessions(Session session)

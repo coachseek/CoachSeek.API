@@ -9,7 +9,7 @@ namespace CoachSeek.Domain.Commands
         public Guid Id { get; set; }
 
 
-        public new SessionData ToData()
+        public SessionData ToData()
         {
             return Mapper.Map<SessionUpdateCommand, SessionData>(this);
         }

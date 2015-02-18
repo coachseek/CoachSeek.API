@@ -35,9 +35,6 @@ namespace CoachSeek.Application.UseCases
 
         private ErrorResponse HandleAddException(Exception ex)
         {
-            //if (ex is InvalidBusiness)
-            //    return HandleInvalidBusiness();
-
             var response = HandleSpecificException(ex);
             if (response != null)
                 return response;
@@ -45,7 +42,7 @@ namespace CoachSeek.Application.UseCases
             if (ex is ValidationException)
                 return new ErrorResponse((ValidationException)ex);
 
-            throw new InvalidOperationException();
+            throw (ex);
         }
 
         protected abstract ErrorResponse HandleSpecificException(Exception ex);

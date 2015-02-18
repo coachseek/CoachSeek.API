@@ -15,6 +15,7 @@ namespace CoachSeek.Domain.Entities
     {
         protected SingleSessionPricing _pricing;
 
+        public Guid? ParentId { get; set; }
         public SingleSessionPricingData Pricing { get { return _pricing.ToData(); } }
 
         public PointInTime Start { get { return _timing.Start; } }
@@ -30,7 +31,7 @@ namespace CoachSeek.Domain.Entities
         { }
 
         public SingleSession(SingleSessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing)
+            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing, data.ParentId)
         { }
 
         public SingleSession(Guid id,
@@ -40,9 +41,11 @@ namespace CoachSeek.Domain.Entities
                        SessionTimingData timing,
                        SessionBookingData booking,
                        PresentationData presentation,
-                       SingleSessionPricingData pricing)
+                       SingleSessionPricingData pricing, 
+                       Guid? parentId = null)
             : base(id, location, coach, service, timing, booking, presentation)
         {
+            ParentId = parentId;
             _pricing = new SingleSessionPricing(pricing.SessionPrice);
         }
 
@@ -78,7 +81,8 @@ namespace CoachSeek.Domain.Entities
 
         public SingleSession Clone(Date startDate)
         {
-            var sessionData = (SingleSessionData)ToData();
+            var sessionData = ToData();
+            sessionData.ParentId = ParentId;
             sessionData.Id = Guid.NewGuid();
 
             var timing = sessionData.Timing;

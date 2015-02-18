@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Entities
         }
 
         public RepeatedSession(RepeatedSessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing)
+            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing, data.Sessions)
         { }
 
 
@@ -45,13 +45,15 @@ namespace CoachSeek.Domain.Entities
                        SessionBookingData booking,
                        PresentationData presentation,
                        RepetitionData repetition,
-                       RepeatedSessionPricingData pricing)
+                       RepeatedSessionPricingData pricing,
+                       IEnumerable<SingleSessionData> sessions)
             : base(id, location, coach, service, timing, booking, presentation)
         {
             _repetition = new SessionRepetition(repetition);
             _pricing = new RepeatedSessionPricing(pricing.SessionPrice, pricing.CoursePrice);
 
-            CalculateSingleSessions();
+            // Recreated the Session collection
+            Sessions = sessions.Select(session => new SingleSession(session, location, coach, service)).ToList();
         }
 
 
@@ -60,9 +62,14 @@ namespace CoachSeek.Domain.Entities
             return Mapper.Map<RepeatedSession, RepeatedSessionData>(this);
         }
 
-        public SingleSessionData ToSingleSessionData()
+        public SingleSessionData ToChildSessionData()
         {
-            return Mapper.Map<RepeatedSession, SingleSessionData>(this);
+            var singleSession = Mapper.Map<RepeatedSession, SingleSessionData>(this);
+
+            singleSession.ParentId = singleSession.Id;
+            singleSession.Id = Guid.NewGuid();
+
+            return singleSession;
         }
 
         public override bool IsOverlapping(Session otherSession)
@@ -142,9 +149,9 @@ namespace CoachSeek.Domain.Entities
 
         private SingleSession CalculateFirstSession()
         {
-            var data = ToSingleSessionData();
+            var childSession = ToChildSessionData();
 
-            return new SingleSession(data, _location.ToData(), _coach.ToData(), _service.ToData());
+            return new SingleSession(childSession, _location.ToData(), _coach.ToData(), _service.ToData());
         }
 
         private void CalculateSingleSessions()

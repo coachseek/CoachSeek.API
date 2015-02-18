@@ -3,7 +3,6 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Factories;
 using NUnit.Framework;
 
 namespace CoachSeek.Domain.Tests.Unit.Entities
@@ -79,7 +78,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             };
         }
 
-        private SessionAddCommand CreateValidStandaloneSessionAddCommand()
+        private SessionAddCommand CreateStandaloneSessionAddCommand()
         {
             return new SessionAddCommand
             {
@@ -94,10 +93,26 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             };
         }
 
+        private SessionAddCommand CreateRepeatedSessionAddCommand(string startDate, string startTime, int duration, string repeatFrequency)
+        {
+            return new SessionAddCommand
+            {
+                Location = new LocationKeyCommand { Id = new Guid(LOCATION_ID) },
+                Coach = new CoachKeyCommand { Id = Coach.Id },
+                Service = new ServiceKeyCommand { Id = new Guid(SERVICE_ID) },
+                Timing = new SessionTimingCommand { StartDate = startDate, StartTime = startTime, Duration = duration },
+                Booking = new SessionBookingCommand { StudentCapacity = 12, IsOnlineBookable = true },
+                Repetition = new RepetitionCommand { SessionCount = 10, RepeatFrequency = repeatFrequency },
+                Pricing = new PricingCommand { SessionPrice = 15 },
+                Presentation = new PresentationCommand { Colour = "Red" }
+            };
+        }
+
         private Session CreateStandaloneSession(CoachData coachData, string startTime, int duration, Guid id)
         {
             var data = new SingleSessionData
             {
+                ParentId = null,
                 Id = id,
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
                 Coach = new CoachKeyData { Id = coachData.Id },
@@ -113,7 +128,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private Session CreateNewStandaloneSession(CoachData coachData, string startTime, int duration)
         {
-            var data = new SessionAddCommand
+            var command = new SessionAddCommand
             {
                 Location = new LocationKeyCommand { Id = new Guid(LOCATION_ID) },
                 Coach = new CoachKeyCommand { Id = coachData.Id },
@@ -125,24 +140,24 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Presentation = new PresentationCommand { Colour = "Red" }
             };
 
-            return SessionFactory.CreateNewSession(data, Location, coachData, Service);
+            return new StandaloneSession(command, Location, coachData, Service);
         }
 
         private Session CreateRepeatedSession(string startDate, string startTime, int duration, string repeatFrequency)
         {
-            var data = new RepeatedSessionData
+            var command = new SessionAddCommand
             {
-                Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
-                Coach = new CoachKeyData { Id = Coach.Id },
-                Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
-                Timing = new SessionTimingData { StartDate = startDate, StartTime = startTime, Duration = duration },
-                Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
-                Repetition = new RepetitionData { SessionCount = 10, RepeatFrequency = repeatFrequency},
-                Pricing = new RepeatedSessionPricingData { SessionPrice = 15 },
-                Presentation = new PresentationData { Colour = "Red" }
+                Location = new LocationKeyCommand { Id = new Guid(LOCATION_ID) },
+                Coach = new CoachKeyCommand { Id = Coach.Id },
+                Service = new ServiceKeyCommand { Id = new Guid(SERVICE_ID) },
+                Timing = new SessionTimingCommand { StartDate = startDate, StartTime = startTime, Duration = duration },
+                Booking = new SessionBookingCommand { StudentCapacity = 12, IsOnlineBookable = true },
+                Repetition = new RepetitionCommand { SessionCount = 10, RepeatFrequency = repeatFrequency },
+                Pricing = new PricingCommand { SessionPrice = 15 },
+                Presentation = new PresentationCommand { Colour = "Red" }
             };
 
-            return new RepeatedSession(data, Location, Coach, Service);
+            return new RepeatedSession(command, Location, Coach, Service);
         }
 
 
@@ -150,59 +165,106 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public class StandaloneSessionTests : SessionTests
         {
             [Test]
-            public void GivenMultipleErrorsInStandaloneSession_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
+            public void GivenMultipleErrorsInStandaloneSessionAddCommand_WhenTryAndConstructStandaloneSession_ThenThrowValidationExceptionWithMultipleErrors()
             {
-                Coach = null;
-                Service.Booking.IsOnlineBookable = null;
-
-                var session = CreateValidStandaloneSessionAddCommand();
-                session.Timing.StartDate = "2014-02-30";
-                session.Timing.Duration = 25;
-                session.Booking.IsOnlineBookable = null;
-                session.Pricing.CoursePrice = 120;
-                session.Presentation.Colour = "maroon";
-
-                var response = WhenConstructStandaloneSession(session);
-
-                AssertMultipleErrors(response, new[,]
-                {
-                    {"The coach field is required.", "session.coach"},
-                    {"The startDate field is not valid.", "session.timing.startDate"},
-                    {"The duration field is not valid.", "session.timing.duration"},
-                    {"The isOnlineBookable field is required.", "session.booking.isOnlineBookable"},
-                    {"The colour field is not valid.", "session.presentation.colour"},
-                    {"The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice"}
-                });
+                var command = GivenMultipleErrorsInStandaloneSessionAddCommand();
+                var response = WhenTryAndConstructStandaloneSession(command);
+                ThenThrowValidationExceptionWithMultipleErrors(response);
             }
 
             [Test]
-            public void GivenValidStandaloneSession_WhenConstruct_ThenConstructSession()
+            public void GivenStandaloneSessionAddCommand_WhenTryAndConstructStandaloneSession_ThenConstructsStandaloneSession()
             {
-                var session = CreateValidStandaloneSessionAddCommand();
-                var response = WhenConstructStandaloneSession(session);
-                AssertStandaloneSession(response);
+                var command = GivenStandaloneSessionAddCommand();
+                var response = WhenTryAndConstructStandaloneSession(command);
+                ThenConstructsStandaloneSession(response);
+            }
+
+            [Test, Ignore("Should be done but will need a weird SingleSessionRepetition object.")]
+            public void GivenRepeatedSessionAddCommand_WhenTryAndConstructStandaloneSession_ThenThrowsInvalidOperationException()
+            {
+                var command = GivenRepeatedSessionAddCommand();
+                var response = WhenTryAndConstructStandaloneSession(command);
+                ThenThrowsInvalidOperationException(response);
             }
 
             [Test]
             public void GivenStandaloneSession_WhenCallSessionNameProperty_ThenReturnSessionName()
             {
-                var sessionData = CreateValidStandaloneSessionAddCommand();
-                var session = SessionFactory.CreateNewSession(sessionData, Location, Coach, Service);
+                var session = GivenStandaloneSession();
                 var name = session.Name;
-                Assert.That(name, Is.EqualTo("Mini Red at Orakei Tennis Club with Bob Jones on " + GetDateFormatOneWeekOut() + " at 12:30"));
+                ThenReturnSessionName(name);
             }
 
 
-            private object WhenConstructStandaloneSession(SessionAddCommand session)
+            private SessionAddCommand GivenMultipleErrorsInStandaloneSessionAddCommand()
+            {
+                var command = CreateStandaloneSessionAddCommand();
+                
+                command.Timing.StartDate = "2014-02-30";
+                command.Timing.Duration = 25;
+                command.Pricing.CoursePrice = 120;
+                command.Presentation.Colour = "maroon";
+
+                return command;
+            }
+
+            private SessionAddCommand GivenStandaloneSessionAddCommand()
+            {
+                return CreateStandaloneSessionAddCommand();
+            }
+
+            private SessionAddCommand GivenRepeatedSessionAddCommand()
+            {
+                return CreateRepeatedSessionAddCommand(GetDateFormatNumberOfWeeksOut(1), "12:30", 60, "w");
+            }
+
+            private StandaloneSession GivenStandaloneSession()
+            {
+                var command = CreateStandaloneSessionAddCommand();
+                return new StandaloneSession(command, Location, Coach, Service);
+            }
+
+
+            private object WhenTryAndConstructStandaloneSession(SessionAddCommand command)
             {
                 try
                 {
-                    return SessionFactory.CreateNewSession(session, Location, Coach, Service);
+                    return new StandaloneSession(command, Location, Coach, Service);
                 }
                 catch (Exception ex)
                 {
                     return ex;
                 }
+            }
+
+
+            private void ThenThrowValidationExceptionWithMultipleErrors(object response)
+            {
+                AssertMultipleErrors(response, new[,]
+                {
+                    {"The startDate field is not valid.", "session.timing.startDate"},
+                    {"The duration field is not valid.", "session.timing.duration"},
+                    {"The colour field is not valid.", "session.presentation.colour"},
+                    {"The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice"}
+                });
+            }
+
+            private void ThenConstructsStandaloneSession(object response)
+            {
+                AssertStandaloneSession(response);
+            }
+
+            private void ThenThrowsInvalidOperationException(object response)
+            {
+                Assert.That(response, Is.InstanceOf<InvalidOperationException>());
+                var exception = (InvalidOperationException)response;
+                Assert.That(exception.Message, Is.EqualTo("A Course command is used to create a Standalone session!"));
+            }
+
+            private void ThenReturnSessionName(string name)
+            {
+                Assert.That(name, Is.EqualTo("Mini Red at Orakei Tennis Club with Bob Jones on " + GetDateFormatOneWeekOut() + " at 12:30"));
             }
 
 
@@ -240,7 +302,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void GivenOtherSessionIsNull_WhenCallIsOverlapping_ThenReturnFalse()
             {
-                var session = ConstructStandaloneSession(CreateValidStandaloneSessionAddCommand());
+                var session = ConstructStandaloneSession(CreateStandaloneSessionAddCommand());
                 var response = WhenCallIsOverlapping(session, null);
                 Assert.That(response, Is.False);
             }
@@ -248,7 +310,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void GivenSameSession_WhenCallIsOverlapping_ThenReturnFalse()
             {
-                var session = ConstructStandaloneSession(CreateValidStandaloneSessionAddCommand());
+                var session = ConstructStandaloneSession(CreateStandaloneSessionAddCommand());
                 var response = WhenCallIsOverlapping(session, session);
                 Assert.That(response, Is.False);
             }
@@ -319,7 +381,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
             private Session ConstructStandaloneSession(SessionAddCommand session)
             {
-                var standaloneSession = SessionFactory.CreateNewSession(session, Location, Coach, Service);
+                var standaloneSession = new StandaloneSession(session, Location, Coach, Service);
                 Assert.That(standaloneSession, Is.InstanceOf<StandaloneSession>());
                 return standaloneSession;
             }
