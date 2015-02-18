@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -8,7 +9,7 @@ namespace CoachSeek.Domain.Entities
         public new decimal SessionPrice { get { return _sessionPrice.Amount.Value; } }
 
 
-        public StandaloneSessionPricing(PricingData sessionPricing, PricingData servicePricing)
+        public StandaloneSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
             : base(sessionPricing, servicePricing)
         { }
 
@@ -16,7 +17,7 @@ namespace CoachSeek.Domain.Entities
             : base(sessionPrice)
         { }
 
-        protected override void ValidateAdditional(ValidationException errors, PricingData pricing)
+        protected override void ValidateAdditional(ValidationException errors, PricingCommand pricing)
         {
             if (!pricing.SessionPrice.HasValue)
                 errors.Add("A sessionPrice is required.", "session.pricing.sessionPrice");

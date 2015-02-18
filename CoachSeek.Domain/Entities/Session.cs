@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -10,7 +11,6 @@ namespace CoachSeek.Domain.Entities
         protected Service _service;
         protected Location _location;
         protected Coach _coach;
-
         protected SessionTiming _timing;
         protected SessionBooking _booking;
         protected SessionPresentation _presentation;
@@ -26,15 +26,79 @@ namespace CoachSeek.Domain.Entities
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
 
+        protected Session(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
+        {
+            Id = Guid.NewGuid();
+
+            ValidateAndCreate(location, coach, service, command);
+        }
+
+        protected Session(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+        {
+            Id = command.Id;
+
+            ValidateAndCreate(location, coach, service, command);
+        }
+
+        protected Session(SessionData data, LocationData location, CoachData coach, ServiceData service)
+            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation)
+        { }
+
+        protected Session(Guid id,
+                       LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionTimingData timing,
+                       SessionBookingData booking,
+                       PresentationData presentation)
+        {
+            Id = id;
+
+            _location = new Location(location);
+            _coach = new Coach(coach);
+            _service = new Service(service);
+            _timing = new SessionTiming(timing);
+            _booking = new SessionBooking(booking);
+            _presentation = new SessionPresentation(presentation);
+        }
+
+
         public abstract bool IsOverlapping(Session otherSession);
 
-
-        public abstract SessionData ToData();
+        //public abstract SessionData ToData();
 
         public SessionKeyData ToKeyData()
         {
             return Mapper.Map<Session, SessionKeyData>(this);
         }
+
+
+        private void ValidateAndCreate(LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionAddCommand command)
+        {
+            var errors = new ValidationException();
+
+            ValidateAndCreateLocation(location, errors);
+            ValidateAndCreateCoach(coach, errors);
+            ValidateAndCreateService(service, errors);
+            ValidateAndCreateSessionTiming(command.Timing, service.Timing, errors);
+            ValidateAndCreateSessionBooking(command.Booking, service.Booking, errors);
+            ValidateAndCreateSessionPresentation(command.Presentation, service.Presentation, errors);
+
+            ValidateAdditional(errors, location, coach, service, command);
+
+            errors.ThrowIfErrors();
+        }
+
+
+        protected virtual void ValidateAdditional(ValidationException errors,
+                       LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionAddCommand command)
+        { }
 
 
         protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
@@ -91,7 +155,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
+        protected void ValidateAndCreateSessionTiming(SessionTimingCommand sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
         {
             try
             {
@@ -103,7 +167,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
+        protected void ValidateAndCreateSessionBooking(SessionBookingCommand sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
         {
             try
             {
@@ -115,7 +179,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation, ValidationException errors)
+        protected void ValidateAndCreateSessionPresentation(PresentationCommand sessionPresentation, PresentationData servicePresentation, ValidationException errors)
         {
             try
             {

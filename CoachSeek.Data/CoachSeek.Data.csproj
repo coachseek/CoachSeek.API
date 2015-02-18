@@ -50,8 +50,14 @@
     <Compile Include="Model\CustomerData.cs" />
     <Compile Include="Model\NewBookingData.cs" />
     <Compile Include="Model\NewCustomerData.cs" />
+    <Compile Include="Model\NewRepeatedSessionData.cs" />
+    <Compile Include="Model\RepeatedSessionPricingData.cs" />
     <Compile Include="Model\RegistrationData.cs" />
+    <Compile Include="Model\RepeatedSessionData.cs" />
+    <Compile Include="Model\SingleRepetitionData.cs" />
+    <Compile Include="Model\SingleSessionData.cs" />
     <Compile Include="Model\SessionKeyData.cs" />
+    <Compile Include="Model\SingleSessionPricingData.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Model\BusinessAdminData.cs" />
     <Compile Include="Model\BusinessData.cs" />

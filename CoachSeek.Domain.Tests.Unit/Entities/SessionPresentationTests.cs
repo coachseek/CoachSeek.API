@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
@@ -20,7 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenInvalidColour_WhenConstruct_ThenUseServiceBooking()
         {
-            var sessionPresentation = new PresentationData {Colour = "aquamarine"};
+            var sessionPresentation = new PresentationCommand { Colour = "aquamarine" };
             var response = WhenConstruct(sessionPresentation, null);
             AssertSingleError(response, "The colour field is not valid.", "session.presentation.colour");
         }
@@ -33,7 +34,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private object WhenConstruct(PresentationData sessionPresentation, PresentationData servicePresentation)
+        private object WhenConstruct(PresentationCommand sessionPresentation, PresentationData servicePresentation)
         {
             try
             {

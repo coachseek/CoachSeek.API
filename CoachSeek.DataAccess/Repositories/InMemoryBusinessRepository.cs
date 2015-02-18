@@ -63,28 +63,29 @@ namespace CoachSeek.DataAccess.Repositories
             return CreateBusiness(dbBusiness);
         }
 
-        //public Business GetByAdminEmail(string adminEmail)
-        //{
-        //    var dbBusiness = Businesses.FirstOrDefault(x => x.Admin.Email == adminEmail);
-        //    return CreateBusiness(dbBusiness);
-        //}
-
-
-
 
         private Business CreateBusiness(DbBusiness dbBusiness)
         {
             if (dbBusiness == null)
                 return null;
 
+            var locations = Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations);
+            var coaches = Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches);
+            var services = Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services);
+            //var sessions = Mapper.Map<IEnumerable<DbSession>, IEnumerable<SessionData>>(dbBusiness.Sessions);
+            var sessions = Mapper.Map<IEnumerable<DbSingleSession>, IEnumerable<SingleSessionData>>(dbBusiness.Sessions);
+            var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
+            var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
+
             return new Business(dbBusiness.Id,
                 dbBusiness.Name,
                 dbBusiness.Domain,
-                Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations),
-                Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches),
-                Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services),
-                Mapper.Map<IEnumerable<DbSession>, IEnumerable<SessionData>>(dbBusiness.Sessions),
-                Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers));
+                locations,
+                coaches,
+                services,
+                sessions,
+                courses,
+                customers);
         }
 
 

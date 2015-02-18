@@ -63,7 +63,10 @@
     <Compile Include="Configuration\DbAutoMapperConfigurator.cs" />
     <Compile Include="Conversion\DbBookingConverter.cs" />
     <Compile Include="Conversion\DbBusinessConverter.cs" />
+    <Compile Include="Conversion\SessionConverter.cs" />
     <Compile Include="Models\DbCustomerKey.cs" />
+    <Compile Include="Models\DbSingleSessionPricing.cs" />
+    <Compile Include="Models\DbRepeatedSession.cs" />
     <Compile Include="Models\DbSessionKey.cs" />
     <Compile Include="Models\DbCustomer.cs" />
     <Compile Include="Models\DbCoachKey.cs" />
@@ -72,13 +75,13 @@
     <Compile Include="Models\DbLocationKey.cs" />
     <Compile Include="Models\DbPresentation.cs" />
     <Compile Include="Models\DbService.cs" />
-    <Compile Include="Models\DbServiceDefaults.cs" />
     <Compile Include="Models\DbServiceKey.cs" />
-    <Compile Include="Models\DbPricing.cs" />
+    <Compile Include="Models\DbRepeatedSessionPricing.cs" />
     <Compile Include="Models\DbRepetition.cs" />
     <Compile Include="Models\DbServiceTiming.cs" />
     <Compile Include="Models\DbBooking.cs" />
     <Compile Include="Models\DbSession.cs" />
+    <Compile Include="Models\DbSingleSession.cs" />
     <Compile Include="Models\DbServiceBooking.cs" />
     <Compile Include="Models\DbSessionBooking.cs" />
     <Compile Include="Models\DbSessionTiming.cs" />

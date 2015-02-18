@@ -14,9 +14,9 @@
             return "customer";
         }
 
-        public string GetBusinessIdPath()
-        {
-            return "customer.businessId";
-        }
+        //public string GetBusinessIdPath()
+        //{
+        //    return "customer.businessId";
+        //}
     }
 }

@@ -15,9 +15,9 @@
             return "coach";
         }
 
-        public string GetBusinessIdPath()
-        {
-            return "coach.businessId";
-        }
+        //public string GetBusinessIdPath()
+        //{
+        //    return "coach.businessId";
+        //}
     }
 }

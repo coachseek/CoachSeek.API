@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -13,10 +14,16 @@ namespace CoachSeek.Domain.Entities
         public int StudentCapacity { get { return _studentCapacity.Maximum; } }
 
 
-        public SessionBooking(SessionBookingData sessionBooking, ServiceBookingData serviceBooking)
+        public SessionBooking(SessionBookingCommand command, ServiceBookingData serviceBooking)
         {
-            sessionBooking = BackfillMissingValuesFromService(sessionBooking, serviceBooking);
-            CreateSessionBooking(sessionBooking);
+            command = BackfillMissingValuesFromService(command, serviceBooking);
+
+            ValidateAndCreateSessionBooking(command);
+        }
+
+        public SessionBooking(SessionBookingData data)
+        {
+            CreateSessionBooking(data);
         }
 
 
@@ -26,11 +33,11 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private SessionBookingData BackfillMissingValuesFromService(SessionBookingData sessionBooking, ServiceBookingData serviceBooking)
+        private SessionBookingCommand BackfillMissingValuesFromService(SessionBookingCommand command, ServiceBookingData serviceBooking)
         {
-            if (sessionBooking == null)
+            if (command == null)
             {
-                var booking = new SessionBookingData();
+                var booking = new SessionBookingCommand();
 
                 if (serviceBooking != null)
                 {
@@ -41,24 +48,31 @@ namespace CoachSeek.Domain.Entities
                 return booking;
             }
 
-            if (sessionBooking.StudentCapacity == null && serviceBooking != null)
-                sessionBooking.StudentCapacity = serviceBooking.StudentCapacity;
+            if (command.StudentCapacity == null && serviceBooking != null)
+                command.StudentCapacity = serviceBooking.StudentCapacity;
 
-            if (sessionBooking.IsOnlineBookable == null && serviceBooking != null)
-                sessionBooking.IsOnlineBookable = serviceBooking.IsOnlineBookable;
+            if (command.IsOnlineBookable == null && serviceBooking != null)
+                command.IsOnlineBookable = serviceBooking.IsOnlineBookable;
 
-            return sessionBooking;
+            return command;
+        }
+
+        private void ValidateAndCreateSessionBooking(SessionBookingCommand command)
+        {
+            var errors = new ValidationException();
+
+            ValidateAndCreateStudentCapacity(command.StudentCapacity, errors);
+            ValidateAndCreateIsOnlineBookable(command.IsOnlineBookable, errors);
+
+            errors.ThrowIfErrors();
         }
 
         private void CreateSessionBooking(SessionBookingData data)
         {
-            var errors = new ValidationException();
-
-            ValidateAndCreateStudentCapacity(data.StudentCapacity, errors);
-            ValidateAndCreateIsOnlineBookable(data.IsOnlineBookable, errors);
-
-            errors.ThrowIfErrors();
+            _studentCapacity = new SessionStudentCapacity(data.StudentCapacity.Value);
+            IsOnlineBookable = data.IsOnlineBookable.Value;
         }
+
 
         private void ValidateAndCreateStudentCapacity(int? studentCapacity, ValidationException errors)
         {

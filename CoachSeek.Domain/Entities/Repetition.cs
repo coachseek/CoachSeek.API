@@ -1,12 +1,13 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
     public abstract class Repetition
     {
-        private const int MAXIMUM_WEEKLY_REPEAT = 26;
-        private const int MAXIMUM_DAILY_REPEAT = 30;
+        protected const int MAXIMUM_WEEKLY_REPEAT = 26;
+        protected const int MAXIMUM_DAILY_REPEAT = 30;
 
         public int SessionCount { get { return _sessionCount.Count; } }
         public string RepeatFrequency { get { return _frequency.Frequency; } }
@@ -20,12 +21,12 @@ namespace CoachSeek.Domain.Entities
         public bool HasRepeatFrequency { get { return RepeatFrequency != null; } }
 
 
-        protected void CreateAndValidateRepetition(RepetitionData repetitionData)
+        protected void CreateAndValidateRepetition(RepetitionCommand repetitionData)
         {
             var errors = new ValidationException();
 
-            CreateSessionCount(repetitionData.SessionCount, errors);
-            CreateRepeatFrequency(repetitionData.RepeatFrequency, errors);
+            ValidateAndCreateSessionCount(repetitionData.SessionCount, errors);
+            ValidateAndCreateRepeatFrequency(repetitionData.RepeatFrequency, errors);
 
             errors.ThrowIfErrors();
 
@@ -44,6 +45,12 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
+        protected void CreateRepetition(RepetitionData repetitionData)
+        {
+            _frequency = new RepeatFrequency(repetitionData.RepeatFrequency);
+            _sessionCount = new SessionCount(repetitionData.SessionCount);
+        }
+
         public abstract RepetitionData ToData();
 
 
@@ -51,7 +58,7 @@ namespace CoachSeek.Domain.Entities
         protected abstract string RepeatFrequencyPath { get; }
 
 
-        protected void CreateSessionCount(int count, ValidationException errors)
+        protected void ValidateAndCreateSessionCount(int count, ValidationException errors)
         {
             try
             {
@@ -63,7 +70,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void CreateRepeatFrequency(string frequency, ValidationException errors)
+        protected void ValidateAndCreateRepeatFrequency(string frequency, ValidationException errors)
         {
             try
             {

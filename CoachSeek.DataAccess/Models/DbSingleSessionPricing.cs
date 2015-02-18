@@ -1,8 +1,7 @@
 ﻿namespace CoachSeek.DataAccess.Models
 {
-    public class DbPricing
+    public class DbSingleSessionPricing
     {
         public decimal? SessionPrice { get; set; }
-        public decimal? CoursePrice { get; set; }
     }
 }

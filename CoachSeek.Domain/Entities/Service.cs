@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Entities
             get { return ServiceBooking != null ? ServiceBooking.ToData() : null; }
         }
 
-        public PricingData Pricing
+        public RepeatedSessionPricingData Pricing
         {
             get { return IsPriced ? ServicePricing.ToData() : null; }
         }
@@ -59,7 +59,7 @@ namespace CoachSeek.Domain.Entities
                        string description,
                        ServiceTimingData timing,
                        ServiceBookingData booking,
-                       PricingData pricing, 
+                       RepeatedSessionPricingData pricing, 
                        RepetitionData repetition,
                        PresentationData presentation)
         {
@@ -88,8 +88,8 @@ namespace CoachSeek.Domain.Entities
 
 
         private void ValidateAndCreateEntities(ServiceTimingData timing, 
-                                               ServiceBookingData booking, 
-                                               PricingData pricing, 
+                                               ServiceBookingData booking,
+                                               RepeatedSessionPricingData pricing, 
                                                RepetitionData repetition,
                                                PresentationData presentation)
         {
@@ -159,7 +159,7 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreatePricing(PricingData pricing, ValidationException errors)
+        private void ValidateAndCreatePricing(RepeatedSessionPricingData pricing, ValidationException errors)
         {
             try
             {

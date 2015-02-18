@@ -1,43 +1,44 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class RepeatedSessionPricing
+    public class RepeatedSessionPricing : SingleSessionPricing
     {
-        private Price _sessionPrice;
         private Price _coursePrice;
-        private readonly SessionRepetition _repetition;
 
-        public decimal? SessionPrice { get { return _sessionPrice.Amount; } }
-        public decimal? CoursePrice { get { return _coursePrice.Amount; } }
-
-
-        public RepeatedSessionPricing(PricingData sessionPricing, PricingData servicePricing, SessionRepetition repetition)
+        public decimal? CoursePrice
         {
-            _repetition = repetition;
+            get { return _coursePrice == null ? null : _coursePrice.Amount; }
+        }
 
+
+        public RepeatedSessionPricing(PricingCommand sessionPricing, RepeatedSessionPricingData servicePricing)
+            : base(sessionPricing, servicePricing)
+        {
             sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
+
             Validate(sessionPricing);
 
-            ValidateAndCreateCoursePricing(sessionPricing);
+            ValidateAndCreatePricing(sessionPricing);
         }
 
         public RepeatedSessionPricing(decimal? sessionPrice, decimal? coursePrice)
+            : base(sessionPrice)
         {
-            _sessionPrice = new Price(sessionPrice);
-            _coursePrice = new Price(coursePrice);
+            CreateCoursePricing(coursePrice);
         }
 
 
-        public PricingData ToData()
+        public new RepeatedSessionPricingData ToData()
         {
-            return Mapper.Map<RepeatedSessionPricing, PricingData>(this);
+            return Mapper.Map<RepeatedSessionPricing, RepeatedSessionPricingData>(this);
         }
 
 
-        private void ValidateAndCreateCoursePricing(PricingData sessionPricing)
+        private void ValidateAndCreatePricing(PricingCommand sessionPricing)
         {
             var errors = new ValidationException();
 
@@ -71,10 +72,19 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private PricingData BackfillMissingValuesFromService(PricingData sessionPricing, PricingData servicePricing)
+        private void CreateCoursePricing(decimal? coursePrice)
+        {
+            _coursePrice = new Price(coursePrice);
+        }
+
+        protected override PricingCommand BackfillMissingValuesFromService(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
         {
             if (sessionPricing == null)
-                return servicePricing;
+            {
+                if (servicePricing == null)
+                    return new PricingCommand();
+                return new PricingCommand(servicePricing.SessionPrice, ((RepeatedSessionPricingData)servicePricing).CoursePrice);
+            }
 
             if (servicePricing != null)
             {
@@ -82,13 +92,13 @@ namespace CoachSeek.Domain.Entities
                     sessionPricing.SessionPrice = servicePricing.SessionPrice;
 
                 if (!sessionPricing.CoursePrice.HasValue)
-                    sessionPricing.CoursePrice = servicePricing.CoursePrice;
-            }
+                    sessionPricing.CoursePrice = ((RepeatedSessionPricingData)servicePricing).CoursePrice;
+            }            
 
             return sessionPricing;
         }
 
-        private void Validate(PricingData sessionPricing)
+        private void Validate(PricingCommand sessionPricing)
         {
             if (sessionPricing == null)
                 throw new ValidationException("The pricing field is required.", "session.pricing");

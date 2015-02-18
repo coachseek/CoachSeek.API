@@ -17,13 +17,15 @@ namespace CoachSeek.Domain.Entities
         public IList<LocationData> Locations { get { return BusinessLocations.ToData(); } }
         public IList<CoachData> Coaches { get { return BusinessCoaches.ToData(); } }
         public IList<ServiceData> Services { get { return BusinessServices.ToData(); } }
-        public IList<SessionData> Sessions { get { return BusinessSessions.ToData(); } }
+        public IList<SingleSessionData> Sessions { get { return BusinessSessions.ToData(); } }
+        public IList<RepeatedSessionData> Courses { get { return BusinessCourses.ToData(); } }
         public IList<CustomerData> Customers { get { return BusinessCustomers.ToData(); } }
 
         private BusinessLocations BusinessLocations { get; set; }
         private BusinessCoaches BusinessCoaches { get; set; }
         private BusinessServices BusinessServices { get; set; }
         private BusinessSessions BusinessSessions { get; set; }
+        private BusinessCourses BusinessCourses { get; set; }
         private BusinessCustomers BusinessCustomers { get; set; }
 
         public Booking.Business BookingBusiness { get { return new Booking.Business(Id); } }
@@ -35,9 +37,9 @@ namespace CoachSeek.Domain.Entities
             IEnumerable<LocationData> locations, 
             IEnumerable<CoachData> coaches,
             IEnumerable<ServiceData> services,
-            IEnumerable<SessionData> sessions,
-            IEnumerable<CustomerData> customers
-            )
+            IEnumerable<SingleSessionData> sessions,
+            IEnumerable<RepeatedSessionData> courses,
+            IEnumerable<CustomerData> customers)
         {
             Id = id;
             Name = name;
@@ -45,8 +47,12 @@ namespace CoachSeek.Domain.Entities
             BusinessLocations = new BusinessLocations(locations);
             BusinessCoaches = new BusinessCoaches(coaches);
             BusinessServices = new BusinessServices(services);
-            BusinessSessions = new BusinessSessions(sessions, BusinessLocations, BusinessCoaches, BusinessServices);
             BusinessCustomers = new BusinessCustomers(customers);
+            BusinessSessions = new BusinessSessions(sessions, BusinessLocations, BusinessCoaches, BusinessServices);
+            BusinessCourses = new BusinessCourses(courses, BusinessLocations, BusinessCoaches, BusinessServices);
+
+            BusinessSessions.Courses = BusinessCourses;
+            BusinessCourses.Sessions = BusinessSessions;
         }
 
         public Business()
@@ -55,8 +61,12 @@ namespace CoachSeek.Domain.Entities
             BusinessLocations = new BusinessLocations();
             BusinessCoaches = new BusinessCoaches();
             BusinessServices = new BusinessServices();
-            BusinessSessions = new BusinessSessions();
             BusinessCustomers = new BusinessCustomers();
+            BusinessSessions = new BusinessSessions();
+            BusinessCourses = new BusinessCourses();
+
+            BusinessSessions.Courses = BusinessCourses;
+            BusinessCourses.Sessions = BusinessSessions;
         }
 
         // Minimal Unit testing constructor.
@@ -145,10 +155,18 @@ namespace CoachSeek.Domain.Entities
             var coach = GetCoachById(command.Coach.Id, businessRepository);
             var service = GetServiceById(command.Service.Id, businessRepository);
 
-            var sessionId = BusinessSessions.Add(command.ToData(), location, coach, service);
-            businessRepository.Save(this);
-
-            return GetSessionById(sessionId, businessRepository);
+            if (IsStandaloneSession(command, service))
+            {
+                var sessionId = BusinessSessions.Add(command, location, coach, service);
+                businessRepository.Save(this);
+                return GetSessionById(sessionId, businessRepository);
+            }
+            else
+            {
+                var courseId = BusinessCourses.Add(command, location, coach, service);
+                businessRepository.Save(this);
+                return GetCourseById(courseId, businessRepository);
+            }
         }
 
         public SessionData UpdateSession(SessionUpdateCommand command, IBusinessRepository businessRepository)
@@ -157,16 +175,28 @@ namespace CoachSeek.Domain.Entities
             var coach = GetCoachById(command.Coach.Id, businessRepository);
             var service = GetServiceById(command.Service.Id, businessRepository);
 
-            BusinessSessions.Update(command.ToData(), location, coach, service);
+            BusinessSessions.Update(command, location, coach, service);
             businessRepository.Save(this);
 
-            return GetSessionById(command.Id, businessRepository);
+            if (IsStandaloneSession(command, service))
+                return GetSessionById(command.Id, businessRepository);
+            return GetCourseById(command.Id, businessRepository);
         }
 
 
         public BusinessData ToData()
         {
             return Mapper.Map<Business, BusinessData>(this);
+        }
+
+
+
+        private static bool IsStandaloneSession(SessionAddCommand command, ServiceData service)
+        {
+            if (command.Repetition != null)
+                return command.Repetition.SessionCount == 1;
+
+            return service.Repetition.SessionCount == 1;
         }
 
 
@@ -194,12 +224,20 @@ namespace CoachSeek.Domain.Entities
             return service;
         }
 
-        private SessionData GetSessionById(Guid sessionId, IBusinessRepository businessRepository)
+        private SingleSessionData GetSessionById(Guid sessionId, IBusinessRepository businessRepository)
         {
             var session = businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
             if (session == null)
                 throw new InvalidSession();
             return session;
+        }
+
+        private RepeatedSessionData GetCourseById(Guid courseId, IBusinessRepository businessRepository)
+        {
+            var course = businessRepository.Get(Id).Courses.FirstOrDefault(x => x.Id == courseId);
+            if (course == null)
+                throw new InvalidSession();
+            return course;
         }
 
         private CustomerData GetCustomerById(Guid customerId, IBusinessRepository businessRepository)

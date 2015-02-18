@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -6,7 +7,7 @@ namespace CoachSeek.Domain.Entities
     public class SessionRepetition : Repetition
     {
         // Constructor for overriding service data with session data
-        public SessionRepetition(RepetitionData sessionRepetition, RepetitionData serviceRepetition)
+        public SessionRepetition(RepetitionCommand sessionRepetition, RepetitionData serviceRepetition)
         {
             sessionRepetition = BackfillMissingValuesFromService(sessionRepetition, serviceRepetition);
 
@@ -16,7 +17,7 @@ namespace CoachSeek.Domain.Entities
         // Constructor for working with existing session repetitionData.
         public SessionRepetition(RepetitionData repetitionData)
         {
-            CreateAndValidateRepetition(repetitionData);
+            CreateRepetition(repetitionData);
         }
 
 
@@ -37,19 +38,22 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void CreateSessionRepetition(RepetitionData sessionRepetition)
+        //private void CreateSessionRepetition(RepetitionData sessionRepetition)
+        //{
+        //    var errors = new ValidationException();
+
+        //    CreateSessionCount(sessionRepetition.SessionCount, errors);
+        //    CreateRepeatFrequency(sessionRepetition.RepeatFrequency, errors);
+
+        //    errors.ThrowIfErrors();
+        //}
+
+        private RepetitionCommand BackfillMissingValuesFromService(RepetitionCommand sessionRepetition, RepetitionData serviceRepetition)
         {
-            var errors = new ValidationException();
+            if (sessionRepetition != null)
+                return sessionRepetition;
 
-            CreateSessionCount(sessionRepetition.SessionCount, errors);
-            CreateRepeatFrequency(sessionRepetition.RepeatFrequency, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-        private RepetitionData BackfillMissingValuesFromService(RepetitionData sessionRepetition, RepetitionData serviceRepetition)
-        {
-            return sessionRepetition ?? serviceRepetition;
+            return new RepetitionCommand(serviceRepetition.SessionCount, serviceRepetition.RepeatFrequency);
         }
     }
 }

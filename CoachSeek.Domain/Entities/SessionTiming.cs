@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -27,10 +28,16 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public SessionTiming(SessionTimingData sessionTiming, ServiceTimingData serviceTiming)
+        public SessionTiming(SessionTimingCommand command, ServiceTimingData serviceTiming)
         {
-            BackfillMissingValuesFromService(sessionTiming, serviceTiming);
-            CreateSessionTiming(sessionTiming);
+            command = BackfillMissingValuesFromService(command, serviceTiming);
+
+            ValidateAndCreateSessionTiming(command);
+        }
+
+        public SessionTiming(SessionTimingData data)
+        {
+            CreateSessionTiming(data);
         }
 
 
@@ -40,13 +47,15 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void BackfillMissingValuesFromService(SessionTimingData sessionTiming, ServiceTimingData serviceTiming)
+        private SessionTimingCommand BackfillMissingValuesFromService(SessionTimingCommand command, ServiceTimingData serviceTiming)
         {
-            if (SessionIsMissingDuration(sessionTiming) && ServiceHasDuration(serviceTiming))
-                sessionTiming.Duration = serviceTiming.Duration;
+            if (SessionIsMissingDuration(command) && ServiceHasDuration(serviceTiming))
+                command.Duration = serviceTiming.Duration;
+
+            return command;
         }
 
-        private bool SessionIsMissingDuration(SessionTimingData timing)
+        private bool SessionIsMissingDuration(SessionTimingCommand timing)
         {
             return timing.Duration == null;
         }
@@ -56,15 +65,22 @@ namespace CoachSeek.Domain.Entities
             return serviceTiming != null && serviceTiming.Duration.HasValue;
         }
 
-        private void CreateSessionTiming(SessionTimingData data)
+        private void ValidateAndCreateSessionTiming(SessionTimingCommand command)
         {
             var errors = new ValidationException();
 
-            ValidateAndCreateStartDate(data.StartDate, errors);
-            ValidateAndCreateStartTime(data.StartTime, errors);
-            ValidateAndCreateDuration(data.Duration, errors);
+            ValidateAndCreateStartDate(command.StartDate, errors);
+            ValidateAndCreateStartTime(command.StartTime, errors);
+            ValidateAndCreateDuration(command.Duration, errors);
 
             errors.ThrowIfErrors();
+        }
+
+        private void CreateSessionTiming(SessionTimingData data)
+        {
+            _startDate = new Date(data.StartDate);
+            _startTime = new TimeOfDay(data.StartTime);
+            _duration = new SessionDuration(data.Duration.Value);
         }
 
         private void ValidateAndCreateStartDate(string startDate, ValidationException errors)

@@ -58,6 +58,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 SetupCoaches(),
                 SetupServices(),
                 null,
+                null,
                 null
             );
         }

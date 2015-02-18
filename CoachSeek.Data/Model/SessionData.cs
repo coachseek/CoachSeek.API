@@ -3,24 +3,42 @@ using AutoMapper;
 
 namespace CoachSeek.Data.Model
 {
-    public class SessionData : NewSessionData
+    public abstract class SessionData : IData
     {
         public Guid Id { get; set; }
 
+        public LocationKeyData Location { get; set; }
+        public CoachKeyData Coach { get; set; }
+        public ServiceKeyData Service { get; set; }
 
-        public SessionData()
+        public SessionTimingData Timing { get; set; }
+        public SessionBookingData Booking { get; set; }
+        public PresentationData Presentation { get; set; }
+
+
+        protected SessionData()
         { }
 
-        public SessionData(Guid id, NewSessionData newSession)
-            : base(newSession)
+        protected SessionData(SessionData session)
         {
-            Id = id;
+            Id = session.Id;
+            Location = session.Location;
+            Coach = session.Coach;
+            Service = session.Service;
+            Timing = session.Timing;
+            Booking = session.Booking;
+            Presentation = session.Presentation;
         }
 
 
         public SessionKeyData ToKeyData()
         {
             return Mapper.Map<SessionData, SessionKeyData>(this);
+        }
+
+        public string GetName()
+        {
+            return "session";
         }
     }
 }

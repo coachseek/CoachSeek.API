@@ -52,7 +52,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 {
                     SessionCount = 1
                 },
-                Pricing = new PricingData
+                Pricing = new RepeatedSessionPricingData
                 {
                     CoursePrice = 120
                 }
@@ -70,7 +70,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                     SessionCount = -1,
                     RepeatFrequency = "w"
                 },
-                Pricing = new PricingData
+                Pricing = new RepeatedSessionPricingData
                 {
                     CoursePrice = 120
                 }

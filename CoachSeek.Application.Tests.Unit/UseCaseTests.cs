@@ -78,6 +78,7 @@ namespace CoachSeek.Application.Tests.Unit
                 SetupCoaches(),
                 SetupServices(),
                 SetupSessions(),
+                SetupCourses(),
                 SetupCustomers());
         }
 
@@ -108,9 +109,9 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
-        protected IEnumerable<SessionData> SetupSessions()
+        protected IEnumerable<SingleSessionData> SetupSessions()
         {
-            return new List<SessionData>
+            return new List<SingleSessionData>
             {
                 SetupSessionBillMiniRedBrownsBayOnJan21From14To15(),
                 SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14(),
@@ -118,6 +119,11 @@ namespace CoachSeek.Application.Tests.Unit
                 SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10(),
                 SetupSessionAlbertMiniRedOrakeiOnJan23From11To12(),
             };
+        }
+
+        protected IEnumerable<RepeatedSessionData> SetupCourses()
+        {
+            return new List<RepeatedSessionData>();
         }
 
         protected IEnumerable<CustomerData> SetupCustomers()
@@ -209,9 +215,9 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
-        private SessionData SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10()
+        private SingleSessionData SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Id = new Guid(SESSION_ONE),
                 Location = new LocationKeyData {Id = new Guid(LOCATION_BROWNS_BAY_ID)},
@@ -220,14 +226,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Timing = new SessionTimingData("2015-01-20", "9:00", 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData {Colour = "Red"},
-                Repetition = new RepetitionData(1),
-                Pricing = new PricingData(20)
+                Pricing = new SingleSessionPricingData(20)
             };
         }
 
-        private SessionData SetupSessionBillMiniRedBrownsBayOnJan21From14To15()
+        private SingleSessionData SetupSessionBillMiniRedBrownsBayOnJan21From14To15()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Id = new Guid(SESSION_TWO),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
@@ -236,14 +241,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Timing = new SessionTimingData("2015-01-21", "14:00", 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
-                Repetition = new RepetitionData(1),
-                Pricing = new PricingData(20)
+                Pricing = new SingleSessionPricingData(20)
             };
         }
 
-        private SessionData SetupSessionAlbertMiniRedOrakeiOnJan23From11To12()
+        private SingleSessionData SetupSessionAlbertMiniRedOrakeiOnJan23From11To12()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Id = new Guid(SESSION_THREE),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
@@ -252,14 +256,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Timing = new SessionTimingData("2015-01-23", "11:00", 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
-                Repetition = new RepetitionData(1),
-                Pricing = new PricingData(20)
+                Pricing = new SingleSessionPricingData(20)
             };
         }
 
-        private SessionData SetupSessionBillMiniRedOrakeiOnJan25From18To19()
+        private SingleSessionData SetupSessionBillMiniRedOrakeiOnJan25From18To19()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Id = new Guid(SESSION_FOUR),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
@@ -268,14 +271,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Timing = new SessionTimingData("2015-01-25", "18:00", 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
-                Repetition = new RepetitionData(1),
-                Pricing = new PricingData(20)
+                Pricing = new SingleSessionPricingData(20)
             };
         }
 
-        private SessionData SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14()
+        private SingleSessionData SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Id = new Guid(SESSION_FIVE),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
@@ -284,8 +286,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Timing = new SessionTimingData("2015-01-26", "13:00", 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
-                Repetition = new RepetitionData(1),
-                Pricing = new PricingData(20)
+                Pricing = new SingleSessionPricingData(20)
             };
         }
 

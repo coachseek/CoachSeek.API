@@ -11,9 +11,9 @@
             return "booking";
         }
 
-        public string GetBusinessIdPath()
-        {
-            return "booking.businessId";
-        }
+        //public string GetBusinessIdPath()
+        //{
+        //    return "booking.businessId";
+        //}
     }
 }

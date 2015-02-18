@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -11,18 +12,16 @@ namespace CoachSeek.Domain.Entities
         private Colour _colour { get; set; }
 
 
-        public SessionPresentation(PresentationData sessionPresentation, PresentationData servicePresentation)
+        public SessionPresentation(PresentationCommand command, PresentationData servicePresentation)
         {
-            sessionPresentation = BackfillMissingValuesFromService(sessionPresentation, servicePresentation);
+            command = BackfillMissingValuesFromService(command, servicePresentation);
 
-            try
-            {
-                _colour = new Colour(sessionPresentation.Colour);
-            }
-            catch (InvalidColour)
-            {
-                throw new ValidationException("The colour field is not valid.", "session.presentation.colour");
-            }
+            ValidateAndCreateSessionPresentation(command);
+        }
+
+        public SessionPresentation(PresentationData data)
+        {
+            CreateSessionPresentation(data);
         }
 
 
@@ -32,11 +31,11 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private PresentationData BackfillMissingValuesFromService(PresentationData sessionPresentation, PresentationData servicePresentation)
+        private PresentationCommand BackfillMissingValuesFromService(PresentationCommand sessionPresentation, PresentationData servicePresentation)
         {
             if (sessionPresentation == null)
             {
-                var presentation = new PresentationData();
+                var presentation = new PresentationCommand();
 
                 if (servicePresentation != null && servicePresentation.Colour != null)
                 {
@@ -52,7 +51,7 @@ namespace CoachSeek.Domain.Entities
             return sessionPresentation;
         }
 
-        private bool SessionIsMissingColour(PresentationData sessionPresentation)
+        private bool SessionIsMissingColour(PresentationCommand sessionPresentation)
         {
             return sessionPresentation.Colour == null;
         }
@@ -60,6 +59,23 @@ namespace CoachSeek.Domain.Entities
         private bool ServiceHasColour(PresentationData servicePresentation)
         {
             return servicePresentation != null && servicePresentation.Colour != null;
+        }
+
+        private void ValidateAndCreateSessionPresentation(PresentationCommand command)
+        {
+            try
+            {
+                _colour = new Colour(command.Colour);
+            }
+            catch (InvalidColour)
+            {
+                throw new ValidationException("The colour field is not valid.", "session.presentation.colour");
+            }
+        }
+
+        private void CreateSessionPresentation(PresentationData data)
+        {
+            _colour = new Colour(data.Colour);
         }
     }
 }

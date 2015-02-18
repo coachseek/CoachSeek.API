@@ -1,16 +1,22 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
     public class StandaloneSession : SingleSession
     {
-        public RepetitionData Repetition { get { return CreateSingleSessionRepetitionData(); } }
+        public StandaloneSession(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
+            : base(command, location, coach, service)
+        { }
 
+        public StandaloneSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+            : base(command, location, coach, service)
+        { }
 
-        public StandaloneSession(SessionData data, LocationData location, CoachData coach, ServiceData service)
+        public StandaloneSession(SingleSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing)
         { }
 
@@ -21,29 +27,28 @@ namespace CoachSeek.Domain.Entities
                        SessionTimingData timing,
                        SessionBookingData booking,
                        PresentationData presentation,
-                       PricingData pricing)
+                       SingleSessionPricingData pricing)
             : base(id, location, coach, service, timing, booking, presentation, pricing)
         { }
+
 
         protected override void ValidateAdditional(ValidationException errors,
                        LocationData location,
                        CoachData coach,
                        ServiceData service,
-                       SessionTimingData timing,
-                       SessionBookingData booking,
-                       PresentationData presentation,
-                       PricingData pricing)
+                       SessionAddCommand command)
         {
-            ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-        }
-
-        public override SessionData ToData()
-        {
-            return Mapper.Map<StandaloneSession, SessionData>(this);
+            ValidateAndCreateSessionPricing(command.Pricing, service.Pricing, errors);
         }
 
 
-        private void ValidateAndCreateSessionPricing(PricingData sessionPricing, PricingData servicePricing, ValidationException errors)
+        //public SingleSessionData ToData()
+        //{
+        //    return Mapper.Map<StandaloneSession, SingleSessionData>(this);
+        //}
+
+
+        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing, ValidationException errors)
         {
             try
             {

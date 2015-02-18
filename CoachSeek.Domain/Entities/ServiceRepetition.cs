@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -22,6 +23,30 @@ namespace CoachSeek.Domain.Entities
         protected override string RepeatFrequencyPath
         {
             get { return "service.repetition.repeatFrequency"; }
+        }
+
+        protected void CreateAndValidateRepetition(RepetitionData repetitionData)
+        {
+            var errors = new ValidationException();
+
+            ValidateAndCreateSessionCount(repetitionData.SessionCount, errors);
+            ValidateAndCreateRepeatFrequency(repetitionData.RepeatFrequency, errors);
+
+            errors.ThrowIfErrors();
+
+            if (IsSingleSession && HasRepeatFrequency)
+                throw new ValidationException("For a single session the repeatFrequency must not be set.", RepeatFrequencyPath);
+            if (IsRepeatingSession)
+            {
+                if (!HasRepeatFrequency)
+                    throw new ValidationException("For a repeated session the repeatFrequency must be set.", RepeatFrequencyPath);
+                if (_frequency.IsRepeatEveryDay && SessionCount > MAXIMUM_DAILY_REPEAT)
+                    throw new ValidationException(
+                        string.Format("The maximum number of daily sessions is {0}.", MAXIMUM_DAILY_REPEAT), SessionCountPath);
+                if (_frequency.IsRepeatEveryWeek && SessionCount > MAXIMUM_WEEKLY_REPEAT)
+                    throw new ValidationException(
+                        string.Format("The maximum number of weekly sessions is {0}.", MAXIMUM_WEEKLY_REPEAT), SessionCountPath);
+            }
         }
     }
 }

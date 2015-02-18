@@ -9,7 +9,7 @@ namespace CoachSeek.Domain.Entities
                           string description,
                           ServiceTimingData timing,
                           ServiceBookingData booking,
-                          PricingData pricing,
+                          RepeatedSessionPricingData pricing,
                           RepetitionData repetition,
                           PresentationData presentation)
             : base(Guid.NewGuid(), name, description, timing, booking, pricing, repetition, presentation)

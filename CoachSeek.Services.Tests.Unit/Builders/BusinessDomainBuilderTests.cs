@@ -29,10 +29,10 @@ namespace CoachSeek.Services.Tests.Unit.Builders
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe", null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers", null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1", null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2", null, null, null, null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe", null, null, null, null, null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers", null, null, null, null, null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1", null, null, null, null, null, null));
+            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2", null, null, null, null, null, null));
         }
 
         private BusinessAdminData SetupBusinessAdmin()

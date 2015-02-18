@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -14,39 +15,43 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public SingleSessionPricing(PricingData sessionPricing, PricingData servicePricing)
+        public SingleSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
         {
             sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
 
             Validate(sessionPricing);
 
-            _sessionPrice = new Price(sessionPricing.SessionPrice);
+            CreateSessionPrice(sessionPricing.SessionPrice);
         }
 
         public SingleSessionPricing(decimal? sessionPrice)
         {
-            _sessionPrice = new Price(sessionPrice);
+            CreateSessionPrice(sessionPrice);
         }
 
 
-        public PricingData ToData()
+        public SingleSessionPricingData ToData()
         {
-            return Mapper.Map<SingleSessionPricing, PricingData>(this);
+            return Mapper.Map<SingleSessionPricing, SingleSessionPricingData>(this);
         }
 
 
-        private void Validate(PricingData pricing)
+        private void Validate(PricingCommand pricing)
         {
             var errors = new ValidationException();
 
             ValidateSessionPrice(errors, pricing);
-
             ValidateAdditional(errors, pricing);
 
             errors.ThrowIfErrors();
         }
 
-        private static void ValidateSessionPrice(ValidationException errors, PricingData pricing)
+        private void CreateSessionPrice(decimal? sessionPrice)
+        {
+            _sessionPrice = new Price(sessionPrice);
+        }
+
+        private static void ValidateSessionPrice(ValidationException errors, PricingCommand pricing)
         {
             try
             {
@@ -58,13 +63,21 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected virtual void ValidateAdditional(ValidationException errors, PricingData pricing)
-        { }
+        protected virtual void ValidateAdditional(ValidationException errors, PricingCommand pricing)
+        {
+            // Note: For a single session inside of a repeated sesssion (course) 
+            // is's ok for the session not to have a session price.
+            // On the other hand, a (child class) Standalone session must have a session price.
+        }
 
-        protected PricingData BackfillMissingValuesFromService(PricingData sessionPricing, PricingData servicePricing)
+        protected virtual PricingCommand BackfillMissingValuesFromService(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
         {
             if (sessionPricing == null)
-                return servicePricing ?? new PricingData();
+            {
+                if (servicePricing == null)
+                    return new PricingCommand();
+                return new PricingCommand(servicePricing.SessionPrice);
+            }
 
             if (servicePricing != null && !sessionPricing.SessionPrice.HasValue)
                 sessionPricing.SessionPrice = servicePricing.SessionPrice;

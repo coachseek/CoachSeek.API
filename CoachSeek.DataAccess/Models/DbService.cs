@@ -11,7 +11,7 @@ namespace CoachSeek.DataAccess.Models
 
         public DbServiceTiming Timing { get; set; }
         public DbServiceBooking Booking { get; set; }
-        public DbPricing Pricing { get; set; }
+        public DbRepeatedSessionPricing Pricing { get; set; }
         public DbRepetition Repetition { get; set; }
         public DbPresentation Presentation { get; set; }
     }

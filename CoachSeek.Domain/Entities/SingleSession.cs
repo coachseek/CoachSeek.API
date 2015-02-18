@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -14,20 +15,21 @@ namespace CoachSeek.Domain.Entities
     {
         protected SingleSessionPricing _pricing;
 
-        public PricingData Pricing { get { return _pricing.ToData(); } }
+        public SingleSessionPricingData Pricing { get { return _pricing.ToData(); } }
 
         public PointInTime Start { get { return _timing.Start; } }
         public PointInTime Finish { get { return _timing.Finish; } }
 
 
-        //public SingleSession(SessionData data)
-        //{
-        //    Id = data.Id;
-        //    _location = new Location(data.Location);
-        //    _coach = new Coach(data.Coach);
-        //}
+        public SingleSession(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
+            : base(command, location, coach, service)
+        { }
 
-        public SingleSession(SessionData data, LocationData location, CoachData coach, ServiceData service)
+        public SingleSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+            : base(command, location, coach, service)
+        { }
+
+        public SingleSession(SingleSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing)
         { }
 
@@ -38,45 +40,11 @@ namespace CoachSeek.Domain.Entities
                        SessionTimingData timing,
                        SessionBookingData booking,
                        PresentationData presentation,
-                       PricingData pricing)
+                       SingleSessionPricingData pricing)
+            : base(id, location, coach, service, timing, booking, presentation)
         {
-            Id = id;
-
-            Validate(location, coach, service, timing, booking, presentation, pricing);
+            _pricing = new SingleSessionPricing(pricing.SessionPrice);
         }
-
-        private void Validate(LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionTimingData timing,
-                       SessionBookingData booking,
-                       PresentationData presentation,
-                       PricingData pricing)
-        {
-            var errors = new ValidationException();
-
-            ValidateAndCreateLocation(location, errors);
-            ValidateAndCreateCoach(coach, errors);
-            ValidateAndCreateService(service, errors);
-            ValidateAndCreateSessionTiming(timing, service.Timing, errors);
-            ValidateAndCreateSessionBooking(booking, service.Booking, errors);
-            ValidateAndCreateSessionPresentation(presentation, service.Presentation, errors);
-            ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-
-            ValidateAdditional(errors, location, coach, service, timing, booking, presentation, pricing);
-
-            errors.ThrowIfErrors();
-        }
-
-        protected virtual void ValidateAdditional(ValidationException errors, 
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionTimingData timing,
-                       SessionBookingData booking,
-                       PresentationData presentation,
-                       PricingData pricing)
-        { }
 
 
         public override bool IsOverlapping(Session otherSession)
@@ -95,14 +63,14 @@ namespace CoachSeek.Domain.Entities
             return pointInTime.IsAfter(Start) && Finish.IsAfter(pointInTime);
         }
 
-        public override SessionData ToData()
+        public SingleSessionData ToData()
         {
-            return Mapper.Map<SingleSession, SessionData>(this);
+            return Mapper.Map<SingleSession, SingleSessionData>(this);
         }
 
         public SingleSession Clone()
         {
-            var sessionData = ToData();
+            var sessionData = (SingleSessionData)ToData();
             sessionData.Id = Guid.NewGuid();
 
             return new SingleSession(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
@@ -110,7 +78,7 @@ namespace CoachSeek.Domain.Entities
 
         public SingleSession Clone(Date startDate)
         {
-            var sessionData = ToData();
+            var sessionData = (SingleSessionData)ToData();
             sessionData.Id = Guid.NewGuid();
 
             var timing = sessionData.Timing;
@@ -139,8 +107,16 @@ namespace CoachSeek.Domain.Entities
             return repeatedSession.Sessions.Any(IsOverlapping);
         }
 
+        protected override void ValidateAdditional(ValidationException errors,
+                       LocationData location,
+                       CoachData coach,
+                       ServiceData service,
+                       SessionAddCommand command)
+        {
+            ValidateAndCreateSessionPricing(command.Pricing, service.Pricing, errors);
+        }
 
-        private void ValidateAndCreateSessionPricing(PricingData sessionPricing, PricingData servicePricing, ValidationException errors)
+        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing, ValidationException errors)
         {
             try
             {

@@ -74,22 +74,21 @@ namespace CoachSeek.Domain.Tests.Unit.Services
                 Repetition = new RepetitionData { SessionCount = 1 },
                 Timing = new ServiceTimingData { Duration = 105 },
                 Booking = new ServiceBookingData { StudentCapacity = 17, IsOnlineBookable = true },
-                Pricing = new PricingData { SessionPrice = 25 },
+                Pricing = new RepeatedSessionPricingData { SessionPrice = 25 },
                 Presentation = new PresentationData { Colour = "Red" },
             };
         }
 
-        private SessionData CreateValidSingleSession()
+        private SingleSessionData CreateValidSingleSession()
         {
-            return new SessionData
+            return new SingleSessionData
             {
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_ID) },
                 Timing = new SessionTimingData { StartDate = GetDateFormatOneWeekOut(), StartTime = "13:45", Duration = 75 },
                 Booking = new SessionBookingData { StudentCapacity = 12, IsOnlineBookable = true },
-                Repetition = new RepetitionData { SessionCount = 1 },
-                Pricing = new PricingData { SessionPrice = 16.5m },
+                Pricing = new SingleSessionPricingData { SessionPrice = 16.5m },
                 Presentation = new PresentationData { Colour = "Red" }
             };
         }
@@ -212,7 +211,6 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             var pricing = session.Pricing;
             Assert.That(pricing, Is.Not.Null);
             Assert.That(pricing.SessionPrice, Is.EqualTo(16.5m));
-            Assert.That(pricing.CoursePrice, Is.Null);
         }
     }
 }

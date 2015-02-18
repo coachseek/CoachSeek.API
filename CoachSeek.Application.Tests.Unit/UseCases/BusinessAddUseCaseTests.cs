@@ -49,13 +49,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenBusinessAddFailsWithMissingBusinessError(response);
         }
 
-        //[Test]
-        //public void GivenBusinessNameTooLong_WhenAddBusiness_ThenBusinessAddFailsWithMissingBusinessError()
-        //{
-        //    var command = GivenNoBusinessAddCommand();
-        //    var response = WhenAddBusiness(command);
-        //    ThenBusinessAddFailsWithMissingBusinessError(response);
-        //}
 
         [Test]
         public void GivenAValidBusinessName_WhenAddBusiness_ThenBusinessAddSucceeds()

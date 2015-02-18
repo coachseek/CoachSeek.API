@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -11,7 +12,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenNegativeSessionPrice_WhenConstruct_ThenThrowValidationException()
         {
-            var sessionPricing = new PricingData(-10, null);
+            var sessionPricing = new PricingCommand(-10, null);
             var response = WhenConstruct(sessionPricing, null);
             AssertSingleError(response, "The sessionPrice field is not valid.", "session.pricing.sessionPrice");
         }
@@ -20,7 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void GivenCoursePrice_WhenConstruct_ThenThrowValidationException()
         {
             // A StandaloneSession is standalone and so should never have a CoursePrice passed in.
-            var sessionPricing = new PricingData(10, 100);
+            var sessionPricing = new PricingCommand(10, 100);
             var response = WhenConstruct(sessionPricing, null);
             AssertSingleError(response, "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
         }
@@ -28,7 +29,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenMultipleErrorsInSessionPricing_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
         {
-            var sessionPricing = new PricingData(-10, 100);
+            var sessionPricing = new PricingCommand(-10, 100);
             var response = WhenConstruct(sessionPricing, null);
             AssertMultipleErrors(response, new[,] { { "The sessionPrice field is not valid.", "session.pricing.sessionPrice" },
                                                     { "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice" } });
@@ -37,7 +38,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenSessionPrice_WhenConstruct_ThenConstructSessionPricing()
         {
-            var sessionPricing = new PricingData(10, null);
+            var sessionPricing = new PricingCommand(10, null);
             var response = WhenConstruct(sessionPricing, null);
             AssertSessionPricing(response, 10, null);
         }
@@ -52,12 +53,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenMissingSessionPricing_WhenConstruct_ThenFallBackToServicePricing()
         {
-            var servicePricing = new PricingData(15, null);
+            var servicePricing = new SingleSessionPricingData(15);
             var response = WhenConstruct(null, servicePricing);
             AssertSessionPricing(response, 15, null);
         }
 
-        private object WhenConstruct(PricingData sessionPricing, PricingData servicePricing)
+        private object WhenConstruct(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
         {
             try
             {

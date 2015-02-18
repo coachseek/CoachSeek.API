@@ -2,7 +2,7 @@
 
 namespace CoachSeek.DataAccess.Models
 {
-    public class DbSession
+    public abstract class DbSession
     {
         public Guid Id { get; set; }
         public DbServiceKey Service { get; set; }
@@ -11,9 +11,7 @@ namespace CoachSeek.DataAccess.Models
 
         public DbSessionTiming Timing { get; set; }
         public DbSessionBooking Booking { get; set; }
-        public DbPricing Pricing { get; set; }
-        public DbRepetition Repetition { get; set; }
         public DbPresentation Presentation { get; set; }
-
+        public DbRepetition Repetition { get; set; }
     }
 }
