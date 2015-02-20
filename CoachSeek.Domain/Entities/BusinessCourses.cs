@@ -51,10 +51,10 @@ namespace CoachSeek.Domain.Entities
 
         public void Update(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
         {
-            var newCourse = new RepeatedSession(command, location, coach, service);
+            var existingCourse = new RepeatedSession(command, location, coach, service);
 
-            ValidateUpdate(newCourse);
-            ReplaceCourseInCourses(newCourse);
+            ValidateUpdate(existingCourse);
+            ReplaceCourseInCourses(existingCourse);
         }
 
         public void Append(RepeatedSessionData course, LocationData location, CoachData coach, ServiceData service)

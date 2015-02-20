@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
@@ -171,18 +172,19 @@ namespace CoachSeek.Domain.Entities
 
         public SessionData UpdateSession(SessionUpdateCommand command, IBusinessRepository businessRepository)
         {
-            var location = GetLocationById(command.Location.Id, businessRepository);
-            var coach = GetCoachById(command.Coach.Id, businessRepository);
-            var service = GetServiceById(command.Service.Id, businessRepository);
+            var coreData = LookupCoreData(command, businessRepository);
 
-            BusinessSessions.Update(command, location, coach, service);
-            businessRepository.Save(this);
+            var session = GetSessionById(command.Id, businessRepository);
+            if (session.IsExisting())
+                ValidateOrDefaultSessionRepetition(command);
+            else
+                ValidateOrDefaultCourseRepetition(command, businessRepository);
 
-            if (IsStandaloneSession(command, service))
-                return GetSessionById(command.Id, businessRepository);
-            return GetCourseById(command.Id, businessRepository);
+            if (IsStandaloneSession(command, coreData.Service))
+                return UpdateStandaloneSession(command, businessRepository, coreData);
+
+            return UpdateCourse(command, businessRepository, coreData);
         }
-
 
         public BusinessData ToData()
         {
@@ -190,6 +192,58 @@ namespace CoachSeek.Domain.Entities
         }
 
 
+        private CoreData LookupCoreData(SessionUpdateCommand command, IBusinessRepository businessRepository)
+        {
+            var location = GetLocationById(command.Location.Id, businessRepository);
+            var coach = GetCoachById(command.Coach.Id, businessRepository);
+            var service = GetServiceById(command.Service.Id, businessRepository);
+
+            return new CoreData(location, coach, service);
+        }
+
+        private static void ValidateOrDefaultSessionRepetition(SessionUpdateCommand command)
+        {
+            if (command.Repetition == null)
+                command.Repetition = new RepetitionCommand(1);
+            else if (command.Repetition.SessionCount != 1)
+                throw new ValidationException("Cannot change from a standalone session to a course.");
+        }
+
+        private void ValidateOrDefaultCourseRepetition(SessionUpdateCommand command, IBusinessRepository businessRepository)
+        {
+            var course = GetCourseById(command.Id, businessRepository);
+
+            if (course.IsExisting())
+            {
+                if (command.Repetition == null)
+                    command.Repetition = new RepetitionCommand(course.Repetition.SessionCount, 
+                                                               course.Repetition.RepeatFrequency);
+                else if (!IsMatchingExistingRepetition(command.Repetition, course.Repetition))
+                    throw new ValidationException("Cannot change the repetition of a course.");
+            }
+        }
+
+        private bool IsMatchingExistingRepetition(RepetitionCommand newRepetition, RepetitionData existingRepetition)
+        {
+            return newRepetition.SessionCount == existingRepetition.SessionCount
+                   && newRepetition.RepeatFrequency == existingRepetition.RepeatFrequency;
+        }
+
+        private SessionData UpdateStandaloneSession(SessionUpdateCommand command, IBusinessRepository businessRepository, CoreData coreData)
+        {
+            BusinessSessions.Update(command, coreData.Location, coreData.Coach, coreData.Service);
+            businessRepository.Save(this);
+            return GetSessionById(command.Id, businessRepository);
+        }
+
+        private SessionData UpdateCourse(SessionUpdateCommand command, IBusinessRepository businessRepository, CoreData coreData)
+        {
+            throw new ValidationException("Course updates are not working yet.");
+
+            //BusinessCourses.Update(command, coreData.Location, coreData.Coach, coreData.Service);
+            //businessRepository.Save(this);
+            //return GetCourseById(command.Id, businessRepository);
+        }
 
         private static bool IsStandaloneSession(SessionAddCommand command, ServiceData service)
         {
@@ -226,18 +280,12 @@ namespace CoachSeek.Domain.Entities
 
         private SingleSessionData GetSessionById(Guid sessionId, IBusinessRepository businessRepository)
         {
-            var session = businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
-            if (session == null)
-                throw new InvalidSession();
-            return session;
+            return businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
         }
 
         private RepeatedSessionData GetCourseById(Guid courseId, IBusinessRepository businessRepository)
         {
-            var course = businessRepository.Get(Id).Courses.FirstOrDefault(x => x.Id == courseId);
-            if (course == null)
-                throw new InvalidSession();
-            return course;
+            return businessRepository.Get(Id).Courses.FirstOrDefault(x => x.Id == courseId);
         }
 
         private CustomerData GetCustomerById(Guid customerId, IBusinessRepository businessRepository)

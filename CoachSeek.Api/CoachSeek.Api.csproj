@@ -246,7 +246,6 @@
     <Compile Include="Models\Api\Setup\ApiPricing.cs" />
     <Compile Include="Models\Api\Setup\ApiRepetition.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceBooking.cs" />
-    <Compile Include="Models\Api\Setup\ApiServiceDefaults.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceSaveCommand.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiServiceTiming.cs" />

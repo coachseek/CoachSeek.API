@@ -38,9 +38,13 @@ namespace CoachSeek.Application.UseCases
             var courseSessions = SearchForCourseSessions(business, startDate, endDate, coachId, locationId);
             matchingSessions.AddRange(courseSessions);
 
-            return matchingSessions.OrderBy(x => x.Timing.StartDate).ToList();
+            return matchingSessions.OrderBy(x => x.Timing.StartDate).ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
         }
 
+        private static string CreateOrderableStartTime(string startTime)
+        {
+            return startTime.Length == 4 ? string.Format("0{0}", startTime) : startTime;
+        }
 
         private IEnumerable<SingleSessionData> SearchForStandaloneSessions(Business business, string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
         {

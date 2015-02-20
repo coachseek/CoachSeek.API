@@ -32,6 +32,18 @@ namespace CoachSeek.Domain.Entities
             CalculateSingleSessions();
         }
 
+        public RepeatedSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+            : base(command, location, coach, service)
+        {
+            // Calculate the child sessions out for this update command.
+            // Compare those sessions to the ones that already exist for the course.
+            // Copy the updated session properties onto the existing sessions.
+            // If the number of sessions has changed then create new or delete existing sessions. 
+            // Ouch!
+
+            //CalculateSingleSessions();
+        }
+
         public RepeatedSession(RepeatedSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing, data.Sessions)
         { }

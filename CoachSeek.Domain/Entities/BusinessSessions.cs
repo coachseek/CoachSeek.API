@@ -51,10 +51,10 @@ namespace CoachSeek.Domain.Entities
 
         public void Update(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
         {
-            var session = new StandaloneSession(command, location, coach, service);
+            var existingSession = new StandaloneSession(command, location, coach, service);
 
-            ValidateUpdate(session);
-            ReplaceSessionInSessions(session);
+            ValidateUpdate(existingSession);
+            ReplaceSessionInSessions(existingSession);
         }
 
         public void Append(SingleSessionData session, LocationData location, CoachData coach, ServiceData service)

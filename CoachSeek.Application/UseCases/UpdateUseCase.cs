@@ -1,5 +1,4 @@
 ﻿using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -36,9 +35,6 @@ namespace CoachSeek.Application.UseCases
 
         private Response HandleUpdateException(Exception ex)
         {
-            //if (ex is InvalidBusiness)
-            //    return HandleInvalidBusiness();
-
             var response = HandleSpecificException(ex);
             if (response != null)
                 return response;
