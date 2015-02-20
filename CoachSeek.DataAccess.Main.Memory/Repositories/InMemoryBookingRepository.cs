@@ -1,16 +1,12 @@
-﻿using AutoMapper;
-using CoachSeek.Data.Model;
-using CoachSeek.DataAccess.Conversion;
-using CoachSeek.DataAccess.Models;
-using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Entities.Booking;
-using CoachSeek.Domain.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Business = CoachSeek.Domain.Entities.Business;
+using CoachSeek.DataAccess.Main.Memory.Conversion;
+using CoachSeek.DataAccess.Models;
+using CoachSeek.Domain.Entities.Booking;
+using CoachSeek.Domain.Repositories;
 
-namespace CoachSeek.DataAccess.Repositories
+namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
     public class InMemoryBookingRepository : IBookingRepository
     {

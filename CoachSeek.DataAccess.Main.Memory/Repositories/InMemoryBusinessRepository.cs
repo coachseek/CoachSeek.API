@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using CoachSeek.Data.Model;
-using CoachSeek.DataAccess.Conversion;
+using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace CoachSeek.DataAccess.Repositories
+namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
     public class InMemoryBusinessRepository : IBusinessRepository
     {
@@ -29,7 +29,7 @@ namespace CoachSeek.DataAccess.Repositories
             Businesses.Clear();
         }
 
-        public Business Save(NewBusiness newBusiness)
+        public Domain.Entities.Business Save(NewBusiness newBusiness)
         {
             WasSaveNewBusinessCalled = true;
 
@@ -39,7 +39,7 @@ namespace CoachSeek.DataAccess.Repositories
             return newBusiness;
         }
 
-        public Business Save(Business business)
+        public Domain.Entities.Business Save(Domain.Entities.Business business)
         {
             WasSaveBusinessCalled = true;
 
@@ -51,20 +51,20 @@ namespace CoachSeek.DataAccess.Repositories
             return CreateBusiness(updateBusiness);
         }
 
-        public Business Get(Guid id)
+        public Domain.Entities.Business Get(Guid id)
         {
             var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
             return CreateBusiness(dbBusiness);
         }
 
-        public Business GetByDomain(string domain)
+        public Domain.Entities.Business GetByDomain(string domain)
         {
             var dbBusiness = Businesses.FirstOrDefault(x => x.Domain == domain);
             return CreateBusiness(dbBusiness);
         }
 
 
-        private Business CreateBusiness(DbBusiness dbBusiness)
+        private Domain.Entities.Business CreateBusiness(DbBusiness dbBusiness)
         {
             if (dbBusiness == null)
                 return null;
@@ -76,7 +76,7 @@ namespace CoachSeek.DataAccess.Repositories
             var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
             var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
 
-            return new Business(dbBusiness.Id,
+            return new Domain.Entities.Business(dbBusiness.Id,
                 dbBusiness.Name,
                 dbBusiness.Domain,
                 locations,
@@ -136,7 +136,7 @@ namespace CoachSeek.DataAccess.Repositories
 
 
         // Only used for tests to add a business while bypassing the validation that occurs using Save.
-        public Business Add(Business business)
+        public Domain.Entities.Business Add(Domain.Entities.Business business)
         {
             var dbBusiness = DbBusinessConverter.Convert(business);
 

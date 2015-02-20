@@ -1,5 +1,5 @@
 ﻿using System;
-using CoachSeek.DataAccess.Repositories;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;

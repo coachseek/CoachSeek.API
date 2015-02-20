@@ -5,8 +5,8 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
-using CoachSeek.DataAccess.Configuration;
-using CoachSeek.DataAccess.Repositories;
+using CoachSeek.DataAccess.Main.Memory.Configuration;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 

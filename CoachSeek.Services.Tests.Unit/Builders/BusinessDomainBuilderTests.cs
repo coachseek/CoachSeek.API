@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;

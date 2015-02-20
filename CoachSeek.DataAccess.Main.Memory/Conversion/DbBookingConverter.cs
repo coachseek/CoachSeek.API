@@ -4,7 +4,7 @@ using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities.Booking;
 
-namespace CoachSeek.DataAccess.Conversion
+namespace CoachSeek.DataAccess.Main.Memory.Conversion
 {
     public static class DbBookingConverter
     {

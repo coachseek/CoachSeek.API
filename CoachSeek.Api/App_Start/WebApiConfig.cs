@@ -2,7 +2,7 @@
 using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
 using CoachSeek.Application.Configuration;
-using CoachSeek.DataAccess.Configuration;
+using CoachSeek.DataAccess.Main.Memory.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

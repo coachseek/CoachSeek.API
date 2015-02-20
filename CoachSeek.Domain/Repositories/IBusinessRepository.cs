@@ -10,6 +10,5 @@ namespace CoachSeek.Domain.Repositories
 
         Business Get(Guid id);
         Business GetByDomain(string domain);
-        //Business GetByAdminEmail(string email);
     }
 }

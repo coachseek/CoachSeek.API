@@ -1,8 +1,5 @@
-﻿using System;
-using CoachSeek.Common.Extensions;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Contracts.Builders;
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5CAA42FB-B2B7-436A-866F-6DDF367FA567}</ProjectGuid>
+    <ProjectGuid>{23C99F42-6C8D-47A6-AC19-1638C002282A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CoachSeek.Services.Tests.Unit</RootNamespace>
-    <AssemblyName>CoachSeek.Services.Tests.Unit</AssemblyName>
+    <RootNamespace>Coachseek.DataAccess.Main.SqlServer</RootNamespace>
+    <AssemblyName>Coachseek.DataAccess.Main.SqlServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,33 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\BusinessDomainBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
-      <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
-      <Name>CoachSeek.DataAccess.Main.Memory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
-      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
-      <Name>CoachSeek.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
-      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
-      <Name>CoachSeek.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
-      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
-      <Name>CoachSeek.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services\CoachSeek.Services.csproj">
-      <Project>{C9D7784E-1598-4A80-8AA0-AB9DA2B1FA3F}</Project>
-      <Name>CoachSeek.Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

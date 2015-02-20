@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Models;
-using CoachSeek.DataAccess.Conversion;
 using CoachSeek.DataAccess.Models;
-using CoachSeek.Domain.Entities;
 
-namespace CoachSeek.DataAccess.Configuration
+namespace CoachSeek.DataAccess.Main.Memory.Configuration
 {
     public static class DbAutoMapperConfigurator
     {

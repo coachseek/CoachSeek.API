@@ -5,7 +5,7 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
-using CoachSeek.DataAccess.Configuration;
+using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.WebUI.Tests.Unit.Fakes;

@@ -386,9 +386,9 @@
       <Project>{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}</Project>
       <Name>CoachSeek.DataAccess.Authentication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
-      <Project>{8252D160-8B6A-438F-B669-D7B7F3FDA2FE}</Project>
-      <Name>CoachSeek.DataAccess</Name>
+    <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
+      <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
+      <Name>CoachSeek.DataAccess.Main.Memory</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>

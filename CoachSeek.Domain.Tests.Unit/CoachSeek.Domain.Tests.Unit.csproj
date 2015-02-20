@@ -96,9 +96,9 @@
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.DataAccess\CoachSeek.DataAccess.csproj">
-      <Project>{8252d160-8b6a-438f-b669-d7b7f3fda2fe}</Project>
-      <Name>CoachSeek.DataAccess</Name>
+    <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
+      <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
+      <Name>CoachSeek.DataAccess.Main.Memory</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>

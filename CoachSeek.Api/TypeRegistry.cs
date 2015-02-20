@@ -1,7 +1,7 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.UseCases;
-using CoachSeek.DataAccess.Authentication.Repositories;
 using Coachseek.DataAccess.Authentication.TableStorage;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Builders;
