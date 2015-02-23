@@ -225,7 +225,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var command = ((MockLocationAddUseCase)Controller.LocationAddUseCase).Command;
             Assert.That(command, Is.Not.Null);
-            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
             Assert.That(command.Name, Is.EqualTo("High Street Hookers"));
         }
 
@@ -233,7 +232,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             var command = ((MockLocationUpdateUseCase)Controller.LocationUpdateUseCase).Command;
             Assert.That(command, Is.Not.Null);
-            Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
+
             Assert.That(command.Id, Is.EqualTo(new Guid(LOCATION_ID)));
             Assert.That(command.Name, Is.EqualTo("High Street Hookers"));
         }

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
@@ -15,11 +16,6 @@ namespace CoachSeek.Application.UseCases
             BusinessRepository = businessRepository;
         }
 
-
-        //protected Response HandleInvalidBusiness()
-        //{
-        //    return new InvalidBusinessResponse();
-        //}
 
         protected Business GetBusiness(Guid businessId)
         {

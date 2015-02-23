@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Conversion;
+using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
@@ -14,22 +15,46 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
     {
         // Spy behaviour is included
         public bool WasSaveNewBusinessCalled;
-        public bool WasSaveBusinessCalled; 
+        public bool WasSaveBusinessCalled;
 
         public static List<DbBusiness> Businesses { get; private set; }
+        public static Dictionary<Guid, List<DbLocation>> Locations { get; private set; }
 
 
         static InMemoryBusinessRepository()
         {
             Businesses = new List<DbBusiness>();
+
+            Locations = new Dictionary<Guid, List<DbLocation>>();
         }
 
         public void Clear()
         {
             Businesses.Clear();
+
+            Locations.Clear();
         }
 
-        public Domain.Entities.Business Save(NewBusiness newBusiness)
+
+        public Business2Data GetBusiness(Guid businessId)
+        {
+            var business = Businesses.FirstOrDefault(x => x.Id == businessId);
+
+            return Mapper.Map<DbBusiness, Business2Data>(business);
+        }
+
+        public Business2Data AddBusiness(Business2 business)
+        {
+            WasSaveNewBusinessCalled = true;
+
+            var dbBusiness = DbBusinessConverter.Convert(business);
+            Businesses.Add(dbBusiness);
+
+            return GetBusiness(business.Id);
+        }
+
+
+        public Business Save(NewBusiness newBusiness)
         {
             WasSaveNewBusinessCalled = true;
 
@@ -39,7 +64,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return newBusiness;
         }
 
-        public Domain.Entities.Business Save(Domain.Entities.Business business)
+        public Business Save(Business business)
         {
             WasSaveBusinessCalled = true;
 
@@ -51,20 +76,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return CreateBusiness(updateBusiness);
         }
 
-        public Domain.Entities.Business Get(Guid id)
+        public Business Get(Guid id)
         {
             var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
             return CreateBusiness(dbBusiness);
         }
 
-        public Domain.Entities.Business GetByDomain(string domain)
+        public bool IsAvailableDomain(string domain)
         {
             var dbBusiness = Businesses.FirstOrDefault(x => x.Domain == domain);
-            return CreateBusiness(dbBusiness);
+            return dbBusiness == null;
         }
 
 
-        private Domain.Entities.Business CreateBusiness(DbBusiness dbBusiness)
+        private Business CreateBusiness(DbBusiness dbBusiness)
         {
             if (dbBusiness == null)
                 return null;
@@ -76,7 +101,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
             var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
 
-            return new Domain.Entities.Business(dbBusiness.Id,
+            return new Business(dbBusiness.Id,
                 dbBusiness.Name,
                 dbBusiness.Domain,
                 locations,
@@ -136,12 +161,60 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
 
         // Only used for tests to add a business while bypassing the validation that occurs using Save.
-        public Domain.Entities.Business Add(Domain.Entities.Business business)
+        public Business Add(Business business)
         {
             var dbBusiness = DbBusinessConverter.Convert(business);
 
             Businesses.Add(dbBusiness);
             return business;
+        }
+
+
+        public LocationData GetLocation(Guid businessId, Guid locationId)
+        {
+            var businessLocations = GetAllLocations(businessId);
+
+            return businessLocations.FirstOrDefault(x => x.Id == locationId);
+        }
+
+        public IList<LocationData> GetAllLocations(Guid businessId)
+        {
+            var dbLocations = GetAllDbLocations(businessId);
+
+            return Mapper.Map<IList<DbLocation>, IList<LocationData>>(dbLocations);
+        }
+
+        public LocationData AddLocation(Guid businessId, Location location)
+        {
+            var dbLocation = Mapper.Map<Location, DbLocation>(location);
+
+            var dbLocations = GetAllDbLocations(businessId);
+            dbLocations.Add(dbLocation);
+
+            Locations[businessId] = dbLocations;
+
+            return GetLocation(businessId, location.Id);
+        }
+
+        public LocationData UpdateLocation(Guid businessId, Location location)
+        {
+            var dbLocation = Mapper.Map<Location, DbLocation>(location);
+
+            var dbLocations = GetAllDbLocations(businessId);
+            var index = dbLocations.FindIndex(x => x.Id == location.Id);
+            dbLocations[index] = dbLocation;
+            Locations[businessId] = dbLocations;
+
+            return GetLocation(businessId, location.Id);
+        }
+
+
+        private List<DbLocation> GetAllDbLocations(Guid businessId)
+        {
+            List<DbLocation> businessLocations;
+            return Locations.TryGetValue(businessId, out businessLocations)
+                ? businessLocations
+                : new List<DbLocation>();
         }
     }
 }

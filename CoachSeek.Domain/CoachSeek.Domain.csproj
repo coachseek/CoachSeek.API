@@ -91,6 +91,7 @@
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\Booking\Business.cs" />
+    <Compile Include="Entities\Business2.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\Booking\BusinessBookings.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Entities\Booking\Booking.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Booking\NewBooking.cs" />
+    <Compile Include="Entities\NewBusiness2.cs" />
     <Compile Include="Entities\NewCustomer.cs" />
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />

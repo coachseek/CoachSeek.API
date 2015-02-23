@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -18,6 +19,10 @@ namespace CoachSeek.Domain.Entities
 
         public Location(LocationData data)
             : this(data.Id, data.Name)
+        { }
+
+        public Location(LocationUpdateCommand command)
+            : this(command.Id, command.Name)
         { }
 
 

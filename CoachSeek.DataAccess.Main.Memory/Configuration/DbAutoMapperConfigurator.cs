@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Models;
+using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
+using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.DataAccess.Main.Memory.Configuration
 {
@@ -11,10 +13,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
         {
             Mapper.CreateMap<BusinessAdminData, DbBusinessAdmin>();
             Mapper.CreateMap<BusinessData, DbBusiness>();
+            Mapper.CreateMap<Business2, DbBusiness>();
             Mapper.CreateMap<CoachData, DbCoach>();
             Mapper.CreateMap<CoachKeyData, DbCoachKey>();
             Mapper.CreateMap<CustomerData, DbCustomer>();
             Mapper.CreateMap<DailyWorkingHoursData, DbDailyWorkingHours>();
+            Mapper.CreateMap<Location, DbLocation>();
             Mapper.CreateMap<LocationData, DbLocation>();
             Mapper.CreateMap<LocationKeyData, DbLocationKey>();
             Mapper.CreateMap<PresentationData, DbPresentation>();
@@ -24,6 +28,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<ServiceKeyData, DbServiceKey>();
             Mapper.CreateMap<ServiceTimingData, DbServiceTiming>();
             Mapper.CreateMap<SessionBookingData, DbSessionBooking>();
+
+
 
 
             Mapper.CreateMap<SingleSessionData, DbSingleSession>();
@@ -49,7 +55,9 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<DbRepeatedSessionPricing, RepeatedSessionPricingData>();
 
 
+
             Mapper.CreateMap<DbBusiness, BusinessData>();
+            Mapper.CreateMap<DbBusiness, Business2Data>();
             Mapper.CreateMap<DbBusinessAdmin, BusinessAdminData>();
             Mapper.CreateMap<DbCoach, CoachData>();
             Mapper.CreateMap<DbCoachKey, CoachKeyData>();
@@ -58,6 +66,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<DbLocation, LocationData>();
             Mapper.CreateMap<DbLocationKey, LocationKeyData>();
             Mapper.CreateMap<DbPresentation, PresentationData>();
+
 
             Mapper.CreateMap<DbRepetition, RepetitionData>();
             Mapper.CreateMap<DbService, ServiceData>();

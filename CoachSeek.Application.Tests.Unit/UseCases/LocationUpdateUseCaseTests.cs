@@ -62,19 +62,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return null;
         }
 
-        private LocationUpdateCommand GivenNonExistentBusiness()
-        {
-            return new LocationUpdateCommand
-            {
-                BusinessId = new Guid(INVALID_BUSINESS_ID)
-            };
-        }
-
         private LocationUpdateCommand GivenNonExistentLocation()
         {
             return new LocationUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(LOCATION_REMUERA_ID),
                 Name = "Remuera Tennis Club"
             };
@@ -85,7 +76,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             // Note: We are intentionally using Orakei's Id and Browns Bay's Name.
             return new LocationUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(LOCATION_ORAKEI_ID),
                 Name = "  Browns Bay Racquets Club   "
             };
@@ -95,7 +85,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new LocationUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(LOCATION_BROWNS_BAY_ID),
                 Name = "  Browns Bay Tennis & Squash Club  "
             };
@@ -103,7 +92,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenUpdateLocation(LocationUpdateCommand request)
         {
-            var useCase = new LocationUpdateUseCase(BusinessRepository);
+            var useCase = new LocationUpdateUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
 
             return useCase.UpdateLocation(request);
         }

@@ -1,12 +1,10 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
 {
-    public class LocationAddCommand : IBusinessIdable
+    public class LocationAddCommand
     {
-        public Guid BusinessId { get; set; }
         public string Name { get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 
@@ -9,6 +10,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         public bool WasUpdateLocationCalled;
         public LocationUpdateCommand Command;
         public Response Response;
+
+        public Guid BusinessId { set; get; }
 
 
         public Response UpdateLocation(LocationUpdateCommand command)

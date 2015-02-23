@@ -28,13 +28,15 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
-                var newBusiness = new NewBusiness(command, BusinessDomainBuilder);
-                var business = newBusiness.Register(BusinessRepository);
-                return new Response(business);
+                var newBusiness = new NewBusiness2(command, BusinessDomainBuilder);
+                var data = BusinessRepository.AddBusiness(newBusiness);
+                return new Response(data);
             }
             catch (Exception ex)
             {
-                return HandleBusinessRegistrationException(ex);
+                if (ex is DuplicateBusinessAdmin)
+                    return new DuplicateBusinessAdminErrorResponse();
+                throw;
             }
         }
 

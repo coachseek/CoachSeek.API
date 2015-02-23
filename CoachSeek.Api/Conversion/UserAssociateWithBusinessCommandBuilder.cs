@@ -5,7 +5,7 @@ namespace CoachSeek.Api.Conversion
 {
     public static class UserAssociateWithBusinessCommandBuilder
     {
-        public static UserAssociateWithBusinessCommand BuildCommand(UserData user, BusinessData business)
+        public static UserAssociateWithBusinessCommand BuildCommand(UserData user, Business2Data business)
         {
             return new UserAssociateWithBusinessCommand
             {

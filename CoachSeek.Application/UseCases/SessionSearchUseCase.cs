@@ -13,6 +13,7 @@ namespace CoachSeek.Application.UseCases
     {
         public Guid BusinessId { get; set; }
 
+
         private ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         private ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
 

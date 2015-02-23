@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Entities
 
         public BusinessLocations()
         {
-            Locations = new List<Location>();
+            //Locations = new List<Location>();
         }
 
         public BusinessLocations(IEnumerable<LocationData> locations) 

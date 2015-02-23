@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;
@@ -16,8 +15,7 @@ namespace CoachSeek.Application.UseCases
 
         public LocationData GetLocation(Guid id)
         {
-            var business = GetBusiness(BusinessId);
-            return business.Locations.SingleOrDefault(x => x.Id == id);
+            return BusinessRepository.GetLocation(BusinessId, id);
         }
     }
 }

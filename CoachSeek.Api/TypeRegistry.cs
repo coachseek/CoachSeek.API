@@ -2,6 +2,7 @@
 using CoachSeek.Application.UseCases;
 using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
+using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Services.Builders;
@@ -18,14 +19,17 @@ namespace CoachSeek.Api
         {
             For<IUserRepository>().Use<AzureTableUserRepository>();
             //For<IUserRepository>().Use<InMemoryUserRepository>();
-            For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
+
+            For<IBusinessRepository>().Use<DbBusinessRepository>();
+            //For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
+
             For<IBookingRepository>().Use<InMemoryBookingRepository>();
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
 
             For<IBusinessDomainBuilder>().Use<BusinessDomainBuilder>();
             For<IBusinessRegistrationEmailer>().Use<StubBusinessRegistrationEmailer>();
 
-            For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
+            //For<IBusinessGetByDomainUseCase>().Use<BusinessGetByDomainUseCase>();
 
             For<IBusinessAddUseCase>().Use<BusinessAddUseCase>();
 

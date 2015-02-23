@@ -67,14 +67,16 @@ namespace CoachSeek.Api.Controllers
         
         private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationAddCommandConverter.Convert(BusinessId, location);
+            var command = LocationAddCommandConverter.Convert(location);
+            LocationAddUseCase.BusinessId = BusinessId;
             var response = LocationAddUseCase.AddLocation(command);
             return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
-            var command = LocationUpdateCommandConverter.Convert(BusinessId, location);
+            var command = LocationUpdateCommandConverter.Convert(location);
+            LocationUpdateUseCase.BusinessId = BusinessId; 
             var response = LocationUpdateUseCase.UpdateLocation(command);
             return CreatePostWebResponse(response);
         }

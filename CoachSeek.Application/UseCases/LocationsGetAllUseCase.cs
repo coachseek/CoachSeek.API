@@ -17,8 +17,7 @@ namespace CoachSeek.Application.UseCases
 
         public IList<LocationData> GetLocations()
         {
-            var business = GetBusiness(BusinessId);
-            return business.Locations.OrderBy(x => x.Name).ToList();
+            return BusinessRepository.GetAllLocations(BusinessId);
         }
     }
 }

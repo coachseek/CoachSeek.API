@@ -9,10 +9,5 @@
         {
             return "location";
         }
-
-        //public string GetBusinessIdPath()
-        //{
-        //    return "location.businessId";
-        //}
     }
 }

@@ -59,6 +59,7 @@ namespace CoachSeek.Domain.Entities
         public Business()
         {
             Id = Guid.NewGuid();
+
             BusinessLocations = new BusinessLocations();
             BusinessCoaches = new BusinessCoaches();
             BusinessServices = new BusinessServices();
@@ -77,14 +78,6 @@ namespace CoachSeek.Domain.Entities
             Id = id;
         }
 
-
-        //public IEnumerable<SessionData> SearchForSessions(Date searchStartDate, Date searchEndDate, IBusinessRepository businessRepository)
-        //{
-        //    var session = businessRepository.Get(Id).Sessions.FirstOrDefault(x => x.Id == sessionId);
-        //    if (session == null)
-        //        throw new InvalidSession();
-        //    return session;
-        //}
 
         public LocationData AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
         {

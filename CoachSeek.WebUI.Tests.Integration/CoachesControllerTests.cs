@@ -4,6 +4,7 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
+using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.DataAccess.Models;
 using NUnit.Framework;

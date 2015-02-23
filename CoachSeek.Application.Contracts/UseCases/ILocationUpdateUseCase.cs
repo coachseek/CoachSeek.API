@@ -1,10 +1,13 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ILocationUpdateUseCase
     {
+        Guid BusinessId { set; }
+
         Response UpdateLocation(LocationUpdateCommand command);
     }
 }

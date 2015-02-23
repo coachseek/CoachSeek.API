@@ -52,19 +52,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return null;
         }
 
-        private LocationAddCommand GivenNonExistentBusiness()
-        {
-            return new LocationAddCommand
-            {
-                BusinessId = new Guid(INVALID_BUSINESS_ID)
-            };
-        }
-
         private LocationAddCommand GivenExistingLocation()
         {
             return new LocationAddCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Name = "  oraKei Tennis Club  "
             };
         }
@@ -73,14 +64,13 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new LocationAddCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Name = "Mt Roskill Squash Club"
             };
         }
 
         private Response WhenAddLocation(LocationAddCommand command)
         {
-            var useCase = new LocationAddUseCase(BusinessRepository);
+            var useCase = new LocationAddUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
 
             return useCase.AddLocation(command);
         }
@@ -88,12 +78,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenLocationAddFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
-            AssertSaveBusinessIsNotCalled();
-        }
-
-        private void ThenLocationAddFailsWithInvalidBusinessError(Response response)
-        {
-            AssertInvalidBusinessError(response);
             AssertSaveBusinessIsNotCalled();
         }
 

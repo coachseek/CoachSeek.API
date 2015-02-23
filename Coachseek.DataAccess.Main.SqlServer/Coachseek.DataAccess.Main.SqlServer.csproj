@@ -40,6 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DbBusinessRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
+      <Name>CoachSeek.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

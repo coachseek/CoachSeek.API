@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -7,6 +8,10 @@ namespace CoachSeek.Domain.Entities
     {
         public NewLocation(string name)
             : base(Guid.NewGuid(), name)
+        { }
+
+        public NewLocation(LocationAddCommand command)
+            : this(command.Name)
         { }
 
         public NewLocation(NewLocationData data)
