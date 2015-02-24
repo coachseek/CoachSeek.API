@@ -67,14 +67,16 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddCoach(ApiCoachSaveCommand coach)
         {
-            var command = CoachAddCommandConverter.Convert(BusinessId, coach);
+            var command = CoachAddCommandConverter.Convert(coach);
+            CoachAddUseCase.BusinessId = BusinessId;
             var response = CoachAddUseCase.AddCoach(command);
             return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coach)
         {
-            var command = CoachUpdateCommandConverter.Convert(BusinessId, coach);
+            var command = CoachUpdateCommandConverter.Convert(coach);
+            CoachUpdateUseCase.BusinessId = BusinessId;
             var response = CoachUpdateUseCase.UpdateCoach(command);
             return CreatePostWebResponse(response);
         }

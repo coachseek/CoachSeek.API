@@ -22,5 +22,10 @@ namespace CoachSeek.Domain.Repositories
         LocationData GetLocation(Guid businessId, Guid locationId);
         LocationData AddLocation(Guid businessId, Location location);
         LocationData UpdateLocation(Guid businessId, Location location);
+
+        IList<CoachData> GetAllCoaches(Guid businessId);
+        CoachData GetCoach(Guid businessId, Guid coachId);
+        CoachData AddCoach(Guid businessId, Coach coach);
+        CoachData UpdateCoach(Guid businessId, Coach coach);
     }
 }

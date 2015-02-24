@@ -16,8 +16,7 @@ namespace CoachSeek.Application.UseCases
 
         public CoachData GetCoach(Guid id)
         {
-            var business = GetBusiness(BusinessId);
-            return business.Coaches.SingleOrDefault(x => x.Id == id);
+            return BusinessRepository.GetCoach(BusinessId, id);
         }
     }
 }

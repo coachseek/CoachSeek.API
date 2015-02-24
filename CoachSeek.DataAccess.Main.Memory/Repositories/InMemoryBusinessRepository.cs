@@ -19,6 +19,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public static List<DbBusiness> Businesses { get; private set; }
         public static Dictionary<Guid, List<DbLocation>> Locations { get; private set; }
+        public static Dictionary<Guid, List<DbCoach>> Coaches { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -26,6 +27,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses = new List<DbBusiness>();
 
             Locations = new Dictionary<Guid, List<DbLocation>>();
+            Coaches = new Dictionary<Guid, List<DbCoach>>();
         }
 
         public void Clear()
@@ -33,6 +35,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses.Clear();
 
             Locations.Clear();
+            Coaches.Clear();
         }
 
 
@@ -170,18 +173,18 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public LocationData GetLocation(Guid businessId, Guid locationId)
-        {
-            var businessLocations = GetAllLocations(businessId);
-
-            return businessLocations.FirstOrDefault(x => x.Id == locationId);
-        }
-
         public IList<LocationData> GetAllLocations(Guid businessId)
         {
             var dbLocations = GetAllDbLocations(businessId);
 
             return Mapper.Map<IList<DbLocation>, IList<LocationData>>(dbLocations);
+        }
+
+        public LocationData GetLocation(Guid businessId, Guid locationId)
+        {
+            var businessLocations = GetAllLocations(businessId);
+
+            return businessLocations.FirstOrDefault(x => x.Id == locationId);
         }
 
         public LocationData AddLocation(Guid businessId, Location location)
@@ -209,12 +212,59 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public IList<CoachData> GetAllCoaches(Guid businessId)
+        {
+            var dbCoaches = GetAllDbCoaches(businessId);
+
+            return Mapper.Map<IList<DbCoach>, IList<CoachData>>(dbCoaches);
+        }
+
+        public CoachData GetCoach(Guid businessId, Guid coachId)
+        {
+            var businessCoaches = GetAllCoaches(businessId);
+
+            return businessCoaches.FirstOrDefault(x => x.Id == coachId);
+        }
+
+        public CoachData AddCoach(Guid businessId, Coach coach)
+        {
+            var dbCoach = Mapper.Map<Coach, DbCoach>(coach);
+
+            var dbCoaches = GetAllDbCoaches(businessId);
+            dbCoaches.Add(dbCoach);
+
+            Coaches[businessId] = dbCoaches;
+
+            return GetCoach(businessId, coach.Id);
+        }
+
+        public CoachData UpdateCoach(Guid businessId, Coach coach)
+        {
+            var dbCoach = Mapper.Map<Coach, DbCoach>(coach);
+
+            var dbCoaches = GetAllDbCoaches(businessId);
+            var index = dbCoaches.FindIndex(x => x.Id == coach.Id);
+            dbCoaches[index] = dbCoach;
+            Coaches[businessId] = dbCoaches;
+
+            return GetCoach(businessId, coach.Id);
+        }
+
+
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {
             List<DbLocation> businessLocations;
             return Locations.TryGetValue(businessId, out businessLocations)
                 ? businessLocations
                 : new List<DbLocation>();
+        }
+
+        private List<DbCoach> GetAllDbCoaches(Guid businessId)
+        {
+            List<DbCoach> businessCoaches;
+            return Coaches.TryGetValue(businessId, out businessCoaches)
+                ? businessCoaches
+                : new List<DbCoach>();
         }
     }
 }

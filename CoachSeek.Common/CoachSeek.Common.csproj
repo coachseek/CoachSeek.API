@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="NoBusinessPrincipal.cs" />
     <Compile Include="CoachseekIdentity.cs" />
     <Compile Include="ErrorCodes.cs" />

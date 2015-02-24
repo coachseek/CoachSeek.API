@@ -17,8 +17,7 @@ namespace CoachSeek.Application.UseCases
 
         public IList<CoachData> GetCoaches()
         {
-            var business = GetBusiness(BusinessId);
-            return business.Coaches.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+            return BusinessRepository.GetAllCoaches(BusinessId);
         }
     }
 }

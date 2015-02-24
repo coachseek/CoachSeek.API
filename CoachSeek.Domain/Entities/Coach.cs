@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -21,6 +22,15 @@ namespace CoachSeek.Domain.Entities
         private WeeklyWorkingHours WeeklyWorkingHours { get; set; }
 
 
+        public Coach(Guid id, string firstName, string lastName, string email, string phone, WeeklyWorkingHoursCommand workingHoursCommand)
+        {
+            Id = id;
+            Person = new PersonName(firstName, lastName);
+            EmailAddress = new EmailAddress(email);
+            PhoneNumber = new PhoneNumber(phone);
+            WeeklyWorkingHours = new WeeklyWorkingHours(workingHoursCommand);
+        }
+
         public Coach(Guid id, string firstName, string lastName, string email, string phone, WeeklyWorkingHoursData workingHoursData)
         {
             Id = id;
@@ -31,12 +41,21 @@ namespace CoachSeek.Domain.Entities
         }
 
         public Coach(CoachData data)
-            : this(data.Id, 
-                   data.FirstName, 
-                   data.LastName, 
-                   data.Email, 
+            : this(data.Id,
+                   data.FirstName,
+                   data.LastName,
+                   data.Email,
                    data.Phone,
                    data.WorkingHours)
+        { }
+
+        public Coach(CoachUpdateCommand command)
+            : this(command.Id,
+                   command.FirstName,
+                   command.LastName,
+                   command.Email,
+                   command.Phone,
+                   command.WorkingHours)
         { }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -20,6 +21,14 @@ namespace CoachSeek.Domain.Entities
                 CreateAvailableWorkingHours(data.StartTime, data.FinishTime);
             else
                 CreateUnavailableWorkingHours(data.StartTime, data.FinishTime);
+        }
+
+        public DailyWorkingHours(DailyWorkingHoursCommand command)
+        {
+            if (command.IsAvailable)
+                CreateAvailableWorkingHours(command.StartTime, command.FinishTime);
+            else
+                CreateUnavailableWorkingHours(command.StartTime, command.FinishTime);
         }
 
 
