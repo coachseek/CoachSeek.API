@@ -4,6 +4,8 @@ namespace CoachSeek.Domain.Entities
 {
     public class Colour
     {
+        public static string Default { get { return "green"; } }
+
         private readonly string _colour;
 
         public string Colouration { get { return _colour; } }

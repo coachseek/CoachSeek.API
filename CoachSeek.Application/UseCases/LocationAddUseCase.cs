@@ -35,6 +35,9 @@ namespace CoachSeek.Application.UseCases
             {
                 if (ex is DuplicateLocation)
                     return new DuplicateLocationErrorResponse();
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
                 throw;
             }
         }

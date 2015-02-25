@@ -37,6 +37,7 @@ namespace CoachSeek.Application.UseCases
                     return new DuplicateCoachErrorResponse();
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
+
                 throw;
             }
         }

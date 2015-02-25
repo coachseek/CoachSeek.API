@@ -71,19 +71,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return null;
         }
 
-        private CoachUpdateCommand GivenNonExistentBusiness()
-        {
-            return new CoachUpdateCommand
-            {
-                BusinessId = new Guid(INVALID_BUSINESS_ID)
-            };
-        }
-
         private CoachUpdateCommand GivenNonExistentCoach()
         {
             return new CoachUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(COACH_WARREN_ID),
                 FirstName = "Warren",
                 LastName = "Buffett",
@@ -98,7 +89,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             // Note: We are intentionally using Albert's Id and Bill's Name.
             return new CoachUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Bill",
                 LastName = "Gates",
@@ -112,7 +102,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Albert E.",
                 LastName = "Neuman",
@@ -126,7 +115,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachUpdateCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Albert E.",
                 LastName = "Neuman",
@@ -153,7 +141,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenUpdateCoach(CoachUpdateCommand command)
         {
-            var useCase = new CoachUpdateUseCase(BusinessRepository);
+            var useCase = new CoachUpdateUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
 
             return useCase.UpdateCoach(command);
         }

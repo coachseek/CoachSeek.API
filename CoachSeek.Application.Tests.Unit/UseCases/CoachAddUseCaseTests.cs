@@ -59,19 +59,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return null;
         }
 
-        private CoachAddCommand GivenNonExistentBusiness()
-        {
-            return new CoachAddCommand
-            {
-                BusinessId = new Guid(INVALID_BUSINESS_ID)
-            };
-        }
-
         private CoachAddCommand GivenExistingCoach()
         {
             return new CoachAddCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "  Bill",
                 LastName = "Gates  ",
                 Email = " bgates@Gmail.Com ",
@@ -84,7 +75,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachAddCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "Bob",
                 LastName = "Marley",
                 Email = "  Bob.Marley@wailers.com",
@@ -97,7 +87,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new CoachAddCommand
             {
-                BusinessId = new Guid(BUSINESS_ID),
                 FirstName = "Steve  ",
                 LastName = "  Jobs",
                 Email = "  Steve.Jobs@APPLE.com",
@@ -123,7 +112,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddCoach(CoachAddCommand command)
         {
-            var useCase = new CoachAddUseCase(BusinessRepository);
+            var useCase = new CoachAddUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
 
             return useCase.AddCoach(command);
         }

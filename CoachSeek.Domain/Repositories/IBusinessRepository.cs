@@ -27,5 +27,10 @@ namespace CoachSeek.Domain.Repositories
         CoachData GetCoach(Guid businessId, Guid coachId);
         CoachData AddCoach(Guid businessId, Coach coach);
         CoachData UpdateCoach(Guid businessId, Coach coach);
+
+        IList<ServiceData> GetAllServices(Guid businessId);
+        ServiceData GetService(Guid businessId, Guid serviceId);
+        ServiceData AddService(Guid businessId, Service service);
+        ServiceData UpdateService(Guid businessId, Service service);
     }
 }

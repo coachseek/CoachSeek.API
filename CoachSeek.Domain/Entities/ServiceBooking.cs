@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -15,6 +16,10 @@ namespace CoachSeek.Domain.Entities
 
         public ServiceBooking(ServiceBookingData data)
             : this(data.StudentCapacity, data.IsOnlineBookable)
+        { }
+
+        public ServiceBooking(ServiceBookingCommand command)
+            : this(command.StudentCapacity, command.IsOnlineBookable)
         { }
 
         public ServiceBooking(int? studentCapacity, bool? isOnlineBookable)

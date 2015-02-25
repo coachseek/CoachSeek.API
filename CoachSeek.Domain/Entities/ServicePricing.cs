@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -18,9 +19,21 @@ namespace CoachSeek.Domain.Entities
             ValidateAndSetPrices(pricingData);
         }
 
+        public ServicePricing(PricingCommand pricingCommand)
+        {
+            ValidateHavePrices(pricingCommand);
+            ValidateAndSetPrices(pricingCommand);
+        }
+
         private void ValidateHavePrices(RepeatedSessionPricingData pricingData)
         {
             if (!pricingData.SessionPrice.HasValue && !pricingData.CoursePrice.HasValue)
+                throw new ValidationException("This service is priced but has neither sessionPrice nor coursePrice.", "service.pricing");
+        }
+
+        private void ValidateHavePrices(PricingCommand pricingCommand)
+        {
+            if (!pricingCommand.SessionPrice.HasValue && !pricingCommand.CoursePrice.HasValue)
                 throw new ValidationException("This service is priced but has neither sessionPrice nor coursePrice.", "service.pricing");
         }
 
@@ -30,6 +43,16 @@ namespace CoachSeek.Domain.Entities
 
             CreateSessionPrice(pricingData.SessionPrice, errors);
             CreateCoursePrice(pricingData.CoursePrice, errors);
+
+            errors.ThrowIfErrors();
+        }
+
+        private void ValidateAndSetPrices(PricingCommand pricingCommand)
+        {
+            var errors = new ValidationException();
+
+            CreateSessionPrice(pricingCommand.SessionPrice, errors);
+            CreateCoursePrice(pricingCommand.CoursePrice, errors);
 
             errors.ThrowIfErrors();
         }

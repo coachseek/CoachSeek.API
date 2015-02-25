@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -11,6 +12,18 @@ namespace CoachSeek.Domain.Entities
 
 
         public ServiceTiming(ServiceTimingData timing)
+        {
+            try
+            {
+                _duration = new Duration(timing.Duration);
+            }
+            catch (InvalidDuration)
+            {
+                throw new ValidationException("The duration field is not valid.", "service.timing.duration");
+            }
+        }
+
+        public ServiceTiming(ServiceTimingCommand timing)
         {
             try
             {

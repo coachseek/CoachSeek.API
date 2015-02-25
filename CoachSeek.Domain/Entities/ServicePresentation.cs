@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -15,7 +16,25 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
+                if (data == null || data.Colour == null)
+                    throw new ValidationException("The colour field is required.", "service.presentation.colour");
+
                 _colour = new Colour(data.Colour);
+            }
+            catch (InvalidColour)
+            {
+                throw new ValidationException("The colour field is not valid.", "service.presentation.colour");
+            }
+        }
+
+        public ServicePresentation(PresentationCommand command)
+        {
+            try
+            {
+                if (command == null || command.Colour == null)
+                    throw new ValidationException("The colour field is required.", "service.presentation.colour");
+
+                _colour = new Colour(command.Colour);
             }
             catch (InvalidColour)
             {

@@ -20,6 +20,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public static List<DbBusiness> Businesses { get; private set; }
         public static Dictionary<Guid, List<DbLocation>> Locations { get; private set; }
         public static Dictionary<Guid, List<DbCoach>> Coaches { get; private set; }
+        public static Dictionary<Guid, List<DbService>> Services { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -28,6 +29,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             Locations = new Dictionary<Guid, List<DbLocation>>();
             Coaches = new Dictionary<Guid, List<DbCoach>>();
+            Services = new Dictionary<Guid, List<DbService>>();
         }
 
         public void Clear()
@@ -251,6 +253,45 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public IList<ServiceData> GetAllServices(Guid businessId)
+        {
+            var dbServices = GetAllDbServices(businessId);
+
+            return Mapper.Map<IList<DbService>, IList<ServiceData>>(dbServices);
+        }
+
+        public ServiceData GetService(Guid businessId, Guid serviceId)
+        {
+            var businessServices = GetAllServices(businessId);
+
+            return businessServices.FirstOrDefault(x => x.Id == serviceId);
+        }
+
+        public ServiceData AddService(Guid businessId, Service service)
+        {
+            var dbService = Mapper.Map<Service, DbService>(service);
+
+            var dbServices = GetAllDbServices(businessId);
+            dbServices.Add(dbService);
+
+            Services[businessId] = dbServices;
+
+            return GetService(businessId, service.Id);
+        }
+
+        public ServiceData UpdateService(Guid businessId, Service service)
+        {
+            var dbService = Mapper.Map<Service, DbService>(service);
+
+            var dbServices = GetAllDbServices(businessId);
+            var index = dbServices.FindIndex(x => x.Id == service.Id);
+            dbServices[index] = dbService;
+            Services[businessId] = dbServices;
+
+            return GetService(businessId, service.Id);
+        }
+
+
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {
             List<DbLocation> businessLocations;
@@ -265,6 +306,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Coaches.TryGetValue(businessId, out businessCoaches)
                 ? businessCoaches
                 : new List<DbCoach>();
+        }
+
+        private List<DbService> GetAllDbServices(Guid businessId)
+        {
+            List<DbService> businessServices;
+            return Services.TryGetValue(businessId, out businessServices)
+                ? businessServices.OrderBy(x => x.Name).ToList()
+                : new List<DbService>();
         }
     }
 }

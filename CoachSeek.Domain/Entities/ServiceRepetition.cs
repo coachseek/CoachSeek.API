@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
@@ -8,6 +9,11 @@ namespace CoachSeek.Domain.Entities
         public ServiceRepetition(RepetitionData repetitionData)
         {
             CreateAndValidateRepetition(repetitionData);
+        }
+
+        public ServiceRepetition(RepetitionCommand repetitionCommand)
+        {
+            CreateAndValidateRepetition(repetitionCommand);
         }
 
         public override RepetitionData ToData()

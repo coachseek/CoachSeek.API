@@ -6,7 +6,6 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -68,14 +67,16 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddService(ApiServiceSaveCommand service)
         {
-            var command = ServiceAddCommandConverter.Convert(BusinessId, service);
+            var command = ServiceAddCommandConverter.Convert(service);
+            ServiceAddUseCase.BusinessId = BusinessId;
             var response = ServiceAddUseCase.AddService(command);
             return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
         {
-            var command = ServiceUpdateCommandConverter.Convert(BusinessId, service);
+            var command = ServiceUpdateCommandConverter.Convert(service);
+            ServiceUpdateUseCase.BusinessId = BusinessId;
             var response = ServiceUpdateUseCase.UpdateService(command);
             return CreatePostWebResponse(response);
         }

@@ -4,10 +4,8 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
 {
-    public class CoachAddCommand : IBusinessIdable
+    public class CoachAddCommand
     {
-        public Guid BusinessId { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
