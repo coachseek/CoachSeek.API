@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -28,11 +29,19 @@ namespace CoachSeek.Domain.Entities
         }
 
         public Customer(CustomerData data)
-            : this(data.Id, 
-                   data.FirstName, 
-                   data.LastName, 
-                   data.Email, 
+            : this(data.Id,
+                   data.FirstName,
+                   data.LastName,
+                   data.Email,
                    data.Phone)
+        { }
+
+        public Customer(CustomerUpdateCommand command)
+            : this(command.Id,
+                   command.FirstName,
+                   command.LastName,
+                   command.Email,
+                   command.Phone)
         { }
 
 

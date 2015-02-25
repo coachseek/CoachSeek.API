@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -10,10 +11,17 @@ namespace CoachSeek.Domain.Entities
         { }
 
         public NewCustomer(NewCustomerData data)
-            : this(data.FirstName, 
-                   data.LastName, 
-                   data.Email, 
+            : this(data.FirstName,
+                   data.LastName,
+                   data.Email,
                    data.Phone)
+        { }
+
+        public NewCustomer(CustomerAddCommand command)
+            : this(command.FirstName,
+                   command.LastName,
+                   command.Email,
+                   command.Phone)
         { }
     }
 }

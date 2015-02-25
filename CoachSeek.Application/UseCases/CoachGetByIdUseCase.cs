@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;

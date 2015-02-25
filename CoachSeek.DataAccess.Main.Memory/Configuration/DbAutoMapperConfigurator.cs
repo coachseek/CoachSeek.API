@@ -18,6 +18,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<CoachData, DbCoach>();
             Mapper.CreateMap<CoachKeyData, DbCoachKey>();
             Mapper.CreateMap<CustomerData, DbCustomer>();
+            Mapper.CreateMap<Customer, DbCustomer>();
             Mapper.CreateMap<DailyWorkingHoursData, DbDailyWorkingHours>();
             Mapper.CreateMap<Location, DbLocation>();
             Mapper.CreateMap<LocationData, DbLocation>();

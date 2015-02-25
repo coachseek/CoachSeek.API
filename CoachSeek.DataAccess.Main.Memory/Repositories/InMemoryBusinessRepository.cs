@@ -21,6 +21,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public static Dictionary<Guid, List<DbLocation>> Locations { get; private set; }
         public static Dictionary<Guid, List<DbCoach>> Coaches { get; private set; }
         public static Dictionary<Guid, List<DbService>> Services { get; private set; }
+        public static Dictionary<Guid, List<DbCustomer>> Customers { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -30,6 +31,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Locations = new Dictionary<Guid, List<DbLocation>>();
             Coaches = new Dictionary<Guid, List<DbCoach>>();
             Services = new Dictionary<Guid, List<DbService>>();
+            Customers = new Dictionary<Guid, List<DbCustomer>>();
         }
 
         public void Clear()
@@ -38,6 +40,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             Locations.Clear();
             Coaches.Clear();
+            Services.Clear();
+            Customers.Clear();
         }
 
 
@@ -291,6 +295,44 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetService(businessId, service.Id);
         }
 
+        public IList<CustomerData> GetAllCustomers(Guid businessId)
+        {
+            var dbCustomers = GetAllDbCustomers(businessId);
+
+            return Mapper.Map<IList<DbCustomer>, IList<CustomerData>>(dbCustomers);
+        }
+
+        public CustomerData GetCustomer(Guid businessId, Guid customerId)
+        {
+            var businessCustomers = GetAllCustomers(businessId);
+
+            return businessCustomers.FirstOrDefault(x => x.Id == customerId);
+        }
+
+        public CustomerData AddCustomer(Guid businessId, Customer customer)
+        {
+            var dbCustomer = Mapper.Map<Customer, DbCustomer>(customer);
+
+            var dbCustomers = GetAllDbCustomers(businessId);
+            dbCustomers.Add(dbCustomer);
+
+            Customers[businessId] = dbCustomers;
+
+            return GetCustomer(businessId, customer.Id);
+        }
+
+        public CustomerData UpdateCustomer(Guid businessId, Customer customer)
+        {
+            var dbCustomer = Mapper.Map<Customer, DbCustomer>(customer);
+
+            var dbCustomers = GetAllDbCustomers(businessId);
+            var index = dbCustomers.FindIndex(x => x.Id == customer.Id);
+            dbCustomers[index] = dbCustomer;
+            Customers[businessId] = dbCustomers;
+
+            return GetCustomer(businessId, customer.Id);
+        }
+
 
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {
@@ -314,6 +356,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Services.TryGetValue(businessId, out businessServices)
                 ? businessServices.OrderBy(x => x.Name).ToList()
                 : new List<DbService>();
+        }
+
+        private List<DbCustomer> GetAllDbCustomers(Guid businessId)
+        {
+            List<DbCustomer> businessCustomers;
+            return Customers.TryGetValue(businessId, out businessCustomers)
+                ? businessCustomers
+                : new List<DbCustomer>();
         }
     }
 }

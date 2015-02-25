@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using CoachSeek.Common.DataAccess;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -203,14 +204,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 var locations = new List<LocationData>();
 
                 while (reader.Read())
-                {
-                    var location = new LocationData
-                    {
-                        Id = reader.GetGuid(2),
-                        Name = reader.GetString(3)
-                    };
-                    locations.Add(location);
-                }
+                    locations.Add(ReadLocationData(reader));
 
                 return locations;
             }
@@ -240,13 +234,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new LocationData
-                    {
-                        Id = reader.GetGuid(2),
-                        Name = reader.GetString(3)
-                    };
-                }
+                    return ReadLocationData(reader);
 
                 return null;
             }
@@ -279,13 +267,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new LocationData
-                    {
-                        Id = reader.GetGuid(2),
-                        Name = reader.GetString(3),
-                    };
-                }
+                    return ReadLocationData(reader);
 
                 return null;
             }
@@ -318,13 +300,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new LocationData
-                    {
-                        Id = reader.GetGuid(2),
-                        Name = reader.GetString(3),
-                    };
-                }
+                    return ReadLocationData(reader);
 
                 return null;
             }
@@ -355,62 +331,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 var coaches = new List<CoachData>();
 
                 while (reader.Read())
-                {
-                    var coach = new CoachData
-                    {
-                        Id = reader.GetGuid(2),
-                        FirstName = reader.GetString(3),
-                        LastName = reader.GetString(4),
-                        Email = reader.GetString(5),
-                        Phone = reader.GetString(6),
-                        WorkingHours = new WeeklyWorkingHoursData
-                        {
-                            Monday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(7),
-                                StartTime = reader.GetNullableStringTrimmed(8),
-                                FinishTime = reader.GetNullableStringTrimmed(9)
-                            },
-                            Tuesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(10),
-                                StartTime = reader.GetNullableStringTrimmed(11),
-                                FinishTime = reader.GetNullableStringTrimmed(12)
-                            },
-                            Wednesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(13),
-                                StartTime = reader.GetNullableStringTrimmed(14),
-                                FinishTime = reader.GetNullableStringTrimmed(15)
-                            },
-                            Thursday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(16),
-                                StartTime = reader.GetNullableStringTrimmed(17),
-                                FinishTime = reader.GetNullableStringTrimmed(18)
-                            },
-                            Friday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(19),
-                                StartTime = reader.GetNullableStringTrimmed(20),
-                                FinishTime = reader.GetNullableStringTrimmed(21)
-                            },
-                            Saturday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(22),
-                                StartTime = reader.GetNullableStringTrimmed(23),
-                                FinishTime = reader.GetNullableStringTrimmed(24)
-                            },
-                            Sunday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(25),
-                                StartTime = reader.GetNullableStringTrimmed(26),
-                                FinishTime = reader.GetNullableStringTrimmed(27)
-                            }
-                        }
-                    };
-                    coaches.Add(coach);
-                }
+                    coaches.Add(ReadCoachData(reader));
 
                 return coaches;
             }
@@ -440,61 +361,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new CoachData
-                    {
-                        Id = reader.GetGuid(2),
-                        FirstName = reader.GetString(3),
-                        LastName = reader.GetString(4),
-                        Email = reader.GetString(5),
-                        Phone = reader.GetString(6),
-                        WorkingHours = new WeeklyWorkingHoursData
-                        {
-                            Monday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(7),
-                                StartTime = reader.GetNullableStringTrimmed(8),
-                                FinishTime = reader.GetNullableStringTrimmed(9)
-                            },
-                            Tuesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(10),
-                                StartTime = reader.GetNullableStringTrimmed(11),
-                                FinishTime = reader.GetNullableStringTrimmed(12)
-                            },
-                            Wednesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(13),
-                                StartTime = reader.GetNullableStringTrimmed(14),
-                                FinishTime = reader.GetNullableStringTrimmed(15)
-                            },
-                            Thursday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(16),
-                                StartTime = reader.GetNullableStringTrimmed(17),
-                                FinishTime = reader.GetNullableStringTrimmed(18)
-                            },
-                            Friday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(19),
-                                StartTime = reader.GetNullableStringTrimmed(20),
-                                FinishTime = reader.GetNullableStringTrimmed(21)
-                            },
-                            Saturday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(22),
-                                StartTime = reader.GetNullableStringTrimmed(23),
-                                FinishTime = reader.GetNullableStringTrimmed(24)
-                            },
-                            Sunday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(25),
-                                StartTime = reader.GetNullableStringTrimmed(26),
-                                FinishTime = reader.GetNullableStringTrimmed(27)
-                            }
-                        }
-                    };
-                }
+                    return ReadCoachData(reader);
 
                 return null;
             }
@@ -582,61 +449,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new CoachData
-                    {
-                        Id = reader.GetGuid(2),
-                        FirstName = reader.GetString(3),
-                        LastName = reader.GetString(4),
-                        Email = reader.GetString(5),
-                        Phone = reader.GetString(6),
-                        WorkingHours = new WeeklyWorkingHoursData
-                        {
-                            Monday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(7),
-                                StartTime = reader.GetNullableStringTrimmed(8),
-                                FinishTime = reader.GetNullableStringTrimmed(9)
-                            },
-                            Tuesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(10),
-                                StartTime = reader.GetNullableStringTrimmed(11),
-                                FinishTime = reader.GetNullableStringTrimmed(12)
-                            },
-                            Wednesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(13),
-                                StartTime = reader.GetNullableStringTrimmed(14),
-                                FinishTime = reader.GetNullableStringTrimmed(15)
-                            },
-                            Thursday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(16),
-                                StartTime = reader.GetNullableStringTrimmed(17),
-                                FinishTime = reader.GetNullableStringTrimmed(18)
-                            },
-                            Friday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(19),
-                                StartTime = reader.GetNullableStringTrimmed(20),
-                                FinishTime = reader.GetNullableStringTrimmed(21)
-                            },
-                            Saturday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(22),
-                                StartTime = reader.GetNullableStringTrimmed(23),
-                                FinishTime = reader.GetNullableStringTrimmed(24)
-                            },
-                            Sunday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(25),
-                                StartTime = reader.GetNullableStringTrimmed(26),
-                                FinishTime = reader.GetNullableStringTrimmed(27)
-                            }
-                        }
-                    };
-                }
+                    return ReadCoachData(reader);
 
                 return null;
             }
@@ -724,61 +537,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new CoachData
-                    {
-                        Id = reader.GetGuid(2),
-                        FirstName = reader.GetString(3),
-                        LastName = reader.GetString(4),
-                        Email = reader.GetString(5),
-                        Phone = reader.GetString(6),
-                        WorkingHours = new WeeklyWorkingHoursData
-                        {
-                            Monday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(7),
-                                StartTime = reader.GetNullableStringTrimmed(8),
-                                FinishTime = reader.GetNullableStringTrimmed(9)
-                            },
-                            Tuesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(10),
-                                StartTime = reader.GetNullableStringTrimmed(11),
-                                FinishTime = reader.GetNullableStringTrimmed(12)
-                            },
-                            Wednesday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(13),
-                                StartTime = reader.GetNullableStringTrimmed(14),
-                                FinishTime = reader.GetNullableStringTrimmed(15)
-                            },
-                            Thursday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(16),
-                                StartTime = reader.GetNullableStringTrimmed(17),
-                                FinishTime = reader.GetNullableStringTrimmed(18)
-                            },
-                            Friday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(19),
-                                StartTime = reader.GetNullableStringTrimmed(20),
-                                FinishTime = reader.GetNullableStringTrimmed(21)
-                            },
-                            Saturday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(22),
-                                StartTime = reader.GetNullableStringTrimmed(23),
-                                FinishTime = reader.GetNullableStringTrimmed(24)
-                            },
-                            Sunday = new DailyWorkingHoursData
-                            {
-                                IsAvailable = reader.GetBoolean(25),
-                                StartTime = reader.GetNullableStringTrimmed(26),
-                                FinishTime = reader.GetNullableStringTrimmed(27)
-                            }
-                        }
-                    };
-                }
+                    return ReadCoachData(reader);
 
                 return null;
             }
@@ -955,6 +714,211 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public IList<CustomerData> GetAllCustomers(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Customer_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+
+                reader = command.ExecuteReader();
+
+                var customers = new List<CustomerData>();
+
+                while (reader.Read())
+                    customers.Add(ReadCustomerData(reader));
+
+                return customers;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public CustomerData GetCustomer(Guid businessId, Guid customerId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Customer_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[1].Value = customerId;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadCustomerData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public CustomerData AddCustomer(Guid businessId, Customer customer)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("Customer_Create", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customer.Id;
+                command.Parameters[2].Value = customer.FirstName;
+                command.Parameters[3].Value = customer.LastName;
+                command.Parameters[4].Value = customer.Email;
+                command.Parameters[5].Value = customer.Phone;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadCustomerData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public CustomerData UpdateCustomer(Guid businessId, Customer customer)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("Customer_Update", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customer.Id;
+                command.Parameters[2].Value = customer.FirstName;
+                command.Parameters[3].Value = customer.LastName;
+                command.Parameters[4].Value = customer.Email;
+                command.Parameters[5].Value = customer.Phone;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadCustomerData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
+        private LocationData ReadLocationData(SqlDataReader reader)
+        {
+            return new LocationData
+            {
+                Id = reader.GetGuid(2),
+                Name = reader.GetString(3)
+            };
+        }
+
+        private CoachData ReadCoachData(SqlDataReader reader)
+        {
+            return new CoachData
+            {
+                Id = reader.GetGuid(2),
+                FirstName = reader.GetString(3),
+                LastName = reader.GetString(4),
+                Email = reader.GetString(5),
+                Phone = reader.GetString(6),
+                WorkingHours = new WeeklyWorkingHoursData
+                {
+                    Monday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(7),
+                        StartTime = reader.GetNullableStringTrimmed(8),
+                        FinishTime = reader.GetNullableStringTrimmed(9)
+                    },
+                    Tuesday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(10),
+                        StartTime = reader.GetNullableStringTrimmed(11),
+                        FinishTime = reader.GetNullableStringTrimmed(12)
+                    },
+                    Wednesday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(13),
+                        StartTime = reader.GetNullableStringTrimmed(14),
+                        FinishTime = reader.GetNullableStringTrimmed(15)
+                    },
+                    Thursday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(16),
+                        StartTime = reader.GetNullableStringTrimmed(17),
+                        FinishTime = reader.GetNullableStringTrimmed(18)
+                    },
+                    Friday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(19),
+                        StartTime = reader.GetNullableStringTrimmed(20),
+                        FinishTime = reader.GetNullableStringTrimmed(21)
+                    },
+                    Saturday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(22),
+                        StartTime = reader.GetNullableStringTrimmed(23),
+                        FinishTime = reader.GetNullableStringTrimmed(24)
+                    },
+                    Sunday = new DailyWorkingHoursData
+                    {
+                        IsAvailable = reader.GetBoolean(25),
+                        StartTime = reader.GetNullableStringTrimmed(26),
+                        FinishTime = reader.GetNullableStringTrimmed(27)
+                    }
+                }
+            };
+        }
+
         private ServiceData ReadServiceData(SqlDataReader reader)
         {
             var service = new ServiceData
@@ -985,6 +949,18 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 service.Presentation = new PresentationData { Colour = colour };
 
             return service;
+        }
+
+        private CustomerData ReadCustomerData(SqlDataReader reader)
+        {
+            return new CustomerData
+            {
+                Id = reader.GetGuid(2),
+                FirstName = reader.GetString(3),
+                LastName = reader.GetString(4),
+                Email = reader.GetString(5),
+                Phone = reader.GetString(6)
+            };
         }
     }
 }
