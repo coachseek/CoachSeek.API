@@ -2,6 +2,8 @@
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using System;
+using CoachSeek.Domain.Entities.Booking;
+using Business = CoachSeek.Domain.Entities.Business;
 
 namespace CoachSeek.Domain.Repositories
 {
@@ -37,5 +39,18 @@ namespace CoachSeek.Domain.Repositories
         CustomerData GetCustomer(Guid businessId, Guid customerId);
         CustomerData AddCustomer(Guid businessId, Customer customer);
         CustomerData UpdateCustomer(Guid businessId, Customer customer);
+
+
+        IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId);
+        IList<SingleSessionData> GetAllSessions(Guid businessId);
+        SingleSessionData GetSession(Guid businessId, Guid sessionId);
+        SingleSessionData AddSession(Guid businessId, StandaloneSession session);
+        SingleSessionData UpdateSession(Guid businessId, StandaloneSession session);
+
+        RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
+        RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course);
+
+        IList<BookingData> GetAllBookings(Guid businessId);
+        BookingData AddBooking(Guid businessId, Booking booking);
     }
 }

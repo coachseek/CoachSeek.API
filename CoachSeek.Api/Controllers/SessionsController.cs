@@ -84,14 +84,16 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
-            var command = SessionAddCommandConverter.Convert(BusinessId, session);
+            var command = SessionAddCommandConverter.Convert(session);
+            SessionAddUseCase.BusinessId = BusinessId;
             var response = SessionAddUseCase.AddSession(command);
             return CreatePostWebResponse(response);
         }
 
         private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
         {
-            var command = SessionUpdateCommandConverter.Convert(BusinessId, session);
+            var command = SessionUpdateCommandConverter.Convert(session);
+            SessionUpdateUseCase.BusinessId = BusinessId;
             var response = SessionUpdateUseCase.UpdateSession(command);
             return CreatePostWebResponse(response);
         }

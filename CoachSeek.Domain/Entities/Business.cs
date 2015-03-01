@@ -145,19 +145,17 @@ namespace CoachSeek.Domain.Entities
 
         public SessionData AddSession(SessionAddCommand command, IBusinessRepository businessRepository)
         {
-            var location = GetLocationById(command.Location.Id, businessRepository);
-            var coach = GetCoachById(command.Coach.Id, businessRepository);
-            var service = GetServiceById(command.Service.Id, businessRepository);
+            var coreData = LookupCoreData(command, businessRepository);
 
-            if (IsStandaloneSession(command, service))
+            if (IsStandaloneSession(command, coreData.Service))
             {
-                var sessionId = BusinessSessions.Add(command, location, coach, service);
+                var sessionId = BusinessSessions.Add(command, coreData);
                 businessRepository.Save(this);
                 return GetSessionById(sessionId, businessRepository);
             }
             else
             {
-                var courseId = BusinessCourses.Add(command, location, coach, service);
+                var courseId = BusinessCourses.Add(command, coreData);
                 businessRepository.Save(this);
                 return GetCourseById(courseId, businessRepository);
             }
@@ -185,7 +183,7 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private CoreData LookupCoreData(SessionUpdateCommand command, IBusinessRepository businessRepository)
+        private CoreData LookupCoreData(SessionAddCommand command, IBusinessRepository businessRepository)
         {
             var location = GetLocationById(command.Location.Id, businessRepository);
             var coach = GetCoachById(command.Coach.Id, businessRepository);
@@ -224,7 +222,7 @@ namespace CoachSeek.Domain.Entities
 
         private SessionData UpdateStandaloneSession(SessionUpdateCommand command, IBusinessRepository businessRepository, CoreData coreData)
         {
-            BusinessSessions.Update(command, coreData.Location, coreData.Coach, coreData.Service);
+            BusinessSessions.Update(command, coreData);
             businessRepository.Save(this);
             return GetSessionById(command.Id, businessRepository);
         }

@@ -7,17 +7,21 @@ namespace CoachSeek.Domain.Entities
 {
     public class StandaloneSession : SingleSession
     {
-        public StandaloneSession(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public StandaloneSession(SessionAddCommand command, CoreData coreData)
+            : base(command, coreData)
         {
             ParentId = null;
         }
 
-        public StandaloneSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public StandaloneSession(SessionUpdateCommand command, CoreData coreData)
+            : base(command, coreData)
         {
             ParentId = null;
         }
+
+        public StandaloneSession(SingleSessionData data, CoreData coreData)
+            : this(data, coreData.Location, coreData.Coach, coreData.Service)
+        { }
 
         public StandaloneSession(SingleSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing)
@@ -39,14 +43,42 @@ namespace CoachSeek.Domain.Entities
         { }
 
 
-        protected override void ValidateAdditional(ValidationException errors,
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionAddCommand command)
+        //public void Apply(SessionUpdateCommand command, CoreData updateCoreData)
+        //{
+        //    if (updateCoreData.Service.IsExisting())
+        //        _service = new Service(updateCoreData.Service);
+        //    if (updateCoreData.Location.IsExisting())
+        //        _location = new Location(updateCoreData.Location);
+        //    if (updateCoreData.Coach.IsExisting())
+        //        _coach = new Coach(updateCoreData.Coach);
+
+        //    if (command.Timing.IsExisting())
+        //    {
+        //        var newTiming = new SessionTiming
+        //        {
+
+        //        };
+
+        //        if (command.Timing.StartDate.IsExisting())
+        //            _timing.StartDate = command.Timing.StartDate;
+        //        if (command.Timing.StartTime.IsExisting())
+        //            _timing.StartTime = command.Timing.StartTime;
+        //    }
+
+        ////public LocationKeyData Location { get { return _location.ToKeyData(); } }
+        ////public CoachKeyData Coach { get { return _coach.ToKeyData(); } }
+        ////public SessionTimingData Timing { get { return _timing.ToData(); } }
+        ////public SessionBookingData Booking { get { return _booking.ToData(); } }
+        ////public PresentationData Presentation { get { return _presentation.ToData(); } }
+
+        //}
+
+        protected override void ValidateAdditional(SessionAddCommand command,
+                                                   CoreData coreData,
+                                                   ValidationException errors)
         {
             ValidateRepetition(command);
-            ValidateAndCreateSessionPricing(command.Pricing, service.Pricing, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
         }
 
 

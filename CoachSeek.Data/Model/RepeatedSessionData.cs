@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AutoMapper;
 
 namespace CoachSeek.Data.Model
 {
@@ -12,7 +11,9 @@ namespace CoachSeek.Data.Model
 
 
         public RepeatedSessionData()
-        { }
+        {
+            Sessions = new List<SingleSessionData>();
+        }
 
         public RepeatedSessionData(SessionData session, RepetitionData repetition, RepeatedSessionPricingData pricing, IList<SingleSessionData> childSessions)
             : base(session)

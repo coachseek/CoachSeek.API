@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
@@ -12,8 +13,8 @@ namespace CoachSeek.Domain.Entities
         public string FirstName { get { return Person.FirstName; } }
         public string LastName { get { return Person.LastName; } }
         public string Name { get { return Person.Name; } }
-        public string Email { get { return EmailAddress.Email; } }
-        public string Phone { get { return PhoneNumber.Phone; } }
+        public string Email { get { return EmailAddress.IsExisting() ?  EmailAddress.Email : null; } }
+        public string Phone { get { return PhoneNumber.IsExisting() ? PhoneNumber.Phone : null; } }
 
         private PersonName Person { get; set; }
         private EmailAddress EmailAddress { get; set; }
@@ -24,8 +25,10 @@ namespace CoachSeek.Domain.Entities
         {
             Id = id;
             Person = new PersonName(firstName, lastName);
-            EmailAddress = new EmailAddress(email);
-            PhoneNumber = new PhoneNumber(phone);
+            if (email.IsExisting())
+                EmailAddress = new EmailAddress(email);
+            if (phone.IsExisting())
+                PhoneNumber = new PhoneNumber(phone);
         }
 
         public Customer(CustomerData data)

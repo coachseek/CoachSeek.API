@@ -2,10 +2,8 @@
 
 namespace CoachSeek.Domain.Commands
 {
-    public class SessionAddCommand : IBusinessIdable
+    public class SessionAddCommand
     {
-        public Guid BusinessId { get; set; }
-
         public ServiceKeyCommand Service { get; set; }
         public LocationKeyCommand Location { get; set; }
         public CoachKeyCommand Coach { get; set; }

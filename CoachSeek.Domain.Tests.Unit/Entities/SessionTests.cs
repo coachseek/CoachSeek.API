@@ -16,6 +16,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         private LocationData Location { get; set; }
         private CoachData Coach { get; set; }
         private ServiceData Service { get; set; }
+        private CoreData CoreData { get; set; }
 
 
         [TestFixtureSetUp]
@@ -30,6 +31,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             SetupLocation();
             SetupCoach();
             SetupService();
+
+            CoreData = new CoreData(Location, Coach, Service);
         }
 
         private void SetupLocation()
@@ -140,7 +143,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Presentation = new PresentationCommand { Colour = "Red" }
             };
 
-            return new StandaloneSession(command, Location, coachData, Service);
+            return new StandaloneSession(command, CoreData);
         }
 
         private Session CreateRepeatedSession(string startDate, string startTime, int duration, string repeatFrequency)
@@ -157,7 +160,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Presentation = new PresentationCommand { Colour = "Red" }
             };
 
-            return new RepeatedSession(command, Location, Coach, Service);
+            return new RepeatedSession(command, CoreData);
         }
 
 
@@ -222,7 +225,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             private StandaloneSession GivenStandaloneSession()
             {
                 var command = CreateStandaloneSessionAddCommand();
-                return new StandaloneSession(command, Location, Coach, Service);
+                return new StandaloneSession(command, CoreData);
             }
 
 
@@ -230,7 +233,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 try
                 {
-                    return new StandaloneSession(command, Location, Coach, Service);
+                    return new StandaloneSession(command, CoreData);
                 }
                 catch (Exception ex)
                 {
@@ -381,7 +384,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
             private Session ConstructStandaloneSession(SessionAddCommand session)
             {
-                var standaloneSession = new StandaloneSession(session, Location, Coach, Service);
+                var standaloneSession = new StandaloneSession(session, CoreData);
                 Assert.That(standaloneSession, Is.InstanceOf<StandaloneSession>());
                 return standaloneSession;
             }

@@ -22,12 +22,16 @@ namespace CoachSeek.Domain.Entities
         public PointInTime Finish { get { return _timing.Finish; } }
 
 
-        public SingleSession(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public SingleSession(SessionAddCommand command, CoreData coreData)
+            : base(command, coreData)
         { }
 
-        public SingleSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public SingleSession(SessionUpdateCommand command, CoreData coreData)
+            : base(command, coreData)
+        { }
+
+        public SingleSession(SingleSessionData data, CoreData coreData)
+            : this(data, coreData.Location, coreData.Coach, coreData.Service)
         { }
 
         public SingleSession(SingleSessionData data, LocationData location, CoachData coach, ServiceData service)
@@ -111,13 +115,11 @@ namespace CoachSeek.Domain.Entities
             return repeatedSession.Sessions.Any(IsOverlapping);
         }
 
-        protected override void ValidateAdditional(ValidationException errors,
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionAddCommand command)
+        protected override void ValidateAdditional(SessionAddCommand command,
+                                                   CoreData coreData,
+                                                   ValidationException errors)                       
         {
-            ValidateAndCreateSessionPricing(command.Pricing, service.Pricing, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
         }
 
         private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing, ValidationException errors)

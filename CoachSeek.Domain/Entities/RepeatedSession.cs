@@ -26,14 +26,14 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public RepeatedSession(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public RepeatedSession(SessionAddCommand command, CoreData coreData)
+            : base(command, coreData)
         {
             CalculateSingleSessions();
         }
 
-        public RepeatedSession(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
-            : base(command, location, coach, service)
+        public RepeatedSession(SessionUpdateCommand command, CoreData coreData)
+            : base(command, coreData)
         {
             // Calculate the child sessions out for this update command.
             // Compare those sessions to the ones that already exist for the course.
@@ -43,6 +43,10 @@ namespace CoachSeek.Domain.Entities
 
             //CalculateSingleSessions();
         }
+
+        public RepeatedSession(RepeatedSessionData data, CoreData coreData)
+            : this(data, coreData.Location, coreData.Coach, coreData.Service)
+        { }
 
         public RepeatedSession(RepeatedSessionData data, LocationData location, CoachData coach, ServiceData service)
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing, data.Sessions)
@@ -107,14 +111,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        protected override void ValidateAdditional(ValidationException errors,
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionAddCommand command)
+        protected override void ValidateAdditional(SessionAddCommand command,
+                                                   CoreData coreData,
+                                                   ValidationException errors)
         {
-            ValidateAndCreateSessionRepetition(command.Repetition, service.Repetition, errors);
-            ValidateAndCreateSessionPricing(command.Pricing, service.Pricing, errors);
+            ValidateAndCreateSessionRepetition(command.Repetition, coreData.Service.Repetition, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
         }
 
         //private void Validate(LocationData location, CoachData coach, ServiceData service, SessionTimingData timing,

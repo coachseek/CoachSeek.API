@@ -39,9 +39,9 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public Guid Add(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
+        public Guid Add(SessionAddCommand command, CoreData coreData)
         {
-            var newCourse = new RepeatedSession(command, location, coach, service);
+            var newCourse = new RepeatedSession(command, coreData);
 
             ValidateAdd(newCourse);
             Courses.Add(newCourse);
@@ -49,9 +49,9 @@ namespace CoachSeek.Domain.Entities
             return newCourse.Id;
         }
 
-        public void Update(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+        public void Update(SessionUpdateCommand command, CoreData coreData)
         {
-            var existingCourse = new RepeatedSession(command, location, coach, service);
+            var existingCourse = new RepeatedSession(command, coreData);
 
             ValidateUpdate(existingCourse);
             ReplaceCourseInCourses(existingCourse);

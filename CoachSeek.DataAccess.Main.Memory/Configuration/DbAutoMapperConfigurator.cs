@@ -32,6 +32,9 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<ServiceTimingData, DbServiceTiming>();
             Mapper.CreateMap<SessionBookingData, DbSessionBooking>();
 
+            Mapper.CreateMap<StandaloneSession, DbSingleSession>();
+            Mapper.CreateMap<SingleSession, DbSingleSession>();
+            Mapper.CreateMap<RepeatedSession, DbRepeatedSession>();
 
             Mapper.CreateMap<SingleSessionData, DbSingleSession>();
             Mapper.CreateMap<RepeatedSessionData, DbRepeatedSession>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities.Booking
 {
@@ -18,6 +19,13 @@ namespace CoachSeek.Domain.Entities.Booking
             Id = id;
             Session = session;
             Customer = customer;
+        }
+
+        public Booking(Guid id, SessionKeyCommand session, CustomerKeyCommand customer)
+        {
+            Id = id;
+            Session = new SessionKeyData {Id = session.Id};
+            Customer = new CustomerKeyData {Id = customer.Id};
         }
 
 

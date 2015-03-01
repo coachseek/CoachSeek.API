@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CoachSeek.Data.Model
 {
@@ -24,6 +25,8 @@ namespace CoachSeek.Data.Model
             set { _message = reformatMessage(value); }
         }
 
+        public string Data { get; set; }
+
         //public int Code { get; set; }
 
         public ErrorData()
@@ -41,11 +44,12 @@ namespace CoachSeek.Data.Model
         //    Field = field;
         //}
 
-        public ErrorData(string field, string message)
+        public ErrorData(string field, string message, string data = null)
         {
             // Temporal coupling! Field needs to be set before Message!
             Field = field;
             Message = message;
+            Data = data;
         }
 
         private string camelCaseComponentFields(string field)

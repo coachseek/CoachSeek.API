@@ -47,7 +47,8 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage AddBooking(ApiBookingSaveCommand booking)
         {
-            var command = BookingAddCommandConverter.Convert(BusinessId, booking);
+            var command = BookingAddCommandConverter.Convert(booking);
+            BookingAddUseCase.BusinessId = BusinessId;
             var response = BookingAddUseCase.AddBooking(command);
             return CreatePostWebResponse(response);
         }

@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models
 {
@@ -102,8 +103,24 @@ namespace CoachSeek.Application.Contracts.Models
 
     public class ClashingSessionErrorResponse : ErrorResponse
     {
-        public ClashingSessionErrorResponse()
-            : base(Resources.ErrorClashingSession)
+        public ClashingSessionErrorResponse(ClashingSession clashingSession)
+            : base(Resources.ErrorClashingSession, null, string.Format("Clashing session: {0}; SessionId = {{{1}}}", 
+                                                                       clashingSession.Session.Name, clashingSession.Session.Id))
+        { }
+    }
+
+    // Temporary Error Responses
+    public class CannotUpdateCourseErrorResponse : ErrorResponse
+    {
+        public CannotUpdateCourseErrorResponse()
+            : base("Course updates are not working yet.")
+        { }
+    }
+
+    public class CannotChangeStandaloneSessionToCourseErrorResponse : ErrorResponse
+    {
+        public CannotChangeStandaloneSessionToCourseErrorResponse()
+            : base("Cannot change from a standalone session to a course.")
         { }
     }
 }

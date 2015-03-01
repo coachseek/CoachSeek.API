@@ -26,18 +26,18 @@ namespace CoachSeek.Domain.Entities
         public PresentationData Presentation { get { return _presentation.ToData(); } }
 
 
-        protected Session(SessionAddCommand command, LocationData location, CoachData coach, ServiceData service)
+        protected Session(SessionAddCommand command, CoreData coreData)
         {
             Id = Guid.NewGuid();
 
-            ValidateAndCreate(location, coach, service, command);
+            ValidateAndCreate(command, coreData);
         }
 
-        protected Session(SessionUpdateCommand command, LocationData location, CoachData coach, ServiceData service)
+        protected Session(SessionUpdateCommand command, CoreData coreData)
         {
             Id = command.Id;
 
-            ValidateAndCreate(location, coach, service, command);
+            ValidateAndCreate(command, coreData);
         }
 
         protected Session(SessionData data, LocationData location, CoachData coach, ServiceData service)
@@ -73,31 +73,26 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreate(LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionAddCommand command)
+        private void ValidateAndCreate(SessionAddCommand command, CoreData coreData)
         {
             var errors = new ValidationException();
 
-            ValidateAndCreateLocation(location, errors);
-            ValidateAndCreateCoach(coach, errors);
-            ValidateAndCreateService(service, errors);
-            ValidateAndCreateSessionTiming(command.Timing, service.Timing, errors);
-            ValidateAndCreateSessionBooking(command.Booking, service.Booking, errors);
-            ValidateAndCreateSessionPresentation(command.Presentation, service.Presentation, errors);
+            ValidateAndCreateLocation(coreData.Location, errors);
+            ValidateAndCreateCoach(coreData.Coach, errors);
+            ValidateAndCreateService(coreData.Service, errors);
+            ValidateAndCreateSessionTiming(command.Timing, coreData.Service.Timing, errors);
+            ValidateAndCreateSessionBooking(command.Booking, coreData.Service.Booking, errors);
+            ValidateAndCreateSessionPresentation(command.Presentation, coreData.Service.Presentation, errors);
 
-            ValidateAdditional(errors, location, coach, service, command);
+            ValidateAdditional(command, coreData, errors);
 
             errors.ThrowIfErrors();
         }
 
 
-        protected virtual void ValidateAdditional(ValidationException errors,
-                       LocationData location,
-                       CoachData coach,
-                       ServiceData service,
-                       SessionAddCommand command)
+        protected virtual void ValidateAdditional(SessionAddCommand command,
+                                                  CoreData coreData,
+                                                  ValidationException errors)
         { }
 
 

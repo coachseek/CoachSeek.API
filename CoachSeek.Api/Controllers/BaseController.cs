@@ -44,6 +44,8 @@ namespace CoachSeek.Api.Controllers
 
         protected HttpResponseMessage CreatePostWebResponse(Response response)
         {
+            if (response is NotFoundResponse)
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK, response.Data);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);

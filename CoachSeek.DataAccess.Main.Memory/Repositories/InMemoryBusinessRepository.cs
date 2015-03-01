@@ -7,7 +7,9 @@ using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
+using Business = CoachSeek.Domain.Entities.Business;
 
 namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
@@ -22,6 +24,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public static Dictionary<Guid, List<DbCoach>> Coaches { get; private set; }
         public static Dictionary<Guid, List<DbService>> Services { get; private set; }
         public static Dictionary<Guid, List<DbCustomer>> Customers { get; private set; }
+        public static Dictionary<Guid, List<DbSingleSession>> Sessions { get; private set; }
+        public static Dictionary<Guid, List<DbRepeatedSession>> Courses { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -32,6 +36,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Coaches = new Dictionary<Guid, List<DbCoach>>();
             Services = new Dictionary<Guid, List<DbService>>();
             Customers = new Dictionary<Guid, List<DbCustomer>>();
+            Sessions = new Dictionary<Guid, List<DbSingleSession>>();
+            Courses = new Dictionary<Guid, List<DbRepeatedSession>>();
         }
 
         public void Clear()
@@ -42,6 +48,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Coaches.Clear();
             Services.Clear();
             Customers.Clear();
+            Sessions.Clear();
+            Courses.Clear();
         }
 
 
@@ -295,6 +303,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetService(businessId, service.Id);
         }
 
+
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
             var dbCustomers = GetAllDbCustomers(businessId);
@@ -334,6 +343,95 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
+        {
+            var dbSessions = GetAllDbSessions(businessId);
+
+            return Mapper.Map<IList<DbSingleSession>, IList<SingleSessionData>>(dbSessions);
+        }
+
+        public IList<SingleSessionData> GetAllSessions(Guid businessId)
+        {
+            var dbSessions = new List<DbSingleSession>(GetAllDbSessions(businessId));
+            foreach (var dbCourse in GetAllDbCourses(businessId))
+                dbSessions.AddRange(dbCourse.Sessions);
+
+            return Mapper.Map<IList<DbSingleSession>, IList<SingleSessionData>>(dbSessions);
+        }
+
+        public SingleSessionData GetSession(Guid businessId, Guid sessionId)
+        {
+            // Standalone + Course Sessions
+            var businessSessions = GetAllSessions(businessId);
+
+            return businessSessions.FirstOrDefault(x => x.Id == sessionId);
+        }
+
+        public SingleSessionData AddSession(Guid businessId, StandaloneSession session)
+        {
+            var dbSession = Mapper.Map<StandaloneSession, DbSingleSession>(session);
+            dbSession.Repetition = new DbRepetition { SessionCount = 1 };
+
+            var dbSessions = GetAllDbSessions(businessId);
+            dbSessions.Add(dbSession);
+
+            Sessions[businessId] = dbSessions;
+
+            return GetSession(businessId, session.Id);
+        }
+
+        public SingleSessionData UpdateSession(Guid businessId, StandaloneSession session)
+        {
+            var dbSession = Mapper.Map<StandaloneSession, DbSingleSession>(session);
+            dbSession.Repetition = new DbRepetition { SessionCount = 1 };
+
+            var dbSessions = GetAllDbSessions(businessId);
+            var index = dbSessions.FindIndex(x => x.Id == session.Id);
+            dbSessions[index] = dbSession;
+            Sessions[businessId] = dbSessions;
+
+            return GetSession(businessId, session.Id);
+        }
+
+
+        public IList<RepeatedSessionData> GetAllCourses(Guid businessId)
+        {
+            var dbCourses = GetAllDbCourses(businessId);
+
+            return Mapper.Map<IList<DbRepeatedSession>, IList<RepeatedSessionData>>(dbCourses);
+        }
+
+        public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
+        {
+            var businessCourses = GetAllCourses(businessId);
+
+            return businessCourses.FirstOrDefault(x => x.Id == courseId);
+        }
+
+        public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
+        {
+            var dbCourse = Mapper.Map<RepeatedSession, DbRepeatedSession>(course);
+
+            var dbCourses = GetAllDbCourses(businessId);
+            dbCourses.Add(dbCourse);
+
+            Courses[businessId] = dbCourses;
+
+            return GetCourse(businessId, course.Id);
+        }
+
+
+        public IList<BookingData> GetAllBookings(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BookingData AddBooking(Guid businessId, Booking booking)
+        {
+            throw new NotImplementedException();
+        }
+
+
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {
             List<DbLocation> businessLocations;
@@ -364,6 +462,22 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Customers.TryGetValue(businessId, out businessCustomers)
                 ? businessCustomers
                 : new List<DbCustomer>();
+        }
+
+        private List<DbSingleSession> GetAllDbSessions(Guid businessId)
+        {
+            List<DbSingleSession> businessSessions;
+            return Sessions.TryGetValue(businessId, out businessSessions)
+                ? businessSessions
+                : new List<DbSingleSession>();
+        }
+
+        private List<DbRepeatedSession> GetAllDbCourses(Guid businessId)
+        {
+            List<DbRepeatedSession> businessCourses;
+            return Courses.TryGetValue(businessId, out businessCourses)
+                ? businessCourses
+                : new List<DbRepeatedSession>();
         }
     }
 }

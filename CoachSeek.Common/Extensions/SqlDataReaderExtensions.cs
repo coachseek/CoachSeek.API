@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 
 namespace CoachSeek.Common.Extensions
 {
@@ -8,15 +9,20 @@ namespace CoachSeek.Common.Extensions
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetBoolean(columnIndex);
+        }
+
+        public static Guid? GetNullableGuid(this SqlDataReader reader, int columnIndex)
+        {
+            if (reader.IsDBNull(columnIndex))
+                return null;
+            return reader.GetGuid(columnIndex);
         }
 
         public static byte? GetNullableByte(this SqlDataReader reader, int columnIndex)
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetByte(columnIndex);
         }
 
@@ -24,7 +30,6 @@ namespace CoachSeek.Common.Extensions
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetInt16(columnIndex);
         }
 
@@ -32,7 +37,6 @@ namespace CoachSeek.Common.Extensions
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetDecimal(columnIndex);
         }
 
@@ -40,15 +44,20 @@ namespace CoachSeek.Common.Extensions
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetString(columnIndex);
+        }
+
+        public static char? GetNullableChar(this SqlDataReader reader, int columnIndex)
+        {
+            if (reader.IsDBNull(columnIndex))
+                return null;
+            return reader.GetChar(columnIndex);
         }
 
         public static string GetNullableStringTrimmed(this SqlDataReader reader, int columnIndex)
         {
             if (reader.IsDBNull(columnIndex))
                 return null;
-
             return reader.GetString(columnIndex).Trim();
         }
     }

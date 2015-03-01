@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using CoachSeek.Common.DataAccess;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
+using Business = CoachSeek.Domain.Entities.Business;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 {
@@ -853,6 +854,294 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_GetAllStandaloneSessions]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+
+                reader = command.ExecuteReader();
+
+                var sessions = new List<SingleSessionData>();
+
+                while (reader.Read())
+                    sessions.Add(ReadSessionData(reader));
+
+                return sessions;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public IList<SingleSessionData> GetAllSessions(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+
+                reader = command.ExecuteReader();
+
+                var sessions = new List<SingleSessionData>();
+
+                while (reader.Read())
+                    sessions.Add(ReadSessionData(reader));
+
+                return sessions;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public SingleSessionData GetSession(Guid businessId, Guid sessionId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_GetSessionByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[1].Value = sessionId;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadSessionData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public SingleSessionData AddSession(Guid businessId, StandaloneSession session)
+        {
+            try
+            {
+                Connection.Open();
+
+                return AddSessionData(businessId, session);
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
+        public SingleSessionData UpdateSession(Guid businessId, StandaloneSession session)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("Session_UpdateSession", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
+                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
+                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
+                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = session.Id;
+                command.Parameters[2].Value = session.ParentId;
+                command.Parameters[3].Value = session.Location.Id;
+                command.Parameters[4].Value = session.Coach.Id;
+                command.Parameters[5].Value = session.Service.Id;
+                command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
+                command.Parameters[7].Value = session.Timing.StartDate;
+                command.Parameters[8].Value = session.Timing.StartTime;
+                command.Parameters[9].Value = session.Timing.Duration;
+                command.Parameters[10].Value = session.Booking.StudentCapacity;
+                command.Parameters[11].Value = session.Booking.IsOnlineBookable;
+                command.Parameters[12].Value = 1;       // SessionCount
+                command.Parameters[13].Value = null;    // RepeatFrequency
+                command.Parameters[14].Value = session.Pricing.SessionPrice;
+                command.Parameters[15].Value = null;    // CoursePrice
+                command.Parameters[16].Value = session.Presentation.Colour;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadSessionData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
+        public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_GetCourseByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[1].Value = courseId;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadCourseData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
+        {
+            try
+            {
+                Connection.Open();
+
+                var courseData = AddCourseData(businessId, course);
+
+                foreach (var session in course.Sessions)
+                {
+                    var sessionData = AddSessionData(businessId, session);
+                    courseData.Sessions.Add(sessionData);
+                }
+
+                return courseData;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
+
+        public IList<BookingData> GetAllBookings(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters[0].Value = businessId;
+
+                reader = command.ExecuteReader();
+
+                var bookings = new List<BookingData>();
+
+                while (reader.Read())
+                    bookings.Add(ReadBookingData(reader));
+
+                return bookings;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
+        public BookingData AddBooking(Guid businessId, Booking booking)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("Booking_Create", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = booking.Id;
+                command.Parameters[2].Value = booking.Session.Id;
+                command.Parameters[3].Value = booking.Customer.Id;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadBookingData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
         private LocationData ReadLocationData(SqlDataReader reader)
         {
             return new LocationData
@@ -925,7 +1214,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = reader.GetGuid(2),
                 Name = reader.GetString(3),
-                Description = reader.GetString(4)
+                Description = reader.GetNullableString(4)
             };
 
             var duration = reader.GetNullableInt16(5);
@@ -958,8 +1247,226 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Id = reader.GetGuid(2),
                 FirstName = reader.GetString(3),
                 LastName = reader.GetString(4),
-                Email = reader.GetString(5),
-                Phone = reader.GetString(6)
+                Email = reader.GetNullableString(5),
+                Phone = reader.GetNullableString(6)
+            };
+        }
+
+        private SingleSessionData ReadSessionData(SqlDataReader reader)
+        {
+            var id = reader.GetGuid(2);
+            var parentId = reader.GetNullableGuid(3);
+            var locationId = reader.GetGuid(4);
+            var coachId = reader.GetGuid(5);
+            var serviceId = reader.GetGuid(6);
+            var name = reader.GetNullableString(7);
+            var startDate = reader.GetDateTime(8).ToString("yyyy-MM-dd");
+            var startTime = reader.GetTimeSpan(9).ToString(@"h\:mm");
+            var duration = reader.GetInt16(10);
+            var studentCapacity = reader.GetByte(11);
+            var isOnlineBookable = reader.GetBoolean(12);
+            var sessionCount = reader.GetByte(13);
+            var repeatFrequency = reader.GetNullableStringTrimmed(14);
+            var sessionPrice = reader.GetDecimal(15);
+            var coursePrice = reader.GetNullableDecimal(16);
+            var colour = reader.GetNullableStringTrimmed(17);
+
+            if (sessionCount != 1)
+                throw new InvalidOperationException("Single session must have only a single session.");
+            if (repeatFrequency != null)
+                throw new InvalidOperationException("Single session must not have repeatFrequency.");
+            if (coursePrice != null)
+                throw new InvalidOperationException("Single session must not have a coursePrice.");
+
+            return new SingleSessionData
+            {
+                Id = id,
+                ParentId = parentId,
+                Location = new LocationKeyData { Id = locationId },
+                Coach = new CoachKeyData { Id = coachId },
+                Service = new ServiceKeyData { Id = serviceId },
+                Timing = new SessionTimingData
+                {
+                    StartDate = startDate,
+                    StartTime = startTime,
+                    Duration = duration
+                },
+                Booking = new SessionBookingData
+                {
+                    StudentCapacity = studentCapacity,
+                    IsOnlineBookable = isOnlineBookable
+                },
+                Pricing = new SingleSessionPricingData { SessionPrice = sessionPrice },
+                Presentation = new PresentationData { Colour = colour }
+            };
+        }
+
+        private SingleSessionData AddSessionData(Guid businessId, SingleSession session)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                var command = new SqlCommand("Session_CreateSession", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
+                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
+                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
+                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = session.Id;
+                command.Parameters[2].Value = session.ParentId;
+                command.Parameters[3].Value = session.Location.Id;
+                command.Parameters[4].Value = session.Coach.Id;
+                command.Parameters[5].Value = session.Service.Id;
+                command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
+                command.Parameters[7].Value = session.Timing.StartDate;
+                command.Parameters[8].Value = session.Timing.StartTime;
+                command.Parameters[9].Value = session.Timing.Duration;
+                command.Parameters[10].Value = session.Booking.StudentCapacity;
+                command.Parameters[11].Value = session.Booking.IsOnlineBookable;
+                command.Parameters[12].Value = 1;       // SessionCount
+                command.Parameters[13].Value = null;    // RepeatFrequency
+                command.Parameters[14].Value = session.Pricing.SessionPrice;
+                command.Parameters[15].Value = null;    // CoursePrice
+                command.Parameters[16].Value = session.Presentation.Colour;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadSessionData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        private RepeatedSessionData ReadCourseData(SqlDataReader reader)
+        {
+            var id = reader.GetGuid(2);
+            var locationId = reader.GetGuid(3);
+            var coachId = reader.GetGuid(4);
+            var serviceId = reader.GetGuid(5);
+            var name = reader.GetNullableString(6);
+            var startDate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
+            var startTime = reader.GetTimeSpan(8).ToString(@"h\:mm");
+            var duration = reader.GetInt16(9);
+            var studentCapacity = reader.GetByte(10);
+            var isOnlineBookable = reader.GetBoolean(11);
+            var sessionCount = reader.GetByte(12);
+            var repeatFrequency = reader.GetNullableStringTrimmed(13);
+            var sessionPrice = reader.GetDecimal(14);
+            var coursePrice = reader.GetNullableDecimal(15);
+            var colour = reader.GetNullableStringTrimmed(16);
+
+            if (sessionCount == 1)
+                throw new InvalidOperationException("Course must have more than a single session.");
+            if (repeatFrequency == null)
+                throw new InvalidOperationException("Course must have a repeatFrequency.");
+
+            return new RepeatedSessionData
+            {
+                Id = id,
+                Location = new LocationKeyData { Id = locationId },
+                Coach = new CoachKeyData { Id = coachId },
+                Service = new ServiceKeyData { Id = serviceId },
+                Timing = new SessionTimingData
+                {
+                    StartDate = startDate,
+                    StartTime = startTime,
+                    Duration = duration
+                },
+                Booking = new SessionBookingData
+                {
+                    StudentCapacity = studentCapacity,
+                    IsOnlineBookable = isOnlineBookable
+                },
+                Repetition = new RepetitionData { SessionCount = sessionCount, RepeatFrequency = repeatFrequency },
+                Pricing = new RepeatedSessionPricingData { SessionPrice = sessionPrice, CoursePrice = coursePrice },
+                Presentation = new PresentationData { Colour = colour }
+            };
+        }
+
+        private RepeatedSessionData AddCourseData(Guid businessId, RepeatedSession course)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                var command = new SqlCommand("Session_CreateCourse", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
+                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
+                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
+                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
+                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = course.Id;
+                command.Parameters[2].Value = course.Location.Id;
+                command.Parameters[3].Value = course.Coach.Id;
+                command.Parameters[4].Value = course.Service.Id;
+                command.Parameters[5].Value = null; // Not storing name yet. It's built up from location, coach, service etc.
+                command.Parameters[6].Value = course.Timing.StartDate;
+                command.Parameters[7].Value = course.Timing.StartTime;
+                command.Parameters[8].Value = course.Timing.Duration;
+                command.Parameters[9].Value = course.Booking.StudentCapacity;
+                command.Parameters[10].Value = course.Booking.IsOnlineBookable;
+                command.Parameters[11].Value = course.Repetition.SessionCount;
+                command.Parameters[12].Value = course.Repetition.RepeatFrequency;
+                command.Parameters[13].Value = course.Pricing.SessionPrice;
+                command.Parameters[14].Value = course.Pricing.CoursePrice;
+                command.Parameters[15].Value = course.Presentation.Colour;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadCourseData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
+        private BookingData ReadBookingData(SqlDataReader reader)
+        {
+            return new BookingData
+            {
+                Id = reader.GetGuid(2),
+                Session = new SessionKeyData { Id = reader.GetGuid(3) },
+                Customer = new CustomerKeyData { Id = reader.GetGuid(4) }
             };
         }
     }
