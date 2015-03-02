@@ -1257,19 +1257,23 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var id = reader.GetGuid(2);
             var parentId = reader.GetNullableGuid(3);
             var locationId = reader.GetGuid(4);
-            var coachId = reader.GetGuid(5);
-            var serviceId = reader.GetGuid(6);
-            var name = reader.GetNullableString(7);
-            var startDate = reader.GetDateTime(8).ToString("yyyy-MM-dd");
-            var startTime = reader.GetTimeSpan(9).ToString(@"h\:mm");
-            var duration = reader.GetInt16(10);
-            var studentCapacity = reader.GetByte(11);
-            var isOnlineBookable = reader.GetBoolean(12);
-            var sessionCount = reader.GetByte(13);
-            var repeatFrequency = reader.GetNullableStringTrimmed(14);
-            var sessionPrice = reader.GetDecimal(15);
-            var coursePrice = reader.GetNullableDecimal(16);
-            var colour = reader.GetNullableStringTrimmed(17);
+            var locationName = reader.GetString(5);
+            var coachId = reader.GetGuid(6);
+            var coachFirstName = reader.GetString(7);
+            var coachLastName = reader.GetString(8);
+            var serviceId = reader.GetGuid(9);
+            var serviceName = reader.GetString(10);
+            var name = reader.GetNullableString(11);
+            var startDate = reader.GetDateTime(12).ToString("yyyy-MM-dd");
+            var startTime = reader.GetTimeSpan(13).ToString(@"h\:mm");
+            var duration = reader.GetInt16(14);
+            var studentCapacity = reader.GetByte(15);
+            var isOnlineBookable = reader.GetBoolean(16);
+            var sessionCount = reader.GetByte(17);
+            var repeatFrequency = reader.GetNullableStringTrimmed(18);
+            var sessionPrice = reader.GetDecimal(19);
+            var coursePrice = reader.GetNullableDecimal(20);
+            var colour = reader.GetNullableStringTrimmed(21);
 
             if (sessionCount != 1)
                 throw new InvalidOperationException("Single session must have only a single session.");
@@ -1282,9 +1286,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = id,
                 ParentId = parentId,
-                Location = new LocationKeyData { Id = locationId },
-                Coach = new CoachKeyData { Id = coachId },
-                Service = new ServiceKeyData { Id = serviceId },
+                Location = new LocationKeyData { Id = locationId, Name = locationName},
+                Coach = new CoachKeyData { Id = coachId, Name = string.Format("{0} {1}", coachFirstName, coachLastName)},
+                Service = new ServiceKeyData { Id = serviceId, Name = serviceName },
                 Timing = new SessionTimingData
                 {
                     StartDate = startDate,
@@ -1362,19 +1366,23 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         {
             var id = reader.GetGuid(2);
             var locationId = reader.GetGuid(3);
-            var coachId = reader.GetGuid(4);
-            var serviceId = reader.GetGuid(5);
-            var name = reader.GetNullableString(6);
-            var startDate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
-            var startTime = reader.GetTimeSpan(8).ToString(@"h\:mm");
-            var duration = reader.GetInt16(9);
-            var studentCapacity = reader.GetByte(10);
-            var isOnlineBookable = reader.GetBoolean(11);
-            var sessionCount = reader.GetByte(12);
-            var repeatFrequency = reader.GetNullableStringTrimmed(13);
-            var sessionPrice = reader.GetDecimal(14);
-            var coursePrice = reader.GetNullableDecimal(15);
-            var colour = reader.GetNullableStringTrimmed(16);
+            var locationName = reader.GetString(4);
+            var coachId = reader.GetGuid(5);
+            var coachFirstName = reader.GetString(6);
+            var coachLastName = reader.GetString(7);
+            var serviceId = reader.GetGuid(8);
+            var serviceName = reader.GetString(9);
+            var name = reader.GetNullableString(10);
+            var startDate = reader.GetDateTime(11).ToString("yyyy-MM-dd");
+            var startTime = reader.GetTimeSpan(12).ToString(@"h\:mm");
+            var duration = reader.GetInt16(13);
+            var studentCapacity = reader.GetByte(14);
+            var isOnlineBookable = reader.GetBoolean(15);
+            var sessionCount = reader.GetByte(16);
+            var repeatFrequency = reader.GetNullableStringTrimmed(17);
+            var sessionPrice = reader.GetDecimal(18);
+            var coursePrice = reader.GetNullableDecimal(19);
+            var colour = reader.GetNullableStringTrimmed(20);
 
             if (sessionCount == 1)
                 throw new InvalidOperationException("Course must have more than a single session.");
@@ -1384,9 +1392,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return new RepeatedSessionData
             {
                 Id = id,
-                Location = new LocationKeyData { Id = locationId },
-                Coach = new CoachKeyData { Id = coachId },
-                Service = new ServiceKeyData { Id = serviceId },
+                Location = new LocationKeyData { Id = locationId, Name = locationName },
+                Coach = new CoachKeyData { Id = coachId, Name = string.Format("{0} {1}", coachFirstName, coachLastName) },
+                Service = new ServiceKeyData { Id = serviceId, Name = serviceName },
                 Timing = new SessionTimingData
                 {
                     StartDate = startDate,

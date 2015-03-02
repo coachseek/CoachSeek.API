@@ -374,7 +374,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             // Standalone + Course Sessions
             var businessSessions = GetAllSessions(businessId);
 
-            return businessSessions.FirstOrDefault(x => x.Id == sessionId);
+            var session = businessSessions.FirstOrDefault(x => x.Id == sessionId);
+            if (session == null)
+                return null;
+
+            var location = GetLocation(businessId, session.Location.Id);
+            session.Location.Name = location.Name;
+
+            var coach = GetCoach(businessId, session.Coach.Id);
+            session.Coach.Name = coach.Name;
+
+            var service = GetService(businessId, session.Service.Id);
+            session.Service.Name = service.Name;
+
+            return session;
         }
 
         public SingleSessionData AddSession(Guid businessId, StandaloneSession session)
