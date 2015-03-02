@@ -81,10 +81,11 @@ namespace CoachSeek.Domain.Entities
 
         public LocationData AddLocation(LocationAddCommand command, IBusinessRepository businessRepository)
         {
-            var locationId = BusinessLocations.Add(command.ToData());
-            businessRepository.Save(this);
+            //var locationId = BusinessLocations.Add(command.ToData());
+            //businessRepository.Save(this);
 
-            return GetLocationById(locationId, businessRepository);
+            //return GetLocationById(locationId, businessRepository);
+            return null;
         }
 
         public LocationData UpdateLocation(LocationUpdateCommand command, IBusinessRepository businessRepository)
@@ -97,10 +98,11 @@ namespace CoachSeek.Domain.Entities
 
         public CoachData AddCoach(CoachAddCommand command, IBusinessRepository businessRepository)
         {
-            var coachId = BusinessCoaches.Add(command.ToData());
-            businessRepository.Save(this);
+            //var coachId = BusinessCoaches.Add(command.ToData());
+            //businessRepository.Save(this);
 
-            return GetCoachById(coachId, businessRepository);
+            //return GetCoachById(coachId, businessRepository);
+            return null;
         }
 
         public CoachData UpdateCoach(CoachUpdateCommand command, IBusinessRepository businessRepository)
@@ -113,10 +115,11 @@ namespace CoachSeek.Domain.Entities
 
         public ServiceData AddService(ServiceAddCommand command, IBusinessRepository businessRepository)
         {
-            var serviceId = BusinessServices.Add(command.ToData());
-            businessRepository.Save(this);
+            //var serviceId = BusinessServices.Add(command.ToData());
+            //businessRepository.Save(this);
 
-            return GetServiceById(serviceId, businessRepository);
+            //return GetServiceById(serviceId, businessRepository);
+            return null;
         }
 
         public ServiceData UpdateService(ServiceUpdateCommand command, IBusinessRepository businessRepository)
@@ -129,10 +132,11 @@ namespace CoachSeek.Domain.Entities
 
         public CustomerData AddCustomer(CustomerAddCommand command, IBusinessRepository businessRepository)
         {
-            var customerId = BusinessCustomers.Add(command.ToData());
-            businessRepository.Save(this);
+            //var customerId = BusinessCustomers.Add(command.ToData());
+            //businessRepository.Save(this);
 
-            return GetCustomerById(customerId, businessRepository);
+            //return GetCustomerById(customerId, businessRepository);
+            return null;
         }
 
         public CustomerData UpdateCustomer(CustomerUpdateCommand command, IBusinessRepository businessRepository)

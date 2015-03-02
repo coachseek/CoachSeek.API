@@ -56,6 +56,10 @@ namespace CoachSeek.Domain.Entities
             : this(data.Id, data.Name, data.Description, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
         { }
 
+        public Service(ServiceAddCommand command)
+            : this(Guid.NewGuid(), command.Name, command.Description, command.Timing, command.Booking, command.Pricing, command.Repetition, command.Presentation)
+        { }
+
         public Service(ServiceUpdateCommand command)
             : this(command.Id, command.Name, command.Description, command.Timing, command.Booking, command.Pricing, command.Repetition, command.Presentation)
         { }

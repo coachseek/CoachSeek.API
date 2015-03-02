@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddCommand.cs" />
     <Compile Include="Commands\BusinessAddCommand.cs" />
     <Compile Include="Commands\BookingAddCommand.cs" />
     <Compile Include="Commands\CustomerUpdateCommand.cs" />
@@ -104,8 +105,6 @@
     <Compile Include="Entities\Booking\Booking.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Booking\NewBooking.cs" />
-    <Compile Include="Entities\NewBusiness2.cs" />
-    <Compile Include="Entities\NewCustomer.cs" />
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\User.cs" />
@@ -125,8 +124,6 @@
     <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
-    <Compile Include="Entities\NewRepeatedSession.cs" />
-    <Compile Include="Entities\NewSingleSession.cs" />
     <Compile Include="Entities\PointInTime.cs" />
     <Compile Include="Entities\RepeatedSession.cs" />
     <Compile Include="Entities\RepeatedSessionPricing.cs" />
@@ -145,9 +142,6 @@
     <Compile Include="Entities\Duration.cs" />
     <Compile Include="Entities\EmailAddress.cs" />
     <Compile Include="Entities\Location.cs" />
-    <Compile Include="Entities\NewBusiness.cs" />
-    <Compile Include="Entities\NewService.cs" />
-    <Compile Include="Entities\NewLocation.cs" />
     <Compile Include="Entities\SingleSession.cs" />
     <Compile Include="Entities\StandaloneSessionPricing.cs" />
     <Compile Include="Entities\SingleSessionPricing.cs" />
@@ -190,7 +184,6 @@
     <Compile Include="Exceptions\MissingEmailAddress.cs" />
     <Compile Include="Exceptions\MissingFirstName.cs" />
     <Compile Include="Exceptions\MissingLastName.cs" />
-    <Compile Include="Entities\NewCoach.cs" />
     <Compile Include="Entities\PersonName.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Exceptions\NoCommand.cs" />

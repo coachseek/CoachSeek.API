@@ -11,6 +11,14 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; private set; }
 
 
+        public Location(LocationAddCommand command)
+            : this(Guid.NewGuid(), command.Name)
+        { }
+
+        public Location(LocationUpdateCommand command)
+            : this(command.Id, command.Name)
+        { }
+
         public Location(Guid id, string name)
         {
             Id = id;
@@ -19,10 +27,6 @@ namespace CoachSeek.Domain.Entities
 
         public Location(LocationData data)
             : this(data.Id, data.Name)
-        { }
-
-        public Location(LocationUpdateCommand command)
-            : this(command.Id, command.Name)
         { }
 
 

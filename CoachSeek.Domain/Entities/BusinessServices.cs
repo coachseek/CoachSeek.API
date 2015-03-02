@@ -34,14 +34,14 @@ namespace CoachSeek.Domain.Entities
             return service.ToData();
         }
 
-        public Guid Add(NewServiceData newServiceData)
-        {
-            var newService = new NewService(newServiceData);
-            ValidateAdd(newService);
-            Services.Add(newService);
+        //public Guid Add(NewServiceData newServiceData)
+        //{
+        //    var newService = new NewService(newServiceData);
+        //    ValidateAdd(newService);
+        //    Services.Add(newService);
 
-            return newService.Id;
-        }
+        //    return newService.Id;
+        //}
 
         public void Append(ServiceData serviceData)
         {
@@ -69,12 +69,12 @@ namespace CoachSeek.Domain.Entities
             Services[updateIndex] = service;
         }
 
-        private void ValidateAdd(NewService newService)
-        {
-            var isExistingService = Services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
-            if (isExistingService)
-                throw new DuplicateService();
-        }
+        //private void ValidateAdd(NewService newService)
+        //{
+        //    var isExistingService = Services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
+        //    if (isExistingService)
+        //        throw new DuplicateService();
+        //}
 
         private void ValidateUpdate(Service service)
         {

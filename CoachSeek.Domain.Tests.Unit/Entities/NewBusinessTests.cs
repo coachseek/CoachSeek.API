@@ -124,23 +124,23 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         //}
 
 
-        private NewBusiness WhenConstructNewBusiness(BusinessAddCommand command)
-        {
-            return new NewBusiness(command, BusinessDomainBuilder);
-        }
+        //private NewBusiness WhenConstructNewBusiness(BusinessAddCommand command)
+        //{
+        //    return new NewBusiness(command, BusinessDomainBuilder);
+        //}
 
-        private Exception WhenTryRegisterNewBusiness(NewBusiness newBusiness)
-        {
-            try
-            {
-                newBusiness.Register(BusinessRepository);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
-        }
+        //private Exception WhenTryRegisterNewBusiness(NewBusiness newBusiness)
+        //{
+        //    try
+        //    {
+        //        newBusiness.Register(BusinessRepository);
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex;
+        //    }
+        //}
 
 
         //private void ThenCreateValidNewBusiness(NewBusiness newBusiness)

@@ -45,19 +45,15 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<RepetitionData, SingleRepetitionData>();
 
 
-            Mapper.CreateMap<CoachAddCommand, NewCoachData>();
             Mapper.CreateMap<CoachKeyCommand, CoachKeyData>();
             Mapper.CreateMap<CoachUpdateCommand, CoachData>();
-            Mapper.CreateMap<CustomerAddCommand, NewCustomerData>();
             Mapper.CreateMap<CustomerUpdateCommand, CustomerData>();
             Mapper.CreateMap<DailyWorkingHoursCommand, DailyWorkingHoursData>();
-            Mapper.CreateMap<LocationAddCommand, NewLocationData>();
             Mapper.CreateMap<LocationKeyCommand, LocationKeyData>();
             Mapper.CreateMap<LocationUpdateCommand, LocationData>();
             Mapper.CreateMap<PresentationCommand, PresentationData>();
             Mapper.CreateMap<PricingCommand, RepeatedSessionPricingData>();
             Mapper.CreateMap<RepetitionCommand, RepetitionData>();
-            Mapper.CreateMap<ServiceAddCommand, NewServiceData>();
             Mapper.CreateMap<ServiceBookingCommand, ServiceBookingData>();
             Mapper.CreateMap<ServiceKeyCommand, ServiceKeyData>();
             Mapper.CreateMap<ServiceTimingCommand, ServiceTimingData>();

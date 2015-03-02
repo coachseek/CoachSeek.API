@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using CoachSeek.Data.Model;
-
-namespace CoachSeek.Domain.Commands
+﻿namespace CoachSeek.Domain.Commands
 {
     public class ServiceAddCommand
     {
@@ -13,10 +10,5 @@ namespace CoachSeek.Domain.Commands
         public PricingCommand Pricing { get; set; }
         public RepetitionCommand Repetition { get; set; }
         public PresentationCommand Presentation { get; set; }
-
-        public NewServiceData ToData()
-        {
-            return Mapper.Map<ServiceAddCommand, NewServiceData>(this);
-        }
     }
 }

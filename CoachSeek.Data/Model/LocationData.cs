@@ -2,8 +2,9 @@
 
 namespace CoachSeek.Data.Model
 {
-    public class LocationData : NewLocationData
+    public class LocationData 
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

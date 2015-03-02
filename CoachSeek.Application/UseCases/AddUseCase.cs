@@ -14,6 +14,31 @@ namespace CoachSeek.Application.UseCases
         { }
 
 
+
+
+        //protected Response Add(AddCommand command)
+        //{
+        //    if (command == null)
+        //        return new NoDataErrorResponse();
+
+        //    try
+        //    {
+        //        var newLocation = new NewLocation(command);
+        //        ValidateAdd(newLocation);
+        //        var data = BusinessRepository.AddLocation(BusinessId, newLocation);
+        //        return new Response(data);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (ex is DuplicateLocation)
+        //            return new DuplicateLocationErrorResponse();
+        //        if (ex is ValidationException)
+        //            return new ErrorResponse((ValidationException)ex);
+
+        //        throw;
+        //    }
+        //}
+
         protected Response Add(IBusinessIdable command)
         {
             if (command == null)

@@ -26,7 +26,7 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
-                var newService = new NewService(command);
+                var newService = new Service(command);
                 ValidateAdd(newService);
                 var data = BusinessRepository.AddService(BusinessId, newService);
                 return new Response(data);
@@ -42,7 +42,7 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateAdd(NewService newService)
+        private void ValidateAdd(Service newService)
         {
             var services = BusinessRepository.GetAllServices(BusinessId);
             var isExistingService = services.Any(x => x.Name.ToLower() == newService.Name.ToLower());

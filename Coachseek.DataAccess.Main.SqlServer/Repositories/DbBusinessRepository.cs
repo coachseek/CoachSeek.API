@@ -102,32 +102,32 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public Business Save(NewBusiness newBusiness)
-        {
-            try
-            {
-                Connection.Open();
+        //public Business Save(NewBusiness newBusiness)
+        //{
+        //    try
+        //    {
+        //        Connection.Open();
 
-                var command = new SqlCommand("Business_Create", Connection) { CommandType = CommandType.StoredProcedure };
+        //        var command = new SqlCommand("Business_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
-                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar, 100, "Domain"));
+        //        command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+        //        command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
+        //        command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar, 100, "Domain"));
 
-                command.Parameters[0].Value = newBusiness.Id;
-                command.Parameters[1].Value = newBusiness.Name;
-                command.Parameters[2].Value = newBusiness.Domain;
+        //        command.Parameters[0].Value = newBusiness.Id;
+        //        command.Parameters[1].Value = newBusiness.Name;
+        //        command.Parameters[2].Value = newBusiness.Domain;
 
-                command.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-            }
+        //        command.ExecuteNonQuery();
+        //    }
+        //    finally
+        //    {
+        //        if (Connection != null)
+        //            Connection.Close();
+        //    }
 
-            return newBusiness;
-        }
+        //    return newBusiness;
+        //}
 
         public Business Save(Business business)
         {

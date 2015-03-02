@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace CoachSeek.Data.Model
 {
-    public abstract class SessionData : IData
+    public abstract class SessionData
     {
         public Guid Id { get; set; }
 
@@ -34,11 +34,6 @@ namespace CoachSeek.Data.Model
         public SessionKeyData ToKeyData()
         {
             return Mapper.Map<SessionData, SessionKeyData>(this);
-        }
-
-        public string GetName()
-        {
-            return "session";
         }
     }
 }

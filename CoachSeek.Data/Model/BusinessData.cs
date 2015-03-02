@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CoachSeek.Data.Model
 {
-    public class BusinessData : IData
+    public class BusinessData
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -27,10 +27,6 @@ namespace CoachSeek.Data.Model
             Customers = new List<CustomerData>();
         }
 
-        public string GetName()
-        {
-            return "Business";
-        }
 
         public bool ShouldSerializeLocations() { return Locations.Count > 0; }
         public bool ShouldSerializeCoaches() { return Coaches.Count > 0; }

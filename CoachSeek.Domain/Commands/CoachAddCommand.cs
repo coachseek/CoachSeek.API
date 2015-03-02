@@ -13,9 +13,9 @@ namespace CoachSeek.Domain.Commands
         public WeeklyWorkingHoursCommand WorkingHours { get; set; }
 
 
-        public NewCoachData ToData()
-        {
-            return Mapper.Map<CoachAddCommand, NewCoachData>(this);
-        }
+        //public NewCoachData ToData()
+        //{
+        //    return Mapper.Map<CoachAddCommand, NewCoachData>(this);
+        //}
     }
 }

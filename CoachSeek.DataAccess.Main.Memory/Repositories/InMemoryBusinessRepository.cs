@@ -71,15 +71,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public Business Save(NewBusiness newBusiness)
-        {
-            WasSaveNewBusinessCalled = true;
+        //public Business Save(NewBusiness newBusiness)
+        //{
+        //    WasSaveNewBusinessCalled = true;
 
-            var dbBusiness = DbBusinessConverter.Convert(newBusiness);
+        //    var dbBusiness = DbBusinessConverter.Convert(newBusiness);
 
-            Businesses.Add(dbBusiness);
-            return newBusiness;
-        }
+        //    Businesses.Add(dbBusiness);
+        //    return newBusiness;
+        //}
 
         public Business Save(Business business)
         {

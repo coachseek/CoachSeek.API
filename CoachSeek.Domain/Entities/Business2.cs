@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using System;
+using CoachSeek.Domain.Commands;
+using CoachSeek.Services.Contracts.Builders;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -11,13 +13,11 @@ namespace CoachSeek.Domain.Entities
         public string Domain { get; protected set; }
 
 
-        public Business2(Guid id, 
-            string name, 
-            string domain)
+        public Business2(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder) 
+            : this()
         {
-            Id = id;
-            Name = name;
-            Domain = domain;
+            Name = command.Name.Trim();
+            Domain = domainBuilder.BuildDomain(command.Name);
         }
 
         public Business2()
@@ -30,6 +30,15 @@ namespace CoachSeek.Domain.Entities
             : this()
         {
             Id = id;
+        }
+
+        public Business2(Guid id, 
+            string name, 
+            string domain)
+        {
+            Id = id;
+            Name = name;
+            Domain = domain;
         }
 
 

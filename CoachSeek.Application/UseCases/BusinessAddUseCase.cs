@@ -28,7 +28,7 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
-                var newBusiness = new NewBusiness2(command, BusinessDomainBuilder);
+                var newBusiness = new Business2(command, BusinessDomainBuilder);
                 var data = BusinessRepository.AddBusiness(newBusiness);
                 return new Response(data);
             }
@@ -40,12 +40,12 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Response HandleBusinessRegistrationException(Exception ex)
-        {
-            if (ex is DuplicateBusinessAdmin)
-                return new DuplicateBusinessAdminErrorResponse();
+        //private Response HandleBusinessRegistrationException(Exception ex)
+        //{
+        //    if (ex is DuplicateBusinessAdmin)
+        //        return new DuplicateBusinessAdminErrorResponse();
 
-            return null;
-        }
+        //    return null;
+        //}
     }
 }

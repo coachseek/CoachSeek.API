@@ -9,7 +9,7 @@ namespace CoachSeek.Domain.Commands
         public Guid Id { get; set; }
 
 
-        public new CustomerData ToData()
+        public CustomerData ToData()
         {
             return Mapper.Map<CustomerUpdateCommand, CustomerData>(this);
         }

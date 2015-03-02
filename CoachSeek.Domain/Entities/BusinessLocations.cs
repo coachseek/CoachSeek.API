@@ -34,14 +34,14 @@ namespace CoachSeek.Domain.Entities
             return location.ToData();
         }
 
-        public Guid Add(NewLocationData newLocationData)
-        {
-            var newLocation = new NewLocation(newLocationData);
-            ValidateAdd(newLocation);
-            Locations.Add(newLocation);
+        //public Guid Add(NewLocationData newLocationData)
+        //{
+        //    var newLocation = new NewLocation(newLocationData);
+        //    ValidateAdd(newLocation);
+        //    Locations.Add(newLocation);
 
-            return newLocation.Id;
-        }
+        //    return newLocation.Id;
+        //}
 
         public void Append(LocationData locationData)
         {

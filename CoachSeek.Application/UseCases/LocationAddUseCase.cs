@@ -26,7 +26,7 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
-                var newLocation = new NewLocation(command);
+                var newLocation = new Location(command);
                 ValidateAdd(newLocation);
                 var data = BusinessRepository.AddLocation(BusinessId, newLocation);
                 return new Response(data);
@@ -42,7 +42,7 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateAdd(NewLocation newLocation)
+        private void ValidateAdd(Location newLocation)
         {
             var locations = BusinessRepository.GetAllLocations(BusinessId);
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
@@ -52,7 +52,8 @@ namespace CoachSeek.Application.UseCases
 
         protected override object AddToBusiness(Business business, IBusinessIdable command)
         {
-            return business.AddLocation((LocationAddCommand)command, BusinessRepository);
+            //return business.AddLocation((LocationAddCommand)command, BusinessRepository);
+            return null;
         }
 
         protected override ErrorResponse HandleSpecificException(Exception ex)

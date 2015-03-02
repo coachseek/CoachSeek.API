@@ -34,14 +34,14 @@ namespace CoachSeek.Domain.Entities
             return customer.ToData();
         }
 
-        public Guid Add(NewCustomerData newCustomerData)
-        {
-            var newCustomer = new NewCustomer(newCustomerData);
-            ValidateAdd(newCustomer);
-            Customers.Add(newCustomer);
+        //public Guid Add(NewCustomerData newCustomerData)
+        //{
+        //    var newCustomer = new NewCustomer(newCustomerData);
+        //    ValidateAdd(newCustomer);
+        //    Customers.Add(newCustomer);
 
-            return newCustomer.Id;
-        }
+        //    return newCustomer.Id;
+        //}
 
         public void Append(CustomerData customerData)
         {
@@ -69,12 +69,12 @@ namespace CoachSeek.Domain.Entities
             Customers[updateIndex] = customer;
         }
 
-        private void ValidateAdd(NewCustomer newCustomer)
-        {
-            //var isExistingCoach = Coaches.Any(x => x.Name.ToLower() == newCoach.Name.ToLower());
-            //if (isExistingCoach)
-            //    throw new DuplicateCoach();
-        }
+        //private void ValidateAdd(NewCustomer newCustomer)
+        //{
+        //    //var isExistingCoach = Coaches.Any(x => x.Name.ToLower() == newCoach.Name.ToLower());
+        //    //if (isExistingCoach)
+        //    //    throw new DuplicateCoach();
+        //}
 
         private void ValidateUpdate(Customer customer)
         {

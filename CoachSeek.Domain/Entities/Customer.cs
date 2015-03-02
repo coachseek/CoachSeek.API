@@ -21,6 +21,22 @@ namespace CoachSeek.Domain.Entities
         private PhoneNumber PhoneNumber { get; set; }
 
 
+        public Customer(CustomerAddCommand command)
+            : this(Guid.NewGuid(), 
+                   command.FirstName,
+                   command.LastName,
+                   command.Email,
+                   command.Phone)
+        { }
+
+        public Customer(CustomerUpdateCommand command)
+            : this(command.Id,
+                   command.FirstName,
+                   command.LastName,
+                   command.Email,
+                   command.Phone)
+        { }
+
         public Customer(Guid id, string firstName, string lastName, string email, string phone)
         {
             Id = id;
@@ -37,14 +53,6 @@ namespace CoachSeek.Domain.Entities
                    data.LastName,
                    data.Email,
                    data.Phone)
-        { }
-
-        public Customer(CustomerUpdateCommand command)
-            : this(command.Id,
-                   command.FirstName,
-                   command.LastName,
-                   command.Email,
-                   command.Phone)
         { }
 
 
