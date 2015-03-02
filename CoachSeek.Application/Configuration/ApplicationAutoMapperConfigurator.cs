@@ -10,7 +10,6 @@ namespace CoachSeek.Application.Configuration
     {
         public static void Configure()
         {
-            Mapper.CreateMap<Business, BusinessData>();
             Mapper.CreateMap<BusinessAdmin, BusinessAdminData>();
             Mapper.CreateMap<Coach, CoachData>();
             Mapper.CreateMap<Coach, CoachKeyData>();

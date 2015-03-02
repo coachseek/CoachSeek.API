@@ -11,7 +11,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class SessionAddUseCase : AddUseCase, ISessionAddUseCase
+    public class SessionAddUseCase : BaseUseCase, ISessionAddUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -165,19 +165,6 @@ namespace CoachSeek.Application.UseCases
             }
 
             return sessions;
-        }
-
-        protected override object AddToBusiness(Business business, IBusinessIdable command)
-        {
-            return business.AddSession((SessionAddCommand)command, BusinessRepository);
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            //if (ex is ClashingSession)
-            //    return new ClashingSessionErrorResponse();
-
-            return null;
         }
     }
 }

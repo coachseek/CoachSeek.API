@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Data.Model
 {
-    public class KeyData
+    public abstract class KeyData
     {
         public Guid Id { get; set; }
 

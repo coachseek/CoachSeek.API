@@ -9,7 +9,6 @@ using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
-using Business = CoachSeek.Domain.Entities.Business;
 
 namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
@@ -78,21 +77,21 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetBusiness(business.Id);
         }
 
-        public Business Save(Business business)
-        {
-            var dbBusiness = DbBusinessConverter.Convert(business);
-            var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
-            var existingIndex = Businesses.IndexOf(existingBusiness);
-            Businesses[existingIndex] = dbBusiness;
-            var updateBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
-            return CreateBusiness(updateBusiness);
-        }
+        //public Business Save(Business business)
+        //{
+        //    var dbBusiness = DbBusinessConverter.Convert(business);
+        //    var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
+        //    var existingIndex = Businesses.IndexOf(existingBusiness);
+        //    Businesses[existingIndex] = dbBusiness;
+        //    var updateBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
+        //    return CreateBusiness(updateBusiness);
+        //}
 
-        public Business Get(Guid id)
-        {
-            var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
-            return CreateBusiness(dbBusiness);
-        }
+        //public Business Get(Guid id)
+        //{
+        //    var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
+        //    return CreateBusiness(dbBusiness);
+        //}
 
         public bool IsAvailableDomain(string domain)
         {
@@ -101,28 +100,28 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        private Business CreateBusiness(DbBusiness dbBusiness)
-        {
-            if (dbBusiness == null)
-                return null;
+        //private Business CreateBusiness(DbBusiness dbBusiness)
+        //{
+        //    if (dbBusiness == null)
+        //        return null;
 
-            var locations = Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations);
-            var coaches = Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches);
-            var services = Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services);
-            var sessions = Mapper.Map<IEnumerable<DbSingleSession>, IEnumerable<SingleSessionData>>(dbBusiness.Sessions);
-            var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
-            var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
+        //    var locations = Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations);
+        //    var coaches = Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches);
+        //    var services = Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services);
+        //    var sessions = Mapper.Map<IEnumerable<DbSingleSession>, IEnumerable<SingleSessionData>>(dbBusiness.Sessions);
+        //    var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
+        //    var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
 
-            return new Business(dbBusiness.Id,
-                dbBusiness.Name,
-                dbBusiness.Domain,
-                locations,
-                coaches,
-                services,
-                sessions,
-                courses,
-                customers);
-        }
+        //    return new Business(dbBusiness.Id,
+        //        dbBusiness.Name,
+        //        dbBusiness.Domain,
+        //        locations,
+        //        coaches,
+        //        services,
+        //        sessions,
+        //        courses,
+        //        customers);
+        //}
 
 
         private static BusinessAdminData CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
@@ -172,14 +171,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        // Only used for tests to add a business while bypassing the validation that occurs using Save.
-        public Business Add(Business business)
-        {
-            var dbBusiness = DbBusinessConverter.Convert(business);
+        //// Only used for tests to add a business while bypassing the validation that occurs using Save.
+        //public Business Add(Business business)
+        //{
+        //    var dbBusiness = DbBusinessConverter.Convert(business);
 
-            Businesses.Add(dbBusiness);
-            return business;
-        }
+        //    Businesses.Add(dbBusiness);
+        //    return business;
+        //}
 
 
         public IList<LocationData> GetAllLocations(Guid businessId)

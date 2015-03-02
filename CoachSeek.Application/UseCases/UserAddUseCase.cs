@@ -42,12 +42,4 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
     }
-
-    //public class NoUserAddDataResponse : Response<UserData>
-    //{
-    //    public NoUserAddDataResponse()
-    //    {
-    //        Errors = new List<ErrorData> { new ErrorData("Missing user data.") };
-    //    }
-    //}
 }

@@ -7,7 +7,6 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
-using Business = CoachSeek.Domain.Entities.Business;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 {
@@ -129,38 +128,38 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         //    return newBusiness;
         //}
 
-        public Business Save(Business business)
-        {
-            throw new NotImplementedException();
-        }
+        //public Business Save(Business business)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Business Get(Guid id)
-        {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
+        //public Business Get(Guid id)
+        //{
+        //    SqlDataReader reader = null;
+        //    try
+        //    {
+        //        Connection.Open();
 
-                var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+        //        var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = id;
+        //        command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+        //        command.Parameters[0].Value = id;
 
-                reader = command.ExecuteReader();
+        //        reader = command.ExecuteReader();
 
-                if (reader.HasRows)
-                    reader.Read();
+        //        if (reader.HasRows)
+        //            reader.Read();
 
-                return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
-        }
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        if (Connection != null)
+        //            Connection.Close();
+        //        if (reader != null)
+        //            reader.Close();
+        //    }
+        //}
 
         public bool IsAvailableDomain(string domain)
         {

@@ -9,7 +9,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class LocationAddUseCase : AddUseCase, ILocationAddUseCase
+    public class LocationAddUseCase : BaseUseCase, ILocationAddUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -48,20 +48,6 @@ namespace CoachSeek.Application.UseCases
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
             if (isExistingLocation)
                 throw new DuplicateLocation();
-        }
-
-        protected override object AddToBusiness(Business business, IBusinessIdable command)
-        {
-            //return business.AddLocation((LocationAddCommand)command, BusinessRepository);
-            return null;
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            if (ex is DuplicateLocation)
-                return new DuplicateLocationErrorResponse();
-
-            return null;
         }
     }
 }

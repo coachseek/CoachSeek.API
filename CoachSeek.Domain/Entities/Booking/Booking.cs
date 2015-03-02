@@ -14,6 +14,21 @@ namespace CoachSeek.Domain.Entities.Booking
         public CustomerKeyData Customer { get; set; }
 
 
+        public Booking(BookingAddCommand command)
+            : this(command.Session, command.Customer)
+        { }
+
+        public Booking(SessionKeyCommand session, CustomerKeyCommand customer)
+            : this(Guid.NewGuid(), session, customer)
+        { }
+
+        public Booking(Guid id, SessionKeyCommand session, CustomerKeyCommand customer)
+        {
+            Id = id;
+            Session = new SessionKeyData { Id = session.Id };
+            Customer = new CustomerKeyData { Id = customer.Id };
+        }
+
         public Booking(Guid id, SessionKeyData session, CustomerKeyData customer)
         {
             Id = id;
@@ -21,22 +36,10 @@ namespace CoachSeek.Domain.Entities.Booking
             Customer = customer;
         }
 
-        public Booking(Guid id, SessionKeyCommand session, CustomerKeyCommand customer)
-        {
-            Id = id;
-            Session = new SessionKeyData {Id = session.Id};
-            Customer = new CustomerKeyData {Id = customer.Id};
-        }
-
 
         public BookingData ToData()
         {
             return Mapper.Map<Booking, BookingData>(this);
         }
-
-        //public BookingKeyData ToKeyData()
-        //{
-        //    return Mapper.Map<Customer, CustomerKeyData>(this);
-        //}
     }
 }

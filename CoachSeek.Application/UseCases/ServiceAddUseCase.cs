@@ -9,7 +9,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class ServiceAddUseCase : AddUseCase, IServiceAddUseCase
+    public class ServiceAddUseCase : BaseUseCase, IServiceAddUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -48,19 +48,6 @@ namespace CoachSeek.Application.UseCases
             var isExistingService = services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
             if (isExistingService)
                 throw new DuplicateService();
-        }
-
-        protected override object AddToBusiness(Business business, IBusinessIdable command)
-        {
-            return business.AddService((ServiceAddCommand)command, BusinessRepository);
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            if (ex is DuplicateService)
-                return new DuplicateServiceErrorResponse();
-
-            return null;
         }
     }
 }

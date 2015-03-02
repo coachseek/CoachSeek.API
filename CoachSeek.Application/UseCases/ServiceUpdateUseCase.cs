@@ -9,7 +9,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class ServiceUpdateUseCase : UpdateUseCase, IServiceUpdateUseCase
+    public class ServiceUpdateUseCase : BaseUseCase, IServiceUpdateUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -55,21 +55,6 @@ namespace CoachSeek.Application.UseCases
             var existingService = services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
             if (existingService != null && existingService.Id != service.Id)
                 throw new DuplicateService();
-        }
-
-        protected override object UpdateInBusiness(Business business, IBusinessIdable command)
-        {
-            return business.UpdateService((ServiceUpdateCommand)command, BusinessRepository);
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            if (ex is InvalidService)
-                return new InvalidServiceErrorResponse();
-            if (ex is DuplicateService)
-                return new DuplicateServiceErrorResponse();
-
-            return null;
         }
     }
 }

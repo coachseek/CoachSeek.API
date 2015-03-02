@@ -3,7 +3,6 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using System;
 using CoachSeek.Domain.Entities.Booking;
-using Business = CoachSeek.Domain.Entities.Business;
 
 namespace CoachSeek.Domain.Repositories
 {
@@ -12,10 +11,6 @@ namespace CoachSeek.Domain.Repositories
         Business2Data GetBusiness(Guid businessId);
         Business2Data AddBusiness(Business2 business);
 
-
-        Business Save(Business business);
-
-        Business Get(Guid id);
 
         bool IsAvailableDomain(string domain);
 

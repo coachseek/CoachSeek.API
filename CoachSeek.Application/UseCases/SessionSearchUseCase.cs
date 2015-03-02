@@ -17,6 +17,7 @@ namespace CoachSeek.Application.UseCases
         private ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         private ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
 
+
         public SessionSearchUseCase(IBusinessRepository businessRepository,
                                     ICoachGetByIdUseCase coachGetByIdUseCase,
                                     ILocationGetByIdUseCase locationGetByIdUseCase)
@@ -49,44 +50,6 @@ namespace CoachSeek.Application.UseCases
         {
             return startTime.Length == 4 ? string.Format("0{0}", startTime) : startTime;
         }
-
-        //private IEnumerable<SingleSessionData> SearchForStandaloneSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
-        //{
-        //    var sessions = BusinessRepository.GetAllSessions(BusinessId);
-
-        //    var sessionQuery = business.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
-        //                                        .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)));
-
-        //    if (coachId.HasValue)
-        //        sessionQuery = sessionQuery.Where(x => x.Coach.Id == coachId);
-
-        //    if (locationId.HasValue)
-        //        sessionQuery = sessionQuery.Where(x => x.Location.Id == locationId);
-
-        //    return sessionQuery.ToList();
-        //}
-
-        //private IEnumerable<SingleSessionData> SearchForCourseSessions(Business business, string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
-        //{
-        //    var courseQuery = business.Courses.AsEnumerable();
-
-        //    if (coachId.HasValue)
-        //        courseQuery = courseQuery.Where(x => x.Coach.Id == coachId);
-        //    if (locationId.HasValue)
-        //        courseQuery = courseQuery.Where(x => x.Location.Id == locationId);
-
-        //    var matchingSessions = new List<SingleSessionData>();
-
-        //    foreach (var course in courseQuery.ToList())
-        //    {
-        //        var sessions = course.Sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
-        //                                      .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)));
-
-        //        matchingSessions.AddRange(sessions);
-        //    }
-
-        //    return matchingSessions;
-        //}
 
         private void Validate(string searchStartDate, string searchEndDate, Guid? coachId, Guid? locationId)
         {

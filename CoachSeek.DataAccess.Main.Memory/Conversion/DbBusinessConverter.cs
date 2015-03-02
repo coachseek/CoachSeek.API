@@ -7,12 +7,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Conversion
 {
     public static class DbBusinessConverter
     {
-        public static DbBusiness Convert(Business business)
-        {
-            var data = business.ToData();
+        //public static DbBusiness Convert(Business business)
+        //{
+        //    var data = business.ToData();
 
-            return Mapper.Map<BusinessData, DbBusiness>(data);
-        }
+        //    return Mapper.Map<BusinessData, DbBusiness>(data);
+        //}
 
         public static DbBusiness Convert(Business2 business)
         {

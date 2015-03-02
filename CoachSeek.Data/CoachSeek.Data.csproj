@@ -59,7 +59,6 @@
     <Compile Include="Model\SingleSessionPricingData.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Model\BusinessAdminData.cs" />
-    <Compile Include="Model\BusinessData.cs" />
     <Compile Include="Model\CoachData.cs" />
     <Compile Include="Model\CoachKeyData.cs" />
     <Compile Include="Model\DailyWorkingHoursData.cs" />

@@ -12,7 +12,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
         public static void Configure()
         {
             Mapper.CreateMap<BusinessAdminData, DbBusinessAdmin>();
-            Mapper.CreateMap<BusinessData, DbBusiness>();
             Mapper.CreateMap<Business2, DbBusiness>();
             Mapper.CreateMap<Coach, DbCoach>();
             Mapper.CreateMap<CoachData, DbCoach>();
@@ -60,7 +59,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
 
 
 
-            Mapper.CreateMap<DbBusiness, BusinessData>();
             Mapper.CreateMap<DbBusiness, Business2Data>();
             Mapper.CreateMap<DbBusinessAdmin, BusinessAdminData>();
             Mapper.CreateMap<DbCoach, CoachData>();

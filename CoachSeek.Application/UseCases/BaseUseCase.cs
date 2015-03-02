@@ -1,8 +1,4 @@
-﻿using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
-using System;
+﻿using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -13,20 +9,6 @@ namespace CoachSeek.Application.UseCases
         protected BaseUseCase(IBusinessRepository businessRepository)
         {
             BusinessRepository = businessRepository;
-        }
-
-
-        protected Business GetBusiness(Guid businessId)
-        {
-            var business = BusinessRepository.Get(businessId);
-            if (business == null)
-                throw new InvalidBusiness();
-            return business;
-        }
-
-        protected Business GetBusiness(IBusinessIdable command)
-        {
-            return GetBusiness(command.BusinessId);
         }
     }
 }

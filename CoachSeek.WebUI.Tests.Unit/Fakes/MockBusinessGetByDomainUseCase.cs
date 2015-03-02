@@ -1,18 +1,18 @@
-﻿using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
+﻿//using CoachSeek.Application.Contracts.UseCases;
+//using CoachSeek.Data.Model;
 
-namespace CoachSeek.WebUI.Tests.Unit.Fakes
-{
-    public class MockBusinessGetByDomainUseCase : IBusinessGetByDomainUseCase
-    {
-        public string Domain;
-        public BusinessData Response; 
+//namespace CoachSeek.WebUI.Tests.Unit.Fakes
+//{
+//    public class MockBusinessGetByDomainUseCase : IBusinessGetByDomainUseCase
+//    {
+//        public string Domain;
+//        public BusinessData Response; 
 
-        public BusinessData GetByDomain(string domain)
-        {
-            Domain = domain;
+//        public BusinessData GetByDomain(string domain)
+//        {
+//            Domain = domain;
 
-            return Response;
-        }
-    }
-}
+//            return Response;
+//        }
+//    }
+//}

@@ -9,7 +9,7 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CoachAddUseCase : AddUseCase, ICoachAddUseCase
+    public class CoachAddUseCase : BaseUseCase, ICoachAddUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -49,20 +49,6 @@ namespace CoachSeek.Application.UseCases
                                                 && x.LastName.ToLower() == newCoach.LastName.ToLower());
             if (isExistingCoach)
                 throw new DuplicateCoach();
-        }
-
-
-        protected override object AddToBusiness(Business business, IBusinessIdable command)
-        {
-            return business.AddCoach((CoachAddCommand)command, BusinessRepository);
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            if (ex is DuplicateCoach)
-                return new DuplicateCoachErrorResponse();
-
-            return null;
         }
     }
 }

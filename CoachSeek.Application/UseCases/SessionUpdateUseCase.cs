@@ -12,7 +12,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class SessionUpdateUseCase : UpdateUseCase, ISessionUpdateUseCase
+    public class SessionUpdateUseCase : BaseUseCase, ISessionUpdateUseCase
     {
         public Guid BusinessId { get; set; }
 
@@ -36,25 +36,18 @@ namespace CoachSeek.Application.UseCases
                     return new CannotChangeStandaloneSessionToCourseErrorResponse();
                 return UpdateStandaloneSession((StandaloneSession)session, command);
             }
+            if (session is SingleSession)
+            {
+                // TODO: Update a session inside a course.
+                return null;
+            }
             if (session is RepeatedSession)
             {
                 // TODO: Make standalone sessions and then courses updatable.
                 return new CannotUpdateCourseErrorResponse();
             }
 
-
-            //var session = GetSessionById(command.Id, businessRepository);
-            //if (session.IsExisting())
-            //    ValidateOrDefaultSessionRepetition(command);
-            //else
-            //    ValidateOrDefaultCourseRepetition(command, businessRepository);
-
-            //if (IsStandaloneSession(command, coreData.Service))
-            //    return UpdateStandaloneSession(command, businessRepository, coreData);
-
-            //return UpdateCourse(command, businessRepository, coreData);
-
-            return null;
+            throw new InvalidOperationException("Unexpected session type!");
         }
 
         private Session GetExistingSessionOrCourse(Guid sessionId)
@@ -176,21 +169,6 @@ namespace CoachSeek.Application.UseCases
             }
 
             return sessions;
-        }
-
-        protected override object UpdateInBusiness(Business business, IBusinessIdable command)
-        {
-            return business.UpdateSession((SessionUpdateCommand)command, BusinessRepository);
-        }
-
-        protected override ErrorResponse HandleSpecificException(Exception ex)
-        {
-            if (ex is InvalidSession)
-                return new InvalidSessionErrorResponse();
-            //if (ex is ClashingSession)
-            //    return new ClashingSessionErrorResponse();
-
-            return null;
         }
     }
 }
