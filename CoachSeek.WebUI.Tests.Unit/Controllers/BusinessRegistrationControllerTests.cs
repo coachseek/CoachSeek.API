@@ -30,7 +30,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private MockBusinessAddUseCase BusinessAddUseCase { get; set; }
         private MockUserAssociateWithBusinessUseCase AssociateUseCase { get; set; }
         private UserData UserData { get; set; }
-        private BusinessData BusinessData { get; set; }
+        private Business2Data BusinessData { get; set; }
 
         private StubBusinessRegistrationEmailer Emailer
         {
@@ -81,7 +81,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private void SetupBusinessAddUseCase()
         {
-            BusinessData = new BusinessData
+            BusinessData = new Business2Data
             {
                 Id = new Guid(BUSINESS_ID), 
                 Name = BUSINESS_NAME,
@@ -346,7 +346,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             RegistrationData registration;
             Assert.That(response.TryGetContentValue(out registration), Is.True);
             Assert.That(registration.Business, Is.Not.Null);
-            Assert.That(registration.Business, Is.InstanceOf<BusinessData>());
+            Assert.That(registration.Business, Is.InstanceOf<Business2Data>());
             var business = registration.Business;
             Assert.That(business.Id, Is.EqualTo(new Guid(BUSINESS_ID)));
             Assert.That(business.Name, Is.EqualTo(BUSINESS_NAME));

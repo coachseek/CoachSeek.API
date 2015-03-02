@@ -2,9 +2,10 @@
 using CoachSeek.Application.UseCases;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Services.Builders;
-using CoachSeek.Services.Email;
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -13,7 +14,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
     public class BusinessAddUseCaseTests : UseCaseTests
     {
         private BusinessDomainBuilder BusinessDomainBuilder { get; set; }
-        private StubBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
         [TestFixtureSetUp]
         public void SetupAllTests()
@@ -27,17 +27,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupUserRepository();
             SetupBusinessRepository();
             SetupBusinessDomainBuilder();
-            SetupBusinessRegistrationEmailer();
         }
 
         private void SetupBusinessDomainBuilder()
         {
             BusinessDomainBuilder = new BusinessDomainBuilder(new HardCodedReservedDomainRepository(), BusinessRepository);
-        }
-
-        private void SetupBusinessRegistrationEmailer()
-        {
-            BusinessRegistrationEmailer = new StubBusinessRegistrationEmailer();
         }
 
 
@@ -49,14 +43,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenBusinessAddFailsWithMissingBusinessError(response);
         }
 
-
         [Test]
         public void GivenAValidBusinessName_WhenAddBusiness_ThenBusinessAddSucceeds()
         {
             var command = GivenAValidBusinessName();
             var response = WhenAddBusiness(command);
-            //ThenBusinessAddSucceeds(response);
+            ThenBusinessAddSucceeds();
         }
+
 
         private BusinessAddCommand GivenNoBusinessAddCommand()
         {
@@ -84,12 +78,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertBusinessRegistrationFails();
         }
 
-        //private void ThenBusinessAddSucceeds(Response<BusinessData> response)
-        //{
-        //    AssertBusinessIsRegistered();
-        //    AssertRegistrationEmailIsSent();
-        //    AssertRegistrationDataIsPassedToEmailer();
-        //}
+        private void ThenBusinessAddSucceeds()
+        {
+            AssertBusinessIsRegistered();
+        }
 
         private void AssertMissingRegistrationError(Response response)
         {
@@ -101,55 +93,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(error.Field, Is.Null);
         }
 
-        private void AssertDuplicateBusinessAdminEmailError(Response response)
-        {
-            Assert.That(response.Data, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(1));
-            var error = response.Errors.First();
-            Assert.That(error.Message, Is.EqualTo("This email address is already in use."));
-            Assert.That(error.Field, Is.EqualTo("registration.registrant.email"));
-        }
-
         private void AssertBusinessRegistrationFails()
         {
             AssertBusinessIsNotRegistered();
-            AssertRegistrationEmailIsNotSent();
         }
 
         private void AssertBusinessIsNotRegistered()
         {
-            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.False);
+            Assert.That(BusinessRepository.WasAddBusinessCalled, Is.False);
         }
 
         private void AssertBusinessIsRegistered()
         {
-            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.True);
-        }
+            Assert.That(BusinessRepository.WasAddBusinessCalled, Is.True);
 
-        private void AssertRegistrationEmailIsNotSent()
-        {
-            Assert.That(BusinessRegistrationEmailer.WasSendEmailCalled, Is.False);
+            var businessData = (Business2)BusinessRepository.DataPassedIn;
+            Assert.That(businessData.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(businessData.Name, Is.EqualTo("Ian's Tennis Coaching"));
         }
-
-        private void AssertRegistrationEmailIsSent()
-        {
-            Assert.That(BusinessRegistrationEmailer.WasSendEmailCalled, Is.True);
-        }
-
-        //private void AssertRegistrationDataIsPassedToEmailer()
-        //{
-        //    var business = BusinessRegistrationEmailer.PassedInBusinessData;
-        //    Assert.That(business.Id, Is.Not.EqualTo(Guid.Empty));
-        //    Assert.That(business.Name, Is.EqualTo("Ian's Tennis Coaching"));
-        //    Assert.That(business.Domain, Is.EqualTo("ianstenniscoaching"));
-        //    var admin = business.Admin;
-        //    Assert.That(admin.Id, Is.Not.EqualTo(Guid.Empty));
-        //    Assert.That(admin.FirstName, Is.EqualTo("Ian"));
-        //    Assert.That(admin.LastName, Is.EqualTo("Bishop"));
-        //    Assert.That(admin.Email, Is.EqualTo("ianbish@gmail.com"));
-        //    Assert.That(admin.Username, Is.EqualTo("ianbish@gmail.com"));
-        //    Assert.That(admin.PasswordHash, Is.EqualTo("password"));
-        //}
     }
 }

@@ -39,13 +39,5 @@ namespace CoachSeek.Application.UseCases
                 throw;
             }
         }
-
-        //private Response HandleBusinessRegistrationException(Exception ex)
-        //{
-        //    if (ex is DuplicateBusinessAdmin)
-        //        return new DuplicateBusinessAdminErrorResponse();
-
-        //    return null;
-        //}
     }
 }

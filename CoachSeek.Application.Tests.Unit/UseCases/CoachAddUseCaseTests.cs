@@ -1,7 +1,7 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
 
@@ -51,8 +51,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var request = GivenAUniqueCoach();
             var response = WhenAddCoach(request);
-            ThenCoachAddSucceeds(response);
+            ThenCoachAddSucceeds();
         }
+
 
         private CoachAddCommand GivenNoCoachAddCommand()
         {
@@ -121,41 +122,43 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenCoachAddFailsWithMissingCoachError(Response response)
         {
             AssertMissingCoachError(response);
-            AssertSaveBusinessIsNotCalled();
-        }
 
-        private void ThenCoachAddFailsWithInvalidBusinessError(Response response)
-        {
-            AssertInvalidBusinessError(response);
-            AssertSaveBusinessIsNotCalled();
+            Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
         }
 
         private void ThenCoachAddFailsWithDuplicateCoachError(Response response)
         {
             AssertDuplicateCoachError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
         }
 
         private void ThenCoachAddFailsWithInvalidWorkingHoursError(Response response)
         {
             AssertInvalidWorkingHoursError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
         }
 
-        private void ThenCoachAddSucceeds(Response response)
+        private void ThenCoachAddSucceeds()
         {
-            AssertSaveBusinessIsCalled();
-            AssertResponseReturnsNewCoach(response);
+            Assert.That(BusinessRepository.WasAddCoachCalled, Is.True);
+
+            Assert.That(BusinessRepository.BusinessIdPassedIn, Is.EqualTo(new Guid(BUSINESS_ID)));
+
+            var coach = (Coach)BusinessRepository.DataPassedIn;
+            Assert.That(coach.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(coach.FirstName, Is.EqualTo("Steve"));
+            Assert.That(coach.LastName, Is.EqualTo("Jobs"));
+            Assert.That(coach.Name, Is.EqualTo("Steve Jobs"));
+            Assert.That(coach.Email, Is.EqualTo("steve.jobs@apple.com"));
+            Assert.That(coach.Phone, Is.EqualTo("021888888"));
+            AssertStandardWorkingHours(coach);
         }
 
         private void AssertMissingCoachError(Response response)
         {
             AssertSingleError(response, "Missing data.");
-        }
-
-        private void AssertInvalidBusinessError(Response response)
-        {
-            AssertSingleError(response, "This business does not exist.", "coach.businessId");
         }
 
         private void AssertDuplicateCoachError(Response response)
@@ -176,19 +179,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertError(response.Errors[4], "The friday working hours are not valid.", "coach.workingHours.friday");
             AssertError(response.Errors[5], "The saturday working hours are not valid.", "coach.workingHours.saturday");
             AssertError(response.Errors[6], "The sunday working hours are not valid.", "coach.workingHours.sunday");
-        }
-
-        private void AssertResponseReturnsNewCoach(Response response)
-        {
-            var coach = (CoachData)response.Data;
-            Assert.That(coach, Is.Not.Null);
-            Assert.That(coach.Id, Is.Not.EqualTo(Guid.Empty));
-            Assert.That(coach.FirstName, Is.EqualTo("Steve"));
-            Assert.That(coach.LastName, Is.EqualTo("Jobs"));
-            Assert.That(coach.Name, Is.EqualTo("Steve Jobs"));
-            Assert.That(coach.Email, Is.EqualTo("steve.jobs@apple.com"));
-            Assert.That(coach.Phone, Is.EqualTo("021888888"));
-            AssertStandardWorkingHours(coach);
         }
     }
 }

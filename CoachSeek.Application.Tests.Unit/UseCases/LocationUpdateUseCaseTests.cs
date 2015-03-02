@@ -100,41 +100,34 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenLocationUpdateFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
-            AssertSaveBusinessIsNotCalled();
-        }
 
-        private void ThenLocationUpdateFailsWithInvalidBusinessError(Response response)
-        {
-            AssertInvalidBusinessError(response);
-            AssertSaveBusinessIsNotCalled();
+            Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
         private void ThenLocationUpdateFailsWithInvalidLocationError(Response response)
         {
             AssertInvalidLocationError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
         private void ThenLocationUpdateFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
         private void ThenLocationUpdateSucceeds(Response response)
         {
-            AssertSaveBusinessIsCalled();
+            Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.True);
+
             AssertResponseReturnsUpdatedLocation(response);
         }
 
         private void AssertMissingLocationError(Response response)
         {
             AssertSingleError(response, "Missing data.");
-        }
-
-        private void AssertInvalidBusinessError(Response response)
-        {
-            AssertSingleError(response, "This business does not exist.", "location.businessId");
         }
 
         private void AssertInvalidLocationError(Response response)

@@ -16,8 +16,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
     public class InMemoryBusinessRepository : IBusinessRepository
     {
         // Spy behaviour is included
-        public bool WasSaveNewBusinessCalled;
-        public bool WasSaveBusinessCalled;
+        public bool WasAddBusinessCalled;
+        public bool WasAddLocationCalled;
+        public bool WasAddCoachCalled;
+
+        public bool WasUpdateLocationCalled;
+        public bool WasUpdateCoachCalled;
+
+        public Guid BusinessIdPassedIn;
+        public object DataPassedIn;
 
         public static List<DbBusiness> Businesses { get; private set; }
         public static Dictionary<Guid, List<DbLocation>> Locations { get; private set; }
@@ -62,7 +69,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public Business2Data AddBusiness(Business2 business)
         {
-            WasSaveNewBusinessCalled = true;
+            WasAddBusinessCalled = true;
+            DataPassedIn = business;
 
             var dbBusiness = DbBusinessConverter.Convert(business);
             Businesses.Add(dbBusiness);
@@ -70,21 +78,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetBusiness(business.Id);
         }
 
-
-        //public Business Save(NewBusiness newBusiness)
-        //{
-        //    WasSaveNewBusinessCalled = true;
-
-        //    var dbBusiness = DbBusinessConverter.Convert(newBusiness);
-
-        //    Businesses.Add(dbBusiness);
-        //    return newBusiness;
-        //}
-
         public Business Save(Business business)
         {
-            WasSaveBusinessCalled = true;
-
             var dbBusiness = DbBusinessConverter.Convert(business);
             var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
             var existingIndex = Businesses.IndexOf(existingBusiness);
@@ -203,6 +198,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public LocationData AddLocation(Guid businessId, Location location)
         {
+            WasAddLocationCalled = true;
+            BusinessIdPassedIn = businessId;
+            DataPassedIn = location;
+
             var dbLocation = Mapper.Map<Location, DbLocation>(location);
 
             var dbLocations = GetAllDbLocations(businessId);
@@ -215,6 +214,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public LocationData UpdateLocation(Guid businessId, Location location)
         {
+            WasUpdateLocationCalled = true;
+            BusinessIdPassedIn = businessId;
+            DataPassedIn = location;
+
             var dbLocation = Mapper.Map<Location, DbLocation>(location);
 
             var dbLocations = GetAllDbLocations(businessId);
@@ -242,6 +245,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public CoachData AddCoach(Guid businessId, Coach coach)
         {
+            WasAddCoachCalled = true;
+            BusinessIdPassedIn = businessId;
+            DataPassedIn = coach;
+
             var dbCoach = Mapper.Map<Coach, DbCoach>(coach);
 
             var dbCoaches = GetAllDbCoaches(businessId);
@@ -254,6 +261,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public CoachData UpdateCoach(Guid businessId, Coach coach)
         {
+            WasUpdateCoachCalled = true;
+            BusinessIdPassedIn = businessId;
+            DataPassedIn = coach;
+
             var dbCoach = Mapper.Map<Coach, DbCoach>(coach);
 
             var dbCoaches = GetAllDbCoaches(businessId);

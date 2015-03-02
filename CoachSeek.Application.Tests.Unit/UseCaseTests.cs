@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
@@ -9,6 +6,9 @@ using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit
 {
@@ -54,11 +54,17 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository = new InMemoryBusinessRepository();
             BusinessRepository.Clear();
 
-            var business = SetupBusiness();
-            BusinessRepository.Add(business);
+            SetupBusiness();
+            SetupLocations();
+            SetupCoaches();
+            SetupServices();
+            SetupSessions();
+            SetupCourses();
+            SetupCustomers();
 
-            BusinessRepository.WasSaveNewBusinessCalled = false;
-            BusinessRepository.WasSaveBusinessCalled = false;
+            BusinessRepository.WasAddBusinessCalled = false;
+            BusinessRepository.WasAddLocationCalled = false;
+            BusinessRepository.WasAddCoachCalled = false;
         }
 
         protected IList<User> SetupUsers()
@@ -69,81 +75,65 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
-        protected Business SetupBusiness()
+        private void SetupBusiness()
         {
-            return new Business(new Guid(BUSINESS_ID),
-                "Olaf's Tennis Coaching",
-                "olafstenniscoaching",
-                SetupLocations(),
-                SetupCoaches(),
-                SetupServices(),
-                SetupSessions(),
-                SetupCourses(),
-                SetupCustomers());
+            BusinessRepository.AddBusiness(new Business2(new Guid(BUSINESS_ID), 
+                                                         "Olaf's Tennis Coaching",
+                                                         "olafstenniscoaching"));
         }
 
-        protected IEnumerable<LocationData> SetupLocations()
+        protected void SetupLocations()
         {
-            return new List<LocationData>
-            {
-                 SetupBrownsBayLocation(),
-                 SetupOrakeiLocation()
-            };
+            SetupBrownsBayLocation();
+            SetupOrakeiLocation();
         }
 
-        protected IEnumerable<CoachData> SetupCoaches()
+        protected void SetupCoaches()
         {
-            return new List<CoachData>
-            {
-                SetupCoachAlbert(),
-                SetupCoachBill()
-            };
+            SetupCoachAlbert();
+            SetupCoachBill();
         }
 
-        protected IEnumerable<ServiceData> SetupServices()
+        protected void SetupServices()
         {
-            return new List<ServiceData>
-            {
-                SetupServiceMiniRed(),
-                SetupServiceMiniOrange()
-            };
+            SetupServiceMiniRed();
+            SetupServiceMiniOrange();
         }
 
-        protected IEnumerable<SingleSessionData> SetupSessions()
+        protected void SetupSessions()
         {
-            return new List<SingleSessionData>
-            {
-                SetupSessionBillMiniRedBrownsBayOnJan21From14To15(),
-                SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14(),
-                SetupSessionBillMiniRedOrakeiOnJan25From18To19(),
-                SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10(),
-                SetupSessionAlbertMiniRedOrakeiOnJan23From11To12(),
-            };
+            SetupSessionBillMiniRedBrownsBayOnJan21From14To15();
+            SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14();
+            SetupSessionBillMiniRedOrakeiOnJan25From18To19();
+            SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10();
+            SetupSessionAlbertMiniRedOrakeiOnJan23From11To12();
         }
 
-        protected IEnumerable<RepeatedSessionData> SetupCourses()
+        protected void SetupCourses()
         {
-            return new List<RepeatedSessionData>();
         }
 
-        protected IEnumerable<CustomerData> SetupCustomers()
+        protected void SetupCustomers()
         {
-            return new List<CustomerData>();
         }
 
-        private LocationData SetupBrownsBayLocation()
+        private void SetupBrownsBayLocation()
         {
-            return new LocationData { Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club" };
+            var data = new LocationData {Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club"};
+
+            BusinessRepository.AddLocation(new Guid(BUSINESS_ID), new Location(data));
         }
 
-        protected LocationData SetupOrakeiLocation()
+        protected void SetupOrakeiLocation()
         {
-            return new LocationData { Id = new Guid(LOCATION_ORAKEI_ID), Name = "Orakei Tennis Club" };
+            var data = new LocationData { Id = new Guid(LOCATION_ORAKEI_ID), Name = "Orakei Tennis Club" };
+
+            BusinessRepository.AddLocation(new Guid(BUSINESS_ID), new Location(data));
         }
 
-        protected CoachData SetupCoachAlbert()
+        protected void SetupCoachAlbert()
         {
-            return new CoachData
+            var data = new CoachData
             {
                 Id = new Guid(COACH_ALBERT_ID),
                 FirstName = "Albert",
@@ -152,11 +142,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Phone = "299784",
                 WorkingHours = SetupStandardWorkingHoursData()
             };
+
+            BusinessRepository.AddCoach(new Guid(BUSINESS_ID), new Coach(data));
         }
 
-        protected CoachData SetupCoachBill()
+        protected void SetupCoachBill()
         {
-            return new CoachData
+            var data = new CoachData
             {
                 Id = new Guid(COACH_BILL_ID),
                 FirstName = "Bill",
@@ -165,6 +157,8 @@ namespace CoachSeek.Application.Tests.Unit
                 Phone = "095286912",
                 WorkingHours = SetupWeekendWorkingHoursData()
             };
+
+            BusinessRepository.AddCoach(new Guid(BUSINESS_ID), new Coach(data));
         }
 
         protected WeeklyWorkingHoursData SetupStandardWorkingHoursData()
@@ -195,29 +189,43 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
-        private ServiceData SetupServiceMiniRed()
+        private void SetupServiceMiniRed()
         {
-            return new ServiceData
+            var data = new ServiceData
             {
                 Id = new Guid(SERVICE_MINI_RED_ID),
                 Name = "Mini Red",
                 Repetition = new RepetitionData { SessionCount = 1 }
             };
+
+            BusinessRepository.AddService(new Guid(BUSINESS_ID), new Service(data));
         }
 
-        private ServiceData SetupServiceMiniOrange()
+        private void SetupServiceMiniOrange()
         {
-            return new ServiceData
+            var data = new ServiceData
             {
                 Id = new Guid(SERVICE_MINI_ORANGE_ID),
                 Name = "Mini Orange",
                 Repetition = new RepetitionData { SessionCount = 1 }
             };
+
+            BusinessRepository.AddService(new Guid(BUSINESS_ID), new Service(data));
         }
 
-        private SingleSessionData SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10()
+        private CoreData GetCoreData(SessionData sessionData)
         {
-            return new SingleSessionData
+            return new CoreData
+            {
+                Location = BusinessRepository.GetLocation(new Guid(BUSINESS_ID), sessionData.Location.Id),
+                Coach = BusinessRepository.GetCoach(new Guid(BUSINESS_ID), sessionData.Coach.Id),
+                Service = BusinessRepository.GetService(new Guid(BUSINESS_ID), sessionData.Service.Id)
+            };
+        }
+
+        private void SetupSessionAlbertMiniRedBrownsBayOnJan20From9To10()
+        {
+            var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_ONE),
                 Location = new LocationKeyData {Id = new Guid(LOCATION_BROWNS_BAY_ID)},
@@ -228,11 +236,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Presentation = new PresentationData {Colour = "Red"},
                 Pricing = new SingleSessionPricingData(20)
             };
+
+            BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
-        private SingleSessionData SetupSessionBillMiniRedBrownsBayOnJan21From14To15()
+        private void SetupSessionBillMiniRedBrownsBayOnJan21From14To15()
         {
-            return new SingleSessionData
+            var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_TWO),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
@@ -243,11 +253,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
             };
+
+            BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
-        private SingleSessionData SetupSessionAlbertMiniRedOrakeiOnJan23From11To12()
+        private void SetupSessionAlbertMiniRedOrakeiOnJan23From11To12()
         {
-            return new SingleSessionData
+            var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_THREE),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
@@ -258,11 +270,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
             };
+
+            BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
-        private SingleSessionData SetupSessionBillMiniRedOrakeiOnJan25From18To19()
+        private void SetupSessionBillMiniRedOrakeiOnJan25From18To19()
         {
-            return new SingleSessionData
+            var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_FOUR),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
@@ -273,11 +287,13 @@ namespace CoachSeek.Application.Tests.Unit
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
             };
+
+            BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
-        private SingleSessionData SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14()
+        private void SetupSessionAlbertMiniRedBrownsBayOnJan26From13To14()
         {
-            return new SingleSessionData
+            var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_FIVE),
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
@@ -288,16 +304,8 @@ namespace CoachSeek.Application.Tests.Unit
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
             };
-        }
 
-        protected void AssertSaveBusinessIsNotCalled()
-        {
-            Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.False);
-        }
-
-        protected void AssertSaveBusinessIsCalled()
-        {
-            Assert.That(BusinessRepository.WasSaveBusinessCalled, Is.True);
+            BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
         protected void AssertSingleError(Response response, 

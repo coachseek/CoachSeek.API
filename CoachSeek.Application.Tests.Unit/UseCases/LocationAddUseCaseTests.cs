@@ -1,14 +1,16 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {
     [TestFixture]
-    public class LocationAddUseCaseTests : LocationUseCaseTests
+    public class 
+        
+        LocationAddUseCaseTests : LocationUseCaseTests
     {
         [TestFixtureSetUp]
         public void SetupAllTests()
@@ -44,8 +46,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var request = GivenAUniqueLocation();
             var response = WhenAddLocation(request);
-            ThenLocationAddSucceeds(response);
+            ThenLocationAddSucceeds();
         }
+
 
         private LocationAddCommand GivenNoLocationAddCommand()
         {
@@ -68,6 +71,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
+
         private Response WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
@@ -75,22 +79,30 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return useCase.AddLocation(command);
         }
 
+
         private void ThenLocationAddFailsWithMissingLocationError(Response response)
         {
             AssertMissingLocationError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasAddLocationCalled, Is.False);
         }
 
         private void ThenLocationAddFailsWithDuplicateLocationError(Response response)
         {
             AssertDuplicateLocationError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasAddLocationCalled, Is.False);
         }
 
-        private void ThenLocationAddSucceeds(Response response)
+        private void ThenLocationAddSucceeds()
         {
-            AssertSaveBusinessIsCalled();
-            AssertResponseReturnsNewLocation(response);
+            Assert.That(BusinessRepository.WasAddLocationCalled, Is.True);
+
+            Assert.That(BusinessRepository.BusinessIdPassedIn, Is.EqualTo(new Guid(BUSINESS_ID)));
+
+            var location = (Location)BusinessRepository.DataPassedIn;
+            Assert.That(location.Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(location.Name, Is.EqualTo("Mt Roskill Squash Club"));
         }
 
         private void AssertMissingLocationError(Response response)
@@ -98,22 +110,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertInvalidBusinessError(Response response)
-        {
-            AssertSingleError(response, "This business does not exist.", "location.businessId");
-        }
-
         private void AssertDuplicateLocationError(Response response)
         {
             AssertSingleError(response, "This location already exists.", "location.name");
-        }
-
-        private void AssertResponseReturnsNewLocation(Response response)
-        {
-            var location = (LocationData)response.Data;
-            Assert.That(location, Is.Not.Null);
-            Assert.That(location.Id, Is.Not.EqualTo(Guid.Empty));
-            Assert.That(location.Name, Is.EqualTo("Mt Roskill Squash Club"));
         }
     }
 }

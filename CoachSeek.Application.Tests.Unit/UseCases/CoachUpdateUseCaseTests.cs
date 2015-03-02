@@ -63,6 +63,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var request = GivenAUniqueCoachName();
             var response = WhenUpdateCoach(request);
             ThenCoachUpdateSucceeds(response);
+        
         }
 
 
@@ -149,36 +150,35 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenCoachUpdateFailsWithMissingCoachError(Response response)
         {
             AssertMissingCoachError(response);
-            AssertSaveBusinessIsNotCalled();
-        }
 
-        private void ThenCoachUpdateFailsWithInvalidBusinessError(Response response)
-        {
-            AssertInvalidBusinessError(response);
-            AssertSaveBusinessIsNotCalled();
+            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
         private void ThenCoachUpdateFailsWithInvalidCoachError(Response response)
         {
             AssertInvalidCoachError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
         private void ThenCoachUpdateFailsWithDuplicateCoachError(Response response)
         {
             AssertDuplicateCoachError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
         private void ThenCoachUpdateFailsWithInvalidWorkingHoursError(Response response)
         {
             AssertInvalidWorkingHoursError(response);
-            AssertSaveBusinessIsNotCalled();
+
+            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
         private void ThenCoachUpdateSucceeds(Response response)
         {
-            AssertSaveBusinessIsCalled();
+            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.True);
+
             AssertResponseReturnsUpdatedCoach(response);
         }
 
@@ -186,11 +186,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void AssertMissingCoachError(Response response)
         {
             AssertSingleError(response, "Missing data.");
-        }
-
-        private void AssertInvalidBusinessError(Response response)
-        {
-            AssertSingleError(response, "This business does not exist.", "coach.businessId");
         }
 
         private void AssertInvalidCoachError(Response response)

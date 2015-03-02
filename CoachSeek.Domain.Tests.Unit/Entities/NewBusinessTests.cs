@@ -171,12 +171,12 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private void AssertSaveNewBusinessWasNotCalled()
         {
-            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.False);
+            Assert.That(BusinessRepository.WasAddBusinessCalled, Is.False);
         }
 
         private void AssertSaveNewBusinessWasCalled()
         {
-            Assert.That(BusinessRepository.WasSaveNewBusinessCalled, Is.True);
+            Assert.That(BusinessRepository.WasAddBusinessCalled, Is.True);
         }
 
         private void AssertDuplicateBusinessAdminException(Exception ex)

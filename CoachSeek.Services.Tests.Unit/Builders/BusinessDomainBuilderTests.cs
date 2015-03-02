@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
@@ -14,6 +15,13 @@ namespace CoachSeek.Services.Tests.Unit.Builders
     {
         private IReservedDomainRepository ReservedDomainRepository { get; set; }
         private InMemoryBusinessRepository BusinessRepository { get; set; }
+
+
+        [TestFixtureSetUp]
+        public void SetupAllTests()
+        {
+            DbAutoMapperConfigurator.Configure();
+        }
 
         [SetUp]
         public void Setup()
@@ -30,10 +38,11 @@ namespace CoachSeek.Services.Tests.Unit.Builders
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe", null, null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers", null, null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1", null, null, null, null, null, null));
-            BusinessRepository.Add(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2", null, null, null, null, null, null));
+
+            BusinessRepository.AddBusiness(new Business2(Guid.NewGuid(), "Ian's Cafe", "ianscafe"));
+            BusinessRepository.AddBusiness(new Business2(Guid.NewGuid(), "Bob's Burgers", "bobsburgers"));
+            BusinessRepository.AddBusiness(new Business2(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1"));
+            BusinessRepository.AddBusiness(new Business2(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2"));
         }
 
         private BusinessAdminData SetupBusinessAdmin()

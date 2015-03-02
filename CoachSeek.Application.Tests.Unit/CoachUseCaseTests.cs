@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit
@@ -34,6 +35,18 @@ namespace CoachSeek.Application.Tests.Unit
             };
         }
 
+
+        protected void AssertStandardWorkingHours(Coach coach)
+        {
+            Assert.That(coach.WorkingHours, Is.Not.Null);
+            AssertWorkingDay(coach.WorkingHours.Monday);
+            AssertWorkingDay(coach.WorkingHours.Tuesday);
+            AssertWorkingDay(coach.WorkingHours.Wednesday);
+            AssertWorkingDay(coach.WorkingHours.Thursday);
+            AssertWorkingDay(coach.WorkingHours.Friday);
+            AssertNonWorkingDay(coach.WorkingHours.Saturday);
+            AssertNonWorkingDay(coach.WorkingHours.Sunday);
+        }
 
         protected void AssertStandardWorkingHours(CoachData coach)
         {
