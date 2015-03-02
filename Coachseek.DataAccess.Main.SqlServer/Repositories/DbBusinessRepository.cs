@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using CoachSeek.Common.Extensions;
@@ -19,7 +20,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             get
             {
                 if (_connection == null)
-                    _connection = new SqlConnection("Server=REDDWARF;Database=Coachseek;User Id=sa;Password=C0@ch5eek;");
+                    _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BusinessDatabase"].ConnectionString);
 
                 return _connection;
             }
