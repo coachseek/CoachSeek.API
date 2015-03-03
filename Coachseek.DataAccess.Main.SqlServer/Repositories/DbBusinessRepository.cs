@@ -20,7 +20,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             get
             {
                 if (_connection == null)
-                    _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BusinessDatabase"].ConnectionString);
+                {
+                    var connectionString = ConfigurationManager.ConnectionStrings["BusinessDatabase"].ConnectionString;
+                    _connection = new SqlConnection(connectionString);
+                }
 
                 return _connection;
             }

@@ -20,8 +20,8 @@ namespace CoachSeek.Api
             For<IUserRepository>().Use<AzureTableUserRepository>();
             //For<IUserRepository>().Use<InMemoryUserRepository>();
 
-            //For<IBusinessRepository>().Use<DbBusinessRepository>();
-            For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
+            For<IBusinessRepository>().Use<DbBusinessRepository>();
+            //For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
 
             For<IBookingRepository>().Use<InMemoryBookingRepository>();
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();

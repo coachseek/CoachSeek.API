@@ -1,4 +1,3 @@
-USE Coachseek
 
 -- Drop Constraints
 ALTER TABLE [dbo].[Location] DROP CONSTRAINT [FK_Location_Business]
@@ -6,6 +5,10 @@ ALTER TABLE [dbo].[Coach] DROP CONSTRAINT [FK_Coach_Business]
 ALTER TABLE [dbo].[Service] DROP CONSTRAINT [FK_Service_Business]
 ALTER TABLE [dbo].[Customer] DROP CONSTRAINT [FK_Customer_Business]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Business]
+ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Location]
+ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Coach]
+ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Service]
+ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Session]
 GO
 
 -- Truncate Tables
@@ -19,13 +22,21 @@ GO
 
 -- Recreate Constraints
 ALTER TABLE [dbo].[Location]  WITH CHECK ADD CONSTRAINT [FK_Location_Business] FOREIGN KEY([BusinessId])
-REFERENCES [dbo].[Business] ([Id])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Coach]  WITH CHECK ADD CONSTRAINT [FK_Coach_Business] FOREIGN KEY([BusinessId])
-REFERENCES [dbo].[Business] ([Id])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Service]  WITH CHECK ADD CONSTRAINT [FK_Service_Business] FOREIGN KEY([BusinessId])
-REFERENCES [dbo].[Business] ([Id])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Customer]  WITH CHECK ADD CONSTRAINT [FK_Customer_Business] FOREIGN KEY([BusinessId])
-REFERENCES [dbo].[Business] ([Id])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Session]  WITH CHECK ADD CONSTRAINT [FK_Session_Business] FOREIGN KEY([BusinessId])
-REFERENCES [dbo].[Business] ([Id])
+	REFERENCES [dbo].[Business] ([Id])
+ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Location] FOREIGN KEY([LocationId])
+	REFERENCES [dbo].[Location] ([Id])
+ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Coach] FOREIGN KEY([CoachId])
+	REFERENCES [dbo].[Coach] ([Id])
+ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Service] FOREIGN KEY([ServiceId])
+	REFERENCES [dbo].[Service] ([Id])
+ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Session] FOREIGN KEY([ParentId])
+	REFERENCES [dbo].[Session] ([Id])
 GO
