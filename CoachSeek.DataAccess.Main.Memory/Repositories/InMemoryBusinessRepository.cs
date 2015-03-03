@@ -366,7 +366,21 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             foreach (var dbCourse in GetAllDbCourses(businessId))
                 dbSessions.AddRange(dbCourse.Sessions);
 
-            return Mapper.Map<IList<DbSingleSession>, IList<SingleSessionData>>(dbSessions);
+            var sessions =  Mapper.Map<IList<DbSingleSession>, IList<SingleSessionData>>(dbSessions);
+
+            foreach (var session in sessions)
+            {
+                var location = GetLocation(businessId, session.Location.Id);
+                session.Location.Name = location.Name;
+
+                var coach = GetCoach(businessId, session.Coach.Id);
+                session.Coach.Name = coach.Name;
+
+                var service = GetService(businessId, session.Service.Id);
+                session.Service.Name = service.Name;
+            }
+
+            return sessions;
         }
 
         public SingleSessionData GetSession(Guid businessId, Guid sessionId)
