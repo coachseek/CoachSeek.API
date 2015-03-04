@@ -196,10 +196,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?> criteria)
         {
-            var useCase = new SessionSearchUseCase(BusinessRepository,
-                new CoachGetByIdUseCase(BusinessRepository),
-                new LocationGetByIdUseCase(BusinessRepository))
-            {BusinessId = new Guid(BUSINESS_ID)};
+            var useCase = new SessionSearchUseCase(new CoachGetByIdUseCase { BusinessRepository = BusinessRepository },
+                                                   new LocationGetByIdUseCase{ BusinessRepository = BusinessRepository }) 
+                                                   { BusinessId = new Guid(BUSINESS_ID), BusinessRepository = BusinessRepository };
 
             try
             {

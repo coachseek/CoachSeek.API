@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Data.Model;
 
-namespace CoachSeek.Services.Contracts.Email
+namespace CoachSeek.Domain.Contracts
 {
     public interface IBusinessRegistrationEmailer
     {

@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Contracts.UseCases;
+﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {
     public class SessionSearchUseCase : BaseUseCase, ISessionSearchUseCase
     {
-        public Guid BusinessId { get; set; }
-
-
         private ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         private ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
 
 
-        public SessionSearchUseCase(IBusinessRepository businessRepository,
-                                    ICoachGetByIdUseCase coachGetByIdUseCase,
+        public SessionSearchUseCase(ICoachGetByIdUseCase coachGetByIdUseCase,
                                     ILocationGetByIdUseCase locationGetByIdUseCase)
-            : base(businessRepository)
         {
             CoachGetByIdUseCase = coachGetByIdUseCase;
             LocationGetByIdUseCase = locationGetByIdUseCase;
@@ -63,6 +57,8 @@ namespace CoachSeek.Application.UseCases
             if (!coachId.HasValue)
                 return;
             CoachGetByIdUseCase.BusinessId = BusinessId;
+            CoachGetByIdUseCase.BusinessRepository = BusinessRepository;
+
             var coach = CoachGetByIdUseCase.GetCoach(coachId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid coachId.", "coachId");
@@ -73,6 +69,8 @@ namespace CoachSeek.Application.UseCases
             if (!locationId.HasValue)
                 return;
             LocationGetByIdUseCase.BusinessId = BusinessId;
+            LocationGetByIdUseCase.BusinessRepository = BusinessRepository;
+
             var coach = LocationGetByIdUseCase.GetLocation(locationId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid locationId.", "locationId");

@@ -4,21 +4,12 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
 using System;
 
 namespace CoachSeek.Application.UseCases
 {
     public class LocationAddUseCase : BaseUseCase, ILocationAddUseCase
     {
-        public Guid BusinessId { get; set; }
-
-        
-        public LocationAddUseCase(IBusinessRepository businessRepository)
-            : base(businessRepository)
-        { }
-
-
         public Response AddLocation(LocationAddCommand command)
         {
             if (command == null)

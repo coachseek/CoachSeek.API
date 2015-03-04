@@ -1,23 +1,19 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
-using CoachSeek.Services.Contracts.Builders;
 using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BusinessAddUseCase : IBusinessAddUseCase
+    public class BusinessAddUseCase : BaseUseCase, IBusinessAddUseCase
     {
-        private IBusinessRepository BusinessRepository { get; set; }
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }
 
-        public BusinessAddUseCase(IBusinessRepository businessRepository, 
-                                  IBusinessDomainBuilder businessDomainBuilder)
+        public BusinessAddUseCase(IBusinessDomainBuilder businessDomainBuilder)
         {
-            BusinessRepository = businessRepository;
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
@@ -28,6 +24,7 @@ namespace CoachSeek.Application.UseCases
 
             try
             {
+                BusinessDomainBuilder.BusinessRepository = BusinessRepository;
                 var newBusiness = new Business2(command, BusinessDomainBuilder);
                 var data = BusinessRepository.AddBusiness(newBusiness);
                 return new Response(data);

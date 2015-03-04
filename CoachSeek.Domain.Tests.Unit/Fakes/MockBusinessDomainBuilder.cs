@@ -1,4 +1,5 @@
-﻿using CoachSeek.Services.Contracts.Builders;
+﻿using CoachSeek.Domain.Contracts;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Tests.Unit.Fakes
 {
@@ -6,6 +7,8 @@ namespace CoachSeek.Domain.Tests.Unit.Fakes
     {
         public bool WasBuildDomainCalled;
         public string Domain;
+
+        public IBusinessRepository BusinessRepository { get; set; }
 
         public string BuildDomain(string businessName)
         {

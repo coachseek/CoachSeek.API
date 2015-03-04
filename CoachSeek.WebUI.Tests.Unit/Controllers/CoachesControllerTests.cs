@@ -151,10 +151,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private CoachesController WhenConstruct()
         {
-            var getAllUseCase = new CoachesGetAllUseCase(null);
-            var getByIdUseCase = new CoachGetByIdUseCase(null);
-            var addUseCase = new CoachAddUseCase(null);
-            var updateUseCase = new CoachUpdateUseCase(null);
+            var getAllUseCase = new CoachesGetAllUseCase();
+            var getByIdUseCase = new CoachGetByIdUseCase();
+            var addUseCase = new CoachAddUseCase();
+            var updateUseCase = new CoachUpdateUseCase();
 
             return new CoachesController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase);
         }

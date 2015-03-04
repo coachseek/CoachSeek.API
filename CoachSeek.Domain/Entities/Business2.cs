@@ -2,7 +2,7 @@
 using CoachSeek.Data.Model;
 using System;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Services.Contracts.Builders;
+using IBusinessDomainBuilder = CoachSeek.Domain.Contracts.IBusinessDomainBuilder;
 
 namespace CoachSeek.Domain.Entities
 {

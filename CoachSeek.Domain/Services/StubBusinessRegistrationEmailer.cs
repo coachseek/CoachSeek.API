@@ -1,7 +1,7 @@
 ﻿using CoachSeek.Data.Model;
-using CoachSeek.Services.Contracts.Email;
+using IBusinessRegistrationEmailer = CoachSeek.Domain.Contracts.IBusinessRegistrationEmailer;
 
-namespace CoachSeek.Services.Email
+namespace CoachSeek.Domain.Services
 {
     public class StubBusinessRegistrationEmailer : IBusinessRegistrationEmailer
     {

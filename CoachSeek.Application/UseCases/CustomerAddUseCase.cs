@@ -3,21 +3,12 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
 using System;
 
 namespace CoachSeek.Application.UseCases
 {
     public class CustomerAddUseCase : BaseUseCase, ICustomerAddUseCase
     {
-        public Guid BusinessId { get; set; }
-
-
-        public CustomerAddUseCase(IBusinessRepository businessRepository)
-            : base(businessRepository)
-        { }
-
-
         public Response AddCustomer(CustomerAddCommand command)
         {
             if (command == null)

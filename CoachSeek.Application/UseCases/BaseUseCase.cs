@@ -1,14 +1,12 @@
-﻿using CoachSeek.Domain.Repositories;
+﻿using System;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
     public abstract class BaseUseCase
     {
-        protected IBusinessRepository BusinessRepository { get; set; }
+        public Guid BusinessId { set; protected get; }
 
-        protected BaseUseCase(IBusinessRepository businessRepository)
-        {
-            BusinessRepository = businessRepository;
-        }
+        public IBusinessRepository BusinessRepository { set; protected get; }
     }
 }

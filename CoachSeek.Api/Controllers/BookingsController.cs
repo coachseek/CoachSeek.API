@@ -1,11 +1,10 @@
-﻿using System.Net.Http;
-using System.Web.Http;
-using CoachSeek.Api.Attributes;
+﻿using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.UseCases;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -49,6 +48,8 @@ namespace CoachSeek.Api.Controllers
         {
             var command = BookingAddCommandConverter.Convert(booking);
             BookingAddUseCase.BusinessId = BusinessId;
+            BookingAddUseCase.BusinessRepository = BusinessRepository;
+
             var response = BookingAddUseCase.AddBooking(command);
             return CreatePostWebResponse(response);
         }

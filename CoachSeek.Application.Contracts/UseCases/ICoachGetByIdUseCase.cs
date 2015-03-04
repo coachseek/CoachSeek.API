@@ -3,10 +3,8 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICoachGetByIdUseCase
+    public interface ICoachGetByIdUseCase : IBusinessRepositorySetter
     {
-        Guid BusinessId { get; set; }
-
         CoachData GetCoach(Guid id);
     }
 }

@@ -139,10 +139,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
         private LocationsController WhenConstruct()
         {
-            var getAllUseCase = new LocationsGetAllUseCase(null);
-            var getByIdUseCase = new LocationGetByIdUseCase(null);
-            var addUseCase = new LocationAddUseCase(null);
-            var updateUseCase = new LocationUpdateUseCase(null);
+            var getAllUseCase = new LocationsGetAllUseCase();
+            var getByIdUseCase = new LocationGetByIdUseCase();
+            var addUseCase = new LocationAddUseCase();
+            var updateUseCase = new LocationUpdateUseCase();
 
             return new LocationsController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase);
         }

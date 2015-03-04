@@ -1,12 +1,12 @@
-﻿using System;
-using CoachSeek.Api.Attributes;
+﻿using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Domain.Exceptions;
+using System;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -71,6 +71,8 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
         {
             SessionSearchUseCase.BusinessId = BusinessId;
+            SessionSearchUseCase.BusinessRepository = BusinessRepository;
+
             try
             {
                 var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId);
@@ -86,6 +88,8 @@ namespace CoachSeek.Api.Controllers
         {
             var command = SessionAddCommandConverter.Convert(session);
             SessionAddUseCase.BusinessId = BusinessId;
+            SessionAddUseCase.BusinessRepository = BusinessRepository;
+
             var response = SessionAddUseCase.AddSession(command);
             return CreatePostWebResponse(response);
         }
@@ -94,6 +98,8 @@ namespace CoachSeek.Api.Controllers
         {
             var command = SessionUpdateCommandConverter.Convert(session);
             SessionUpdateUseCase.BusinessId = BusinessId;
+            SessionUpdateUseCase.BusinessRepository = BusinessRepository;
+
             var response = SessionUpdateUseCase.UpdateSession(command);
             return CreatePostWebResponse(response);
         }

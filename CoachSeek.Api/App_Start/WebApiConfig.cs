@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Application.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using Newtonsoft.Json;
@@ -21,6 +22,8 @@ namespace CoachSeek.Api
             DbAutoMapperConfigurator.Configure();
 
             config.Services.Replace(typeof(IHttpControllerActivator), new ServiceActivator(config));
+
+            config.Filters.Add(new TestingFilter());
 
             // Use camel case for JSON data.
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

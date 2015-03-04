@@ -5,12 +5,14 @@ using System.Web.Http;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common;
 using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
         private Guid? _businessId;
+        public IBusinessRepository BusinessRepository { set; protected get; }
 
         public Guid BusinessId
         {

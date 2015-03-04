@@ -22,5 +22,11 @@ namespace CoachSeek.Api
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        public void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var request = filterContext.RequestContext.HttpContext.Request;
+            var headers = request.Headers;
+        }
     }
 }

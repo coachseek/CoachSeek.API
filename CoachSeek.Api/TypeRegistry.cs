@@ -4,11 +4,9 @@ using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using CoachSeek.DataAccess.Repositories;
+using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
-using CoachSeek.Services.Builders;
-using CoachSeek.Services.Contracts.Builders;
-using CoachSeek.Services.Contracts.Email;
-using CoachSeek.Services.Email;
+using CoachSeek.Domain.Services;
 using StructureMap.Configuration.DSL;
 
 namespace CoachSeek.Api
@@ -20,7 +18,7 @@ namespace CoachSeek.Api
             For<IUserRepository>().Use<AzureTableUserRepository>();
             //For<IUserRepository>().Use<InMemoryUserRepository>();
 
-            For<IBusinessRepository>().Use<DbBusinessRepository>();
+            //For<IBusinessRepository>().Use<DbBusinessRepository>();
             //For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
 
             For<IBookingRepository>().Use<InMemoryBookingRepository>();

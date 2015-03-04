@@ -94,10 +94,6 @@
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
       <Name>CoachSeek.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
-      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
-      <Name>CoachSeek.Services.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

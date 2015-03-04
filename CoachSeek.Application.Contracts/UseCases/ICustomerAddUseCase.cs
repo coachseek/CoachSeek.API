@@ -1,13 +1,10 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICustomerAddUseCase
+    public interface ICustomerAddUseCase : IBusinessRepositorySetter
     {
-        Guid BusinessId { set; }
-
         Response AddCustomer(CustomerAddCommand command);
     }
 }

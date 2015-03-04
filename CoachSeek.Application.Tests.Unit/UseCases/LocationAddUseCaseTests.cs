@@ -74,7 +74,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddLocation(LocationAddCommand command)
         {
-            var useCase = new LocationAddUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
+            var useCase = new LocationAddUseCase
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                BusinessRepository = BusinessRepository
+            };
 
             return useCase.AddLocation(command);
         }

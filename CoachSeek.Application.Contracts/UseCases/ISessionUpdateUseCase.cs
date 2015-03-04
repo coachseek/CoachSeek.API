@@ -1,13 +1,10 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ISessionUpdateUseCase
+    public interface ISessionUpdateUseCase : IBusinessRepositorySetter
     {
-        Guid BusinessId { set; }
-
         Response UpdateSession(SessionUpdateCommand command);
     }
 }

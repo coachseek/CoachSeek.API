@@ -3,7 +3,7 @@ using CoachSeek.Application.UseCases;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Services.Builders;
+using CoachSeek.Domain.Services;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void SetupBusinessDomainBuilder()
         {
-            BusinessDomainBuilder = new BusinessDomainBuilder(new HardCodedReservedDomainRepository(), BusinessRepository);
+            BusinessDomainBuilder = new BusinessDomainBuilder(new HardCodedReservedDomainRepository()) { BusinessRepository = BusinessRepository };
         }
 
 
@@ -67,7 +67,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddBusiness(BusinessAddCommand command)
         {
-            var useCase = new BusinessAddUseCase(BusinessRepository, BusinessDomainBuilder);
+            var useCase = new BusinessAddUseCase(BusinessDomainBuilder) {BusinessRepository = BusinessRepository};
 
             return useCase.AddBusiness(command);
         }

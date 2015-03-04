@@ -1,20 +1,18 @@
 ﻿using System;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Repositories;
-using CoachSeek.Services.Contracts.Builders;
+using IBusinessDomainBuilder = CoachSeek.Domain.Contracts.IBusinessDomainBuilder;
 
-namespace CoachSeek.Services.Builders
+namespace CoachSeek.Domain.Services
 {
     public class BusinessDomainBuilder : IBusinessDomainBuilder
     {
         private IReservedDomainRepository ReservedDomainRepository { get; set; }
-        private IBusinessRepository BusinessRepository { get; set; }
+        public IBusinessRepository BusinessRepository { get; set; }
 
-        public BusinessDomainBuilder(IReservedDomainRepository reservedDomainRepository, 
-                                     IBusinessRepository businessRepository)
+        public BusinessDomainBuilder(IReservedDomainRepository reservedDomainRepository)
         {
             ReservedDomainRepository = reservedDomainRepository;
-            BusinessRepository = businessRepository;
         }
 
         public string BuildDomain(string businessName)

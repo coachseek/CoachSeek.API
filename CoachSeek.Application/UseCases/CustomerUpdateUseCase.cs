@@ -1,24 +1,15 @@
-﻿using System.Linq;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
 using System;
+using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {
     public class CustomerUpdateUseCase : BaseUseCase, ICustomerUpdateUseCase
     {
-        public Guid BusinessId { get; set; }
-
-        
-        public CustomerUpdateUseCase(IBusinessRepository businessRepository)
-            : base(businessRepository)
-        { }
-
-
         public Response UpdateCustomer(CustomerUpdateCommand command)
         {
             if (command == null)

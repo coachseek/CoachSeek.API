@@ -1,7 +1,9 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.WebUI.Tests.Unit.Fakes
 {
@@ -11,6 +13,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         public BusinessAddCommand Command;
         public Response Response;
 
+        public Guid BusinessId { get; set; }
+        public IBusinessRepository BusinessRepository { get; set; }
 
         public Response AddBusiness(BusinessAddCommand command)
         {

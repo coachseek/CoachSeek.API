@@ -90,6 +90,8 @@
     <Compile Include="Commands\SessionUpdateCommand.cs" />
     <Compile Include="Commands\UserAssociateWithBusinessCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
+    <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
+    <Compile Include="Contracts\IBusinessRegistrationEmailer.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\Business2.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
@@ -109,9 +111,11 @@
     <Compile Include="Repositories\IBookingRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\UserStore.cs" />
+    <Compile Include="Services\BusinessDomainBuilder.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\PasswordHash.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
+    <Compile Include="Services\StubBusinessRegistrationEmailer.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\PointInTime.cs" />
@@ -198,10 +202,6 @@
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
       <Name>CoachSeek.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
-      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
-      <Name>CoachSeek.Services.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

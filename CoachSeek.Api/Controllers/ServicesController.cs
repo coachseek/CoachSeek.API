@@ -1,11 +1,11 @@
-﻿using System;
-using System.Net.Http;
-using System.Web.Http;
-using CoachSeek.Api.Attributes;
+﻿using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using System;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -37,6 +37,8 @@ namespace CoachSeek.Api.Controllers
         public HttpResponseMessage Get()
         {
             ServicesGetAllUseCase.BusinessId = BusinessId;
+            ServicesGetAllUseCase.BusinessRepository = BusinessRepository;
+
             var response = ServicesGetAllUseCase.GetServices();
             return CreateGetWebResponse(response);
         }
@@ -47,6 +49,8 @@ namespace CoachSeek.Api.Controllers
         public HttpResponseMessage Get(Guid id)
         {
             ServiceGetByIdUseCase.BusinessId = BusinessId;
+            ServiceGetByIdUseCase.BusinessRepository = BusinessRepository;
+
             var response = ServiceGetByIdUseCase.GetService(id);
             return CreateGetWebResponse(response);
         }
@@ -69,6 +73,8 @@ namespace CoachSeek.Api.Controllers
         {
             var command = ServiceAddCommandConverter.Convert(service);
             ServiceAddUseCase.BusinessId = BusinessId;
+            ServiceAddUseCase.BusinessRepository = BusinessRepository;
+
             var response = ServiceAddUseCase.AddService(command);
             return CreatePostWebResponse(response);
         }
@@ -77,6 +83,8 @@ namespace CoachSeek.Api.Controllers
         {
             var command = ServiceUpdateCommandConverter.Convert(service);
             ServiceUpdateUseCase.BusinessId = BusinessId;
+            ServiceUpdateUseCase.BusinessRepository = BusinessRepository;
+
             var response = ServiceUpdateUseCase.UpdateService(command);
             return CreatePostWebResponse(response);
         }

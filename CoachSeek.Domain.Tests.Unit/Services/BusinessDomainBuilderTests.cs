@@ -1,14 +1,14 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
-using CoachSeek.Services.Builders;
+using CoachSeek.Domain.Services;
 using NUnit.Framework;
+using System;
 
-namespace CoachSeek.Services.Tests.Unit.Builders
+namespace CoachSeek.Domain.Tests.Unit.Services
 {
     [TestFixture]
     public class BusinessDomainBuilderTests
@@ -178,7 +178,7 @@ namespace CoachSeek.Services.Tests.Unit.Builders
 
         private object WhenBuildDomain(string businessName)
         {
-            var builder = new BusinessDomainBuilder(ReservedDomainRepository, BusinessRepository);
+            var builder = new BusinessDomainBuilder(ReservedDomainRepository) {BusinessRepository = BusinessRepository};
             try
             {
                 return builder.BuildDomain(businessName);

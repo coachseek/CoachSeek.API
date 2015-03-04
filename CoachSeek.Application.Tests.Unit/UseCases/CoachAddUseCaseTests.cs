@@ -113,7 +113,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddCoach(CoachAddCommand command)
         {
-            var useCase = new CoachAddUseCase(BusinessRepository) {BusinessId = new Guid(BUSINESS_ID)};
+            var useCase = new CoachAddUseCase
+            {
+                BusinessId = new Guid(BUSINESS_ID), 
+                BusinessRepository = BusinessRepository 
+            };
 
             return useCase.AddCoach(command);
         }

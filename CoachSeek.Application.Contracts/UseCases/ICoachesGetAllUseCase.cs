@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICoachesGetAllUseCase
+    public interface ICoachesGetAllUseCase : IBusinessRepositorySetter
     {
-        Guid BusinessId { get; set; }
-
         IList<CoachData> GetCoaches();
     }
 }

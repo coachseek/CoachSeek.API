@@ -6,7 +6,7 @@ using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Services.Email;
+using CoachSeek.Domain.Services;
 using CoachSeek.WebUI.Tests.Unit.Fakes;
 using NUnit.Framework;
 using System;
@@ -199,7 +199,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private BusinessRegistrationController WhenConstruct()
         {
             var userAddUseCase = new UserAddUseCase(null);
-            var businessAddUseCase = new BusinessAddUseCase(null, null);
+            var businessAddUseCase = new BusinessAddUseCase(null);
             var associateUseCase = new UserAssociateWithBusinessUseCase(null);
             var emailer = new StubBusinessRegistrationEmailer();
 

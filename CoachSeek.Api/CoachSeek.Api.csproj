@@ -193,6 +193,7 @@
     <Compile Include="App_Start\WebApiAutoMapperConfigurator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Attributes\TestingFilter.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
@@ -401,14 +402,6 @@
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
       <Name>CoachSeek.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services.Contracts\CoachSeek.Services.Contracts.csproj">
-      <Project>{1AF3035A-DCEB-4035-A4E7-89912EDC11E1}</Project>
-      <Name>CoachSeek.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Services\CoachSeek.Services.csproj">
-      <Project>{C9D7784E-1598-4A80-8AA0-AB9DA2B1FA3F}</Project>
-      <Name>CoachSeek.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

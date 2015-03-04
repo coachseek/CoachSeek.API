@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {
     public class SessionUpdateUseCase : BaseUseCase, ISessionUpdateUseCase
     {
-        public Guid BusinessId { get; set; }
-
-
-        public SessionUpdateUseCase(IBusinessRepository businessRepository)
-            : base(businessRepository)
-        { }
-
-
         public Response UpdateSession(SessionUpdateCommand command)
         {
             if (command == null)

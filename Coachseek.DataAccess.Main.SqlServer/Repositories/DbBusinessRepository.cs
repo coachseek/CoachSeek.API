@@ -15,13 +15,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
     {
         private SqlConnection _connection;
 
+        protected virtual string ConnectionStringKey { get { return "BusinessDatabase"; } } 
+
         private SqlConnection Connection
         {
             get
             {
                 if (_connection == null)
                 {
-                    var connectionString = ConfigurationManager.ConnectionStrings["BusinessDatabase"].ConnectionString;
+                    var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
                     _connection = new SqlConnection(connectionString);
                 }
 
