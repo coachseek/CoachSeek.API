@@ -1351,7 +1351,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[13].Value = null;    // RepeatFrequency
                 command.Parameters[14].Value = session.Pricing.SessionPrice;
                 command.Parameters[15].Value = null;    // CoursePrice
-                command.Parameters[16].Value = session.Presentation.Colour;
+                 command.Parameters[16].Value = session.Presentation.Colour;
 
                 reader = command.ExecuteReader();
 
