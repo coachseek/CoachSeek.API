@@ -1,5 +1,4 @@
-﻿using CoachSeek.Data.Model;
-using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -9,16 +8,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     [TestFixture]
     public class SessionTimingTests : Tests
     {
-        private ServiceTimingData ServiceTiming { get; set; }
-
-
-        [SetUp]
-        public void Setup()
-        {
-            ServiceTiming = new ServiceTimingData {Duration = 105};
-        }
-
-
         [Test]
         public void GivenInvalidStartDate_WhenConstruct_ThenThrowValidationException()
         {
@@ -44,40 +33,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void GivenDurationMissingInServiceAndSession_WhenConstruct_ThenThrowValidationException()
-        {
-            ServiceTiming.Duration = null;
-            var sessionTiming = new SessionTimingCommand("2014-12-31", "12:45");
-            var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The duration field is required.", "session.timing.duration");
-        }
-
-        [Test]
-        public void GivenDurationMissingInService_WhenConstruct_ThenUseSessionDuration()
-        {
-            ServiceTiming.Duration = null;
-            var sessionTiming = new SessionTimingCommand("2014-12-31", "12:45", 75);
-            var response = WhenConstruct(sessionTiming);
-            AssertSessionTiming(response, "2014-12-31", "12:45", 75);
-        }
-
-        [Test]
-        public void GivenDurationMissingInSession_WhenConstruct_ThenUseServiceDuration()
-        {
-            var sessionTiming = new SessionTimingCommand("2014-12-31", "12:45");
-            var response = WhenConstruct(sessionTiming);
-            AssertSessionTiming(response, "2014-12-31", "12:45", 105);
-        }
-
-        [Test]
-        public void GivenDurationInServiceAndSession_WhenConstruct_ThenUseSessionDuration()
-        {
-            var sessionTiming = new SessionTimingCommand("2014-12-31", "12:45", 75);
-            var response = WhenConstruct(sessionTiming);
-            AssertSessionTiming(response, "2014-12-31", "12:45", 75);
-        }
-
-        [Test]
         public void GivenMultipleErrorsInTiming_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
         {
             var sessionTiming = new SessionTimingCommand("2014-15-15", "27:45", 35);
@@ -92,7 +47,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new SessionTiming(data, ServiceTiming);
+                return new SessionTiming(data);
             }
             catch (Exception ex)
             {

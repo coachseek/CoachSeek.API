@@ -115,33 +115,15 @@ namespace CoachSeek.Domain.Entities
                                                    CoreData coreData,
                                                    ValidationException errors)
         {
-            ValidateAndCreateSessionRepetition(command.Repetition, coreData.Service.Repetition, errors);
-            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
+            ValidateAndCreateSessionRepetition(command.Repetition, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, errors);
         }
 
-        //private void Validate(LocationData location, CoachData coach, ServiceData service, SessionTimingData timing,
-        //    SessionBookingData booking, PresentationData presentation, RepetitionData repetition, PricingData pricing)
-        //{
-        //    var errors = new ValidationException();
-
-        //    ValidateAndCreateLocation(location, errors);
-        //    ValidateAndCreateCoach(coach, errors);
-        //    ValidateAndCreateService(service, errors);
-        //    ValidateAndCreateSessionTiming(timing, service.Timing, errors);
-        //    ValidateAndCreateSessionBooking(booking, service.Booking, errors);
-        //    ValidateAndCreateSessionPresentation(presentation, service.Presentation, errors);
-
-        //    ValidateAndCreateSessionRepetition(repetition, service.Repetition, errors);
-        //    ValidateAndCreateSessionPricing(pricing, service.Pricing, errors);
-
-        //    errors.ThrowIfErrors();
-        //}
-
-        private void ValidateAndCreateSessionRepetition(RepetitionCommand sessionRepetition, RepetitionData serviceRepetition, ValidationException errors)
+        private void ValidateAndCreateSessionRepetition(RepetitionCommand sessionRepetition, ValidationException errors)
         {
             try
             {
-                _repetition = new SessionRepetition(sessionRepetition, serviceRepetition);
+                _repetition = new SessionRepetition(sessionRepetition);
             }
             catch (ValidationException ex)
             {
@@ -149,11 +131,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, RepeatedSessionPricingData servicePricing, ValidationException errors)
+        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, ValidationException errors)
         {
             try
             {
-                _pricing = new RepeatedSessionPricing(sessionPricing, servicePricing);
+                _pricing = new RepeatedSessionPricing(sessionPricing);
             }
             catch (ValidationException ex)
             {

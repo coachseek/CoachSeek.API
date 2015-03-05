@@ -1276,7 +1276,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var isOnlineBookable = reader.GetBoolean(16);
             var sessionCount = reader.GetByte(17);
             var repeatFrequency = reader.GetNullableStringTrimmed(18);
-            var sessionPrice = reader.GetDecimal(19);
+            var sessionPrice = reader.GetNullableDecimal(19);   // Nullable because for course session this can be null.
             var coursePrice = reader.GetNullableDecimal(20);
             var colour = reader.GetNullableStringTrimmed(21);
 
@@ -1385,7 +1385,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var isOnlineBookable = reader.GetBoolean(15);
             var sessionCount = reader.GetByte(16);
             var repeatFrequency = reader.GetNullableStringTrimmed(17);
-            var sessionPrice = reader.GetDecimal(18);
+            var sessionPrice = reader.GetNullableDecimal(18);
             var coursePrice = reader.GetNullableDecimal(19);
             var colour = reader.GetNullableStringTrimmed(20);
 

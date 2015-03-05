@@ -28,10 +28,8 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public SessionTiming(SessionTimingCommand command, ServiceTimingData serviceTiming)
+        public SessionTiming(SessionTimingCommand command)
         {
-            command = BackfillMissingValuesFromService(command, serviceTiming);
-
             ValidateAndCreateSessionTiming(command);
         }
 
@@ -46,24 +44,6 @@ namespace CoachSeek.Domain.Entities
             return Mapper.Map<SessionTiming, SessionTimingData>(this);
         }
 
-
-        private SessionTimingCommand BackfillMissingValuesFromService(SessionTimingCommand command, ServiceTimingData serviceTiming)
-        {
-            if (SessionIsMissingDuration(command) && ServiceHasDuration(serviceTiming))
-                command.Duration = serviceTiming.Duration;
-
-            return command;
-        }
-
-        private bool SessionIsMissingDuration(SessionTimingCommand timing)
-        {
-            return timing.Duration == null;
-        }
-
-        private bool ServiceHasDuration(ServiceTimingData serviceTiming)
-        {
-            return serviceTiming != null && serviceTiming.Duration.HasValue;
-        }
 
         private void ValidateAndCreateSessionTiming(SessionTimingCommand command)
         {
@@ -80,7 +60,7 @@ namespace CoachSeek.Domain.Entities
         {
             _startDate = new Date(data.StartDate);
             _startTime = new TimeOfDay(data.StartTime);
-            _duration = new SessionDuration(data.Duration.Value);
+            _duration = new SessionDuration(data.Duration);
         }
 
         private void ValidateAndCreateStartDate(string startDate, ValidationException errors)

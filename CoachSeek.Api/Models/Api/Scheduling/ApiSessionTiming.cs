@@ -8,8 +8,7 @@ namespace CoachSeek.Api.Models.Api.Scheduling
         public string StartDate { get; set; }
         [Required]
         public string StartTime { get; set; }
-
-        // Duration is not required because it may default to the Service value.
+        [Required]
         public int? Duration { get; set; }
     }
 }

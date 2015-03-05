@@ -9,8 +9,8 @@ namespace CoachSeek.Domain.Entities
         public new decimal SessionPrice { get { return _sessionPrice.Amount.Value; } }
 
 
-        public StandaloneSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
-            : base(sessionPricing, servicePricing)
+        public StandaloneSessionPricing(PricingCommand sessionPricing)
+            : base(sessionPricing)
         { }
 
         public StandaloneSessionPricing(decimal sessionPrice)

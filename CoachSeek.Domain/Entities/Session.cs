@@ -80,9 +80,10 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreateLocation(coreData.Location, errors);
             ValidateAndCreateCoach(coreData.Coach, errors);
             ValidateAndCreateService(coreData.Service, errors);
-            ValidateAndCreateSessionTiming(command.Timing, coreData.Service.Timing, errors);
-            ValidateAndCreateSessionBooking(command.Booking, coreData.Service.Booking, errors);
-            ValidateAndCreateSessionPresentation(command.Presentation, coreData.Service.Presentation, errors);
+
+            ValidateAndCreateSessionTiming(command.Timing, errors);
+            ValidateAndCreateSessionBooking(command.Booking, errors);
+            ValidateAndCreateSessionPresentation(command.Presentation, errors);
 
             ValidateAdditional(command, coreData, errors);
 
@@ -150,11 +151,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionTiming(SessionTimingCommand sessionTiming, ServiceTimingData serviceTiming, ValidationException errors)
+        protected void ValidateAndCreateSessionTiming(SessionTimingCommand sessionTiming, ValidationException errors)
         {
             try
             {
-                _timing = new SessionTiming(sessionTiming, serviceTiming);
+                _timing = new SessionTiming(sessionTiming);
             }
             catch (ValidationException ex)
             {
@@ -162,11 +163,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionBooking(SessionBookingCommand sessionBooking, ServiceBookingData serviceBooking, ValidationException errors)
+        protected void ValidateAndCreateSessionBooking(SessionBookingCommand sessionBooking, ValidationException errors)
         {
             try
             {
-                _booking = new SessionBooking(sessionBooking, serviceBooking);
+                _booking = new SessionBooking(sessionBooking);
             }
             catch (ValidationException ex)
             {
@@ -174,11 +175,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        protected void ValidateAndCreateSessionPresentation(PresentationCommand sessionPresentation, PresentationData servicePresentation, ValidationException errors)
+        protected void ValidateAndCreateSessionPresentation(PresentationCommand sessionPresentation, ValidationException errors)
         {
             try
             {
-                _presentation = new SessionPresentation(sessionPresentation, servicePresentation);
+                _presentation = new SessionPresentation(sessionPresentation);
             }
             catch (ValidationException ex)
             {

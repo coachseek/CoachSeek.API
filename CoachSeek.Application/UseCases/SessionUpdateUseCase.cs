@@ -21,9 +21,10 @@ namespace CoachSeek.Application.UseCases
             var session = GetExistingSessionOrCourse(command.Id);
             if (session == null)
                 return new NotFoundResponse();
+
             if (session is StandaloneSession)
             {
-                if (command.Repetition != null && command.Repetition.SessionCount > 1)
+                if (IsChangingStandaloneSessionToCourse(command))
                     return new CannotChangeStandaloneSessionToCourseErrorResponse();
                 return UpdateStandaloneSession((StandaloneSession)session, command);
             }
@@ -58,6 +59,11 @@ namespace CoachSeek.Application.UseCases
                 return new RepeatedSession(course, LookupCoreData(course));
 
             return null;
+        }
+
+        private bool IsChangingStandaloneSessionToCourse(SessionUpdateCommand command)
+        {
+            return command.Repetition != null && command.Repetition.SessionCount > 1;
         }
 
         private CoreData LookupCoreData(SessionData data)

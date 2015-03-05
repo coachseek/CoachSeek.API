@@ -15,12 +15,10 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public RepeatedSessionPricing(PricingCommand sessionPricing, RepeatedSessionPricingData servicePricing)
-            : base(sessionPricing, servicePricing)
+        public RepeatedSessionPricing(PricingCommand sessionPricing)
         {
-            sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
-
-            Validate(sessionPricing);
+            if (sessionPricing.SessionPrice == null && sessionPricing.CoursePrice == null)
+                throw new ValidationException("At least a session or course price must be specified.", "session.pricing");
 
             ValidateAndCreatePricing(sessionPricing);
         }
@@ -75,33 +73,6 @@ namespace CoachSeek.Domain.Entities
         private void CreateCoursePricing(decimal? coursePrice)
         {
             _coursePrice = new Price(coursePrice);
-        }
-
-        protected override PricingCommand BackfillMissingValuesFromService(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
-        {
-            if (sessionPricing == null)
-            {
-                if (servicePricing == null)
-                    return new PricingCommand();
-                return new PricingCommand(servicePricing.SessionPrice, ((RepeatedSessionPricingData)servicePricing).CoursePrice);
-            }
-
-            if (servicePricing != null)
-            {
-                if (!sessionPricing.SessionPrice.HasValue)
-                    sessionPricing.SessionPrice = servicePricing.SessionPrice;
-
-                if (!sessionPricing.CoursePrice.HasValue)
-                    sessionPricing.CoursePrice = ((RepeatedSessionPricingData)servicePricing).CoursePrice;
-            }            
-
-            return sessionPricing;
-        }
-
-        private void Validate(PricingCommand sessionPricing)
-        {
-            if (sessionPricing == null)
-                throw new ValidationException("The pricing field is required.", "session.pricing");
         }
     }
 }

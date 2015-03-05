@@ -1,10 +1,12 @@
-﻿namespace CoachSeek.Api.Models.Api.Scheduling
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CoachSeek.Api.Models.Api.Scheduling
 {
     public class ApiSessionBooking
     {
-        // StudentCapacity is not required because it may default to the Service value.
+        [Required]
         public int? StudentCapacity { get; set; }
-        // StudentCapacity is not required because it may default to the Service value.
+        [Required]
         public bool? IsOnlineBookable { get; set; } // eg. Is private or not
     }
 }

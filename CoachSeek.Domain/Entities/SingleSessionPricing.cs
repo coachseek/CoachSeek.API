@@ -15,10 +15,11 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public SingleSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
-        {
-            sessionPricing = BackfillMissingValuesFromService(sessionPricing, servicePricing);
+        public SingleSessionPricing()
+        { }
 
+        public SingleSessionPricing(PricingCommand sessionPricing)
+        {
             Validate(sessionPricing);
 
             CreateSessionPrice(sessionPricing.SessionPrice);
@@ -68,21 +69,6 @@ namespace CoachSeek.Domain.Entities
             // Note: For a single session inside of a repeated sesssion (course) 
             // is's ok for the session not to have a session price.
             // On the other hand, a (child class) Standalone session must have a session price.
-        }
-
-        protected virtual PricingCommand BackfillMissingValuesFromService(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
-        {
-            if (sessionPricing == null)
-            {
-                if (servicePricing == null)
-                    return new PricingCommand();
-                return new PricingCommand(servicePricing.SessionPrice);
-            }
-
-            if (servicePricing != null && !sessionPricing.SessionPrice.HasValue)
-                sessionPricing.SessionPrice = servicePricing.SessionPrice;
-
-            return sessionPricing;
         }
     }
 }

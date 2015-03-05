@@ -13,7 +13,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void GivenNegativeSessionPrice_WhenConstruct_ThenThrowValidationException()
         {
             var sessionPricing = new PricingCommand(-10, null);
-            var response = WhenConstruct(sessionPricing, null);
+            var response = WhenConstruct(sessionPricing);
             AssertSingleError(response, "The sessionPrice field is not valid.", "session.pricing.sessionPrice");
         }
 
@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void GivenSessionPrice_WhenConstruct_ThenConstructSessionPricing()
         {
             var sessionPricing = new PricingCommand(10, null);
-            var response = WhenConstruct(sessionPricing, null);
+            var response = WhenConstruct(sessionPricing);
             AssertSessionPricing(response, 10);
         }
 
@@ -30,30 +30,23 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             // A SingleSession can be part of a RepeatedSession so a CoursePrice could be passed in.
             var sessionPricing = new PricingCommand(10, 100);
-            var response = WhenConstruct(sessionPricing, null);
+            var response = WhenConstruct(sessionPricing);
             AssertSessionPricing(response, 10);
         }
 
-        [Test]
-        public void GivenMissingPricing_WhenConstruct_ThenConstructWithoutPricing()
-        {
-            var response = WhenConstruct(null, null);
-            AssertSessionPricing(response, null);
-        }
+        //[Test]
+        //public void GivenMissingPricing_WhenConstruct_ThenConstructWithoutPricing()
+        //{
+        //    var response = WhenConstruct(null, null);
+        //    AssertSessionPricing(response, null);
+        //}
 
-        [Test]
-        public void GivenMissingSessionPricing_WhenConstruct_ThenFallBackToServicePricing()
-        {
-            var servicePricing = new SingleSessionPricingData(15);
-            var response = WhenConstruct(null, servicePricing);
-            AssertSessionPricing(response, 15);
-        }
 
-        private object WhenConstruct(PricingCommand sessionPricing, SingleSessionPricingData servicePricing)
+        private object WhenConstruct(PricingCommand sessionPricing)
         {
             try
             {
-                return new SingleSessionPricing(sessionPricing, servicePricing);
+                return new SingleSessionPricing(sessionPricing);
             }
             catch (Exception ex)
             {

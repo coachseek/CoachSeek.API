@@ -77,7 +77,7 @@ namespace CoachSeek.Domain.Entities
 
         public SingleSession Clone()
         {
-            var sessionData = (SingleSessionData)ToData();
+            var sessionData = ToData();
             sessionData.Id = Guid.NewGuid();
 
             return new SingleSession(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
@@ -119,14 +119,14 @@ namespace CoachSeek.Domain.Entities
                                                    CoreData coreData,
                                                    ValidationException errors)                       
         {
-            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, errors);
         }
 
-        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing, ValidationException errors)
+        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, ValidationException errors)
         {
             try
             {
-                _pricing = new SingleSessionPricing(sessionPricing, servicePricing);
+                _pricing = new SingleSessionPricing(sessionPricing);
             }
             catch (ValidationException ex)
             {

@@ -78,18 +78,18 @@ namespace CoachSeek.Domain.Entities
                                                    ValidationException errors)
         {
             ValidateRepetition(command);
-            ValidateAndCreateSessionPricing(command.Pricing, coreData.Service.Pricing, errors);
+            ValidateAndCreateSessionPricing(command.Pricing, errors);
         }
 
 
         private void ValidateRepetition(SessionAddCommand command)
         { }
 
-        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, SingleSessionPricingData servicePricing, ValidationException errors)
+        private void ValidateAndCreateSessionPricing(PricingCommand sessionPricing, ValidationException errors)
         {
             try
             {
-                _pricing = new StandaloneSessionPricing(sessionPricing, servicePricing);
+                _pricing = new StandaloneSessionPricing(sessionPricing);
             }
             catch (ValidationException ex)
             {

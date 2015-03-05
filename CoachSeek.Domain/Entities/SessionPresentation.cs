@@ -12,10 +12,8 @@ namespace CoachSeek.Domain.Entities
         private Colour _colour { get; set; }
 
 
-        public SessionPresentation(PresentationCommand command, PresentationData servicePresentation)
+        public SessionPresentation(PresentationCommand command)
         {
-            command = BackfillMissingValuesFromService(command, servicePresentation);
-
             ValidateAndCreateSessionPresentation(command);
         }
 
@@ -30,36 +28,6 @@ namespace CoachSeek.Domain.Entities
             return Mapper.Map<SessionPresentation, PresentationData>(this);
         }
 
-
-        private PresentationCommand BackfillMissingValuesFromService(PresentationCommand sessionPresentation, PresentationData servicePresentation)
-        {
-            if (sessionPresentation == null)
-            {
-                var presentation = new PresentationCommand();
-
-                if (servicePresentation != null && servicePresentation.Colour != null)
-                {
-                    presentation.Colour = servicePresentation.Colour;
-                }
-
-                return presentation;
-            }
-
-            if (SessionIsMissingColour(sessionPresentation) && ServiceHasColour(servicePresentation))
-                sessionPresentation.Colour = servicePresentation.Colour;
-
-            return sessionPresentation;
-        }
-
-        private bool SessionIsMissingColour(PresentationCommand sessionPresentation)
-        {
-            return sessionPresentation.Colour == null;
-        }
-
-        private bool ServiceHasColour(PresentationData servicePresentation)
-        {
-            return servicePresentation != null && servicePresentation.Colour != null;
-        }
 
         private void ValidateAndCreateSessionPresentation(PresentationCommand command)
         {

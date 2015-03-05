@@ -14,10 +14,8 @@ namespace CoachSeek.Domain.Entities
         public int StudentCapacity { get { return _studentCapacity.Maximum; } }
 
 
-        public SessionBooking(SessionBookingCommand command, ServiceBookingData serviceBooking)
+        public SessionBooking(SessionBookingCommand command)
         {
-            command = BackfillMissingValuesFromService(command, serviceBooking);
-
             ValidateAndCreateSessionBooking(command);
         }
 
@@ -32,30 +30,6 @@ namespace CoachSeek.Domain.Entities
             return Mapper.Map<SessionBooking, SessionBookingData>(this);
         }
 
-
-        private SessionBookingCommand BackfillMissingValuesFromService(SessionBookingCommand command, ServiceBookingData serviceBooking)
-        {
-            if (command == null)
-            {
-                var booking = new SessionBookingCommand();
-
-                if (serviceBooking != null)
-                {
-                    booking.StudentCapacity = serviceBooking.StudentCapacity;
-                    booking.IsOnlineBookable = serviceBooking.IsOnlineBookable;
-                }
-
-                return booking;
-            }
-
-            if (command.StudentCapacity == null && serviceBooking != null)
-                command.StudentCapacity = serviceBooking.StudentCapacity;
-
-            if (command.IsOnlineBookable == null && serviceBooking != null)
-                command.IsOnlineBookable = serviceBooking.IsOnlineBookable;
-
-            return command;
-        }
 
         private void ValidateAndCreateSessionBooking(SessionBookingCommand command)
         {

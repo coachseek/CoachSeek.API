@@ -1,5 +1,4 @@
 ﻿using System;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
@@ -9,36 +8,28 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     [TestFixture]
     public class SessionPresentationTests : Tests
     {
-        private PresentationData ServicePresentation { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-            ServicePresentation = new PresentationData {Colour = "Red"};
-        }
-
-
         [Test]
-        public void GivenInvalidColour_WhenConstruct_ThenUseServiceBooking()
+        public void GivenInvalidColour_WhenConstruct_ThenInvalidColourError()
         {
             var sessionPresentation = new PresentationCommand { Colour = "aquamarine" };
-            var response = WhenConstruct(sessionPresentation, null);
+            var response = WhenConstruct(sessionPresentation);
             AssertSingleError(response, "The colour field is not valid.", "session.presentation.colour");
         }
 
         [Test]
-        public void GivenServiceColourButNoSessionColour_WhenConstruct_ThenUseServiceColour()
+        public void GivenValidColour_WhenConstruct_ThenCreateColour()
         {
-            var response = WhenConstruct(null, ServicePresentation);
-            AssertSessionPresentation(response, "red");
+            var sessionPresentation = new PresentationCommand { Colour = "yellow" };
+            var response = WhenConstruct(sessionPresentation);
+            AssertSessionPresentation(response, "yellow");
         }
 
 
-        private object WhenConstruct(PresentationCommand sessionPresentation, PresentationData servicePresentation)
+        private object WhenConstruct(PresentationCommand sessionPresentation)
         {
             try
             {
-                return new SessionPresentation(sessionPresentation, servicePresentation);
+                return new SessionPresentation(sessionPresentation);
             }
             catch (Exception ex)
             {

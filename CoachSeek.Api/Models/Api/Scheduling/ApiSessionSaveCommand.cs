@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using CoachSeek.Api.Models.Api.Setup;
 
 namespace CoachSeek.Api.Models.Api.Scheduling
@@ -16,12 +15,16 @@ namespace CoachSeek.Api.Models.Api.Scheduling
         [Required]
         public ApiSessionTiming Timing { get; set; }
         // Booking is not required because it may default to the Service value.
+        [Required]
         public ApiSessionBooking Booking { get; set; }
         // Pricing is not required because it may default to the Service value.
+        [Required]
         public ApiPricing Pricing { get; set; }
         // Repetition is not required because it may default to the Service value.
+        [Required]
         public ApiRepetition Repetition { get; set; }
         // Presentation is not required because it may default to the Service value.
+        [Required]
         public ApiPresentation Presentation { get; set; }
     }
 }

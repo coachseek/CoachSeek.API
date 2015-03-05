@@ -12,18 +12,16 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenInvalidSessionCount_WhenConstruct_ThenThrowValidationException()
         {
-            var serviceRepetition = new RepetitionData(1);
             var sessionRepetition = new RepetitionCommand(-10, "w");
-            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            var response = WhenConstruct(sessionRepetition);
             AssertSingleError(response, "The sessionCount field is not valid.", "session.repetition.sessionCount");
         }
 
         [Test]
         public void GivenInvalidRepeatFrequency_WhenConstruct_ThenThrowValidationException()
         {
-            var serviceRepetition = new RepetitionData(5, "d");
             var sessionRepetition = new RepetitionCommand(10, "xxx");
-            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            var response = WhenConstruct(sessionRepetition);
             AssertSingleError(response, "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency");
         }
 
@@ -31,23 +29,15 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         public void GivenSessionRepetitionOnly_WhenConstruct_ThenUseSessionRepetition()
         {
             var sessionRepetition = new RepetitionCommand(12, "d");
-            var response = WhenConstruct(sessionRepetition, null);
+            var response = WhenConstruct(sessionRepetition);
             AssertSessionRepetition(response, 12, "d");
-        }
-
-        [Test]
-        public void GivenServiceRepetitionOnly_WhenConstruct_ThenUseServiceRepetition()
-        {
-            var serviceRepetition = new RepetitionData(8, "w");
-            var response = WhenConstruct(null, serviceRepetition);
-            AssertSessionRepetition(response, 8, "w");
         }
 
         [Test]
         public void GivenMultipleErrorsInSessionRepetition_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
         {
             var sessionRepetition = new RepetitionCommand(-3, "abc");
-            var response = WhenConstruct(sessionRepetition, null);
+            var response = WhenConstruct(sessionRepetition);
             AssertMultipleErrors(response, new[,] { { "The sessionCount field is not valid.", "session.repetition.sessionCount" },
                                                     { "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency" } });
         }
@@ -55,27 +45,25 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenDailyRepeatSessionCountTooLarge_WhenConstruct_ThenThrowValidationExceptions()
         {
-            var serviceRepetition = new RepetitionData(5, "d");
             var sessionRepetition = new RepetitionCommand(100, "d");
-            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            var response = WhenConstruct(sessionRepetition);
             AssertSingleError(response, "The maximum number of daily sessions is 30.", "session.repetition.sessionCount");
         }
 
         [Test]
         public void GivenWeeklyRepeatSessionCountTooLarge_WhenConstruct_ThenThrowValidationExceptions()
         {
-            var serviceRepetition = new RepetitionData(2, "w");
             var sessionRepetition = new RepetitionCommand(90, "w");
-            var response = WhenConstruct(sessionRepetition, serviceRepetition);
+            var response = WhenConstruct(sessionRepetition);
             AssertSingleError(response, "The maximum number of weekly sessions is 26.", "session.repetition.sessionCount");
         }
 
 
-        private object WhenConstruct(RepetitionCommand sessionRepetition, RepetitionData serviceRepetition)
+        private object WhenConstruct(RepetitionCommand sessionRepetition)
         {
             try
             {
-                return new SessionRepetition(sessionRepetition, serviceRepetition);
+                return new SessionRepetition(sessionRepetition);
             }
             catch (Exception ex)
             {
