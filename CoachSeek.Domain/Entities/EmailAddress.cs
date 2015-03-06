@@ -10,7 +10,7 @@ namespace CoachSeek.Domain.Entities
 
         public EmailAddress(string email)
         {
-            if (string.IsNullOrWhiteSpace(email))
+            if (email == null)
                 throw new MissingEmailAddress();
 
             var emailAddress = email.Trim().ToLower();
@@ -25,8 +25,9 @@ namespace CoachSeek.Domain.Entities
             {
                 var mailAddress = new MailAddress(emailAddress);
             }
-            catch (FormatException)
+            catch (Exception)
             {
+                // Catch ArgumentException, FormatException
                 throw new InvalidEmailAddressFormat();
             }
         }

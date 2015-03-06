@@ -17,19 +17,19 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void GivenEmptyEmail_WhenConstructEmailAddress_ThenThrowMissingEmailAddress()
+        public void GivenEmptyEmail_WhenConstructEmailAddress_ThenThrowInvalidEmailAddressFormat()
         {
             var email = GivenEmptyEmail();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowMissingEmailAddress(response);
+            ThenThrowInvalidEmailAddressFormat(response);
         }
 
         [Test]
-        public void GivenWhitespaceEmail_WhenConstructEmailAddress_ThenThrowMissingEmailAddress()
+        public void GivenWhitespaceEmail_WhenConstructEmailAddress_ThenThrowInvalidEmailAddressFormat()
         {
             var email = GivenWhitespaceEmail();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowMissingEmailAddress(response);
+            ThenThrowInvalidEmailAddressFormat(response);
         }
 
         [Test]

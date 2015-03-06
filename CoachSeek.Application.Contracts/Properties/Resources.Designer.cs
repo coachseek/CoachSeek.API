@@ -151,6 +151,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email address is not valid..
+        /// </summary>
+        internal static string ErrorInvalidEmailAddressFormat {
+            get {
+                return ResourceManager.GetString("ErrorInvalidEmailAddressFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This location does not exist..
         /// </summary>
         internal static string ErrorInvalidLocation {

@@ -147,6 +147,9 @@
   <data name="ErrorInvalidCustomer" xml:space="preserve">
     <value>This customer does not exist.</value>
   </data>
+  <data name="ErrorInvalidEmailAddressFormat" xml:space="preserve">
+    <value>The email address is not valid.</value>
+  </data>
   <data name="ErrorInvalidLocation" xml:space="preserve">
     <value>This location does not exist.</value>
   </data>

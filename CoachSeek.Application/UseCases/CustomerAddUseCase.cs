@@ -23,6 +23,8 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
+                if (ex is InvalidEmailAddressFormat)
+                    return new InvalidEmailAddressFormatErrorResponse("customer.email");
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 
