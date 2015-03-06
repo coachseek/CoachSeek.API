@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Conversion;
@@ -230,7 +231,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CoachData> GetAllCoaches(Guid businessId)
         {
-            var dbCoaches = GetAllDbCoaches(businessId);
+            var dbCoaches = GetAllDbCoaches(businessId).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
 
             return Mapper.Map<IList<DbCoach>, IList<CoachData>>(dbCoaches);
         }
@@ -316,7 +317,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
-            var dbCustomers = GetAllDbCustomers(businessId);
+            var dbCustomers = GetAllDbCustomers(businessId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
 
             return Mapper.Map<IList<DbCustomer>, IList<CustomerData>>(dbCustomers);
         }

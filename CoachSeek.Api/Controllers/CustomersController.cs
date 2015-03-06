@@ -6,12 +6,13 @@ using CoachSeek.Application.Contracts.UseCases;
 using System;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
     public class CustomersController : BaseController
     {
-        //public ICoachesGetAllUseCase CoachesGetAllUseCase { get; set; }
+        public ICustomersGetAllUseCase CustomersGetAllUseCase { get; set; }
         public ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
         public ICustomerAddUseCase CustomerAddUseCase { get; set; }
         public ICustomerUpdateUseCase CustomerUpdateUseCase { get; set; }
@@ -19,27 +20,29 @@ namespace CoachSeek.Api.Controllers
         public CustomersController()
         { }
 
-        public CustomersController(//ICoachesGetAllUseCase coachesGetAllUseCase,
+        public CustomersController(ICustomersGetAllUseCase customersGetAllUseCase,
                                    ICustomerGetByIdUseCase customerGetByIdUseCase,
                                    ICustomerAddUseCase customerAddUseCase,
                                    ICustomerUpdateUseCase customerUpdateUseCase)
         {
-            //CoachesGetAllUseCase = coachesGetAllUseCase;
+            CustomersGetAllUseCase = customersGetAllUseCase;
             CustomerGetByIdUseCase = customerGetByIdUseCase;
             CustomerAddUseCase = customerAddUseCase;
             CustomerUpdateUseCase = customerUpdateUseCase;
         }
 
 
-        //// GET: api/Coaches
-        //[BasicAuthentication]
-        //[Authorize]
-        //public HttpResponseMessage Get()
-        //{
-        //    CoachesGetAllUseCase.BusinessId = BusinessId;
-        //    var response = CoachesGetAllUseCase.GetCoaches();
-        //    return CreateGetWebResponse(response);
-        //}
+        // GET: api/Customers
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get()
+        {
+            CustomersGetAllUseCase.BusinessId = BusinessId;
+            CustomersGetAllUseCase.BusinessRepository = BusinessRepository;
+
+            var response = CustomersGetAllUseCase.GetCustomers();
+            return CreateGetWebResponse(response);
+        }
 
         // GET: api/Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
