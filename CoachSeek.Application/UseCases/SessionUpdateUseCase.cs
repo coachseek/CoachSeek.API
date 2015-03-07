@@ -26,12 +26,13 @@ namespace CoachSeek.Application.UseCases
             {
                 if (IsChangingStandaloneSessionToCourse(command))
                     return new CannotChangeStandaloneSessionToCourseErrorResponse();
-                return UpdateStandaloneSession((StandaloneSession)session, command);
+                return UpdateStandaloneSession(command);
             }
             if (session is SingleSession)
             {
-                // TODO: Update a session inside a course.
-                return null;
+                if (IsChangingSessionInCourseToCourse(command))
+                    return new CannotChangeSessionInCourseToCourseErrorResponse();
+                return UpdateSessionInCourse(command);
             }
             if (session is RepeatedSession)
             {
@@ -66,6 +67,11 @@ namespace CoachSeek.Application.UseCases
             return command.Repetition != null && command.Repetition.SessionCount > 1;
         }
 
+        private bool IsChangingSessionInCourseToCourse(SessionUpdateCommand command)
+        {
+            return command.Repetition != null && command.Repetition.SessionCount > 1;
+        }
+
         private CoreData LookupCoreData(SessionData data)
         {
             var location = BusinessRepository.GetLocation(BusinessId, data.Location.Id);
@@ -88,7 +94,7 @@ namespace CoachSeek.Application.UseCases
             return coreData;
         }
 
-        private Response UpdateStandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command)
+        private Response UpdateStandaloneSession(SessionUpdateCommand command)
         {
             try
             {
@@ -109,7 +115,28 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateUpdate(StandaloneSession updateSession)
+        private Response UpdateSessionInCourse(SessionUpdateCommand command)
+        {
+            try
+            {
+                var coreData = LookupAndValidateCoreData(command);
+                var updateSession = new SingleSession(command, coreData);
+                ValidateUpdate(updateSession);
+                var data = BusinessRepository.UpdateSession(BusinessId, updateSession);
+                return new Response(data);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ClashingSession)
+                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
+                throw;
+            }
+        }
+
+        private void ValidateUpdate(SingleSession updateSession)
         {
             ValidateIsNotOverlapping(updateSession);
         }
@@ -130,12 +157,12 @@ namespace CoachSeek.Application.UseCases
             validationException.ThrowIfErrors();
         }
 
-        private void ValidateIsNotOverlapping(StandaloneSession command)
+        private void ValidateIsNotOverlapping(SingleSession command)
         {
             ValidateIsNotOverlappingSessions(command);
         }
 
-        private void ValidateIsNotOverlappingSessions(StandaloneSession session)
+        private void ValidateIsNotOverlappingSessions(SingleSession session)
         {
             var standaloneSessions = GetAllSessions();
 

@@ -130,5 +130,12 @@ namespace CoachSeek.Application.Contracts.Models
             : base("Cannot change from a standalone session to a course.")
         { }
     }
+
+    public class CannotChangeSessionInCourseToCourseErrorResponse : ErrorResponse
+    {
+        public CannotChangeSessionInCourseToCourseErrorResponse()
+            : base("Cannot change from a session in a course to a course.")
+        { }
+    }
 }
 

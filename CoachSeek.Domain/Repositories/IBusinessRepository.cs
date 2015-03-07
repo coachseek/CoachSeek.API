@@ -40,7 +40,7 @@ namespace CoachSeek.Domain.Repositories
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
         SingleSessionData AddSession(Guid businessId, StandaloneSession session);
-        SingleSessionData UpdateSession(Guid businessId, StandaloneSession session);
+        SingleSessionData UpdateSession(Guid businessId, SingleSession session);
 
         RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
         RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course);

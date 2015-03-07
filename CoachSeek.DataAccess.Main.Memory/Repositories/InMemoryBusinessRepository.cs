@@ -418,9 +418,9 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetSession(businessId, session.Id);
         }
 
-        public SingleSessionData UpdateSession(Guid businessId, StandaloneSession session)
+        public SingleSessionData UpdateSession(Guid businessId, SingleSession session)
         {
-            var dbSession = Mapper.Map<StandaloneSession, DbSingleSession>(session);
+            var dbSession = Mapper.Map<SingleSession, DbSingleSession>(session);
             dbSession.Repetition = new DbRepetition { SessionCount = 1 };
 
             var dbSessions = GetAllDbSessions(businessId);

@@ -964,7 +964,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public SingleSessionData UpdateSession(Guid businessId, StandaloneSession session)
+        public SingleSessionData UpdateSession(Guid businessId, SingleSession session)
         {
             SqlDataReader reader = null;
             try
