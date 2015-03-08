@@ -60,14 +60,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public Business2Data GetBusiness(Guid businessId)
+        public BusinessData GetBusiness(Guid businessId)
         {
             var business = Businesses.FirstOrDefault(x => x.Id == businessId);
 
-            return Mapper.Map<DbBusiness, Business2Data>(business);
+            return Mapper.Map<DbBusiness, BusinessData>(business);
         }
 
-        public Business2Data AddBusiness(Business2 business)
+        public BusinessData AddBusiness(Business business)
         {
             WasAddBusinessCalled = true;
             DataPassedIn = business;
@@ -78,51 +78,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetBusiness(business.Id);
         }
 
-        //public Business Save(Business business)
-        //{
-        //    var dbBusiness = DbBusinessConverter.Convert(business);
-        //    var existingBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
-        //    var existingIndex = Businesses.IndexOf(existingBusiness);
-        //    Businesses[existingIndex] = dbBusiness;
-        //    var updateBusiness = Businesses.Single(x => x.Id == dbBusiness.Id);
-        //    return CreateBusiness(updateBusiness);
-        //}
-
-        //public Business Get(Guid id)
-        //{
-        //    var dbBusiness = Businesses.FirstOrDefault(x => x.Id == id);
-        //    return CreateBusiness(dbBusiness);
-        //}
-
         public bool IsAvailableDomain(string domain)
         {
             var dbBusiness = Businesses.FirstOrDefault(x => x.Domain == domain);
             return dbBusiness == null;
         }
-
-
-        //private Business CreateBusiness(DbBusiness dbBusiness)
-        //{
-        //    if (dbBusiness == null)
-        //        return null;
-
-        //    var locations = Mapper.Map<IEnumerable<DbLocation>, IEnumerable<LocationData>>(dbBusiness.Locations);
-        //    var coaches = Mapper.Map<IEnumerable<DbCoach>, IEnumerable<CoachData>>(dbBusiness.Coaches);
-        //    var services = Mapper.Map<IEnumerable<DbService>, IEnumerable<ServiceData>>(dbBusiness.Services);
-        //    var sessions = Mapper.Map<IEnumerable<DbSingleSession>, IEnumerable<SingleSessionData>>(dbBusiness.Sessions);
-        //    var courses = Mapper.Map<IEnumerable<DbRepeatedSession>, IEnumerable<RepeatedSessionData>>(dbBusiness.Courses);
-        //    var customers = Mapper.Map<IEnumerable<DbCustomer>, IEnumerable<CustomerData>>(dbBusiness.Customers);
-
-        //    return new Business(dbBusiness.Id,
-        //        dbBusiness.Name,
-        //        dbBusiness.Domain,
-        //        locations,
-        //        coaches,
-        //        services,
-        //        sessions,
-        //        courses,
-        //        customers);
-        //}
 
 
         private static BusinessAdminData CreateBusinessAdmin(DbBusinessAdmin dbAdmin)

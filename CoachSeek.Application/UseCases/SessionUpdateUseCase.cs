@@ -24,19 +24,19 @@ namespace CoachSeek.Application.UseCases
 
             if (session is StandaloneSession)
             {
-                if (IsChangingStandaloneSessionToCourse(command))
-                    return new CannotChangeStandaloneSessionToCourseErrorResponse();
+                if (IsChangingSessionToCourse(command))
+                    return new CannotChangeSessionToCourseErrorResponse();
                 return UpdateStandaloneSession(command);
             }
             if (session is SingleSession)
             {
-                if (IsChangingSessionInCourseToCourse(command))
-                    return new CannotChangeSessionInCourseToCourseErrorResponse();
+                if (IsChangingSessionToCourse(command))
+                    return new CannotChangeSessionToCourseErrorResponse();
                 return UpdateSessionInCourse(command);
             }
             if (session is RepeatedSession)
             {
-                // TODO: Make standalone sessions and then courses updatable.
+                // TODO: Make courses updatable.
                 return new CannotUpdateCourseErrorResponse();
             }
 
@@ -62,14 +62,9 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-        private bool IsChangingStandaloneSessionToCourse(SessionUpdateCommand command)
+        private bool IsChangingSessionToCourse(SessionUpdateCommand command)
         {
-            return command.Repetition != null && command.Repetition.SessionCount > 1;
-        }
-
-        private bool IsChangingSessionInCourseToCourse(SessionUpdateCommand command)
-        {
-            return command.Repetition != null && command.Repetition.SessionCount > 1;
+            return command.Repetition != null && (command.Repetition.SessionCount != 1 || command.Repetition.RepeatFrequency != null);
         }
 
         private CoreData LookupCoreData(SessionData data)

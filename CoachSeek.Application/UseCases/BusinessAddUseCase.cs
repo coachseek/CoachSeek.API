@@ -25,7 +25,7 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 BusinessDomainBuilder.BusinessRepository = BusinessRepository;
-                var newBusiness = new Business2(command, BusinessDomainBuilder);
+                var newBusiness = new Business(command, BusinessDomainBuilder);
                 var data = BusinessRepository.AddBusiness(newBusiness);
                 return new Response(data);
             }

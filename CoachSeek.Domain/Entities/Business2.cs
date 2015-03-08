@@ -6,33 +6,33 @@ using IBusinessDomainBuilder = CoachSeek.Domain.Contracts.IBusinessDomainBuilder
 
 namespace CoachSeek.Domain.Entities
 {
-    public class Business2
+    public class Business
     {
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
 
 
-        public Business2(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder) 
+        public Business(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder) 
             : this()
         {
             Name = command.Name.Trim();
             Domain = domainBuilder.BuildDomain(command.Name);
         }
 
-        public Business2()
+        public Business()
         {
             Id = Guid.NewGuid();
         }
 
         // Minimal Unit testing constructor.
-        public Business2(Guid id)
+        public Business(Guid id)
             : this()
         {
             Id = id;
         }
 
-        public Business2(Guid id, 
+        public Business(Guid id, 
             string name, 
             string domain)
         {
@@ -42,9 +42,9 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public Business2Data ToData()
+        public BusinessData ToData()
         {
-            return Mapper.Map<Business2, Business2Data>(this);
+            return Mapper.Map<Business, BusinessData>(this);
         }
     }
 }

@@ -47,11 +47,11 @@ namespace CoachSeek.Api.Controllers
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
 
-            var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (Business2Data)businessAddResponse.Data);
+            var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (BusinessData)businessAddResponse.Data);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);
 
-            var registrationData = new RegistrationData((UserData)userUpdateResponse.Data, (Business2Data)businessAddResponse.Data);
+            var registrationData = new RegistrationData((UserData)userUpdateResponse.Data, (BusinessData)businessAddResponse.Data);
             SendRegistrationEmail(registrationData);
 
             return CreateWebSuccessResponse(new Response(registrationData));
@@ -71,7 +71,7 @@ namespace CoachSeek.Api.Controllers
             return BusinessAddUseCase.AddBusiness(businessAddCommand);
         }
 
-        private Response AssociateUserWithBusiness(UserData user, Business2Data business)
+        private Response AssociateUserWithBusiness(UserData user, BusinessData business)
         {
             var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);

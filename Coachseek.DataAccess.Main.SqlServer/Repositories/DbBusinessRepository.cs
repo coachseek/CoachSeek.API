@@ -32,7 +32,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        public Business2Data GetBusiness(Guid businessId)
+        public BusinessData GetBusiness(Guid businessId)
         {
             SqlDataReader reader = null;
             try
@@ -48,7 +48,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 if (reader.HasRows && reader.Read())
                 {
-                    return new Business2Data
+                    return new BusinessData
                     {
                         Id = reader.GetGuid(1),
                         Name = reader.GetString(2),
@@ -67,7 +67,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public Business2Data AddBusiness(Business2 business)
+        public BusinessData AddBusiness(Business business)
         {
             SqlDataReader reader = null;
             try
@@ -88,7 +88,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 if (reader.HasRows && reader.Read())
                 {
-                    return new Business2Data
+                    return new BusinessData
                     {
                         Id = reader.GetGuid(1),
                         Name = reader.GetString(2),
@@ -106,66 +106,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     reader.Close();
             }
         }
-
-        //public Business Save(NewBusiness newBusiness)
-        //{
-        //    try
-        //    {
-        //        Connection.Open();
-
-        //        var command = new SqlCommand("Business_Create", Connection) { CommandType = CommandType.StoredProcedure };
-
-        //        command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-        //        command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
-        //        command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar, 100, "Domain"));
-
-        //        command.Parameters[0].Value = newBusiness.Id;
-        //        command.Parameters[1].Value = newBusiness.Name;
-        //        command.Parameters[2].Value = newBusiness.Domain;
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //    finally
-        //    {
-        //        if (Connection != null)
-        //            Connection.Close();
-        //    }
-
-        //    return newBusiness;
-        //}
-
-        //public Business Save(Business business)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Business Get(Guid id)
-        //{
-        //    SqlDataReader reader = null;
-        //    try
-        //    {
-        //        Connection.Open();
-
-        //        var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-        //        command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-        //        command.Parameters[0].Value = id;
-
-        //        reader = command.ExecuteReader();
-
-        //        if (reader.HasRows)
-        //            reader.Read();
-
-        //        return null;
-        //    }
-        //    finally
-        //    {
-        //        if (Connection != null)
-        //            Connection.Close();
-        //        if (reader != null)
-        //            reader.Close();
-        //    }
-        //}
 
         public bool IsAvailableDomain(string domain)
         {

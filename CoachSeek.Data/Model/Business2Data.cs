@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Data.Model
 {
-    public class Business2Data
+    public class BusinessData
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

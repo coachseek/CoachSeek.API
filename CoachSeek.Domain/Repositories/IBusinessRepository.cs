@@ -8,8 +8,8 @@ namespace CoachSeek.Domain.Repositories
 {
     public interface IBusinessRepository
     {
-        Business2Data GetBusiness(Guid businessId);
-        Business2Data AddBusiness(Business2 business);
+        BusinessData GetBusiness(Guid businessId);
+        BusinessData AddBusiness(Business business);
 
 
         bool IsAvailableDomain(string domain);

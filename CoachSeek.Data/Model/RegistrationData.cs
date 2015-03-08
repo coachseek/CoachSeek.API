@@ -3,10 +3,10 @@
     public class RegistrationData
     {
         public UserData Admin { get; set; }
-        public Business2Data Business { get; set; }
+        public BusinessData Business { get; set; }
 
 
-        public RegistrationData(UserData user, Business2Data business)
+        public RegistrationData(UserData user, BusinessData business)
         {
             Admin = user;
             Business = business;

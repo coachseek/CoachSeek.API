@@ -107,7 +107,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             Assert.That(BusinessRepository.WasAddBusinessCalled, Is.True);
 
-            var businessData = (Business2)BusinessRepository.DataPassedIn;
+            var businessData = (Business)BusinessRepository.DataPassedIn;
             Assert.That(businessData.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(businessData.Name, Is.EqualTo("Ian's Tennis Coaching"));
         }
