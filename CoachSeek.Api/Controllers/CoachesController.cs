@@ -15,6 +15,7 @@ namespace CoachSeek.Api.Controllers
         public ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         public ICoachAddUseCase CoachAddUseCase { get; set; }
         public ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
+        public ICoachDeleteUseCase CoachDeleteUseCase { get; set; }
 
         public CoachesController()
         { }
@@ -22,12 +23,14 @@ namespace CoachSeek.Api.Controllers
         public CoachesController(ICoachesGetAllUseCase coachesGetAllUseCase,
                                  ICoachGetByIdUseCase coachGetByIdUseCase,
                                  ICoachAddUseCase coachAddUseCase,
-                                 ICoachUpdateUseCase coachUpdateUseCase)
+                                 ICoachUpdateUseCase coachUpdateUseCase,
+                                 ICoachDeleteUseCase coachDeleteUseCase)
         {
             CoachesGetAllUseCase = coachesGetAllUseCase;
             CoachGetByIdUseCase = coachGetByIdUseCase;
             CoachAddUseCase = coachAddUseCase;
             CoachUpdateUseCase = coachUpdateUseCase;
+            CoachDeleteUseCase = coachDeleteUseCase;
         }
 
 
@@ -66,6 +69,18 @@ namespace CoachSeek.Api.Controllers
                 return AddCoach(coach);
 
             return UpdateCoach(coach);
+        }
+
+        // DELETE: api/Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Delete(Guid id)
+        {
+            CoachDeleteUseCase.BusinessId = BusinessId;
+            CoachDeleteUseCase.BusinessRepository = BusinessRepository;
+
+            var response = CoachDeleteUseCase.DeleteCoach(id);
+            return CreateDeleteWebResponse(response);
         }
 
 

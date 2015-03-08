@@ -143,8 +143,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var getByIdUseCase = new LocationGetByIdUseCase();
             var addUseCase = new LocationAddUseCase();
             var updateUseCase = new LocationUpdateUseCase();
+            var deleteUseCase = new LocationDeleteUseCase();
 
-            return new LocationsController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase);
+            return new LocationsController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase, deleteUseCase);
         }
 
         private HttpResponseMessage WhenPost(MockLocationAddUseCase useCase)
@@ -181,6 +182,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(controller.LocationGetByIdUseCase, Is.Not.Null);
             Assert.That(controller.LocationAddUseCase, Is.Not.Null);
             Assert.That(controller.LocationUpdateUseCase, Is.Not.Null);
+            Assert.That(controller.LocationDeleteUseCase, Is.Not.Null);
         }
 
         private void ThenCallAddUseCaseAndReturnErrorResponse(HttpResponseMessage response)

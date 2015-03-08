@@ -18,9 +18,6 @@ namespace CoachSeek.Api
             For<IUserRepository>().Use<AzureTableUserRepository>();
             //For<IUserRepository>().Use<InMemoryUserRepository>();
 
-            //For<IBusinessRepository>().Use<DbBusinessRepository>();
-            //For<IBusinessRepository>().Use<InMemoryBusinessRepository>();
-
             For<IBookingRepository>().Use<InMemoryBookingRepository>();
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
 
@@ -35,16 +32,19 @@ namespace CoachSeek.Api
             For<ILocationGetByIdUseCase>().Use<LocationGetByIdUseCase>();
             For<ILocationAddUseCase>().Use<LocationAddUseCase>();
             For<ILocationUpdateUseCase>().Use<LocationUpdateUseCase>();
+            For<ILocationDeleteUseCase>().Use<LocationDeleteUseCase>();
 
             For<ICoachesGetAllUseCase>().Use<CoachesGetAllUseCase>();
             For<ICoachGetByIdUseCase>().Use<CoachGetByIdUseCase>();
             For<ICoachAddUseCase>().Use<CoachAddUseCase>();
             For<ICoachUpdateUseCase>().Use<CoachUpdateUseCase>();
+            For<ICoachDeleteUseCase>().Use<CoachDeleteUseCase>();
 
             For<IServicesGetAllUseCase>().Use<ServicesGetAllUseCase>();
             For<IServiceGetByIdUseCase>().Use<ServiceGetByIdUseCase>();
             For<IServiceAddUseCase>().Use<ServiceAddUseCase>();
             For<IServiceUpdateUseCase>().Use<ServiceUpdateUseCase>();
+            For<IServiceDeleteUseCase>().Use<ServiceDeleteUseCase>();
 
             For<ISessionSearchUseCase>().Use<SessionSearchUseCase>();
             For<ISessionAddUseCase>().Use<SessionAddUseCase>();

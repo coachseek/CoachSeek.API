@@ -159,12 +159,12 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateIsNotOverlappingSessions(SingleSession session)
         {
-            var standaloneSessions = GetAllSessions();
+            var singleSessions = GetAllSessions();
 
-            foreach (var standaloneSession in standaloneSessions)
+            foreach (var singleSession in singleSessions)
             {
-                if (session.IsOverlapping(standaloneSession))
-                    throw new ClashingSession(standaloneSession);
+                if (session.IsOverlapping(singleSession))
+                    throw new ClashingSession(singleSession);
             }
         }
 

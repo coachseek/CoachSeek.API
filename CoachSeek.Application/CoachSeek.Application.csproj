@@ -56,6 +56,9 @@
     <Compile Include="UseCases\CustomerUpdateUseCase.cs" />
     <Compile Include="UseCases\CustomerAddUseCase.cs" />
     <Compile Include="UseCases\CoachesGetAllUseCase.cs" />
+    <Compile Include="UseCases\CoachDeleteUseCase.cs" />
+    <Compile Include="UseCases\ServiceDeleteUseCase.cs" />
+    <Compile Include="UseCases\LocationDeleteUseCase.cs" />
     <Compile Include="UseCases\LocationsGetAllUseCase.cs" />
     <Compile Include="UseCases\ServicesGetAllUseCase.cs" />
     <Compile Include="UseCases\ServiceGetByIdUseCase.cs" />

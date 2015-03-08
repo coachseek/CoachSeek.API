@@ -53,6 +53,15 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
 
+        protected HttpResponseMessage CreateDeleteWebResponse(Response response)
+        {
+            if (response is NotFoundResponse)
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            if (response.IsSuccessful)
+                return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
+        }
+
 
         protected HttpResponseMessage CreateWebErrorResponse(Response response)
         {

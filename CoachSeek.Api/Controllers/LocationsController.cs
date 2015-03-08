@@ -15,6 +15,7 @@ namespace CoachSeek.Api.Controllers
         public ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
         public ILocationAddUseCase LocationAddUseCase { get; set; }
         public ILocationUpdateUseCase LocationUpdateUseCase { get; set; }
+        public ILocationDeleteUseCase LocationDeleteUseCase { get; set; }
 
         public LocationsController()
         { }
@@ -22,12 +23,14 @@ namespace CoachSeek.Api.Controllers
         public LocationsController(ILocationsGetAllUseCase locationsGetAllUseCase,
                                    ILocationGetByIdUseCase locationGetByIdUseCase,
                                    ILocationAddUseCase locationAddUseCase,
-                                   ILocationUpdateUseCase locationUpdateUseCase)
+                                   ILocationUpdateUseCase locationUpdateUseCase,
+                                   ILocationDeleteUseCase locationDeleteUseCase)
         {
             LocationsGetAllUseCase = locationsGetAllUseCase;
             LocationGetByIdUseCase = locationGetByIdUseCase;
             LocationAddUseCase = locationAddUseCase;
             LocationUpdateUseCase = locationUpdateUseCase;
+            LocationDeleteUseCase = locationDeleteUseCase;
         }
 
 
@@ -66,6 +69,18 @@ namespace CoachSeek.Api.Controllers
                 return AddLocation(location);
 
             return UpdateLocation(location);
+        }
+
+        // DELETE: api/Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Delete(Guid id)
+        {
+            LocationDeleteUseCase.BusinessId = BusinessId;
+            LocationDeleteUseCase.BusinessRepository = BusinessRepository;
+
+            var response = LocationDeleteUseCase.DeleteLocation(id);
+            return CreateDeleteWebResponse(response);
         }
 
         

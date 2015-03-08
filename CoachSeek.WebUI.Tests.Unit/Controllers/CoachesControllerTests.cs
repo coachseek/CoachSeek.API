@@ -155,8 +155,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var getByIdUseCase = new CoachGetByIdUseCase();
             var addUseCase = new CoachAddUseCase();
             var updateUseCase = new CoachUpdateUseCase();
+            var deleteUseCase = new CoachDeleteUseCase();
 
-            return new CoachesController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase);
+            return new CoachesController(getAllUseCase, getByIdUseCase, addUseCase, updateUseCase, deleteUseCase);
         }
 
         private HttpResponseMessage WhenPost(MockCoachAddUseCase useCase)
@@ -214,6 +215,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(controller.CoachGetByIdUseCase, Is.Not.Null);
             Assert.That(controller.CoachAddUseCase, Is.Not.Null);
             Assert.That(controller.CoachUpdateUseCase, Is.Not.Null);
+            Assert.That(controller.CoachDeleteUseCase, Is.Not.Null);
         }
 
         private void ThenCallAddUseCaseAndReturnErrorResponse(HttpResponseMessage response)

@@ -50,6 +50,9 @@
     <Compile Include="UseCases\ICustomerGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICustomerUpdateUseCase.cs" />
     <Compile Include="UseCases\ICustomerAddUseCase.cs" />
+    <Compile Include="UseCases\ICoachDeleteUseCase.cs" />
+    <Compile Include="UseCases\IServiceDeleteUseCase.cs" />
+    <Compile Include="UseCases\ILocationDeleteUseCase.cs" />
     <Compile Include="UseCases\ILocationsGetAllUseCase.cs" />
     <Compile Include="UseCases\IServicesGetAllUseCase.cs" />
     <Compile Include="UseCases\IServiceGetByIdUseCase.cs" />
