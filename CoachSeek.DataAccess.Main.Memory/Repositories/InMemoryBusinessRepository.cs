@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using AutoMapper;
+﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
@@ -10,6 +6,9 @@ using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
@@ -33,6 +32,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public static Dictionary<Guid, List<DbCustomer>> Customers { get; private set; }
         public static Dictionary<Guid, List<DbSingleSession>> Sessions { get; private set; }
         public static Dictionary<Guid, List<DbRepeatedSession>> Courses { get; private set; }
+        public static Dictionary<Guid, List<DbBooking>> Bookings { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -45,6 +45,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Customers = new Dictionary<Guid, List<DbCustomer>>();
             Sessions = new Dictionary<Guid, List<DbSingleSession>>();
             Courses = new Dictionary<Guid, List<DbRepeatedSession>>();
+            Bookings = new Dictionary<Guid, List<DbBooking>>();
         }
 
         public void Clear()
@@ -57,6 +58,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Customers.Clear();
             Sessions.Clear();
             Courses.Clear();
+            Bookings.Clear();
         }
 
 
@@ -385,6 +387,24 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             var dbSessions = GetAllDbSessions(businessId);
             var index = dbSessions.FindIndex(x => x.Id == session.Id);
+            if (index == -1)
+            {
+                // Update session in course
+                var dbCourses = GetAllDbCourses(businessId);
+                foreach (var dbCourse in dbCourses)
+                {
+                    index = dbCourse.Sessions.ToList().FindIndex(x => x.Id == session.Id);
+                    if (index == -1)
+                        continue;
+                    var existingSession = dbCourse.Sessions[index];
+                    dbSession.ParentId = existingSession.ParentId;
+
+                    dbCourse.Sessions[index] = dbSession;
+                }
+
+                return GetSession(businessId, session.Id);
+            }
+
             dbSessions[index] = dbSession;
             Sessions[businessId] = dbSessions;
 
@@ -403,7 +423,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             var businessCourses = GetAllCourses(businessId);
 
-            return businessCourses.FirstOrDefault(x => x.Id == courseId);
+            var course = businessCourses.FirstOrDefault(x => x.Id == courseId);
+            if (course == null)
+                return null;
+
+            var location = GetLocation(businessId, course.Location.Id);
+            course.Location.Name = location.Name;
+
+            var coach = GetCoach(businessId, course.Coach.Id);
+            course.Coach.Name = coach.Name;
+
+            var service = GetService(businessId, course.Service.Id);
+            course.Service.Name = service.Name;
+
+            return course;
         }
 
         public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
@@ -421,12 +454,43 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<BookingData> GetAllBookings(Guid businessId)
         {
-            throw new NotImplementedException();
+            var dbBookings = GetAllDbBookings(businessId);
+
+            return Mapper.Map<IList<DbBooking>, IList<BookingData>>(dbBookings);
+        }
+
+        public BookingData GetBooking(Guid businessId, Guid bookingId)
+        {
+            var businessBookings = GetAllBookings(businessId);
+
+            var booking = businessBookings.FirstOrDefault(x => x.Id == bookingId);
+            if (booking == null)
+                return null;
+
+            var session = GetSession(businessId, booking.Session.Id);
+            booking.Session.Name = string.Format("{0} at {1} with {2} on {3} at {4}",
+                                                 session.Service.Name,
+                                                 session.Location.Name,
+                                                 session.Coach.Name,
+                                                 session.Timing.StartDate,
+                                                 session.Timing.StartTime);
+
+            var customer = GetCustomer(businessId, booking.Customer.Id);
+            booking.Customer.Name = string.Format("{0} {1}", customer.FirstName, customer.LastName);
+
+            return booking;
         }
 
         public BookingData AddBooking(Guid businessId, Booking booking)
         {
-            throw new NotImplementedException();
+            var dbBooking = Mapper.Map<Booking, DbBooking>(booking);
+
+            var dbBookings = GetAllDbBookings(businessId);
+            dbBookings.Add(dbBooking);
+
+            Bookings[businessId] = dbBookings;
+
+            return GetBooking(businessId, booking.Id);
         }
 
 
@@ -476,6 +540,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Courses.TryGetValue(businessId, out businessCourses)
                 ? businessCourses
                 : new List<DbRepeatedSession>();
+        }
+
+        private List<DbBooking> GetAllDbBookings(Guid businessId)
+        {
+            List<DbBooking> businessBookings;
+            return Bookings.TryGetValue(businessId, out businessBookings)
+                ? businessBookings
+                : new List<DbBooking>();
         }
     }
 }

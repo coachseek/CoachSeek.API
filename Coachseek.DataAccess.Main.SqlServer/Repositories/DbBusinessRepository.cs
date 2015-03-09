@@ -1050,6 +1050,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public BookingData GetBooking(Guid businessId, Guid bookingId)
+        {
+            throw new NotImplementedException();
+        }
 
         public BookingData AddBooking(Guid businessId, Booking booking)
         {
@@ -1418,8 +1422,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return new BookingData
             {
                 Id = reader.GetGuid(2),
-                Session = new SessionKeyData { Id = reader.GetGuid(3) },
-                Customer = new CustomerKeyData { Id = reader.GetGuid(4) }
+                Session = new SessionKeyData
+                {
+                    Id = reader.GetGuid(3),
+                    Name = reader.GetString(4)
+                },
+                Customer = new CustomerKeyData 
+                { 
+                    Id = reader.GetGuid(5), 
+                    Name = reader.GetString(6)
+                }
             };
         }
     }
