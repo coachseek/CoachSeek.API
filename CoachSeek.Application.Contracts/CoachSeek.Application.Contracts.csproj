@@ -45,6 +45,7 @@
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\IBusinessRepositorySetter.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
+    <Compile Include="UseCases\ISessionGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICustomersGetAllUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />
     <Compile Include="UseCases\ICustomerGetByIdUseCase.cs" />

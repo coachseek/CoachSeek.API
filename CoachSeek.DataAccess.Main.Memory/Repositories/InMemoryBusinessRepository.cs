@@ -494,6 +494,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {
             List<DbLocation> businessLocations;

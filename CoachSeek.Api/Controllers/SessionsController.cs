@@ -3,6 +3,7 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.UseCases;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -13,6 +14,7 @@ namespace CoachSeek.Api.Controllers
     public class SessionsController : BaseController
     {
         public ISessionSearchUseCase SessionSearchUseCase { get; set; }
+        public ISessionGetByIdUseCase SessionGetByIdUseCase { get; set; }
         public ISessionAddUseCase SessionAddUseCase { get; set; }
         public ISessionUpdateUseCase SessionUpdateUseCase { get; set; }
 
@@ -21,10 +23,12 @@ namespace CoachSeek.Api.Controllers
         { }
 
         public SessionsController(ISessionSearchUseCase sessionSearchUseCase,
+                                  ISessionGetByIdUseCase sessionGetByIdUseCase,
                                   ISessionAddUseCase sessionAddUseCase, 
                                   ISessionUpdateUseCase sessionUpdateUseCase)
         {
             SessionSearchUseCase = sessionSearchUseCase;
+            SessionGetByIdUseCase = sessionGetByIdUseCase;
             SessionAddUseCase = sessionAddUseCase;
             SessionUpdateUseCase = sessionUpdateUseCase;
         }
@@ -39,9 +43,17 @@ namespace CoachSeek.Api.Controllers
         }
 
         // GET: api/Sessions/5
-        public string Get(int id)
+
+        // GET: api/Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get(Guid id)
         {
-            return "value";
+            SessionGetByIdUseCase.BusinessId = BusinessId;
+            SessionGetByIdUseCase.BusinessRepository = BusinessRepository;
+
+            var response = SessionGetByIdUseCase.GetSession(id);
+            return CreateGetWebResponse(response);
         }
 
         // POST: api/Services

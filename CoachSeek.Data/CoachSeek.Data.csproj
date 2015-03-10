@@ -48,6 +48,7 @@
     <Compile Include="Model\BookingData.cs" />
     <Compile Include="Model\Business2Data.cs" />
     <Compile Include="Model\CoreData.cs" />
+    <Compile Include="Model\CustomerBookingData.cs" />
     <Compile Include="Model\CustomerKeyData.cs" />
     <Compile Include="Model\CustomerData.cs" />
     <Compile Include="Model\RepeatedSessionPricingData.cs" />

@@ -1091,6 +1091,39 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Customer_GetCustomerBookingsBySessionId]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = sessionId;
+
+                reader = command.ExecuteReader();
+
+                var customerBookings = new List<CustomerBookingData>();
+
+                while (reader.Read())
+                    customerBookings.Add(ReadCustomerBookingData(reader));
+
+                return customerBookings;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
         private LocationData ReadLocationData(SqlDataReader reader)
         {
             return new LocationData
@@ -1427,10 +1460,33 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     Id = reader.GetGuid(3),
                     Name = reader.GetString(4)
                 },
-                Customer = new CustomerKeyData 
-                { 
-                    Id = reader.GetGuid(5), 
+                Customer = new CustomerKeyData
+                {
+                    Id = reader.GetGuid(5),
                     Name = reader.GetString(6)
+                }
+            };
+        }
+
+        private CustomerBookingData ReadCustomerBookingData(SqlDataReader reader)
+        {
+            var customerId = reader.GetGuid(3);
+            var bookingId = reader.GetGuid(4);
+            var firstName = reader.GetString(5);
+            var lastName = reader.GetString(6);
+            var email = reader.GetNullableString(7);
+            var phone = reader.GetNullableString(8);
+
+            return new CustomerBookingData
+            {
+                BookingId = bookingId,
+                Customer = new CustomerData
+                {
+                    Id = customerId,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    Phone = phone                    
                 }
             };
         }

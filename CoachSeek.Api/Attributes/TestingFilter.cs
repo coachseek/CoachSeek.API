@@ -17,8 +17,8 @@ namespace CoachSeek.Api.Attributes
             if (isTesting)
             {
 #if DEBUG
-                //controller.BusinessRepository = new DbTestBusinessRepository();
-                controller.BusinessRepository = new InMemoryBusinessRepository();
+                controller.BusinessRepository = new DbTestBusinessRepository();
+                //controller.BusinessRepository = new InMemoryBusinessRepository();
 #else
                 controller.BusinessRepository = new DbTestBusinessRepository();
 #endif

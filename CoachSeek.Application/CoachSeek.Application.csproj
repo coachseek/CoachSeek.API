@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
     <Compile Include="UseCases\BookingAddUseCase.cs" />
+    <Compile Include="UseCases\SessionGetByIdUseCase.cs" />
     <Compile Include="UseCases\CustomersGetAllUseCase.cs" />
     <Compile Include="UseCases\CustomerGetByIdUseCase.cs" />
     <Compile Include="UseCases\CustomerUpdateUseCase.cs" />
