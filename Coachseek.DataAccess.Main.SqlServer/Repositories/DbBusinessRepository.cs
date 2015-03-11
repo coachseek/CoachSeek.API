@@ -1452,18 +1452,24 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private BookingData ReadBookingData(SqlDataReader reader)
         {
+            var bookingId = reader.GetGuid(2);
+            var sessionId = reader.GetGuid(3);
+            var sessionName = reader.GetString(4);
+            var customerId = reader.GetGuid(5);
+            var customerName = reader.GetString(6);
+
             return new BookingData
             {
-                Id = reader.GetGuid(2),
+                Id = bookingId,
                 Session = new SessionKeyData
                 {
-                    Id = reader.GetGuid(3),
-                    Name = reader.GetString(4)
+                    Id = sessionId,
+                    Name = sessionName
                 },
                 Customer = new CustomerKeyData
                 {
-                    Id = reader.GetGuid(5),
-                    Name = reader.GetString(6)
+                    Id = customerId,
+                    Name = customerName
                 }
             };
         }

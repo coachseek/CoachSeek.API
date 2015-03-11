@@ -496,7 +496,14 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
         {
-            throw new NotImplementedException();
+            var bookings = GetAllBookings(businessId);
+            var sessionBookings = bookings.Where(x => x.Session.Id == sessionId);
+
+            return sessionBookings.Select(sessionBooking => new CustomerBookingData
+            {
+                BookingId = sessionBooking.Id, 
+                Customer = GetCustomer(businessId, sessionBooking.Customer.Id)
+            }).ToList();
         }
 
 

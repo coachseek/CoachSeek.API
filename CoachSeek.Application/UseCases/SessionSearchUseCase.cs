@@ -37,7 +37,12 @@ namespace CoachSeek.Application.UseCases
             if (locationId.HasValue)
                 sessionQuery = sessionQuery.Where(x => x.Location.Id == locationId);
 
-            return sessionQuery.OrderBy(x => x.Timing.StartDate).ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
+            var searchResults = sessionQuery.OrderBy(x => x.Timing.StartDate).ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
+
+            foreach (var session in searchResults)
+                session.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
+
+            return searchResults;
         }
 
         private static string CreateOrderableStartTime(string startTime)
