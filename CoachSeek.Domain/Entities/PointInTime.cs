@@ -34,5 +34,10 @@ namespace CoachSeek.Domain.Entities
         {
             return DateTime.CompareTo(other.DateTime) > 0;
         }
+
+        public bool IsSameAs(PointInTime other)
+        {
+            return DateTime.CompareTo(other.DateTime) == 0;
+        }
     }
 }

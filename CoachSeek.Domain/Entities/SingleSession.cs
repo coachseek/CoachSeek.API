@@ -101,6 +101,25 @@ namespace CoachSeek.Domain.Entities
             if (IsNullOrSameSession(otherSession))
                 return false;
 
+            if (IsSameCoach(otherSession))
+                return (IsFullyOverlapping(otherSession) || IsPartiallyOverlapping(otherSession));
+
+            return false;
+        }
+
+        private bool IsSameCoach(SingleSession otherSession)
+        {
+            return Coach.Id == otherSession.Coach.Id;
+        }
+
+        private bool IsFullyOverlapping(SingleSession otherSession)
+        {
+            return Start.IsSameAs(otherSession.Start) 
+                && Finish.IsSameAs(otherSession.Finish);
+        }
+
+        private bool IsPartiallyOverlapping(SingleSession otherSession)
+        {
             return (Contains(otherSession.Start) ||
                     Contains(otherSession.Finish) ||
                     otherSession.Contains(Start) ||
