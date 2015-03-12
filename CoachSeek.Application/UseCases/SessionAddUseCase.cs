@@ -83,12 +83,12 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateIsNotOverlappingSessions(SingleSession newSession)
         {
-            var standaloneSessions = GetAllSessions();
+            var sessions = GetAllSessions();
 
-            foreach (var standaloneSession in standaloneSessions)
+            foreach (var session in sessions)
             {
-                if (newSession.IsOverlapping(standaloneSession))
-                    throw new ClashingSession(standaloneSession);
+                if (newSession.IsOverlapping(session))
+                    throw new ClashingSession(session);
             }
         }
 
@@ -99,18 +99,17 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateIsNotOverlapping(RepeatedSession course)
         {
-            ValidateIsNotOverlappingStandaloneSessions(course);
-            // ValidateIsNotOverlappingCourseSessions(course);
+            ValidateIsNotOverlappingSessions(course);
         }
 
-        private void ValidateIsNotOverlappingStandaloneSessions(RepeatedSession course)
+        private void ValidateIsNotOverlappingSessions(RepeatedSession newCourse)
         {
-            var standaloneSessions = GetAllStandaloneSessions();
+            var sessions = GetAllSessions();
 
-            foreach (var standaloneSession in standaloneSessions)
+            foreach (var session in sessions)
             {
-                if (course.IsOverlapping(standaloneSession))
-                    throw new ClashingSession(standaloneSession);
+                if (newCourse.IsOverlapping(session))
+                    throw new ClashingSession(session);
             }
         }
 

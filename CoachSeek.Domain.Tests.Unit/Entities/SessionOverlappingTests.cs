@@ -32,7 +32,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private SingleSession CreateSingleSession(Guid sessionId, Guid coachId, Guid locationId, Guid serviceId, string startTime, int duration)
         {
-            var command = new SingleSessionData
+            var data = new SingleSessionData
             {
                 Id = sessionId,
                 Coach = new CoachKeyData { Id = coachId },
@@ -52,7 +52,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Service = new ServiceData { Id = serviceId, Name = "blowjob", Repetition = new RepetitionData(1)}
             };
 
-            return new SingleSession(command, coreData);
+            return new SingleSession(data, coreData);
         }
 
         private WeeklyWorkingHoursData SetupWorkingHours()
