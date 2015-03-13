@@ -494,6 +494,18 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public void DeleteBooking(Guid businessId, Guid bookingId)
+        {
+            var dbBookings = GetAllDbBookings(businessId);
+
+            var dbBooking = dbBookings.Find(x => x.Id == bookingId);
+
+            dbBookings.Remove(dbBooking);
+
+            Bookings[businessId] = dbBookings;
+        }
+
+
         public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
         {
             var bookings = GetAllBookings(businessId);

@@ -45,7 +45,7 @@ namespace CoachSeek.Application.Contracts.Models
         protected Response()
         { }
 
-        public Response(object data)
+        public Response(object data = null)
         {
             Data = data;
         }

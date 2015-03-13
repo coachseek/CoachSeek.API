@@ -3,26 +3,43 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.UseCases;
+using System;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
     public class BookingsController : BaseController
     {
+        public IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
         public IBookingAddUseCase BookingAddUseCase { get; set; }
-        //public ICoachUpdateUseCase CoachUpdateUseCase { get; set; }
+        public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
 
         public BookingsController()
         { }
 
-        public BookingsController(IBookingAddUseCase bookingAddUseCase) //,
-                                  //ICoachUpdateUseCase coachUpdateUseCase)
+        public BookingsController(IBookingGetByIdUseCase bookingGetByIdUseCase, 
+                                  IBookingAddUseCase bookingAddUseCase,
+                                  IBookingDeleteUseCase bookingDeleteUseCase)
         {
+            BookingGetByIdUseCase = bookingGetByIdUseCase;
             BookingAddUseCase = bookingAddUseCase;
-            //CoachUpdateUseCase = coachUpdateUseCase;
+            BookingDeleteUseCase = bookingDeleteUseCase;
         }
 
+
+        // GET: api/Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Get(Guid id)
+        {
+            BookingGetByIdUseCase.BusinessId = BusinessId;
+            BookingGetByIdUseCase.BusinessRepository = BusinessRepository;
+
+            var response = BookingGetByIdUseCase.GetBooking(id);
+            return CreateGetWebResponse(response);
+        }
 
         // POST: api/Bookings
         [BasicAuthentication]
@@ -38,9 +55,16 @@ namespace CoachSeek.Api.Controllers
             return null;
         }
 
-        // DELETE: api/Bookings/5
-        public void Delete(int id)
+        // DELETE: api/Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Delete(Guid id)
         {
+            BookingDeleteUseCase.BusinessId = BusinessId;
+            BookingDeleteUseCase.BusinessRepository = BusinessRepository;
+
+            var response = BookingDeleteUseCase.DeleteBooking(id);
+            return CreateDeleteWebResponse(response);
         }
 
 

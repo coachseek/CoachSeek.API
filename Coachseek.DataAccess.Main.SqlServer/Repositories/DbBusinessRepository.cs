@@ -1052,7 +1052,32 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public BookingData GetBooking(Guid businessId, Guid bookingId)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = bookingId;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadBookingData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
         }
 
         public BookingData AddBooking(Guid businessId, Booking booking)
@@ -1087,6 +1112,28 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     Connection.Close();
                 if (reader != null)
                     reader.Close();
+            }
+        }
+
+        public void DeleteBooking(Guid businessId, Guid bookingId)
+        {
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_DeleteByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = bookingId;
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
             }
         }
 
