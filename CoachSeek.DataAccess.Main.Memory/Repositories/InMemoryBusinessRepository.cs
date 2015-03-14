@@ -411,6 +411,17 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetSession(businessId, session.Id);
         }
 
+        public void DeleteSession(Guid businessId, Guid sessionId)
+        {
+            var dbSessions = GetAllDbSessions(businessId);
+
+            var dbSession = dbSessions.Find(x => x.Id == sessionId);
+
+            dbSessions.Remove(dbSession);
+
+            Sessions[businessId] = dbSessions;
+        }
+
 
         public IList<RepeatedSessionData> GetAllCourses(Guid businessId)
         {
@@ -449,6 +460,17 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Courses[businessId] = dbCourses;
 
             return GetCourse(businessId, course.Id);
+        }
+
+        public void DeleteCourse(Guid businessId, Guid courseId)
+        {
+            var dbCourses = GetAllDbCourses(businessId);
+
+            var dbCourse = dbCourses.Find(x => x.Id == courseId);
+
+            dbCourses.Remove(dbCourse);
+
+            Courses[businessId] = dbCourses;
         }
 
 
@@ -492,7 +514,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             return GetBooking(businessId, booking.Id);
         }
-
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {

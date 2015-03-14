@@ -41,9 +41,11 @@ namespace CoachSeek.Domain.Repositories
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
         SingleSessionData AddSession(Guid businessId, StandaloneSession session);
         SingleSessionData UpdateSession(Guid businessId, SingleSession session);
+        void DeleteSession(Guid businessId, Guid sessionId);
 
         RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
         RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course);
+        void DeleteCourse(Guid businessId, Guid courseId);
 
         IList<BookingData> GetAllBookings(Guid businessId);
         BookingData GetBooking(Guid businessId, Guid bookingId);

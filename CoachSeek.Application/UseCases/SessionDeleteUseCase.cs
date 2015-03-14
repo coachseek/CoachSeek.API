@@ -1,36 +1,26 @@
-﻿using System;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
+using System;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class SessionGetByIdUseCase : BaseUseCase, ISessionGetByIdUseCase
+    public class SessionDeleteUseCase : BaseUseCase, ISessionDeleteUseCase
     {
-        public SessionData GetSession(Guid id)
-       { 
+        public Response DeleteSession(Guid id)
+        {
             var sessionOrCourse = GetExistingSessionOrCourse(id);
             if (sessionOrCourse == null)
-                return null;
+                return new NotFoundResponse();
 
             if (sessionOrCourse is SingleSession)
-            {
-                var session = ((SingleSession)sessionOrCourse).ToData();
-                session.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, sessionOrCourse.Id);
+                BusinessRepository.DeleteSession(BusinessId, id);
+            else if (sessionOrCourse is RepeatedSession)
+                BusinessRepository.DeleteCourse(BusinessId, id);
 
-                return session;
-            }
-            if (sessionOrCourse is RepeatedSession)
-            {
-                var course = ((RepeatedSession)sessionOrCourse).ToData();
-
-                // TODO: Get Bookings for Course
-
-                return course;
-            }
-
-            throw new InvalidOperationException("Unexpected session type!");
+            return new Response();
         }
 
 

@@ -47,6 +47,7 @@
     <Compile Include="UseCases\ICoachAddUseCase.cs" />
     <Compile Include="UseCases\IBookingDeleteUseCase.cs" />
     <Compile Include="UseCases\IBookingGetByIdUseCase.cs" />
+    <Compile Include="UseCases\ISessionDeleteUseCase.cs" />
     <Compile Include="UseCases\ISessionGetByIdUseCase.cs" />
     <Compile Include="UseCases\ICustomersGetAllUseCase.cs" />
     <Compile Include="UseCases\ICoachesGetAllUseCase.cs" />

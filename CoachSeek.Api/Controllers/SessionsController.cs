@@ -3,7 +3,6 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.UseCases;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -17,6 +16,7 @@ namespace CoachSeek.Api.Controllers
         public ISessionGetByIdUseCase SessionGetByIdUseCase { get; set; }
         public ISessionAddUseCase SessionAddUseCase { get; set; }
         public ISessionUpdateUseCase SessionUpdateUseCase { get; set; }
+        public ISessionDeleteUseCase SessionDeleteUseCase { get; set; }
 
 
         public SessionsController()
@@ -25,12 +25,14 @@ namespace CoachSeek.Api.Controllers
         public SessionsController(ISessionSearchUseCase sessionSearchUseCase,
                                   ISessionGetByIdUseCase sessionGetByIdUseCase,
                                   ISessionAddUseCase sessionAddUseCase, 
-                                  ISessionUpdateUseCase sessionUpdateUseCase)
+                                  ISessionUpdateUseCase sessionUpdateUseCase,
+                                  ISessionDeleteUseCase sessionDeleteUseCase)
         {
             SessionSearchUseCase = sessionSearchUseCase;
             SessionGetByIdUseCase = sessionGetByIdUseCase;
             SessionAddUseCase = sessionAddUseCase;
             SessionUpdateUseCase = sessionUpdateUseCase;
+            SessionDeleteUseCase = sessionDeleteUseCase;
         }
 
 
@@ -41,8 +43,6 @@ namespace CoachSeek.Api.Controllers
         {
             return SearchForSessions(startDate, endDate, coachId, locationId);
         }
-
-        // GET: api/Sessions/5
 
         // GET: api/Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
@@ -56,7 +56,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // POST: api/Services
+        // POST: api/Sessions
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -69,14 +69,16 @@ namespace CoachSeek.Api.Controllers
             return UpdateSession(session);
         }
 
-        // PUT: api/Sessions/5
-        public void Put(int id, [FromBody]string value)
+        // DELETE: api/Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [BasicAuthentication]
+        [Authorize]
+        public HttpResponseMessage Delete(Guid id)
         {
-        }
+            SessionDeleteUseCase.BusinessId = BusinessId;
+            SessionDeleteUseCase.BusinessRepository = BusinessRepository;
 
-        // DELETE: api/Sessions/5
-        public void Delete(int id)
-        {
+            var response = SessionDeleteUseCase.DeleteSession(id);
+            return CreateDeleteWebResponse(response);
         }
 
 

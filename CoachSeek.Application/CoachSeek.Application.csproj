@@ -53,6 +53,7 @@
     <Compile Include="UseCases\BookingAddUseCase.cs" />
     <Compile Include="UseCases\BookingDeleteUseCase.cs" />
     <Compile Include="UseCases\BookingGetByIdUseCase.cs" />
+    <Compile Include="UseCases\SessionDeleteUseCase.cs" />
     <Compile Include="UseCases\SessionGetByIdUseCase.cs" />
     <Compile Include="UseCases\CustomersGetAllUseCase.cs" />
     <Compile Include="UseCases\CustomerGetByIdUseCase.cs" />

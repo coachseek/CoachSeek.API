@@ -965,6 +965,28 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public void DeleteSession(Guid businessId, Guid sessionId)
+        {
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_DeleteByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = sessionId;
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
 
         public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
         {
@@ -1017,6 +1039,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 if (Connection != null)
                     Connection.Close();
             }
+        }
+
+        public void DeleteCourse(Guid businessId, Guid courseId)
+        {
+            DeleteSession(businessId, courseId);
         }
 
 

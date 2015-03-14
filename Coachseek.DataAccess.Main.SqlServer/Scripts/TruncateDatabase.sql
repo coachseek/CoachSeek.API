@@ -9,6 +9,8 @@ ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Location]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Coach]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Service]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Session]
+ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Customer]
+ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Session]
 GO
 
 -- Truncate Tables
@@ -17,6 +19,7 @@ TRUNCATE TABLE [dbo].[Coach]
 TRUNCATE TABLE [dbo].[Service]
 TRUNCATE TABLE [dbo].[Customer]
 TRUNCATE TABLE [dbo].[Session]
+TRUNCATE TABLE [dbo].[Booking]
 TRUNCATE TABLE [dbo].[Business]
 GO
 
@@ -38,5 +41,9 @@ ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Coach] FOREI
 ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Service] FOREIGN KEY([ServiceId])
 	REFERENCES [dbo].[Service] ([Id])
 ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Session] FOREIGN KEY([ParentId])
+	REFERENCES [dbo].[Session] ([Id])	
+ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Customer] FOREIGN KEY([CustomerId])
+	REFERENCES [dbo].[Customer] ([Id])
+ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Session] FOREIGN KEY([SessionId])
 	REFERENCES [dbo].[Session] ([Id])
 GO
