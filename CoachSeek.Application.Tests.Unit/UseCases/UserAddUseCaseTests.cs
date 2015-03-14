@@ -77,7 +77,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddUser(UserAddCommand command)
         {
-            var useCase = new UserAddUseCase(UserRepository);
+            var useCase = new UserAddUseCase {UserRepository = UserRepository};
 
             return useCase.AddUser(command);
         }

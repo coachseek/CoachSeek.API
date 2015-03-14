@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using CoachSeek.Api.Results;
 using CoachSeek.Common;
+using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;
 
@@ -13,27 +15,12 @@ namespace CoachSeek.Api.Attributes
 {
     public class BasicAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
-        private IUserRepository UserRepository { get; set; }
-
-        public BasicAuthenticationAttribute()
-        {
-            UserRepository = MvcApplication.IocContainer.GetInstance<IUserRepository>();
-        }
-
-
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             var request = context.Request;
             var authorization = request.Headers.Authorization;
 
-            if (authorization == null)
-            {
-                // No authentication was attempted (for this authentication method).
-                // Do not set either Principal (which would indicate success) or ErrorResult (indicating an error).
-                return;
-            }
-
-            if (authorization.Scheme != "Basic")
+            if (authorization == null || authorization.Scheme != "Basic")
             {
                 // No authentication was attempted (for this authentication method).
                 // Do not set either Principal (which would indicate success) or ErrorResult (indicating an error).
@@ -42,16 +29,13 @@ namespace CoachSeek.Api.Attributes
 
             if (string.IsNullOrEmpty(authorization.Parameter))
             {
-                // Authentication was attempted but failed. Set ErrorResult to indicate an error.
                 context.ErrorResult = new AuthenticationFailureResult("Missing credentials", request);
                 return;
             }
 
             var userNameAndPasword = ExtractUserNameAndPassword(authorization.Parameter);
-
             if (userNameAndPasword == null)
             {
-                // Authentication was attempted but failed. Set ErrorResult to indicate an error.
                 context.ErrorResult = new AuthenticationFailureResult("Invalid credentials", request);
                 return;
             }
@@ -59,11 +43,11 @@ namespace CoachSeek.Api.Attributes
             var username = userNameAndPasword.Item1;
             var password = userNameAndPasword.Item2;
 
-            var principal = Authenticate(username, password, cancellationToken);
+            var userRepository = CreateUserRepository(request);
+            var principal = Authenticate(username, password, userRepository, cancellationToken);
 
             if (principal == null)
             {
-                // Authentication was attempted but failed. Set ErrorResult to indicate an error.
                 context.ErrorResult = new AuthenticationFailureResult("Invalid username or password.", request);
                 return;
             }
@@ -79,6 +63,11 @@ namespace CoachSeek.Api.Attributes
             context.Principal = principal;
         }
 
+        private IUserRepository CreateUserRepository(HttpRequestMessage request)
+        {
+            return request.Headers.Contains("Testing") ? new AzureTestTableUserRepository() : new AzureTableUserRepository();
+        }
+
         public async Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
         {
         }
@@ -89,10 +78,10 @@ namespace CoachSeek.Api.Attributes
         }
 
 
-        private IPrincipal Authenticate(string username, string password, CancellationToken cancellationToken)
+        private IPrincipal Authenticate(string username, string password, IUserRepository userRepository, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var user = UserRepository.GetByUsername(username);
+            var user = userRepository.GetByUsername(username);
             if (user == null)
                 return null;
 

@@ -7,12 +7,8 @@ namespace CoachSeek.Application.UseCases
 {
     public class UserAssociateWithBusinessUseCase : IUserAssociateWithBusinessUseCase
     {
-        protected IUserRepository UserRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
 
-        public UserAssociateWithBusinessUseCase(IUserRepository userRepository)
-        {
-            UserRepository = userRepository;
-        }
 
         public Response AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
         {

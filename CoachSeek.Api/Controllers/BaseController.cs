@@ -12,7 +12,9 @@ namespace CoachSeek.Api.Controllers
     public abstract class BaseController : ApiController
     {
         private Guid? _businessId;
+
         public IBusinessRepository BusinessRepository { set; protected get; }
+        public IUserRepository UserRepository { set; protected get; }
 
         public Guid BusinessId
         {

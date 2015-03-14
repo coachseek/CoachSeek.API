@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alias\UserStore.cs" />
     <Compile Include="Conversion\DbUserConverter.cs" />
     <Compile Include="Models\DbUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

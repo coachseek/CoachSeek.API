@@ -60,6 +60,8 @@ namespace CoachSeek.Api.Controllers
         private Response AddUser(ApiBusinessAdminCommand command)
         {
             var userAddCommand = UserAddCommandConverter.Convert(command);
+            UserAddUseCase.UserRepository = UserRepository;
+
             return UserAddUseCase.AddUser(userAddCommand);
         }
 
@@ -74,6 +76,8 @@ namespace CoachSeek.Api.Controllers
         private Response AssociateUserWithBusiness(UserData user, BusinessData business)
         {
             var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
+            UserAssociateWithBusinessUseCase.UserRepository = UserRepository;
+
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
         }
 

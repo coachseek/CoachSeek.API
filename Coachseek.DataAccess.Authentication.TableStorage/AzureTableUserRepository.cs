@@ -13,11 +13,13 @@ namespace Coachseek.DataAccess.Authentication.TableStorage
 
         private CloudTableClient TableClient { get; set; }
 
+        protected virtual string ConnectionStringKey { get { return "StorageConnectionString"; } } 
+
         private CloudStorageAccount StorageAccount
         {
             get
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString;
+                var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
                 return CloudStorageAccount.Parse(connectionString);
             }
         }

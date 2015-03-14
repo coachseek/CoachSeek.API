@@ -10,12 +10,8 @@ namespace CoachSeek.Application.UseCases
 {
     public class UserAddUseCase : IUserAddUseCase
     {
-        protected IUserRepository UserRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
 
-        public UserAddUseCase(IUserRepository userRepository)
-        {
-            UserRepository = userRepository;
-        }
 
         public Response AddUser(UserAddCommand command)
         {

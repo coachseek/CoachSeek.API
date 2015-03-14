@@ -15,7 +15,7 @@ namespace CoachSeek.Api
     {
         public TypeRegistry()
         {
-            For<IUserRepository>().Use<AzureTableUserRepository>();
+            //For<IUserRepository>().Use<AzureTableUserRepository>();
             //For<IUserRepository>().Use<InMemoryUserRepository>();
 
             For<IBookingRepository>().Use<InMemoryBookingRepository>();
