@@ -4,6 +4,7 @@ using System;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -15,12 +16,22 @@ namespace CoachSeek.Application.UseCases
             if (sessionOrCourse == null)
                 return new NotFoundResponse();
 
-            if (sessionOrCourse is SingleSession)
-                BusinessRepository.DeleteSession(BusinessId, id);
-            else if (sessionOrCourse is RepeatedSession)
-                BusinessRepository.DeleteCourse(BusinessId, id);
+            try
+            {
+                if (sessionOrCourse is SingleSession)
+                    TryDeleteSession(id);
+                else if (sessionOrCourse is RepeatedSession)
+                    TryDeleteCourse(id);
 
-            return new Response();
+                return new Response();
+            }
+            catch (Exception ex)
+            {
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
+                throw;
+            }
         }
 
 
@@ -41,6 +52,22 @@ namespace CoachSeek.Application.UseCases
                 return new RepeatedSession(course, LookupCoreData(course));
 
             return null;
+        }
+
+        private void TryDeleteSession(Guid sessionId)
+        {
+            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, sessionId);
+            if (bookings.Count > 0)
+                throw new ValidationException("Cannot delete session as it has one or more bookings.");
+
+            BusinessRepository.DeleteSession(BusinessId, sessionId);
+        }
+
+        private void TryDeleteCourse(Guid courseId)
+        {
+            // TODO: Determine whether there are any session or course bookings.
+
+            BusinessRepository.DeleteCourse(BusinessId, courseId);
         }
 
         private CoreData LookupCoreData(SessionData data)

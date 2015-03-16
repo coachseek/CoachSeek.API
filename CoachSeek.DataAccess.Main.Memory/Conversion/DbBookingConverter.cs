@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using CoachSeek.Data.Model;
-using CoachSeek.DataAccess.Models;
+using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.Domain.Entities.Booking;
 
 namespace CoachSeek.DataAccess.Main.Memory.Conversion

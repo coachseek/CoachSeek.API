@@ -340,7 +340,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
                 session.Coach.Name = coach.Name;
 
                 var service = GetService(businessId, session.Service.Id);
-                session.Service.Name = service.Name;
+                session.Service.Name =  service.Name;
             }
 
             return sessions;
@@ -414,8 +414,23 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public void DeleteSession(Guid businessId, Guid sessionId)
         {
             var dbSessions = GetAllDbSessions(businessId);
-
             var dbSession = dbSessions.Find(x => x.Id == sessionId);
+            if (dbSession == null)
+            {
+                // Delete session in course
+                var dbCourses = GetAllDbCourses(businessId);
+                foreach (var dbCourse in dbCourses)
+                {
+                    var index = dbCourse.Sessions.ToList().FindIndex(x => x.Id == sessionId);
+                    if (index == -1)
+                        continue;
+
+                    dbCourse.Sessions.RemoveAt(index);
+                }
+
+                Courses[businessId] = dbCourses;
+                return;
+            }
 
             dbSessions.Remove(dbSession);
 

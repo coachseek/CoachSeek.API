@@ -1,6 +1,7 @@
 ﻿using System;
+using CoachSeek.DataAccess.Models;
 
-namespace CoachSeek.DataAccess.Models
+namespace CoachSeek.DataAccess.Main.Memory.Models
 {
     public abstract class DbSession
     {
@@ -13,5 +14,17 @@ namespace CoachSeek.DataAccess.Models
         public DbSessionBooking Booking { get; set; }
         public DbPresentation Presentation { get; set; }
         public DbRepetition Repetition { get; set; }
+
+
+        protected DbSession()
+        {
+            Service = new DbServiceKey();
+            Location = new DbLocationKey();
+            Coach = new DbCoachKey();
+            Timing = new DbSessionTiming();
+            Booking = new DbSessionBooking();
+            Presentation = new DbPresentation();
+            Repetition = new DbRepetition();
+        }
     }
 }
