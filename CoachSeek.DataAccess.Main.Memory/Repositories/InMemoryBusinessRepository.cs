@@ -477,6 +477,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetCourse(businessId, course.Id);
         }
 
+        public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteCourse(Guid businessId, Guid courseId)
         {
             var dbCourses = GetAllDbCourses(businessId);
@@ -549,7 +554,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             return sessionBookings.Select(sessionBooking => new CustomerBookingData
             {
-                BookingId = sessionBooking.Id, 
+                Id = sessionBooking.Id, 
                 Customer = GetCustomer(businessId, sessionBooking.Customer.Id)
             }).ToList();
         }

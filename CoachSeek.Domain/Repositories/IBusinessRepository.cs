@@ -45,6 +45,7 @@ namespace CoachSeek.Domain.Repositories
 
         RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
         RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course);
+        RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course);
         void DeleteCourse(Guid businessId, Guid courseId);
 
         IList<BookingData> GetAllBookings(Guid businessId);

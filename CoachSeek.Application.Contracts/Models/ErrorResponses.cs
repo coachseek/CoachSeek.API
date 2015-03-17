@@ -131,6 +131,13 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
+    public class CannotChangeCourseRepetitionErrorResponse : ErrorResponse
+    {
+        public CannotChangeCourseRepetitionErrorResponse()
+            : base("Cannot change the repetition of a course.")
+        { }
+    }
+
     //public class CannotChangeStandaloneSessionToCourseErrorResponse : ErrorResponse
     //{
     //    public CannotChangeStandaloneSessionToCourseErrorResponse()

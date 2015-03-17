@@ -4,7 +4,7 @@ namespace CoachSeek.Data.Model
 {
     public class CustomerBookingData
     {
-        public Guid BookingId { get; set; }
+        public Guid Id { get; set; } // BookingId
         public CustomerData Customer { get; set; }
     }
 }

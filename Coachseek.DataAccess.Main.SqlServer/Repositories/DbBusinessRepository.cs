@@ -1041,6 +1041,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteCourse(Guid businessId, Guid courseId)
         {
             DeleteSession(businessId, courseId);
@@ -1559,7 +1564,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             return new CustomerBookingData
             {
-                BookingId = bookingId,
+                Id = bookingId,
                 Customer = new CustomerData
                 {
                     Id = customerId,

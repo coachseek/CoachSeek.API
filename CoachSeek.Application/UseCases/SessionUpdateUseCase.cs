@@ -18,29 +18,70 @@ namespace CoachSeek.Application.UseCases
             if (command == null)
                 return new NoDataErrorResponse();
 
-            var session = GetExistingSessionOrCourse(command.Id);
-            if (session == null)
+            var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
+            if (sessionOrCourse == null)
                 return new NotFoundResponse();
 
-            if (session is StandaloneSession)
-            {
-                if (IsChangingSessionToCourse(command))
-                    return new CannotChangeSessionToCourseErrorResponse();
-                return UpdateStandaloneSession(command);
-            }
-            if (session is SingleSession)
-            {
-                if (IsChangingSessionToCourse(command))
-                    return new CannotChangeSessionToCourseErrorResponse();
-                return UpdateSessionInCourse(command);
-            }
-            if (session is RepeatedSession)
-            {
-                // TODO: Make courses updatable.
-                return new CannotUpdateCourseErrorResponse();
-            }
+            return UpdateSessionOrCourse(command, sessionOrCourse);
+        }
+
+
+        private Response UpdateSessionOrCourse(SessionUpdateCommand command, Session sessionOrCourse)
+        {
+            if (sessionOrCourse is StandaloneSession)
+                return HandleUpdateStandaloneSession(command);
+            if (sessionOrCourse is SingleSession)
+                return HandleUpdateSessionInCourse(command);
+            if (sessionOrCourse is RepeatedSession)
+                return HandleUpdateCourse(command, (RepeatedSession)sessionOrCourse);
 
             throw new InvalidOperationException("Unexpected session type!");
+        }
+
+        private Response HandleUpdateStandaloneSession(SessionUpdateCommand command)
+        {
+            if (IsChangingSessionToCourse(command))
+                return new CannotChangeSessionToCourseErrorResponse();
+
+            return UpdateStandaloneSession(command);
+        }
+
+        private Response HandleUpdateSessionInCourse(SessionUpdateCommand command)
+        {
+            if (IsChangingSessionToCourse(command))
+                return new CannotChangeSessionToCourseErrorResponse();
+
+            return UpdateSessionInCourse(command);
+        }
+
+        private Response HandleUpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
+        {
+            try
+            {
+                var coreData = LookupAndValidateCoreData(command);
+                var updateCourse = new RepeatedSession(command, coreData);
+
+
+                //existingCourse.Update(command, coreData);
+
+
+                ValidateUpdate(existingCourse, updateCourse);
+
+                return new CannotUpdateCourseErrorResponse();
+
+                //var data = BusinessRepository.UpdateCourse(BusinessId, updateCourse);
+                //return new Response(data);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ClashingSession)
+                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
+                throw;
+            }
+
         }
 
         private Session GetExistingSessionOrCourse(Guid sessionId)
@@ -134,6 +175,18 @@ namespace CoachSeek.Application.UseCases
         private void ValidateUpdate(SingleSession updateSession)
         {
             ValidateIsNotOverlapping(updateSession);
+        }
+
+        private void ValidateUpdate(RepeatedSession existingCourse, RepeatedSession updateCourse)
+        {
+            if (HasDifferingCourseRepetitions(existingCourse, updateCourse))
+                throw new ValidationException("Cannot change the repetition of a course.");
+        }
+
+        private bool HasDifferingCourseRepetitions(RepeatedSession existingCourse, RepeatedSession updateCourse)
+        {
+            return (existingCourse.Repetition.SessionCount != updateCourse.Repetition.SessionCount
+                    || existingCourse.Repetition.RepeatFrequency != updateCourse.Repetition.RepeatFrequency);
         }
 
         private void ValidateCoreData(CoreData coreData)

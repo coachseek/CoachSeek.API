@@ -73,6 +73,18 @@ namespace CoachSeek.Domain.Entities
         }
 
 
+        public void Update(SessionUpdateCommand command, CoreData coreData)
+        {
+            _location = new Location(coreData.Location);
+            _coach = new Coach(coreData.Coach);
+            _service = new Service(coreData.Service);
+            _timing = new SessionTiming(new SessionTimingCommand(command.Timing.StartDate, command.Timing.StartTime, command.Timing.Duration));
+            _booking = new SessionBooking(new SessionBookingCommand(command.Booking.StudentCapacity, command.Booking.IsOnlineBookable));
+            _presentation = new SessionPresentation(new PresentationCommand(command.Presentation.Colour));
+
+            UpdateSessions();
+        }
+
         public RepeatedSessionData ToData()
         {
             return Mapper.Map<RepeatedSession, RepeatedSessionData>(this);
@@ -154,6 +166,14 @@ namespace CoachSeek.Domain.Entities
         {
             var calculator = SingleSessionListCalculatorSelector.SelectCalculator(Repetition.RepeatFrequency);
             Sessions = calculator.Calculate(FirstSession, Repetition.SessionCount);
+        }
+
+        private void UpdateSessions()
+        {
+            foreach(var session in Sessions)
+            {
+                // TODO                
+            }
         }
     }
 }
