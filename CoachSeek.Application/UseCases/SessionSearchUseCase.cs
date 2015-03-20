@@ -12,19 +12,22 @@ namespace CoachSeek.Application.UseCases
     {
         private ICoachGetByIdUseCase CoachGetByIdUseCase { get; set; }
         private ILocationGetByIdUseCase LocationGetByIdUseCase { get; set; }
+        private IServiceGetByIdUseCase ServiceGetByIdUseCase { get; set; }
 
 
         public SessionSearchUseCase(ICoachGetByIdUseCase coachGetByIdUseCase,
-                                    ILocationGetByIdUseCase locationGetByIdUseCase)
+                                    ILocationGetByIdUseCase locationGetByIdUseCase,
+                                    IServiceGetByIdUseCase serviceGetByIdUseCase)
         {
             CoachGetByIdUseCase = coachGetByIdUseCase;
             LocationGetByIdUseCase = locationGetByIdUseCase;
+            ServiceGetByIdUseCase = serviceGetByIdUseCase;
         }
 
 
-        public IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
+        public IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            Validate(startDate, endDate, coachId, locationId);
+            Validate(startDate, endDate, coachId, locationId, serviceId);
 
             var sessions = BusinessRepository.GetAllSessions(BusinessId);
 
@@ -36,6 +39,9 @@ namespace CoachSeek.Application.UseCases
 
             if (locationId.HasValue)
                 sessionQuery = sessionQuery.Where(x => x.Location.Id == locationId);
+
+            if (serviceId.HasValue)
+                sessionQuery = sessionQuery.Where(x => x.Service.Id == serviceId);
 
             var searchResults = sessionQuery.OrderBy(x => x.Timing.StartDate).ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
 
@@ -50,11 +56,12 @@ namespace CoachSeek.Application.UseCases
             return startTime.Length == 4 ? string.Format("0{0}", startTime) : startTime;
         }
 
-        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId, Guid? locationId)
+        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId, Guid? locationId, Guid? serviceId)
         {
             ValidateDates(searchStartDate, searchEndDate);
             ValidateCoach(coachId);
             ValidateLocation(locationId);
+            ValidateService(serviceId);
         }
 
         private void ValidateCoach(Guid? coachId)
@@ -79,6 +86,18 @@ namespace CoachSeek.Application.UseCases
             var coach = LocationGetByIdUseCase.GetLocation(locationId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid locationId.", "locationId");
+        }
+
+        private void ValidateService(Guid? serviceId)
+        {
+            if (!serviceId.HasValue)
+                return;
+            ServiceGetByIdUseCase.BusinessId = BusinessId;
+            ServiceGetByIdUseCase.BusinessRepository = BusinessRepository;
+
+            var service = ServiceGetByIdUseCase.GetService(serviceId.Value);
+            if (service == null)
+                throw new ValidationException("Not a valid serviceId.", "serviceId");
         }
 
         private void ValidateDates(string searchStartDate, string searchEndDate)

@@ -6,6 +6,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ISessionSearchUseCase : IBusinessRepositorySetter
     {
-        IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null);
+        IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null);
     }
 }

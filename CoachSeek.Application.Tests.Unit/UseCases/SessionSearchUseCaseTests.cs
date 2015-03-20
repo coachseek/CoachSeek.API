@@ -128,76 +128,77 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoStartDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoStartDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>(null, "2015-01-26", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>(null, "2015-01-26", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoValidStartDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoValidStartDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>("abc", "2015-01-26", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("abc", "2015-01-26", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoEndDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoEndDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", null, null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-20", null, null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoValidEndDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoValidEndDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", "xyz", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-20", "xyz", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoValidStartAndEndDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoValidStartAndEndDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>("hello", "world!", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("hello", "world!", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenStartDateIsAfterEndDate()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenStartDateIsAfterEndDate()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-26", "2015-01-20", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-26", "2015-01-20", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoMatchingSessions()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoMatchingSessions()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-13", "2015-01-18", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-13", "2015-01-18", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenSingleMatchingSession()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenSingleMatchingSession()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-22", "2015-01-24", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-22", "2015-01-24", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenMultipleMatchingSessions()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenMultipleMatchingSessions()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", null, null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-21", "2015-01-25", null, null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoValidCoachId()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoValidCoachId()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", Guid.NewGuid(), null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-21", "2015-01-25", Guid.NewGuid(), null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenValidCoachId()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenValidCoachId()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-20", "2015-01-25", new Guid(COACH_ALBERT_ID), null);
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-20", "2015-01-25", new Guid(COACH_ALBERT_ID), null, null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenNoValidLocationId()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenNoValidLocationId()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-25", null, Guid.NewGuid());
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-21", "2015-01-25", null, Guid.NewGuid(), null);
         }
 
-        private Tuple<string, string, Guid?, Guid?> GivenValidLocationId()
+        private Tuple<string, string, Guid?, Guid?, Guid?> GivenValidLocationId()
         {
-            return new Tuple<string, string, Guid?, Guid?>("2015-01-21", "2015-01-27", null, new Guid(LOCATION_BROWNS_BAY_ID));
+            return new Tuple<string, string, Guid?, Guid?, Guid?>("2015-01-21", "2015-01-27", null, new Guid(LOCATION_BROWNS_BAY_ID), null);
         }
 
 
-        private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?> criteria)
+        private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?, Guid?> criteria)
         {
             var useCase = new SessionSearchUseCase(new CoachGetByIdUseCase { BusinessRepository = BusinessRepository },
-                                                   new LocationGetByIdUseCase{ BusinessRepository = BusinessRepository }) 
+                                                   new LocationGetByIdUseCase { BusinessRepository = BusinessRepository }, 
+                                                   new ServiceGetByIdUseCase { BusinessRepository = BusinessRepository }) 
                                                    { BusinessId = new Guid(BUSINESS_ID), BusinessRepository = BusinessRepository };
 
             try

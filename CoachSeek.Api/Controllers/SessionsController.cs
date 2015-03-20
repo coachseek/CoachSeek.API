@@ -39,9 +39,9 @@ namespace CoachSeek.Api.Controllers
         // GET: api/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [BasicAuthentication]
         [Authorize]
-        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
+        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            return SearchForSessions(startDate, endDate, coachId, locationId);
+            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
         }
 
         // GET: api/Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
@@ -82,14 +82,14 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null)
+        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             SessionSearchUseCase.BusinessId = BusinessId;
             SessionSearchUseCase.BusinessRepository = BusinessRepository;
 
             try
             {
-                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId);
+                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
                 return CreateGetWebResponse(response);
             }
             catch (ValidationException ex)
