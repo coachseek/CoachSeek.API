@@ -3,7 +3,7 @@ using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
-namespace CoachSeek.Domain.Entities.Booking
+namespace CoachSeek.Domain.Entities
 {
     // Aggregate Root for booking process.
     public class Booking

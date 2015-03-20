@@ -44,7 +44,7 @@ namespace CoachSeek.Application.UseCases
                 if (session.ParentId == null)
                     return new StandaloneSession(session, LookupCoreData(session));
 
-                return new SingleSession(session, LookupCoreData(session));
+                return new SessionInCourse(session, LookupCoreData(session));
             }
 
             var course = BusinessRepository.GetCourse(BusinessId, sessionId);

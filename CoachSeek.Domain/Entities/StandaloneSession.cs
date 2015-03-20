@@ -13,8 +13,8 @@ namespace CoachSeek.Domain.Entities
             ParentId = null;
         }
 
-        public StandaloneSession(SessionUpdateCommand command, CoreData coreData)
-            : base(command, coreData)
+        public StandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command, CoreData coreData)
+            : base(existingSession, command, coreData)
         {
             ParentId = null;
         }

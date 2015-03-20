@@ -2,7 +2,7 @@
 using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Models;
-using CoachSeek.Domain.Entities.Booking;
+using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.DataAccess.Main.Memory.Conversion
 {

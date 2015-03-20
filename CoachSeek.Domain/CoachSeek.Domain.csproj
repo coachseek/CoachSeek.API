@@ -95,10 +95,11 @@
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\Business2.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
-    <Compile Include="Entities\Booking\Booking.cs" />
+    <Compile Include="Entities\Booking.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
+    <Compile Include="Entities\SessionInCourse.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateBooking.cs" />
     <Compile Include="Exceptions\DuplicateUser.cs" />

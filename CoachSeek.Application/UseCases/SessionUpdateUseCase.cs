@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Diagnostics;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
@@ -26,32 +27,32 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private Response UpdateSessionOrCourse(SessionUpdateCommand command, Session sessionOrCourse)
+        private Response UpdateSessionOrCourse(SessionUpdateCommand command, Session existingSessionOrCourse)
         {
-            if (sessionOrCourse is StandaloneSession)
-                return HandleUpdateStandaloneSession(command);
-            if (sessionOrCourse is SingleSession)
-                return HandleUpdateSessionInCourse(command);
-            if (sessionOrCourse is RepeatedSession)
-                return HandleUpdateCourse(command, (RepeatedSession)sessionOrCourse);
+            if (existingSessionOrCourse is StandaloneSession)
+                return HandleUpdateStandaloneSession(command, (StandaloneSession)existingSessionOrCourse);
+            if (existingSessionOrCourse is SessionInCourse)
+                return HandleUpdateSessionInCourse(command, (SessionInCourse)existingSessionOrCourse);
+            if (existingSessionOrCourse is RepeatedSession)
+                return HandleUpdateCourse(command, (RepeatedSession)existingSessionOrCourse);
 
             throw new InvalidOperationException("Unexpected session type!");
         }
 
-        private Response HandleUpdateStandaloneSession(SessionUpdateCommand command)
+        private Response HandleUpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 return new CannotChangeSessionToCourseErrorResponse();
 
-            return UpdateStandaloneSession(command);
+            return UpdateStandaloneSession(existingSession, command);
         }
 
-        private Response HandleUpdateSessionInCourse(SessionUpdateCommand command)
+        private Response HandleUpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 return new CannotChangeSessionToCourseErrorResponse();
 
-            return UpdateSessionInCourse(command);
+            return UpdateSessionInCourse(existingSession, command);
         }
 
         private Response HandleUpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
@@ -59,18 +60,16 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var coreData = LookupAndValidateCoreData(command);
-                var updateCourse = new RepeatedSession(command, coreData);
+                var updateCourse = new RepeatedSession(existingCourse, command, coreData);
 
-
-                //existingCourse.Update(command, coreData);
 
 
                 ValidateUpdate(existingCourse, updateCourse);
 
-                return new CannotUpdateCourseErrorResponse();
+                //return new CannotUpdateCourseErrorResponse();
 
-                //var data = BusinessRepository.UpdateCourse(BusinessId, updateCourse);
-                //return new Response(data);
+                var data = BusinessRepository.UpdateCourse(BusinessId, updateCourse);
+                return new Response(data);
             }
             catch (Exception ex)
             {
@@ -81,7 +80,6 @@ namespace CoachSeek.Application.UseCases
 
                 throw;
             }
-
         }
 
         private Session GetExistingSessionOrCourse(Guid sessionId)
@@ -93,7 +91,7 @@ namespace CoachSeek.Application.UseCases
                 if (session.ParentId == null)
                     return new StandaloneSession(session, LookupCoreData(session));
 
-                return new SingleSession(session, LookupCoreData(session));
+                return new SessionInCourse(session, LookupCoreData(session));
             }
 
             var course = BusinessRepository.GetCourse(BusinessId, sessionId);
@@ -130,12 +128,12 @@ namespace CoachSeek.Application.UseCases
             return coreData;
         }
 
-        private Response UpdateStandaloneSession(SessionUpdateCommand command)
+        private Response UpdateStandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command)
         {
             try
             {
                 var coreData = LookupAndValidateCoreData(command);
-                var updateSession = new StandaloneSession(command, coreData);
+                var updateSession = new StandaloneSession(existingSession, command, coreData);
                 ValidateUpdate(updateSession);
                 var data = BusinessRepository.UpdateSession(BusinessId, updateSession);
                 return new Response(data);
@@ -151,12 +149,12 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Response UpdateSessionInCourse(SessionUpdateCommand command)
+        private Response UpdateSessionInCourse(SessionInCourse existingSession, SessionUpdateCommand command)
         {
             try
             {
                 var coreData = LookupAndValidateCoreData(command);
-                var updateSession = new SingleSession(command, coreData);
+                var updateSession = new SessionInCourse(existingSession, command, coreData);
                 ValidateUpdate(updateSession);
                 var data = BusinessRepository.UpdateSession(BusinessId, updateSession);
                 return new Response(data);

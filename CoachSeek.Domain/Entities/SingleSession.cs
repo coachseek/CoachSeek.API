@@ -22,12 +22,12 @@ namespace CoachSeek.Domain.Entities
         public PointInTime Finish { get { return _timing.Finish; } }
 
 
-        public SingleSession(SessionAddCommand command, CoreData coreData)
+        protected SingleSession(SessionAddCommand command, CoreData coreData)
             : base(command, coreData)
         { }
 
-        public SingleSession(SessionUpdateCommand command, CoreData coreData)
-            : base(command, coreData)
+        protected SingleSession(SingleSession existingSession, SessionUpdateCommand command, CoreData coreData)
+            : base(existingSession, command, coreData)
         { }
 
         public SingleSession(SingleSessionData data, CoreData coreData)
@@ -38,7 +38,7 @@ namespace CoachSeek.Domain.Entities
             : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Pricing, data.ParentId)
         { }
 
-        public SingleSession(Guid id,
+        protected SingleSession(Guid id,
                        LocationData location,
                        CoachData coach,
                        ServiceData service,
@@ -73,26 +73,6 @@ namespace CoachSeek.Domain.Entities
         public SingleSessionData ToData()
         {
             return Mapper.Map<SingleSession, SingleSessionData>(this);
-        }
-
-        public SingleSession Clone()
-        {
-            var sessionData = ToData();
-            sessionData.Id = Guid.NewGuid();
-
-            return new SingleSession(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
-        }
-
-        public SingleSession Clone(Date startDate)
-        {
-            var sessionData = ToData();
-            sessionData.ParentId = ParentId;
-            sessionData.Id = Guid.NewGuid();
-
-            var timing = sessionData.Timing;
-            sessionData.Timing = new SessionTimingData(startDate.ToData(), timing.StartTime, timing.Duration);
-
-            return new SingleSession(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
         }
 
 

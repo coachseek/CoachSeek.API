@@ -2,7 +2,7 @@
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities.Booking;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Linq;

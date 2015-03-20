@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
-using CoachSeek.Domain.Entities.Booking;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.DataAccess.Main.Memory.Repositories

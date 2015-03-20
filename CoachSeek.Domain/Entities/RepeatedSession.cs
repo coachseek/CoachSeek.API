@@ -17,10 +17,10 @@ namespace CoachSeek.Domain.Entities
         public RepeatedSessionPricingData Pricing { get { return _pricing.ToData(); } }
         public RepetitionData Repetition { get { return _repetition.ToData(); } }
 
-        public IList<SingleSession> Sessions { get; private set; }
+        public IList<SessionInCourse> Sessions { get; private set; }
 
 
-        private SingleSession FirstSession
+        private SessionInCourse FirstSession
         {
             get { return CalculateFirstSession(); }
         }
@@ -32,8 +32,8 @@ namespace CoachSeek.Domain.Entities
             CalculateSingleSessions();
         }
 
-        public RepeatedSession(SessionUpdateCommand command, CoreData coreData)
-            : base(command, coreData)
+        public RepeatedSession(RepeatedSession existingCourse, SessionUpdateCommand command, CoreData coreData)
+            : base(existingCourse, command, coreData)
         {
             // Calculate the child sessions out for this update command.
             // Compare those sessions to the ones that already exist for the course.
@@ -41,7 +41,7 @@ namespace CoachSeek.Domain.Entities
             // If the number of sessions has changed then create new or delete existing sessions. 
             // Ouch!
 
-            //CalculateSingleSessions();
+            UpdateSessions(existingCourse, existingCourse.Sessions, command, coreData);
         }
 
         public RepeatedSession(RepeatedSessionData data, CoreData coreData)
@@ -69,21 +69,9 @@ namespace CoachSeek.Domain.Entities
             _pricing = new RepeatedSessionPricing(pricing.SessionPrice, pricing.CoursePrice);
 
             // Recreated the Session collection
-            Sessions = sessions.Select(session => new SingleSession(session, location, coach, service)).ToList();
+            Sessions = sessions.Select(session => new SessionInCourse(session, location, coach, service)).ToList();
         }
 
-
-        public void Update(SessionUpdateCommand command, CoreData coreData)
-        {
-            _location = new Location(coreData.Location);
-            _coach = new Coach(coreData.Coach);
-            _service = new Service(coreData.Service);
-            _timing = new SessionTiming(new SessionTimingCommand(command.Timing.StartDate, command.Timing.StartTime, command.Timing.Duration));
-            _booking = new SessionBooking(new SessionBookingCommand(command.Booking.StudentCapacity, command.Booking.IsOnlineBookable));
-            _presentation = new SessionPresentation(new PresentationCommand(command.Presentation.Colour));
-
-            UpdateSessions();
-        }
 
         public RepeatedSessionData ToData()
         {
@@ -155,11 +143,11 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private SingleSession CalculateFirstSession()
+        private SessionInCourse CalculateFirstSession()
         {
             var childSession = ToChildSessionData();
 
-            return new SingleSession(childSession, _location.ToData(), _coach.ToData(), _service.ToData());
+            return new SessionInCourse(childSession, _location.ToData(), _coach.ToData(), _service.ToData());
         }
 
         private void CalculateSingleSessions()
@@ -168,12 +156,14 @@ namespace CoachSeek.Domain.Entities
             Sessions = calculator.Calculate(FirstSession, Repetition.SessionCount);
         }
 
-        private void UpdateSessions()
+        private void UpdateSessions(RepeatedSession existingCourse, IList<SessionInCourse> existingSessions, SessionUpdateCommand command, CoreData coreData)
         {
-            foreach(var session in Sessions)
-            {
-                // TODO                
-            }
+            var updateSessions = new List<SessionInCourse>();
+
+            foreach(var existingSession in existingSessions)
+                updateSessions.Add(new SessionInCourse(existingCourse, existingSession, command, coreData));
+
+            Sessions = updateSessions;
         }
     }
 }

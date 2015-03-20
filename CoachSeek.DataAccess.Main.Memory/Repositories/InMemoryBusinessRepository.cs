@@ -4,7 +4,6 @@ using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Entities.Booking;
 using CoachSeek.Domain.Repositories;
 using System;
 using System.Collections.Generic;

@@ -18,7 +18,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         private CoachData Coach { get; set; }
         private ServiceData Service { get; set; }
 
-        private SingleSession FirstSession { get; set; }
+        private SessionInCourse FirstSession { get; set; }
 
 
         [SetUp]
@@ -30,7 +30,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             SetupCoach();
             SetupService();
 
-            FirstSession = new SingleSession(CreateValidSingleSession(), Location, Coach, Service);
+            FirstSession = new SessionInCourse(CreateValidSingleSession(), Location, Coach, Service);
         }
 
         private void SetupLocation()

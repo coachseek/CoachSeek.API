@@ -2,7 +2,6 @@
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using System;
-using CoachSeek.Domain.Entities.Booking;
 
 namespace CoachSeek.Domain.Repositories
 {

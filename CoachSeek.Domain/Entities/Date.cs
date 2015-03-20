@@ -21,6 +21,12 @@ namespace CoachSeek.Domain.Entities
             _date = date;
         }
 
+        public Date(string dateString, int dayOffset)
+            : this(dateString)
+        {
+            _date = _date.AddDays(dayOffset);
+        }
+
         public Date(DateTime date)
         {
             _date = date;
@@ -29,6 +35,11 @@ namespace CoachSeek.Domain.Entities
         public string ToData()
         {
             return string.Format("{0:yyyy-MM-dd}", _date);
+        }
+
+        public DateTime ToDateTime()
+        {
+            return _date;
         }
 
         public bool IsAfter(Date otherDate)
@@ -49,6 +60,12 @@ namespace CoachSeek.Domain.Entities
         public bool IsBefore(Date otherDate)
         {
             return _date.Ticks < otherDate._date.Ticks;
+        }
+
+        public int CalculateDayOffsetTo(Date otherDate)
+        {
+            var difference = _date.Subtract(otherDate.ToDateTime());
+            return difference.Days;
         }
     }
 }

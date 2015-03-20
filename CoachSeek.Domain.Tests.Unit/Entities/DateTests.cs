@@ -151,5 +151,27 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             var afterDate = new Date(afterDateString);
             Assert.That(beforeDate.IsBefore(afterDate), Is.EqualTo(expected));
         }
+
+        [Test]
+        public void CalculateDaysDifferenceTests()
+        {
+            DayOffset("2015-01-01", "2015-01-01", 0);
+
+            DayOffset("2015-01-02", "2015-01-01", 1);
+            DayOffset("2015-12-31", "2015-01-01", 364);
+            DayOffset("2015-01-31", "2015-01-01", 30);
+
+            DayOffset("2014-12-31", "2015-01-01", -1);
+            DayOffset("2014-12-01", "2015-01-01", -31);
+            DayOffset("2014-01-01", "2015-01-01", -365);
+        }
+
+        private void DayOffset(string dateString1, string dateString2, int dayOffset)
+        {
+            var date1 = new Date(dateString1);
+            var date2 = new Date(dateString2);
+
+            Assert.That(date1.CalculateDayOffsetTo(date2), Is.EqualTo(dayOffset));
+        }
     }
 }

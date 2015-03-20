@@ -4,7 +4,6 @@ using CoachSeek.DataAccess.Authentication.Models;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Entities.Booking;
 
 namespace CoachSeek.DataAccess.Main.Memory.Configuration
 {

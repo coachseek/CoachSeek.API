@@ -8,15 +8,15 @@ namespace CoachSeek.Domain.Services
     {
         protected abstract int OffsetNumberOfDays { get; }
 
-        public IList<SingleSession> Calculate(SingleSession firstSession, SessionCount sessionCount)
+        public IList<SessionInCourse> Calculate(SessionInCourse firstSession, SessionCount sessionCount)
         {
             return Calculate(firstSession, sessionCount.Count);
         }
 
-        public IList<SingleSession> Calculate(SingleSession firstSession, int sessionCount)
+        public IList<SessionInCourse> Calculate(SessionInCourse firstSession, int sessionCount)
         {
             var currentSession = firstSession;
-            var sessions = new List<SingleSession> { firstSession };
+            var sessions = new List<SessionInCourse> { firstSession };
             var count = 1; // Already got one session
 
             while (count < sessionCount)

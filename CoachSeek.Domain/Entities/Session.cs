@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreate(command, coreData);
         }
 
-        protected Session(SessionUpdateCommand command, CoreData coreData)
+        protected Session(Session existingSession, SessionUpdateCommand command, CoreData coreData)
         {
             Id = command.Id;
 
