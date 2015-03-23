@@ -104,9 +104,15 @@ namespace CoachSeek.Application.Contracts.Models
     public class ClashingSessionErrorResponse : ErrorResponse
     {
         public ClashingSessionErrorResponse(ClashingSession clashingSession)
-            : base(Resources.ErrorClashingSession, null, string.Format("Clashing session: {0}; SessionId = {{{1}}}", 
-                                                                       clashingSession.Session.Name, clashingSession.Session.Id))
+            : base(Resources.ErrorClashingSession, null, ErrorCode.ClashingSession, FormatClashingSessionMessage(clashingSession))
         { }
+
+        private static string FormatClashingSessionMessage(ClashingSession clashingSession)
+        {
+            return string.Format("Clashing session: {0}; SessionId = {{{1}}}", 
+                clashingSession.Session.Name,
+                clashingSession.Session.Id);
+        }
     }
 
     public class InvalidEmailAddressFormatErrorResponse : ErrorResponse

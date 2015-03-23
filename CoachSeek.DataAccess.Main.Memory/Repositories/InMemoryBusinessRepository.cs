@@ -461,6 +461,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var service = GetService(businessId, course.Service.Id);
             course.Service.Name = service.Name;
 
+            for(var i = 0; i < course.Sessions.Count; i++)
+            {
+                course.Sessions[i] = GetSession(businessId, course.Sessions[i].Id);
+            }
+
             return course;
         }
 
@@ -478,7 +483,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
         {
-            throw new NotImplementedException();
+            var dbCourse = Mapper.Map<RepeatedSession, DbRepeatedSession>(course);
+
+            var dbCourses = GetAllDbCourses(businessId);
+            var index = dbCourses.FindIndex(x => x.Id == course.Id);
+
+            dbCourses[index] = dbCourse;
+            Courses[businessId] = dbCourses;
+
+            return GetCourse(businessId, course.Id);
         }
 
         public void DeleteCourse(Guid businessId, Guid courseId)

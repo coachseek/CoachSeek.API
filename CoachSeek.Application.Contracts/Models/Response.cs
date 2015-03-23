@@ -25,9 +25,9 @@ namespace CoachSeek.Application.Contracts.Models
             Errors = new List<ErrorData> { error };
         }
 
-        public ErrorResponse(string message, string field = null, string data = null)
+        public ErrorResponse(string message, string field = null, string code = null, string data = null)
         {
-            Errors = new List<ErrorData> { new ErrorData(field, message, data) };
+            Errors = new List<ErrorData> { new ErrorData(field, message, code, data) };
         }
 
         public ErrorResponse(ValidationException exception)

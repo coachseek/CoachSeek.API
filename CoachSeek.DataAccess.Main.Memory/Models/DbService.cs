@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.DataAccess.Main.Memory.Models;
 
 namespace CoachSeek.DataAccess.Models
 {

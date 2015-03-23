@@ -14,19 +14,18 @@ namespace CoachSeek.Data.Model
             set
             {
                 _originalField = value;
-                _field = camelCaseComponentFields(value); 
+                _field = CamelCaseComponentFields(value); 
             }
         }
 
         public string Message
         {
             get { return _message; }
-            set { _message = reformatMessage(value); }
+            set { _message = ReformatMessage(value); }
         }
 
+        public string Code { get; set; }
         public string Data { get; set; }
-
-        //public int Code { get; set; }
 
         public ErrorData()
         { }
@@ -36,22 +35,16 @@ namespace CoachSeek.Data.Model
             Message = message;
         }
 
-        //public ErrorData(int code, string message, string field = null)
-        //{
-        //    Code = code;
-        //    Message = message;
-        //    Field = field;
-        //}
-
-        public ErrorData(string field, string message, string data = null)
+        public ErrorData(string field, string message, string code = null, string data = null)
         {
             // Temporal coupling! Field needs to be set before Message!
             Field = field;
             Message = message;
+            Code = code;
             Data = data;
         }
 
-        private string camelCaseComponentFields(string field)
+        private string CamelCaseComponentFields(string field)
         {
             if (string.IsNullOrWhiteSpace(field))
                 return field;
@@ -78,7 +71,7 @@ namespace CoachSeek.Data.Model
             return response.Substring(0, response.Length - 1);
         }
 
-        private string reformatMessage(string message)
+        private string ReformatMessage(string message)
         {
             if (message == null || _originalField == null)
                 return message;
@@ -87,7 +80,7 @@ namespace CoachSeek.Data.Model
             var lastSubField = originalFields[originalFields.GetLength(0) - 1];
 
             if (message.Contains(lastSubField))
-                return message.Replace(lastSubField, camelCaseComponentFields(lastSubField));
+                return message.Replace(lastSubField, CamelCaseComponentFields(lastSubField));
 
             return message;
         }
