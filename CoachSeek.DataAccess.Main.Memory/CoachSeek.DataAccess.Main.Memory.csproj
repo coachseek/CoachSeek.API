@@ -92,7 +92,6 @@
     <Compile Include="Models\DbCoach.cs" />
     <Compile Include="Models\DbLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\InMemoryBookingRepository.cs" />
     <Compile Include="Repositories\InMemoryBusinessRepository.cs" />
   </ItemGroup>
   <ItemGroup>

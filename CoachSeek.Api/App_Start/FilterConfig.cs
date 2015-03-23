@@ -1,13 +1,12 @@
-﻿using System.Web.Mvc;
-using CoachSeek.Api.Attributes;
+﻿//using System.Web.Mvc;
 
-namespace CoachSeek.Api
-{
-    public class FilterConfig
-    {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
-        {
-            filters.Add(new HandleErrorAttribute());
-        }
-    }
-}
+//namespace CoachSeek.Api
+//{
+//    public class FilterConfig
+//    {
+//        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+//        {
+//            filters.Add(new HandleErrorAttribute());
+//        }
+//    }
+//}

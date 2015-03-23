@@ -109,7 +109,6 @@
     <Compile Include="Exceptions\InvalidStartDate.cs" />
     <Compile Include="Exceptions\InvalidUser.cs" />
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
-    <Compile Include="Repositories\IBookingRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\BusinessDomainBuilder.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
