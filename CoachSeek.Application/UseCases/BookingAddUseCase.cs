@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingAddUseCase : BaseUseCase, IBookingAddUseCase
+    public class BookingAddUseCase : SessionBaseUseCase, IBookingAddUseCase
     {
         public Response AddBooking(BookingAddCommand command)
         {
@@ -46,15 +46,15 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateSession(Booking newBooking, ValidationException errors)
         {
-            var session = BusinessRepository.GetSession(BusinessId, newBooking.Session.Id);
-            if (!session.IsExisting())
+            var sessionOrCourse = GetExistingSessionOrCourse(newBooking.Session.Id);
+            if (sessionOrCourse.IsNotFound())
                 errors.Add("This session does not exist.", "booking.session.id");
         }
 
         private void ValidateCustomer(Booking newBooking, ValidationException errors)
         {
             var customer = BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
-            if (!customer.IsExisting())
+            if (customer.IsNotFound())
                 errors.Add("This customer does not exist.", "booking.customer.id");
         }
 
