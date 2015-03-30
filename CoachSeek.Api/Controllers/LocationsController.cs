@@ -39,9 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            LocationsGetAllUseCase.BusinessId = BusinessId;
-            LocationsGetAllUseCase.BusinessRepository = BusinessRepository;
-
+            LocationsGetAllUseCase.Initialise(BusinessRepository, BusinessId);
             var response = LocationsGetAllUseCase.GetLocations();
             return CreateGetWebResponse(response);
         }
@@ -51,9 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            LocationGetByIdUseCase.BusinessId = BusinessId;
-            LocationGetByIdUseCase.BusinessRepository = BusinessRepository;
-
+            LocationGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = LocationGetByIdUseCase.GetLocation(id);
             return CreateGetWebResponse(response);
         }
@@ -76,9 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            LocationDeleteUseCase.BusinessId = BusinessId;
-            LocationDeleteUseCase.BusinessRepository = BusinessRepository;
-
+            LocationDeleteUseCase.Initialise(BusinessRepository, BusinessId);
             var response = LocationDeleteUseCase.DeleteLocation(id);
             return CreateDeleteWebResponse(response);
         }
@@ -87,10 +81,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
         {
             var command = LocationAddCommandConverter.Convert(location);
-            
-            LocationAddUseCase.BusinessId = BusinessId;
-            LocationAddUseCase.BusinessRepository = BusinessRepository;
-
+            LocationAddUseCase.Initialise(BusinessRepository, BusinessId);
             var response = LocationAddUseCase.AddLocation(command);
             return CreatePostWebResponse(response);
         }
@@ -98,10 +89,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
             var command = LocationUpdateCommandConverter.Convert(location);
-
-            LocationUpdateUseCase.BusinessId = BusinessId;
-            LocationUpdateUseCase.BusinessRepository = BusinessRepository;
-
+            LocationUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = LocationUpdateUseCase.UpdateLocation(command);
             return CreatePostWebResponse(response);
         }

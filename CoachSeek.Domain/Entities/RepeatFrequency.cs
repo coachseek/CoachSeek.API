@@ -20,16 +20,16 @@ namespace CoachSeek.Domain.Entities
             if (_frequency == null)
                 return;
 
-            if (!(IsRepeatEveryDay || IsRepeatEveryWeek))
+            if (!(IsRepeatedEveryDay || IsRepeatedEveryWeek))
                 throw new InvalidRepeatFrequency();
         }
 
-        public bool IsRepeatEveryDay
+        public bool IsRepeatedEveryDay
         {
             get { return _frequency == "d"; }
         }
 
-        public bool IsRepeatEveryWeek
+        public bool IsRepeatedEveryWeek
         {
             get { return _frequency == "w"; }
         }

@@ -506,33 +506,43 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public IList<BookingData> GetAllBookings(Guid businessId)
+        private IList<BookingData> GetAllBookings(Guid businessId)
         {
             var dbBookings = GetAllDbBookings(businessId);
 
             return Mapper.Map<IList<DbBooking>, IList<BookingData>>(dbBookings);
         }
 
-        public BookingData GetBooking(Guid businessId, Guid bookingId)
+        //public BookingData GetBooking(Guid businessId, Guid bookingId)
+        //{
+        //    var businessBookings = GetAllBookings(businessId);
+
+        //    var booking = businessBookings.FirstOrDefault(x => x.Id == bookingId);
+        //    if (booking == null)
+        //        return null;
+
+        //    var session = GetSession(businessId, booking.Session.Id);
+        //    booking.Session.Name = string.Format("{0} at {1} with {2} on {3} at {4}",
+        //                                         session.Service.Name,
+        //                                         session.Location.Name,
+        //                                         session.Coach.Name,
+        //                                         session.Timing.StartDate,
+        //                                         session.Timing.StartTime);
+
+        //    var customer = GetCustomer(businessId, booking.Customer.Id);
+        //    booking.Customer.Name = string.Format("{0} {1}", customer.FirstName, customer.LastName);
+
+        //    return booking;
+        //}
+
+        public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)
         {
-            var businessBookings = GetAllBookings(businessId);
+            return null;
+        }
 
-            var booking = businessBookings.FirstOrDefault(x => x.Id == bookingId);
-            if (booking == null)
-                return null;
-
-            var session = GetSession(businessId, booking.Session.Id);
-            booking.Session.Name = string.Format("{0} at {1} with {2} on {3} at {4}",
-                                                 session.Service.Name,
-                                                 session.Location.Name,
-                                                 session.Coach.Name,
-                                                 session.Timing.StartDate,
-                                                 session.Timing.StartTime);
-
-            var customer = GetCustomer(businessId, booking.Customer.Id);
-            booking.Customer.Name = string.Format("{0} {1}", customer.FirstName, customer.LastName);
-
-            return booking;
+        public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
+        {
+            return null;
         }
 
         public BookingData AddBooking(Guid businessId, Booking booking)
@@ -544,7 +554,26 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             Bookings[businessId] = dbBookings;
 
-            return GetBooking(businessId, booking.Id);
+            return null;
+            //return GetBooking(businessId, booking.Id);
+        }
+
+        public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking booking)
+        {
+            var dbBooking = Mapper.Map<Booking, DbBooking>(booking);
+
+            var dbBookings = GetAllDbBookings(businessId);
+            dbBookings.Add(dbBooking);
+
+            Bookings[businessId] = dbBookings;
+
+            return null;
+            //return GetBooking(businessId, booking.Id);
+        }
+
+        public CourseBookingData AddCourseBooking(Guid businessId, CourseBooking booking)
+        {
+            throw new NotImplementedException();
         }
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
@@ -561,16 +590,21 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
         {
-            var bookings = GetAllBookings(businessId);
-            var sessionBookings = bookings.Where(x => x.Session.Id == sessionId);
+            //var bookings = GetAllBookings(businessId);
+            //var sessionBookings = bookings.Where(x => x.Session.Id == sessionId);
 
-            return sessionBookings.Select(sessionBooking => new CustomerBookingData
-            {
-                Id = sessionBooking.Id, 
-                Customer = GetCustomer(businessId, sessionBooking.Customer.Id)
-            }).ToList();
+            //return sessionBookings.Select(sessionBooking => new CustomerBookingData
+            //{
+            //    Id = sessionBooking.Id, 
+            //    Customer = GetCustomer(businessId, sessionBooking.Customer.Id)
+            //}).ToList();
+            return null;
         }
 
+        public IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId)
+        {
+            return null;
+        }
 
         private List<DbLocation> GetAllDbLocations(Guid businessId)
         {

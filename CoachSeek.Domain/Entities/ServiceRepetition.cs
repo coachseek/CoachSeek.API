@@ -46,10 +46,10 @@ namespace CoachSeek.Domain.Entities
             {
                 if (!HasRepeatFrequency)
                     throw new ValidationException("For a repeated session the repeatFrequency must be set.", RepeatFrequencyPath);
-                if (_frequency.IsRepeatEveryDay && SessionCount > MAXIMUM_DAILY_REPEAT)
+                if (_frequency.IsRepeatedEveryDay && SessionCount > MAXIMUM_DAILY_REPEAT)
                     throw new ValidationException(
                         string.Format("The maximum number of daily sessions is {0}.", MAXIMUM_DAILY_REPEAT), SessionCountPath);
-                if (_frequency.IsRepeatEveryWeek && SessionCount > MAXIMUM_WEEKLY_REPEAT)
+                if (_frequency.IsRepeatedEveryWeek && SessionCount > MAXIMUM_WEEKLY_REPEAT)
                     throw new ValidationException(
                         string.Format("The maximum number of weekly sessions is {0}.", MAXIMUM_WEEKLY_REPEAT), SessionCountPath);
             }

@@ -5,6 +5,7 @@ using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Contracts;
 
@@ -68,8 +69,7 @@ namespace CoachSeek.Api.Controllers
         private Response AddBusiness(ApiBusinessCommand command)
         {
             var businessAddCommand = BusinessAddCommandConverter.Convert(command);
-            BusinessAddUseCase.BusinessRepository = BusinessRepository;
-
+            BusinessAddUseCase.Initialise(BusinessRepository);
             return BusinessAddUseCase.AddBusiness(businessAddCommand);
         }
 
@@ -77,7 +77,6 @@ namespace CoachSeek.Api.Controllers
         {
             var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
             UserAssociateWithBusinessUseCase.UserRepository = UserRepository;
-
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
         }
 

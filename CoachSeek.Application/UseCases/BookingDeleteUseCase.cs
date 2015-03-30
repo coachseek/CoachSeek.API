@@ -6,9 +6,19 @@ namespace CoachSeek.Application.UseCases
 {
     public class BookingDeleteUseCase : BaseUseCase, IBookingDeleteUseCase
     {
+        private IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
+
+
+        public BookingDeleteUseCase(IBookingGetByIdUseCase bookingGetByIdUseCase)
+        {
+            BookingGetByIdUseCase = bookingGetByIdUseCase;
+        }
+
+
         public Response DeleteBooking(Guid id)
         {
-            var booking = BusinessRepository.GetBooking(BusinessId, id);
+            BookingGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            var booking = BookingGetByIdUseCase.GetBooking(id);
             if (booking == null)
                 return new NotFoundResponse();
 

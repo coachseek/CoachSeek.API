@@ -49,9 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            SessionGetByIdUseCase.BusinessId = BusinessId;
-            SessionGetByIdUseCase.BusinessRepository = BusinessRepository;
-
+            SessionGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = SessionGetByIdUseCase.GetSession(id);
             return CreateGetWebResponse(response);
         }
@@ -74,9 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            SessionDeleteUseCase.BusinessId = BusinessId;
-            SessionDeleteUseCase.BusinessRepository = BusinessRepository;
-
+            SessionDeleteUseCase.Initialise(BusinessRepository, BusinessId);
             var response = SessionDeleteUseCase.DeleteSession(id);
             return CreateDeleteWebResponse(response);
         }
@@ -84,8 +80,7 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            SessionSearchUseCase.BusinessId = BusinessId;
-            SessionSearchUseCase.BusinessRepository = BusinessRepository;
+            SessionSearchUseCase.Initialise(BusinessRepository, BusinessId);
 
             try
             {
@@ -101,9 +96,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
             var command = SessionAddCommandConverter.Convert(session);
-            SessionAddUseCase.BusinessId = BusinessId;
-            SessionAddUseCase.BusinessRepository = BusinessRepository;
-
+            SessionAddUseCase.Initialise(BusinessRepository, BusinessId);
             var response = SessionAddUseCase.AddSession(command);
             return CreatePostWebResponse(response);
         }
@@ -111,9 +104,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
         {
             var command = SessionUpdateCommandConverter.Convert(session);
-            SessionUpdateUseCase.BusinessId = BusinessId;
-            SessionUpdateUseCase.BusinessRepository = BusinessRepository;
-
+            SessionUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = SessionUpdateUseCase.UpdateSession(command);
             return CreatePostWebResponse(response);
         }

@@ -17,15 +17,14 @@ namespace CoachSeek.Application.UseCases
             if (sessionOrCourse is SingleSession)
             {
                 var session = ((SingleSession)sessionOrCourse).ToData();
-                session.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, sessionOrCourse.Id);
+                session.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
 
                 return session;
             }
             if (sessionOrCourse is RepeatedSession)
             {
                 var course = ((RepeatedSession)sessionOrCourse).ToData();
-
-                // TODO: Get Bookings for Course
+                course.Booking.Bookings = BusinessRepository.GetCustomerBookingsByCourseId(BusinessId, course.Id);
 
                 return course;
             }

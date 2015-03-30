@@ -6,7 +6,6 @@ using CoachSeek.Application.Contracts.UseCases;
 using System;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.Application.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -37,9 +36,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            CustomersGetAllUseCase.BusinessId = BusinessId;
-            CustomersGetAllUseCase.BusinessRepository = BusinessRepository;
-
+            CustomersGetAllUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CustomersGetAllUseCase.GetCustomers();
             return CreateGetWebResponse(response);
         }
@@ -49,9 +46,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            CustomerGetByIdUseCase.BusinessId = BusinessId;
-            CustomerGetByIdUseCase.BusinessRepository = BusinessRepository;
-
+            CustomerGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CustomerGetByIdUseCase.GetCustomer(id);
             return CreateGetWebResponse(response);
         }
@@ -73,9 +68,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)
         {
             var command = CustomerAddCommandConverter.Convert(customer);
-            CustomerAddUseCase.BusinessId = BusinessId;
-            CustomerAddUseCase.BusinessRepository = BusinessRepository;
-
+            CustomerAddUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CustomerAddUseCase.AddCustomer(command);
             return CreatePostWebResponse(response);
         }
@@ -83,9 +76,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateCustomer(ApiCustomerSaveCommand customer)
         {
             var command = CustomerUpdateCommandConverter.Convert(customer);
-            CustomerUpdateUseCase.BusinessId = BusinessId;
-            CustomerUpdateUseCase.BusinessRepository = BusinessRepository;
-
+            CustomerUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CustomerUpdateUseCase.UpdateCustomer(command);
             return CreatePostWebResponse(response);
         }

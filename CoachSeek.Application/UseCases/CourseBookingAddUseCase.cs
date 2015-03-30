@@ -1,6 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -10,14 +9,14 @@ using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingAddUseCase : SessionBaseUseCase, IBookingAddUseCase
+    public class CourseBookingAddUseCase : SessionBaseUseCase, IBookingAddUseCase
     {
-        private IBookingAddUseCaseFactory BookingAddUseCaseFactory { get; set; }
+        private RepeatedSession Course { get; set; }
 
 
-        public BookingAddUseCase(IBookingAddUseCaseFactory bookingAddUseCaseFactory)
+        public CourseBookingAddUseCase(RepeatedSession existingCourse)
         {
-            BookingAddUseCaseFactory = bookingAddUseCaseFactory;
+            Course = existingCourse;
         }
 
 
@@ -25,8 +24,11 @@ namespace CoachSeek.Application.UseCases
         {
             try
             {
-                var bookingAddUseCase = CreateBookingAddUseCase(command);
-                return bookingAddUseCase.AddBooking(command);
+                ValidateAdd(command);
+                var newBooking = CreateBooking(command);
+                //ValidateAdd(newBooking);
+                var data = BusinessRepository.AddCourseBooking(BusinessId, newBooking);
+                return new Response(data);
             }
             catch (Exception ex)
             {
@@ -40,25 +42,22 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private IBookingAddUseCase CreateBookingAddUseCase(BookingAddCommand command)
+        private void ValidateAdd(BookingAddCommand newBooking)
         {
-            BookingAddUseCaseFactory.Initialise(BusinessRepository, BusinessId);
-            return BookingAddUseCaseFactory.CreateUseCase(command);
+            var errors = new ValidationException();
+
+            ValidateCustomer(newBooking.Customer.Id, errors);
+
+            errors.ThrowIfErrors();
+
+            //ValidateBooking(newBooking, errors);
         }
 
-
-        //private void ValidateAdd(BookingAddCommand newBooking)
-        //{
-        //    var errors = new ValidationException();
-
-        //    ValidateSession(newBooking.Session.Id, errors);
-        //    ValidateCustomer(newBooking.Customer.Id, errors);
-
-        //    errors.ThrowIfErrors();
-
-        //    //ValidateBooking(newBooking, errors);
-        //}
-
+        private CourseBooking CreateBooking(BookingAddCommand command)
+        {
+            var existingCourse = BusinessRepository.GetCourse(BusinessId, command.Session.Id);
+            return new CourseBooking(command, existingCourse);
+        }
 
         //private void ValidateAdd(Booking newBooking)
         //{
@@ -72,12 +71,12 @@ namespace CoachSeek.Application.UseCases
         //    ValidateBooking(newBooking, errors);
         //}
 
-        //private void ValidateSession(Guid sessionId, ValidationException errors)
-        //{
-        //    var sessionOrCourse = GetExistingSessionOrCourse(sessionId);
-        //    if (sessionOrCourse.IsNotFound())
-        //        errors.Add("This session does not exist.", "booking.session.id");
-        //}
+        private void ValidateSession(Guid sessionId, ValidationException errors)
+        {
+            var sessionOrCourse = GetExistingSessionOrCourse(sessionId);
+            if (sessionOrCourse.IsNotFound())
+                errors.Add("This session does not exist.", "booking.session.id");
+        }
 
         //private void ValidateSession(Booking newBooking, ValidationException errors)
         //{
@@ -86,12 +85,12 @@ namespace CoachSeek.Application.UseCases
         //        errors.Add("This session does not exist.", "booking.session.id");
         //}
 
-        //private void ValidateCustomer(Guid customerId, ValidationException errors)
-        //{
-        //    var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
-        //    if (customer.IsNotFound())
-        //        errors.Add("This customer does not exist.", "booking.customer.id");
-        //}
+        private void ValidateCustomer(Guid customerId, ValidationException errors)
+        {
+            var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
+            if (customer.IsNotFound())
+                errors.Add("This customer does not exist.", "booking.customer.id");
+        }
 
         //private void ValidateCustomer(Booking newBooking, ValidationException errors)
         //{

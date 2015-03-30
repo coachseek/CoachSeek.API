@@ -39,9 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            CoachesGetAllUseCase.BusinessId = BusinessId;
-            CoachesGetAllUseCase.BusinessRepository = BusinessRepository;
-
+            CoachesGetAllUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CoachesGetAllUseCase.GetCoaches();
             return CreateGetWebResponse(response);
         }
@@ -51,9 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            CoachGetByIdUseCase.BusinessId = BusinessId;
-            CoachGetByIdUseCase.BusinessRepository = BusinessRepository;
-
+            CoachGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CoachGetByIdUseCase.GetCoach(id);
             return CreateGetWebResponse(response);
         }
@@ -76,9 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            CoachDeleteUseCase.BusinessId = BusinessId;
-            CoachDeleteUseCase.BusinessRepository = BusinessRepository;
-
+            CoachDeleteUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CoachDeleteUseCase.DeleteCoach(id);
             return CreateDeleteWebResponse(response);
         }
@@ -87,9 +81,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddCoach(ApiCoachSaveCommand coach)
         {
             var command = CoachAddCommandConverter.Convert(coach);
-            CoachAddUseCase.BusinessId = BusinessId;
-            CoachAddUseCase.BusinessRepository = BusinessRepository;
-
+            CoachAddUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CoachAddUseCase.AddCoach(command);
             return CreatePostWebResponse(response);
         }
@@ -97,9 +89,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coach)
         {
             var command = CoachUpdateCommandConverter.Convert(coach);
-            CoachUpdateUseCase.BusinessId = BusinessId;
-            CoachUpdateUseCase.BusinessRepository = BusinessRepository;
-
+            CoachUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CoachUpdateUseCase.UpdateCoach(command);
             return CreatePostWebResponse(response);
         }

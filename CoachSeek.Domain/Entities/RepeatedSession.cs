@@ -165,5 +165,23 @@ namespace CoachSeek.Domain.Entities
 
             Sessions = updateSessions;
         }
+
+
+        protected override string FormatSessionName()
+        {
+            var name = string.Format("{0} at {1} with {2} on {3} at {4}",
+                                 Service.Name,
+                                 Location.Name,
+                                 Coach.Name,
+                                 Timing.StartDate,
+                                 Timing.StartTime);
+
+            if (_repetition.IsRepeatedEveryDay)
+                return string.Format("{0} repeated for {1} days", name, _repetition.SessionCount);
+            if (_repetition.IsRepeatedEveryWeek)
+                return string.Format("{0} repeated for {1} weeks", name, _repetition.SessionCount);
+            
+            throw new InvalidOperationException("Invalid repetition.");
+        }
     }
 }

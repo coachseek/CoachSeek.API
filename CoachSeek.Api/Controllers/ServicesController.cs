@@ -39,9 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            ServicesGetAllUseCase.BusinessId = BusinessId;
-            ServicesGetAllUseCase.BusinessRepository = BusinessRepository;
-
+            ServicesGetAllUseCase.Initialise(BusinessRepository, BusinessId);
             var response = ServicesGetAllUseCase.GetServices();
             return CreateGetWebResponse(response);
         }
@@ -51,9 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            ServiceGetByIdUseCase.BusinessId = BusinessId;
-            ServiceGetByIdUseCase.BusinessRepository = BusinessRepository;
-
+            ServiceGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = ServiceGetByIdUseCase.GetService(id);
             return CreateGetWebResponse(response);
         }
@@ -76,9 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            ServiceDeleteUseCase.BusinessId = BusinessId;
-            ServiceDeleteUseCase.BusinessRepository = BusinessRepository;
-
+            ServiceDeleteUseCase.Initialise(BusinessRepository, BusinessId);
             var response = ServiceDeleteUseCase.DeleteService(id);
             return CreateDeleteWebResponse(response);
         }
@@ -87,9 +81,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddService(ApiServiceSaveCommand service)
         {
             var command = ServiceAddCommandConverter.Convert(service);
-            ServiceAddUseCase.BusinessId = BusinessId;
-            ServiceAddUseCase.BusinessRepository = BusinessRepository;
-
+            ServiceAddUseCase.Initialise(BusinessRepository, BusinessId);
             var response = ServiceAddUseCase.AddService(command);
             return CreatePostWebResponse(response);
         }
@@ -97,9 +89,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
         {
             var command = ServiceUpdateCommandConverter.Convert(service);
-            ServiceUpdateUseCase.BusinessId = BusinessId;
-            ServiceUpdateUseCase.BusinessRepository = BusinessRepository;
-
+            ServiceUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = ServiceUpdateUseCase.UpdateService(command);
             return CreatePostWebResponse(response);
         }

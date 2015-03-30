@@ -15,6 +15,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         public Guid BusinessId { get; set; }
         public IBusinessRepository BusinessRepository { get; set; }
 
+
+        public void Initialise(IBusinessRepository businessRepository, Guid? businessId = null)
+        {
+        }
+
         public Response AddCoach(CoachAddCommand command)
         {
             WasAddCoachCalled = true;

@@ -1,5 +1,7 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Application.UseCases.Factories;
 using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
@@ -45,6 +47,7 @@ namespace CoachSeek.Api
             For<ISessionSearchUseCase>().Use<SessionSearchUseCase>();
             For<ISessionGetByIdUseCase>().Use<SessionGetByIdUseCase>();
             For<ISessionAddUseCase>().Use<SessionAddUseCase>();
+            For<ISessionAddUseCase>().Use<SessionAddUseCase>();
             For<ISessionUpdateUseCase>().Use<SessionUpdateUseCase>();
             For<ISessionDeleteUseCase>().Use<SessionDeleteUseCase>();
 
@@ -55,6 +58,7 @@ namespace CoachSeek.Api
 
             For<IBookingGetByIdUseCase>().Use<BookingGetByIdUseCase>();
             For<IBookingAddUseCase>().Use<BookingAddUseCase>();
+            For<IBookingAddUseCaseFactory>().Use<BookingAddUseCaseFactory>();
             For<IBookingDeleteUseCase>().Use<BookingDeleteUseCase>();
 
             For<IUserAddUseCase>().Use<UserAddUseCase>();

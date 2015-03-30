@@ -43,6 +43,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<RepeatedSession, SingleSessionData>();
             Mapper.CreateMap<RepetitionData, SingleRepetitionData>();
 
+            Mapper.CreateMap<SessionData, SessionKeyData>();
 
             Mapper.CreateMap<CoachKeyCommand, CoachKeyData>();
             Mapper.CreateMap<CoachUpdateCommand, CoachData>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.UseCases
@@ -8,7 +9,11 @@ namespace CoachSeek.Application.UseCases
     {
         public BookingData GetBooking(Guid id)
         {
-            return BusinessRepository.GetBooking(BusinessId, id);
+            var sessionBooking = BusinessRepository.GetSessionBooking(BusinessId, id);
+            if (sessionBooking.IsFound())
+                return sessionBooking;
+            var courseBooking = BusinessRepository.GetCourseBooking(BusinessId, id);
+            return courseBooking;
         }
     }
 }

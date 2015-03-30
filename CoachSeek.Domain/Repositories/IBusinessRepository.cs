@@ -47,11 +47,15 @@ namespace CoachSeek.Domain.Repositories
         RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course);
         void DeleteCourse(Guid businessId, Guid courseId);
 
-        IList<BookingData> GetAllBookings(Guid businessId);
-        BookingData GetBooking(Guid businessId, Guid bookingId);
-        BookingData AddBooking(Guid businessId, Booking booking);
+        SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId);
+        SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking sessionBooking);
+
+        CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId);
+        CourseBookingData AddCourseBooking(Guid businessId, CourseBooking courseBooking);
+
         void DeleteBooking(Guid businessId, Guid bookingId);
 
         IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId);
+        IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId);
     }
 }

@@ -6,33 +6,30 @@ using CoachSeek.Domain.Commands;
 namespace CoachSeek.Domain.Entities
 {
     // Aggregate Root for booking process.
-    public class Booking
+    public abstract class Booking
     {
         public Guid Id { get; private set; }
 
-        public SessionKeyData Session { get; set; }
         public CustomerKeyData Customer { get; set; }
 
 
-        public Booking(BookingAddCommand command)
-            : this(command.Session, command.Customer)
+        protected Booking(BookingAddCommand command)
+            : this(command.Customer)
         { }
 
-        public Booking(SessionKeyCommand session, CustomerKeyCommand customer)
-            : this(Guid.NewGuid(), session, customer)
+        protected Booking(CustomerKeyCommand customer)
+            : this(Guid.NewGuid(), customer)
         { }
 
-        public Booking(Guid id, SessionKeyCommand session, CustomerKeyCommand customer)
+        protected Booking(Guid id, CustomerKeyCommand customer)
         {
             Id = id;
-            Session = new SessionKeyData { Id = session.Id };
             Customer = new CustomerKeyData { Id = customer.Id };
         }
 
-        public Booking(Guid id, SessionKeyData session, CustomerKeyData customer)
+        protected Booking(Guid id, CustomerKeyData customer)
         {
             Id = id;
-            Session = session;
             Customer = customer;
         }
 

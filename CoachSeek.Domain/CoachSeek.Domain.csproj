@@ -93,7 +93,9 @@
     <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
     <Compile Include="Contracts\IBusinessRegistrationEmailer.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
-    <Compile Include="Entities\Business2.cs" />
+    <Compile Include="Entities\CourseBooking.cs" />
+    <Compile Include="Entities\SingleSessionBooking.cs" />
+    <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
     <Compile Include="Entities\Booking.cs" />
     <Compile Include="Entities\Customer.cs" />
