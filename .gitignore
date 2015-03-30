@@ -11,3 +11,4 @@ _ReSharper*/
 [Bb]uild/
 packages/
 *.nupkg
+*.dbmdl
