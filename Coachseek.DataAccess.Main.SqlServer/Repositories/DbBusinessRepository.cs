@@ -1345,7 +1345,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Connection.Open();
 
-                var command = new SqlCommand("[Customer_GetCustomerBookingsBySessionId]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Booking_GetCustomerBookingsBySessionId]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
@@ -1377,7 +1377,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Connection.Open();
 
-                var command = new SqlCommand("[Customer_GetCustomerBookingsByCourseId]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Booking_GetCustomerBookingsByCourseId]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
