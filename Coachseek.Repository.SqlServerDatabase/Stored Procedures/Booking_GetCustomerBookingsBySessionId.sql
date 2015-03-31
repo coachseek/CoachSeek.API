@@ -16,7 +16,9 @@ BEGIN
 		c.[FirstName],
 		c.[LastName],
 		c.[Email],
-		c.[Phone]
+		c.[Phone],
+		bk.PaymentStatus,
+		bk.HasAttended
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk

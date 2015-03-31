@@ -5,6 +5,8 @@
     [CustomerId] INT              NOT NULL,
     [SessionId]  INT              NOT NULL,
     [ParentId] INT NULL, 
+    [PaymentStatus] NVARCHAR(50) NULL  , 
+    [HasAttended] BIT NULL , 
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Booking_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([Id]),
     CONSTRAINT [FK_Booking_Session] FOREIGN KEY ([SessionId]) REFERENCES [dbo].[Session] ([Id]) 

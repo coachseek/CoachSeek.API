@@ -63,6 +63,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables\" />
     <Folder Include="Stored Procedures\" />
+    <Folder Include="Snapshots" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Booking.sql" />

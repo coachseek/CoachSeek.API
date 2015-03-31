@@ -38,7 +38,9 @@ BEGIN
 		c.[FirstName],
 		c.[LastName],
 		c.[Email],
-		c.[Phone]
+		c.[Phone],
+		bk.PaymentStatus,
+		bk.HasAttended
 	FROM
 		Course crs
 		INNER JOIN [dbo].[Booking] bk

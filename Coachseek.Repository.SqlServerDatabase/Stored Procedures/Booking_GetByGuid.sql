@@ -16,7 +16,9 @@ BEGIN
 				   + ' on ' + CONVERT(NVARCHAR(24), s.[StartDate]) 
 				   + ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) AS SessionName,
 		c.[Guid] AS CustomerGuid,
-		c.[FirstName] + ' ' + c.[LastName] As CustomerName
+		c.[FirstName] + ' ' + c.[LastName] As CustomerName,
+		bk.PaymentStatus,
+		bk.HasAttended
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk

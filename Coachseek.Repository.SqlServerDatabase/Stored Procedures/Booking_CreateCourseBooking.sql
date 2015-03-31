@@ -3,7 +3,9 @@ CREATE PROCEDURE [dbo].[Booking_CreateCourseBooking]
 	@businessGuid uniqueidentifier,
 	@bookingGuid uniqueidentifier,
 	@courseGuid uniqueidentifier,
-	@customerGuid uniqueidentifier
+	@customerGuid uniqueidentifier,
+	@paymentStatus nvarchar(50) = null,
+	@hasAttended bit = null
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -39,7 +41,9 @@ BEGIN
 		[Guid],
 		[SessionId],
 		[CustomerId],
-		[ParentId]
+		[ParentId],
+		[PaymentStatus],
+		[HasAttended]
 	)
 	VALUES
 	(
@@ -47,7 +51,9 @@ BEGIN
 		@bookingGuid,
 		@courseId,
 		@customerId,
-		NULL
+		NULL,
+		@paymentStatus,
+		@hasAttended
 	)
 	
 	--SELECT
@@ -66,7 +72,9 @@ BEGIN
 	--					WHEN 'w' THEN ' weeks'
 	--				 END AS CourseName,
 	--	c.[Guid] AS CustomerGuid,
-	--	c.[FirstName] + ' ' + c.[LastName] As CustomerName
+	--	c.[FirstName] + ' ' + c.[LastName] As CustomerName,
+	--  bk.PaymentStatus,
+	--  bk.Attended
 	--FROM
 	--	[dbo].[Business] b
 	--	INNER JOIN [dbo].[Booking] bk

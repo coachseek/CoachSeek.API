@@ -12,6 +12,8 @@ namespace CoachSeek.Domain.Entities
 
         public CustomerKeyData Customer { get; set; }
 
+        public string PaymentStatus { get; set; }
+        public bool? HasAttended { get; set; }
 
         protected Booking(BookingAddCommand command)
             : this(command.Customer)

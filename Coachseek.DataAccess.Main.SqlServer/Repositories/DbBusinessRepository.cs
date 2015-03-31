@@ -1223,11 +1223,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+            command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = courseBooking.Id;
             command.Parameters[2].Value = courseBooking.Course.Id;
             command.Parameters[3].Value = courseBooking.Customer.Id;
+            command.Parameters[4].Value = courseBooking.PaymentStatus;
+            command.Parameters[5].Value = courseBooking.HasAttended;
 
             command.ExecuteNonQuery();
         }
@@ -1247,6 +1251,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = courseBookingId;
+
 
                 reader = command.ExecuteReader();
 
@@ -1738,7 +1743,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var courseName = reader.GetString(5);
             var customerId = reader.GetGuid(6);
             var customerName = reader.GetString(7);
-
+            var paymentStatus = reader.GetNullableString(8);
+            var hasAttended = reader.GetNullableBool(9);
+            
             var sessionBookings = new List<SingleSessionBookingData>();
 
             while (reader.Read())
@@ -1749,7 +1756,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Id = id,
                 Customer = new CustomerKeyData { Id = customerId, Name = customerName },
                 Course = new SessionKeyData { Id = courseId, Name = courseName },
-                SessionBookings = sessionBookings
+                SessionBookings = sessionBookings,
+                PaymentStatus = paymentStatus,
+                HasAttended = hasAttended
             };
         }
 
@@ -1816,7 +1825,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         //    var sessionName = reader.GetString(4);
         //    var customerId = reader.GetGuid(5);
         //    var customerName = reader.GetString(6);
-
+        //    var paymentStatus = reader.GetString(7);
+        //    var attended = reader.GetBoolean(8);      
+        //      
         //    return new BookingData
         //    {
         //        Id = bookingId,
@@ -1829,9 +1840,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         //        {
         //            Id = customerId,
         //            Name = customerName
-        //        }
+        //        },
+        //        PaymentStatus = paymentStatus,
+        //        Attended = attended
         //    };
-        //}
 
         private CustomerBookingData ReadCustomerBookingData(SqlDataReader reader)
         {

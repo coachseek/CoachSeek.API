@@ -3,7 +3,9 @@ CREATE PROCEDURE [dbo].[Booking_Create]
 	@businessGuid uniqueidentifier,
 	@bookingGuid uniqueidentifier,
 	@sessionGuid uniqueidentifier,
-	@customerGuid uniqueidentifier
+	@customerGuid uniqueidentifier,
+	@paymentStatus nvarchar(50) = null,
+	@hasAttended bit = null
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -38,14 +40,18 @@ BEGIN
 		[BusinessId],
 		[Guid],
 		[SessionId],
-		[CustomerId]
+		[CustomerId],
+		[PaymentStatus],
+		[HasAttended]
 	)
 	VALUES
 	(
 		@businessId,
 		@bookingGuid,
 		@sessionId,
-		@customerId
+		@customerId,
+		@paymentStatus,
+		@hasAttended
 	)
 	
 	SELECT
@@ -58,7 +64,9 @@ BEGIN
 				   + ' on ' + CONVERT(NVARCHAR(24), s.[StartDate]) 
 				   + ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) AS SessionName,
 		c.[Guid] AS CustomerGuid,
-		c.[FirstName] + ' ' + c.[LastName] As CustomerName
+		c.[FirstName] + ' ' + c.[LastName] As CustomerName,
+		bk.PaymentStatus,
+		bk.HasAttended
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk
