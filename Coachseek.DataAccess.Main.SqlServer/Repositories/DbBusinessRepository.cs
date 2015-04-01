@@ -1835,6 +1835,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private CustomerBookingData ReadCustomerBookingData(SqlDataReader reader)
         {
+            var sessionId = reader.GetGuid(1);
             var customerId = reader.GetGuid(2);
             var bookingId = reader.GetGuid(3);
             var parentBookingId = reader.GetNullableGuid(4);
@@ -1847,6 +1848,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = bookingId,
                 ParentId = parentBookingId,
+                SessionId = sessionId,
                 Customer = new CustomerData
                 {
                     Id = customerId,
