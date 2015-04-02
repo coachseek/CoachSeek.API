@@ -24,7 +24,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
-    <GenerateCreateScript>True</GenerateCreateScript>
+    <GenerateCreateScript>False</GenerateCreateScript>
     <Recovery>SIMPLE</Recovery>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -117,6 +117,9 @@
     <Build Include="Stored Procedures\Booking_CreateCourseBooking.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Coachseek.Repository.SqlServerDatabase.publish.xml" />
+    <None Include="local_CoachseekLocal-Test.publish.xml" />
+    <None Include="local_CoachseekLocal.publish.xml" />
+    <None Include="azure_Coachseek-Test.publish.xml" />
+    <None Include="azure_Coachseek.publish.xml" />
   </ItemGroup>
 </Project>
