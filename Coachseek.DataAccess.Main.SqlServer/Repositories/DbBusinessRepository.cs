@@ -1276,6 +1276,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var sessionName = reader.GetString(5);
             var customerId = reader.GetGuid(6);
             var customerName = reader.GetString(7);
+            var paymentStatus = reader.GetNullableString(8);
+            var hasAttended = reader.GetNullableBool(9);
 
             return new SingleSessionBookingData
             {
@@ -1290,7 +1292,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 {
                     Id = customerId,
                     Name = customerName
-                }
+                },
+                PaymentStatus = paymentStatus,
+                HasAttended = hasAttended
             };
         }
 
