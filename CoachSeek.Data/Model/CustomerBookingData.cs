@@ -9,5 +9,9 @@ namespace CoachSeek.Data.Model
         public Guid SessionId { get; set; }
 
         public CustomerData Customer { get; set; }
+
+        public bool? HasAttended { get; set; }
+
+        public string PaymentStatus { get; set; }
     }
 }

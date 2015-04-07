@@ -1863,6 +1863,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var lastName = reader.GetString(6);
             var email = reader.GetNullableString(7);
             var phone = reader.GetNullableString(8);
+            var paymentStatus = reader.GetNullableString(9);
+            var hasAttended = reader.GetNullableBool(10);
 
             return new CustomerBookingData
             {
@@ -1876,7 +1878,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     LastName = lastName,
                     Email = email,
                     Phone = phone                    
-                }
+                },
+                PaymentStatus = paymentStatus,
+                HasAttended = hasAttended
             };
         }
     }
