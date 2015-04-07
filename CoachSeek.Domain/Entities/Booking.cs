@@ -17,7 +17,10 @@ namespace CoachSeek.Domain.Entities
 
         protected Booking(BookingAddCommand command)
             : this(command.Customer)
-        { }
+        {
+            PaymentStatus = command.PaymentStatus;
+            HasAttended = command.HasAttended;
+        }
 
         protected Booking(CustomerKeyCommand customer)
             : this(Guid.NewGuid(), customer)

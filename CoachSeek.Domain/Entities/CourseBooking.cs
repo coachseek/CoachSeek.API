@@ -14,7 +14,10 @@ namespace CoachSeek.Domain.Entities
 
         public CourseBooking(BookingAddCommand command, RepeatedSessionData existingCourse)
             : this(command.Session, command.Customer, existingCourse.Sessions)
-        { }
+        {
+            PaymentStatus = command.PaymentStatus;
+            HasAttended = command.HasAttended;
+        }
 
         public CourseBooking(SessionKeyCommand course, CustomerKeyCommand customer, IList<SingleSessionData> existingSessions)
             : base(customer)

@@ -12,7 +12,10 @@ namespace CoachSeek.Domain.Entities
 
         public SingleSessionBooking(BookingAddCommand command)
             : this(command.Session, command.Customer)
-        { }
+        {
+            PaymentStatus = command.PaymentStatus;
+            HasAttended = command.HasAttended;
+        }
 
         public SingleSessionBooking(SessionKeyCommand session, CustomerKeyCommand customer)
             : base(customer)

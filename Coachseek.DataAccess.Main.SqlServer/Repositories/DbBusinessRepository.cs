@@ -1194,12 +1194,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = booking.Id;
                 command.Parameters[2].Value = booking.ParentId;
                 command.Parameters[3].Value = booking.Session.Id;
                 command.Parameters[4].Value = booking.Customer.Id;
+                command.Parameters[5].Value = booking.PaymentStatus;
+                command.Parameters[6].Value = booking.HasAttended;
 
                 reader = command.ExecuteReader();
 

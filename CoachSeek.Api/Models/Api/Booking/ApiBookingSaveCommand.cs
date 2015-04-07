@@ -8,5 +8,8 @@ namespace CoachSeek.Api.Models.Api.Booking
         public ApiSessionKey Session { get; set; }
         [Required]
         public ApiCustomerKey Customer { get; set; }
+
+        public string PaymentStatus { get; set; }
+        public bool? HasAttended { get; set; }
     }
 }
