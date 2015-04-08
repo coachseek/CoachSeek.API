@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="UseCases\BookingSetAttendanceUseCase.cs" />
     <Compile Include="UseCases\CourseBookingAddUseCase.cs" />
+    <Compile Include="UseCases\Factories\UseCaseFactory.cs" />
     <Compile Include="UseCases\SingleSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\Factories\BookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\BookingAddUseCase.cs" />

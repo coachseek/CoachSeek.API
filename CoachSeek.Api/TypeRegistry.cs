@@ -2,9 +2,6 @@
 using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Application.UseCases.Factories;
-using Coachseek.DataAccess.Authentication.TableStorage;
-using CoachSeek.DataAccess.Main.Memory.Repositories;
-using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
@@ -63,6 +60,8 @@ namespace CoachSeek.Api
 
             For<IUserAddUseCase>().Use<UserAddUseCase>();
             For<IUserAssociateWithBusinessUseCase>().Use<UserAssociateWithBusinessUseCase>();
+
+            For<IUseCaseFactory>().Use<UseCaseFactory>();
         }
     }
 }
