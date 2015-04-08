@@ -153,6 +153,7 @@
     <Compile Include="Controllers\BusinessRegistrationController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />
+    <Compile Include="Conversion\DomainCommandConverter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

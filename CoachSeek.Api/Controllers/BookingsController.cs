@@ -1,14 +1,16 @@
-﻿using CoachSeek.Api.Attributes;
+﻿using System;
+using System.Net.Http;
+using System.Web.Http;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using System;
-using System.Net.Http;
-using System.Web.Http;
+using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -17,17 +19,20 @@ namespace CoachSeek.Api.Controllers
         public IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
         public IBookingAddUseCase BookingAddUseCase { get; set; }
         public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
+        public IUseCaseFactory UseCaseFactory { get; set; }
 
         public BookingsController()
         { }
 
         public BookingsController(IBookingGetByIdUseCase bookingGetByIdUseCase,
                                   IBookingAddUseCase bookingAddUseCase,
-                                  IBookingDeleteUseCase bookingDeleteUseCase)
+                                  IBookingDeleteUseCase bookingDeleteUseCase,
+                                  IUseCaseFactory useCaseFactory)
         {
             BookingGetByIdUseCase = bookingGetByIdUseCase;
             BookingAddUseCase = bookingAddUseCase;
             BookingDeleteUseCase = bookingDeleteUseCase;
+            UseCaseFactory = useCaseFactory;
         }
 
 
@@ -54,6 +59,23 @@ namespace CoachSeek.Api.Controllers
             //return UpdateBooking(booking);
             return null;
         }
+
+        // POST: api/Bookings/{booking_id}
+        [BasicAuthentication]
+        [Authorize]
+        [CheckModelForNull]
+        //[ValidateModelState]
+        public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
+        {
+            apiCommand.BookingId = id;
+
+            ICommand command = DomainCommandConverter.Convert(apiCommand);
+            
+            var useCase = UseCaseFactory.ExecuteFor(command, BusinessRepository, BusinessId);
+
+            return CreateGetWebResponse(useCase);
+        }
+        
 
         // DELETE: api/Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
