@@ -20,7 +20,7 @@ namespace CoachSeek.Api.Attributes
         private const string BUSINESS_DOMAIN = "Business-Domain";
         private const string BASIC_AUTH = "Basic";
 
-        public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
+        public async virtual Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             // When the Principal is set this indicates Success
             // when the ErrorResult is set this indicates an Error
@@ -29,13 +29,7 @@ namespace CoachSeek.Api.Attributes
             var request = context.Request;
             var authorization = request.Headers.Authorization;
 
-            if (authorization.IsNotFound())
-            {
-                await AuthoriseForAnonymousBusinessUser(context);
-                return;
-            }
-
-            if (authorization.Scheme != BASIC_AUTH)
+            if (authorization.IsNotFound() || authorization.Scheme != BASIC_AUTH)
                 return;
 
             if (string.IsNullOrEmpty(authorization.Parameter))
@@ -65,12 +59,10 @@ namespace CoachSeek.Api.Attributes
             
             if (principal is NoBusinessPrincipal)
             {
-                // Authentication was successful but the user is not associated with a business.
                 context.ErrorResult = new AuthenticationFailureResult("User is not associated with a business.", request);
                 return;
             }
 
-            // Authentication was attempted and succeeded. Set Principal to the authenticated user.
             context.Principal = principal;
         }
 
