@@ -8,11 +8,8 @@ namespace CoachSeek.Domain.Repositories
     public interface IBusinessRepository
     {
         BusinessData GetBusiness(Guid businessId);
+        BusinessData GetBusiness(string domain);
         BusinessData AddBusiness(Business business);
-
-
-        bool IsAvailableDomain(string domain);
-
 
         IList<LocationData> GetAllLocations(Guid businessId);
         LocationData GetLocation(Guid businessId, Guid locationId);
@@ -33,7 +30,6 @@ namespace CoachSeek.Domain.Repositories
         CustomerData GetCustomer(Guid businessId, Guid customerId);
         CustomerData AddCustomer(Guid businessId, Customer customer);
         CustomerData UpdateCustomer(Guid businessId, Customer customer);
-
 
         IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId);
         IList<SingleSessionData> GetAllSessions(Guid businessId);

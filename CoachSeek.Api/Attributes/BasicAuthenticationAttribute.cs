@@ -1,31 +1,42 @@
-﻿using System;
+﻿using System.Linq;
+using CoachSeek.Api.Results;
+using CoachSeek.Common;
+using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
+using CoachSeek.Domain.Repositories;
+using CoachSeek.Domain.Services;
+using System;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
-using CoachSeek.Api.Results;
-using CoachSeek.Common;
-using Coachseek.DataAccess.Authentication.TableStorage;
-using CoachSeek.Domain.Repositories;
-using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Api.Attributes
 {
     public class BasicAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
+        private const string BUSINESS_DOMAIN = "Business-Domain";
+        private const string BASIC_AUTH = "Basic";
+
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
+            // When the Principal is set this indicates Success
+            // when the ErrorResult is set this indicates an Error
+            // when we just return then the authentication is skipped (but the Authorize attribute will create 401 - Unauthorized error)
+
             var request = context.Request;
             var authorization = request.Headers.Authorization;
 
-            if (authorization == null || authorization.Scheme != "Basic")
+            if (authorization.IsNotFound())
             {
-                // No authentication was attempted (for this authentication method).
-                // Do not set either Principal (which would indicate success) or ErrorResult (indicating an error).
+                await AuthoriseForAnonymousBusinessUser(context);
                 return;
             }
+
+            if (authorization.Scheme != BASIC_AUTH)
+                return;
 
             if (string.IsNullOrEmpty(authorization.Parameter))
             {
@@ -63,9 +74,44 @@ namespace CoachSeek.Api.Attributes
             context.Principal = principal;
         }
 
+        private async Task AuthoriseForAnonymousBusinessUser(HttpAuthenticationContext context)
+        {
+            var request = context.Request;
+            if (!request.Headers.Contains(BUSINESS_DOMAIN))
+                return;
+            var business = LookupBusinessFromDomain(request);
+            if (business.IsNotFound())
+                return;
+            context.Principal = CreateAnonymousPrincipal(business);
+        }
+
+        private GenericPrincipal CreateAnonymousPrincipal(BusinessData business)
+        {
+            var identity = new CoachseekAnonymousIdentity(business.Id);
+            return new GenericPrincipal(identity, new[] { "Anonymous" });
+        }
+
+        private BusinessData LookupBusinessFromDomain(HttpRequestMessage request)
+        {
+            var domain = request.Headers.GetValues(BUSINESS_DOMAIN).ToList().First();
+            var businessRepository = CreateBusinessRepository(request);
+            return businessRepository.GetBusiness(domain);
+        }
+
         private IUserRepository CreateUserRepository(HttpRequestMessage request)
         {
-            return request.Headers.Contains("Testing") ? new AzureTestTableUserRepository() : new AzureTableUserRepository();
+            return CreateDataRepositories(request).Item2;
+        }
+
+        private IBusinessRepository CreateBusinessRepository(HttpRequestMessage request)
+        {
+            return CreateDataRepositories(request).Item1;
+        }
+
+        private Tuple<IBusinessRepository, IUserRepository> CreateDataRepositories(HttpRequestMessage request)
+        {
+            var isTesting = request.Headers.Contains("Testing");
+            return DataAccessFactory.CreateDataAccess(isTesting);
         }
 
         public async Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)

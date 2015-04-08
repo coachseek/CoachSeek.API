@@ -40,20 +40,41 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new BusinessData
-                    {
-                        Id = reader.GetGuid(1),
-                        Name = reader.GetString(2),
-                        Domain = reader.GetString(3)
-                    };
-                }
+                    return ReadBusinessData(reader);
+
+                return null;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public BusinessData GetBusiness(string domain)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Business_GetByDomain]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
+                command.Parameters[0].Value = domain;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadBusinessData(reader);
 
                 return null;
             }
@@ -86,41 +107,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
-                {
-                    return new BusinessData
-                    {
-                        Id = reader.GetGuid(1),
-                        Name = reader.GetString(2),
-                        Domain = reader.GetString(3)
-                    };
-                }
+                    return ReadBusinessData(reader);
 
                 return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
-        public bool IsAvailableDomain(string domain)
-        {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Business_GetByDomain]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar, 100, "Domain"));
-                command.Parameters[0].Value = domain;
-                
-                reader = command.ExecuteReader();
-
-                return !reader.HasRows;
             }
             finally
             {
@@ -1415,6 +1404,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+
+        private BusinessData ReadBusinessData(SqlDataReader reader)
+        {
+            return new BusinessData
+            {
+                Id = reader.GetGuid(1),
+                Name = reader.GetString(2),
+                Domain = reader.GetString(3)
+            };
+        }
 
         private LocationData ReadLocationData(SqlDataReader reader)
         {

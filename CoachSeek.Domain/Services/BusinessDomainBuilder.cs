@@ -34,7 +34,7 @@ namespace CoachSeek.Domain.Services
             if (isReservedDomain)
                 return true;
 
-            return !BusinessRepository.IsAvailableDomain(domain);
+            return BusinessRepository.GetBusiness(domain).IsFound();
         }
 
         private static string AlterDomain(string domain)

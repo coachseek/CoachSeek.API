@@ -171,6 +171,7 @@
     <Compile Include="Conversion\SessionUpdateCommandConverter.cs" />
     <Compile Include="Conversion\SessionAddCommandConverter.cs" />
     <Compile Include="Conversion\UserAssociateWithBusinessCommandBuilder.cs" />
+    <Compile Include="DataAccessFactory.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />
     <Compile Include="Global.asax.cs">

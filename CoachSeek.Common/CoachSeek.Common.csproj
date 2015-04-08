@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoachseekAnonymousIdentity.cs" />
     <Compile Include="DataAccess\SqlServerDataReader.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="NoBusinessPrincipal.cs" />

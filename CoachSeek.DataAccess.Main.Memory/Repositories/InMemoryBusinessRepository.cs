@@ -68,6 +68,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Mapper.Map<DbBusiness, BusinessData>(business);
         }
 
+        public BusinessData GetBusiness(string domain)
+        {
+            var business = Businesses.FirstOrDefault(x => x.Domain == domain);
+
+            return Mapper.Map<DbBusiness, BusinessData>(business);
+        }
+
         public BusinessData AddBusiness(Business business)
         {
             WasAddBusinessCalled = true;
@@ -78,69 +85,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             return GetBusiness(business.Id);
         }
-
-        public bool IsAvailableDomain(string domain)
-        {
-            var dbBusiness = Businesses.FirstOrDefault(x => x.Domain == domain);
-            return dbBusiness == null;
-        }
-
-
-        private static BusinessAdminData CreateBusinessAdmin(DbBusinessAdmin dbAdmin)
-        {
-            return new BusinessAdmin(dbAdmin.Id, dbAdmin.Email,
-                                     dbAdmin.FirstName, dbAdmin.LastName,
-                                     dbAdmin.Username, dbAdmin.PasswordHash).ToData();
-        }
-
-        private static IEnumerable<LocationData> CreateLocations(IEnumerable<DbLocation> dbLocations)
-        {
-            var locations = new List<LocationData>();
-
-            foreach (var dbLocation in dbLocations)
-            {
-                var location = new LocationData
-                {
-                    Id = dbLocation.Id,
-                    Name = dbLocation.Name
-                };
-
-                locations.Add(location);
-            }
-
-            return locations;
-        }
-
-        private static IEnumerable<CoachData> CreateCoaches(IEnumerable<DbCoach> dbCoaches)
-        {
-            var coaches = new List<CoachData>();
-
-            foreach (var dbCoach in dbCoaches)
-            {
-                var coach = new CoachData
-                {
-                    Id = dbCoach.Id,
-                    FirstName = dbCoach.FirstName,
-                    LastName = dbCoach.LastName,
-                    Email = dbCoach.Email,
-                    Phone = dbCoach.Phone
-                };
-
-                coaches.Add(coach);
-            }
-
-            return coaches;
-        }
-
-
-        //// Only used for tests to add a business while bypassing the validation that occurs using Save.
-        //public Business Add(Business business)
-        //{
-        //    var dbBusiness = DbBusinessConverter.Convert(business);
-
-        //    Businesses.Add(dbBusiness);
-        //    return business;
-        //}
 
 
         public IList<LocationData> GetAllLocations(Guid businessId)

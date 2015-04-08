@@ -12,24 +12,11 @@ namespace CoachSeek.Api.Attributes
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             var isTesting = actionContext.Request.Headers.Contains("Testing");
+            var repositories = DataAccessFactory.CreateDataAccess(isTesting);
 
             var controller = (BaseController)actionContext.ControllerContext.Controller;
-
-            if (isTesting)
-            {
-#if DEBUG
-                controller.BusinessRepository = new DbTestBusinessRepository();  // new InMemoryBusinessRepository();
-                controller.UserRepository = new AzureTestTableUserRepository();
-#else
-                controller.BusinessRepository = new DbTestBusinessRepository();
-                controller.UserRepository = new AzureTestTableUserRepository();
-#endif
-            }
-            else
-            {
-                controller.BusinessRepository = new DbBusinessRepository();
-                controller.UserRepository = new AzureTableUserRepository();
-            }
+            controller.BusinessRepository = repositories.Item1;
+            controller.UserRepository = repositories.Item2;
 
             base.OnActionExecuting(actionContext);
         }
