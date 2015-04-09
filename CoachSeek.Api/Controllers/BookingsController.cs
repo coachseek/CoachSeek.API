@@ -7,7 +7,7 @@ using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Contracts.UseCases.Factories;
+using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
@@ -19,7 +19,7 @@ namespace CoachSeek.Api.Controllers
         public IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
         public IBookingAddUseCase BookingAddUseCase { get; set; }
         public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
-        public IUseCaseFactory UseCaseFactory { get; set; }
+        public IUseCaseExecutor UseCaseExecutor { get; set; }
 
         public BookingsController()
         { }
@@ -27,12 +27,12 @@ namespace CoachSeek.Api.Controllers
         public BookingsController(IBookingGetByIdUseCase bookingGetByIdUseCase,
                                   IBookingAddUseCase bookingAddUseCase,
                                   IBookingDeleteUseCase bookingDeleteUseCase,
-                                  IUseCaseFactory useCaseFactory)
+                                  IUseCaseExecutor useCaseExecutor)
         {
             BookingGetByIdUseCase = bookingGetByIdUseCase;
             BookingAddUseCase = bookingAddUseCase;
             BookingDeleteUseCase = bookingDeleteUseCase;
-            UseCaseFactory = useCaseFactory;
+            UseCaseExecutor = useCaseExecutor;
         }
 
 
@@ -71,7 +71,7 @@ namespace CoachSeek.Api.Controllers
 
             ICommand command = DomainCommandConverter.Convert(apiCommand);
             
-            var useCase = UseCaseFactory.ExecuteFor(command, BusinessRepository, BusinessId);
+            var useCase = UseCaseExecutor.ExecuteFor(command, BusinessRepository, BusinessId);
 
             return CreateGetWebResponse(useCase);
         }

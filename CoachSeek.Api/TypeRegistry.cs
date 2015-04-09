@@ -1,6 +1,8 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Application.UseCases.Executors;
 using CoachSeek.Application.UseCases.Factories;
 using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Contracts;
@@ -61,7 +63,7 @@ namespace CoachSeek.Api
             For<IUserAddUseCase>().Use<UserAddUseCase>();
             For<IUserAssociateWithBusinessUseCase>().Use<UserAssociateWithBusinessUseCase>();
 
-            For<IUseCaseFactory>().Use<UseCaseFactory>();
+            For<IUseCaseExecutor>().Use<UseCaseExecutor>();
         }
     }
 }
