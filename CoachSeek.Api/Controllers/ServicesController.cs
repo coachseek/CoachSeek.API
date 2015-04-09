@@ -35,7 +35,7 @@ namespace CoachSeek.Api.Controllers
 
 
         // GET: api/Services
-        [BasicAuthentication]
+        [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get()
         {
@@ -45,7 +45,7 @@ namespace CoachSeek.Api.Controllers
         }
 
         // GET: api/Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
-        [BasicAuthentication]
+        [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
