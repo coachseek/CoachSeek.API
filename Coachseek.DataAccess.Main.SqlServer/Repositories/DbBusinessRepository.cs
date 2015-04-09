@@ -1229,6 +1229,38 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.ExecuteNonQuery();
         }
 
+        public void UpdateBooking(Guid businessId, BookingData booking)
+        {
+            try
+            {
+                Connection.Open();
+
+                UpdateSessionBookingData(businessId, booking);
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
+        private void UpdateSessionBookingData(Guid businessId, BookingData booking)
+        {
+            var command = new SqlCommand("Booking_Update", Connection) { CommandType = CommandType.StoredProcedure };
+
+            command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+            command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
+
+            command.Parameters[0].Value = businessId;
+            command.Parameters[1].Value = booking.Id;
+            command.Parameters[2].Value = booking.PaymentStatus.ConvertNullToDbNull();
+            command.Parameters[3].Value = booking.HasAttended.ConvertNullToDbNull();
+
+            command.ExecuteNonQuery();
+        }
+        
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
             var wasAlreadyOpen = false;

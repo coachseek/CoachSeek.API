@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using System;
 
 namespace CoachSeek.Domain.Repositories
 {
@@ -48,6 +48,7 @@ namespace CoachSeek.Domain.Repositories
 
         CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId);
         CourseBookingData AddCourseBooking(Guid businessId, CourseBooking courseBooking);
+        void UpdateBooking(Guid businessId, BookingData booking);
 
         void DeleteBooking(Guid businessId, Guid bookingId);
 

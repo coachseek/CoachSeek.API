@@ -14,7 +14,7 @@ namespace CoachSeek.Application.UseCases
 
                 booking.PaymentStatus = command.PaymentStatus;
 
-                // update db
+                BusinessRepository.UpdateBooking(BusinessId, booking);
 
                 return new Response();
             }

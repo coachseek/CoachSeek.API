@@ -11,10 +11,10 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 var booking = BusinessRepository.GetSessionBooking(BusinessId, command.BookingId);
-
+                
                 booking.HasAttended = command.HasAttended;
 
-                // update db
+                BusinessRepository.UpdateBooking(BusinessId, booking);
 
                 return new Response();
             }

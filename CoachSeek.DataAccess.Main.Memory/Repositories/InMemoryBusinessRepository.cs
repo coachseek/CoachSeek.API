@@ -520,6 +520,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             throw new NotImplementedException();
         }
 
+        public void UpdateBooking(Guid businessId, BookingData booking)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {
             var dbBookings = GetAllDbBookings(businessId);
