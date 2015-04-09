@@ -14,6 +14,9 @@ namespace CoachSeek.Api.Conversion
             if (commandName == "BookingSetAttendance")
                 return ConvertToConcreteCommand<BookingSetAttendanceCommand>(apiCommand);
 
+            if (commandName == "BookingSetPaymentStatus")
+                return ConvertToConcreteCommand<BookingSetPaymentStatusCommand>(apiCommand);
+            
             throw new NotImplementedException();
         }
 

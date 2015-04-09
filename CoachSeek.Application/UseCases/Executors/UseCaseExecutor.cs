@@ -19,6 +19,13 @@ namespace CoachSeek.Application.UseCases.Executors
                 return useCase.SetAttendance(command as BookingSetAttendanceCommand);
             }
 
+            if (command.GetType() == typeof(BookingSetPaymentStatusCommand))
+            {
+                var useCase = new BookingSetPaymentStatusUseCase();
+                useCase.Initialise(businessRepository, businessId);
+                return useCase.SetPaymentStatus(command as BookingSetPaymentStatusCommand);
+            }
+
             throw new NotImplementedException();
         }
     }
