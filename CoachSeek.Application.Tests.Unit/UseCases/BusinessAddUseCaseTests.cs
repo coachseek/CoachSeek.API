@@ -1,12 +1,12 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using System.Linq;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.DataAccess.Repositories;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Services;
 using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
 {

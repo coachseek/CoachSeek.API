@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CoachSeek.Domain.Repositories;
 
-namespace CoachSeek.DataAccess.Repositories
+namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
     public class HardCodedReservedDomainRepository : IReservedDomainRepository
     {

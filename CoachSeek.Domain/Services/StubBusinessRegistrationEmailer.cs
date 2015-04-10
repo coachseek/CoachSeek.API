@@ -1,5 +1,5 @@
 ﻿using CoachSeek.Data.Model;
-using IBusinessRegistrationEmailer = CoachSeek.Domain.Contracts.IBusinessRegistrationEmailer;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Domain.Services
 {

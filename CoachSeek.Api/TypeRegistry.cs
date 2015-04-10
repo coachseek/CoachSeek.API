@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.DataAccess.Repositories;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;

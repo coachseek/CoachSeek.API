@@ -1,12 +1,11 @@
-﻿using CoachSeek.Data.Model;
+﻿using System;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
-using CoachSeek.DataAccess.Repositories;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;
 using NUnit.Framework;
-using System;
 
 namespace CoachSeek.Domain.Tests.Unit.Services
 {
