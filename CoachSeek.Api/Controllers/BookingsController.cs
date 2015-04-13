@@ -52,7 +52,6 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBookingSaveCommand booking)
         {
-            
             if (booking.IsNew())
                 return AddBooking(booking);
 

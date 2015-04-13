@@ -61,6 +61,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<DbSingleSessionPricing, SingleSessionPricingData>();
             Mapper.CreateMap<DbRepeatedSessionPricing, RepeatedSessionPricingData>();
 
+            Mapper.CreateMap<SingleSessionBooking, DbSingleSessionBooking>();
+            Mapper.CreateMap<CourseBooking, DbCourseBooking>();
 
 
             Mapper.CreateMap<DbBooking, BookingData>();
@@ -87,6 +89,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<DbSessionTiming, SessionTimingData>();
             Mapper.CreateMap<DbUser, UserData>();
             Mapper.CreateMap<DbWeeklyWorkingHours, WeeklyWorkingHoursData>();
+
+            
+            Mapper.CreateMap<DbSingleSessionBooking, SingleSessionBookingData>();
+            Mapper.CreateMap<DbCourseBooking, CourseBookingData>();
         }
     }
 }

@@ -31,7 +31,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public static Dictionary<Guid, List<DbCustomer>> Customers { get; private set; }
         public static Dictionary<Guid, List<DbSingleSession>> Sessions { get; private set; }
         public static Dictionary<Guid, List<DbRepeatedSession>> Courses { get; private set; }
-        public static Dictionary<Guid, List<DbBooking>> Bookings { get; private set; }
+        public static Dictionary<Guid, List<DbSingleSessionBooking>> SessionBookings { get; private set; }
+        public static Dictionary<Guid, List<DbCourseBooking>> CourseBookings { get; private set; }
 
 
         static InMemoryBusinessRepository()
@@ -44,7 +45,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Customers = new Dictionary<Guid, List<DbCustomer>>();
             Sessions = new Dictionary<Guid, List<DbSingleSession>>();
             Courses = new Dictionary<Guid, List<DbRepeatedSession>>();
-            Bookings = new Dictionary<Guid, List<DbBooking>>();
+            SessionBookings = new Dictionary<Guid, List<DbSingleSessionBooking>>();
+            CourseBookings = new Dictionary<Guid, List<DbCourseBooking>>();
         }
 
         public void Clear()
@@ -57,7 +59,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Customers.Clear();
             Sessions.Clear();
             Courses.Clear();
-            Bookings.Clear();
+            SessionBookings.Clear();
+            CourseBookings.Clear();
         }
 
 
@@ -450,12 +453,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        private IList<BookingData> GetAllBookings(Guid businessId)
-        {
-            var dbBookings = GetAllDbBookings(businessId);
+        //private IList<BookingData> GetAllBookings(Guid businessId)
+        //{
+        //    var dbBookings = GetAllDbBookings(businessId);
 
-            return Mapper.Map<IList<DbBooking>, IList<BookingData>>(dbBookings);
-        }
+        //    return Mapper.Map<IList<DbBooking>, IList<BookingData>>(dbBookings);
+        //}
 
         //public BookingData GetBooking(Guid businessId, Guid bookingId)
         //{
@@ -481,43 +484,43 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)
         {
-            return null;
+            var dbSessionBookings = GetAllDbSessionBookings(businessId);
+            var dbSessionBooking = dbSessionBookings.SingleOrDefault(x => x.Id == sessionBookingId);
+
+            return Mapper.Map<DbSingleSessionBooking, SingleSessionBookingData>(dbSessionBooking);
         }
 
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
-            return null;
+            var dbCourseBookings = GetAllDbCourseBookings(businessId);
+            var dbCourseBooking = dbCourseBookings.SingleOrDefault(x => x.Id == courseBookingId);
+
+            return Mapper.Map<DbCourseBooking, CourseBookingData>(dbCourseBooking);
         }
 
-        public BookingData AddBooking(Guid businessId, Booking booking)
-        {
-            var dbBooking = Mapper.Map<Booking, DbBooking>(booking);
-
-            var dbBookings = GetAllDbBookings(businessId);
-            dbBookings.Add(dbBooking);
-
-            Bookings[businessId] = dbBookings;
-
-            return null;
-            //return GetBooking(businessId, booking.Id);
-        }
 
         public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking booking)
         {
-            var dbBooking = Mapper.Map<Booking, DbBooking>(booking);
+            var dbBooking = Mapper.Map<SingleSessionBooking, DbSingleSessionBooking>(booking);
 
-            var dbBookings = GetAllDbBookings(businessId);
+            var dbBookings = GetAllDbSessionBookings(businessId);
             dbBookings.Add(dbBooking);
 
-            Bookings[businessId] = dbBookings;
+            SessionBookings[businessId] = dbBookings;
 
-            return null;
-            //return GetBooking(businessId, booking.Id);
+            return GetSessionBooking(businessId, booking.Id);
         }
 
         public CourseBookingData AddCourseBooking(Guid businessId, CourseBooking booking)
         {
-            throw new NotImplementedException();
+            var dbBooking = Mapper.Map<CourseBooking, DbCourseBooking>(booking);
+
+            var dbBookings = GetAllDbCourseBookings(businessId);
+            dbBookings.Add(dbBooking);
+
+            CourseBookings[businessId] = dbBookings;
+
+            return GetCourseBooking(businessId, booking.Id);
         }
 
         public void UpdateBooking(Guid businessId, BookingData booking)
@@ -527,13 +530,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {
-            var dbBookings = GetAllDbBookings(businessId);
+            //var dbBookings = GetAllDbBookings(businessId);
 
-            var dbBooking = dbBookings.Find(x => x.Id == bookingId);
+            //var dbBooking = dbBookings.Find(x => x.Id == bookingId);
 
-            dbBookings.Remove(dbBooking);
+            //dbBookings.Remove(dbBooking);
 
-            Bookings[businessId] = dbBookings;
+            //Bookings[businessId] = dbBookings;
         }
 
 
@@ -603,12 +606,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
                 : new List<DbRepeatedSession>();
         }
 
-        private List<DbBooking> GetAllDbBookings(Guid businessId)
+        private List<DbSingleSessionBooking> GetAllDbSessionBookings(Guid businessId)
         {
-            List<DbBooking> businessBookings;
-            return Bookings.TryGetValue(businessId, out businessBookings)
+            List<DbSingleSessionBooking> businessBookings;
+            return SessionBookings.TryGetValue(businessId, out businessBookings)
                 ? businessBookings
-                : new List<DbBooking>();
+                : new List<DbSingleSessionBooking>();
+        }
+
+        private List<DbCourseBooking> GetAllDbCourseBookings(Guid businessId)
+        {
+            List<DbCourseBooking> businessBookings;
+            return CourseBookings.TryGetValue(businessId, out businessBookings)
+                ? businessBookings
+                : new List<DbCourseBooking>();
         }
     }
 }
