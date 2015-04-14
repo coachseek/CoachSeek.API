@@ -787,6 +787,37 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+
+        public IList<SessionData> GetAllCoursesAndSessions(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Session_GetAllCoursesAndSessions]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                reader = command.ExecuteReader();
+
+                var coursesAndSessions = new List<SessionData>();
+
+                while (reader.Read())
+                    coursesAndSessions.Add(ReadSessionData(reader));
+
+                return coursesAndSessions;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
         public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
         {
             SqlDataReader reader = null;
@@ -1576,7 +1607,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var isOnlineBookable = reader.GetBoolean(16);
             var sessionCount = reader.GetByte(17);
             var repeatFrequency = reader.GetNullableStringTrimmed(18);
-            var sessionPrice = reader.GetNullableDecimal(19);   // Nullable because for course session this can be null.
+            var sessionPrice = reader.GetNullableDecimal(19);   // Nullable because for a course session this can be null.
             var coursePrice = reader.GetNullableDecimal(20);
             var colour = reader.GetNullableStringTrimmed(21);
 
