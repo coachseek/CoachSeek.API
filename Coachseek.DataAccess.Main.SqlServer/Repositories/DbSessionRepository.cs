@@ -113,43 +113,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 wasAlreadyOpen = OpenConnection();
 
                 var command = new SqlCommand("Session_CreateSession", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
-                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
-                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
-                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
-                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
-                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = session.Id;
-                command.Parameters[2].Value = session.ParentId;
-                command.Parameters[3].Value = session.Location.Id;
-                command.Parameters[4].Value = session.Coach.Id;
-                command.Parameters[5].Value = session.Service.Id;
-                command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
-                command.Parameters[7].Value = session.Timing.StartDate;
-                command.Parameters[8].Value = session.Timing.StartTime;
-                command.Parameters[9].Value = session.Timing.Duration;
-                command.Parameters[10].Value = session.Booking.StudentCapacity;
-                command.Parameters[11].Value = session.Booking.IsOnlineBookable;
-                command.Parameters[12].Value = 1;       // SessionCount
-                command.Parameters[13].Value = null;    // RepeatFrequency
-                command.Parameters[14].Value = session.Pricing.SessionPrice;
-                command.Parameters[15].Value = null;    // CoursePrice
-                command.Parameters[16].Value = session.Presentation.Colour;
-
+                SetCreateOrUpdateParameters(command, businessId, session);
                 reader = command.ExecuteReader();
                 if (reader.HasRows && reader.Read())
                     return ReadSessionData(reader);
@@ -174,43 +138,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 wasAlreadyOpen = OpenConnection();
 
                 var command = new SqlCommand("Session_UpdateSession", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
-                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
-                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
-                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
-                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
-                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = session.Id;
-                command.Parameters[2].Value = session.ParentId;
-                command.Parameters[3].Value = session.Location.Id;
-                command.Parameters[4].Value = session.Coach.Id;
-                command.Parameters[5].Value = session.Service.Id;
-                command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
-                command.Parameters[7].Value = session.Timing.StartDate;
-                command.Parameters[8].Value = session.Timing.StartTime;
-                command.Parameters[9].Value = session.Timing.Duration;
-                command.Parameters[10].Value = session.Booking.StudentCapacity;
-                command.Parameters[11].Value = session.Booking.IsOnlineBookable;
-                command.Parameters[12].Value = 1;       // SessionCount
-                command.Parameters[13].Value = null;    // RepeatFrequency
-                command.Parameters[14].Value = session.Pricing.SessionPrice;
-                command.Parameters[15].Value = null;    // CoursePrice
-                command.Parameters[16].Value = session.Presentation.Colour;
-
+                SetCreateOrUpdateParameters(command, businessId, session);
                 reader = command.ExecuteReader();
                 if (reader.HasRows && reader.Read())
                     return ReadSessionData(reader);
@@ -300,6 +228,45 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Pricing = new SingleSessionPricingData { SessionPrice = sessionPrice },
                 Presentation = new PresentationData { Colour = colour }
             };
+        }
+
+        private void SetCreateOrUpdateParameters(SqlCommand command, Guid businessId, SingleSession session)
+        {
+            command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+            command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
+            command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
+            command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
+            command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
+            command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
+            command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
+            command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
+            command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
+            command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
+            command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+
+            command.Parameters[0].Value = businessId;
+            command.Parameters[1].Value = session.Id;
+            command.Parameters[2].Value = session.ParentId;
+            command.Parameters[3].Value = session.Location.Id;
+            command.Parameters[4].Value = session.Coach.Id;
+            command.Parameters[5].Value = session.Service.Id;
+            command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
+            command.Parameters[7].Value = session.Timing.StartDate;
+            command.Parameters[8].Value = session.Timing.StartTime;
+            command.Parameters[9].Value = session.Timing.Duration;
+            command.Parameters[10].Value = session.Booking.StudentCapacity;
+            command.Parameters[11].Value = session.Booking.IsOnlineBookable;
+            command.Parameters[12].Value = 1;       // SessionCount
+            command.Parameters[13].Value = null;    // RepeatFrequency
+            command.Parameters[14].Value = session.Pricing.SessionPrice;
+            command.Parameters[15].Value = null;    // CoursePrice
+            command.Parameters[16].Value = session.Presentation.Colour;
         }
     }
 }
