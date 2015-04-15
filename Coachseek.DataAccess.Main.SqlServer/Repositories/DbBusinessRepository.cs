@@ -34,6 +34,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbLocationRepository LocationRepository { get; set; }
         private DbCoachRepository CoachRepository { get; set; }
         private DbServiceRepository ServiceRepository { get; set; }
+        private DbCustomerRepository CustomerRepository { get; set; }
 
 
         public DbBusinessRepository()
@@ -41,6 +42,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             LocationRepository = new DbLocationRepository(ConnectionStringKey);
             CoachRepository = new DbCoachRepository(ConnectionStringKey);
             ServiceRepository = new DbServiceRepository(ConnectionStringKey);
+            CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
         }
 
 
@@ -200,142 +202,23 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Customer_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-
-                reader = command.ExecuteReader();
-
-                var customers = new List<CustomerData>();
-
-                while (reader.Read())
-                    customers.Add(ReadCustomerData(reader));
-
-                return customers;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return CustomerRepository.GetAllCustomers(businessId);
         }
 
         public CustomerData GetCustomer(Guid businessId, Guid customerId)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Customer_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[1].Value = customerId;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadCustomerData(reader);
-
-                return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return CustomerRepository.GetCustomer(businessId, customerId);
         }
 
         public CustomerData AddCustomer(Guid businessId, Customer customer)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("Customer_Create", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = customer.Id;
-                command.Parameters[2].Value = customer.FirstName;
-                command.Parameters[3].Value = customer.LastName;
-                command.Parameters[4].Value = customer.Email;
-                command.Parameters[5].Value = customer.Phone;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadCustomerData(reader);
-
-                return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return CustomerRepository.AddCustomer(businessId, customer);
         }
 
         public CustomerData UpdateCustomer(Guid businessId, Customer customer)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("Customer_Update", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = customer.Id;
-                command.Parameters[2].Value = customer.FirstName;
-                command.Parameters[3].Value = customer.LastName;
-                command.Parameters[4].Value = customer.Email;
-                command.Parameters[5].Value = customer.Phone;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadCustomerData(reader);
-
-                return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return CustomerRepository.UpdateCustomer(businessId, customer);
         }
-
 
 
         public IList<SessionData> GetAllCoursesAndSessions(Guid businessId)
