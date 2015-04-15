@@ -35,6 +35,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbCoachRepository CoachRepository { get; set; }
         private DbServiceRepository ServiceRepository { get; set; }
         private DbCustomerRepository CustomerRepository { get; set; }
+        private DbSessionRepository SessionRepository { get; set; }
+        private DbCourseRepository CourseRepository { get; set; }
 
 
         public DbBusinessRepository()
@@ -43,6 +45,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CoachRepository = new DbCoachRepository(ConnectionStringKey);
             ServiceRepository = new DbServiceRepository(ConnectionStringKey);
             CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
+            SessionRepository = new DbSessionRepository(ConnectionStringKey);
+            CourseRepository = new DbCourseRepository(ConnectionStringKey);
         }
 
 
@@ -221,352 +225,55 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        public IList<SessionData> GetAllCoursesAndSessions(Guid businessId)
-        {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Session_GetAllCoursesAndSessions]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
-
-                reader = command.ExecuteReader();
-
-                var coursesAndSessions = new List<SessionData>();
-
-                while (reader.Read())
-                    coursesAndSessions.Add(ReadSessionData(reader));
-
-                return coursesAndSessions;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
         public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Session_GetAllStandaloneSessions]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-
-                reader = command.ExecuteReader();
-
-                var sessions = new List<SingleSessionData>();
-
-                while (reader.Read())
-                    sessions.Add(ReadSessionData(reader));
-
-                return sessions;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return SessionRepository.GetAllStandaloneSessions(businessId);
         }
 
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-
-                reader = command.ExecuteReader();
-
-                var sessions = new List<SingleSessionData>();
-
-                while (reader.Read())
-                    sessions.Add(ReadSessionData(reader));
-
-                return sessions;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return SessionRepository.GetAllSessions(businessId);
         }
 
         public SingleSessionData GetSession(Guid businessId, Guid sessionId)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Session_GetSessionByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[1].Value = sessionId;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadSessionData(reader);
-
-                return null;
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
-            }
+            return SessionRepository.GetSession(businessId, sessionId);
         }
 
         public SingleSessionData AddSession(Guid businessId, StandaloneSession session)
         {
-            try
-            {
-                Connection.Open();
-
-                return AddSessionData(businessId, session);
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-            }
+            return SessionRepository.AddSession(businessId, session);
         }
 
         public SingleSessionData UpdateSession(Guid businessId, SingleSession session)
         {
-            var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("Session_UpdateSession", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@parentGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
-                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
-                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
-                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
-                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
-                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = session.Id;
-                command.Parameters[2].Value = session.ParentId;
-                command.Parameters[3].Value = session.Location.Id;
-                command.Parameters[4].Value = session.Coach.Id;
-                command.Parameters[5].Value = session.Service.Id;
-                command.Parameters[6].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
-                command.Parameters[7].Value = session.Timing.StartDate;
-                command.Parameters[8].Value = session.Timing.StartTime;
-                command.Parameters[9].Value = session.Timing.Duration;
-                command.Parameters[10].Value = session.Booking.StudentCapacity;
-                command.Parameters[11].Value = session.Booking.IsOnlineBookable;
-                command.Parameters[12].Value = 1;       // SessionCount
-                command.Parameters[13].Value = null;    // RepeatFrequency
-                command.Parameters[14].Value = session.Pricing.SessionPrice;
-                command.Parameters[15].Value = null;    // CoursePrice
-                command.Parameters[16].Value = session.Presentation.Colour;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadSessionData(reader);
-
-                return null;
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
-        private bool OpenConnection()
-        {
-            var wasAlreadyOpen = Connection.State == ConnectionState.Open;
-            if (!wasAlreadyOpen)
-                Connection.Open();
-
-            return wasAlreadyOpen;
-        }
-
-        private void CloseConnection(bool wasAlreadyOpen)
-        {
-            if (Connection != null && !wasAlreadyOpen)
-                Connection.Close();
+            return SessionRepository.UpdateSession(businessId, session);
         }
 
         public void DeleteSession(Guid businessId, Guid sessionId)
         {
-            try
-            {
-                Connection.Open();
-
-                var command = new SqlCommand("[Session_DeleteByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[1].Value = sessionId;
-
-                command.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-            }
+            SessionRepository.DeleteSession(businessId, sessionId);
         }
 
 
         public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
         {
-            var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("[Session_GetCourseByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters[1].Value = courseId;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadCourseAndSessionsData(reader);
-
-                return null;
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
-            }
+            return CourseRepository.GetCourse(businessId, courseId);
         }
 
         public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
         {
-            try
-            {
-                Connection.Open();
-
-                AddCourseData(businessId, course);
-
-                foreach (var session in course.Sessions)
-                    AddSessionData(businessId, session);
-
-                return GetCourse(businessId, course.Id);
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-            }
+            return CourseRepository.AddCourse(businessId, course);
         }
 
         public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
         {
-            var wasAlreadyOpen = false;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("[Session_UpdateCourse]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
-                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
-                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
-                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
-                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
-                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = course.Id;
-                command.Parameters[2].Value = course.Location.Id;
-                command.Parameters[3].Value = course.Coach.Id;
-                command.Parameters[4].Value = course.Service.Id;
-                command.Parameters[5].Value = null;                     // Not storing name yet. It's built up from location, coach, service etc.
-                command.Parameters[6].Value = course.Timing.StartDate;
-                command.Parameters[7].Value = course.Timing.StartTime;
-                command.Parameters[8].Value = course.Timing.Duration;
-                command.Parameters[9].Value = course.Booking.StudentCapacity;
-                command.Parameters[10].Value = course.Booking.IsOnlineBookable;
-                command.Parameters[11].Value = course.Repetition.SessionCount;
-                command.Parameters[12].Value = course.Repetition.RepeatFrequency;
-                command.Parameters[13].Value = course.Pricing.SessionPrice;
-                command.Parameters[14].Value = course.Pricing.CoursePrice;
-                command.Parameters[15].Value = course.Presentation.Colour;
-
-                command.ExecuteNonQuery();
-
-                foreach (var session in course.Sessions)
-                    UpdateSession(businessId, session);
-
-                return GetCourse(businessId, course.Id);
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-            }
+            return CourseRepository.UpdateCourse(businessId, course);
         }
 
         public void DeleteCourse(Guid businessId, Guid courseId)
         {
-            DeleteSession(businessId, courseId);
+            CourseRepository.DeleteCourse(businessId, courseId);
         }
 
 
@@ -901,6 +608,22 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+
+        private bool OpenConnection()
+        {
+            var wasAlreadyOpen = Connection.State == ConnectionState.Open;
+            if (!wasAlreadyOpen)
+                Connection.Open();
+
+            return wasAlreadyOpen;
+        }
+
+        private void CloseConnection(bool wasAlreadyOpen)
+        {
+            if (Connection != null && !wasAlreadyOpen)
+                Connection.Close();
+        }
+
         private BusinessData ReadBusinessData(SqlDataReader reader)
         {
             return new BusinessData
@@ -912,17 +635,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        private CustomerData ReadCustomerData(SqlDataReader reader)
-        {
-            return new CustomerData
-            {
-                Id = reader.GetGuid(2),
-                FirstName = reader.GetString(3),
-                LastName = reader.GetString(4),
-                Email = reader.GetNullableString(5),
-                Phone = reader.GetNullableString(6)
-            };
-        }
 
         private SingleSessionData ReadSessionData(SqlDataReader reader)
         {
@@ -1168,59 +880,45 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             };
         }
 
-        private RepeatedSessionData AddCourseData(Guid businessId, RepeatedSession course)
+        private void AddCourseData(Guid businessId, RepeatedSession course)
         {
-            SqlDataReader reader = null;
-            try
-            {
-                var command = new SqlCommand("Session_CreateCourse", Connection) { CommandType = CommandType.StoredProcedure };
+            var command = new SqlCommand("Session_CreateCourse", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
-                command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
-                command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
-                command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
-                command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
-                command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
-                command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
-                command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+            command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+            command.Parameters.Add(new SqlParameter("@startDate", SqlDbType.Date));
+            command.Parameters.Add(new SqlParameter("@startTime", SqlDbType.Time));
+            command.Parameters.Add(new SqlParameter("@duration", SqlDbType.SmallInt));
+            command.Parameters.Add(new SqlParameter("@studentCapacity", SqlDbType.TinyInt));
+            command.Parameters.Add(new SqlParameter("@isOnlineBookable", SqlDbType.Bit));
+            command.Parameters.Add(new SqlParameter("@sessionCount", SqlDbType.TinyInt));
+            command.Parameters.Add(new SqlParameter("@repeatFrequency", SqlDbType.Char));
+            command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
+            command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
+            command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
 
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = course.Id;
-                command.Parameters[2].Value = course.Location.Id;
-                command.Parameters[3].Value = course.Coach.Id;
-                command.Parameters[4].Value = course.Service.Id;
-                command.Parameters[5].Value = null; // Not storing name yet. It's built up from location, coach, service etc.
-                command.Parameters[6].Value = course.Timing.StartDate;
-                command.Parameters[7].Value = course.Timing.StartTime;
-                command.Parameters[8].Value = course.Timing.Duration;
-                command.Parameters[9].Value = course.Booking.StudentCapacity;
-                command.Parameters[10].Value = course.Booking.IsOnlineBookable;
-                command.Parameters[11].Value = course.Repetition.SessionCount;
-                command.Parameters[12].Value = course.Repetition.RepeatFrequency;
-                command.Parameters[13].Value = course.Pricing.SessionPrice;
-                command.Parameters[14].Value = course.Pricing.CoursePrice;
-                command.Parameters[15].Value = course.Presentation.Colour;
+            command.Parameters[0].Value = businessId;
+            command.Parameters[1].Value = course.Id;
+            command.Parameters[2].Value = course.Location.Id;
+            command.Parameters[3].Value = course.Coach.Id;
+            command.Parameters[4].Value = course.Service.Id;
+            command.Parameters[5].Value = null; // Not storing name yet. It's built up from location, coach, service etc.
+            command.Parameters[6].Value = course.Timing.StartDate;
+            command.Parameters[7].Value = course.Timing.StartTime;
+            command.Parameters[8].Value = course.Timing.Duration;
+            command.Parameters[9].Value = course.Booking.StudentCapacity;
+            command.Parameters[10].Value = course.Booking.IsOnlineBookable;
+            command.Parameters[11].Value = course.Repetition.SessionCount;
+            command.Parameters[12].Value = course.Repetition.RepeatFrequency;
+            command.Parameters[13].Value = course.Pricing.SessionPrice;
+            command.Parameters[14].Value = course.Pricing.CoursePrice;
+            command.Parameters[15].Value = course.Presentation.Colour;
 
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadCourseHeaderData(reader);
-
-                return null;
-            }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-            }
+            command.ExecuteNonQuery();
         }
 
 
