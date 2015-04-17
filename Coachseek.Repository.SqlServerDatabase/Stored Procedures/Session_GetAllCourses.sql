@@ -9,6 +9,7 @@ BEGIN
 		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
+		s2.[Guid] AS ParentGuid,
 		l.[Guid] AS LocationGuid,
 		l.[Name] AS LocationName,
 		c.[Guid] AS CoachGuid,
@@ -31,6 +32,8 @@ BEGIN
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Session] s
 			ON b.[Id] = s.[BusinessId]
+		LEFT JOIN [dbo].[Session] s2
+			ON s.[ParentId] = s2.[Id]
 		LEFT JOIN [dbo].[Location] l
 			ON l.[Id] = s.[LocationId]
 		LEFT JOIN [dbo].[Coach] c
