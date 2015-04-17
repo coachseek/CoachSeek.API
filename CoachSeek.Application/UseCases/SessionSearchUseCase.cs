@@ -25,30 +25,132 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public SessionSearchData SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            Validate(startDate, endDate, coachId, locationId, serviceId);
+            var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
+            Validate(parameters);
+            var matchingStandaloneSessions = FindMatchingStandaloneSessions(parameters);
 
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            AddBookingsToSessions(matchingStandaloneSessions, bookings);
+
+            var matchingCourseSessions = FindMatchingCourseSessions(parameters);
+            var matchingCourses = FindMatchingCourses(matchingCourseSessions);
+            AddBookingsToCourses(matchingCourses, bookings);
+
+            return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
+        }
+
+        // Deprecated. TODO: Remove
+        public IList<SingleSessionData> SearchForSessionsOld(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        {
+            var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
+            Validate(parameters);
+
+            var matchingSessions = FindMatchingSessions(parameters);
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            AddBookingsToSessions(matchingSessions, bookings);
+
+            return matchingSessions;
+        }
+
+        private SearchParameters PackageUpParameters(string startDate, string endDate, Guid? coachId, Guid? locationId, Guid? serviceId)
+        {
+            return new SearchParameters
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                CoachId = coachId,
+                LocationId = locationId,
+                ServiceId = serviceId
+            };
+        }
+
+        private IList<SingleSessionData> FindMatchingSessions(SearchParameters parameters)
+        {
             var sessions = BusinessRepository.GetAllSessions(BusinessId);
+            sessions = FilterSessionsByDate(sessions, parameters.StartDate, parameters.EndDate);
+            sessions = FilterSessionsByCoachLocationService(sessions, parameters.CoachId, parameters.LocationId, parameters.ServiceId);
 
-            var sessionQuery = sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
-                                       .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate)));
+            return OrderSessionsByStartDateAndTime(sessions);
+        }
 
+        private IList<SingleSessionData> FindMatchingStandaloneSessions(SearchParameters parameters)
+        {
+            var sessions = FindMatchingSessions(parameters);
+
+            return sessions.Where(x => x.ParentId == null).ToList();
+        }
+
+        private IList<SingleSessionData> FindMatchingCourseSessions(SearchParameters parameters)
+        {
+            var sessions = FindMatchingSessions(parameters);
+
+            return sessions.Where(x => x.ParentId != null).ToList();
+        }
+
+        private void AddBookingsToSessions(IList<SingleSessionData> sessions, IList<CustomerBookingData> bookings)
+        {
+            foreach (var session in sessions)
+            {
+                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+                session.Booking.BookingCount = session.Booking.Bookings.Count;
+            }
+        }
+
+        private IList<SingleSessionData> FilterSessionsByDate(IList<SingleSessionData> sessions, string startDate, string endDate)
+        {
+            return sessions.Where(x => new Date(x.Timing.StartDate).IsOnOrAfter(new Date(startDate)))
+                           .Where(x => new Date(x.Timing.StartDate).IsOnOrBefore(new Date(endDate))).ToList();
+        }
+
+        private IList<SingleSessionData> FilterSessionsByCoachLocationService(IEnumerable<SingleSessionData> sessions, Guid? coachId, Guid? locationId, Guid? serviceId)
+        {
             if (coachId.HasValue)
-                sessionQuery = sessionQuery.Where(x => x.Coach.Id == coachId);
-
+                sessions = sessions.Where(x => x.Coach.Id == coachId);
             if (locationId.HasValue)
-                sessionQuery = sessionQuery.Where(x => x.Location.Id == locationId);
-
+                sessions = sessions.Where(x => x.Location.Id == locationId);
             if (serviceId.HasValue)
-                sessionQuery = sessionQuery.Where(x => x.Service.Id == serviceId);
+                sessions = sessions.Where(x => x.Service.Id == serviceId);
 
-            var searchResults = sessionQuery.OrderBy(x => x.Timing.StartDate).ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
+            return sessions.ToList();
+        }
 
-            foreach (var session in searchResults)
-                session.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
+        private IList<SingleSessionData> OrderSessionsByStartDateAndTime(IList<SingleSessionData> sessions)
+        {
+            return sessions.OrderBy(x => x.Timing.StartDate)
+                           .ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
+        }
 
-            return searchResults;
+        private IList<RepeatedSessionData> FindMatchingCourses(IList<SingleSessionData> matchingSessions)
+        {
+            var courses = BusinessRepository.GetAllCourses(BusinessId);
+            var matchingCourses = new List<RepeatedSessionData>();
+            foreach (var matchingSession in matchingSessions)
+            {
+                if (matchingSession.ParentId == null)
+                    continue;
+                var matchingCourse = courses.Single(x => x.Id == matchingSession.ParentId);
+                if (!matchingCourses.Contains(matchingCourse))
+                    matchingCourses.Add(matchingCourse);
+            }
+
+            return matchingCourses;
+        }
+
+        private void AddBookingsToCourses(IList<RepeatedSessionData> courses, IList<CustomerBookingData> bookings)
+        {
+            foreach (var course in courses)
+            {
+                course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
+                course.Booking.BookingCount = course.Booking.Bookings.Count;
+
+                foreach (var session in course.Sessions)
+                {
+                    session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+                    session.Booking.BookingCount = session.Booking.Bookings.Count;
+                }
+            }
         }
 
         private static string CreateOrderableStartTime(string startTime)
@@ -56,12 +158,12 @@ namespace CoachSeek.Application.UseCases
             return startTime.Length == 4 ? string.Format("0{0}", startTime) : startTime;
         }
 
-        private void Validate(string searchStartDate, string searchEndDate, Guid? coachId, Guid? locationId, Guid? serviceId)
+        private void Validate(SearchParameters parameters)
         {
-            ValidateDates(searchStartDate, searchEndDate);
-            ValidateCoach(coachId);
-            ValidateLocation(locationId);
-            ValidateService(serviceId);
+            ValidateDates(parameters.StartDate, parameters.EndDate);
+            ValidateCoach(parameters.CoachId);
+            ValidateLocation(parameters.LocationId);
+            ValidateService(parameters.ServiceId);
         }
 
         private void ValidateCoach(Guid? coachId)
@@ -142,6 +244,16 @@ namespace CoachSeek.Application.UseCases
             {
                 errors.Add("The endDate is not a valid date.", "endDate");
             }
+        }
+
+
+        private struct SearchParameters
+        {
+            public string StartDate;
+            public string EndDate;
+            public Guid? CoachId;
+            public Guid? LocationId;
+            public Guid? ServiceId;
         }
     }
 }

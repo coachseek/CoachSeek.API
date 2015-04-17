@@ -26,7 +26,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Coach_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 var coaches = new List<CoachData>();
@@ -55,9 +55,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Coach_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = coachId;
 
                 reader = command.ExecuteReader();
@@ -85,33 +85,33 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Coach_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
-                command.Parameters.Add(new SqlParameter("@mondayIsAvailable", SqlDbType.Bit, 0, "MondayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@mondayStartTime", SqlDbType.NChar, 5, "MondayStartTime"));
-                command.Parameters.Add(new SqlParameter("@mondayFinishTime", SqlDbType.NChar, 5, "MondayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@tuesdayIsAvailable", SqlDbType.Bit, 0, "TuesdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@tuesdayStartTime", SqlDbType.NChar, 5, "TuesdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@tuesdayFinishTime", SqlDbType.NChar, 5, "TuesdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@wednesdayIsAvailable", SqlDbType.Bit, 0, "WednesdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@wednesdayStartTime", SqlDbType.NChar, 5, "WednesdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@wednesdayFinishTime", SqlDbType.NChar, 5, "WednesdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@thursdayIsAvailable", SqlDbType.Bit, 0, "ThursdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@thursdayStartTime", SqlDbType.NChar, 5, "ThursdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@thursdayFinishTime", SqlDbType.NChar, 5, "ThursdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@fridayIsAvailable", SqlDbType.Bit, 0, "FridayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@fridayStartTime", SqlDbType.NChar, 5, "FridayStartTime"));
-                command.Parameters.Add(new SqlParameter("@fridayFinishTime", SqlDbType.NChar, 5, "FridayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@saturdayIsAvailable", SqlDbType.Bit, 0, "SaturdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@saturdayStartTime", SqlDbType.NChar, 5, "SaturdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@saturdayFinishTime", SqlDbType.NChar, 5, "SaturdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@sundayIsAvailable", SqlDbType.Bit, 0, "SundayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@sundayStartTime", SqlDbType.NChar, 5, "SundayStartTime"));
-                command.Parameters.Add(new SqlParameter("@sundayFinishTime", SqlDbType.NChar, 5, "SundayFinishTime"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@mondayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@mondayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@mondayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@tuesdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@tuesdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@tuesdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@wednesdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@wednesdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@wednesdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@thursdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@thursdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@thursdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@fridayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@fridayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@fridayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@saturdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@saturdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@saturdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@sundayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@sundayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@sundayFinishTime", SqlDbType.NChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = coach.Id;
@@ -173,33 +173,33 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Coach_Update", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
-                command.Parameters.Add(new SqlParameter("@mondayIsAvailable", SqlDbType.Bit, 0, "MondayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@mondayStartTime", SqlDbType.NChar, 5, "MondayStartTime"));
-                command.Parameters.Add(new SqlParameter("@mondayFinishTime", SqlDbType.NChar, 5, "MondayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@tuesdayIsAvailable", SqlDbType.Bit, 0, "TuesdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@tuesdayStartTime", SqlDbType.NChar, 5, "TuesdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@tuesdayFinishTime", SqlDbType.NChar, 5, "TuesdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@wednesdayIsAvailable", SqlDbType.Bit, 0, "WednesdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@wednesdayStartTime", SqlDbType.NChar, 5, "WednesdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@wednesdayFinishTime", SqlDbType.NChar, 5, "WednesdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@thursdayIsAvailable", SqlDbType.Bit, 0, "ThursdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@thursdayStartTime", SqlDbType.NChar, 5, "ThursdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@thursdayFinishTime", SqlDbType.NChar, 5, "ThursdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@fridayIsAvailable", SqlDbType.Bit, 0, "FridayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@fridayStartTime", SqlDbType.NChar, 5, "FridayStartTime"));
-                command.Parameters.Add(new SqlParameter("@fridayFinishTime", SqlDbType.NChar, 5, "FridayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@saturdayIsAvailable", SqlDbType.Bit, 0, "SaturdayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@saturdayStartTime", SqlDbType.NChar, 5, "SaturdayStartTime"));
-                command.Parameters.Add(new SqlParameter("@saturdayFinishTime", SqlDbType.NChar, 5, "SaturdayFinishTime"));
-                command.Parameters.Add(new SqlParameter("@sundayIsAvailable", SqlDbType.Bit, 0, "SundayIsAvailable"));
-                command.Parameters.Add(new SqlParameter("@sundayStartTime", SqlDbType.NChar, 5, "SundayStartTime"));
-                command.Parameters.Add(new SqlParameter("@sundayFinishTime", SqlDbType.NChar, 5, "SundayFinishTime"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@mondayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@mondayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@mondayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@tuesdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@tuesdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@tuesdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@wednesdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@wednesdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@wednesdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@thursdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@thursdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@thursdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@fridayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@fridayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@fridayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@saturdayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@saturdayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@saturdayFinishTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@sundayIsAvailable", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@sundayStartTime", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@sundayFinishTime", SqlDbType.NChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = coach.Id;

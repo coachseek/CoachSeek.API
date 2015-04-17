@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Model\CourseBookingData.cs" />
     <Compile Include="Model\CourseKeyData.cs" />
+    <Compile Include="Model\SessionSearchData.cs" />
     <Compile Include="Model\SingleSessionBookingData.cs" />
     <Compile Include="Model\BookingData.cs" />
     <Compile Include="Model\Business2Data.cs" />

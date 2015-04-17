@@ -621,5 +621,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
                 ? businessBookings
                 : new List<DbCourseBooking>();
         }
+
+
+        public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

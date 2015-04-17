@@ -6,6 +6,9 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ISessionSearchUseCase : IBusinessRepositorySetter
     {
-        IList<SingleSessionData> SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null);
+        SessionSearchData SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null);
+
+        // Deprecated. TODO: Remove
+        IList<SingleSessionData> SearchForSessionsOld(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null);
     }
 }

@@ -256,6 +256,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public IList<RepeatedSessionData> GetAllCourses(Guid businessId)
+        {
+            return CourseRepository.GetAllCourses(businessId);
+        }
+
         public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
         {
             return CourseRepository.GetCourse(businessId, courseId);
@@ -542,6 +547,34 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+
+        public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_GetAllCustomerBookings]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var customerBookings = new List<CustomerBookingData>();
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                    customerBookings.Add(ReadCustomerBookingData(reader));
+
+                return customerBookings;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
 
         public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
         {

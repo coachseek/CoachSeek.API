@@ -39,9 +39,9 @@ namespace CoachSeek.Api.Controllers
         // GET: api/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [BasicAuthentication]
         [Authorize]
-        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null, bool? useNewSearch = null)
         {
-            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
+            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId, useNewSearch);
         }
 
         // GET: api/Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
@@ -78,12 +78,20 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null, bool? useNewSearch = null)
         {
             SessionSearchUseCase.Initialise(BusinessRepository, BusinessId);
 
             try
             {
+                // TODO: Remove if on useNewSearch
+                if (!useNewSearch.HasValue)
+                {
+                    // Old search results. TODO: Remove
+                    var responseOld = SessionSearchUseCase.SearchForSessionsOld(startDate, endDate, coachId, locationId, serviceId);
+                    return CreateGetWebResponse(responseOld);
+                }
+
                 var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
                 return CreateGetWebResponse(response);
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -26,9 +27,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Session_GetCourseByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = courseId;
 
                 reader = command.ExecuteReader();
@@ -44,6 +45,41 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     reader.Close();
             }
         }
+
+        public IList<RepeatedSessionData> GetAllCourses(Guid businessId)
+        {
+            var wasAlreadyOpen = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                wasAlreadyOpen = OpenConnection();
+
+                var command = new SqlCommand("[Session_GetAllCourses]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var courses = new List<RepeatedSessionData>();
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                    courses.Add(ReadCourseData(reader));
+                 reader.Close();
+
+                var sessionsInCourses = GetAllSessions(businessId).Where(x => x.ParentId != null).OrderBy(x => x.ParentId).ToList();
+                foreach (var course in courses)
+                    course.Sessions = sessionsInCourses.Where(x => x.ParentId == course.Id).ToList();
+
+                return courses;
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
 
         public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
         {

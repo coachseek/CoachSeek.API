@@ -26,7 +26,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Session_GetAllStandaloneSessions]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 var sessions = new List<SingleSessionData>();
@@ -55,7 +55,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 var sessions = new List<SingleSessionData>();
@@ -84,9 +84,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Session_GetSessionByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = sessionId;
 
                 reader = command.ExecuteReader();

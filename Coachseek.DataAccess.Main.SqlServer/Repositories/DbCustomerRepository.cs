@@ -26,7 +26,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Customer_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 var customers = new List<CustomerData>();
@@ -55,9 +55,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Customer_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = customerId;
 
                 reader = command.ExecuteReader();
@@ -85,12 +85,12 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Customer_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = customer.Id;
@@ -124,12 +124,12 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Customer_Update", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar, 50, "FirstName"));
-                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar, 50, "LastName"));
-                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar, 100, "Email"));
-                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar, 50, "Phone"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = customer.Id;

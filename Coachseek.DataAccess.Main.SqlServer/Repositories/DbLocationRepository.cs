@@ -54,9 +54,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("[Location_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = locationId;
 
                 reader = command.ExecuteReader();
@@ -84,16 +84,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Location_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = location.Id;
                 command.Parameters[2].Value = location.Name;
 
                 reader = command.ExecuteReader();
-
                 if (reader.HasRows && reader.Read())
                     return ReadLocationData(reader);
 
@@ -118,9 +117,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Location_Update", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = location.Id;
