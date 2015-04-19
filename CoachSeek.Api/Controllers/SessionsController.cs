@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
+using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
@@ -51,7 +52,8 @@ namespace CoachSeek.Api.Controllers
         {
             SessionGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
             var response = SessionGetByIdUseCase.GetSession(id);
-            return CreateGetWebResponse(response);
+            var apiSessionResponse = ApiOutSessionConverter.Convert(response);
+            return CreateGetWebResponse(apiSessionResponse);
         }
 
         // POST: api/Sessions
@@ -93,7 +95,8 @@ namespace CoachSeek.Api.Controllers
                 }
 
                 var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
-                return CreateGetWebResponse(response);
+                var apiSearchResponse = ApiOutSearchResponseConverter.Convert(response);
+                return CreateGetWebResponse(apiSearchResponse);
             }
             catch (ValidationException ex)
             {

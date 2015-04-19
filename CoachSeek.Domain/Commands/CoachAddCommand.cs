@@ -1,8 +1,4 @@
-﻿using System;
-using AutoMapper;
-using CoachSeek.Data.Model;
-
-namespace CoachSeek.Domain.Commands
+﻿namespace CoachSeek.Domain.Commands
 {
     public class CoachAddCommand
     {

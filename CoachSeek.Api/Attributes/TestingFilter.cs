@@ -1,9 +1,6 @@
 ﻿using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using CoachSeek.Api.Controllers;
-using Coachseek.DataAccess.Authentication.TableStorage;
-using CoachSeek.DataAccess.Main.Memory.Repositories;
-using Coachseek.DataAccess.Main.SqlServer.Repositories;
 
 namespace CoachSeek.Api.Attributes
 {

@@ -5,7 +5,6 @@ using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
-using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {

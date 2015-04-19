@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoachSeek.Domain.Exceptions
+﻿namespace CoachSeek.Domain.Exceptions
 {
     public class InvalidStudentCapacity : ValidationException
     {

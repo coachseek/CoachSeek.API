@@ -1,12 +1,11 @@
 ﻿using System;
+using CoachSeek.Data.Model;
 
-namespace CoachSeek.Data.Model
+namespace CoachSeek.Api.Models.Api.Out
 {
-    public class CustomerBookingData
+    public class ApiOutCourseCustomerBooking
     {
         public Guid Id { get; set; } // BookingId
-        public Guid? ParentId { get; set; } // Course Booking Id
-        public Guid SessionId { get; set; }
         public CustomerData Customer { get; set; }
         public bool? HasAttended { get; set; }
         public string PaymentStatus { get; set; }

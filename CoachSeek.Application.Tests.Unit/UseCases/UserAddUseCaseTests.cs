@@ -1,6 +1,5 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CoachSeek.Domain.Commands
+﻿namespace CoachSeek.Domain.Commands
 {
     public class SessionAddCommand
     {

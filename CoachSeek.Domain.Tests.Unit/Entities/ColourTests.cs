@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Domain.Entities;
+﻿using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 

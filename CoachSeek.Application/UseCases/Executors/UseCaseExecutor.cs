@@ -1,7 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases.Executors;
-using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;

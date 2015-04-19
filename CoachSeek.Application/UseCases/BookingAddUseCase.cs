@@ -1,12 +1,9 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Factories;
-using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
-using System.Linq;
 
 namespace CoachSeek.Application.UseCases
 {

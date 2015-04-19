@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.Domain.Entities;
 

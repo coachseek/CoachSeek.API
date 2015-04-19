@@ -1,5 +1,4 @@
-﻿using CoachSeek.Data.Model;
-using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
