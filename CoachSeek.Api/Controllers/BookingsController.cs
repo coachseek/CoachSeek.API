@@ -36,7 +36,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: api/Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // GET: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
@@ -45,7 +45,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // POST: api/Bookings
+        // POST: Bookings
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -59,7 +59,7 @@ namespace CoachSeek.Api.Controllers
             return null;
         }
 
-        // POST: api/Bookings/{booking_id}
+        // POST: Bookings/{booking_id}
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -76,7 +76,7 @@ namespace CoachSeek.Api.Controllers
         }
         
 
-        // DELETE: api/Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // DELETE: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Delete(Guid id)

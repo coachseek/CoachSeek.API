@@ -34,7 +34,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: api/Locations
+        // GET: Locations
         [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get()
@@ -44,7 +44,18 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // GET: api/Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        //// GET: OnlineBooking/Locations
+        //[Route("OnlineBooking/Locations")]
+        //[BasicAuthenticationOrAnonymous]
+        //[Authorize]
+        //public HttpResponseMessage GetForOnlineBooking()
+        //{
+        //    LocationsGetAllUseCase.Initialise(BusinessRepository, BusinessId);
+        //    var response = LocationsGetAllUseCase.GetLocations();
+        //    return CreateGetWebResponse(response);
+        //}
+
+        // GET: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
@@ -54,7 +65,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // POST: api/Locations
+        // POST: Locations
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -67,7 +78,7 @@ namespace CoachSeek.Api.Controllers
             return UpdateLocation(location);
         }
 
-        // DELETE: api/Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // DELETE: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Delete(Guid id)

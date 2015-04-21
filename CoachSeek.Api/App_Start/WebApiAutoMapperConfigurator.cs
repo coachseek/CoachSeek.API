@@ -49,11 +49,15 @@ namespace CoachSeek.Api
             Mapper.CreateMap<SingleSessionData, ApiOutSingleSession>();
             Mapper.CreateMap<SessionBookingData, ApiOutSessionBooking>();
             Mapper.CreateMap<CustomerBookingData, ApiOutSessionCustomerBooking>();
-
-
             Mapper.CreateMap<RepeatedSessionData, ApiOutCourse>();
             Mapper.CreateMap<SessionBookingData, ApiOutCourseBooking>();
             Mapper.CreateMap<CustomerBookingData, ApiOutCourseCustomerBooking>();
+
+            Mapper.CreateMap<SessionSearchData, ApiOutOnlineBookingSessionSearchResult>();
+            Mapper.CreateMap<SingleSessionData, ApiOutOnlineBookingSingleSession>();
+            Mapper.CreateMap<SessionBookingData, ApiOutOnlineBookingSessionBooking>();
+            Mapper.CreateMap<RepeatedSessionData, ApiOutOnlineBookingCourse>();
+            Mapper.CreateMap<SessionBookingData, ApiOutOnlineBookingCourseBooking>();
         }
     }
 }

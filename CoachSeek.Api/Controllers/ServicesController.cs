@@ -34,7 +34,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: api/Services
+        // GET: Services
         [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get()
@@ -44,7 +44,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // GET: api/Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // GET: Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
@@ -54,7 +54,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // POST: api/Services
+        // POST: Services
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -67,7 +67,7 @@ namespace CoachSeek.Api.Controllers
             return UpdateService(service);
         }
 
-        // DELETE: api/Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // DELETE: Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Delete(Guid id)

@@ -43,8 +43,8 @@ namespace CoachSeek.Domain.Entities
 
         private void CreateSessionBooking(SessionBookingData data)
         {
-            _studentCapacity = new SessionStudentCapacity(data.StudentCapacity.Value);
-            IsOnlineBookable = data.IsOnlineBookable.Value;
+            _studentCapacity = new SessionStudentCapacity(data.StudentCapacity);
+            IsOnlineBookable = data.IsOnlineBookable;
         }
 
 

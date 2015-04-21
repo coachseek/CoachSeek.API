@@ -31,7 +31,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: api/Customers
+        // GET: Customers
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get()
@@ -41,7 +41,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // GET: api/Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        // GET: Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
@@ -51,7 +51,7 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // POST: api/Customers
+        // POST: Customers
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]

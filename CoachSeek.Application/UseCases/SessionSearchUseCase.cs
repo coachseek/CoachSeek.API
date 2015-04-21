@@ -41,6 +41,22 @@ namespace CoachSeek.Application.UseCases
             return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
         }
 
+        public SessionSearchData SearchForOnlineBookableSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        {
+            var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
+            Validate(parameters);
+            var matchingStandaloneSessions = FindMatchingOnlineBookableStandaloneSessions(parameters);
+
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            AddBookingsToSessions(matchingStandaloneSessions, bookings);
+
+            var matchingCourseSessions = FindMatchingCourseSessions(parameters);
+            var matchingCourses = FindMatchingOnlineBookableCourses(matchingCourseSessions);
+            AddBookingsToCourses(matchingCourses, bookings);
+
+            return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
+        }
+
         // Deprecated. TODO: Remove
         public IList<SingleSessionData> SearchForSessionsOld(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
@@ -82,6 +98,18 @@ namespace CoachSeek.Application.UseCases
             return sessions.Where(x => x.ParentId == null).ToList();
         }
 
+        private IList<SingleSessionData> FindMatchingOnlineBookableStandaloneSessions(SearchParameters parameters)
+        {
+            var sessions = FindMatchingStandaloneSessions(parameters);
+            return sessions.Where(x => x.Booking.IsOnlineBookable).ToList();
+        }
+
+        private void RemoveSessionBookingDetails(List<SingleSessionData> sessions)
+        {
+            foreach (var session in sessions)
+                session.Booking.Bookings = null;
+        }
+
         private IList<SingleSessionData> FindMatchingCourseSessions(SearchParameters parameters)
         {
             var sessions = FindMatchingSessions(parameters);
@@ -95,6 +123,15 @@ namespace CoachSeek.Application.UseCases
             {
                 session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
                 session.Booking.BookingCount = session.Booking.Bookings.Count;
+            }
+        }
+
+        private void AddBookingCountsToSessionsAndRemoveBookingDetails(IList<SingleSessionData> sessions, IList<CustomerBookingData> bookings)
+        {
+            foreach (var session in sessions)
+            {
+                session.Booking.BookingCount = bookings.Count(x => x.SessionId == session.Id);
+                session.Booking.Bookings = null;
             }
         }
 
@@ -136,6 +173,13 @@ namespace CoachSeek.Application.UseCases
             }
 
             return matchingCourses;
+        }
+
+        private IList<RepeatedSessionData> FindMatchingOnlineBookableCourses(IList<SingleSessionData> matchingSessions)
+        {
+            var courses = FindMatchingCourses(matchingSessions);
+
+            return courses.Where(x => x.Booking.IsOnlineBookable).ToList();
         }
 
         private void AddBookingsToCourses(IList<RepeatedSessionData> courses, IList<CustomerBookingData> bookings)

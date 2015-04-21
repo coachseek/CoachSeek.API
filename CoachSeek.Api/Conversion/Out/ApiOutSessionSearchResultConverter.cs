@@ -4,7 +4,7 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Conversion.Out
 {
-    public static class ApiOutSearchResponseConverter
+    public static class ApiOutSessionSearchResultConverter
     {
         public static ApiOutSessionSearchResult Convert(SessionSearchData sessionSearchData)
         {

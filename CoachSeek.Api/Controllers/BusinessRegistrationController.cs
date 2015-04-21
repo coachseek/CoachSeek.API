@@ -33,7 +33,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // POST: api/BusinessRegistration
+        // POST: BusinessRegistration
         [AllowAnonymous]
         [CheckModelForNull]
         [ValidateModelState]
