@@ -7,12 +7,12 @@ using System;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingAddUseCase : SessionBaseUseCase, IBookingAddUseCase
+    public class BookingAddMasterUseCase : SessionBaseUseCase, IBookingAddMasterUseCase
     {
         private IBookingAddUseCaseFactory BookingAddUseCaseFactory { get; set; }
 
 
-        public BookingAddUseCase(IBookingAddUseCaseFactory bookingAddUseCaseFactory)
+        public BookingAddMasterUseCase(IBookingAddUseCaseFactory bookingAddUseCaseFactory)
         {
             BookingAddUseCaseFactory = bookingAddUseCaseFactory;
         }
@@ -36,11 +36,35 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
+        public Response AddOnlineBooking(BookingAddCommand command)
+        {
+            try
+            {
+                var bookingAddUseCase = CreateOnlineBookingAddUseCase(command);
+                return bookingAddUseCase.AddBooking(command);
+            }
+            catch (Exception ex)
+            {
+                if (ex is InvalidSession)
+                    return new InvalidSessionErrorResponse("booking.session.id");
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
+                throw;
+            }
+        }
+
 
         private IBookingAddUseCase CreateBookingAddUseCase(BookingAddCommand command)
         {
             BookingAddUseCaseFactory.Initialise(BusinessRepository, BusinessId);
-            return BookingAddUseCaseFactory.CreateUseCase(command);
+            return BookingAddUseCaseFactory.CreateBookingUseCase(command);
+        }
+
+        private IBookingAddUseCase CreateOnlineBookingAddUseCase(BookingAddCommand command)
+        {
+            BookingAddUseCaseFactory.Initialise(BusinessRepository, BusinessId);
+            return BookingAddUseCaseFactory.CreateOnlineBookingUseCase(command);
         }
 
 

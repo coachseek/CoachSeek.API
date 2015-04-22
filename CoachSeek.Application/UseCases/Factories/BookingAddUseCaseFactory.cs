@@ -24,14 +24,26 @@ namespace CoachSeek.Application.UseCases.Factories
         }
         
 
-        public IBookingAddUseCase CreateUseCase(BookingAddCommand command)
+        public IBookingAddUseCase CreateBookingUseCase(BookingAddCommand command)
         {
             var sessionOrCourse = GetExistingSessionOrCourse(command.Session.Id);
             if (sessionOrCourse.IsNotFound())
                 throw new InvalidSession();
 
-            var useCase = CreateSpecificUseCase(sessionOrCourse);
-            InitialiseSpecificUseCase(useCase, sessionOrCourse);
+            var useCase = CreateSpecificBookingUseCase(sessionOrCourse);
+            InitialiseSpecificUseCase(useCase);
+
+            return useCase;
+        }
+
+        public IBookingAddUseCase CreateOnlineBookingUseCase(BookingAddCommand command)
+        {
+            var sessionOrCourse = GetExistingSessionOrCourse(command.Session.Id);
+            if (sessionOrCourse.IsNotFound())
+                throw new InvalidSession();
+
+            var useCase = CreateSpecificOnlineBookingUseCase(sessionOrCourse);
+            InitialiseSpecificUseCase(useCase);
 
             return useCase;
         }
@@ -66,18 +78,27 @@ namespace CoachSeek.Application.UseCases.Factories
             return new CoreData(location, coach, service);
         }
 
-        private IBookingAddUseCase CreateSpecificUseCase(Session sessionOrCourse)
+        private IBookingAddUseCase CreateSpecificBookingUseCase(Session sessionOrCourse)
         {
             if (sessionOrCourse is SingleSession)
                 return new SingleSessionBookingAddUseCase((SingleSession)sessionOrCourse);
-
             if (sessionOrCourse is RepeatedSession)
                 return new CourseBookingAddUseCase((RepeatedSession)sessionOrCourse);
 
             throw new InvalidOperationException("Invalid session type.");
         }
 
-        private void InitialiseSpecificUseCase(IBookingAddUseCase useCase, Session sessionOrCourse)
+        private IBookingAddUseCase CreateSpecificOnlineBookingUseCase(Session sessionOrCourse)
+        {
+            if (sessionOrCourse is SingleSession)
+                return new SingleSessionOnlineBookingAddUseCase((SingleSession)sessionOrCourse);
+            //if (sessionOrCourse is RepeatedSession)
+            //    return new CourseOnlineBookingAddUseCase((RepeatedSession)sessionOrCourse);
+
+            throw new InvalidOperationException("Invalid session type.");
+        }
+
+        private void InitialiseSpecificUseCase(IBookingAddUseCase useCase)
         {
             useCase.Initialise(BusinessRepository, BusinessId);
         }

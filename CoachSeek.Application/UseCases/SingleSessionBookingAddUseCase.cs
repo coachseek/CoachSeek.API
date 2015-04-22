@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Linq;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
@@ -10,7 +11,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class SingleSessionBookingAddUseCase : SessionBaseUseCase, IBookingAddUseCase
     {
-        private SingleSession Session { get; set; }
+        protected SingleSession Session { get; set; }
 
 
         public SingleSessionBookingAddUseCase(SingleSession existingSession)
@@ -22,10 +23,10 @@ namespace CoachSeek.Application.UseCases
         public Response AddBooking(BookingAddCommand command)
         {
             try
-            {   
-                ValidateAdd(command);
+            {
+                ValidateCommand(command);
                 var newBooking = new SingleSessionBooking(command);
-                //ValidateAdd(newBooking);
+                ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddSessionBooking(BusinessId, newBooking);
                 return new Response(data);
             }
@@ -41,40 +42,37 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private void ValidateAdd(BookingAddCommand newBooking)
+        private void ValidateCommand(BookingAddCommand newBooking)
         {
             var errors = new ValidationException();
 
             ValidateCustomer(newBooking.Customer.Id, errors);
 
+            ValidateCommandAdditional(newBooking, errors);
+
             errors.ThrowIfErrors();
-
-            //ValidateBooking(newBooking, errors);
         }
 
-        protected virtual Booking CreateBooking(BookingAddCommand command)
+        private void ValidateAddBooking(SingleSessionBooking newBooking)
         {
-            return new SingleSessionBooking(command);
+            var errors = new ValidationException();
+
+            ValidateBooking(newBooking, errors);
+
+            ValidateAddBookingAdditional(newBooking, errors);
+
+            errors.ThrowIfErrors();
         }
 
-        //private void ValidateAdd(Booking newBooking)
-        //{
-        //    var errors = new ValidationException();
 
-        //    ValidateSession(newBooking, errors);
-        //    ValidateCustomer(newBooking, errors);
+        protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
+        {
+        }
 
-        //    errors.ThrowIfErrors();
+        protected virtual void ValidateAddBookingAdditional(SingleSessionBooking newBooking, ValidationException errors)
+        {
+        }
 
-        //    ValidateBooking(newBooking, errors);
-        //}
-
-        //private void ValidateSession(Booking newBooking, ValidationException errors)
-        //{
-        //    var sessionOrCourse = GetExistingSessionOrCourse(newBooking.Session.Id);
-        //    if (sessionOrCourse.IsNotFound())
-        //        errors.Add("This session does not exist.", "booking.session.id");
-        //}
 
         private void ValidateCustomer(Guid customerId, ValidationException errors)
         {
@@ -83,22 +81,15 @@ namespace CoachSeek.Application.UseCases
                 errors.Add("This customer does not exist.", "booking.customer.id");
         }
 
-        private void ValidateCustomer(Booking newBooking, ValidationException errors)
+        private void ValidateBooking(SingleSessionBooking newBooking, ValidationException errors)
         {
-            var customer = BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
-            if (customer.IsNotFound())
-                errors.Add("This customer does not exist.", "booking.customer.id");
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var isExistingBooking = bookings.Any(x => x.SessionId == newBooking.Session.Id
+                                              && x.Customer.Id == newBooking.Customer.Id);
+            if (isExistingBooking)
+                throw new ValidationException("This customer is already booked for this session.");
+
+            // TODO: Session or Course is full.
         }
-
-        //private void ValidateBooking(Booking newBooking, ValidationException errors)
-        //{
-        //    var bookings = BusinessRepository.GetAllBookings(BusinessId);
-        //    var isExistingBooking = bookings.Any(x => x.Session.Id == newBooking.Session.Id
-        //                                              && x.Customer.Id == newBooking.Customer.Id);
-        //    if (isExistingBooking)
-        //        throw new ValidationException("This customer is already in this session.");
-
-        //    // TODO: Session or Course is full.
-        //}
     }
 }

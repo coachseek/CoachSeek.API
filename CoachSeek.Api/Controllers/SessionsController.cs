@@ -45,7 +45,7 @@ namespace CoachSeek.Api.Controllers
             return SearchForSessions(startDate, endDate, coachId, locationId, serviceId, useNewSearch);
         }
 
-        //// GET: OnlineBooking/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
+        // GET: OnlineBooking/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [Route("OnlineBooking/Sessions")]
         [BasicAuthenticationOrAnonymous]
         [Authorize]

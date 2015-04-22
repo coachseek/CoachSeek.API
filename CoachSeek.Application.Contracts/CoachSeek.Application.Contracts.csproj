@@ -44,6 +44,7 @@
     <Compile Include="Models\ErrorResponses.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\Executors\IUseCaseExecutor.cs" />
+    <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\IUserRepositorySetter.cs" />
     <Compile Include="UseCases\IBusinessRepositorySetter.cs" />

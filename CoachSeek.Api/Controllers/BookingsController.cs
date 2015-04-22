@@ -17,7 +17,7 @@ namespace CoachSeek.Api.Controllers
     public class BookingsController : BaseController
     {
         public IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
-        public IBookingAddUseCase BookingAddUseCase { get; set; }
+        public IBookingAddMasterUseCase BookingAddMasterUseCase { get; set; }
         public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
         public IUseCaseExecutor UseCaseExecutor { get; set; }
 
@@ -25,12 +25,12 @@ namespace CoachSeek.Api.Controllers
         { }
 
         public BookingsController(IBookingGetByIdUseCase bookingGetByIdUseCase,
-                                  IBookingAddUseCase bookingAddUseCase,
+                                  IBookingAddMasterUseCase bookingAddMasterUseCase,
                                   IBookingDeleteUseCase bookingDeleteUseCase,
                                   IUseCaseExecutor useCaseExecutor)
         {
             BookingGetByIdUseCase = bookingGetByIdUseCase;
-            BookingAddUseCase = bookingAddUseCase;
+            BookingAddMasterUseCase = bookingAddMasterUseCase;
             BookingDeleteUseCase = bookingDeleteUseCase;
             UseCaseExecutor = useCaseExecutor;
         }
@@ -58,6 +58,22 @@ namespace CoachSeek.Api.Controllers
             //return UpdateBooking(booking);
             return null;
         }
+
+        // POST: OnlineBooking/Bookings
+        [Route("OnlineBooking/Bookings")]
+        [BasicAuthenticationOrAnonymous]
+        [Authorize]
+        [CheckModelForNull]
+        [ValidateModelState]
+        public HttpResponseMessage PostOnlineBooking(ApiBookingSaveCommand booking)
+        {
+            if (booking.IsNew())
+                return AddOnlineBooking(booking);
+
+            //return UpdateBooking(booking);
+            return null;
+        }
+
 
         // POST: Bookings/{booking_id}
         [BasicAuthentication]
@@ -93,6 +109,13 @@ namespace CoachSeek.Api.Controllers
             return CreatePostWebResponse(response);
         }
 
+        private HttpResponseMessage AddOnlineBooking(ApiBookingSaveCommand booking)
+        {
+            var command = BookingAddCommandConverter.Convert(booking);
+            var response = AddOnlineBooking(command);
+            return CreatePostWebResponse(response);
+        }
+
         //private HttpResponseMessage UpdateBooking(ApiBookingSaveCommand booking)
         //{
         //    var command = CoachUpdateCommandConverter.Convert(BusinessId, booking);
@@ -108,8 +131,14 @@ namespace CoachSeek.Api.Controllers
 
         private Response AddBooking(BookingAddCommand command)
         {
-            BookingAddUseCase.Initialise(BusinessRepository, BusinessId);
-            return BookingAddUseCase.AddBooking(command);
+            BookingAddMasterUseCase.Initialise(BusinessRepository, BusinessId);
+            return BookingAddMasterUseCase.AddBooking(command);
+        }
+
+        private Response AddOnlineBooking(BookingAddCommand command)
+        {
+            BookingAddMasterUseCase.Initialise(BusinessRepository, BusinessId);
+            return BookingAddMasterUseCase.AddOnlineBooking(command);
         }
 
         private Response DeleteBooking(Guid id)

@@ -4,6 +4,7 @@ namespace CoachSeek.Application.Contracts.UseCases.Factories
 {
     public interface IBookingAddUseCaseFactory : IBusinessRepositorySetter
     {
-        IBookingAddUseCase CreateUseCase(BookingAddCommand command);
+        IBookingAddUseCase CreateBookingUseCase(BookingAddCommand command);
+        IBookingAddUseCase CreateOnlineBookingUseCase(BookingAddCommand command);
     }
 }
