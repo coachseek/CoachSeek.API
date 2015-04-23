@@ -29,6 +29,7 @@ namespace CoachSeek.Api
             
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
             For<IBusinessRegistrationEmailer>().Use<StubBusinessRegistrationEmailer>();
+            For<IOnlineBookingEmailer>().Use<StubOnlineBookingEmailer>();
         }
     }
 }
