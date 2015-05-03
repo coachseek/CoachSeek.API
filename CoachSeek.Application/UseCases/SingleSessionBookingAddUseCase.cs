@@ -53,27 +53,6 @@ namespace CoachSeek.Application.UseCases
             errors.ThrowIfErrors();
         }
 
-        private void ValidateAddBooking(SingleSessionBooking newBooking)
-        {
-            var errors = new ValidationException();
-
-            ValidateBooking(newBooking, errors);
-
-            ValidateAddBookingAdditional(newBooking, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-
-        protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
-        {
-        }
-
-        protected virtual void ValidateAddBookingAdditional(SingleSessionBooking newBooking, ValidationException errors)
-        {
-        }
-
-
         private void ValidateCustomer(Guid customerId, ValidationException errors)
         {
             var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
@@ -81,15 +60,37 @@ namespace CoachSeek.Application.UseCases
                 errors.Add("This customer does not exist.", "booking.customer.id");
         }
 
-        private void ValidateBooking(SingleSessionBooking newBooking, ValidationException errors)
+        protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
+        {
+        }
+
+
+        private void ValidateAddBooking(SingleSessionBooking newBooking)
+        {
+            ValidateIsNewBooking(newBooking);
+            ValidateSpacesAvailable();
+
+            ValidateAddBookingAdditional(newBooking);
+        }
+
+        private void ValidateIsNewBooking(SingleSessionBooking newBooking)
         {
             var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
             var isExistingBooking = bookings.Any(x => x.SessionId == newBooking.Session.Id
                                               && x.Customer.Id == newBooking.Customer.Id);
             if (isExistingBooking)
                 throw new ValidationException("This customer is already booked for this session.");
+        }
 
-            // TODO: Session or Course is full.
+        private void ValidateSpacesAvailable()
+        {
+            if (Session.Booking.BookingCount == Session.Booking.StudentCapacity)
+                throw new ValidationException("This session is already fully booked.");
+        }
+
+        protected virtual void ValidateAddBookingAdditional(SingleSessionBooking newBooking)
+        {
+            // When overrides error they must throw a ValidationException.
         }
     }
 }

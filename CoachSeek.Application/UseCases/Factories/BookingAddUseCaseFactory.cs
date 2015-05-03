@@ -92,8 +92,8 @@ namespace CoachSeek.Application.UseCases.Factories
         {
             if (sessionOrCourse is SingleSession)
                 return new SingleSessionOnlineBookingAddUseCase((SingleSession)sessionOrCourse);
-            //if (sessionOrCourse is RepeatedSession)
-            //    return new CourseOnlineBookingAddUseCase((RepeatedSession)sessionOrCourse);
+            if (sessionOrCourse is RepeatedSession)
+                return new CourseOnlineBookingAddUseCase((RepeatedSession)sessionOrCourse);
 
             throw new InvalidOperationException("Invalid session type.");
         }
