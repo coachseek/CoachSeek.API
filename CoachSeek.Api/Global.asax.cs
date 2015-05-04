@@ -1,9 +1,12 @@
-﻿using System.Web.Http;
+﻿using System.Web;
+using System.Web.Http;
+using System.Web.Http.Filters;
+using CoachSeek.Api.Filters;
 using StructureMap;
 
 namespace CoachSeek.Api
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         // Static IoC container property needed for attributes.
         public static Container IocContainer
@@ -11,9 +14,17 @@ namespace CoachSeek.Api
             get { return new Container(new TypeRegistry()); }
         }
 
+        public static void RegisterWebApiFilters(HttpFilterCollection filters)
+        {
+            filters.Add(new RequireHttpsAttribute());
+        }
+
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            // TODO: Uncomment when we want https only (no http).
+            //RegisterWebApiFilters(GlobalConfiguration.Configuration.Filters);
         }
     }
 }
