@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.UseCases
@@ -8,20 +7,10 @@ namespace CoachSeek.Application.UseCases
     {
         public Response SetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
-            try
-            {
-                var booking = BusinessRepository.GetSessionBooking(BusinessId, command.BookingId);
-
-                booking.PaymentStatus = command.PaymentStatus;
-
-                BusinessRepository.UpdateBooking(BusinessId, booking);
-
-                return new Response();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            var booking = BusinessRepository.GetSessionBooking(BusinessId, command.BookingId);
+            booking.PaymentStatus = command.PaymentStatus;
+            BusinessRepository.UpdateBooking(BusinessId, booking);
+            return new Response();
         }
     }
 }

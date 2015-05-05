@@ -625,7 +625,27 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
         {
-            throw new NotImplementedException();
+            var customerBookings = new List<CustomerBookingData>();
+
+            var customers = GetAllCustomers(businessId);
+
+            // Sessions
+            var dbSessionBookings = GetAllDbSessionBookings(businessId);
+            foreach (var dbSessionBooking in dbSessionBookings)
+            {
+                var booking = Mapper.Map<DbSingleSessionBooking, CustomerBookingData>(dbSessionBooking);
+
+                // ...
+            }
+
+            // Courses
+            var dbCourseBookings = GetAllDbCourseBookings(businessId);
+            
+            // ...
+
+
+
+            return customerBookings;
         }
     }
 }

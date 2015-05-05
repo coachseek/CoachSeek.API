@@ -284,19 +284,25 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenSessionSearchWillReturnEmptyList(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<IList<SingleSessionData>>());
-            var sessions = (IList<SingleSessionData>)response;
+            Assert.That(response, Is.InstanceOf<SessionSearchData>());
+            var searchData = (SessionSearchData) response;
+            var sessions = searchData.Sessions;
             Assert.That(sessions.Count, Is.EqualTo(0));
+            var courses = searchData.Courses;
+            Assert.That(courses.Count, Is.EqualTo(0));
         }
 
         private void ThenSessionSearchWillReturnSingleSession(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<IList<SingleSessionData>>());
-            var sessions = (IList<SingleSessionData>)response;
+            Assert.That(response, Is.InstanceOf<SessionSearchData>());
+            var searchData = (SessionSearchData)response;
+            var sessions = searchData.Sessions;
             Assert.That(sessions.Count, Is.EqualTo(1));
             var session = sessions[0];
             Assert.That(session.Id, Is.EqualTo(new Guid(SESSION_THREE)));
+            var courses = searchData.Courses;
+            Assert.That(courses.Count, Is.EqualTo(0));
         }
 
         private void ThenSessionSearchWillReturnMultipleSessions(object response)

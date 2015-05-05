@@ -82,10 +82,12 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public BusinessData GetBusiness(string domain)
         {
+            var wasAlreadyOpen = false;
             SqlDataReader reader = null;
+
             try
             {
-                Connection.Open();
+                wasAlreadyOpen = OpenConnection();
 
                 var command = new SqlCommand("[Business_GetByDomain]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -101,8 +103,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
+                CloseConnection(wasAlreadyOpen);
                 if (reader != null)
                     reader.Close();
             }
@@ -110,10 +111,12 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public BusinessData AddBusiness(Business business)
         {
+            var wasAlreadyOpen = false;
             SqlDataReader reader = null;
+
             try
             {
-                Connection.Open();
+                wasAlreadyOpen = OpenConnection();
 
                 var command = new SqlCommand("Business_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -134,8 +137,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
+                CloseConnection(wasAlreadyOpen);
                 if (reader != null)
                     reader.Close();
             }
@@ -499,32 +501,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 HasAttended = hasAttended
             };
         }
-
-        //private CourseBookingData ReadCourseBookingData(SqlDataReader reader)
-        //{
-        //    var id = reader.GetGuid(2);
-        //    var parentId = reader.GetNullableGuid(3);
-        //    var sessionId = reader.GetGuid(4);
-        //    var sessionName = reader.GetString(5);
-        //    var customerId = reader.GetGuid(6);
-        //    var customerName = reader.GetString(7);
-
-        //    return new SingleSessionBookingData
-        //    {
-        //        Id = id,
-        //        ParentId = parentId,
-        //        Session = new SessionKeyData
-        //        {
-        //            Id = sessionId,
-        //            Name = sessionName
-        //        },
-        //        Customer = new CustomerKeyData
-        //        {
-        //            Id = customerId,
-        //            Name = customerName
-        //        }
-        //    };
-        //}
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {
