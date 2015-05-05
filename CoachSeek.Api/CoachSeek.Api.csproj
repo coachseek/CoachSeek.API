@@ -149,6 +149,7 @@
     <Compile Include="Attributes\TestingFilter.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
+    <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\BusinessRegistrationController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />

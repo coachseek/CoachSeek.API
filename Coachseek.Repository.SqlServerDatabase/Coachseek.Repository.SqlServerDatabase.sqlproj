@@ -117,6 +117,7 @@
     <Build Include="Stored Procedures\Booking_CreateCourseBooking.sql" />
     <Build Include="Stored Procedures\Booking_Update.sql" />
     <Build Include="Stored Procedures\Booking_GetAllCustomerBookings.sql" />
+    <Build Include="Stored Procedures\Business_GetByGuid.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

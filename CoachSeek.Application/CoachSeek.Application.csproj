@@ -54,6 +54,7 @@
     <Compile Include="UseCases\BookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\CourseOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\CourseBookingAddUseCase.cs" />
+    <Compile Include="UseCases\BusinessGetUseCase.cs" />
     <Compile Include="UseCases\Executors\UseCaseExecutor.cs" />
     <Compile Include="UseCases\SingleSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\SingleSessionBookingAddUseCase.cs" />

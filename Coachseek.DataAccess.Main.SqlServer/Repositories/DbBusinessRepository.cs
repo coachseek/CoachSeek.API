@@ -53,14 +53,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public BusinessData GetBusiness(Guid businessId)
         {
+            var wasAlreadyOpen = false;
             SqlDataReader reader = null;
+
             try
             {
-                Connection.Open();
+                wasAlreadyOpen = OpenConnection();
 
                 var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
 
                 reader = command.ExecuteReader();
@@ -72,8 +74,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
+                CloseConnection(wasAlreadyOpen);
                 if (reader != null)
                     reader.Close();
             }
@@ -954,33 +955,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.ExecuteNonQuery();
         }
 
-
-        //private BookingData ReadBookingData(SqlDataReader reader)
-        //{
-        //    var bookingId = reader.GetGuid(2);
-        //    var sessionId = reader.GetGuid(3);
-        //    var sessionName = reader.GetString(4);
-        //    var customerId = reader.GetGuid(5);
-        //    var customerName = reader.GetString(6);
-        //    var paymentStatus = reader.GetString(7);
-        //    var attended = reader.GetBoolean(8);      
-        //      
-        //    return new BookingData
-        //    {
-        //        Id = bookingId,
-        //        Session = new SessionKeyData
-        //        {
-        //            Id = sessionId,
-        //            Name = sessionName
-        //        },
-        //        Customer = new CustomerKeyData
-        //        {
-        //            Id = customerId,
-        //            Name = customerName
-        //        },
-        //        PaymentStatus = paymentStatus,
-        //        Attended = attended
-        //    };
 
         private CustomerBookingData ReadCustomerBookingData(SqlDataReader reader)
         {
