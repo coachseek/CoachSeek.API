@@ -23,8 +23,7 @@ namespace CoachSeek.Api
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            // TODO: Uncomment when we want https only (no http).
-            //RegisterWebApiFilters(GlobalConfiguration.Configuration.Filters);
+            RegisterWebApiFilters(GlobalConfiguration.Configuration.Filters);
         }
     }
 }
