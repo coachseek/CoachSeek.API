@@ -23,14 +23,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
-        public void GivenNoCoachAddCommand_WhenAddCoach_ThenCoachAddFailsWithMissingCoachError()
-        {
-            var request = GivenNoCoachAddCommand();
-            var response = WhenAddCoach(request);
-            ThenCoachAddFailsWithMissingCoachError(response);
-        }
-
-        [Test]
         public void GivenExistingCoach_WhenAddCoach_ThenCoachAddFailsWithDuplicateCoachError()
         {
             var request = GivenExistingCoach();

@@ -129,6 +129,9 @@
   <data name="ErrorDuplicateCoach" xml:space="preserve">
     <value>This coach already exists.</value>
   </data>
+  <data name="ErrorDuplicateCustomer" xml:space="preserve">
+    <value>This customer already exists.</value>
+  </data>
   <data name="ErrorDuplicateLocation" xml:space="preserve">
     <value>This location already exists.</value>
   </data>

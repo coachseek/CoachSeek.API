@@ -26,14 +26,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
 
         [Test]
-        public void GivenNoLocationAddCommand_WhenAddLocation_ThenLocationAddFailsWithMissingLocationError()
-        {
-            var request = GivenNoLocationAddCommand();
-            var response = WhenAddLocation(request);
-            ThenLocationAddFailsWithMissingLocationError(response);
-        }
-
-        [Test]
         public void GivenExistingLocation_WhenAddLocation_ThenLocationAddFailsWithDuplicateLocationError()
         {
             var request = GivenExistingLocation();

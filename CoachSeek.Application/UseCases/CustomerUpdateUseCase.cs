@@ -12,9 +12,6 @@ namespace CoachSeek.Application.UseCases
     {
         public Response UpdateCustomer(CustomerUpdateCommand command)
         {
-            if (command == null)
-                return new NoDataErrorResponse();
-
             try
             {
                 var customer = new Customer(command);

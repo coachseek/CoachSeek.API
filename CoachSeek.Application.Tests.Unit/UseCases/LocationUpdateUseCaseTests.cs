@@ -24,14 +24,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupBusinessRepository();
         }
 
-        
-        [Test]
-        public void GivenNoLocationUpdateRequest_WhenUpdateLocation_ThenLocationUpdateFailsWithMissingLocationError()
-        {
-            var request = GivenNoLocationUpdateRequest();
-            var response = WhenUpdateLocation(request);
-            ThenLocationUpdateFailsWithMissingLocationError(response);
-        }
 
         [Test]
         public void GivenNonExistentLocation_WhenUpdateLocation_ThenLocationUpdateFailsWithInvalidLocationError()

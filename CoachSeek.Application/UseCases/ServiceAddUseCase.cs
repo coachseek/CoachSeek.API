@@ -12,9 +12,6 @@ namespace CoachSeek.Application.UseCases
     {
         public Response AddService(ServiceAddCommand command)
         {
-            if (command == null)
-                return new NoDataErrorResponse();
-
             try
             {
                 var newService = new Service(command);

@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace CoachSeek.Application.Contracts.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -90,6 +93,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         internal static string ErrorDuplicateCoach {
             get {
                 return ResourceManager.GetString("ErrorDuplicateCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This customer already exists..
+        /// </summary>
+        internal static string ErrorDuplicateCustomer {
+            get {
+                return ResourceManager.GetString("ErrorDuplicateCustomer", resourceCulture);
             }
         }
         

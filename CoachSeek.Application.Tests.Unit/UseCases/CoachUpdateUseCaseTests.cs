@@ -26,14 +26,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
 
         [Test]
-        public void GivenNoCoachUpdateCommand_WhenUpdateCoach_ThenCoachUpdateFailsWithMissingCoachError()
-        {
-            var request = GivenNoCoachUpdateCommand();
-            var response = WhenUpdateCoach(request);
-            ThenCoachUpdateFailsWithMissingCoachError(response);
-        }
-
-        [Test]
         public void GivenNonExistentCoach_WhenUpdateCoach_ThenCoachUpdateFailsWithInvalidCoachError()
         {
             var request = GivenNonExistentCoach();

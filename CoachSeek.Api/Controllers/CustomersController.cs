@@ -6,6 +6,7 @@ using CoachSeek.Application.Contracts.UseCases;
 using System;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -15,6 +16,7 @@ namespace CoachSeek.Api.Controllers
         public ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
         public ICustomerAddUseCase CustomerAddUseCase { get; set; }
         public ICustomerUpdateUseCase CustomerUpdateUseCase { get; set; }
+        public ICustomerOnlineBookingAddUseCase CustomerOnlineBookingAddUseCase { get; set; }
 
         public CustomersController()
         { }
@@ -22,12 +24,14 @@ namespace CoachSeek.Api.Controllers
         public CustomersController(ICustomersGetAllUseCase customersGetAllUseCase,
                                    ICustomerGetByIdUseCase customerGetByIdUseCase,
                                    ICustomerAddUseCase customerAddUseCase,
-                                   ICustomerUpdateUseCase customerUpdateUseCase)
+                                   ICustomerUpdateUseCase customerUpdateUseCase,
+                                   ICustomerOnlineBookingAddUseCase customerOnlineBookingAddUseCase)
         {
             CustomersGetAllUseCase = customersGetAllUseCase;
             CustomerGetByIdUseCase = customerGetByIdUseCase;
             CustomerAddUseCase = customerAddUseCase;
             CustomerUpdateUseCase = customerUpdateUseCase;
+            CustomerOnlineBookingAddUseCase = customerOnlineBookingAddUseCase;
         }
 
 
@@ -64,6 +68,19 @@ namespace CoachSeek.Api.Controllers
             return UpdateCustomer(customer);
         }
 
+        // POST: OnlineBooking/Customers
+        [Route("OnlineBooking/Customers")]
+        [BasicAuthenticationOrAnonymous]
+        [Authorize]
+        [CheckModelForNull]
+        [ValidateModelState]
+        public HttpResponseMessage PostOnlineBooking([FromBody]ApiCustomerSaveCommand customer)
+        {
+            if (customer.IsNew())
+                return AddOnlineBookingCustomer(customer);
+
+            return CreateGetErrorWebResponse(new ValidationException("Existing customer used for online booking."));
+        }
 
         private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)
         {
@@ -78,6 +95,14 @@ namespace CoachSeek.Api.Controllers
             var command = CustomerUpdateCommandConverter.Convert(customer);
             CustomerUpdateUseCase.Initialise(BusinessRepository, BusinessId);
             var response = CustomerUpdateUseCase.UpdateCustomer(command);
+            return CreatePostWebResponse(response);
+        }
+
+        private HttpResponseMessage AddOnlineBookingCustomer(ApiCustomerSaveCommand customer)
+        {
+            var command = CustomerAddCommandConverter.Convert(customer);
+            CustomerOnlineBookingAddUseCase.Initialise(BusinessRepository, BusinessId);
+            var response = CustomerOnlineBookingAddUseCase.AddCustomer(command);
             return CreatePostWebResponse(response);
         }
     }

@@ -108,6 +108,7 @@
     <Compile Include="Entities\SessionInCourse.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateBooking.cs" />
+    <Compile Include="Exceptions\DuplicateCustomer.cs" />
     <Compile Include="Exceptions\DuplicateUser.cs" />
     <Compile Include="Exceptions\InvalidBooking.cs" />
     <Compile Include="Exceptions\InvalidCustomer.cs" />

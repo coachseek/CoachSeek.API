@@ -14,9 +14,6 @@ namespace CoachSeek.Application.UseCases
     {
         public Response UpdateSession(SessionUpdateCommand command)
         {
-            if (command == null)
-                return new NoDataErrorResponse();
-
             var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
             if (sessionOrCourse == null)
                 return new NotFoundResponse();

@@ -42,11 +42,13 @@
   <ItemGroup>
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Models\ErrorResponses.cs" />
+    <Compile Include="Services\ICustomerResolver.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\Executors\IUseCaseExecutor.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
+    <Compile Include="UseCases\ICustomerOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\IUserRepositorySetter.cs" />
     <Compile Include="UseCases\IBusinessRepositorySetter.cs" />
     <Compile Include="UseCases\ICoachAddUseCase.cs" />

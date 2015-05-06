@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoachUseCaseTests.cs" />
+    <Compile Include="Services\CustomerResolverTests.cs" />
     <Compile Include="LocationUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />

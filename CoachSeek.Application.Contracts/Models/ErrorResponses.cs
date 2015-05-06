@@ -45,6 +45,13 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
+    public class DuplicateCustomerErrorResponse : ErrorResponse
+    {
+        public DuplicateCustomerErrorResponse()
+            : base(Resources.ErrorDuplicateCustomer)
+        { }
+    }
+
     public class DuplicateServiceErrorResponse : ErrorResponse
     {
         public DuplicateServiceErrorResponse()

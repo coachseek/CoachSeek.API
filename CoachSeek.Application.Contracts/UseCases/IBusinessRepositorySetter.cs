@@ -5,10 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBusinessRepositorySetter
     {
-        //Guid BusinessId { set; }
-
-        //IBusinessRepository BusinessRepository { set; }
-
         void Initialise(IBusinessRepository businessRepository, Guid? businessId = null);
     }
 }

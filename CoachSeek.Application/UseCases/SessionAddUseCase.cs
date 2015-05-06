@@ -14,9 +14,6 @@ namespace CoachSeek.Application.UseCases
     {
         public Response AddSession(SessionAddCommand command)
         {
-            if (command == null)
-                return new NoDataErrorResponse();
-
             try
             {
                 var coreData = LookupCoreData(command);

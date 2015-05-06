@@ -12,9 +12,6 @@ namespace CoachSeek.Application.UseCases
     {
         public Response AddLocation(LocationAddCommand command)
         {
-            if (command == null)
-                return new NoDataErrorResponse();
-
             try
             {
                 var newLocation = new Location(command);
