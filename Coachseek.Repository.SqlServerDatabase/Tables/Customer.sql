@@ -11,7 +11,14 @@
 );
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Customer_Guid]
     ON [dbo].[Customer]([Guid] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [UX_Customer_Email_FirstName_LastName]
+    ON [dbo].[Customer]([BusinessId] ASC, [FirstName] ASC, [LastName] ASC, [Email] ASC);
 
