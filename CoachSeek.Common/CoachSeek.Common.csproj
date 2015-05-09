@@ -48,7 +48,6 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FormField.cs" />
-    <Compile Include="Services\Templating\NameValuePlaceholderFormatProvider.cs" />
     <Compile Include="Services\Templating\TemplateProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Testing\CoachTests.cs" />
