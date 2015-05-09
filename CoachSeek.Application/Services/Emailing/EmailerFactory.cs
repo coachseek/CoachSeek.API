@@ -7,10 +7,10 @@ namespace CoachSeek.Application.Services.Emailing
     {
         public static IEmailer CreateEmailer(bool isTesting, bool forceEmail)
         {
-            //if (isTesting && !forceEmail)
+            if (isTesting && !forceEmail)
                 return CreateTestingEmailer(); 
-            
-            //return CreateProductionEmailer();
+
+            return CreateProductionEmailer();
         }
 
 
