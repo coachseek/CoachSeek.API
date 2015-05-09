@@ -3,10 +3,10 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
 using System.Web.Http;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {

@@ -28,6 +28,22 @@ namespace CoachSeek.Api.Controllers
             }
         }
 
+        protected bool IsTesting
+        {
+            get { return Request.Headers.Contains("Testing"); }
+        }
+
+        protected bool ForceEmail
+        {
+            get { return Request.Headers.Contains("ForceEmail"); }
+        }
+
+        protected string EmailSender
+        {
+            get { return AppSettings.EmailSender; }
+        }
+
+
         protected HttpResponseMessage CreateNotFoundWebResponse()
         {
             return Request.CreateResponse(HttpStatusCode.NotFound);

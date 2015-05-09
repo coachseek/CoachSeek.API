@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Data.Model;
 
-namespace CoachSeek.Domain.Contracts
+namespace CoachSeek.Application.Contracts.Services.Emailing
 {
     public interface IOnlineBookingEmailer
     {

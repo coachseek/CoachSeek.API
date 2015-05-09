@@ -1,0 +1,12 @@
+﻿Hi <<FirstName>>! 
+
+Busines: <<BusinessName>>
+Domain: <<BusinessDomain>>
+Admin First Name: <<FirstName>>
+Admin Last Name: <<LastName>>
+Admin User Name: <<UserName>>
+
+Welcome to Coachseek!
+
+Cheers,
+The Coachseek Team

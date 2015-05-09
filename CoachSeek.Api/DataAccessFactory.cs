@@ -1,6 +1,6 @@
 ﻿using System;
-using Coachseek.DataAccess.Authentication.TableStorage;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
+using Coachseek.DataAccess.TableStorage.Authentication;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Api

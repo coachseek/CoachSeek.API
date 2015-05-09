@@ -9,7 +9,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         static HardCodedReservedDomainRepository()
         {
-            Domains = new List<string>{ "tennis", "football", "underwaterhockey" };
+            Domains = new List<string>{ "app", "api", "tennis", "football", "underwaterhockey" };
         }
 
         public bool Contains(string domain)

@@ -7,8 +7,8 @@
     <ProjectGuid>{2875AD19-2538-4D25-B9BC-6E71E999C0E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Coachseek.DataAccess.Authentication.TableStorage</RootNamespace>
-    <AssemblyName>Coachseek.DataAccess.Authentication.TableStorage</AssemblyName>
+    <RootNamespace>Coachseek.DataAccess.TableStorage</RootNamespace>
+    <AssemblyName>Coachseek.DataAccess.TableStorage</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -65,11 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureTestTableUserRepository.cs" />
-    <Compile Include="AzureTableUserRepository.cs" />
+    <Compile Include="Authentication\AzureTestTableUserRepository.cs" />
+    <Compile Include="Authentication\AzureTableUserRepository.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Emailing\AzureTableEmailRepository.cs" />
+    <Compile Include="Emailing\EmailEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserEntity.cs" />
+    <Compile Include="Authentication\UserEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -79,7 +81,12 @@
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
+      <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>
+      <Name>Coachseek.Integration.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

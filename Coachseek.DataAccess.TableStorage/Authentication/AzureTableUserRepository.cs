@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Configuration;
+using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Coachseek.DataAccess.Authentication.TableStorage
+namespace Coachseek.DataAccess.TableStorage.Authentication
 {
     public class AzureTableUserRepository : IUserRepository
     {

@@ -93,9 +93,7 @@
     <Compile Include="Commands\UserAssociateWithBusinessCommand.cs" />
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
-    <Compile Include="Contracts\IBusinessRegistrationEmailer.cs" />
     <Compile Include="Contracts\ICommand.cs" />
-    <Compile Include="Contracts\IOnlineBookingEmailer.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
@@ -121,8 +119,6 @@
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\PasswordHash.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
-    <Compile Include="Services\StubBusinessRegistrationEmailer.cs" />
-    <Compile Include="Services\StubOnlineBookingEmailer.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\PointInTime.cs" />

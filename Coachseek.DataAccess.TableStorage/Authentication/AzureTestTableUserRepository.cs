@@ -1,4 +1,4 @@
-﻿namespace Coachseek.DataAccess.Authentication.TableStorage
+﻿namespace Coachseek.DataAccess.TableStorage.Authentication
 {
     public class AzureTestTableUserRepository : AzureTableUserRepository
     {

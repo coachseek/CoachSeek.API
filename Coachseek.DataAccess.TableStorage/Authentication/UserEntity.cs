@@ -1,7 +1,8 @@
 ﻿using System;
+using Coachseek.DataAccess.Authentication.TableStorage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Coachseek.DataAccess.Authentication.TableStorage
+namespace Coachseek.DataAccess.TableStorage.Authentication
 {
     public class UserEntity : TableEntity
     {

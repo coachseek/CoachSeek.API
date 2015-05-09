@@ -3,6 +3,7 @@ using CoachSeek.Api.Controllers;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;

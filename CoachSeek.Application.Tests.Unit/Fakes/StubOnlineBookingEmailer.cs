@@ -1,7 +1,7 @@
-﻿using CoachSeek.Data.Model;
-using CoachSeek.Domain.Contracts;
+﻿using CoachSeek.Application.Contracts.Services.Emailing;
+using CoachSeek.Data.Model;
 
-namespace CoachSeek.Domain.Services
+namespace CoachSeek.Application.Tests.Unit.Fakes
 {
     public class StubOnlineBookingEmailer : IOnlineBookingEmailer
     {
