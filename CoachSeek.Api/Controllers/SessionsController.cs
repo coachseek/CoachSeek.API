@@ -59,7 +59,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            SessionGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionGetByIdUseCase.Initialise(Context);
             var response = SessionGetByIdUseCase.GetSession(id);
             var apiSessionResponse = ApiOutSessionConverter.Convert(response);
             return CreateGetWebResponse(apiSessionResponse);
@@ -83,7 +83,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            SessionDeleteUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionDeleteUseCase.Initialise(Context);
             var response = SessionDeleteUseCase.DeleteSession(id);
             return CreateDeleteWebResponse(response);
         }
@@ -91,7 +91,7 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null, bool? useNewSearch = null)
         {
-            SessionSearchUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionSearchUseCase.Initialise(Context);
 
             try
             {
@@ -115,7 +115,7 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage SearchForOnlineBookableSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            SessionSearchUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionSearchUseCase.Initialise(Context);
 
             try
             {
@@ -132,7 +132,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
         {
             var command = SessionAddCommandConverter.Convert(session);
-            SessionAddUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionAddUseCase.Initialise(Context);
             var response = SessionAddUseCase.AddSession(command);
             return CreatePostWebResponse(response);
         }
@@ -140,7 +140,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
         {
             var command = SessionUpdateCommandConverter.Convert(session);
-            SessionUpdateUseCase.Initialise(BusinessRepository, BusinessId);
+            SessionUpdateUseCase.Initialise(Context);
             var response = SessionUpdateUseCase.UpdateSession(command);
             return CreatePostWebResponse(response);
         }

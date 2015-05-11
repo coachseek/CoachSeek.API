@@ -16,15 +16,17 @@ namespace CoachSeek.Api.Controllers
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
 
-        public Guid BusinessId
+        public Guid? BusinessId
         {
             // Make BusinessId public and setable for unit testing.
             set { _businessId = value; }
             get
             {
                 if (_businessId.HasValue)
-                    return _businessId.Value;
-                return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessId;
+                    return _businessId;
+                if (RequestContext.Principal.Identity is CoachseekIdentity)
+                    return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessId;
+                return null;
             }
         }
 
@@ -43,6 +45,33 @@ namespace CoachSeek.Api.Controllers
             get { return AppSettings.EmailSender; }
         }
 
+        protected ApplicationContext Context
+        {
+            get
+            {
+                return new ApplicationContext
+                {
+                    BusinessId = BusinessId,
+                    IsTesting = IsTesting,
+                    ForceEmail = ForceEmail,
+                    EmailSender = EmailSender,
+                    BusinessRepository = BusinessRepository
+                };
+            }            
+        }
+
+
+        //protected ApplicationContext CreateContext()
+        //{
+        //    return new ApplicationContext
+        //    {
+        //        BusinessId = BusinessId,
+        //        IsTesting = IsTesting,
+        //        ForceEmail = ForceEmail,
+        //        EmailSender = EmailSender,
+        //        BusinessRepository = BusinessRepository
+        //    };
+        //}
 
         protected HttpResponseMessage CreateNotFoundWebResponse()
         {

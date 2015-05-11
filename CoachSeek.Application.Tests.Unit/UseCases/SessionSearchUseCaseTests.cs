@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
@@ -196,10 +197,20 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?, Guid?> criteria)
         {
-            var useCase = new SessionSearchUseCase(new CoachGetByIdUseCase { BusinessRepository = BusinessRepository },
-                                                   new LocationGetByIdUseCase { BusinessRepository = BusinessRepository }, 
-                                                   new ServiceGetByIdUseCase { BusinessRepository = BusinessRepository }) 
-                                                   { BusinessId = new Guid(BUSINESS_ID), BusinessRepository = BusinessRepository };
+            var context = new ApplicationContext
+            {
+                BusinessId = new Guid(BUSINESS_ID),
+                BusinessRepository = BusinessRepository
+            };
+            var coachGetByIdUseCase = new CoachGetByIdUseCase();
+            coachGetByIdUseCase.Initialise(context);
+            var locationGetByIdUseCase = new LocationGetByIdUseCase();
+            locationGetByIdUseCase.Initialise(context);
+            var serviceGetByIdUseCase = new ServiceGetByIdUseCase();
+            serviceGetByIdUseCase.Initialise(context);
+
+            var useCase = new SessionSearchUseCase(coachGetByIdUseCase, locationGetByIdUseCase, serviceGetByIdUseCase);
+            useCase.Initialise(context);
 
             try
             {

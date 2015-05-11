@@ -66,12 +66,13 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddLocation(LocationAddCommand command)
         {
-            var useCase = new LocationAddUseCase
+            var useCase = new LocationAddUseCase();
+            var context = new ApplicationContext
             {
                 BusinessId = new Guid(BUSINESS_ID),
                 BusinessRepository = BusinessRepository
             };
-
+            useCase.Initialise(context);
             return useCase.AddLocation(command);
         }
 

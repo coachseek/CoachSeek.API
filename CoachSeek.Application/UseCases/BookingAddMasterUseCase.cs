@@ -57,13 +57,13 @@ namespace CoachSeek.Application.UseCases
 
         private IBookingAddUseCase CreateBookingAddUseCase(BookingAddCommand command)
         {
-            BookingAddUseCaseFactory.Initialise(BusinessRepository, BusinessId);
+            BookingAddUseCaseFactory.Initialise(Context);
             return BookingAddUseCaseFactory.CreateBookingUseCase(command);
         }
 
         private IBookingAddUseCase CreateOnlineBookingAddUseCase(BookingAddCommand command)
         {
-            BookingAddUseCaseFactory.Initialise(BusinessRepository, BusinessId);
+            BookingAddUseCaseFactory.Initialise(Context);
             return BookingAddUseCaseFactory.CreateOnlineBookingUseCase(command);
         }
 

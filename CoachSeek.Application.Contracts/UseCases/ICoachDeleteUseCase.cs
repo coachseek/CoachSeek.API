@@ -3,7 +3,7 @@ using CoachSeek.Application.Contracts.Models;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICoachDeleteUseCase : IBusinessRepositorySetter
+    public interface ICoachDeleteUseCase : IApplicationContextSetter
     {
         Response DeleteCoach(Guid id);
     }

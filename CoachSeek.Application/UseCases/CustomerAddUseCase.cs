@@ -51,7 +51,7 @@ namespace CoachSeek.Application.UseCases
 
         private Customer LookupCustomer(Customer newCustomer)
         {
-            CustomerResolver.Initialise(BusinessRepository, BusinessId);
+            CustomerResolver.Initialise(Context);
             return CustomerResolver.Resolve(newCustomer);
         }
     }

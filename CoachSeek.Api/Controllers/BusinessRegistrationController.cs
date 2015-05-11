@@ -4,8 +4,8 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Services.Emailing;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Controllers
@@ -15,7 +15,6 @@ namespace CoachSeek.Api.Controllers
         public IUserAddUseCase UserAddUseCase { get; set; }
         public IBusinessAddUseCase BusinessAddUseCase { get; set; }
         public IUserAssociateWithBusinessUseCase UserAssociateWithBusinessUseCase { get; set; }
-        public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
 
         public BusinessRegistrationController()
@@ -23,13 +22,11 @@ namespace CoachSeek.Api.Controllers
 
         public BusinessRegistrationController(IUserAddUseCase userAddUseCase,
                                               IBusinessAddUseCase businessAddUseCase,
-                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase,
-                                              IBusinessRegistrationEmailer businessRegistrationEmailer)
+                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase)
         {
             UserAddUseCase = userAddUseCase;
             BusinessAddUseCase = businessAddUseCase;
             UserAssociateWithBusinessUseCase = userAssociateWithBusinessUseCase;
-            BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
 
@@ -47,6 +44,7 @@ namespace CoachSeek.Api.Controllers
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
 
+            BusinessId = ((BusinessData) businessAddResponse.Data).Id;
             var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (BusinessData)businessAddResponse.Data);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);
@@ -68,7 +66,7 @@ namespace CoachSeek.Api.Controllers
         private Response AddBusiness(ApiBusinessCommand command)
         {
             var businessAddCommand = BusinessAddCommandConverter.Convert(command);
-            BusinessAddUseCase.Initialise(BusinessRepository);
+            BusinessAddUseCase.Initialise(Context);
             return BusinessAddUseCase.AddBusiness(businessAddCommand);
         }
 
@@ -81,11 +79,9 @@ namespace CoachSeek.Api.Controllers
 
         private void SendRegistrationEmail(RegistrationData registration)
         {
-            BusinessRegistrationEmailer.IsTesting = IsTesting;
-            BusinessRegistrationEmailer.ForceEmail = ForceEmail;
-            BusinessRegistrationEmailer.Sender = EmailSender;
-
-            BusinessRegistrationEmailer.SendEmail(registration);
+            var emailer = new BusinessRegistrationEmailer();
+            emailer.Initialise(Context);
+            emailer.SendEmail(registration);
         }
     }
 }

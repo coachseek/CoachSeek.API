@@ -33,10 +33,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private UserData UserData { get; set; }
         private BusinessData BusinessData { get; set; }
 
-        private StubBusinessRegistrationEmailer Emailer
-        {
-            get { return ((StubBusinessRegistrationEmailer)Controller.BusinessRegistrationEmailer); }
-        }
+        //private StubBusinessRegistrationEmailer Emailer
+        //{
+        //    get { return ((StubBusinessRegistrationEmailer)Controller.BusinessRegistrationEmailer); }
+        //}
 
         [TestFixtureSetUp]
         public void SetupAllTests()
@@ -202,9 +202,8 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var userAddUseCase = new UserAddUseCase();
             var businessAddUseCase = new BusinessAddUseCase(null);
             var associateUseCase = new UserAssociateWithBusinessUseCase();
-            var emailer = new StubBusinessRegistrationEmailer();
 
-            return new BusinessRegistrationController(userAddUseCase, businessAddUseCase, associateUseCase, emailer);
+            return new BusinessRegistrationController(userAddUseCase, businessAddUseCase, associateUseCase);
         }
 
         private HttpResponseMessage WhenPost()
@@ -212,7 +211,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Controller.UserAddUseCase = UserAddUseCase;
             Controller.BusinessAddUseCase = BusinessAddUseCase;
             Controller.UserAssociateWithBusinessUseCase = AssociateUseCase;
-            Controller.BusinessRegistrationEmailer = new StubBusinessRegistrationEmailer();
 
             return Controller.Post(Command);
         }
@@ -223,7 +221,6 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(controller.UserAddUseCase, Is.Not.Null);
             Assert.That(controller.BusinessAddUseCase, Is.Not.Null);
             Assert.That(controller.UserAssociateWithBusinessUseCase, Is.Not.Null);
-            Assert.That(controller.BusinessRegistrationEmailer, Is.Not.Null);
         }
 
         private void ThenReturnUserAddErrorResponse(HttpResponseMessage response, string errorMessage)
@@ -233,7 +230,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
 
             AssertWasAddBusinessCalled(false);
             AssertWasAssociateUserWithBusinessCalled(false);
-            AssertWasSendEmailCalled(false);
+            //AssertWasSendEmailCalled(false);
 
             AssertErrorResponse(response, errorMessage);
         }
@@ -247,7 +244,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             AssertPassRelevantInfoIntoAddBusiness();
 
             AssertWasAssociateUserWithBusinessCalled(false);
-            AssertWasSendEmailCalled(false);
+            //AssertWasSendEmailCalled(false);
 
             AssertErrorResponse(response, errorMessage);
         }
@@ -263,7 +260,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             AssertWasAssociateUserWithBusinessCalled(true);
             AssertPassRelevantInfoIntoAssociateUserWithBusiness();
 
-            AssertWasSendEmailCalled(false);
+            //AssertWasSendEmailCalled(false);
 
             AssertErrorResponse(response, errorMessage);
         }
@@ -279,7 +276,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             AssertWasAssociateUserWithBusinessCalled(true);
             AssertPassRelevantInfoIntoAssociateUserWithBusiness();
 
-            AssertWasSendEmailCalled(true);
+            //AssertWasSendEmailCalled(true);
 
             AssertSuccessResponse(response);
         }
@@ -300,10 +297,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(AssociateUseCase.WasAssociateUserWithBusinessCalled, Is.EqualTo(wasCalled));
         }
 
-        private void AssertWasSendEmailCalled(bool wasCalled)
-        {
-            Assert.That(Emailer.WasSendEmailCalled, Is.EqualTo(wasCalled));
-        }
+        //private void AssertWasSendEmailCalled(bool wasCalled)
+        //{
+        //    Assert.That(Emailer.WasSendEmailCalled, Is.EqualTo(wasCalled));
+        //}
 
         private void AssertPassRelevantInfoIntoAddUser()
         {

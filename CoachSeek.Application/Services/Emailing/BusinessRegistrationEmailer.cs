@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
 using CoachSeek.Data.Model;
@@ -9,19 +7,9 @@ using Coachseek.Integration.Contracts.Models;
 
 namespace CoachSeek.Application.Services.Emailing
 {
-    public class BusinessRegistrationEmailer : IBusinessRegistrationEmailer
+    public class BusinessRegistrationEmailer : BusinessEmailerBase
     {
         private const string TEMPLATE_RESOURCE = "CoachSeek.Application.Services.Emailing.Templates.BusinessRegistrationEmail.txt";
-
-        public bool IsTesting { get; set; }
-        public bool ForceEmail { get; set; }
-        public string Sender { get; set; }
-
-
-        private IEmailer Emailer
-        {
-            get { return EmailerFactory.CreateEmailer(IsTesting, ForceEmail); }
-        }
 
 
         public void SendEmail(RegistrationData registration)
@@ -52,13 +40,6 @@ namespace CoachSeek.Application.Services.Emailing
             values.Add("UserName", registration.Admin.Username);
 
             return values;
-        }
-
-        private string ReadEmbeddedTextResource(string resourceName)
-        {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                using (var reader = new StreamReader(stream))
-                    return reader.ReadToEnd();
         }
     }
 }

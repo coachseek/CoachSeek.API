@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Entities;
@@ -9,10 +10,8 @@ namespace CoachSeek.Application.Services
 {
     public class CustomerResolver : ICustomerResolver
     {
-        public Guid BusinessId { set; protected get; }
-
-        public IBusinessRepository BusinessRepository { set; protected get; }
-
+        private Guid BusinessId { set; get; }
+        private IBusinessRepository BusinessRepository { set; get; }
 
 
         public Customer Resolve(Customer searchCustomer)
@@ -29,10 +28,10 @@ namespace CoachSeek.Application.Services
             return new Customer(matchingCustomerData);
         }
 
-        public void Initialise(IBusinessRepository businessRepository, Guid? businessId = null)
+        public void Initialise(ApplicationContext context)
         {
-            BusinessId = businessId.HasValue ? businessId.Value : Guid.Empty;
-            BusinessRepository = businessRepository;
+            BusinessId = context.BusinessId.HasValue ? context.BusinessId.Value : Guid.Empty;
+            BusinessRepository = context.BusinessRepository;
         }
     }
 }

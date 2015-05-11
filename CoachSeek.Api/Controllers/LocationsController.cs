@@ -39,7 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            LocationsGetAllUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationsGetAllUseCase.Initialise(Context);
             var response = LocationsGetAllUseCase.GetLocations();
             return CreateGetWebResponse(response);
         }
@@ -60,7 +60,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            LocationGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationGetByIdUseCase.Initialise(Context);
             var response = LocationGetByIdUseCase.GetLocation(id);
             return CreateGetWebResponse(response);
         }
@@ -83,7 +83,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            LocationDeleteUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationDeleteUseCase.Initialise(Context);
             var response = LocationDeleteUseCase.DeleteLocation(id);
             return CreateDeleteWebResponse(response);
         }
@@ -92,7 +92,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
         {
             var command = LocationAddCommandConverter.Convert(location);
-            LocationAddUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationAddUseCase.Initialise(Context);
             var response = LocationAddUseCase.AddLocation(command);
             return CreatePostWebResponse(response);
         }
@@ -100,7 +100,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
         {
             var command = LocationUpdateCommandConverter.Convert(location);
-            LocationUpdateUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationUpdateUseCase.Initialise(Context);
             var response = LocationUpdateUseCase.UpdateLocation(command);
             return CreatePostWebResponse(response);
         }

@@ -16,7 +16,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         public IBusinessRepository BusinessRepository { get; set; }
 
 
-        public void Initialise(IBusinessRepository businessRepository, Guid? businessId = null)
+        public void Initialise(ApplicationContext context)
         {
         }
 

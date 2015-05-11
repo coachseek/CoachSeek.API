@@ -39,7 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            ServicesGetAllUseCase.Initialise(BusinessRepository, BusinessId);
+            ServicesGetAllUseCase.Initialise(Context);
             var response = ServicesGetAllUseCase.GetServices();
             return CreateGetWebResponse(response);
         }
@@ -49,7 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            ServiceGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            ServiceGetByIdUseCase.Initialise(Context);
             var response = ServiceGetByIdUseCase.GetService(id);
             return CreateGetWebResponse(response);
         }
@@ -72,7 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            ServiceDeleteUseCase.Initialise(BusinessRepository, BusinessId);
+            ServiceDeleteUseCase.Initialise(Context);
             var response = ServiceDeleteUseCase.DeleteService(id);
             return CreateDeleteWebResponse(response);
         }
@@ -81,7 +81,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddService(ApiServiceSaveCommand service)
         {
             var command = ServiceAddCommandConverter.Convert(service);
-            ServiceAddUseCase.Initialise(BusinessRepository, BusinessId);
+            ServiceAddUseCase.Initialise(Context);
             var response = ServiceAddUseCase.AddService(command);
             return CreatePostWebResponse(response);
         }
@@ -89,7 +89,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateService(ApiServiceSaveCommand service)
         {
             var command = ServiceUpdateCommandConverter.Convert(service);
-            ServiceUpdateUseCase.Initialise(BusinessRepository, BusinessId);
+            ServiceUpdateUseCase.Initialise(Context);
             var response = ServiceUpdateUseCase.UpdateService(command);
             return CreatePostWebResponse(response);
         }

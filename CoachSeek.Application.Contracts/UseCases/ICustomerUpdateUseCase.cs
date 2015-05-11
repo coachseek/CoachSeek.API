@@ -3,7 +3,7 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICustomerUpdateUseCase : IBusinessRepositorySetter
+    public interface ICustomerUpdateUseCase : IApplicationContextSetter
     {
         Response UpdateCustomer(CustomerUpdateCommand command);
     }

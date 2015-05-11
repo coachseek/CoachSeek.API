@@ -31,7 +31,7 @@ namespace CoachSeek.Application.UseCases
                 var matchingCustomer = LookupCustomer(onlineCustomer);
                 if (matchingCustomer.IsFound())
                     return new Response(matchingCustomer);
-                CustomerAddUseCase.Initialise(BusinessRepository, BusinessId);
+                CustomerAddUseCase.Initialise(Context);
                 return CustomerAddUseCase.AddCustomer(command);
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace CoachSeek.Application.UseCases
 
         private Customer LookupCustomer(Customer onlineCustomer)
         {
-            CustomerResolver.Initialise(BusinessRepository, BusinessId);
+            CustomerResolver.Initialise(Context);
             return CustomerResolver.Resolve(onlineCustomer);
         }
     }

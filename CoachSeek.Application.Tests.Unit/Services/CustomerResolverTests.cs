@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Services;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
@@ -10,6 +11,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
     [TestFixture]
     public class CustomerResolverTests
     {
+        private ApplicationContext Context { get; set; }
         private Guid BusinessId { get; set; }
         private InMemoryBusinessRepository BusinessRepository { get; set; }
 
@@ -23,7 +25,18 @@ namespace CoachSeek.Application.Tests.Unit.Services
         [SetUp]
         public void Setup()
         {
+            SetupApplicationContext();
+        }
+
+        private void SetupApplicationContext()
+        {
             SetupBusinessRepository();
+
+            Context = new ApplicationContext
+            {
+                BusinessId = BusinessId,
+                BusinessRepository = BusinessRepository
+            };
         }
 
 
@@ -62,7 +75,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
         private void AssertCustomerMatched(string firstName, string lastName, string email, string phone)
         {
             var resolver = new CustomerResolver();
-            resolver.Initialise(BusinessRepository, BusinessId);
+            resolver.Initialise(Context);
             var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
             var customer = resolver.Resolve(searchCustomer);
             Assert.That(customer, Is.Not.Null);
@@ -71,7 +84,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
         private void AssertCustomerNotMatched(string firstName, string lastName, string email, string phone)
         {
             var resolver = new CustomerResolver();
-            resolver.Initialise(BusinessRepository, BusinessId);
+            resolver.Initialise(Context);
             var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
             var customer = resolver.Resolve(searchCustomer);
             Assert.That(customer, Is.Null);

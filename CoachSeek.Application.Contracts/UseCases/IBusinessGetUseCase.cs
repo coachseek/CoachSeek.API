@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface IBusinessGetUseCase : IBusinessRepositorySetter
+    public interface IBusinessGetUseCase : IApplicationContextSetter
     {
         BusinessData GetBusiness();
     }

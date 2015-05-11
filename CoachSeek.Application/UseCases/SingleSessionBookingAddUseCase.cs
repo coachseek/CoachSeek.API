@@ -28,6 +28,7 @@ namespace CoachSeek.Application.UseCases
                 var newBooking = new SingleSessionBooking(command);
                 ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddSessionBooking(BusinessId, newBooking);
+                PostProcessing(newBooking);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -91,6 +92,10 @@ namespace CoachSeek.Application.UseCases
         protected virtual void ValidateAddBookingAdditional(SingleSessionBooking newBooking)
         {
             // When overrides error they must throw a ValidationException.
+        }
+
+        protected virtual void PostProcessing(SingleSessionBooking newBooking)
+        {
         }
     }
 }

@@ -3,7 +3,7 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface IBookingAddUseCase : IBusinessRepositorySetter
+    public interface IBookingAddUseCase : IApplicationContextSetter
     {
         Response AddBooking(BookingAddCommand command);
     }

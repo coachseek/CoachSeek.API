@@ -17,7 +17,7 @@ namespace CoachSeek.Application.UseCases
 
         public Response DeleteBooking(Guid id)
         {
-            BookingGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            BookingGetByIdUseCase.Initialise(Context);
             var booking = BookingGetByIdUseCase.GetBooking(id);
             if (booking == null)
                 return new NotFoundResponse();

@@ -39,7 +39,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            CoachesGetAllUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachesGetAllUseCase.Initialise(Context);
             var response = CoachesGetAllUseCase.GetCoaches();
             return CreateGetWebResponse(response);
         }
@@ -49,7 +49,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            CoachGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachGetByIdUseCase.Initialise(Context);
             var response = CoachGetByIdUseCase.GetCoach(id);
             return CreateGetWebResponse(response);
         }
@@ -72,7 +72,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Delete(Guid id)
         {
-            CoachDeleteUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachDeleteUseCase.Initialise(Context);
             var response = CoachDeleteUseCase.DeleteCoach(id);
             return CreateDeleteWebResponse(response);
         }
@@ -81,7 +81,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddCoach(ApiCoachSaveCommand coach)
         {
             var command = CoachAddCommandConverter.Convert(coach);
-            CoachAddUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachAddUseCase.Initialise(Context);
             var response = CoachAddUseCase.AddCoach(command);
             return CreatePostWebResponse(response);
         }
@@ -89,7 +89,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateCoach(ApiCoachSaveCommand coach)
         {
             var command = CoachUpdateCommandConverter.Convert(coach);
-            CoachUpdateUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachUpdateUseCase.Initialise(Context);
             var response = CoachUpdateUseCase.UpdateCoach(command);
             return CreatePostWebResponse(response);
         }

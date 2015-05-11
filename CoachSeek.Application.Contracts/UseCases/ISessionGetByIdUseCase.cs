@@ -3,7 +3,7 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ISessionGetByIdUseCase : IBusinessRepositorySetter
+    public interface ISessionGetByIdUseCase : IApplicationContextSetter
     {
         SessionData GetSession(Guid id);
     }

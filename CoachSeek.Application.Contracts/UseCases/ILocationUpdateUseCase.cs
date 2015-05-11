@@ -3,7 +3,7 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ILocationUpdateUseCase : IBusinessRepositorySetter
+    public interface ILocationUpdateUseCase : IApplicationContextSetter
     {
         Response UpdateLocation(LocationUpdateCommand command);
     }

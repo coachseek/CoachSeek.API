@@ -20,7 +20,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            BusinessGetUseCase.Initialise(BusinessRepository, BusinessId);
+            BusinessGetUseCase.Initialise(Context);
             var response = BusinessGetUseCase.GetBusiness();
             return CreateGetWebResponse(response);
         }

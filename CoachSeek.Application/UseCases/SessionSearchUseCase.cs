@@ -199,7 +199,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (!coachId.HasValue)
                 return;
-            CoachGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            CoachGetByIdUseCase.Initialise(Context);
             var coach = CoachGetByIdUseCase.GetCoach(coachId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid coachId.", "coachId");
@@ -209,7 +209,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (!locationId.HasValue)
                 return;
-            LocationGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            LocationGetByIdUseCase.Initialise(Context);
             var coach = LocationGetByIdUseCase.GetLocation(locationId.Value);
             if (coach == null)
                 throw new ValidationException("Not a valid locationId.", "locationId");
@@ -219,7 +219,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (!serviceId.HasValue)
                 return;
-            ServiceGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            ServiceGetByIdUseCase.Initialise(Context);
             var service = ServiceGetByIdUseCase.GetService(serviceId.Value);
             if (service == null)
                 throw new ValidationException("Not a valid serviceId.", "serviceId");

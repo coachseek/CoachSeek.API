@@ -1,20 +1,24 @@
 ﻿using System;
+using CoachSeek.Application.Contracts;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
-    public abstract class BaseUseCase : IBusinessRepositorySetter
+    public abstract class BaseUseCase : IApplicationContextSetter
     {
-        public Guid BusinessId { set; protected get; }
+        protected ApplicationContext Context { set; get; }
+        protected Guid BusinessId { set; get; }
+        protected IBusinessRepository BusinessRepository { set; get; }
 
-        public IBusinessRepository BusinessRepository { set; protected get; }
 
-
-        public void Initialise(IBusinessRepository businessRepository, Guid? businessId = null)
+        public void Initialise(ApplicationContext context)
         {
-            BusinessId = businessId.HasValue ? businessId.Value : Guid.Empty;
-            BusinessRepository = businessRepository;
+            Context = context;
+
+            BusinessId = Context.BusinessId.HasValue ? Context.BusinessId.Value : Guid.Empty;
+            BusinessRepository = Context.BusinessRepository;
         }
     }
 }

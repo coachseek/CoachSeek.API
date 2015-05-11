@@ -85,8 +85,8 @@ namespace CoachSeek.Api.Controllers
             apiCommand.BookingId = id;
 
             ICommand command = DomainCommandConverter.Convert(apiCommand);
-            
-            var useCase = UseCaseExecutor.ExecuteFor(command, BusinessRepository, BusinessId);
+
+            var useCase = UseCaseExecutor.ExecuteFor(command, Context);
 
             return CreateGetWebResponse(useCase);
         }
@@ -125,25 +125,25 @@ namespace CoachSeek.Api.Controllers
 
         private BookingData GetBooking(Guid id)
         {
-            BookingGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            BookingGetByIdUseCase.Initialise(Context);
             return BookingGetByIdUseCase.GetBooking(id);
         }
 
         private Response AddBooking(BookingAddCommand command)
         {
-            BookingAddMasterUseCase.Initialise(BusinessRepository, BusinessId);
+            BookingAddMasterUseCase.Initialise(Context);
             return BookingAddMasterUseCase.AddBooking(command);
         }
 
         private Response AddOnlineBooking(BookingAddCommand command)
         {
-            BookingAddMasterUseCase.Initialise(BusinessRepository, BusinessId);
+            BookingAddMasterUseCase.Initialise(Context);
             return BookingAddMasterUseCase.AddOnlineBooking(command);
         }
 
         private Response DeleteBooking(Guid id)
         {
-            BookingDeleteUseCase.Initialise(BusinessRepository, BusinessId);
+            BookingDeleteUseCase.Initialise(Context);
             return BookingDeleteUseCase.DeleteBooking(id);
         }
     }

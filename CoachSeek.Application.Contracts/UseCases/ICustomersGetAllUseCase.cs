@@ -3,7 +3,7 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICustomersGetAllUseCase : IBusinessRepositorySetter
+    public interface ICustomersGetAllUseCase : IApplicationContextSetter
     {
         IList<CustomerData> GetCustomers();
     }

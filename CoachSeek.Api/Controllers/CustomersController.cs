@@ -40,7 +40,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get()
         {
-            CustomersGetAllUseCase.Initialise(BusinessRepository, BusinessId);
+            CustomersGetAllUseCase.Initialise(Context);
             var response = CustomersGetAllUseCase.GetCustomers();
             return CreateGetWebResponse(response);
         }
@@ -50,7 +50,7 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            CustomerGetByIdUseCase.Initialise(BusinessRepository, BusinessId);
+            CustomerGetByIdUseCase.Initialise(Context);
             var response = CustomerGetByIdUseCase.GetCustomer(id);
             return CreateGetWebResponse(response);
         }
@@ -85,7 +85,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)
         {
             var command = CustomerAddCommandConverter.Convert(customer);
-            CustomerAddUseCase.Initialise(BusinessRepository, BusinessId);
+            CustomerAddUseCase.Initialise(Context);
             var response = CustomerAddUseCase.AddCustomer(command);
             return CreatePostWebResponse(response);
         }
@@ -93,7 +93,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage UpdateCustomer(ApiCustomerSaveCommand customer)
         {
             var command = CustomerUpdateCommandConverter.Convert(customer);
-            CustomerUpdateUseCase.Initialise(BusinessRepository, BusinessId);
+            CustomerUpdateUseCase.Initialise(Context);
             var response = CustomerUpdateUseCase.UpdateCustomer(command);
             return CreatePostWebResponse(response);
         }
@@ -101,7 +101,7 @@ namespace CoachSeek.Api.Controllers
         private HttpResponseMessage AddOnlineBookingCustomer(ApiCustomerSaveCommand customer)
         {
             var command = CustomerAddCommandConverter.Convert(customer);
-            CustomerOnlineBookingAddUseCase.Initialise(BusinessRepository, BusinessId);
+            CustomerOnlineBookingAddUseCase.Initialise(Context);
             var response = CustomerOnlineBookingAddUseCase.AddCustomer(command);
             return CreatePostWebResponse(response);
         }

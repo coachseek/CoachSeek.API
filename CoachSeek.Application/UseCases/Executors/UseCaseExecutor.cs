@@ -9,19 +9,19 @@ namespace CoachSeek.Application.UseCases.Executors
 {
     public class UseCaseExecutor : IUseCaseExecutor
     {
-        public Response ExecuteFor<T>(T command, IBusinessRepository businessRepository, Guid? businessId) where T : ICommand
+        public Response ExecuteFor<T>(T command, ApplicationContext context) where T : ICommand
         {
             if (command.GetType() == typeof(BookingSetAttendanceCommand))
             {
                 var useCase = new BookingSetAttendanceUseCase();
-                useCase.Initialise(businessRepository, businessId);
+                useCase.Initialise(context);
                 return useCase.SetAttendance(command as BookingSetAttendanceCommand);
             }
 
             if (command.GetType() == typeof(BookingSetPaymentStatusCommand))
             {
                 var useCase = new BookingSetPaymentStatusUseCase();
-                useCase.Initialise(businessRepository, businessId);
+                useCase.Initialise(context);
                 return useCase.SetPaymentStatus(command as BookingSetPaymentStatusCommand);
             }
 

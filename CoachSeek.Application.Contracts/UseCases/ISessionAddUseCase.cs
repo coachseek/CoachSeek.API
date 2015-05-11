@@ -3,7 +3,7 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ISessionAddUseCase : IBusinessRepositorySetter
+    public interface ISessionAddUseCase : IApplicationContextSetter
     {
         Response AddSession(SessionAddCommand command);
     }

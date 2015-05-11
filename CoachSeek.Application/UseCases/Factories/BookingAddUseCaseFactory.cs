@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Factories;
 using CoachSeek.Common.Extensions;
@@ -12,15 +13,17 @@ namespace CoachSeek.Application.UseCases.Factories
 {
     public class BookingAddUseCaseFactory : IBookingAddUseCaseFactory
     {
-        public Guid BusinessId { set; protected get; }
+        private ApplicationContext Context { set; get; }
+        private Guid BusinessId { set; get; }
+        private IBusinessRepository BusinessRepository { set; get; }
 
-        public IBusinessRepository BusinessRepository { set; protected get; }
 
-
-        public void Initialise(IBusinessRepository businessRepository, Guid? businessId = null)
+        public void Initialise(ApplicationContext context)
         {
-            BusinessId = businessId.HasValue ? businessId.Value : Guid.Empty;
-            BusinessRepository = businessRepository;
+            Context = context;
+
+            BusinessId = Context.BusinessId.HasValue ? Context.BusinessId.Value : Guid.Empty;
+            BusinessRepository = Context.BusinessRepository;
         }
         
 
@@ -100,7 +103,7 @@ namespace CoachSeek.Application.UseCases.Factories
 
         private void InitialiseSpecificUseCase(IBookingAddUseCase useCase)
         {
-            useCase.Initialise(BusinessRepository, BusinessId);
+            useCase.Initialise(Context);
         }
     }
 }
