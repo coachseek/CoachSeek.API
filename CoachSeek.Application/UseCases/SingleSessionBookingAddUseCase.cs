@@ -96,6 +96,7 @@ namespace CoachSeek.Application.UseCases
 
         protected virtual void PostProcessing(SingleSessionBooking newBooking)
         {
+            // Nothing to do for a coach-initiated booking.
         }
     }
 }

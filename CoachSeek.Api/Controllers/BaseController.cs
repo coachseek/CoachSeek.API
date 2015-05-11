@@ -12,6 +12,7 @@ namespace CoachSeek.Api.Controllers
     public abstract class BaseController : ApiController
     {
         private Guid? _businessId;
+        private string _businessName;
 
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
@@ -26,6 +27,19 @@ namespace CoachSeek.Api.Controllers
                     return _businessId;
                 if (RequestContext.Principal.Identity is CoachseekIdentity)
                     return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessId;
+                return null;
+            }
+        }
+
+        public string BusinessName
+        {
+            set { _businessName = value; }
+            get
+            {
+                if (_businessName != null)
+                    return _businessName;
+                if (RequestContext.Principal.Identity is CoachseekIdentity)
+                    return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessName;
                 return null;
             }
         }
@@ -52,6 +66,7 @@ namespace CoachSeek.Api.Controllers
                 return new ApplicationContext
                 {
                     BusinessId = BusinessId,
+                    BusinessName = BusinessName,
                     IsTesting = IsTesting,
                     ForceEmail = ForceEmail,
                     EmailSender = EmailSender,

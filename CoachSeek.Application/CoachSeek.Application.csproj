@@ -138,10 +138,16 @@
     <EmbeddedResource Include="Services\Emailing\Templates\BusinessRegistrationEmail.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingCoachEmail.txt" />
+    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingCourseCoachEmail.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingCustomerEmail.txt" />
+    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingCourseCustomerEmail.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingSessionCoachEmail.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Services\Emailing\Templates\OnlineBookingSessionCustomerEmail.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

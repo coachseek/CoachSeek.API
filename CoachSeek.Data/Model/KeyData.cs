@@ -6,6 +6,6 @@ namespace CoachSeek.Data.Model
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; } // For debug, human readability.
+        public string Name { get; set; } // Mostly for debugging, human readability.
     }
 }

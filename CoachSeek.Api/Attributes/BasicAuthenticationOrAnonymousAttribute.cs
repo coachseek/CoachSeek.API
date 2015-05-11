@@ -55,7 +55,7 @@ namespace CoachSeek.Api.Attributes
 
         private GenericPrincipal CreateAnonymousPrincipal(BusinessData business)
         {
-            var identity = new CoachseekAnonymousIdentity(business.Id);
+            var identity = new CoachseekAnonymousIdentity(business.Id, business.Name);
             return new GenericPrincipal(identity, new[] { "Anonymous" });
         }
 

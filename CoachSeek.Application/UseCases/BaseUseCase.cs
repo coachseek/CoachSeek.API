@@ -1,7 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases

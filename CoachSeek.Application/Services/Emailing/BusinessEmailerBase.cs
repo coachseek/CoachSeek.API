@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Domain.Repositories;
 using Coachseek.Integration.Contracts.Interfaces;
 
 namespace CoachSeek.Application.Services.Emailing
@@ -9,10 +11,12 @@ namespace CoachSeek.Application.Services.Emailing
     public abstract class BusinessEmailerBase : IApplicationContextSetter
     {
         protected ApplicationContext Context { get; set; }
-
+        protected Guid BusinessId { get { return Context.BusinessId.Value; } }
+        protected string BusinessName { get { return Context.BusinessName; } }
         protected bool IsTesting { get { return Context.IsTesting; } }
         protected bool ForceEmail { get { return Context.ForceEmail; } }
         protected string Sender { get { return Context.EmailSender; } }
+        protected IBusinessRepository BusinessRepository { get { return Context.BusinessRepository; } }
 
 
         protected IEmailer Emailer

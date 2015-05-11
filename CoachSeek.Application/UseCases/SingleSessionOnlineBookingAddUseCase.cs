@@ -26,14 +26,11 @@ namespace CoachSeek.Application.UseCases
 
         protected override void PostProcessing(SingleSessionBooking newBooking)
         {
-            //var emailer = new OnlineBookingEmailer
-            //{
-            //    IsTesting = IsTesting,
-            //    ForceEmail = ForceEmail,
-            //    Sender = EmailSender
-            //};
+            var emailer = new OnlineBookingEmailer();
+            emailer.Initialise(Context);
 
-            //emailer.SendEmail(registration);
+            emailer.SendSessionEmailToCustomer(newBooking);
+            //emailer.SendSessionEmailToCoach(newBooking);
         }
     }
 }

@@ -44,7 +44,9 @@ namespace CoachSeek.Api.Controllers
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
 
-            BusinessId = ((BusinessData) businessAddResponse.Data).Id;
+            var business = (BusinessData) businessAddResponse.Data;
+            BusinessId = business.Id;
+            BusinessName = business.Name;
             var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (BusinessData)businessAddResponse.Data);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);

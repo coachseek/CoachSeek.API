@@ -1,12 +1,34 @@
-﻿Hi <<FirstName>>! 
+﻿Hi <<FirstName>>,
 
-Busines: <<BusinessName>>
+
+Welcome to Coachseek, it’s great to have you on board!
+
+We’re a team of passionate coaches, players and sports mad parents who love to help coaches like you. Every single one of us lives and breathes sport, so you’ll be working with guys and girls who understand the daily ins and outs of a coaching business.
+
+Our aim is that Coachseek should be super simple to understand and fun to use in your business! So if we're not delivering on this as you start exploring, be sure to give us a shout.
+
+
+Your Key Details to Hold Onto - Keep Them Safe!
+
+Business: <<BusinessName>>
 Domain: <<BusinessDomain>>
 Admin First Name: <<FirstName>>
 Admin Last Name: <<LastName>>
 Admin User Name: <<UserName>>
 
-Welcome to Coachseek!
 
-Cheers,
-The Coachseek Team
+Let’s Start Saving Time - Getting Set Up.
+
+During your trial, the move to Coachseek should be painless and seamless. This even includes sending us your spreadsheets so they can appear on Coachseek the next time you login – magic!
+
+If you've got any questions or would like to talk to me or one of our customer support team about your business, then please get in contact with us by contacting me directly or using our helpdesk - we'd love to talk.
+
+
+Dedicated to your coaching business success,
+
+
+Ian Bishop
+Coachseek Co-founder & CEO
+@ianbish1 | LinkedIn
+
+PS – want to extend your free trial? Just recommend 3 coaches in your network you think could save huge amounts of time with Coachseek and we’ll double your free trial time! Too easy!

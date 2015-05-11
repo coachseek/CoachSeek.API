@@ -1,0 +1,16 @@
+﻿Hi <<CustomerFirstName>>! 
+
+Thank you for booking with <<BusinessName>>!
+
+You've created a booking for a single session with the following details:
+Location: <<LocationName>>
+Coach: <<CoachFirstName>> <<CoachLastName>>
+Service: <<ServiceName>>
+Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
+Cost: $<<SessionPrice>>
+
+Thank you for your business! We're looking forward to seeing you there!
+If you haven't paid yet please bring along payment to this session.
+
+Cheers,
+<<AdminFirstName>>
