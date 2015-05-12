@@ -108,7 +108,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"Date", session.Timing.StartDate},
                 {"StartTime", session.Timing.StartTime},
                 {"Duration", session.Timing.Duration.ToString()},
-                {"SessionPrice", session.Pricing.SessionPrice.ToString()}
+                {"SessionPrice", session.Pricing.SessionPrice.Value.ToString("C")}
             };
 
             return values;

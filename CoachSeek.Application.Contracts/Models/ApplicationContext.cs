@@ -10,6 +10,7 @@ namespace CoachSeek.Application.Contracts.Models
         public bool IsTesting { get; set; }
         public bool ForceEmail { get; set; }
         public string EmailSender { get; set; }
+        public bool IsEmailingEnabled { get; set; }
 
         public IBusinessRepository BusinessRepository { get; set; }
     }

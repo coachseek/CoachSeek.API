@@ -16,12 +16,13 @@ namespace CoachSeek.Application.Services.Emailing
         protected bool IsTesting { get { return Context.IsTesting; } }
         protected bool ForceEmail { get { return Context.ForceEmail; } }
         protected string Sender { get { return Context.EmailSender; } }
+        protected bool IsEmailingEnabled { get { return Context.IsEmailingEnabled; } }
         protected IBusinessRepository BusinessRepository { get { return Context.BusinessRepository; } }
 
 
         protected IEmailer Emailer
         {
-            get { return EmailerFactory.CreateEmailer(IsTesting, ForceEmail); }
+            get { return EmailerFactory.CreateEmailer(IsEmailingEnabled, IsTesting, ForceEmail); }
         }
 
         protected string ReadEmbeddedTextResource(string resourceName)

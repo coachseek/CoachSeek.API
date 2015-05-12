@@ -9,6 +9,11 @@ Service: <<ServiceName>>
 Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
 Cost: $<<SessionPrice>>
 
+Your details:
+Name: <<CustomerFirstName>> <<CustomerLastName>>
+Email: <<CustomerEmail>>
+Phone: <<CustomerPhone>>
+
 Thank you for your business! We're looking forward to seeing you there!
 If you haven't paid yet please bring along payment to this session.
 

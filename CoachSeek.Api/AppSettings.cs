@@ -12,9 +12,11 @@ namespace CoachSeek.Api
         public static string webpages_Enabled { get { return GetConfigSettingItem("webpages:Enabled"); } }
         public static string ClientValidationEnabled { get { return GetConfigSettingItem("ClientValidationEnabled"); } }
         public static string UnobtrusiveJavaScriptEnabled { get { return GetConfigSettingItem("UnobtrusiveJavaScriptEnabled"); } }
-        public static string AWSProfileName { get { return GetConfigSettingItem("AWSProfileName"); } }
+        public static string AWSAccessKey { get { return GetConfigSettingItem("AWSAccessKey"); } }
+        public static string AWSSecretKey { get { return GetConfigSettingItem("AWSSecretKey"); } }
         public static string AWSRegion { get { return GetConfigSettingItem("AWSRegion"); } }
         public static string EmailSender { get { return GetConfigSettingItem("EmailSender"); } }
+        public static string IsEmailingEnabled { get { return GetConfigSettingItem("IsEmailingEnabled"); } }
     
         private const string MISSING_CONFIG = "Invalid configuration. Required AppSettings section is missing";
         private const string INVALID_CONFIG_SETTING = "Invalid configuration setting name: {0}";

@@ -5,14 +5,22 @@ namespace CoachSeek.Application.Services.Emailing
 {
     public static class EmailerFactory
     {
-        public static IEmailer CreateEmailer(bool isTesting, bool forceEmail)
+        public static IEmailer CreateEmailer(bool isEmailingEnabled, bool isTesting, bool forceEmail)
         {
+            if (!isEmailingEnabled)
+                return CreateNullEmailer();
+
             if (isTesting && !forceEmail)
                 return CreateTestingEmailer(); 
 
             return CreateProductionEmailer();
         }
 
+
+        private static IEmailer CreateNullEmailer()
+        {
+            return new NullEmailer();
+        }
 
         private static IEmailer CreateTestingEmailer()
         {

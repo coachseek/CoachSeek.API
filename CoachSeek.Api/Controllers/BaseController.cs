@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
@@ -59,6 +60,11 @@ namespace CoachSeek.Api.Controllers
             get { return AppSettings.EmailSender; }
         }
 
+        protected bool IsEmailingEnabled
+        {
+            get { return AppSettings.IsEmailingEnabled.Parse(true); }
+        }
+
         protected ApplicationContext Context
         {
             get
@@ -70,23 +76,12 @@ namespace CoachSeek.Api.Controllers
                     IsTesting = IsTesting,
                     ForceEmail = ForceEmail,
                     EmailSender = EmailSender,
+                    IsEmailingEnabled = IsEmailingEnabled,
                     BusinessRepository = BusinessRepository
                 };
             }            
         }
 
-
-        //protected ApplicationContext CreateContext()
-        //{
-        //    return new ApplicationContext
-        //    {
-        //        BusinessId = BusinessId,
-        //        IsTesting = IsTesting,
-        //        ForceEmail = ForceEmail,
-        //        EmailSender = EmailSender,
-        //        BusinessRepository = BusinessRepository
-        //    };
-        //}
 
         protected HttpResponseMessage CreateNotFoundWebResponse()
         {

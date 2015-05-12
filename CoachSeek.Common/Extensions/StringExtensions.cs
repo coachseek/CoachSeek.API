@@ -27,6 +27,20 @@ namespace CoachSeek.Common.Extensions
             }
         }
 
+        public static T Parse<T>(this string input, T defaultValue)
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+
+            try
+            {
+                return (T)converter.ConvertFromString(input);
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
         public static T ParseOrThrow<T>(this string input)
         {
             var converter = TypeDescriptor.GetConverter(typeof(T));
