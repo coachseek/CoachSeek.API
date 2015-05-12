@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Factories;
@@ -54,10 +56,14 @@ namespace CoachSeek.Application.UseCases.Factories
 
         protected Session GetExistingSessionOrCourse(Guid sessionId)
         {
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+
             // Is it a Session or a Course?
             var session = BusinessRepository.GetSession(BusinessId, sessionId);
             if (session.IsExisting())
             {
+                AddBookingsToSession(session, bookings);
+
                 if (session.ParentId == null)
                     return new StandaloneSession(session, LookupCoreData(session));
 
@@ -71,6 +77,12 @@ namespace CoachSeek.Application.UseCases.Factories
             return null;
         }
 
+
+        private void AddBookingsToSession(SingleSessionData session, IList<CustomerBookingData> bookings)
+        {
+            session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+            session.Booking.BookingCount = session.Booking.Bookings.Count;
+        }
 
         private CoreData LookupCoreData(SessionData data)
         {

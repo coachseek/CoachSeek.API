@@ -94,7 +94,6 @@ namespace CoachSeek.Application.UseCases
         private IList<SingleSessionData> FindMatchingStandaloneSessions(SearchParameters parameters)
         {
             var sessions = FindMatchingSessions(parameters);
-
             return sessions.Where(x => x.ParentId == null).ToList();
         }
 
@@ -107,17 +106,19 @@ namespace CoachSeek.Application.UseCases
         private IList<SingleSessionData> FindMatchingCourseSessions(SearchParameters parameters)
         {
             var sessions = FindMatchingSessions(parameters);
-
             return sessions.Where(x => x.ParentId != null).ToList();
         }
 
         private void AddBookingsToSessions(IList<SingleSessionData> sessions, IList<CustomerBookingData> bookings)
         {
             foreach (var session in sessions)
-            {
-                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
-                session.Booking.BookingCount = session.Booking.Bookings.Count;
-            }
+                AddBookingsToSession(session, bookings);
+        }
+
+        private void AddBookingsToSession(SingleSessionData session, IList<CustomerBookingData> bookings)
+        {
+            session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+            session.Booking.BookingCount = session.Booking.Bookings.Count;
         }
 
         private IList<SingleSessionData> FilterSessionsByDate(IList<SingleSessionData> sessions, string startDate, string endDate)
