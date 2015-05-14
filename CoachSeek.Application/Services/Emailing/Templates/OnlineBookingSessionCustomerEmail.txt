@@ -7,7 +7,7 @@ Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
 Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
-Cost: $<<SessionPrice>>
+Price: <<SessionPrice>>
 
 Your details:
 Name: <<CustomerFirstName>> <<CustomerLastName>>

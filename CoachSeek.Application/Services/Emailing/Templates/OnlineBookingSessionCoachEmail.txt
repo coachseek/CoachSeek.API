@@ -1,12 +1,16 @@
-﻿Hi <<FirstName>>! 
+﻿The following online booking has occurred for a session that you are taking:
 
-Busines: <<BusinessName>>
-Domain: <<BusinessDomain>>
-Admin First Name: <<FirstName>>
-Admin Last Name: <<LastName>>
-Admin User Name: <<UserName>>
+Customer:
+Name: <<CustomerFirstName>> <<CustomerLastName>>
+Email: <<CustomerEmail>>
+Phone: <<CustomerPhone>>
 
-Welcome to Coachseek!
+Session:
+Coach: <<CoachFirstName>> <<CoachLastName>>
+Location: <<LocationName>>
+Service: <<ServiceName>>
+Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
+Price: <<SessionPrice>>
 
 Cheers,
 The Coachseek Team

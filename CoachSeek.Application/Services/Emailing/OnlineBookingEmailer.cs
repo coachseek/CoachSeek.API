@@ -15,29 +15,28 @@ namespace CoachSeek.Application.Services.Emailing
         private const string TEMPLATE_RESOURCE_COURSE_COACH = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingCourseCoachEmail.txt";
 
 
-        public void SendSessionEmailToCustomer(SingleSessionBooking booking)
+        public void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
-            var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
-            var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
+            //var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
+            //var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
+            //var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
 
             const string subject = "Online Booking Email to Customer";
             var body = CreateSessionCustomerEmailBody(booking, session, coach, customer);
-
             var email = new Email(Sender, customer.Email, subject, body);
 
             Emailer.Send(email);
         }
 
-        public void SendSessionEmailToCoach(SingleSessionBooking booking)
+        public void SendSessionEmailToCoach(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
-            var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
+            //var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
+            //var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
+            //var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
 
             const string subject = "Online Booking Email to Coach";
-            var body = CreateSessionCoachEmailBody(booking, session, customer);
-
-            var email = new Email(Sender, "", subject, body);
+            var body = CreateSessionCoachEmailBody(booking, session, coach, customer);
+            var email = new Email(Sender, coach.Email, subject, body);
 
             Emailer.Send(email);
         }
@@ -70,12 +69,11 @@ namespace CoachSeek.Application.Services.Emailing
             return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
         }
 
-        private string CreateSessionCoachEmailBody(SingleSessionBooking booking, SingleSessionData session, CustomerData customer)
+        private string CreateSessionCoachEmailBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_SESSION_COACH);
-            var substitutes = CreateSessionCoachSubstitutes(booking, session, customer);
-            //return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
-            return "";
+            var substitutes = CreateSessionCoachSubstitutes(booking, session, coach, customer);
+            return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
         }
 
         private string CreateCourseCustomerEmailBody(CourseBooking booking)
@@ -94,13 +92,18 @@ namespace CoachSeek.Application.Services.Emailing
             return "";
         }
 
-        private Dictionary<string, string> CreateSessionCustomerSubstitutes(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
+        private Dictionary<string, string> CreateSessionCustomerSubstitutes(SingleSessionBooking booking, 
+                                                                            SingleSessionData session, 
+                                                                            CoachData coach, 
+                                                                            CustomerData customer)
         {
             var values = new Dictionary<string, string>
             {
                 {"BusinessName", BusinessName},
                 {"CustomerFirstName", customer.FirstName},
                 {"CustomerLastName", customer.LastName},
+                {"CustomerEmail", customer.Email},
+                {"CustomerPhone", customer.Phone},
                 {"LocationName", session.Location.Name},
                 {"CoachFirstName", coach.FirstName},
                 {"CoachLastName", coach.LastName},
@@ -114,21 +117,23 @@ namespace CoachSeek.Application.Services.Emailing
             return values;
         }
 
-        private Dictionary<string, string> CreateSessionCoachSubstitutes(SingleSessionBooking booking, SingleSessionData session, CustomerData customer)
+        private Dictionary<string, string> CreateSessionCoachSubstitutes(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
             var values = new Dictionary<string, string>
             {
                 {"BusinessName", BusinessName},
                 {"CustomerFirstName", customer.FirstName},
                 {"CustomerLastName", customer.LastName},
+                {"CustomerEmail", customer.Email},
+                {"CustomerPhone", customer.Phone},
                 {"LocationName", session.Location.Name},
-                {"CoachFirstName", session.Coach.Name},
-                {"CoachLastName", session.Coach.Name},
+                {"CoachFirstName", coach.FirstName},
+                {"CoachLastName", coach.LastName},
                 {"ServiceName", session.Service.Name},
                 {"Date", session.Timing.StartDate},
                 {"StartTime", session.Timing.StartTime},
                 {"Duration", session.Timing.Duration.ToString()},
-                {"SessionPrice", session.Pricing.SessionPrice.ToString()}
+                {"SessionPrice", session.Pricing.SessionPrice.Value.ToString("C")}
             };
 
             return values;

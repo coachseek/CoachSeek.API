@@ -29,8 +29,12 @@ namespace CoachSeek.Application.UseCases
             var emailer = new OnlineBookingEmailer();
             emailer.Initialise(Context);
 
-            emailer.SendSessionEmailToCustomer(newBooking);
-            //emailer.SendSessionEmailToCoach(newBooking);
+            var session = Context.BusinessRepository.GetSession(BusinessId, newBooking.Session.Id);
+            var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
+            var customer = Context.BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
+
+            emailer.SendSessionEmailToCustomer(newBooking, session, coach, customer);
+            emailer.SendSessionEmailToCoach(newBooking, session, coach, customer);
         }
     }
 }
