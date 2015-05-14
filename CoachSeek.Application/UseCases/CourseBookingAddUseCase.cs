@@ -77,8 +77,12 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateSpacesAvailable()
         {
-            if (Course.Booking.BookingCount == Course.Booking.StudentCapacity)
+            if (Course.Booking.BookingCount >= Course.Booking.StudentCapacity)
                 throw new ValidationException("This course is already fully booked.");
+
+            foreach(var session in Course.Sessions)
+                if (session.Booking.BookingCount >= session.Booking.StudentCapacity)
+                    throw new ValidationException("This course cannot be booked as it has sessions that are fully booked.");
         }
 
         protected virtual void ValidateAddBookingAdditional(CourseBooking newBooking)

@@ -72,7 +72,11 @@ namespace CoachSeek.Application.UseCases.Factories
 
             var course = BusinessRepository.GetCourse(BusinessId, sessionId);
             if (course.IsExisting())
+            {
+                AddBookingsToCourse(course, bookings);
+
                 return new RepeatedSession(course, LookupCoreData(course));
+            }
 
             return null;
         }
@@ -82,6 +86,18 @@ namespace CoachSeek.Application.UseCases.Factories
         {
             session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
             session.Booking.BookingCount = session.Booking.Bookings.Count;
+        }
+
+        private void AddBookingsToCourse(RepeatedSessionData course, IList<CustomerBookingData> bookings)
+        {
+            course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
+            course.Booking.BookingCount = course.Booking.Bookings.Count;
+
+            foreach (var session in course.Sessions)
+            {
+                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+                session.Booking.BookingCount = session.Booking.Bookings.Count;
+            }
         }
 
         private CoreData LookupCoreData(SessionData data)
