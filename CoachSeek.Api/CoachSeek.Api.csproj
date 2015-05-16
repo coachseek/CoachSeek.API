@@ -183,6 +183,7 @@
     <Compile Include="Conversion\UserAssociateWithBusinessCommandBuilder.cs" />
     <Compile Include="DataAccessFactory.cs" />
     <Compile Include="Filters\CheckModelForNullAttribute.cs" />
+    <Compile Include="Filters\ExceptionHandlingAttribute.cs" />
     <Compile Include="Filters\RequireHttpsAttribute.cs" />
     <Compile Include="Filters\ValidateModelStateAttribute.cs" />
     <Compile Include="Global.asax.cs">

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Coachseek.Integration.Contracts.Models;
 using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using Coachseek.Integration.Contracts.Models;
+using System.Collections.Generic;
 
 namespace CoachSeek.Application.Services.Emailing
 {
@@ -17,10 +17,6 @@ namespace CoachSeek.Application.Services.Emailing
 
         public void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            //var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
-            //var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
-            //var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
-
             const string subject = "Online Booking Email to Customer";
             var body = CreateSessionCustomerEmailBody(booking, session, coach, customer);
             var email = new Email(Sender, customer.Email, subject, body);
@@ -30,10 +26,6 @@ namespace CoachSeek.Application.Services.Emailing
 
         public void SendSessionEmailToCoach(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            //var session = Context.BusinessRepository.GetSession(BusinessId, booking.Session.Id);
-            //var coach = Context.BusinessRepository.GetCoach(BusinessId, session.Coach.Id);
-            //var customer = Context.BusinessRepository.GetCustomer(BusinessId, booking.Customer.Id);
-
             const string subject = "Online Booking Email to Coach";
             var body = CreateSessionCoachEmailBody(booking, session, coach, customer);
             var email = new Email(Sender, coach.Email, subject, body);
@@ -41,22 +33,20 @@ namespace CoachSeek.Application.Services.Emailing
             Emailer.Send(email);
         }
 
-        public void SendCourseEmailToCustomer(CourseBooking booking)
+        public void SendCourseEmailToCustomer(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking";
+            const string subject = "Online Booking Email to Customer";
             var body = CreateCourseCustomerEmailBody(booking);
-
-            var email = new Email(Sender, "", subject, body);
+            var email = new Email(Sender, customer.Email, subject, body);
 
             Emailer.Send(email);
         }
 
-        public void SendCourseEmailToCoach(CourseBooking booking)
+        public void SendCourseEmailToCoach(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking";
+            const string subject = "Online Booking Email to Coach";
             var body = CreateCourseCoachEmailBody(booking);
-
-            var email = new Email(Sender, "", subject, body);
+            var email = new Email(Sender, coach.Email, subject, body);
 
             Emailer.Send(email);
         }

@@ -17,6 +17,7 @@ namespace CoachSeek.Api
         public static void RegisterWebApiFilters(HttpFilterCollection filters)
         {
             filters.Add(new RequireHttpsAttribute());
+            filters.Add(new ExceptionHandlingAttribute());
         }
 
         protected void Application_Start()

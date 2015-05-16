@@ -10,7 +10,7 @@ namespace CoachSeek.Application.Contracts.Services.Emailing
         void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach,
             CustomerData customer);
 
-        void SendCourseEmailToCoach(CourseBooking booking);
-        void SendCourseEmailToCustomer(CourseBooking booking);
+        void SendCourseEmailToCoach(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer);
+        void SendCourseEmailToCustomer(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer);
     }
 }
