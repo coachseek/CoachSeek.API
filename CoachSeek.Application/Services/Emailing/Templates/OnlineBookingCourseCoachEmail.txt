@@ -1,12 +1,16 @@
-﻿Hi <<FirstName>>! 
+﻿The following online booking has occurred for a course that you are taking:
 
-Busines: <<BusinessName>>
-Domain: <<BusinessDomain>>
-Admin First Name: <<FirstName>>
-Admin Last Name: <<LastName>>
-Admin User Name: <<UserName>>
+Customer:
+Name: <<CustomerFirstName>> <<CustomerLastName>>
+Email: <<CustomerEmail>>
+Phone: <<CustomerPhone>>
 
-Welcome to Coachseek!
+Course:
+Coach: <<CoachFirstName>> <<CoachLastName>>
+Location: <<LocationName>>
+Service: <<ServiceName>>
+Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>> minutes, occurring for a total of <<SessionCount>> <<RepeatFrequency>>.
+Price: <<CoursePrice>>
 
 Cheers,
 The Coachseek Team

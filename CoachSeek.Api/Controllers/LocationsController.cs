@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
@@ -61,11 +60,6 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
-            // TODO: Remove! Only here for testing unhandled exception handling.
-            if (id == Guid.Empty)
-                throw new InvalidOperationException("testing");
-            // TODO: Remove!
-
             LocationGetByIdUseCase.Initialise(Context);
             var response = LocationGetByIdUseCase.GetLocation(id);
             return CreateGetWebResponse(response);

@@ -2,15 +2,20 @@
 
 Thank you for booking with <<BusinessName>>!
 
-You've created a booking for a single session with the following details:
+You've created a booking for an entire course with the following details:
 Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
-Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
-Cost: $<<SessionPrice>>
+Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>> minutes, occurring for a total of <<SessionCount>> <<RepeatFrequency>>.
+Price: <<CoursePrice>>
+
+Your details:
+Name: <<CustomerFirstName>> <<CustomerLastName>>
+Email: <<CustomerEmail>>
+Phone: <<CustomerPhone>>
 
 Thank you for your business! We're looking forward to seeing you there!
-If you haven't paid yet please bring along payment to this session.
+If you haven't paid yet please bring along payment to the first session.
 
 Cheers,
-<<AdminFirstName>>
+<<CoachFirstName>>

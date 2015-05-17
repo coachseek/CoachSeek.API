@@ -28,6 +28,7 @@ namespace CoachSeek.Application.UseCases
                 var newBooking = new CourseBooking(command, Course.ToData());
                 ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddCourseBooking(BusinessId, newBooking);
+                PostProcessing(newBooking);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -90,12 +91,16 @@ namespace CoachSeek.Application.UseCases
             // When overrides error they must throw a ValidationException.
         }
 
-
         private void ValidateCustomer(Guid customerId, ValidationException errors)
         {
             var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
             if (customer.IsNotFound())
                 errors.Add("This customer does not exist.", "booking.customer.id");
+        }
+
+        protected virtual void PostProcessing(CourseBooking newBooking)
+        {
+            // Nothing to do for a coach-initiated booking.
         }
     }
 }
