@@ -31,12 +31,21 @@ BEGIN
 		AND [Guid] = @customerGuid
 
 	SELECT
-		*
-	FROM 
-		[dbo].[Customer]
+		c.[Id],
+		b.[Guid] AS BusinessGuid,
+		c.[Guid],
+		c.[FirstName],
+		c.[LastName],
+		c.[Email],
+		c.[Phone],
+		c.[IsEmailUnsubscribed]
+	FROM
+		[dbo].[Business] b
+		INNER JOIN [dbo].[Customer] c
+			ON b.Id = c.BusinessId
 	WHERE
-		[BusinessId] = @businessId
-		AND [Guid] = @customerGuid
+		c.[BusinessId] = @businessId
+		AND c.[Guid] = @customerGuid
 
 END
 
