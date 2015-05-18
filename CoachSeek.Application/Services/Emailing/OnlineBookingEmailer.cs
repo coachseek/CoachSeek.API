@@ -99,7 +99,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"Date", session.Timing.StartDate},
                 {"StartTime", session.Timing.StartTime},
                 {"Duration", session.Timing.Duration.ToString()},
-                {"SessionPrice", session.Pricing.SessionPrice.Value.ToString("C")}
+                {"SessionPrice", CalculateSessionPrice(session).ToString("C")}
             };
 
             return sessionValues;
@@ -130,6 +130,14 @@ namespace CoachSeek.Application.Services.Emailing
             // TODO: Include session values
 
             return courseValues;
+        }
+
+        private decimal CalculateSessionPrice(SingleSessionData session)
+        {
+            if (session.Pricing.SessionPrice.HasValue)
+                return session.Pricing.SessionPrice.Value;
+
+            return 0;
         }
 
         private decimal CalculateCoursePrice(RepeatedSessionData course)
