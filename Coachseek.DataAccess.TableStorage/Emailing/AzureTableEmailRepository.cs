@@ -18,8 +18,9 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
         {
             get
             {
-                var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
-                return CloudStorageAccount.Parse(connectionString);
+                //var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
+                //return CloudStorageAccount.Parse(connectionString);
+                return null;
             }
         }
 
@@ -27,17 +28,18 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
         {
             get
             {
-                TableClient = StorageAccount.CreateCloudTableClient();
+                //TableClient = StorageAccount.CreateCloudTableClient();
 
-                var emailsTable = TableClient.GetTableReference(TABLE_NAME);
-                emailsTable.CreateIfNotExists();
+                //var emailsTable = TableClient.GetTableReference(TABLE_NAME);
+                //emailsTable.CreateIfNotExists();
 
-                return emailsTable;
+                //return emailsTable;
+                return null;
             }
         }
 
 
-        public void Send(Email email)
+        public bool Send(Email email)
         {
             //var emailEntity = new EmailEntity(email)
             //{
@@ -48,6 +50,7 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
             //};
 
             //EmailsTable.Execute(TableOperation.Insert(emailEntity));
+            return false;
         }
 
 

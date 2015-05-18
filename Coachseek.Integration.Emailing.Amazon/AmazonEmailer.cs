@@ -10,8 +10,11 @@ namespace Coachseek.Integration.Emailing.Amazon
 {
     public class AmazonEmailer : IEmailer
     {
-        public void Send(Email email)
+        public bool Send(Email email)
         {
+            if (email.IsRecipientUnsubscribed)
+                return false;
+
             // TODO: Remove the overriding of the email addresses.
             email.Recipient = "olaft@ihug.co.nz";
 
@@ -27,10 +30,12 @@ namespace Coachseek.Integration.Emailing.Amazon
                 try
                 {
                     var response = client.SendEmail(request);
+                    return true;
                 }
                 catch (MessageRejectedException ex)
                 {
                     // TODO: Log error.
+                    return false;
                 }
             }
         }

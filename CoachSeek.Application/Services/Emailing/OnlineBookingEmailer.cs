@@ -19,7 +19,7 @@ namespace CoachSeek.Application.Services.Emailing
         {
             const string subject = "Online Booking Email to Customer";
             var body = CreateSessionCustomerEmailBody(booking, session, coach, customer);
-            var email = new Email(Sender, customer.Email, subject, body);
+            var email = new Email(Sender, customer.Email, subject, body, customer.IsEmailUnsubscribed);
 
             Emailer.Send(email);
         }
@@ -37,7 +37,7 @@ namespace CoachSeek.Application.Services.Emailing
         {
             const string subject = "Online Booking Email to Customer";
             var body = CreateCourseCustomerEmailBody(booking, course, coach, customer);
-            var email = new Email(Sender, customer.Email, subject, body);
+            var email = new Email(Sender, customer.Email, subject, body, customer.IsEmailUnsubscribed);
 
             Emailer.Send(email);
         }

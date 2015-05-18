@@ -5,9 +5,10 @@ namespace CoachSeek.Application.Services.Emailing
 {
     public class NullEmailer : IEmailer
     {
-        public void Send(Email email)
+        public bool Send(Email email)
         {
             // Doesn't do anything.
+            return true;
         }
     }
 }

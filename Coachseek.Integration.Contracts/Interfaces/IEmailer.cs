@@ -4,6 +4,6 @@ namespace Coachseek.Integration.Contracts.Interfaces
 {
     public interface IEmailer
     {
-        void Send(Email email);
+        bool Send(Email email);
     }
 }
