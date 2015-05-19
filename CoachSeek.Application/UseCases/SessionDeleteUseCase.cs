@@ -1,6 +1,9 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using System;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 
@@ -17,9 +20,9 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 if (sessionOrCourse is SingleSession)
-                    TryDeleteSession(id);
+                    TryDeleteSession((SingleSession)sessionOrCourse);
                 else if (sessionOrCourse is RepeatedSession)
-                    TryDeleteCourse(id);
+                    TryDeleteCourse((RepeatedSession)sessionOrCourse);
 
                 return new Response();
             }
@@ -33,20 +36,52 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private void TryDeleteSession(Guid sessionId)
+        private void TryDeleteSession(SingleSession session)
         {
-            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, sessionId);
+            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
             if (bookings.Count > 0)
                 throw new ValidationException("Cannot delete session as it has one or more bookings.");
 
-            BusinessRepository.DeleteSession(BusinessId, sessionId);
+            BusinessRepository.DeleteSession(BusinessId, session.Id);
         }
 
-        private void TryDeleteCourse(Guid courseId)
+        private void TryDeleteCourse(RepeatedSession course)
         {
-            // TODO: Determine whether there are any session or course bookings.
+            ValidateDeleteCourse(course.ToData());
+            BusinessRepository.DeleteCourse(BusinessId, course.Id);
+        }
 
-            BusinessRepository.DeleteCourse(BusinessId, courseId);
+        private void ValidateDeleteCourse(RepeatedSessionData course)
+        {
+            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            AddBookingsToCourse(course, bookings);
+
+            if (HasCourseGotBookings(course))
+                throw new ValidationException("Cannot delete course as it has one or more bookings.");
+        }
+
+        private bool HasCourseGotBookings(RepeatedSessionData course)
+        {
+            if (course.Booking.BookingCount > 0)
+                return true;
+
+            foreach(var session in course.Sessions)
+                if (session.Booking.BookingCount > 0)
+                    return true;
+
+            return false;
+        }
+
+        private void AddBookingsToCourse(RepeatedSessionData course, IList<CustomerBookingData> bookings)
+        {
+            course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
+            course.Booking.BookingCount = course.Booking.Bookings.Count;
+
+            foreach (var session in course.Sessions)
+            {
+                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+                session.Booking.BookingCount = session.Booking.Bookings.Count;
+            }
         }
     }
 }
