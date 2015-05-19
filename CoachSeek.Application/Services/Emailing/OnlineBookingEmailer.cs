@@ -1,4 +1,5 @@
-﻿using Coachseek.Integration.Contracts.Models;
+﻿using System;
+using Coachseek.Integration.Contracts.Models;
 using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
 using CoachSeek.Data.Model;
@@ -9,6 +10,7 @@ namespace CoachSeek.Application.Services.Emailing
 {
     public class OnlineBookingEmailer : BusinessEmailerBase, IOnlineBookingEmailer
     {
+        private const string DELIMITER = "=====";
         private const string TEMPLATE_RESOURCE_SESSION_CUSTOMER = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingSessionCustomerEmail.txt";
         private const string TEMPLATE_RESOURCE_COURSE_CUSTOMER = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingCourseCustomerEmail.txt";
         private const string TEMPLATE_RESOURCE_SESSION_COACH = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingSessionCoachEmail.txt";
@@ -17,67 +19,71 @@ namespace CoachSeek.Application.Services.Emailing
 
         public void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking Email to Customer";
-            var body = CreateSessionCustomerEmailBody(booking, session, coach, customer);
-            var email = new Email(Sender, customer.Email, subject, body, customer.IsEmailUnsubscribed);
-
+            var subjectAndBody = CreateSessionCustomerEmailSubjectAndBody(booking, session, coach, customer);
+            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2, customer.IsEmailUnsubscribed);
             Emailer.Send(email);
         }
 
         public void SendSessionEmailToCoach(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking Email to Coach";
-            var body = CreateSessionCoachEmailBody(booking, session, coach, customer);
-            var email = new Email(Sender, coach.Email, subject, body);
-
+            var subjectAndBody = CreateSessionCoachEmailSubjectAndBody(booking, session, coach, customer);
+            var email = new Email(Sender, coach.Email, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
         }
 
         public void SendCourseEmailToCustomer(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking Email to Customer";
-            var body = CreateCourseCustomerEmailBody(booking, course, coach, customer);
-            var email = new Email(Sender, customer.Email, subject, body, customer.IsEmailUnsubscribed);
-
+            var subjectAndBody = CreateCourseCustomerEmailSubjectAndBody(booking, course, coach, customer);
+            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2, customer.IsEmailUnsubscribed);
             Emailer.Send(email);
         }
 
         public void SendCourseEmailToCoach(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
-            const string subject = "Online Booking Email to Coach";
-            var body = CreateCourseCoachEmailBody(booking, course, coach, customer);
-            var email = new Email(Sender, coach.Email, subject, body);
-
+            var subjectAndBody = CreateCourseCoachEmailSubjectAndBody(booking, course, coach, customer);
+            var email = new Email(Sender, coach.Email, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
         }
 
 
-        private string CreateSessionCustomerEmailBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateSessionCustomerEmailSubjectAndBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_SESSION_CUSTOMER);
             var substitutes = CreateSessionSubstitutes(booking, session, coach, customer);
-            return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            return ExtractSubjectAndBody(emailTemplate);
         }
 
-        private string CreateSessionCoachEmailBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateSessionCoachEmailSubjectAndBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_SESSION_COACH);
             var substitutes = CreateSessionSubstitutes(booking, session, coach, customer);
-            return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            return ExtractSubjectAndBody(emailTemplate);
         }
 
-        private string CreateCourseCustomerEmailBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateCourseCustomerEmailSubjectAndBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_CUSTOMER);
             var substitutes = CreateCourseSubstitutes(booking, course, coach, customer);
-            return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            return ExtractSubjectAndBody(emailTemplate);
         }
 
-        private string CreateCourseCoachEmailBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateCourseCoachEmailSubjectAndBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_COACH);
             var substitutes = CreateCourseSubstitutes(booking, course, coach, customer);
-            return TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
+            return ExtractSubjectAndBody(emailTemplate);
+        }
+
+        private Tuple<string, string> ExtractSubjectAndBody(string emailTemplate)
+        {
+            var pos = emailTemplate.IndexOf(DELIMITER, StringComparison.InvariantCulture);
+            var subject = emailTemplate.Substring(0, pos).Trim();
+            var body = emailTemplate.Substring(pos + DELIMITER.Length).Trim();
+            return new Tuple<string, string>(subject, body);
         }
 
         private Dictionary<string, string> CreateSessionSubstitutes(SingleSessionBooking booking, 

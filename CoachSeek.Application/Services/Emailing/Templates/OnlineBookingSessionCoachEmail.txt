@@ -1,16 +1,25 @@
-﻿The following online booking has occurred for a session that you are taking:
+﻿New Online Booking with <<BusinessName>>
+=====
+You just had an online booking - great job!
 
-Customer:
+Here are all the details:
+
+Your Customer:
 Name: <<CustomerFirstName>> <<CustomerLastName>>
 Email: <<CustomerEmail>>
 Phone: <<CustomerPhone>>
 
-Session:
+The Session they booked:
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Location: <<LocationName>>
 Service: <<ServiceName>>
-Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
+Date: <<Date>> at <<StartTime>> for <<Duration>> minutes.
 Price: <<SessionPrice>>
 
-Cheers,
-The Coachseek Team
+Your customer has also received a confirmation of this booking. And you'll be delighted to know this person has been automatically loaded into your Coachseek database, and the register for the session! Too easy!
+
+Coachseek Tip: Why not drop them a thank you or welcome email? It's also a great time to send your payment details or invoice.
+
+Warm regards,
+
+The Team at Coachseek
