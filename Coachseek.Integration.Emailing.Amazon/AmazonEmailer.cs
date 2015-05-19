@@ -19,11 +19,13 @@ namespace Coachseek.Integration.Emailing.Amazon
             if (!email.Recipient.EndsWith("simulator.amazonses.com"))
                 email.Recipient = "olaft@ihug.co.nz";
 
+
             var destination = new Destination { ToAddresses = (new List<string> { email.Recipient }) };
             var subject = new Content(email.Subject);
             var body = new Body(new Content(email.Body));
             var message = new Message(subject, body);
             var request = new SendEmailRequest(email.Sender, destination, message);
+            request.ReturnPath = email.Sender;
 
             using (var client = AWSClientFactory.CreateAmazonSimpleEmailServiceClient())
             {
