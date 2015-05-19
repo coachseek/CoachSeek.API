@@ -4,8 +4,8 @@ CREATE PROCEDURE [dbo].[Customer_Update]
 	@customerGuid uniqueidentifier,
 	@firstName [nvarchar](50),
 	@lastName [nvarchar](50),
-	@email [nvarchar](100),
-	@phone [nvarchar](50)
+	@email [nvarchar](100) = NULL,
+	@phone [nvarchar](50) = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;

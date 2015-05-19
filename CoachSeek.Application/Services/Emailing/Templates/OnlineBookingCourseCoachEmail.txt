@@ -16,7 +16,7 @@ Service: <<ServiceName>>
 Date: Starting on <<StartDate>> at <<StartTime>> for <<Duration>> minutes, occurring for a total of <<SessionCount>> <<RepeatFrequency>>.
 Price: <<CoursePrice>>
 
-Your customer has also received a confirmation of this booking. And you'll be delighted to know this person has been automatically loaded into your Coachseek database, and the register for the session! Too easy!
+Your customer has also received a confirmation of this booking. And you'll be delighted to know this person has been automatically loaded into your Coachseek database, and the register for the course! Too easy!
 
 Coachseek Tip: Why not drop them a thank you or welcome email? It's also a great time to send your payment details or invoice.
 
