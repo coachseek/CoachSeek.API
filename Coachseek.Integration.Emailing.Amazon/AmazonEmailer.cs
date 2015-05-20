@@ -15,10 +15,9 @@ namespace Coachseek.Integration.Emailing.Amazon
             if (email.IsRecipientUnsubscribed)
                 return false;
 
-            // TODO: Remove the overriding of the email addresses.
-            if (!email.Recipient.EndsWith("simulator.amazonses.com"))
-                email.Recipient = "olaft@ihug.co.nz";
-
+            //// TODO: Remove the overriding of the email addresses.
+            //if (!email.Recipient.EndsWith("simulator.amazonses.com"))
+            //    email.Recipient = "olaft@ihug.co.nz";
 
             var destination = new Destination { ToAddresses = (new List<string> { email.Recipient }) };
             var subject = new Content(email.Subject);

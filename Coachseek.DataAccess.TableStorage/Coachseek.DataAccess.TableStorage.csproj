@@ -68,6 +68,7 @@
     <Compile Include="Authentication\AzureTestTableUserRepository.cs" />
     <Compile Include="Authentication\AzureTableUserRepository.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Emailing\AzureTableUnsubscribedEmailAddressRepository.cs" />
     <Compile Include="Emailing\AzureTableEmailRepository.cs" />
     <Compile Include="Emailing\EmailEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
