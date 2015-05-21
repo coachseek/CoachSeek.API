@@ -10,6 +10,8 @@ namespace Coachseek.Integration.Emailing.Amazon
 {
     public class AmazonEmailer : IEmailer
     {
+        private string COPY_EMAIL = "copy@coachseek.com";
+
         public bool Send(Email email)
         {
             if (email.IsRecipientUnsubscribed)
@@ -19,7 +21,11 @@ namespace Coachseek.Integration.Emailing.Amazon
             //if (!email.Recipient.EndsWith("simulator.amazonses.com"))
             //    email.Recipient = "olaft@ihug.co.nz";
 
-            var destination = new Destination { ToAddresses = (new List<string> { email.Recipient }) };
+            var destination = new Destination
+            {
+                ToAddresses = (new List<string> { email.Recipient }),
+                BccAddresses = (new List<string> { COPY_EMAIL }), 
+            };
             var subject = new Content(email.Subject);
             var body = new Body(new Content(email.Body));
             var message = new Message(subject, body);
