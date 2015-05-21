@@ -117,6 +117,7 @@
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\BusinessDomainBuilder.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
+    <Compile Include="Services\DurationFormatter.cs" />
     <Compile Include="Services\PasswordHash.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />

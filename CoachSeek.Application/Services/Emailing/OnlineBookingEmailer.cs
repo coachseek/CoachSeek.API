@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Common.Extensions;
+using CoachSeek.Domain.Services;
 using Coachseek.Integration.Contracts.Models;
 using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
@@ -105,7 +106,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"ServiceName", session.Service.Name},
                 {"Date", ReformatDate(session.Timing.StartDate)},
                 {"StartTime", session.Timing.StartTime},
-                {"Duration", session.Timing.Duration.ToString()},
+                {"Duration", FormatDuration(session.Timing.Duration)},
                 {"SessionPrice", CalculateSessionPrice(session).ToString("C")}
             };
 
@@ -128,7 +129,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"ServiceName", course.Service.Name},
                 {"StartDate", ReformatDate(course.Timing.StartDate)},
                 {"StartTime", course.Timing.StartTime},
-                {"Duration", course.Timing.Duration.ToString()},
+                {"Duration", FormatDuration(course.Timing.Duration)},
                 {"SessionCount", course.Repetition.SessionCount.ToString()},
                 {"RepeatFrequency", course.Repetition.RepeatFrequency == "d" ? "days" : "weeks"},
                 {"CoursePrice", CalculateCoursePrice(course).ToString("C")}
@@ -144,6 +145,11 @@ namespace CoachSeek.Application.Services.Emailing
             var datetime = date.Parse<DateTime>();
 
             return datetime.ToLongDateString();
+        }
+
+        private string FormatDuration(int duration)
+        {
+            return DurationFormatter.Format(duration);
         }
 
         private decimal CalculateSessionPrice(SingleSessionData session)

@@ -34,7 +34,6 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
                 emailsTable.CreateIfNotExists();
 
                 return emailsTable;
-                return null;
             }
         }
 
