@@ -7,7 +7,7 @@ Your booking details are below:
 Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
-Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>> minutes, occurring for a total of <<SessionCount>> <<RepeatFrequency>>.
+Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>>, occurring for a total of <<SessionCount>> <<RepeatFrequency>>
 Price: <<CoursePrice>>
 
 Your details:

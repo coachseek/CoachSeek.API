@@ -7,7 +7,7 @@ Your booking details are below:
 Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
-Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>> minutes.
+Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>>
 Price: <<SessionPrice>>
 
 Your details:
