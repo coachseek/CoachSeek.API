@@ -61,10 +61,10 @@ namespace CoachSeek.Api.Attributes
 
         private IBusinessRepository CreateBusinessRepository(HttpRequestMessage request)
         {
-            return CreateDataRepositories(request).Item1;
+            return CreateDataRepositories(request).BusinessRepository;
         }
 
-        private Tuple<IBusinessRepository, IUserRepository> CreateDataRepositories(HttpRequestMessage request)
+        private DataRepositories CreateDataRepositories(HttpRequestMessage request)
         {
             var isTesting = request.Headers.Contains("Testing");
             return DataAccessFactory.CreateDataAccess(isTesting);

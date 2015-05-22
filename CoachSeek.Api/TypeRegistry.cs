@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Repositories;
 using StructureMap.Configuration.DSL;
@@ -17,6 +16,7 @@ namespace CoachSeek.Api
                     "CoachSeek.Application.Contracts",
                     "CoachSeek.DataAccess.Main.Memory",
                     "Coachseek.DataAccess.Main.SqlServer",
+                    "CoachSeek.DataAccess.TableStorage",
                     "CoachSeek.Domain"
                 };
 
@@ -27,8 +27,6 @@ namespace CoachSeek.Api
             });
             
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
-            //For<IBusinessRegistrationEmailer>().Use<StubBusinessRegistrationEmailer>();
-            //For<IOnlineBookingEmailer>().Use<StubOnlineBookingEmailer>();
         }
     }
 }

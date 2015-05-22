@@ -12,8 +12,9 @@ namespace CoachSeek.Api.Attributes
             var repositories = DataAccessFactory.CreateDataAccess(isTesting);
 
             var controller = (BaseController)actionContext.ControllerContext.Controller;
-            controller.BusinessRepository = repositories.Item1;
-            controller.UserRepository = repositories.Item2;
+            controller.BusinessRepository = repositories.BusinessRepository;
+            controller.UserRepository = repositories.UserRepository;
+            controller.UnsubscribedEmailAddressRepository = repositories.UnsubscribedEmailAddressRepository;
 
             base.OnActionExecuting(actionContext);
         }

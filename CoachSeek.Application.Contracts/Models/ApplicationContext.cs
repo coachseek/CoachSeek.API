@@ -13,5 +13,7 @@ namespace CoachSeek.Application.Contracts.Models
         public bool IsEmailingEnabled { get; set; }
 
         public IBusinessRepository BusinessRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
+        public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { get; set; }
     }
 }

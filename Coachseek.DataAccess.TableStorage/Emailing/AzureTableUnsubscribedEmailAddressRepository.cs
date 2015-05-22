@@ -1,55 +1,21 @@
-﻿using System.Configuration;
-using Coachseek.Integration.Contracts.Interfaces;
-using Coachseek.Integration.Contracts.Models;
-using Microsoft.WindowsAzure.Storage;
+﻿using CoachSeek.Domain.Repositories;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Coachseek.DataAccess.TableStorage.Emailing
 {
-    public class AzureTableUnsubscribedEmailAddressRepository //: IUnsubscribedEmailAddressList
+    public class AzureTableUnsubscribedEmailAddressRepository : AzureTableRepositoryBase, IUnsubscribedEmailAddressRepository
     {
-        private const string TABLE_NAME = "unsubscribed-email";
+        protected override string TableName { get { return "unsubscribed-email-addresses"; } }
 
-        private CloudTableClient TableClient { get; set; }
 
-        protected virtual string ConnectionStringKey { get { return "StorageConnectionString"; } } 
-
-        private CloudStorageAccount StorageAccount
+        public void Save(string emailAddress)
         {
-            get
+            var address = new EmailAddressEntity(emailAddress)
             {
-                //var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
-                //return CloudStorageAccount.Parse(connectionString);
-                return null;
-            }
-        }
+                EmailAddress = emailAddress,
+            };
 
-        private CloudTable UnsubscribedEmailsTable
-        {
-            get
-            {
-                TableClient = StorageAccount.CreateCloudTableClient();
-
-                var emailsTable = TableClient.GetTableReference(TABLE_NAME);
-                emailsTable.CreateIfNotExists();
-
-                return emailsTable;
-            }
-        }
-
-
-        public bool Send(Email email)
-        {
-            //var emailEntity = new EmailEntity(email)
-            //{
-            //    Sender = email.Sender,
-            //    Recipient = email.Recipient,
-            //    Subject = email.Subject,
-            //    Body = email.Body
-            //};
-
-            //EmailsTable.Execute(TableOperation.Insert(emailEntity));
-            return false;
+            Table.Execute(TableOperation.Insert(address));
         }
 
 

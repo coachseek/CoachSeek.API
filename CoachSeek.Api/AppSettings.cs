@@ -17,6 +17,8 @@ namespace CoachSeek.Api
         public static string AWSRegion { get { return GetConfigSettingItem("AWSRegion"); } }
         public static string EmailSender { get { return GetConfigSettingItem("EmailSender"); } }
         public static string IsEmailingEnabled { get { return GetConfigSettingItem("IsEmailingEnabled"); } }
+        public static string AdminUserName { get { return GetConfigSettingItem("AdminUserName"); } }
+        public static string AdminPassword { get { return GetConfigSettingItem("AdminPassword"); } }
     
         private const string MISSING_CONFIG = "Invalid configuration. Required AppSettings section is missing";
         private const string INVALID_CONFIG_SETTING = "Invalid configuration setting name: {0}";

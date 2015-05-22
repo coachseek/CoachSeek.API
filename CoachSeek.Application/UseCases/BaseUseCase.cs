@@ -10,6 +10,8 @@ namespace CoachSeek.Application.UseCases
         protected ApplicationContext Context { set; get; }
         protected Guid BusinessId { set; get; }
         protected IBusinessRepository BusinessRepository { set; get; }
+        protected IUserRepository UserRepository { set; get; }
+        protected IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; get; }
 
 
         public void Initialise(ApplicationContext context)
@@ -18,6 +20,8 @@ namespace CoachSeek.Application.UseCases
 
             BusinessId = Context.BusinessId.HasValue ? Context.BusinessId.Value : Guid.Empty;
             BusinessRepository = Context.BusinessRepository;
+            UserRepository = Context.UserRepository;
+            UnsubscribedEmailAddressRepository = Context.UnsubscribedEmailAddressRepository;
         }
     }
 }

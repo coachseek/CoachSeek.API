@@ -17,6 +17,7 @@ namespace CoachSeek.Api.Controllers
 
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
+        public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; protected get; }
 
         public Guid? BusinessId
         {
@@ -77,7 +78,9 @@ namespace CoachSeek.Api.Controllers
                     ForceEmail = ForceEmail,
                     EmailSender = EmailSender,
                     IsEmailingEnabled = IsEmailingEnabled,
-                    BusinessRepository = BusinessRepository
+                    BusinessRepository = BusinessRepository,
+                    UserRepository = UserRepository,
+                    UnsubscribedEmailAddressRepository = UnsubscribedEmailAddressRepository
                 };
             }            
         }

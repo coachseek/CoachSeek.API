@@ -8,35 +8,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Coachseek.DataAccess.TableStorage.Authentication
 {
-    public class AzureTableUserRepository : IUserRepository
+    public class AzureTableUserRepository : AzureTableRepositoryBase, IUserRepository
     {
-        private const string TABLE_NAME = "users";
-
-        private CloudTableClient TableClient { get; set; }
-
-        protected virtual string ConnectionStringKey { get { return "StorageConnectionString"; } } 
-
-        private CloudStorageAccount StorageAccount
-        {
-            get
-            {
-                var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
-                return CloudStorageAccount.Parse(connectionString);
-            }
-        }
-
-        private CloudTable UsersTable
-        {
-            get
-            {
-                TableClient = StorageAccount.CreateCloudTableClient();
-
-                var usersTable = TableClient.GetTableReference(TABLE_NAME);
-                usersTable.CreateIfNotExists();
-
-                return usersTable;
-            }
-        }
+        protected override string TableName { get { return "users"; } }
 
 
         public User Save(NewUser newUser)
@@ -52,7 +26,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                 BusinessName = newUser.BusinessName,
             };
 
-            UsersTable.Execute(TableOperation.Insert(user));
+            Table.Execute(TableOperation.Insert(user));
 
             return newUser;
         }
@@ -75,7 +49,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         private User Update(User user)
         {
             var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, user.UserName);
-            var retrievedResult = UsersTable.Execute(retrieveOperation);
+            var retrievedResult = Table.Execute(retrieveOperation);
 
             var updateEntity = (UserEntity)retrievedResult.Result;
             if (updateEntity == null)
@@ -85,7 +59,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
             var updateOperation = TableOperation.Replace(updateEntity);
 
-            UsersTable.Execute(updateOperation);
+            Table.Execute(updateOperation);
 
             return user;
         }
@@ -104,7 +78,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         {
             var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
 
-            foreach (var user in UsersTable.ExecuteQuery(query))
+            foreach (var user in Table.ExecuteQuery(query))
             {
                 if (user.Id == id)
                     return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
@@ -117,7 +91,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         {
             var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, username);
 
-            var retrievedResult = UsersTable.Execute(retrieveOperation);
+            var retrievedResult = Table.Execute(retrieveOperation);
             if (retrievedResult.Result == null)
                 return null;
 

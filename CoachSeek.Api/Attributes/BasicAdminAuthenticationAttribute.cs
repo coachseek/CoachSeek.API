@@ -15,7 +15,7 @@ using System.Web.Http.Filters;
 
 namespace CoachSeek.Api.Attributes
 {
-    public class BasicAuthenticationAttribute : Attribute, IAuthenticationFilter
+    public class BasicAdminAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
         private const string BUSINESS_DOMAIN = "Business-Domain";
         private const string BASIC_AUTH = "Basic";

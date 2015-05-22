@@ -56,7 +56,7 @@
     <Compile Include="Services\Emailing\BusinessRegistrationEmailer.cs" />
     <Compile Include="Services\Emailing\EmailerFactory.cs" />
     <Compile Include="Services\Emailing\NullEmailer.cs" />
-    <Compile Include="UseCases\Admin\EmailSetToIsUnsubscribedUseCase.cs" />
+    <Compile Include="UseCases\Admin\EmailUnsubscribeUseCase.cs" />
     <Compile Include="UseCases\BookingSetAttendanceUseCase.cs" />
     <Compile Include="UseCases\BookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\CourseOnlineBookingAddUseCase.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Application.Contracts.UseCases.Admin;
@@ -7,14 +8,14 @@ namespace CoachSeek.Api.Controllers
 {
     public class AdminController : BaseController
     {
-        public IEmailSetToIsUnsubscribedUseCase EmailSetToIsUnsubscribedUseCase { get; set; }
+        public IEmailUnsubscribeUseCase EmailUnsubscribeUseCase { get; set; }
 
         public AdminController()
         { }
 
-        public AdminController(IEmailSetToIsUnsubscribedUseCase emailSetToIsUnsubscribedUseCase)
+        public AdminController(IEmailUnsubscribeUseCase emailUnsubscribeUseCase)
         {
-            EmailSetToIsUnsubscribedUseCase = emailSetToIsUnsubscribedUseCase;
+            EmailUnsubscribeUseCase = emailUnsubscribeUseCase;
         }
 
 
@@ -25,10 +26,9 @@ namespace CoachSeek.Api.Controllers
         [HttpPost]
         public HttpResponseMessage Unsubscribe(string email)
         {
-            //EmailSetToIsUnsubscribedUseCase.Initialise(Context);
-            //var response = EmailSetToIsUnsubscribedUseCase.Unsubscribe(email);
-            //return CreateGetWebResponse(response);
-            return null;
+            EmailUnsubscribeUseCase.Initialise(Context);
+            EmailUnsubscribeUseCase.Unsubscribe(email);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // GET: Admin/IsUnsubscribed/olaf@coachseek.com
