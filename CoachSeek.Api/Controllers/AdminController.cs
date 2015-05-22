@@ -19,11 +19,11 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        // GET: Admin/Unsubscribe/olaf@coachseek.com
-        [Route("Admin/Email/Unsubscribe/{email}")]
-        [BasicAuthentication]
+        // GET: Admin/Email/Unsubscribe?email=olaf@coachseek.com
+        [Route("Admin/Email/Unsubscribe")]
+        [BasicAdminAuthentication]
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         public HttpResponseMessage Unsubscribe(string email)
         {
             EmailUnsubscribeUseCase.Initialise(Context);
@@ -33,7 +33,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Admin/IsUnsubscribed/olaf@coachseek.com
         [Route("Admin/Email/IsUnsubscribed/{email}")]
-        [BasicAuthentication]
+        [BasicAdminAuthentication]
         [Authorize]
         [HttpGet]
         public HttpResponseMessage IsUnsubscribed(string email)

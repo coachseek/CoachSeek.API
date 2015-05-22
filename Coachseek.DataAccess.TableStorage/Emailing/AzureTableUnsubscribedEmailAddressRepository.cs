@@ -5,7 +5,7 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
 {
     public class AzureTableUnsubscribedEmailAddressRepository : AzureTableRepositoryBase, IUnsubscribedEmailAddressRepository
     {
-        protected override string TableName { get { return "unsubscribed-email-addresses"; } }
+        protected override string TableName { get { return "unsubscribed"; } }
 
 
         public void Save(string emailAddress)

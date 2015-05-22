@@ -2,7 +2,6 @@
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;
-using System;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Principal;
@@ -62,12 +61,6 @@ namespace CoachSeek.Api.Attributes
         private IBusinessRepository CreateBusinessRepository(HttpRequestMessage request)
         {
             return CreateDataRepositories(request).BusinessRepository;
-        }
-
-        private DataRepositories CreateDataRepositories(HttpRequestMessage request)
-        {
-            var isTesting = request.Headers.Contains("Testing");
-            return DataAccessFactory.CreateDataAccess(isTesting);
         }
     }
 }
