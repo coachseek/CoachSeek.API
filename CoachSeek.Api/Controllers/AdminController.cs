@@ -9,13 +9,16 @@ namespace CoachSeek.Api.Controllers
     public class AdminController : BaseController
     {
         public IEmailUnsubscribeUseCase EmailUnsubscribeUseCase { get; set; }
+        public IEmailIsUnsubscribedUseCase EmailIsUnsubscribedUseCase { get; set; }
 
         public AdminController()
         { }
 
-        public AdminController(IEmailUnsubscribeUseCase emailUnsubscribeUseCase)
+        public AdminController(IEmailUnsubscribeUseCase emailUnsubscribeUseCase,
+                               IEmailIsUnsubscribedUseCase emailIsUnsubscribedUseCase)
         {
             EmailUnsubscribeUseCase = emailUnsubscribeUseCase;
+            EmailIsUnsubscribedUseCase = emailIsUnsubscribedUseCase;
         }
 
 
@@ -31,17 +34,18 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // GET: Admin/IsUnsubscribed/olaf@coachseek.com
-        [Route("Admin/Email/IsUnsubscribed/{email}")]
+        // GET: Admin/Email/IsUnsubscribed?email=olaf@coachseek.com
+        [Route("Admin/Email/IsUnsubscribed")]
         [BasicAdminAuthentication]
         [Authorize]
         [HttpGet]
         public HttpResponseMessage IsUnsubscribed(string email)
         {
-            //EmailSetToIsUnsubscribedUseCase.Initialise(Context);
-            //var response = EmailSetToIsUnsubscribedUseCase.Unsubscribe(email);
-            //return CreateGetWebResponse(response);
-            return null;
+            EmailIsUnsubscribedUseCase.Initialise(Context);
+            var isUnsubscribed = EmailIsUnsubscribedUseCase.IsUnsubscribed(email);
+            if (!isUnsubscribed)
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            return Request.CreateResponse(HttpStatusCode.Found);
         }
     }
 }

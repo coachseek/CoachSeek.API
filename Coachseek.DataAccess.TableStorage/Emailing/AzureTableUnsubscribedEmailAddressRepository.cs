@@ -10,39 +10,21 @@ namespace Coachseek.DataAccess.TableStorage.Emailing
 
         public void Save(string emailAddress)
         {
-            var address = new EmailAddressEntity(emailAddress)
-            {
-                EmailAddress = emailAddress,
-            };
+            if (Get(emailAddress)) 
+                return;
 
+            var address = new EmailAddressEntity(emailAddress) { EmailAddress = emailAddress };
             Table.Execute(TableOperation.Insert(address));
         }
 
 
-        //public User Get(Guid id)
-        //{
-        //    var query = new TableQuery<Authentication.UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
+        public bool Get(string emailAddress)
+        {
+            var parts = emailAddress.Split('@');
+            var retrieveOperation = TableOperation.Retrieve<EmailAddressEntity>(parts[1], parts[0]);
 
-        //    foreach (var user in UsersTable.ExecuteQuery(query))
-        //    {
-        //        if (user.Id == id)
-        //            return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
-        //    }
-
-        //    return null;
-        //}
-
-        //public User GetByUsername(string username)
-        //{
-        //    var retrieveOperation = TableOperation.Retrieve<Authentication.UserEntity>(Constants.USER, username);
-
-        //    var retrievedResult = UsersTable.Execute(retrieveOperation);
-        //    if (retrievedResult.Result == null)
-        //        return null;
-
-        //    var user = (Authentication.UserEntity) retrievedResult.Result;
-
-        //    return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
-        //}
+            var retrievedResult = Table.Execute(retrieveOperation);
+            return retrievedResult.Result != null;
+        }
     }
 }
