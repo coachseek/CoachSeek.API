@@ -30,8 +30,10 @@ namespace CoachSeek.Api.Controllers
         public HttpResponseMessage Unsubscribe(string email)
         {
             EmailUnsubscribeUseCase.Initialise(Context);
-            EmailUnsubscribeUseCase.Unsubscribe(email);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            var response = EmailUnsubscribeUseCase.Unsubscribe(email);
+            if (response.IsSuccessful)
+                return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
 
         // GET: Admin/Email/IsUnsubscribed?email=olaf@coachseek.com
