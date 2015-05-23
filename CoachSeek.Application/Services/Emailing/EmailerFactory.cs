@@ -1,19 +1,21 @@
-﻿using Coachseek.Integration.Contracts.Interfaces;
+﻿using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Domain.Repositories;
+using Coachseek.Integration.Contracts.Interfaces;
 using Coachseek.Integration.Emailing.Amazon;
 
 namespace CoachSeek.Application.Services.Emailing
 {
     public static class EmailerFactory
     {
-        public static IEmailer CreateEmailer(bool isEmailingEnabled, bool isTesting, bool forceEmail)
+        public static IEmailer CreateEmailer(bool isTesting, EmailContext emailContext)
         {
-            if (!isEmailingEnabled)
+            if (!emailContext.IsEmailingEnabled)
                 return CreateNullEmailer();
 
-            if (isTesting && !forceEmail)
-                return CreateTestingEmailer(); 
+            if (isTesting && !emailContext.ForceEmail)
+                return CreateTestingEmailer();
 
-            return CreateProductionEmailer();
+            return CreateProductionEmailer(emailContext.UnsubscribedEmailAddressRepository);
         }
 
 
@@ -29,9 +31,9 @@ namespace CoachSeek.Application.Services.Emailing
             //return new AzureTableEmailRepository();
         }
 
-        private static IEmailer CreateProductionEmailer()
+        private static IEmailer CreateProductionEmailer(IUnsubscribedEmailAddressRepository unsubscribedEmailAddressRepository)
         {
-            return new AmazonEmailer();
+            return new AmazonEmailer(unsubscribedEmailAddressRepository);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CoachSeek.Application.Services.Emailing
         public void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
             var subjectAndBody = CreateSessionCustomerEmailSubjectAndBody(booking, session, coach, customer);
-            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2, customer.IsEmailUnsubscribed);
+            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
         }
 
@@ -36,7 +36,7 @@ namespace CoachSeek.Application.Services.Emailing
         public void SendCourseEmailToCustomer(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
         {
             var subjectAndBody = CreateCourseCustomerEmailSubjectAndBody(booking, course, coach, customer);
-            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2, customer.IsEmailUnsubscribed);
+            var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
         }
 

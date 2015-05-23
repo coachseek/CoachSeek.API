@@ -30,8 +30,8 @@ namespace CoachSeek.Application.Services
 
         public void Initialise(ApplicationContext context)
         {
-            BusinessId = context.BusinessId.HasValue ? context.BusinessId.Value : Guid.Empty;
-            BusinessRepository = context.BusinessRepository;
+            BusinessId = context.Business.BusinessId.HasValue ? context.Business.BusinessId.Value : Guid.Empty;
+            BusinessRepository = context.Business.BusinessRepository;
         }
     }
 }

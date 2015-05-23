@@ -6,16 +6,14 @@
         public string Recipient { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public bool IsRecipientUnsubscribed { get; set; }
 
 
-        public Email(string sender, string recipient, string subject, string body, bool isRecipientUnsubscribed = false)
+        public Email(string sender, string recipient, string subject, string body)
         {
             Sender = sender;
             Recipient = recipient;
             Subject = subject;
             Body = body;
-            IsRecipientUnsubscribed = isRecipientUnsubscribed;
         }
     }
 }

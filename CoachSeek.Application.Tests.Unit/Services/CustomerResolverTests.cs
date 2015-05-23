@@ -32,11 +32,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
         {
             SetupBusinessRepository();
 
-            Context = new ApplicationContext
-            {
-                BusinessId = BusinessId,
-                BusinessRepository = BusinessRepository
-            };
+            Context = new ApplicationContext(new BusinessContext(BusinessId, "", BusinessRepository), null, true);
         }
 
 

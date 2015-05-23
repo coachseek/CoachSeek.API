@@ -70,18 +70,21 @@ namespace CoachSeek.Api.Controllers
         {
             get
             {
-                return new ApplicationContext
-                {
-                    BusinessId = BusinessId,
-                    BusinessName = BusinessName,
-                    IsTesting = IsTesting,
-                    ForceEmail = ForceEmail,
-                    EmailSender = EmailSender,
-                    IsEmailingEnabled = IsEmailingEnabled,
-                    BusinessRepository = BusinessRepository,
-                    UserRepository = UserRepository,
-                    UnsubscribedEmailAddressRepository = UnsubscribedEmailAddressRepository
-                };
+                var businessContext = new BusinessContext(BusinessId, BusinessName, BusinessRepository);
+                var emailContext = new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository);
+
+                return new ApplicationContext(businessContext, emailContext, IsTesting);
+                //{
+                //    BusinessId = BusinessId,
+                //    BusinessName = BusinessName,
+                //    IsTesting = IsTesting,
+                //    ForceEmail = ForceEmail,
+                //    EmailSender = EmailSender,
+                //    IsEmailingEnabled = IsEmailingEnabled,
+                //    BusinessRepository = BusinessRepository,
+                //    UserRepository = UserRepository,
+                //    UnsubscribedEmailAddressRepository = UnsubscribedEmailAddressRepository
+                //};
             }            
         }
 

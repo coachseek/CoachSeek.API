@@ -29,9 +29,9 @@ namespace CoachSeek.Application.UseCases
             var emailer = new OnlineBookingEmailer();
             emailer.Initialise(Context);
 
-            var course = Context.BusinessRepository.GetCourse(BusinessId, newBooking.Course.Id);
-            var coach = Context.BusinessRepository.GetCoach(BusinessId, course.Coach.Id);
-            var customer = Context.BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
+            var course = Context.Business.BusinessRepository.GetCourse(BusinessId, newBooking.Course.Id);
+            var coach = Context.Business.BusinessRepository.GetCoach(BusinessId, course.Coach.Id);
+            var customer = Context.Business.BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
 
             emailer.SendCourseEmailToCustomer(newBooking, course, coach, customer);
             emailer.SendCourseEmailToCoach(newBooking, course, coach, customer);

@@ -1,5 +1,7 @@
-﻿using Coachseek.Integration.Contracts.Models;
+﻿using CoachSeek.Domain.Repositories;
+using Coachseek.Integration.Contracts.Models;
 using Coachseek.Integration.Emailing.Amazon;
+using Coachseek.Integration.Tests.Unit.Fakes;
 using NUnit.Framework;
 
 namespace Coachseek.Integration.Tests.Unit.Emailing
@@ -16,16 +18,16 @@ namespace Coachseek.Integration.Tests.Unit.Emailing
         }
 
 
-        private Email GivenRecipientIsUnsubscribed()
+        private IUnsubscribedEmailAddressRepository GivenRecipientIsUnsubscribed()
         {
-            return new Email("", "", "", "", true);
+            return new StubUnsubscribedEmailAddressRepository {SetIsEmailAddressUnsubscribed = true};
         }
 
 
-        private bool WhenTryAndSendEmail(Email email)
+        private bool WhenTryAndSendEmail(IUnsubscribedEmailAddressRepository repository)
         {
-            var emailer = new AmazonEmailer();
-            return emailer.Send(email);
+            var emailer = new AmazonEmailer(repository);
+            return emailer.Send(new Email("", "", "", ""));
         }
     }
 }

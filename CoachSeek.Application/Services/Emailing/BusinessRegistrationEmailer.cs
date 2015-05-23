@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
 using CoachSeek.Data.Model;
-using Coachseek.Integration.Contracts.Interfaces;
 using Coachseek.Integration.Contracts.Models;
 
 namespace CoachSeek.Application.Services.Emailing
@@ -31,13 +29,14 @@ namespace CoachSeek.Application.Services.Emailing
 
         private Dictionary<string, string> CreatePlaceholderSubstitutes(RegistrationData registration)
         {
-            var values = new Dictionary<string, string>();
-
-            values.Add("BusinessName", registration.Business.Name);
-            values.Add("BusinessDomain", registration.Business.Domain);
-            values.Add("FirstName", registration.Admin.FirstName);
-            values.Add("LastName", registration.Admin.LastName);
-            values.Add("UserName", registration.Admin.Username);
+            var values = new Dictionary<string, string>
+            {
+                {"BusinessName", registration.Business.Name},
+                {"BusinessDomain", registration.Business.Domain},
+                {"FirstName", registration.Admin.FirstName},
+                {"LastName", registration.Admin.LastName},
+                {"UserName", registration.Admin.Username}
+            };
 
             return values;
         }

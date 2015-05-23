@@ -36,46 +36,42 @@ namespace BouncedEmailProcessor
         /// bounce notification.</param> 
         private static void ProcessQueuedBounce(ReceiveMessageResponse response)
         {
-            int messages = response.Messages.Count;
+            var messageCount = response.Messages.Count;
+            if (messageCount == 0) 
+                return;
 
-            if (messages > 0)
+            foreach (var m in response.Messages)
             {
-                foreach (var m in response.Messages)
+                var notification = JsonConvert.DeserializeObject<AmazonSqsNotification>(m.Body);
+                var bounce = JsonConvert.DeserializeObject<AmazonSesBounceNotification>(notification.Message);
+
+                switch (bounce.Bounce.BounceType)
                 {
-                    // First, convert the Amazon SNS message into a JSON object.
-                    var notification = JsonConvert.DeserializeObject<AmazonSqsNotification>(m.Body);
-
-                    // Now access the Amazon SES bounce notification.
-                    var bounce = JsonConvert.DeserializeObject<AmazonSesBounceNotification>(notification.Message);
-
-                    switch (bounce.Bounce.BounceType)
-                    {
-                        case "Transient":
-                            // Per our sample organizational policy, we will remove all recipients 
-                            // that generate an AttachmentRejected bounce from our mailing list.
-                            // Other bounces will be reviewed manually.
-                            switch (bounce.Bounce.BounceSubType)
-                            {
-                                case "AttachmentRejected":
-                                    foreach (var recipient in bounce.Bounce.BouncedRecipients)
-                                    {
-                                        //RemoveFromMailingList(recipient.EmailAddress);
-                                    }
-                                    break;
-                                default:
-                                    //ManuallyReviewBounce(bounce);
-                                    break;
-                            }
-                            break;
-                        default:
-                            // Remove all recipients that generated a permanent bounce 
-                            // or an unknown bounce.
-                            foreach (var recipient in bounce.Bounce.BouncedRecipients)
-                            {
-                                //RemoveFromMailingList(recipient.EmailAddress);
-                            }
-                            break;
-                    }
+                    case "Transient":
+                        // Per our sample organizational policy, we will remove all recipients 
+                        // that generate an AttachmentRejected bounce from our mailing list.
+                        // Other bounces will be reviewed manually.
+                        switch (bounce.Bounce.BounceSubType)
+                        {
+                            case "AttachmentRejected":
+                                foreach (var recipient in bounce.Bounce.BouncedRecipients)
+                                {
+                                    //RemoveFromMailingList(recipient.EmailAddress);
+                                }
+                                break;
+                            default:
+                                //ManuallyReviewBounce(bounce);
+                                break;
+                        }
+                        break;
+                    default:
+                        // Remove all recipients that generated a permanent bounce 
+                        // or an unknown bounce.
+                        foreach (var recipient in bounce.Bounce.BouncedRecipients)
+                        {
+                            //RemoveFromMailingList(recipient.EmailAddress);
+                        }
+                        break;
                 }
             }
         }

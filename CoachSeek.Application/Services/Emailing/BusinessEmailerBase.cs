@@ -11,18 +11,18 @@ namespace CoachSeek.Application.Services.Emailing
     public abstract class BusinessEmailerBase : IApplicationContextSetter
     {
         protected ApplicationContext Context { get; set; }
-        protected Guid BusinessId { get { return Context.BusinessId.Value; } }
-        protected string BusinessName { get { return Context.BusinessName; } }
+        protected Guid BusinessId { get { return Context.Business.BusinessId.Value; } }
+        protected string BusinessName { get { return Context.Business.BusinessName; } }
         protected bool IsTesting { get { return Context.IsTesting; } }
-        protected bool ForceEmail { get { return Context.ForceEmail; } }
-        protected string Sender { get { return Context.EmailSender; } }
-        protected bool IsEmailingEnabled { get { return Context.IsEmailingEnabled; } }
-        protected IBusinessRepository BusinessRepository { get { return Context.BusinessRepository; } }
+        protected bool ForceEmail { get { return Context.Email.ForceEmail; } }
+        protected string Sender { get { return Context.Email.EmailSender; } }
+        protected bool IsEmailingEnabled { get { return Context.Email.IsEmailingEnabled; } }
+        protected IBusinessRepository BusinessRepository { get { return Context.Business.BusinessRepository; } }
 
 
         protected IEmailer Emailer
         {
-            get { return EmailerFactory.CreateEmailer(IsEmailingEnabled, IsTesting, ForceEmail); }
+            get { return EmailerFactory.CreateEmailer(IsTesting, Context.Email); }
         }
 
         protected string ReadEmbeddedTextResource(string resourceName)

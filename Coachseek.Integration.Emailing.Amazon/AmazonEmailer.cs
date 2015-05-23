@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using Amazon;
 using Amazon.SimpleEmail.Model;
+using CoachSeek.Domain.Repositories;
 using Coachseek.Integration.Contracts.Interfaces;
 using Coachseek.Integration.Contracts.Models;
 
@@ -12,9 +13,19 @@ namespace Coachseek.Integration.Emailing.Amazon
     {
         private string COPY_EMAIL = "copy@coachseek.com";
 
+        private IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { get; set; }
+
+
+        public AmazonEmailer(IUnsubscribedEmailAddressRepository unsubscribedEmailAddressRepository)
+        {
+            UnsubscribedEmailAddressRepository = unsubscribedEmailAddressRepository;
+        }
+
+
         public bool Send(Email email)
         {
-            if (email.IsRecipientUnsubscribed)
+            var isRecipientUnsubscribed = UnsubscribedEmailAddressRepository.Get(email.Recipient);
+            if (isRecipientUnsubscribed)
                 return false;
 
             //// TODO: Remove the overriding of the email addresses.
