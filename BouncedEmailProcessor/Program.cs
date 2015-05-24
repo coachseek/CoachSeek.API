@@ -1,5 +1,11 @@
-﻿using Amazon;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Amazon;
+using Amazon.SQS;
 using Amazon.SQS.Model;
+using Coachseek.API.Client;
 using Newtonsoft.Json;
 
 namespace BouncedEmailProcessor
@@ -13,66 +19,111 @@ namespace BouncedEmailProcessor
         {
             using (var sqs = AWSClientFactory.CreateAmazonSQSClient(RegionEndpoint.USWest2))
             {
-                var listQueuesRequest = new ListQueuesRequest();
-                var listQueuesResponse = sqs.ListQueues(listQueuesRequest);
-
-                var bouncedQueueUrl = string.Empty;
-
-                foreach (var queueUrl in listQueuesResponse.QueueUrls)
-                    if (queueUrl.Contains("ses-bounces-queue"))
-                        bouncedQueueUrl = queueUrl;
-
-                var receiveMessageRequest = new ReceiveMessageRequest {QueueUrl = bouncedQueueUrl};
-                var receiveMessageResponse = sqs.ReceiveMessage(receiveMessageRequest);
-
-                ProcessQueuedBounce(receiveMessageResponse);
+                var bouncedQueue = GetBouncedQueue(sqs);
+                var bounceMessages = GetBouncedMessages(bouncedQueue, sqs);
+                ProcessQueuedBounce(bounceMessages, bouncedQueue, sqs);
             }
         }
 
 
-        /// <summary>Process bounces received from Amazon SES via Amazon SQS.</summary>
-        /// <param name="response">The response from the Amazon SQS bounces queue 
-        /// to a ReceiveMessage request. This object contains the Amazon SES  
-        /// bounce notification.</param> 
-        private static void ProcessQueuedBounce(ReceiveMessageResponse response)
+        private static BouncedQueue GetBouncedQueue(IAmazonSQS sqs)
         {
+            var listQueuesRequest = new ListQueuesRequest();
+            var listQueuesResponse = sqs.ListQueues(listQueuesRequest);
+
+            foreach (var queueUrl in listQueuesResponse.QueueUrls)
+                if (queueUrl.Contains("ses-bounces-queue"))
+                    return new BouncedQueue(queueUrl);
+
+            return null;
+        }
+
+        private static IEnumerable<BouncedMessage> GetBouncedMessages(BouncedQueue bouncedQueue, IAmazonSQS sqs)
+        {
+            if (bouncedQueue == null)
+                return new List<BouncedMessage>();
+
+            var request = new ReceiveMessageRequest { QueueUrl = bouncedQueue.Url };
+            var response = sqs.ReceiveMessage(request);
+
             var messageCount = response.Messages.Count;
-            if (messageCount == 0) 
-                return;
+            if (messageCount == 0)
+                return new List<BouncedMessage>();
 
-            foreach (var m in response.Messages)
+            var bouncedMessages = new List<BouncedMessage>();
+
+            foreach (var sesBounceMessage in response.Messages)
             {
-                var notification = JsonConvert.DeserializeObject<AmazonSqsNotification>(m.Body);
-                var bounce = JsonConvert.DeserializeObject<AmazonSesBounceNotification>(notification.Message);
+                var bouncedMessage = ConvertToBouncedMessage(sesBounceMessage);
+                bouncedMessages.Add(bouncedMessage);
+            }
 
-                switch (bounce.Bounce.BounceType)
+            return bouncedMessages;
+        }
+
+        private static BouncedMessage ConvertToBouncedMessage(Message message)
+        {
+            var notification = JsonConvert.DeserializeObject<AmazonSqsNotification>(message.Body);
+            var sesBounceMessage = JsonConvert.DeserializeObject<AmazonSesBounceNotification>(notification.Message);
+
+            var receiptId = message.ReceiptHandle;
+            var bounceType = sesBounceMessage.Bounce.BounceType;
+            var recipients = sesBounceMessage.Bounce.BouncedRecipients.Select(x => x.EmailAddress);
+
+            return new BouncedMessage(receiptId, bounceType, recipients);
+        }
+
+        private static void ProcessQueuedBounce(IEnumerable<BouncedMessage> bouncedMessages, BouncedQueue bouncedQueue, IAmazonSQS sqs)
+        {
+            const string PERMANENT = "Permanent";
+
+            foreach (var bouncedMessage in bouncedMessages)
+            {
+                if (bouncedMessage.BounceType == PERMANENT)
                 {
-                    case "Transient":
-                        // Per our sample organizational policy, we will remove all recipients 
-                        // that generate an AttachmentRejected bounce from our mailing list.
-                        // Other bounces will be reviewed manually.
-                        switch (bounce.Bounce.BounceSubType)
-                        {
-                            case "AttachmentRejected":
-                                foreach (var recipient in bounce.Bounce.BouncedRecipients)
-                                {
-                                    //RemoveFromMailingList(recipient.EmailAddress);
-                                }
-                                break;
-                            default:
-                                //ManuallyReviewBounce(bounce);
-                                break;
-                        }
-                        break;
-                    default:
-                        // Remove all recipients that generated a permanent bounce 
-                        // or an unknown bounce.
-                        foreach (var recipient in bounce.Bounce.BouncedRecipients)
-                        {
-                            //RemoveFromMailingList(recipient.EmailAddress);
-                        }
-                        break;
+                    foreach (var recipient in bouncedMessage.Recipients)
+                        UnsubscribeEmailAddress(recipient);
+
+                    PopBouncedMessageFromQueue(bouncedMessage, bouncedQueue, sqs);
                 }
+            }
+        }
+
+        private static void UnsubscribeEmailAddress(string emailAddress)
+        {
+            var relativeUrl = string.Format("Email/Unsubscribe?email={0}", HttpUtility.UrlEncode(emailAddress));
+            var response = ApiClient.AdminAuthenticatedGet<string>(relativeUrl);
+            // 
+        }
+
+        private static void PopBouncedMessageFromQueue(BouncedMessage message, BouncedQueue queue, IAmazonSQS sqs)
+        {
+            var deleteRequest = new DeleteMessageRequest {QueueUrl = queue.Url, ReceiptHandle = message.ReceiptId};
+            sqs.DeleteMessage(deleteRequest);
+        }
+
+
+        private class BouncedQueue
+        {
+            public string Url { get; private set; }
+
+            public BouncedQueue(string url)
+            {
+                Url = url;
+            }
+        }
+
+        private class BouncedMessage
+        {
+            public string ReceiptId { get; private set; }
+            public string BounceType { get; private set; }
+            public IEnumerable<string> Recipients { get; private set; }
+
+            public BouncedMessage(string receiptId, string bounceType, IEnumerable<string> recipients)
+            {
+                BounceType = bounceType;
+                ReceiptId = receiptId;
+                Recipients = recipients;
             }
         }
     }
