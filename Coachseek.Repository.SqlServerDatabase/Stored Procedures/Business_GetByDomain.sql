@@ -6,7 +6,11 @@ BEGIN
 	SET NOCOUNT ON;
 	
 	SELECT
-		*
+		[Id],
+		[Guid],
+		[Name],
+		[Domain],
+		[Currency]
 	FROM
 		[dbo].[Business]
 	WHERE

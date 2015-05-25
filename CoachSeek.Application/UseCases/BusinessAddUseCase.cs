@@ -5,15 +5,18 @@ using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
     public class BusinessAddUseCase : BaseUseCase, IBusinessAddUseCase
     {
+        private ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }
 
-        public BusinessAddUseCase(IBusinessDomainBuilder businessDomainBuilder)
+        public BusinessAddUseCase(IBusinessDomainBuilder businessDomainBuilder, ISupportedCurrencyRepository supportedCurrencyRepository)
         {
+            SupportedCurrencyRepository = supportedCurrencyRepository;
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
@@ -25,14 +28,14 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 BusinessDomainBuilder.BusinessRepository = BusinessRepository;
-                var newBusiness = new Business(command, BusinessDomainBuilder);
+                var newBusiness = new Business(command, BusinessDomainBuilder, SupportedCurrencyRepository);
                 var data = BusinessRepository.AddBusiness(newBusiness);
                 return new Response(data);
             }
             catch (Exception ex)
             {
-                if (ex is DuplicateBusinessAdmin)
-                    return new DuplicateBusinessAdminErrorResponse();
+                if (ex is CurrencyNotSupported)
+                    return new CurrencyNotSupportedErrorResponse();
                 throw;
             }
         }

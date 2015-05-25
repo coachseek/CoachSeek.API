@@ -2,7 +2,8 @@
 CREATE PROCEDURE [dbo].[Business_Create](
 	@guid [uniqueidentifier],
 	@name [nvarchar](100),
-	@domain [nvarchar](100))
+	@domain [nvarchar](100),
+	@currency [nchar](3))
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -11,20 +12,23 @@ BEGIN
 	(
 		[Guid],
 		[Name],
-		[Domain]
+		[Domain],
+		[Currency]
 	)
 	VALUES
 	(
 		@guid,
 		@name,
-		@domain
+		@domain,
+		@currency
 	)
 
 	SELECT
 		[Id],
 		[Guid],
 		[Name],
-		[Domain]
+		[Domain],
+		[Currency]
 	FROM 
 		[dbo].[Business]
 	WHERE

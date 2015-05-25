@@ -88,6 +88,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This currency is not supported..
+        /// </summary>
+        internal static string ErrorCurrencyNotSupported {
+            get {
+                return ResourceManager.GetString("ErrorCurrencyNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This coach already exists..
         /// </summary>
         internal static string ErrorDuplicateCoach {

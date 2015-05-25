@@ -17,10 +17,10 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
-    public class DuplicateBusinessAdminErrorResponse : ErrorResponse
+    public class CurrencyNotSupportedErrorResponse : ErrorResponse
     {
-        public DuplicateBusinessAdminErrorResponse()
-            : base(Resources.ErrorBusinessAdminDuplicateEmail, "registration.registrant.email")
+        public CurrencyNotSupportedErrorResponse()
+            : base(Resources.ErrorCurrencyNotSupported, "registration.business.currency")
         { }
     }
 

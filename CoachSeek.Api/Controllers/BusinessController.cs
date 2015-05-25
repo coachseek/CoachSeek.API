@@ -2,7 +2,6 @@
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Filters;
-using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.UseCases;
 
 namespace CoachSeek.Api.Controllers

@@ -2,7 +2,8 @@
 using CoachSeek.Data.Model;
 using System;
 using CoachSeek.Domain.Commands;
-using IBusinessDomainBuilder = CoachSeek.Domain.Contracts.IBusinessDomainBuilder;
+using CoachSeek.Domain.Contracts;
+using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -11,13 +12,15 @@ namespace CoachSeek.Domain.Entities
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
+        public Currency Currency { get; protected set; }
 
 
-        public Business(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder) 
+        public Business(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder, ISupportedCurrencyRepository supportedCurrencyRepository) 
             : this()
         {
             Name = command.Name.Trim();
             Domain = domainBuilder.BuildDomain(command.Name);
+            Currency = new Currency(command.Currency, supportedCurrencyRepository);
         }
 
         public Business()

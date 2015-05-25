@@ -120,13 +120,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 var command = new SqlCommand("Business_Create", Connection) { CommandType = CommandType.StoredProcedure };
 
-                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier, 0, "Guid"));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar, 100, "Name"));
-                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar, 100, "Domain"));
+                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@currency", SqlDbType.NChar));
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
                 command.Parameters[2].Value = business.Domain;
+                command.Parameters[3].Value = business.Currency.Code;
 
                 reader = command.ExecuteReader();
 
@@ -640,7 +642,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = reader.GetGuid(1),
                 Name = reader.GetString(2),
-                Domain = reader.GetString(3)
+                Domain = reader.GetString(3),
+                Currency = reader.GetString(4)
             };
         }
 

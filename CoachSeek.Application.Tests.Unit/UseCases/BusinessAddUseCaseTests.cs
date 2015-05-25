@@ -67,7 +67,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddBusiness(BusinessAddCommand command)
         {
-            var useCase = new BusinessAddUseCase(BusinessDomainBuilder);
+            var useCase = new BusinessAddUseCase(BusinessDomainBuilder, new HardCodedSupportedCurrencyRepository());
             var context = new ApplicationContext(new BusinessContext(null, "", BusinessRepository), null, true);
             useCase.Initialise(context);
             return useCase.AddBusiness(command);

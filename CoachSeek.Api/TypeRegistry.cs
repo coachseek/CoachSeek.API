@@ -25,8 +25,9 @@ namespace CoachSeek.Api
                 x.AssembliesFromApplicationBaseDirectory(f => assemblyNames.Contains(f.GetName().Name));
                 x.WithDefaultConventions();
             });
-            
+
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
+            For<ISupportedCurrencyRepository>().Use<HardCodedSupportedCurrencyRepository>();
         }
     }
 }
