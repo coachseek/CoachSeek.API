@@ -643,7 +643,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Id = reader.GetGuid(1),
                 Name = reader.GetString(2),
                 Domain = reader.GetString(3),
-                Currency = reader.GetString(4)
+                Currency = reader.GetNullableString(4)
             };
         }
 
