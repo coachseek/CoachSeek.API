@@ -197,7 +197,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?, Guid?> criteria)
         {
-            var context = new ApplicationContext(new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository, null, null), null, true);
+            var businessContext = new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository, null, null);
+            var emailContext = new EmailContext(true, false, "", null);
+            var context = new ApplicationContext(businessContext, emailContext, true);
             var coachGetByIdUseCase = new CoachGetByIdUseCase();
             coachGetByIdUseCase.Initialise(context);
             var locationGetByIdUseCase = new LocationGetByIdUseCase();
