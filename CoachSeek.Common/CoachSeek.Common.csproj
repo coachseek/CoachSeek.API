@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CoachseekAdminIdentity.cs" />
     <Compile Include="CoachseekAnonymousIdentity.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="DataAccess\SqlServerDataReader.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="NoBusinessPrincipal.cs" />

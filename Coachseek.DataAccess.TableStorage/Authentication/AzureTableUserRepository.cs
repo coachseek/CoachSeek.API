@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
@@ -96,6 +97,27 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                 return null;
 
             var user = (UserEntity) retrievedResult.Result;
+
+            return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
+        }
+
+        public User GetByBusinessId(Guid businessId)
+        {
+            var stringBusinessId = businessId.ToString().ToLower();
+
+            //var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
+            var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterConditionForGuid("BusinessId", QueryComparisons.Equal, businessId));
+
+            //var query = new TableQuery<UserEntity>().Where(TableQuery.CombineFilters(
+            //                                               TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER),
+            //                                               TableOperators.And,
+            //                                               TableQuery.GenerateFilterCondition("BusinessId", QueryComparisons.Equal, stringBusinessId)));
+
+            var results = Table.ExecuteQuery(query).ToList();
+            if (!results.Any())
+                return null;
+
+            var user = results.First();
 
             return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
         }

@@ -61,6 +61,11 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             return CreateUser(dbUser);
         }
 
+        public User GetByBusinessId(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private User CreateUser(DbUser dbUser)
         {

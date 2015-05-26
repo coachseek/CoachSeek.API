@@ -24,17 +24,19 @@ namespace Coachseek.Integration.Emailing.Amazon
 
         public bool Send(Email email)
         {
-            var isRecipientUnsubscribed = UnsubscribedEmailAddressRepository.Get(email.Recipient);
-            if (isRecipientUnsubscribed)
-                return false;
+            var recipientList = new List<string>();
 
-            //// TODO: Remove the overriding of the email addresses.
-            //if (!email.Recipient.EndsWith("simulator.amazonses.com"))
-            //    email.Recipient = "olaft@ihug.co.nz";
+            foreach (var recipient in email.Recipients)
+            {
+                var isRecipientUnsubscribed = UnsubscribedEmailAddressRepository.Get(recipient);
+                if (isRecipientUnsubscribed)
+                    continue;
+                recipientList.Add(recipient);
+            }
 
             var destination = new Destination
             {
-                ToAddresses = (new List<string> { email.Recipient }),
+                ToAddresses = recipientList,
                 BccAddresses = (new List<string> { COPY_EMAIL }), 
             };
             var subject = new Content(email.Subject);

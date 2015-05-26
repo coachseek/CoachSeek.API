@@ -85,7 +85,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private Response WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase();
-            var context = new ApplicationContext(new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository), null, true);
+            var context = new ApplicationContext(new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository, null, null), null, true);
             useCase.Initialise(context);
             return useCase.UpdateLocation(request);
         }

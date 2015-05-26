@@ -20,8 +20,13 @@ namespace BouncedEmailProcessor
             using (var sqs = AWSClientFactory.CreateAmazonSQSClient(RegionEndpoint.USWest2))
             {
                 var bouncedQueue = GetBouncedQueue(sqs);
-                var bounceMessages = GetBouncedMessages(bouncedQueue, sqs);
-                ProcessQueuedBounce(bounceMessages, bouncedQueue, sqs);
+                var haveBouncedMessages = true;
+                while (haveBouncedMessages)
+                {
+                    var bounceMessages = GetBouncedMessages(bouncedQueue, sqs);
+                    haveBouncedMessages = bounceMessages.Count > 0;
+                    ProcessQueuedBounce(bounceMessages, bouncedQueue, sqs);
+                }
             }
         }
 
@@ -38,7 +43,7 @@ namespace BouncedEmailProcessor
             return null;
         }
 
-        private static IEnumerable<BouncedMessage> GetBouncedMessages(BouncedQueue bouncedQueue, IAmazonSQS sqs)
+        private static IList<BouncedMessage> GetBouncedMessages(BouncedQueue bouncedQueue, IAmazonSQS sqs)
         {
             if (bouncedQueue == null)
                 return new List<BouncedMessage>();
@@ -83,9 +88,9 @@ namespace BouncedEmailProcessor
                 {
                     foreach (var recipient in bouncedMessage.Recipients)
                         UnsubscribeEmailAddress(recipient);
-
-                    PopBouncedMessageFromQueue(bouncedMessage, bouncedQueue, sqs);
                 }
+
+                PopBouncedMessageFromQueue(bouncedMessage, bouncedQueue, sqs);
             }
         }
 
