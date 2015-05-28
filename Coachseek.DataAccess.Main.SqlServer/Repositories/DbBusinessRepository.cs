@@ -145,6 +145,40 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public BusinessData UpdateBusiness(Business business)
+        {
+            var wasAlreadyOpen = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                wasAlreadyOpen = OpenConnection();
+
+                var command = new SqlCommand("Business_Update", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@currency", SqlDbType.NChar));
+
+                command.Parameters[0].Value = business.Id;
+                command.Parameters[1].Value = business.Name;
+                command.Parameters[2].Value = business.Currency.Code;
+
+                reader = command.ExecuteReader();
+
+                if (reader.HasRows && reader.Read())
+                    return ReadBusinessData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

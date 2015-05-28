@@ -55,6 +55,7 @@
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
+    <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICustomerOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\IUserRepositorySetter.cs" />
     <Compile Include="IApplicationContextSetter.cs" />

@@ -58,6 +58,7 @@
     <Compile Include="Commands\AddCommand.cs" />
     <Compile Include="Commands\BookingSetPaymentStatusCommand.cs" />
     <Compile Include="Commands\BookingSetAttendanceCommand.cs" />
+    <Compile Include="Commands\BusinessUpdateCommand.cs" />
     <Compile Include="Commands\BusinessAddCommand.cs" />
     <Compile Include="Commands\BookingAddCommand.cs" />
     <Compile Include="Commands\CustomerUpdateCommand.cs" />

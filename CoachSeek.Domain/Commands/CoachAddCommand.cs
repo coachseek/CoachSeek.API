@@ -7,11 +7,5 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public WeeklyWorkingHoursCommand WorkingHours { get; set; }
-
-
-        //public NewCoachData ToData()
-        //{
-        //    return Mapper.Map<CoachAddCommand, NewCoachData>(this);
-        //}
     }
 }

@@ -89,6 +89,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetBusiness(business.Id);
         }
 
+        public BusinessData UpdateBusiness(Business business)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

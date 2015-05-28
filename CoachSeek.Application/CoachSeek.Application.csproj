@@ -60,6 +60,7 @@
     <Compile Include="UseCases\Admin\EmailUnsubscribeUseCase.cs" />
     <Compile Include="UseCases\BookingSetAttendanceUseCase.cs" />
     <Compile Include="UseCases\BookingSetPaymentStatusUseCase.cs" />
+    <Compile Include="UseCases\BusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\CourseOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\CourseBookingAddUseCase.cs" />
     <Compile Include="UseCases\BusinessGetUseCase.cs" />

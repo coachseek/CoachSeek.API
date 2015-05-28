@@ -22,6 +22,10 @@ namespace CoachSeek.Application.Contracts.Models
         public CurrencyNotSupportedErrorResponse()
             : base(Resources.ErrorCurrencyNotSupported, "registration.business.currency")
         { }
+
+        public CurrencyNotSupportedErrorResponse(string field)
+            : base(Resources.ErrorCurrencyNotSupported, field)
+        { }
     }
 
     public class DuplicateUserErrorResponse : ErrorResponse

@@ -23,6 +23,13 @@ namespace CoachSeek.Domain.Entities
             Currency = new Currency(command.Currency, supportedCurrencyRepository);
         }
 
+        public Business(Guid businessId, BusinessUpdateCommand command, ISupportedCurrencyRepository supportedCurrencyRepository)
+        {
+            Id = businessId;
+            Name = command.Name.Trim();
+            Currency = new Currency(command.Currency, supportedCurrencyRepository);
+        }
+
         public Business()
         {
             Id = Guid.NewGuid();

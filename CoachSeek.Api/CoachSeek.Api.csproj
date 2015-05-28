@@ -161,6 +161,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Conversion\BusinessUpdateCommandConverter.cs" />
     <Compile Include="Conversion\DomainCommandConverter.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Models\Api\Out\ApiOutSingleSession.cs" />
     <Compile Include="Models\Api\Out\ApiOutSessionBooking.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomerSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionBooking.cs" />
