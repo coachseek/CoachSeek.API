@@ -75,6 +75,10 @@
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess.Authentication\CoachSeek.DataAccess.Authentication.csproj">
       <Project>{D8A5C03D-08B6-4DE3-9BAD-27F7AFB03DB9}</Project>
       <Name>CoachSeek.DataAccess.Authentication</Name>

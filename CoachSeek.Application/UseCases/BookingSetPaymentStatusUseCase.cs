@@ -7,9 +7,9 @@ namespace CoachSeek.Application.UseCases
     {
         public Response SetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
-            var booking = BusinessRepository.GetSessionBooking(BusinessId, command.BookingId);
+            var booking = BusinessRepository.GetSessionBooking(Business.Id, command.BookingId);
             booking.PaymentStatus = command.PaymentStatus;
-            BusinessRepository.UpdateBooking(BusinessId, booking);
+            BusinessRepository.UpdateBooking(Business.Id, booking);
             return new Response();
         }
     }

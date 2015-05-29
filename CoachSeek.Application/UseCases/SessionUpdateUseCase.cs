@@ -57,7 +57,7 @@ namespace CoachSeek.Application.UseCases
                 var coreData = LookupAndValidateCoreData(command);
                 var updateCourse = new RepeatedSession(existingCourse, command, coreData);
                 ValidateUpdate(existingCourse, updateCourse);
-                var data = BusinessRepository.UpdateCourse(BusinessId, updateCourse);
+                var data = BusinessRepository.UpdateCourse(Business.Id, updateCourse);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -78,9 +78,9 @@ namespace CoachSeek.Application.UseCases
 
         private CoreData LookupAndValidateCoreData(SessionUpdateCommand command)
         {
-            var location = BusinessRepository.GetLocation(BusinessId, command.Location.Id);
-            var coach = BusinessRepository.GetCoach(BusinessId, command.Coach.Id);
-            var service = BusinessRepository.GetService(BusinessId, command.Service.Id);
+            var location = BusinessRepository.GetLocation(Business.Id, command.Location.Id);
+            var coach = BusinessRepository.GetCoach(Business.Id, command.Coach.Id);
+            var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
 
             var coreData = new CoreData(location, coach, service);
 
@@ -96,7 +96,7 @@ namespace CoachSeek.Application.UseCases
                 var coreData = LookupAndValidateCoreData(command);
                 var updateSession = new StandaloneSession(existingSession, command, coreData);
                 ValidateUpdate(updateSession);
-                var data = BusinessRepository.UpdateSession(BusinessId, updateSession);
+                var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace CoachSeek.Application.UseCases
                 var coreData = LookupAndValidateCoreData(command);
                 var updateSession = new SessionInCourse(existingSession, command, coreData);
                 ValidateUpdate(updateSession);
-                var data = BusinessRepository.UpdateSession(BusinessId, updateSession);
+                var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -182,11 +182,11 @@ namespace CoachSeek.Application.UseCases
 
         private List<SingleSession> GetAllSessions()
         {
-            var locations = BusinessRepository.GetAllLocations(BusinessId);
-            var coaches = BusinessRepository.GetAllCoaches(BusinessId);
-            var services = BusinessRepository.GetAllServices(BusinessId);
+            var locations = BusinessRepository.GetAllLocations(Business.Id);
+            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
+            var services = BusinessRepository.GetAllServices(Business.Id);
 
-            var sessionDatas = BusinessRepository.GetAllSessions(BusinessId);
+            var sessionDatas = BusinessRepository.GetAllSessions(Business.Id);
 
             var sessions = new List<SingleSession>();
             foreach (var sessionData in sessionDatas)

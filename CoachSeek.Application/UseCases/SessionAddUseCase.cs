@@ -37,9 +37,9 @@ namespace CoachSeek.Application.UseCases
 
         private CoreData LookupCoreData(SessionAddCommand command)
         {
-            var location = BusinessRepository.GetLocation(BusinessId, command.Location.Id);
-            var coach = BusinessRepository.GetCoach(BusinessId, command.Coach.Id);
-            var service = BusinessRepository.GetService(BusinessId, command.Service.Id);
+            var location = BusinessRepository.GetLocation(Business.Id, command.Location.Id);
+            var coach = BusinessRepository.GetCoach(Business.Id, command.Coach.Id);
+            var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
 
             return new CoreData(location, coach, service);
         }
@@ -56,7 +56,7 @@ namespace CoachSeek.Application.UseCases
         {
             var newSession = new StandaloneSession(command, coreData);
             ValidateAdd(newSession);
-            var data = BusinessRepository.AddSession(BusinessId, newSession);
+            var data = BusinessRepository.AddSession(Business.Id, newSession);
             return new Response(data);
         }
 
@@ -64,7 +64,7 @@ namespace CoachSeek.Application.UseCases
         {
             var newCourse = new RepeatedSession(command, coreData);
             ValidateAdd(newCourse);
-            var data = BusinessRepository.AddCourse(BusinessId, newCourse);
+            var data = BusinessRepository.AddCourse(Business.Id, newCourse);
             return new Response(data);
         }
 
@@ -112,11 +112,11 @@ namespace CoachSeek.Application.UseCases
 
         private List<SingleSession> GetAllSessions()
         {
-            var locations = BusinessRepository.GetAllLocations(BusinessId);
-            var coaches = BusinessRepository.GetAllCoaches(BusinessId);
-            var services = BusinessRepository.GetAllServices(BusinessId);
+            var locations = BusinessRepository.GetAllLocations(Business.Id);
+            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
+            var services = BusinessRepository.GetAllServices(Business.Id);
 
-            var sessionDatas = BusinessRepository.GetAllSessions(BusinessId);
+            var sessionDatas = BusinessRepository.GetAllSessions(Business.Id);
 
             var sessions = new List<SingleSession>();
             foreach (var sessionData in sessionDatas)
@@ -134,11 +134,11 @@ namespace CoachSeek.Application.UseCases
 
         private List<StandaloneSession> GetAllStandaloneSessions()
         {
-            var locations = BusinessRepository.GetAllLocations(BusinessId);
-            var coaches = BusinessRepository.GetAllCoaches(BusinessId);
-            var services = BusinessRepository.GetAllServices(BusinessId);
+            var locations = BusinessRepository.GetAllLocations(Business.Id);
+            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
+            var services = BusinessRepository.GetAllServices(Business.Id);
 
-            var sessionDatas = BusinessRepository.GetAllStandaloneSessions(BusinessId);
+            var sessionDatas = BusinessRepository.GetAllStandaloneSessions(Business.Id);
 
             var sessions = new List<StandaloneSession>();
             foreach (var sessionData in sessionDatas)

@@ -12,36 +12,37 @@ namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
-        private Guid? _businessId;
-        private string _businessName;
+        private BusinessDetails _business;
+        private CurrencyDetails _currency;
 
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
+        public ISupportedCurrencyRepository SupportedCurrencyRepository { set; protected get; }
         public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; protected get; }
 
-        public Guid? BusinessId
+        public BusinessDetails Business
         {
-            // Make BusinessId public and setable for unit testing.
-            set { _businessId = value; }
+            // Make Business public and setable for unit testing.
+            set { _business = value; }
             get
             {
-                if (_businessId.HasValue)
-                    return _businessId;
+                if (_business != null)
+                    return _business;
                 if (RequestContext.Principal.Identity is CoachseekIdentity)
-                    return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessId;
+                    return ((CoachseekIdentity)RequestContext.Principal.Identity).Business;
                 return null;
             }
         }
 
-        public string BusinessName
+        public CurrencyDetails Currency
         {
-            set { _businessName = value; }
+            set { _currency = value; }
             get
             {
-                if (_businessName != null)
-                    return _businessName;
+                if (_currency != null)
+                    return _currency;
                 if (RequestContext.Principal.Identity is CoachseekIdentity)
-                    return ((CoachseekIdentity)RequestContext.Principal.Identity).BusinessName;
+                    return ((CoachseekIdentity)RequestContext.Principal.Identity).Currency;
                 return null;
             }
         }
@@ -71,7 +72,7 @@ namespace CoachSeek.Api.Controllers
             get
             {
                 var userName = ControllerContext.RequestContext.Principal.Identity.Name;
-                var businessContext = new BusinessContext(BusinessId, BusinessName, BusinessRepository, userName, UserRepository);
+                var businessContext = new BusinessContext(Business, Currency, userName, BusinessRepository, SupportedCurrencyRepository, UserRepository);
                 var emailContext = new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository);
 
                 return new ApplicationContext(businessContext, emailContext, IsTesting);

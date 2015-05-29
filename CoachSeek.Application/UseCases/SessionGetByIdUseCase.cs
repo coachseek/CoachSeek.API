@@ -33,14 +33,14 @@ namespace CoachSeek.Application.UseCases
         private SessionData AppendCustomerBookingsToSession(SingleSession session)
         {
             var sessionData = session.ToData();
-            sessionData.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
+            sessionData.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(Business.Id, session.Id);
             return sessionData;
         }
 
         private SessionData AppendCustomerBookingsToCourse(RepeatedSession course)
         {
             var courseData = course.ToData();
-            var courseAndSessionBookings = BusinessRepository.GetCustomerBookingsByCourseId(BusinessId, courseData.Id);
+            var courseAndSessionBookings = BusinessRepository.GetCustomerBookingsByCourseId(Business.Id, courseData.Id);
 
             courseData.Booking.Bookings = ExtractCourseBookings(courseAndSessionBookings).ToList();
 

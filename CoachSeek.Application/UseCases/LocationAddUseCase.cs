@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var newLocation = new Location(command);
                 ValidateAdd(newLocation);
-                var data = BusinessRepository.AddLocation(BusinessId, newLocation);
+                var data = BusinessRepository.AddLocation(Business.Id, newLocation);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -32,7 +32,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateAdd(Location newLocation)
         {
-            var locations = BusinessRepository.GetAllLocations(BusinessId);
+            var locations = BusinessRepository.GetAllLocations(Business.Id);
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
             if (isExistingLocation)
                 throw new DuplicateLocation();

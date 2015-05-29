@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var newCoach = new Coach(command);
                 ValidateAdd(newCoach);
-                var data = BusinessRepository.AddCoach(BusinessId, newCoach);
+                var data = BusinessRepository.AddCoach(Business.Id, newCoach);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -32,7 +32,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateAdd(Coach newCoach)
         {
-            var coaches = BusinessRepository.GetAllCoaches(BusinessId);
+            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
             var isExistingCoach = coaches.Any(x => x.FirstName.ToLower() == newCoach.FirstName.ToLower()
                                                 && x.LastName.ToLower() == newCoach.LastName.ToLower());
             if (isExistingCoach)

@@ -199,6 +199,7 @@
     <Compile Include="Models\Api\ApiLocationKey.cs" />
     <Compile Include="Models\Api\ApiServiceKey.cs" />
     <Compile Include="Models\Api\Booking\ApiBookingSaveCommand.cs" />
+    <Compile Include="Models\Api\Out\ApiOutBusiness.cs" />
     <Compile Include="Models\Api\Out\ApiOutOnlineBookingCourseBooking.cs" />
     <Compile Include="Models\Api\Out\ApiOutOnlineBookingCourse.cs" />
     <Compile Include="Models\Api\Out\ApiOutCourse.cs" />

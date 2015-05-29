@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases
     {
         public CustomerData GetCustomer(Guid id)
         {
-            return BusinessRepository.GetCustomer(BusinessId, id);
+            return BusinessRepository.GetCustomer(Business.Id, id);
         }
     }
 }

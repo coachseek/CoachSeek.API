@@ -27,7 +27,7 @@ namespace CoachSeek.Application.UseCases
                 ValidateCommand(command);
                 var newBooking = new SingleSessionBooking(command);
                 ValidateAddBooking(newBooking);
-                var data = BusinessRepository.AddSessionBooking(BusinessId, newBooking);
+                var data = BusinessRepository.AddSessionBooking(Business.Id, newBooking);
                 PostProcessing(newBooking);
                 return new Response(data);
             }
@@ -56,7 +56,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateCustomer(Guid customerId, ValidationException errors)
         {
-            var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
+            var customer = BusinessRepository.GetCustomer(Business.Id, customerId);
             if (customer.IsNotFound())
                 errors.Add("This customer does not exist.", "booking.customer.id");
         }
@@ -76,7 +76,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateIsNewBooking(SingleSessionBooking newBooking)
         {
-            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             var isExistingBooking = bookings.Any(x => x.SessionId == newBooking.Session.Id
                                               && x.Customer.Id == newBooking.Customer.Id);
             if (isExistingBooking)

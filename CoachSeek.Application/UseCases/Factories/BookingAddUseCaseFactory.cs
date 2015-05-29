@@ -24,8 +24,8 @@ namespace CoachSeek.Application.UseCases.Factories
         {
             Context = context;
 
-            BusinessId = Context.Business.BusinessId.HasValue ? Context.Business.BusinessId.Value : Guid.Empty;
-            BusinessRepository = Context.Business.BusinessRepository;
+            BusinessId = Context.BusinessContext.Business.Id;
+            BusinessRepository = Context.BusinessContext.BusinessRepository;
         }
         
 

@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases
     {
         public Response DeleteLocation(Guid id)
         {
-            var location = BusinessRepository.GetLocation(BusinessId, id);
+            var location = BusinessRepository.GetLocation(Business.Id, id);
             if (location == null)
                 return new NotFoundResponse();
 

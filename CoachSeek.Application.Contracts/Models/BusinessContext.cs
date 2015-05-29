@@ -8,17 +8,24 @@ namespace CoachSeek.Application.Contracts.Models
 {
     public class BusinessContext
     {
-        public Guid? BusinessId { get; private set; }
-        public string BusinessName { get; private set; }
+        public BusinessDetails Business { get; private set; }
+        public CurrencyDetails Currency { get; private set; }
         public string AdminEmail { get; private set; }
         public IBusinessRepository BusinessRepository { get; private set; }
+        public ISupportedCurrencyRepository SupportedCurrencyRepository { get; private set; }
 
 
-        public BusinessContext(Guid? businessId, string businessName, IBusinessRepository businessRepository, string userName, IUserRepository userRepository)
+        public BusinessContext(BusinessDetails business, 
+                               CurrencyDetails currency, 
+                               string userName,
+                               IBusinessRepository businessRepository,
+                               ISupportedCurrencyRepository supportedCurrencyRepository,
+                               IUserRepository userRepository)
         {
-            BusinessId = businessId;
-            BusinessName = businessName;
+            Business = business;
+            Currency = currency;
             BusinessRepository = businessRepository;
+            SupportedCurrencyRepository = supportedCurrencyRepository;
             AdminEmail = ResolveAdminEmail(userName, userRepository);
         }
 
@@ -34,7 +41,9 @@ namespace CoachSeek.Application.Contracts.Models
 
         private bool IsUserInBusinessContext(string userName)
         {
-            return BusinessId.HasValue && userName != "";
+            if (Business == null)
+                return false;
+            return Business.Id != Guid.Empty && userName != "";
         }
 
         private bool IsAuthenticatedUser(string userName)
@@ -44,7 +53,7 @@ namespace CoachSeek.Application.Contracts.Models
 
         private User LookupBusinessAdminUser(IUserRepository userRepository)
         {
-            var user = userRepository.GetByBusinessId(BusinessId.Value);
+            var user = userRepository.GetByBusinessId(Business.Id);
             if (user.IsNotFound())
                 throw new InvalidOperationException("User not associated with a business.");
             return user;

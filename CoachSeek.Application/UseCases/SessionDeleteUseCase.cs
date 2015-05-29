@@ -38,22 +38,22 @@ namespace CoachSeek.Application.UseCases
 
         private void TryDeleteSession(SingleSession session)
         {
-            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(BusinessId, session.Id);
+            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(Business.Id, session.Id);
             if (bookings.Count > 0)
                 throw new ValidationException("Cannot delete session as it has one or more bookings.");
 
-            BusinessRepository.DeleteSession(BusinessId, session.Id);
+            BusinessRepository.DeleteSession(Business.Id, session.Id);
         }
 
         private void TryDeleteCourse(RepeatedSession course)
         {
             ValidateDeleteCourse(course.ToData());
-            BusinessRepository.DeleteCourse(BusinessId, course.Id);
+            BusinessRepository.DeleteCourse(Business.Id, course.Id);
         }
 
         private void ValidateDeleteCourse(RepeatedSessionData course)
         {
-            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToCourse(course, bookings);
 
             if (HasCourseGotBookings(course))

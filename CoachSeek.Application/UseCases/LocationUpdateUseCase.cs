@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var location = new Location(command);
                 ValidateUpdate(location);
-                var data = BusinessRepository.UpdateLocation(BusinessId, location);
+                var data = BusinessRepository.UpdateLocation(Business.Id, location);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateUpdate(Location location)
         {
-            var locations = BusinessRepository.GetAllLocations(BusinessId);
+            var locations = BusinessRepository.GetAllLocations(Business.Id);
 
             var isExistingLocation = locations.Any(x => x.Id == location.Id);
             if (!isExistingLocation)

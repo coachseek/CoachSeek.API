@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases
     {
         public Response DeleteService(Guid id)
         {
-            var service = BusinessRepository.GetService(BusinessId, id);
+            var service = BusinessRepository.GetService(Business.Id, id);
             if (service == null)
                 return new NotFoundResponse();
 

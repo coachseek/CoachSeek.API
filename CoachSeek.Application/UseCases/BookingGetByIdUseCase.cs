@@ -9,10 +9,10 @@ namespace CoachSeek.Application.UseCases
     {
         public BookingData GetBooking(Guid id)
         {
-            var sessionBooking = BusinessRepository.GetSessionBooking(BusinessId, id);
+            var sessionBooking = BusinessRepository.GetSessionBooking(Business.Id, id);
             if (sessionBooking.IsFound())
                 return sessionBooking;
-            var courseBooking = BusinessRepository.GetCourseBooking(BusinessId, id);
+            var courseBooking = BusinessRepository.GetCourseBooking(Business.Id, id);
             return courseBooking;
         }
     }

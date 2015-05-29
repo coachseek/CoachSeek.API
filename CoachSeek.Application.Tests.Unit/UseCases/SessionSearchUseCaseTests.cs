@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
@@ -197,7 +198,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?, Guid?> criteria)
         {
-            var businessContext = new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository, null, null);
+            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            var currency = new CurrencyDetails("NZD", "$");
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
             var emailContext = new EmailContext(true, false, "", null);
             var context = new ApplicationContext(businessContext, emailContext, true);
             var coachGetByIdUseCase = new CoachGetByIdUseCase();

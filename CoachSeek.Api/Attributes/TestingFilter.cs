@@ -14,6 +14,7 @@ namespace CoachSeek.Api.Attributes
             var controller = (BaseController)actionContext.ControllerContext.Controller;
             controller.BusinessRepository = repositories.BusinessRepository;
             controller.UserRepository = repositories.UserRepository;
+            controller.SupportedCurrencyRepository = repositories.SupportedCurrencyRepository;
             controller.UnsubscribedEmailAddressRepository = repositories.UnsubscribedEmailAddressRepository;
 
             base.OnActionExecuting(actionContext);

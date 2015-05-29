@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Api.Results;
 using CoachSeek.Common;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;
 using System.Net.Http;
@@ -14,8 +15,7 @@ namespace CoachSeek.Api.Attributes
         protected override void AuthenticateUser(string username, string password, HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             var request = context.Request;
-            var userRepository = CreateUserRepository(request);
-            var principal = Authenticate(username, password, userRepository, cancellationToken);
+            var principal = Authenticate(username, password, request, cancellationToken);
 
             if (principal == null)
             {
@@ -38,10 +38,20 @@ namespace CoachSeek.Api.Attributes
             return CreateDataRepositories(request).UserRepository;
         }
 
-        private IPrincipal Authenticate(string username, string password, IUserRepository userRepository, CancellationToken cancellationToken)
+        protected IBusinessRepository CreateBusinessRepository(HttpRequestMessage request)
+        {
+            return CreateDataRepositories(request).BusinessRepository;
+        }
+
+        protected ISupportedCurrencyRepository CreateSupportedCurrencyRepository(HttpRequestMessage request)
+        {
+            return CreateDataRepositories(request).SupportedCurrencyRepository;
+        }
+
+        private IPrincipal Authenticate(string username, string password, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var user = userRepository.GetByUsername(username);
+            var user = CreateUserRepository(request).GetByUsername(username);
             if (user == null)
                 return null;
 
@@ -53,9 +63,26 @@ namespace CoachSeek.Api.Attributes
                 return new NoBusinessPrincipal();
 
             cancellationToken.ThrowIfCancellationRequested();
-            var identity = new CoachseekIdentity(username, "Basic", user.BusinessId.Value, user.BusinessName);
+            var business = CreateBusinessRepository(request).GetBusiness(user.BusinessId.Value);
+            if (business == null)
+                return null;
+
+            var currency = CreateSupportedCurrencyRepository(request).GetByCode(business.Currency);
+
+            cancellationToken.ThrowIfCancellationRequested();
+            var identity = new CoachseekIdentity(username, "Basic", ConvertToBusinessDetails(business), ConvertToCurrencyDetails(currency));
             var principal = new GenericPrincipal(identity, new[] { "BusinessAdmin" });
             return principal;
+        }
+
+        protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
+        {
+            return new BusinessDetails(business.Id, business.Name, business.Domain); 
+        }
+
+        protected CurrencyDetails ConvertToCurrencyDetails(CurrencyData currency)
+        {
+            return new CurrencyDetails(currency.Code, currency.Symbol); 
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Services;
+using CoachSeek.Common;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Entities;
@@ -32,7 +33,10 @@ namespace CoachSeek.Application.Tests.Unit.Services
         {
             SetupBusinessRepository();
 
-            Context = new ApplicationContext(new BusinessContext(BusinessId, "", BusinessRepository, null, null), null, true);
+            var business = new BusinessDetails(BusinessId, "", "");
+            var currency = new CurrencyDetails("NZD", "$");
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
+            Context = new ApplicationContext(businessContext, null, true);
         }
 
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -67,9 +68,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private Response WhenAddBusiness(BusinessAddCommand command)
         {
-            var useCase = new BusinessAddUseCase(BusinessDomainBuilder, new HardCodedSupportedCurrencyRepository());
-
-            var businessContext = new BusinessContext(null, "", BusinessRepository, null, null);
+            var useCase = new BusinessAddUseCase(BusinessDomainBuilder);
+            var business = new BusinessDetails(Guid.Empty, "", "");
+            var currency = new CurrencyDetails("NZD", "$");
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
             var emailContext = new EmailContext(true, false, "", null);
             var context = new ApplicationContext(businessContext, emailContext, true);
             useCase.Initialise(context);

@@ -42,7 +42,8 @@ namespace CoachSeek.Api.Attributes
             var business = LookupBusinessFromDomain(request);
             if (business.IsNotFound())
                 return;
-            context.Principal = CreateAnonymousPrincipal(business);
+            var currency = LookupCurrency(request, business.Currency);
+            context.Principal = CreateAnonymousPrincipal(business, currency);
         }
 
         private BusinessData LookupBusinessFromDomain(HttpRequestMessage request)
@@ -52,15 +53,17 @@ namespace CoachSeek.Api.Attributes
             return businessRepository.GetBusiness(domain);
         }
 
-        private GenericPrincipal CreateAnonymousPrincipal(BusinessData business)
+        private CurrencyData LookupCurrency(HttpRequestMessage request, string currencyCode)
         {
-            var identity = new CoachseekAnonymousIdentity(business.Id, business.Name);
-            return new GenericPrincipal(identity, new[] { "Anonymous" });
+            var supportedCurrencyRepository = CreateSupportedCurrencyRepository(request);
+            return supportedCurrencyRepository.GetByCode(currencyCode);
         }
 
-        private IBusinessRepository CreateBusinessRepository(HttpRequestMessage request)
+        private GenericPrincipal CreateAnonymousPrincipal(BusinessData business, CurrencyData currency)
         {
-            return CreateDataRepositories(request).BusinessRepository;
+
+            var identity = new CoachseekAnonymousIdentity(ConvertToBusinessDetails(business), ConvertToCurrencyDetails(currency));
+            return new GenericPrincipal(identity, new[] { "Anonymous" });
         }
     }
 }

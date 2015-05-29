@@ -198,7 +198,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private BusinessRegistrationController WhenConstruct()
         {
             var userAddUseCase = new UserAddUseCase();
-            var businessAddUseCase = new BusinessAddUseCase(null, null);
+            var businessAddUseCase = new BusinessAddUseCase(null);
             var associateUseCase = new UserAssociateWithBusinessUseCase();
 
             return new BusinessRegistrationController(userAddUseCase, businessAddUseCase, associateUseCase);

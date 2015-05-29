@@ -1,18 +1,17 @@
-﻿using System;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 
 namespace CoachSeek.Common
 {
     public class CoachseekIdentity : GenericIdentity
     {
-        public Guid BusinessId { get; protected set; }
-        public string BusinessName { get; protected set; }
+        public BusinessDetails Business { get; protected set; }
+        public CurrencyDetails Currency { get; protected set; }
 
-        public CoachseekIdentity(string name, string type, Guid businessId, string businessName)
+        public CoachseekIdentity(string name, string type, BusinessDetails business, CurrencyDetails currency)
             : base(name, type)
         {
-            BusinessId = businessId;
-            BusinessName = businessName;
+            Business = business;
+            Currency = currency;
         }
     }
 }

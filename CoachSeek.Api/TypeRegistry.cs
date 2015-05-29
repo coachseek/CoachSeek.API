@@ -27,7 +27,6 @@ namespace CoachSeek.Api
             });
 
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
-            For<ISupportedCurrencyRepository>().Use<HardCodedSupportedCurrencyRepository>();
         }
     }
 }

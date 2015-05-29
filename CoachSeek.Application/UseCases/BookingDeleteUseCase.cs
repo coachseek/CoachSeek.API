@@ -22,7 +22,7 @@ namespace CoachSeek.Application.UseCases
             if (booking == null)
                 return new NotFoundResponse();
 
-            BusinessRepository.DeleteBooking(BusinessId, id);
+            BusinessRepository.DeleteBooking(Business.Id, id);
 
             return new Response();
         }

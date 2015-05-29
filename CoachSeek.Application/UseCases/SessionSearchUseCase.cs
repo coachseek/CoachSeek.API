@@ -31,7 +31,7 @@ namespace CoachSeek.Application.UseCases
             Validate(parameters);
             var matchingStandaloneSessions = FindMatchingStandaloneSessions(parameters);
 
-            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToSessions(matchingStandaloneSessions, bookings);
 
             var matchingCourseSessions = FindMatchingCourseSessions(parameters);
@@ -47,7 +47,7 @@ namespace CoachSeek.Application.UseCases
             Validate(parameters);
             var matchingStandaloneSessions = FindMatchingOnlineBookableStandaloneSessions(parameters);
 
-            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToSessions(matchingStandaloneSessions, bookings);
 
             var matchingCourseSessions = FindMatchingCourseSessions(parameters);
@@ -64,7 +64,7 @@ namespace CoachSeek.Application.UseCases
             Validate(parameters);
 
             var matchingSessions = FindMatchingSessions(parameters);
-            var bookings = BusinessRepository.GetAllCustomerBookings(BusinessId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToSessions(matchingSessions, bookings);
 
             return matchingSessions;
@@ -84,7 +84,7 @@ namespace CoachSeek.Application.UseCases
 
         private IList<SingleSessionData> FindMatchingSessions(SearchParameters parameters)
         {
-            var sessions = BusinessRepository.GetAllSessions(BusinessId);
+            var sessions = BusinessRepository.GetAllSessions(Business.Id);
             sessions = FilterSessionsByDate(sessions, parameters.StartDate, parameters.EndDate);
             sessions = FilterSessionsByCoachLocationService(sessions, parameters.CoachId, parameters.LocationId, parameters.ServiceId);
 
@@ -147,7 +147,7 @@ namespace CoachSeek.Application.UseCases
 
         private IList<RepeatedSessionData> FindMatchingCourses(IList<SingleSessionData> matchingSessions)
         {
-            var courses = BusinessRepository.GetAllCourses(BusinessId);
+            var courses = BusinessRepository.GetAllCourses(Business.Id);
             var matchingCourses = new List<RepeatedSessionData>();
             foreach (var matchingSession in matchingSessions)
             {

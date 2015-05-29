@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
         protected Session GetExistingSessionOrCourse(Guid sessionId)
         {
             // Is it a Session or a Course?
-            var session = BusinessRepository.GetSession(BusinessId, sessionId);
+            var session = BusinessRepository.GetSession(Business.Id, sessionId);
             if (session.IsExisting())
             {
                 if (session.ParentId == null)
@@ -19,7 +19,7 @@ namespace CoachSeek.Application.UseCases
                 return new SessionInCourse(session, LookupCoreData(session));
             }
 
-            var course = BusinessRepository.GetCourse(BusinessId, sessionId);
+            var course = BusinessRepository.GetCourse(Business.Id, sessionId);
             if (course.IsExisting())
                 return new RepeatedSession(course, LookupCoreData(course));
 
@@ -29,9 +29,9 @@ namespace CoachSeek.Application.UseCases
 
         private CoreData LookupCoreData(SessionData data)
         {
-            var location = BusinessRepository.GetLocation(BusinessId, data.Location.Id);
-            var coach = BusinessRepository.GetCoach(BusinessId, data.Coach.Id);
-            var service = BusinessRepository.GetService(BusinessId, data.Service.Id);
+            var location = BusinessRepository.GetLocation(Business.Id, data.Location.Id);
+            var coach = BusinessRepository.GetCoach(Business.Id, data.Coach.Id);
+            var service = BusinessRepository.GetService(Business.Id, data.Service.Id);
 
             return new CoreData(location, coach, service);
         }

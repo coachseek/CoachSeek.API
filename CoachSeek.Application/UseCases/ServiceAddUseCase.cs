@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var newService = new Service(command);
                 ValidateAdd(newService);
-                var data = BusinessRepository.AddService(BusinessId, newService);
+                var data = BusinessRepository.AddService(Business.Id, newService);
                 return new Response(data);
             }
             catch (Exception ex)
@@ -32,7 +32,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateAdd(Service newService)
         {
-            var services = BusinessRepository.GetAllServices(BusinessId);
+            var services = BusinessRepository.GetAllServices(Business.Id);
             var isExistingService = services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
             if (isExistingService)
                 throw new DuplicateService();

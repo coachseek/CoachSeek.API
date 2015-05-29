@@ -5,24 +5,16 @@ using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
-using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
     public class BusinessUpdateUseCase : BaseUseCase, IBusinessUpdateUseCase
     {
-        private ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
-
-        public BusinessUpdateUseCase(ISupportedCurrencyRepository supportedCurrencyRepository)
-        {
-            SupportedCurrencyRepository = supportedCurrencyRepository;
-        }
-
         public Response UpdateBusiness(BusinessUpdateCommand command)
         {
             try
             {
-                var business = new Business(BusinessId, command, SupportedCurrencyRepository);
+                var business = new Business(Business.Id, command, SupportedCurrencyRepository);
                 ValidateUpdate(business);
                 var data = BusinessRepository.UpdateBusiness(business);
                 return new Response(data);
@@ -40,7 +32,7 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateUpdate(Business business)
         {
-            var existingBusiness = BusinessRepository.GetBusiness(BusinessId);
+            var existingBusiness = BusinessRepository.GetBusiness(Business.Id);
             if (existingBusiness.IsNotFound())
                 throw new InvalidBusiness();
         }

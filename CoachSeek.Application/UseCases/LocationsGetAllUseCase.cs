@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases
     {
         public IList<LocationData> GetLocations()
         {
-            return BusinessRepository.GetAllLocations(BusinessId);
+            return BusinessRepository.GetAllLocations(Business.Id);
         }
     }
 }

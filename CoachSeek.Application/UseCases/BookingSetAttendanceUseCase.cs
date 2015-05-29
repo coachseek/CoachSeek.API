@@ -8,9 +8,9 @@ namespace CoachSeek.Application.UseCases
     {
         public Response SetAttendance(BookingSetAttendanceCommand command)
         {
-            var booking = BusinessRepository.GetSessionBooking(BusinessId, command.BookingId);
+            var booking = BusinessRepository.GetSessionBooking(Business.Id, command.BookingId);
             booking.HasAttended = command.HasAttended;
-            BusinessRepository.UpdateBooking(BusinessId, booking);
+            BusinessRepository.UpdateBooking(Business.Id, booking);
             return new Response();
         }
     }

@@ -155,7 +155,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.BusinessId = new Guid(BUSINESS_ID);
+            Controller.Business.Id = new Guid(BUSINESS_ID);
             Controller.LocationAddUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);
@@ -169,7 +169,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.BusinessId = new Guid(BUSINESS_ID);
+            Controller.Business.Id = new Guid(BUSINESS_ID);
             Controller.LocationUpdateUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);

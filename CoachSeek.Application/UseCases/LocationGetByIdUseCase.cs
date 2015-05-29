@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases
     {
         public LocationData GetLocation(Guid id)
         {
-            return BusinessRepository.GetLocation(BusinessId, id);
+            return BusinessRepository.GetLocation(Business.Id, id);
         }
     }
 }

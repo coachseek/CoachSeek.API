@@ -5,18 +5,15 @@ using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using System;
-using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
 {
     public class BusinessAddUseCase : BaseUseCase, IBusinessAddUseCase
     {
-        private ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
         private IBusinessDomainBuilder BusinessDomainBuilder { get; set; }
 
-        public BusinessAddUseCase(IBusinessDomainBuilder businessDomainBuilder, ISupportedCurrencyRepository supportedCurrencyRepository)
+        public BusinessAddUseCase(IBusinessDomainBuilder businessDomainBuilder)
         {
-            SupportedCurrencyRepository = supportedCurrencyRepository;
             BusinessDomainBuilder = businessDomainBuilder;
         }
 

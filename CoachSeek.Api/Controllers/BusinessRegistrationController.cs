@@ -6,6 +6,7 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services.Emailing;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Api.Controllers
@@ -44,14 +45,15 @@ namespace CoachSeek.Api.Controllers
             if (!businessAddResponse.IsSuccessful)
                 return CreateWebErrorResponse(businessAddResponse);
 
-            var business = (BusinessData) businessAddResponse.Data;
-            BusinessId = business.Id;
-            BusinessName = business.Name;
-            var userUpdateResponse = AssociateUserWithBusiness((UserData)userAddResponse.Data, (BusinessData)businessAddResponse.Data);
+            var businessData = (BusinessData)businessAddResponse.Data;
+            Business = ConvertToBusinessDetails(businessData);
+            var userData = (UserData)userAddResponse.Data;
+
+            var userUpdateResponse = AssociateUserWithBusiness(userData, businessData);
             if (!userUpdateResponse.IsSuccessful)
                 return CreateWebErrorResponse(userUpdateResponse);
 
-            var registrationData = new RegistrationData((UserData)userUpdateResponse.Data, (BusinessData)businessAddResponse.Data);
+            var registrationData = new RegistrationData(userData, businessData);
             SendRegistrationEmail(registrationData);
 
             return CreateWebSuccessResponse(new Response(registrationData));
@@ -84,6 +86,16 @@ namespace CoachSeek.Api.Controllers
             var emailer = new BusinessRegistrationEmailer();
             emailer.Initialise(Context);
             emailer.SendEmail(registration);
+        }
+
+        protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
+        {
+            return new BusinessDetails(business.Id, business.Name, business.Domain);
+        }
+
+        protected CurrencyDetails ConvertToCurrencyDetails(CurrencyData currency)
+        {
+            return new CurrencyDetails(currency.Code, currency.Symbol);
         }
     }
 }

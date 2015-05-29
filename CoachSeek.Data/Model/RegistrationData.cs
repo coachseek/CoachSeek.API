@@ -10,6 +10,9 @@
         {
             Admin = user;
             Business = business;
+
+            Admin.BusinessId = Business.Id;
+            Admin.BusinessName = Business.Name;
         }
     }
 }

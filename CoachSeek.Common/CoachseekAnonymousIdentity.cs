@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace CoachSeek.Common
+﻿namespace CoachSeek.Common
 {
     public class CoachseekAnonymousIdentity : CoachseekIdentity
     {
-        public CoachseekAnonymousIdentity(Guid businessId, string businessName)
-            : base(Constants.ANONYMOUS_USER, "none", businessId, businessName)
+        public CoachseekAnonymousIdentity(BusinessDetails business, CurrencyDetails currency)
+            : base(Constants.ANONYMOUS_USER, "none", business, currency)
         { }
     }
 }

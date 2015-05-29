@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
@@ -67,7 +68,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private Response WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase();
-            var businessContext = new BusinessContext(new Guid(BUSINESS_ID), "", BusinessRepository, null, null);
+            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            var currency = new CurrencyDetails("NZD", "$");
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
             var emailContext = new EmailContext(true, false, "", null);
             var context = new ApplicationContext(businessContext, emailContext, true);
             useCase.Initialise(context);
