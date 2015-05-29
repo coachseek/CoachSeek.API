@@ -14,7 +14,7 @@ Coach: <<CoachFirstName>> <<CoachLastName>>
 Location: <<LocationName>>
 Service: <<ServiceName>>
 Date: <<Date>> at <<StartTime>> for <<Duration>>
-Price: <<SessionPrice>>
+Price: <<CurrencySymbol>><<SessionPrice>>
 
 Your customer has also received a confirmation of this booking. And you'll be delighted to know this person has been automatically loaded into your Coachseek database, and the register for the session! Too easy!
 

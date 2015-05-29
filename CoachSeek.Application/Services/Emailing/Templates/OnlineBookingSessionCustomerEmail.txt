@@ -8,7 +8,7 @@ Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
 Date, Time & Duration: <<Date>> at <<StartTime>> for <<Duration>>
-Price: <<SessionPrice>>
+Price: <<CurrencySymbol>><<SessionPrice>>
 
 Your details:
 Name: <<CustomerFirstName>> <<CustomerLastName>>

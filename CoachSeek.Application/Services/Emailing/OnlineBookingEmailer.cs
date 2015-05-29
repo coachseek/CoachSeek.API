@@ -109,7 +109,8 @@ namespace CoachSeek.Application.Services.Emailing
                 {"Date", ReformatDate(session.Timing.StartDate)},
                 {"StartTime", session.Timing.StartTime},
                 {"Duration", FormatDuration(session.Timing.Duration)},
-                {"SessionPrice", CalculateSessionPrice(session).ToString("C")}
+                {"CurrencySymbol", CurrencySymbol},
+                {"SessionPrice", CalculateSessionPrice(session).ToString("0.00")}
             };
 
             return sessionValues;
@@ -134,7 +135,8 @@ namespace CoachSeek.Application.Services.Emailing
                 {"Duration", FormatDuration(course.Timing.Duration)},
                 {"SessionCount", course.Repetition.SessionCount.ToString()},
                 {"RepeatFrequency", course.Repetition.RepeatFrequency == "d" ? "days" : "weeks"},
-                {"CoursePrice", CalculateCoursePrice(course).ToString("C")}
+                {"CurrencySymbol", CurrencySymbol},
+                {"CoursePrice", CalculateCoursePrice(course).ToString("0.00")}
             };
 
             // TODO: Include session values
