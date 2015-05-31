@@ -98,6 +98,9 @@
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\PaymentProvider.cs" />
+    <Compile Include="Entities\Payment\NullPaymentProvider.cs" />
+    <Compile Include="Entities\Payment\PaypalPaymentProvider.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
@@ -114,9 +117,13 @@
     <Compile Include="Exceptions\CurrencyNotSupported.cs" />
     <Compile Include="Exceptions\InvalidCustomer.cs" />
     <Compile Include="Exceptions\InvalidEndDate.cs" />
+    <Compile Include="Exceptions\InvalidMerchantAccountIdentifierFormat.cs" />
     <Compile Include="Exceptions\InvalidStartDate.cs" />
     <Compile Include="Exceptions\InvalidUser.cs" />
+    <Compile Include="Exceptions\MissingMerchantAccountIdentifier.cs" />
+    <Compile Include="Exceptions\PaymentProviderNotSupported.cs" />
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
+    <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />
     <Compile Include="Repositories\IUnsubscribedEmailAddressRepository.cs" />

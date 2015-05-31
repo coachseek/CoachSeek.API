@@ -10,7 +10,9 @@ BEGIN
 		[Guid],
 		[Name],
 		[Domain],
-		[Currency]
+		[Currency],
+		[PaymentProvider],
+		[MerchantAccountIdentifier]
 	FROM
 		[dbo].[Business]
 	WHERE

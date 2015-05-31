@@ -8,5 +8,7 @@ namespace CoachSeek.Domain.Commands
 
         public string Name { get; set; }
         public string Currency { get; set; }
+        public string PaymentProvider { get; set; }
+        public string MerchantAccountIdentifier { get; set; }
     }
 }

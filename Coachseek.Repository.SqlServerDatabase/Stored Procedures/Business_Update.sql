@@ -2,7 +2,9 @@
 CREATE PROCEDURE [dbo].[Business_Update]	
 	@guid uniqueidentifier,
 	@name [nvarchar](100),
-	@currency [nchar](3)
+	@currency [nchar](3),
+	@paymentProvider [nvarchar](50) = NULL,
+	@merchantAccountIdentifier [nvarchar](100) = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -11,7 +13,9 @@ BEGIN
 		[dbo].[Business]
 	SET 
 		[Name] = @name,
-		[Currency] = @currency
+		[Currency] = @currency,
+		[PaymentProvider] = @paymentProvider,
+		[MerchantAccountIdentifier] = @merchantAccountIdentifier
 	WHERE 
 		[Guid] = @guid
 
@@ -21,7 +25,9 @@ BEGIN
 		[Guid],
 		[Name],
 		[Domain],
-		[Currency]
+		[Currency],
+		[PaymentProvider],
+		[MerchantAccountIdentifier]
 	FROM 
 		[dbo].[Business]
 	WHERE 
