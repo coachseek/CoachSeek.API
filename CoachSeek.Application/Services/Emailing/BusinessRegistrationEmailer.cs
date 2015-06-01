@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Common.Services.Templating;
 using CoachSeek.Data.Model;
 using Coachseek.Integration.Contracts.Models;
 
 namespace CoachSeek.Application.Services.Emailing
 {
-    public class BusinessRegistrationEmailer : BusinessEmailerBase
+    public class BusinessRegistrationEmailer : BusinessEmailerBase, IBusinessRegistrationEmailer
     {
         private const string TEMPLATE_RESOURCE = "CoachSeek.Application.Services.Emailing.Templates.BusinessRegistrationEmail.txt";
 

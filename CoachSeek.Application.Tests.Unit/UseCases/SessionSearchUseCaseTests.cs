@@ -320,8 +320,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenSessionSearchWillReturnMultipleSessions(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<IList<SingleSessionData>>());
-            var sessions = (IList<SingleSessionData>)response;
+            Assert.That(response, Is.InstanceOf<SessionSearchData>());
+            var searchData = (SessionSearchData)response;
+
+            var sessions = searchData.Sessions;
             Assert.That(sessions.Count, Is.EqualTo(3));
 
             var sessionOne = sessions[0];
@@ -330,6 +332,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_THREE)));
             var sessionThree = sessions[2];
             Assert.That(sessionThree.Id, Is.EqualTo(new Guid(SESSION_FOUR)));
+
+            var courses = searchData.Courses;
+            Assert.That(courses.Count, Is.EqualTo(0));
         }
 
         private void ThenSessionSearchFailsWithInvalidCoachIdError(object response)
@@ -346,14 +351,19 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenSessionSearchWillReturnSessionsForCoach(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<IList<SingleSessionData>>());
-            var sessions = (IList<SingleSessionData>)response;
+            Assert.That(response, Is.InstanceOf<SessionSearchData>());
+            var searchResult = (SessionSearchData)response;
+
+            var sessions = searchResult.Sessions;
             Assert.That(sessions.Count, Is.EqualTo(2));
 
             var sessionOne = sessions[0];
             Assert.That(sessionOne.Id, Is.EqualTo(new Guid(SESSION_ONE)));
             var sessionTwo = sessions[1];
             Assert.That(sessionTwo.Id, Is.EqualTo(new Guid(SESSION_THREE)));
+
+            var courses = searchResult.Courses;
+            Assert.That(courses.Count, Is.EqualTo(0));
         }
 
         private void ThenSessionSearchFailsWithInvalidLocationIdError(object response)
@@ -370,8 +380,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenSessionSearchWillReturnSessionsForLocation(object response)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<IList<SingleSessionData>>());
-            var sessions = (IList<SingleSessionData>)response;
+            Assert.That(response, Is.InstanceOf<SessionSearchData>());
+            var searchResult = (SessionSearchData)response;
+
+            var sessions = searchResult.Sessions; 
             Assert.That(sessions.Count, Is.EqualTo(2));
 
             var sessionOne = sessions[0];

@@ -27,6 +27,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             SetupUserRepository();
             SetupBusinessRepository();
+            SetupSupportedCurrencyRepository();
             SetupBusinessDomainBuilder();
         }
 
@@ -71,7 +72,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var useCase = new BusinessAddUseCase(BusinessDomainBuilder);
             var business = new BusinessDetails(Guid.Empty, "", "");
             var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, SupportedCurrencyRepository, null);
             var emailContext = new EmailContext(true, false, "", null);
             var context = new ApplicationContext(businessContext, emailContext, true);
             useCase.Initialise(context);

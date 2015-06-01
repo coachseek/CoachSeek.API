@@ -4,6 +4,7 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.Domain.Exceptions;
@@ -155,7 +156,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.Business.Id = new Guid(BUSINESS_ID);
+            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             Controller.LocationAddUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);
@@ -169,7 +170,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.Business.Id = new Guid(BUSINESS_ID);
+            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             Controller.LocationUpdateUseCase = useCase;
 
             return Controller.Post(apiLocationSaveCommand);

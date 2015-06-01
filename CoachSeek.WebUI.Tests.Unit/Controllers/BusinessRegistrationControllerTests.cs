@@ -3,6 +3,7 @@ using CoachSeek.Api.Controllers;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
@@ -28,13 +29,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private MockUserAddUseCase UserAddUseCase { get; set; }
         private MockBusinessAddUseCase BusinessAddUseCase { get; set; }
         private MockUserAssociateWithBusinessUseCase AssociateUseCase { get; set; }
+        private StubBusinessRegistrationEmailer Emailer { get; set; }
         private UserData UserData { get; set; }
         private BusinessData BusinessData { get; set; }
 
-        //private StubBusinessRegistrationEmailer Emailer
-        //{
-        //    get { return ((StubBusinessRegistrationEmailer)Controller.BusinessRegistrationEmailer); }
-        //}
 
         [TestFixtureSetUp]
         public void SetupAllTests()
@@ -50,6 +48,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             SetupUserAddUseCase();
             SetupBusinessAddUseCase();
             SetupAssociateUseCase();
+            SetupEmailer();
         }
 
         private void SetupController()
@@ -110,6 +109,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             {
                 Response = new Response(UserData)
             };
+        }
+
+        private void SetupEmailer()
+        {
+            Emailer = new StubBusinessRegistrationEmailer();
         }
 
         private ApiBusinessRegistrationCommand Command
@@ -200,8 +204,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var userAddUseCase = new UserAddUseCase();
             var businessAddUseCase = new BusinessAddUseCase(null);
             var associateUseCase = new UserAssociateWithBusinessUseCase();
+            var emailer = new StubBusinessRegistrationEmailer();
 
-            return new BusinessRegistrationController(userAddUseCase, businessAddUseCase, associateUseCase);
+            return new BusinessRegistrationController(userAddUseCase, businessAddUseCase, associateUseCase, emailer);
         }
 
         private HttpResponseMessage WhenPost()
@@ -209,6 +214,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Controller.UserAddUseCase = UserAddUseCase;
             Controller.BusinessAddUseCase = BusinessAddUseCase;
             Controller.UserAssociateWithBusinessUseCase = AssociateUseCase;
+            Controller.BusinessRegistrationEmailer = Emailer;
 
             return Controller.Post(Command);
         }
@@ -219,6 +225,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(controller.UserAddUseCase, Is.Not.Null);
             Assert.That(controller.BusinessAddUseCase, Is.Not.Null);
             Assert.That(controller.UserAssociateWithBusinessUseCase, Is.Not.Null);
+            Assert.That(controller.BusinessRegistrationEmailer, Is.Not.Null);
         }
 
         private void ThenReturnUserAddErrorResponse(HttpResponseMessage response, string errorMessage)
@@ -274,7 +281,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             AssertWasAssociateUserWithBusinessCalled(true);
             AssertPassRelevantInfoIntoAssociateUserWithBusiness();
 
-            //AssertWasSendEmailCalled(true);
+            AssertWasSendEmailCalled(true);
 
             AssertSuccessResponse(response);
         }
@@ -295,10 +302,10 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Assert.That(AssociateUseCase.WasAssociateUserWithBusinessCalled, Is.EqualTo(wasCalled));
         }
 
-        //private void AssertWasSendEmailCalled(bool wasCalled)
-        //{
-        //    Assert.That(Emailer.WasSendEmailCalled, Is.EqualTo(wasCalled));
-        //}
+        private void AssertWasSendEmailCalled(bool wasCalled)
+        {
+            Assert.That(Emailer.WasSendEmailCalled, Is.EqualTo(wasCalled));
+        }
 
         private void AssertPassRelevantInfoIntoAddUser()
         {

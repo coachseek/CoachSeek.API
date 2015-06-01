@@ -4,6 +4,7 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.Domain.Commands;
@@ -185,7 +186,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 }
             };
 
-            Controller.Business.Id = new Guid(BUSINESS_ID);
+            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             Controller.CoachAddUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);
@@ -202,7 +203,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Phone = "0987654321"
             };
 
-            Controller.Business.Id = new Guid(BUSINESS_ID);
+            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             Controller.CoachUpdateUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);

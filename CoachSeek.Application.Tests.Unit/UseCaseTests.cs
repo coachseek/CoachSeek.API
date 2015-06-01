@@ -30,6 +30,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected InMemoryUserRepository UserRepository { get; set; }
         protected InMemoryBusinessRepository BusinessRepository { get; set; }
+        protected HardCodedSupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
 
         protected void ConfigureAutoMapper()
         {
@@ -65,6 +66,11 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.WasAddBusinessCalled = false;
             BusinessRepository.WasAddLocationCalled = false;
             BusinessRepository.WasAddCoachCalled = false;
+        }
+
+        protected void SetupSupportedCurrencyRepository()
+        {
+            SupportedCurrencyRepository = new HardCodedSupportedCurrencyRepository();
         }
 
         protected IList<User> SetupUsers()

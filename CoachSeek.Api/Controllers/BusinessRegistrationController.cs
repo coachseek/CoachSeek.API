@@ -4,6 +4,7 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services.Emailing;
 using CoachSeek.Common;
@@ -16,6 +17,7 @@ namespace CoachSeek.Api.Controllers
         public IUserAddUseCase UserAddUseCase { get; set; }
         public IBusinessAddUseCase BusinessAddUseCase { get; set; }
         public IUserAssociateWithBusinessUseCase UserAssociateWithBusinessUseCase { get; set; }
+        public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
 
         public BusinessRegistrationController()
@@ -23,11 +25,13 @@ namespace CoachSeek.Api.Controllers
 
         public BusinessRegistrationController(IUserAddUseCase userAddUseCase,
                                               IBusinessAddUseCase businessAddUseCase,
-                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase)
+                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase,
+                                              IBusinessRegistrationEmailer businessRegistrationEmailer)
         {
             UserAddUseCase = userAddUseCase;
             BusinessAddUseCase = businessAddUseCase;
             UserAssociateWithBusinessUseCase = userAssociateWithBusinessUseCase;
+            BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
 
@@ -83,9 +87,8 @@ namespace CoachSeek.Api.Controllers
 
         private void SendRegistrationEmail(RegistrationData registration)
         {
-            var emailer = new BusinessRegistrationEmailer();
-            emailer.Initialise(Context);
-            emailer.SendEmail(registration);
+            BusinessRegistrationEmailer.Initialise(Context);
+            BusinessRegistrationEmailer.SendEmail(registration);
         }
 
         protected BusinessDetails ConvertToBusinessDetails(BusinessData business)

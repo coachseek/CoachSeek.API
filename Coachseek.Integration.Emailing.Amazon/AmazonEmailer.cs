@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Amazon;
 using Amazon.SimpleEmail.Model;
 using CoachSeek.Domain.Repositories;
@@ -33,6 +34,8 @@ namespace Coachseek.Integration.Emailing.Amazon
                     continue;
                 recipientList.Add(recipient);
             }
+            if (!recipientList.Any())
+                return false;
 
             var destination = new Destination
             {

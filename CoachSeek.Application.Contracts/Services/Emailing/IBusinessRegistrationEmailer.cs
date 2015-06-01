@@ -1,14 +1,11 @@
-﻿//using CoachSeek.Data.Model;
+﻿using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Data.Model;
 
-//namespace CoachSeek.Application.Contracts.Services.Emailing
-//{
-//    public interface IBusinessRegistrationEmailer
-//    {
-//        bool IsTesting { set; }
-//        bool ForceEmail { set; }
-//        string Sender { set; }
-
-
-//        void SendEmail(RegistrationData registration);
-//    }
-//}
+namespace CoachSeek.Application.Contracts.Services.Emailing
+{
+    public interface IBusinessRegistrationEmailer
+    {
+        void Initialise(ApplicationContext context);
+        void SendEmail(RegistrationData registration);
+    }
+}
