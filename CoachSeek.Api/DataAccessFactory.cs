@@ -17,7 +17,7 @@ namespace CoachSeek.Api
         private static DataRepositories CreateTestingRepositories()
         {
 #if DEBUG
-                                                                // new InMemoryBusinessRepository()
+                                     // new InMemoryBusinessRepository()
             return new DataRepositories(new DbTestBusinessRepository(), 
                                         new AzureTestTableUserRepository(), 
                                         new AzureTestTableUnsubscribedEmailAddressRepository(),

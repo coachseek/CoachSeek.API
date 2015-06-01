@@ -18,6 +18,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasAddLocationCalled;
         public bool WasAddCoachCalled;
 
+        public bool WasUpdateBusinessCalled;
         public bool WasUpdateLocationCalled;
         public bool WasUpdateCoachCalled;
 
@@ -91,7 +92,18 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public BusinessData UpdateBusiness(Business business)
         {
-            throw new NotImplementedException();
+            WasUpdateBusinessCalled = true;
+            DataPassedIn = business;
+
+            var dbNewBusiness = DbBusinessConverter.Convert(business);
+
+            var index = Businesses.FindIndex(x => x.Id == business.Id);
+            var dbExistingBusiness = Businesses[index];
+            dbNewBusiness.Domain = dbExistingBusiness.Domain;
+
+            Businesses[index] = dbNewBusiness;
+
+            return GetBusiness(business.Id);
         }
 
 
@@ -560,7 +572,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         private List<DbLocation> GetAllDbLocations(Guid businessId)
@@ -639,15 +651,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             foreach (var dbSessionBooking in dbSessionBookings)
             {
                 var booking = Mapper.Map<DbSingleSessionBooking, CustomerBookingData>(dbSessionBooking);
+                booking.Customer = customers.SingleOrDefault(x => x.Id == booking.Customer.Id);
 
-                // ...
+                customerBookings.Add(booking);
             }
 
             // Courses
             var dbCourseBookings = GetAllDbCourseBookings(businessId);
             
             // ...
-
 
 
             return customerBookings;
