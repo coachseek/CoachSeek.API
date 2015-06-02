@@ -161,6 +161,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Conversion\BusinessUpdateCommandConverter.cs" />
     <Compile Include="Conversion\DomainCommandConverter.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
