@@ -111,7 +111,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
             var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(businessContext, emailContext, true);
+            var context = new ApplicationContext(businessContext, emailContext, null, true);
             useCase.Initialise(context);
             return useCase.AddCoach(command);
         }

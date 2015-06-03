@@ -36,7 +36,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             var business = new BusinessDetails(BusinessId, "", "");
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
-            Context = new ApplicationContext(businessContext, null, true);
+            Context = new ApplicationContext(businessContext, null, null, true);
         }
 
 

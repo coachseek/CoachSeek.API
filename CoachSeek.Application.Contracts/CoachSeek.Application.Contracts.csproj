@@ -45,6 +45,7 @@
     <Compile Include="Models\BusinessContext.cs" />
     <Compile Include="Models\EmailContext.cs" />
     <Compile Include="Models\ErrorResponses.cs" />
+    <Compile Include="Models\PaymentContext.cs" />
     <Compile Include="Services\Emailing\IBusinessRegistrationEmailer.cs" />
     <Compile Include="Services\Emailing\IOnlineBookingEmailer.cs" />
     <Compile Include="Services\ICustomerResolver.cs" />

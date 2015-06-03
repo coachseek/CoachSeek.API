@@ -43,11 +43,11 @@ namespace Coachseek.Integration.Payments.Paypal.Tester.Controllers
             var paypalParameters = new StringBuilder();
             paypalParameters.AppendFormat("business={0}", "olaf-facilitator@coachseek.com");
             paypalParameters.AppendFormat("&currency_code={0}", "NZD");
-            paypalParameters.AppendFormat("&amount={0}", "12.35");
+            paypalParameters.AppendFormat("&amount={0}", "12.36");
             paypalParameters.AppendFormat("&item_name={0}", "Mini Red Session");
-            paypalParameters.AppendFormat("&notify_url={0}", "https://api.coachseek.com/PayPal/Notify");
+            //paypalParameters.AppendFormat("&notify_url={0}", "https://api.coachseek.com/PayPal/Notify");
             paypalParameters.AppendFormat("&return={0}", "https://api.coachseek.com/PayPal/return");
-            paypalParameters.AppendFormat("&invoice={0}", "ABC123");
+            paypalParameters.AppendFormat("&invoice={0}", "ABC124");
 
             var url = String.Format("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&{0}", paypalParameters);
             return new RedirectResult(url);
