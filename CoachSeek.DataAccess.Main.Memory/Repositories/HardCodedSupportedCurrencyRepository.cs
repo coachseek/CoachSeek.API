@@ -22,7 +22,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
                 new CurrencyData("AUD", "$"),
                 new CurrencyData("USD", "$"),
                 new CurrencyData("GBP", "£"),
-                new CurrencyData("EUR", "€")
+                new CurrencyData("EUR", "€"),
+                new CurrencyData("SEK", "kr")
             };
         }
 
