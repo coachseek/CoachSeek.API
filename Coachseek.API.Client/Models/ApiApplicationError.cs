@@ -1,6 +1,6 @@
-﻿namespace Coachseek.API.Client
+﻿namespace Coachseek.API.Client.Models
 {
-    public class ApplicationError
+    public class ApiApplicationError
     {
         public string field { get; set; }
         public string message { get; set; }

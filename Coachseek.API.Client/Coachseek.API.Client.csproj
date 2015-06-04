@@ -43,10 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationError.cs" />
+    <Compile Include="Services\AdminApiClient.cs" />
+    <Compile Include="Services\AnonymousApiClient.cs" />
+    <Compile Include="Services\AnonymousApiClientBase.cs" />
+    <Compile Include="Services\ApiClientBase.cs" />
+    <Compile Include="Models\ApiApplicationError.cs" />
+    <Compile Include="Services\AuthenticatedApiClient.cs" />
+    <Compile Include="Services\AuthenticatedApiClientBase.cs" />
+    <Compile Include="Interfaces\IAdminApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiClient.cs" />
-    <Compile Include="Response.cs" />
+    <Compile Include="Models\ApiResponse.cs" />
+    <Compile Include="Services\BusinessAnonymousApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
