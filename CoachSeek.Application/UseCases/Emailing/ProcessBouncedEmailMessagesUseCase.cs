@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Coachseek.API.Client.Interfaces;
+using Coachseek.Infrastructure.Queueing.Contracts;
 
-namespace BouncedEmailProcessor
+namespace CoachSeek.Application.UseCases.Emailing
 {
     public class ProcessBouncedEmailMessagesUseCase
     {

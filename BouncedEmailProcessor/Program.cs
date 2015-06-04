@@ -1,5 +1,6 @@
-﻿using Coachseek.API.Client;
-using Coachseek.API.Client.Services;
+﻿using Coachseek.API.Client.Services;
+using CoachSeek.Application.UseCases.Emailing;
+using Coachseek.Infrastructure.Queueing.Amazon;
 
 namespace BouncedEmailProcessor
 {

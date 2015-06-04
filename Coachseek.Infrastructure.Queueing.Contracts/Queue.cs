@@ -1,4 +1,4 @@
-﻿namespace BouncedEmailProcessor
+﻿namespace Coachseek.Infrastructure.Queueing.Contracts
 {
     public class Queue
     {

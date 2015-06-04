@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using Coachseek.API.Client.Interfaces;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.API.Client.Services
 {
     public class CoachseekAdminApiClient : ICoachseekAdminApiClient
     {

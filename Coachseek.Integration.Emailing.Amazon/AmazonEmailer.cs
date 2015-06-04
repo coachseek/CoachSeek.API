@@ -55,7 +55,7 @@ namespace Coachseek.Integration.Emailing.Amazon
                     var response = client.SendEmail(request);
                     return true;
                 }
-                catch (MessageRejectedException ex)
+                catch (MessageRejectedException)
                 {
                     // TODO: Log error.
                     return false;

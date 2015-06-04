@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Amazon.SQS.Model;
+using Coachseek.Infrastructure.Queueing.Contracts;
 using Newtonsoft.Json;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.Infrastructure.Queueing.Amazon
 {
     public class AmazonBouncedEmailQueueClient : AmazonQueueClient<BouncedEmailMessage>, IBouncedEmailQueueClient
     {

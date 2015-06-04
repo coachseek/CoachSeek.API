@@ -2,8 +2,9 @@
 using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
+using Coachseek.Infrastructure.Queueing.Contracts;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.Infrastructure.Queueing.Amazon
 {
     public abstract class AmazonQueueClient<TMessage> : IQueueClient<TMessage> where TMessage : IMessage
     {
@@ -17,7 +18,6 @@ namespace BouncedEmailProcessor
 
 
         protected abstract TMessage ConvertToOutputMessage(Message message);
-
 
         protected Queue GetQueue(string queueName)
         {
@@ -55,14 +55,11 @@ namespace BouncedEmailProcessor
             return outputMessages;
         }
 
-
         public void PopMessageFromQueue(TMessage message, Queue queue)
         {
             var deleteRequest = new DeleteMessageRequest { QueueUrl = queue.Url, ReceiptHandle = message.ReceiptId };
             SqsClient.DeleteMessage(deleteRequest);
         }
-
-
 
         public void Dispose()
         {

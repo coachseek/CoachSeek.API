@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.Infrastructure.Queueing.Contracts
 {
     public class BouncedEmailMessage : IMessage
     {

@@ -65,6 +65,7 @@
     <Compile Include="UseCases\CourseBookingAddUseCase.cs" />
     <Compile Include="UseCases\BusinessGetUseCase.cs" />
     <Compile Include="UseCases\CustomerOnlineBookingAddUseCase.cs" />
+    <Compile Include="UseCases\Emailing\ProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Executors\UseCaseExecutor.cs" />
     <Compile Include="UseCases\SingleSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\SingleSessionBookingAddUseCase.cs" />
@@ -105,6 +106,10 @@
     <Compile Include="UseCases\UserAssociateWithBusinessUseCase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coachseek.API.Client\Coachseek.API.Client.csproj">
+      <Project>{BCE21902-0020-49B4-89C4-347A97055F93}</Project>
+      <Name>Coachseek.API.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
       <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
@@ -124,6 +129,10 @@
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
       <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
       <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>

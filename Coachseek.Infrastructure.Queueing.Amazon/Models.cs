@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.Infrastructure.Queueing.Amazon
 {
     class AmazonSqsNotification
     {

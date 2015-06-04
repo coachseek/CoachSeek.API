@@ -7,8 +7,8 @@
     <ProjectGuid>{0A192757-4BEF-456F-AA61-F644DAA3423C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouncedEmailProcessor</RootNamespace>
-    <AssemblyName>BouncedEmailProcessor</AssemblyName>
+    <RootNamespace>Coachseek.Integration.Emailing.BouncedEmailProcessor</RootNamespace>
+    <AssemblyName>Coachseek.Integration.Emailing.BouncedEmailProcessor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK">
-      <HintPath>..\packages\AWSSDK.2.3.35.0\lib\net45\AWSSDK.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -50,37 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmazonBouncedEmailQueueClient.cs" />
-    <Compile Include="AmazonQueueClient.cs" />
-    <Compile Include="AppSettings.cs">
-      <DependentUpon>AppSettings.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="BouncedEmailMessage.cs" />
-    <Compile Include="CoachseekAdminApiClient.cs" />
-    <Compile Include="IBouncedEmailQueueClient.cs" />
-    <Compile Include="ICoachseekAdminApiClient.cs" />
-    <Compile Include="IMessage.cs" />
-    <Compile Include="IQueueClient.cs" />
-    <Compile Include="Models.cs" />
-    <Compile Include="ProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="AppSettings.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AppSettings.cs</LastGenOutput>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Coachseek.API.Client\Coachseek.API.Client.csproj">
       <Project>{BCE21902-0020-49B4-89C4-347A97055F93}</Project>
       <Name>Coachseek.API.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
+      <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
+      <Name>CoachSeek.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Amazon\Coachseek.Infrastructure.Queueing.Amazon.csproj">
+      <Project>{34E62A74-B76E-4A1E-B692-9698D57D7C53}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Amazon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
