@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using CoachSeek.Application.Services.Emailing;
+using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Models;
 using Newtonsoft.Json;
 
@@ -13,6 +14,17 @@ namespace CoachSeek.Api.Controllers
     {
         private const string PAYPAL_SANDBOX_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
         private const string PAYPAL_LIVE_URL = "https://www.paypal.com/cgi-bin/webscr";
+        private const string PAYPAL = "PayPal";
+
+
+        public IPaymentProcessingQueueClient PaymentProcessingQueueClient { get; set; }
+
+
+        public PaypalController(IPaymentProcessingQueueClient paymentProcessingQueueClient)
+        {
+            PaymentProcessingQueueClient = paymentProcessingQueueClient;
+        }
+
 
         public string PaypalUrl { get { return IsPaymentEnabled ? PAYPAL_LIVE_URL : PAYPAL_SANDBOX_URL; } }
 
@@ -23,29 +35,35 @@ namespace CoachSeek.Api.Controllers
             var task = Request.Content.ReadAsStringAsync();
             var formData = task.Result;
 
-            LogFormData(formData);
+            //LogFormData(formData);
 
-            var request = (HttpWebRequest)WebRequest.Create(PaypalUrl);
+            var message = new PaymentProcessingMessage(PAYPAL, formData);
+            PaymentProcessingQueueClient.PushPaymentProcessingMessageOntoQueue(message);
 
-            formData = string.Format("{0}&cmd=_notify-validate", formData);
-            PreparePostRequest(request);
-            SendData(formData, request);
-            var response = HandleRawResponse(request);
-            var payload = response.Payload.ToString();
-            LogResponse(payload);
+            //var request = (HttpWebRequest)WebRequest.Create(PaypalUrl);
 
-            if (payload == "VERIFIED")
-            {
-                // check that Payment_status=Completed
-                // check that Txn_id has not been previously processed
-                // check that Receiver_email is your Primary PayPal email
-                // check that Payment_amount/Payment_currency are correct
-                // process payment
-            }
-            else
-            {
-                // Log for manual investigation.
-            }
+            //var formDataNotify = string.Format("{0}&cmd=_notify-validate", formData);
+            //PreparePostRequest(request);
+            //SendData(formDataNotify, request);
+            //var response = HandleRawResponse(request);
+            //var payload = response.Payload.ToString();
+            //LogResponse(payload);
+
+            //if (payload == "VERIFIED")
+            //{
+            //    var message = new PaymentProcessingMessage(PAYPAL, formData);
+            //    PaymentProcessingQueueClient.PushPaymentProcessingMessageOntoQueue(message);
+
+            //    // check that Payment_status=Completed
+            //    // check that Txn_id has not been previously processed
+            //    // check that Receiver_email is your Primary PayPal email
+            //    // check that Payment_amount/Payment_currency are correct
+            //    // process payment
+            //}
+            //else
+            //{
+            //    // Log for manual investigation.
+            //}
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

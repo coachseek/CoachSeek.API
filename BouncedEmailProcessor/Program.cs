@@ -2,7 +2,7 @@
 using CoachSeek.Application.UseCases.Emailing;
 using Coachseek.Infrastructure.Queueing.Amazon;
 
-namespace BouncedEmailProcessor
+namespace Coachseek.Integration.Emailing.BouncedEmailProcessor
 {
     /// <summary>
     /// Prototype bounced email processor.

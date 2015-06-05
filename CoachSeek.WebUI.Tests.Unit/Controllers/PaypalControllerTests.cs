@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Controllers;
+using Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes;
 using NUnit.Framework;
 
 namespace CoachSeek.WebUI.Tests.Unit.Controllers
@@ -14,7 +15,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         [SetUp]
         public void Setup()
         {
-            Controller = new PaypalController
+            Controller = new PaypalController(new StubPaymentProcessingQueueClient())
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()

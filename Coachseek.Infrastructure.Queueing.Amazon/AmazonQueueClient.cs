@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
@@ -6,20 +7,19 @@ using Coachseek.Infrastructure.Queueing.Contracts;
 
 namespace Coachseek.Infrastructure.Queueing.Amazon
 {
-    public abstract class AmazonQueueClient<TMessage> : IQueueClient<TMessage> where TMessage : IMessage
+    public class AmazonQueueClient : IQueueClient<Message>
     {
         private IAmazonSQS SqsClient { get; set; }
 
-        protected AmazonQueueClient()
+
+        public AmazonQueueClient()
         {
             // Leave Region hard-coded for now.
             SqsClient = AWSClientFactory.CreateAmazonSQSClient(RegionEndpoint.USWest2);
         }
 
 
-        protected abstract TMessage ConvertToOutputMessage(Message message);
-
-        protected Queue GetQueue(string queueName)
+        public Queue GetQueue(string queueName)
         {
             var listQueuesRequest = new ListQueuesRequest();
             var listQueuesResponse = SqsClient.ListQueues(listQueuesRequest);
@@ -28,36 +28,29 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
                 if (queueUrl.Contains(queueName))
                     return new Queue(queueName, queueUrl);
 
-            return null;
+            throw new InvalidOperationException(string.Format("Queue '{0}' does not exist.", queueName));
         }
 
 
-        public IList<TMessage> GetMessages(Queue queue)
+        public void PushMessageOntoQueue(Queue queue, Message message)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IList<Message> GetMessages(Queue queue)
         {
             if (queue == null)
-                return new List<TMessage>();
+                return new List<Message>();
 
             var request = new ReceiveMessageRequest { QueueUrl = queue.Url };
             var response = SqsClient.ReceiveMessage(request);
 
-            var messageCount = response.Messages.Count;
-            if (messageCount == 0)
-                return new List<TMessage>();
-
-            var outputMessages = new List<TMessage>();
-
-            foreach (var message in response.Messages)
-            {
-                var outputMessage = ConvertToOutputMessage(message);
-                outputMessages.Add(outputMessage);
-            }
-
-            return outputMessages;
+            return response.Messages;
         }
 
-        public void PopMessageFromQueue(TMessage message, Queue queue)
+        public void PopMessageFromQueue(Queue queue, Message message) 
         {
-            var deleteRequest = new DeleteMessageRequest { QueueUrl = queue.Url, ReceiptHandle = message.ReceiptId };
+            var deleteRequest = new DeleteMessageRequest { QueueUrl = queue.Url, ReceiptHandle = message.ReceiptHandle };
             SqsClient.DeleteMessage(deleteRequest);
         }
 

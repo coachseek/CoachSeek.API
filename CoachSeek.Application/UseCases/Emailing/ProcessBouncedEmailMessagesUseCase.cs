@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Coachseek.API.Client.Interfaces;
 using Coachseek.Infrastructure.Queueing.Contracts;
+using Coachseek.Infrastructure.Queueing.Contracts.Emailing;
 
 namespace CoachSeek.Application.UseCases.Emailing
 {
@@ -19,13 +20,12 @@ namespace CoachSeek.Application.UseCases.Emailing
         {
             try
             {
-                var bouncedQueue = QueueClient.GetBouncedEmailQueue();
                 var haveBouncedMessages = true;
                 while (haveBouncedMessages)
                 {
-                    var bouncedMessages = QueueClient.GetMessages(bouncedQueue);
+                    var bouncedMessages = QueueClient.GetBouncedEmailMessages();
                     haveBouncedMessages = bouncedMessages.Count > 0;
-                    ProcessBouncedEmailMessages(bouncedMessages, bouncedQueue);
+                    ProcessBouncedEmailMessages(bouncedMessages);
                 }
             }
             finally
@@ -35,7 +35,7 @@ namespace CoachSeek.Application.UseCases.Emailing
         }
 
 
-        private void ProcessBouncedEmailMessages(IEnumerable<BouncedEmailMessage> bouncedMessages, Queue bouncedQueue)
+        private void ProcessBouncedEmailMessages(IEnumerable<BouncedEmailMessage> bouncedMessages)
         {
             const string PERMANENT = "Permanent";
 
@@ -45,7 +45,7 @@ namespace CoachSeek.Application.UseCases.Emailing
                     foreach (var recipient in bouncedMessage.Recipients)
                         ApiClient.UnsubscribeEmailAddress(recipient);
 
-                QueueClient.PopMessageFromQueue(bouncedMessage, bouncedQueue);
+                QueueClient.PopBouncedEmailMessageFromQueue(bouncedMessage);
             }
         }
     }

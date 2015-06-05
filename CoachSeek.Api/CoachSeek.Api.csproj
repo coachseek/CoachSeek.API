@@ -316,6 +316,14 @@
       <Project>{2bce0e8a-cf47-448e-b78e-50a2bf1bd99a}</Project>
       <Name>CoachSeek.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Azure\Coachseek.Infrastructure.Queueing.Azure.csproj">
+      <Project>{1292845B-E1C1-479A-B050-7CA302ACC6A2}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
       <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>
       <Name>Coachseek.Integration.Contracts</Name>

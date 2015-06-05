@@ -104,6 +104,14 @@
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Tests.Unit\Coachseek.Infrastructure.Queueing.Tests.Unit.csproj">
+      <Project>{6E85D3C1-2725-4E78-83FB-49B12F79BE2E}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Tests.Unit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
