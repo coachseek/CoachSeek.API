@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Coachseek.Infrastructure.Queueing.Contracts;
@@ -61,11 +60,10 @@ namespace Coachseek.Infrastructure.Queueing.Azure
 
         public void Pop(Queue queue, CloudQueueMessage message)
         {
-            throw new NotImplementedException();
+            CloudQueue.DeleteMessage(message.Id, message.PopReceipt);
         }
 
         public void Dispose()
-        {
-        }
+        { }
     }
 }

@@ -37,7 +37,7 @@ namespace CoachSeek.Api.Controllers
 
             //LogFormData(formData);
 
-            var message = new PaymentProcessingMessage(Constants.PAYPAL, formData);
+            var message = new PaymentProcessingMessage(null, Constants.PAYPAL, formData);
             PaymentProcessingQueueClient.Push(message);
 
             //var request = (HttpWebRequest)WebRequest.Create(PaypalUrl);

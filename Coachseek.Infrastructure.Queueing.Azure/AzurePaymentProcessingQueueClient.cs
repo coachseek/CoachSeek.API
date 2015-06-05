@@ -46,7 +46,10 @@ namespace Coachseek.Infrastructure.Queueing.Azure
 
         private CloudQueueMessage ConvertToCloudQueueMessage(PaymentProcessingMessage message)
         {
-            return new CloudQueueMessage(message.ToString());
+            var parts = message.Id.Split('|');
+            var cloudMessage = new CloudQueueMessage(parts[0], parts[1]);
+            cloudMessage.SetMessageContent(message.Contents);
+            return cloudMessage;
         }
 
         private IList<PaymentProcessingMessage> ConvertToPaymentProcessingMessages(IEnumerable<CloudQueueMessage> messages)
@@ -56,7 +59,8 @@ namespace Coachseek.Infrastructure.Queueing.Azure
 
         private PaymentProcessingMessage ConvertToPaymentProcessingMessage(CloudQueueMessage message)
         {
-            return new PaymentProcessingMessage(message.AsString);
+            var messageId = string.Format("{0}|{1}", message.Id, message.PopReceipt);
+            return new PaymentProcessingMessage(messageId, message.AsString);
         }
     }
 }
