@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
-        public static string ANONYMOUS_USER = "anonymous";
+        public const string ANONYMOUS_USER = "anonymous";
+
+        public const string PAYPAL = "PayPal";
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using Coachseek.Infrastructure.Queueing.Contracts;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Microsoft.WindowsAzure.Storage.Queue;
 
@@ -23,16 +25,38 @@ namespace Coachseek.Infrastructure.Queueing.Azure
         }
 
 
-        public void PushPaymentProcessingMessageOntoQueue(PaymentProcessingMessage message)
+        public void Push(PaymentProcessingMessage message)
         {
-            var azureMessage = ConvertToCloudQueueMessages(message);
-            AzureQueueClient.PushMessageOntoQueue(Queue, azureMessage);
+            var azureMessage = ConvertToCloudQueueMessage(message);
+            AzureQueueClient.Push(Queue, azureMessage);
+        }
+
+        public IList<PaymentProcessingMessage> Peek()
+        {
+            var cloudMessages = AzureQueueClient.Peek(Queue);
+            return ConvertToPaymentProcessingMessages(cloudMessages);
+        }
+
+        public void Pop(PaymentProcessingMessage message)
+        {
+            var azureMessage = ConvertToCloudQueueMessage(message);
+            AzureQueueClient.Pop(Queue, azureMessage);
         }
 
 
-        private CloudQueueMessage ConvertToCloudQueueMessages(PaymentProcessingMessage message)
+        private CloudQueueMessage ConvertToCloudQueueMessage(PaymentProcessingMessage message)
         {
             return new CloudQueueMessage(message.ToString());
+        }
+
+        private IList<PaymentProcessingMessage> ConvertToPaymentProcessingMessages(IEnumerable<CloudQueueMessage> messages)
+        {
+            return messages.Select(ConvertToPaymentProcessingMessage).ToList();
+        }
+
+        private PaymentProcessingMessage ConvertToPaymentProcessingMessage(CloudQueueMessage message)
+        {
+            return new PaymentProcessingMessage(message.AsString);
         }
     }
 }

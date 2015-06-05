@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Coachseek.Infrastructure.Queueing.Contracts;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -48,17 +49,17 @@ namespace Coachseek.Infrastructure.Queueing.Azure
             return new Queue(QueueName, CloudQueue.Uri.AbsoluteUri);
         }
 
-        public void PushMessageOntoQueue(Queue queue, CloudQueueMessage message)
+        public void Push(Queue queue, CloudQueueMessage message)
         {
             CloudQueue.AddMessage(message);
         }
 
-        public IList<CloudQueueMessage> GetMessages(Queue queue)
+        public IList<CloudQueueMessage> Peek(Queue queue, int maxCount = 10)
         {
-            throw new NotImplementedException();
+            return CloudQueue.GetMessages(maxCount).ToList();
         }
 
-        public void PopMessageFromQueue(Queue queue, CloudQueueMessage message)
+        public void Pop(Queue queue, CloudQueueMessage message)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using CoachSeek.Application.Services.Emailing;
+using CoachSeek.Common;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Models;
 using Newtonsoft.Json;
@@ -14,7 +15,6 @@ namespace CoachSeek.Api.Controllers
     {
         private const string PAYPAL_SANDBOX_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
         private const string PAYPAL_LIVE_URL = "https://www.paypal.com/cgi-bin/webscr";
-        private const string PAYPAL = "PayPal";
 
 
         public IPaymentProcessingQueueClient PaymentProcessingQueueClient { get; set; }
@@ -37,8 +37,8 @@ namespace CoachSeek.Api.Controllers
 
             //LogFormData(formData);
 
-            var message = new PaymentProcessingMessage(PAYPAL, formData);
-            PaymentProcessingQueueClient.PushPaymentProcessingMessageOntoQueue(message);
+            var message = new PaymentProcessingMessage(Constants.PAYPAL, formData);
+            PaymentProcessingQueueClient.Push(message);
 
             //var request = (HttpWebRequest)WebRequest.Create(PaypalUrl);
 

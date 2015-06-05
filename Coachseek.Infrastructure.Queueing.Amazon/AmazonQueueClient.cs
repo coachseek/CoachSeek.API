@@ -32,23 +32,23 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
         }
 
 
-        public void PushMessageOntoQueue(Queue queue, Message message)
+        public void Push(Queue queue, Message message)
         {
             throw new System.NotImplementedException();
         }
 
-        public IList<Message> GetMessages(Queue queue)
+        public IList<Message> Peek(Queue queue, int maxCount = 10)
         {
             if (queue == null)
                 return new List<Message>();
 
-            var request = new ReceiveMessageRequest { QueueUrl = queue.Url };
+            var request = new ReceiveMessageRequest { QueueUrl = queue.Url, MaxNumberOfMessages = maxCount };
             var response = SqsClient.ReceiveMessage(request);
 
             return response.Messages;
         }
 
-        public void PopMessageFromQueue(Queue queue, Message message) 
+        public void Pop(Queue queue, Message message) 
         {
             var deleteRequest = new DeleteMessageRequest { QueueUrl = queue.Url, ReceiptHandle = message.ReceiptHandle };
             SqsClient.DeleteMessage(deleteRequest);

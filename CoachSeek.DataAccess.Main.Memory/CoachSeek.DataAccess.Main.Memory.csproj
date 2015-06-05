@@ -96,6 +96,7 @@
     <Compile Include="Models\DbLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\InMemoryBusinessRepository.cs" />
+    <Compile Include="Repositories\InMemoryPaymentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

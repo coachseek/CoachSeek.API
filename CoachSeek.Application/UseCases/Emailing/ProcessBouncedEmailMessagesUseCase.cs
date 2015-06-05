@@ -23,7 +23,7 @@ namespace CoachSeek.Application.UseCases.Emailing
                 var haveBouncedMessages = true;
                 while (haveBouncedMessages)
                 {
-                    var bouncedMessages = QueueClient.GetBouncedEmailMessages();
+                    var bouncedMessages = QueueClient.Peek();
                     haveBouncedMessages = bouncedMessages.Count > 0;
                     ProcessBouncedEmailMessages(bouncedMessages);
                 }
@@ -45,7 +45,7 @@ namespace CoachSeek.Application.UseCases.Emailing
                     foreach (var recipient in bouncedMessage.Recipients)
                         ApiClient.UnsubscribeEmailAddress(recipient);
 
-                QueueClient.PopBouncedEmailMessageFromQueue(bouncedMessage);
+                QueueClient.Pop(bouncedMessage);
             }
         }
     }

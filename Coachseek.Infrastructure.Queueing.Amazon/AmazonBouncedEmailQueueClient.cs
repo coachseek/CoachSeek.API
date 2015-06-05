@@ -27,13 +27,13 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
         }
 
 
-        public IList<BouncedEmailMessage> GetBouncedEmailMessages()
+        public IList<BouncedEmailMessage> Peek()
         {
-            var sqsMessages = AmazonQueueClient.GetMessages(Queue);
+            var sqsMessages = AmazonQueueClient.Peek(Queue);
             return ConvertToBouncedEmailMessages(sqsMessages);
         }
 
-        public void PopBouncedEmailMessageFromQueue(BouncedEmailMessage message)
+        public void Pop(BouncedEmailMessage message)
         {
             throw new System.NotImplementedException();
         }

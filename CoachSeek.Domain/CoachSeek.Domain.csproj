@@ -125,6 +125,7 @@
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
     <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />
+    <Compile Include="Repositories\IPaymentRepository.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />
     <Compile Include="Repositories\IUnsubscribedEmailAddressRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />

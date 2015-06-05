@@ -5,7 +5,7 @@ namespace Coachseek.Infrastructure.Queueing.Contracts.Emailing
 {
     public interface IBouncedEmailQueueClient : IDisposable
     {
-        IList<BouncedEmailMessage> GetBouncedEmailMessages();
-        void PopBouncedEmailMessageFromQueue(BouncedEmailMessage message);
+        IList<BouncedEmailMessage> Peek();
+        void Pop(BouncedEmailMessage message);
     }
 }

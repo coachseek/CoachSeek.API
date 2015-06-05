@@ -1,7 +1,11 @@
-﻿namespace Coachseek.Infrastructure.Queueing.Contracts.Payment
+﻿using System.Collections.Generic;
+
+namespace Coachseek.Infrastructure.Queueing.Contracts.Payment
 {
     public interface IPaymentProcessingQueueClient
     {
-        void PushPaymentProcessingMessageOntoQueue(PaymentProcessingMessage message);
+        void Push(PaymentProcessingMessage message);
+        IList<PaymentProcessingMessage> Peek();
+        void Pop(PaymentProcessingMessage message);
     }
 }
