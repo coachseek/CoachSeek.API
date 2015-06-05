@@ -27,7 +27,7 @@ namespace Coachseek.Infrastructure.Queueing.Azure
 
         public void Push(PaymentProcessingMessage message)
         {
-            var azureMessage = ConvertToCloudQueueMessage(message);
+            var azureMessage = ConvertToNewCloudQueueMessage(message);
             AzureQueueClient.Push(Queue, azureMessage);
         }
 
@@ -39,12 +39,17 @@ namespace Coachseek.Infrastructure.Queueing.Azure
 
         public void Pop(PaymentProcessingMessage message)
         {
-            var azureMessage = ConvertToCloudQueueMessage(message);
+            var azureMessage = ConvertToExistingCloudQueueMessage(message);
             AzureQueueClient.Pop(Queue, azureMessage);
         }
 
 
-        private CloudQueueMessage ConvertToCloudQueueMessage(PaymentProcessingMessage message)
+        private CloudQueueMessage ConvertToNewCloudQueueMessage(PaymentProcessingMessage message)
+        {
+            return new CloudQueueMessage(message.ToString());
+        }
+
+        private CloudQueueMessage ConvertToExistingCloudQueueMessage(PaymentProcessingMessage message)
         {
             var parts = message.Id.Split('|');
             var cloudMessage = new CloudQueueMessage(parts[0], parts[1]);
