@@ -59,6 +59,7 @@
     <Compile Include="Entities\ColourTests.cs" />
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\DateTests.cs" />
+    <Compile Include="Entities\PaymentOptionsTests.cs" />
     <Compile Include="Entities\PointInTimeTests.cs" />
     <Compile Include="Entities\CourseOverlappingTests.cs" />
     <Compile Include="Entities\SessionOverlappingTests.cs" />

@@ -6,8 +6,12 @@
     [Currency]                  NCHAR (3)        NULL,
     [PaymentProvider]           NVARCHAR (50)    NULL,
     [MerchantAccountIdentifier] NVARCHAR (100)   NULL,
+    [IsOnlinePaymentEnabled]    BIT              CONSTRAINT [DF_Business_IsOnlinePaymentEnabled] DEFAULT ((0)) NOT NULL,
+    [ForceOnlinePayment]        BIT              CONSTRAINT [DF_Business_ForceOnlinePayment] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Business] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

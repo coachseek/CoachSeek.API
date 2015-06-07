@@ -99,7 +99,9 @@
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\PaymentProvider.cs" />
+    <Compile Include="Entities\Payment\NullPaymentOptions.cs" />
     <Compile Include="Entities\Payment\NullPaymentProvider.cs" />
+    <Compile Include="Entities\Payment\PaymentOptions.cs" />
     <Compile Include="Entities\Payment\PaypalPaymentProvider.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
     <Compile Include="Entities\Business.cs" />
