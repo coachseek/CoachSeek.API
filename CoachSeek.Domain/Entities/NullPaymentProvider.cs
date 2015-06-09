@@ -1,4 +1,4 @@
-﻿namespace CoachSeek.Domain.Entities.Payment
+﻿namespace CoachSeek.Domain.Entities
 {
     public class NullPaymentProvider : PaymentProvider
     {

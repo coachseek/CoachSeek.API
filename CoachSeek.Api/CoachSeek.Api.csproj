@@ -280,10 +280,6 @@
       <Project>{9b38a5e3-ae19-4497-91e1-6d6f3fd6bbdf}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Application.Tests.Unit\CoachSeek.Application.Tests.Unit.csproj">
-      <Project>{6DF0A6DA-4ED1-4DA5-835C-929AFDF4FC79}</Project>
-      <Name>CoachSeek.Application.Tests.Unit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>

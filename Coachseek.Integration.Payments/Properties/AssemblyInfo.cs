@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Coachseek.API.Client")]
+[assembly: AssemblyTitle("Coachseek.Integration.Payments")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Coachseek")]
-[assembly: AssemblyProduct("Coachseek.API.Client")]
-[assembly: AssemblyCopyright("Copyright © Coachseek 2015")]
+[assembly: AssemblyCompany("Toshiba")]
+[assembly: AssemblyProduct("Coachseek.Integration.Payments")]
+[assembly: AssemblyCopyright("Copyright © Toshiba 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a64c634c-5730-4f9c-8ba8-3306c59b5f65")]
+[assembly: Guid("2bf4c184-27fb-4768-a237-33b6370c43dd")]
 
 // Version information for an assembly consists of the following four values:
 //

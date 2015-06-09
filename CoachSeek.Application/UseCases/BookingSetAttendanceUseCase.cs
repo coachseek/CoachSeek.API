@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.UseCases

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Coachseek.API.Client.Interfaces;
-using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Emailing;
 
 namespace CoachSeek.Application.UseCases.Emailing

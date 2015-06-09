@@ -1,7 +1,6 @@
-﻿using System.Xml.Schema;
-using CoachSeek.Domain.Exceptions;
+﻿using CoachSeek.Domain.Exceptions;
 
-namespace CoachSeek.Domain.Entities.Payment
+namespace CoachSeek.Domain.Entities
 {
     public class PaypalPaymentProvider : PaymentProvider
     {

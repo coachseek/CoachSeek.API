@@ -99,8 +99,8 @@
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\PaymentProvider.cs" />
-    <Compile Include="Entities\Payment\NullPaymentProvider.cs" />
-    <Compile Include="Entities\Payment\PaypalPaymentProvider.cs" />
+    <Compile Include="Entities\NullPaymentProvider.cs" />
+    <Compile Include="Entities\PaypalPaymentProvider.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="Exceptions\PaymentProviderNotSupported.cs" />
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
     <Compile Include="Factories\PaymentProviderFactory.cs" />
+    <Compile Include="Entities\Payment.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />
     <Compile Include="Repositories\IPaymentRepository.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using Coachseek.API.Client.Models;
+﻿using Coachseek.API.Client.Models;
 
 namespace Coachseek.API.Client.Services
 {

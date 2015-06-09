@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CoachSeek.Domain.Commands
+﻿namespace CoachSeek.Domain.Commands
 {
     public class BusinessAddCommand
     {

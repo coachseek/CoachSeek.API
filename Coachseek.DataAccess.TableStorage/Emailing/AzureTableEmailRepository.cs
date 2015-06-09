@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Coachseek.Integration.Contracts.Interfaces;
+﻿using Coachseek.Integration.Contracts.Interfaces;
 using Coachseek.Integration.Contracts.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;

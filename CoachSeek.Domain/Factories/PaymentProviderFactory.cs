@@ -1,5 +1,4 @@
 ﻿using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Entities.Payment;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Factories

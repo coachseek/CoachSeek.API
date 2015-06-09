@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D5B27288-CEA1-4BD9-B05C-DFC92610610A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{9BBD9A79-5253-477A-9FCB-0C0993375D44}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Coachseek.Integration.Payments.PaymentsProcessor</RootNamespace>
-    <AssemblyName>Coachseek.Integration.Payments.PaymentsProcessor</AssemblyName>
+    <RootNamespace>Coachseek.Integration.Payments</RootNamespace>
+    <AssemblyName>Coachseek.Integration.Payments</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,10 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,43 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs">
-      <DependentUpon>AppSettings.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="PaymentConverter.cs" />
-    <Compile Include="ProcessPaymentsUseCase.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="PaymentProviderApiFactory.cs" />
+    <Compile Include="PaymentsProviderApiBase.cs" />
+    <Compile Include="PaypalPaymentsProviderApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <Content Include="AppSettings.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AppSettings.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
-      <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
-      <Name>CoachSeek.DataAccess.Main.Memory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
-      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
-      <Name>CoachSeek.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
-      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
-      <Name>CoachSeek.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Azure\Coachseek.Infrastructure.Queueing.Azure.csproj">
-      <Project>{1292845B-E1C1-479A-B050-7CA302ACC6A2}</Project>
-      <Name>Coachseek.Infrastructure.Queueing.Azure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
@@ -89,13 +61,9 @@
       <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>
       <Name>Coachseek.Integration.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Coachseek.Integration.Payments\Coachseek.Integration.Payments.csproj">
-      <Project>{9BBD9A79-5253-477A-9FCB-0C0993375D44}</Project>
-      <Name>Coachseek.Integration.Payments</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

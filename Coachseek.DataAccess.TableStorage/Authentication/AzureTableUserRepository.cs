@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using Coachseek.DataAccess.Authentication.TableStorage;
 using CoachSeek.Domain.Entities;

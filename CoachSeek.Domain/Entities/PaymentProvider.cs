@@ -1,6 +1,4 @@
-﻿using CoachSeek.Domain.Exceptions;
-
-namespace CoachSeek.Domain.Entities
+﻿namespace CoachSeek.Domain.Entities
 {
     public abstract class PaymentProvider
     {
