@@ -49,6 +49,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyDetails.cs" />
     <Compile Include="DataAccess\SqlServerDataReader.cs" />
+    <Compile Include="Enumerations.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="NoBusinessPrincipal.cs" />

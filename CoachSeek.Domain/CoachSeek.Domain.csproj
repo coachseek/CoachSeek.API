@@ -109,6 +109,7 @@
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\SessionInCourse.cs" />
+    <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateBooking.cs" />
     <Compile Include="Exceptions\DuplicateCustomer.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />
-    <Compile Include="Repositories\IPaymentRepository.cs" />
+    <Compile Include="Repositories\ITransactionRepository.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />
     <Compile Include="Repositories\IUnsubscribedEmailAddressRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />

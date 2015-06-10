@@ -1,7 +1,11 @@
-﻿namespace CoachSeek.Data.Model
+﻿using CoachSeek.Common;
+
+namespace CoachSeek.Data.Model
 {
-    public class PaymentData
+    public class PaymentData : TransactionData
     {
-        public string TransactionId { get; set; }
+        public PaymentData(string id) 
+            : base(id, Constants.TRANSACTION_PAYMENT, "")
+        { }
     }
 }

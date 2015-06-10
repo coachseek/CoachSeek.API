@@ -6,5 +6,6 @@
 
         public const string PAYPAL = "PayPal";
 
+        public const string TRANSACTION_PAYMENT = "Payment";
     }
 }

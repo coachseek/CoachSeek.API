@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Repositories;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
@@ -8,14 +9,14 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
     {
         private bool IsPaymentEnabled { get; set; }
         private IPaymentProcessingQueueClient PaymentProcessingQueueClient { get; set; }
-        private IPaymentRepository PaymentsRepository { get; set; }
+        private ITransactionRepository TransactionRepository { get; set; }
 
-        public ProcessPaymentsUseCase(IPaymentProcessingQueueClient paymentProcessingQueueClient, 
-                                      IPaymentRepository paymentsRepository,
+        public ProcessPaymentsUseCase(IPaymentProcessingQueueClient paymentProcessingQueueClient,
+                                      ITransactionRepository transactionRepository,
                                       bool isPaymentEnabled)
         {
             PaymentProcessingQueueClient = paymentProcessingQueueClient;
-            PaymentsRepository = paymentsRepository;
+            TransactionRepository = transactionRepository;
             IsPaymentEnabled = isPaymentEnabled;
         }
 
@@ -26,7 +27,15 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
             foreach (var message in messages)
             {
-                ProcessMessage(message);
+                try
+                {
+                    ProcessMessage(message);
+                    PaymentProcessingQueueClient.Pop(message);
+                }
+                catch (Exception ex)
+                {
+
+                }
 
                 // Save payment to the database.
 
@@ -39,27 +48,16 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 // check that Receiver_email is your Primary PayPal email
                 // check that Payment_amount/Payment_currency are correct
                 // process payment
-
-                PaymentProcessingQueueClient.Pop(message);
             }
         }
 
         private void ProcessMessage(PaymentProcessingMessage message)
         {
-            try
-            {
-                TryProcessMessage(message);
-            }
-            catch (Exception ex)
-            {
-                
-            }
-        }
-
-        private void TryProcessMessage(PaymentProcessingMessage message)
-        {
             var payment = PaymentConverter.Convert(message);
-            PaymentsRepository.AddPayment(payment);
+            var existingPayment = TransactionRepository.GetPayment(payment.Id);
+            if (existingPayment.IsFound())
+                return;
+            TransactionRepository.AddPayment(payment);
 
             var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, IsPaymentEnabled);
             paymentApi.VerifyPayment(message);

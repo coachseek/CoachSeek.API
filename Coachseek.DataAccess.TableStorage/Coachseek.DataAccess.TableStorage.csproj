@@ -71,16 +71,24 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Emailing\AzureTestTableUnsubscribedEmailAddressRepository.cs" />
     <Compile Include="Emailing\AzureTableUnsubscribedEmailAddressRepository.cs" />
-    <Compile Include="Emailing\AzureTableEmailRepository.cs" />
-    <Compile Include="Emailing\EmailEntity.cs" />
     <Compile Include="Emailing\EmailAddressEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Authentication\UserEntity.cs" />
+    <Compile Include="Transactions\AzureTableTransactionRepository.cs" />
+    <Compile Include="Transactions\TransactionEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2d91e32d-170c-4e38-a9e5-c5232daa9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844eaa-9e91-4e2d-a0d3-db48ad369de6}</Project>
+      <Name>CoachSeek.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>

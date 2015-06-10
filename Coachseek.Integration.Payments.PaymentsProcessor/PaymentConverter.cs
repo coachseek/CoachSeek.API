@@ -10,7 +10,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
     {
         public static Payment Convert(PaymentProcessingMessage message)
         {
-            if (message.Contents == Constants.PAYPAL)
+            if (message.PaymentProvider == Constants.PAYPAL)
                 return ConvertFromPaypal(message.Contents);
 
             throw new InvalidOperationException("Unexpected payment provider.");
@@ -18,10 +18,27 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         public static Payment ConvertFromPaypal(string paypalMessage)
         {
-            var message = HttpUtility.ParseQueryString(paypalMessage);
+            var keyValuePairs = HttpUtility.ParseQueryString(paypalMessage);
+
+            var transactionId = keyValuePairs.Get("txn_id");
+            var status = GetTransactionStatus(keyValuePairs.Get("payment_status"));
+            var isTestMessage = GetIsTesting(keyValuePairs.Get("test_ipn"));
+
+            return new Payment(transactionId, status, isTestMessage);
+        }
 
 
-            return new Payment();
+        private static bool GetIsTesting(string paypalIsTesting)
+        {
+            return paypalIsTesting != null && paypalIsTesting == "1";
+        }
+
+        private static TransactionStatus GetTransactionStatus(string paypalPaymentStatus)
+        {
+            if (paypalPaymentStatus.ToLower() == "completed")
+                return TransactionStatus.Completed;
+
+            return TransactionStatus.Incomplete;
         }
     }
 }
