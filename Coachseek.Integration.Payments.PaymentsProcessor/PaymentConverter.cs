@@ -43,14 +43,9 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static DateTime GetTransactionDate(string paypalPaymentDate)
         {
-            var date = paypalPaymentDate.Substring(3).Trim();
             DateTime paymentDate;
-
-            var success = DateTime.TryParseExact(paypalPaymentDate, 
-                                   "MMM dd HH:mm:ss", 
-                                   CultureInfo.InvariantCulture,
-                                   DateTimeStyles.None, 
-                                   out paymentDate);
+            DateTime.TryParseExact(paypalPaymentDate,"HH:mm:ss MMM dd, yyyy", CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out paymentDate);
 
             return paymentDate;
         }
@@ -88,10 +83,10 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static GoodOrService GetItem(NameValueCollection keyValuePairs)
         {
-            var itemId = keyValuePairs.Get("item_number1");
-            var itemName = keyValuePairs.Get("item_name1");
+            var itemId = keyValuePairs.Get("item_number");
+            var itemName = keyValuePairs.Get("item_name");
             var currency = keyValuePairs.Get("mc_currency");
-            var grossAmount = keyValuePairs.Get("mc_gross1").Parse<decimal>();
+            var grossAmount = keyValuePairs.Get("mc_gross").Parse<decimal>();
 
             return new GoodOrService(itemId, itemName, new Money(currency, grossAmount));
         }

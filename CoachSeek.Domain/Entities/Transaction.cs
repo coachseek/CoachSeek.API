@@ -1,4 +1,5 @@
-﻿using CoachSeek.Common;
+﻿using System;
+using CoachSeek.Common;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -14,6 +15,17 @@ namespace CoachSeek.Domain.Entities
         public string Id { get { return Details.Id; } }
         public string Type { get { return TransactionType.ToString(); } }
         public string Status { get { return Details.Status.ToString(); } }
+        public DateTime TransactionDate { get { return Details.TransactionDate; } }
+        public string PayerFirstName { get { return Payer.FirstName; } }
+        public string PayerLastName { get { return Payer.LastName; } }
+        public string PayerEmail { get { return Payer.Email; } }
+        public string MerchantId { get { return Merchant.Id; } }
+        public string MerchantName { get { return Merchant.Name; } }
+        public string MerchantEmail { get { return Merchant.Email; } }
+        public string ItemId { get { return Item.Id; } }
+        public string ItemName { get { return Item.Name; } }
+        public string ItemCurrency { get { return Item.Money.Currency; } }
+        public decimal ItemAmount { get { return Item.Money.Amount; } }
 
 
         protected Transaction(TransactionDetails details, 

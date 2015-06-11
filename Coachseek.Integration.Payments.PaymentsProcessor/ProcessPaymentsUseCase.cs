@@ -57,7 +57,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var existingPayment = TransactionRepository.GetPayment(payment.Id);
             if (existingPayment.IsFound())
                 return;
-            TransactionRepository.AddPayment(payment);
+            var data = TransactionRepository.AddPayment(payment);
 
             var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, IsPaymentEnabled);
             paymentApi.VerifyPayment(message);
