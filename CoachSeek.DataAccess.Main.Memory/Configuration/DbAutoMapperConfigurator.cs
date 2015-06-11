@@ -47,9 +47,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<SingleSessionData, DbSingleSession>();
             Mapper.CreateMap<SingleSessionPricingData, DbSingleSessionPricing>();
             Mapper.CreateMap<StandaloneSession, DbSingleSession>();
-            Mapper.CreateMap<Transaction, DbTransaction>()
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.TypeString))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.StatusString));
+            Mapper.CreateMap<Transaction, DbTransaction>();
             Mapper.CreateMap<UserData, DbUser>();
             Mapper.CreateMap<WeeklyWorkingHoursData, DbWeeklyWorkingHours>();
 

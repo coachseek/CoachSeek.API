@@ -2,22 +2,29 @@
 
 namespace CoachSeek.Domain.Entities
 {
-    public class Transaction
+    public abstract class Transaction
     {
-        public string Id { get; private set; }
-        public TransactionType Type { get; private set; }
-        public string TypeString { get { return Type.ToString(); } }
-        public TransactionStatus Status { get; private set; }
-        public string StatusString { get { return Status.ToString(); } }
-        public bool IsTesting { get; private set; }
+        private TransactionDetails Details { get; set; }
+        private Payer Payer { get; set; }
+        private Merchant Merchant { get; set; }
+        private GoodOrService Item { get; set; }
+
+        protected abstract TransactionType TransactionType { get; }
+
+        public string Id { get { return Details.Id; } }
+        public string Type { get { return TransactionType.ToString(); } }
+        public string Status { get { return Details.Status.ToString(); } }
 
 
-        public Transaction(string id, TransactionType type, TransactionStatus status, bool isTesting)
+        protected Transaction(TransactionDetails details, 
+                           Payer payer,
+                           Merchant merchant, 
+                           GoodOrService item)
         {
-            Id = id;
-            Type = type;
-            Status = status;
-            IsTesting = isTesting;
+            Details = details;
+            Payer = payer;
+            Merchant = merchant;
+            Item = item;
         }
     }
 }

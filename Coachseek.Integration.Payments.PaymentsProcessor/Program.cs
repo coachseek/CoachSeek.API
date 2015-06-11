@@ -17,7 +17,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
             var useCase = new ProcessPaymentsUseCase(queueClient, paymentRepository, isPaymentEnabled);
 
-            while (true)
+            //while (true)
                 useCase.Process();
         }
     }

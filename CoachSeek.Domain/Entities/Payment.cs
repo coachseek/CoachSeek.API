@@ -1,11 +1,14 @@
-﻿using CoachSeek.Common;
+﻿using System;
+using CoachSeek.Common;
 
 namespace CoachSeek.Domain.Entities
 {
     public class Payment : Transaction
     {
-        public Payment(string id, TransactionStatus status, bool isTesting)
-            : base(id, TransactionType.Payment, status, isTesting)
+        protected override TransactionType TransactionType { get { return TransactionType.Payment; } }
+
+        public Payment(TransactionDetails details, Payer payer, Merchant merchant, GoodOrService item)
+            : base(details, payer, merchant, item)
         { }
     }
 }

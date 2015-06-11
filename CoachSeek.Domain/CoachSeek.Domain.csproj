@@ -98,9 +98,13 @@
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\GoodOrService.cs" />
+    <Compile Include="Entities\Money.cs" />
+    <Compile Include="Entities\Payer.cs" />
     <Compile Include="Entities\PaymentProvider.cs" />
     <Compile Include="Entities\NullPaymentProvider.cs" />
     <Compile Include="Entities\PaypalPaymentProvider.cs" />
+    <Compile Include="Entities\Merchant.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />
@@ -110,6 +114,7 @@
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\SessionInCourse.cs" />
     <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\TransactionDetails.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateBooking.cs" />
     <Compile Include="Exceptions\DuplicateCustomer.cs" />

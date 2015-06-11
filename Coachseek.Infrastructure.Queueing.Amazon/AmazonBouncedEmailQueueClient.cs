@@ -35,7 +35,7 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
 
         public void Pop(BouncedEmailMessage message)
         {
-            throw new System.NotImplementedException();
+            AmazonQueueClient.Pop(Queue, ConvertToAmazonMessage(message));
         }
 
         public void Dispose()
@@ -43,6 +43,11 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
             AmazonQueueClient.Dispose();
         }
 
+
+        private Message ConvertToAmazonMessage(BouncedEmailMessage bouncedMessage)
+        {
+            return new Message {ReceiptHandle = bouncedMessage.Id};
+        }
 
         private IList<BouncedEmailMessage> ConvertToBouncedEmailMessages(IEnumerable<Message> messages)
         {
