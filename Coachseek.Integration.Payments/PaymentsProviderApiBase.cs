@@ -23,6 +23,6 @@ namespace Coachseek.Integration.Payments
         }
 
 
-        public abstract void VerifyPayment(PaymentProcessingMessage message);
+        public abstract bool VerifyPayment(PaymentProcessingMessage message);
     }
 }

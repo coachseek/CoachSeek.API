@@ -40,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,6 +71,7 @@
     <Compile Include="UseCases\Emailing\ProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Executors\UseCaseExecutor.cs" />
     <Compile Include="UseCases\PaypalReceivePaymentMessageUseCase.cs" />
+    <Compile Include="UseCases\ProcessPaymentsUseCase.cs" />
     <Compile Include="UseCases\SingleSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\SingleSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\Factories\BookingAddUseCaseFactory.cs" />
@@ -142,6 +146,14 @@
     <ProjectReference Include="..\Coachseek.Integration.Emailing.Amazon\Coachseek.Integration.Emailing.Amazon.csproj">
       <Project>{15167C2D-BCD1-45C7-805F-29FF151083D3}</Project>
       <Name>Coachseek.Integration.Emailing.Amazon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Payments.PaymentsProcessor\Coachseek.Integration.Payments.PaymentsProcessor.csproj">
+      <Project>{D5B27288-CEA1-4BD9-B05C-DFC92610610A}</Project>
+      <Name>Coachseek.Integration.Payments.PaymentsProcessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Payments\Coachseek.Integration.Payments.csproj">
+      <Project>{9BBD9A79-5253-477A-9FCB-0C0993375D44}</Project>
+      <Name>Coachseek.Integration.Payments</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

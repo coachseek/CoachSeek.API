@@ -1,8 +1,9 @@
-﻿using CoachSeek.Domain.Exceptions;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class PaypalPaymentProvider : PaymentProvider
+    public class PaypalPaymentProvider : PaymentProviderBase
     {
         public PaypalPaymentProvider(string merchantAccountIdentifier)
             : base(merchantAccountIdentifier)
@@ -13,8 +14,8 @@ namespace CoachSeek.Domain.Entities
             Validation();
         }
 
-
-        public override string Provider { get { return "PayPal"; } }
+        
+        public override string Provider { get { return PaymentProvider.PayPal.ToString(); } }
 
 
         private void Validation()

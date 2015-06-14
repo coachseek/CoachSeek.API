@@ -17,7 +17,7 @@ namespace Coachseek.Integration.Payments
         { }
 
 
-        public override void VerifyPayment(PaymentProcessingMessage message)
+        public override bool VerifyPayment(PaymentProcessingMessage message)
         {
             var request = (HttpWebRequest)WebRequest.Create(Url);
             var formDataNotify = string.Format("{0}&cmd=_notify-validate", message.Contents);
@@ -26,24 +26,7 @@ namespace Coachseek.Integration.Payments
             var response = HandleRawResponse(request);
             var payload = response.Payload.ToString();
 
-            if (payload == "VERIFIED")
-            {
-
-
-
-                // check that Payment_status=Completed
-                // check that Txn_id has not been previously processed
-                // check that Receiver_email is your Primary PayPal email
-                // check that Payment_amount/Payment_currency are correct
-                // process payment
-            }
-            else
-            {
-                // Log for manual investigation.
-            }
-
-
-            // throw new InvalidPayment
+            return payload == "VERIFIED";
         }
 
         private static void PreparePostRequest(HttpWebRequest request)

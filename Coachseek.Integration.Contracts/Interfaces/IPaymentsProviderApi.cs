@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Coachseek.Infrastructure.Queueing.Contracts.Payment;
+﻿using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Integration.Contracts.Interfaces
 {
@@ -8,6 +7,6 @@ namespace Coachseek.Integration.Contracts.Interfaces
         string SandboxUrl { get; }
         string LiveUrl { get; }
 
-        void VerifyPayment(PaymentProcessingMessage message);
+        bool VerifyPayment(PaymentProcessingMessage message);
     }
 }

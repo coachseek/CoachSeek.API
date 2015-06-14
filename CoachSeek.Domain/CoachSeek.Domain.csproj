@@ -45,6 +45,9 @@
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -101,7 +104,7 @@
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\Payer.cs" />
-    <Compile Include="Entities\PaymentProvider.cs" />
+    <Compile Include="Entities\PaymentProviderBase.cs" />
     <Compile Include="Entities\NullPaymentProvider.cs" />
     <Compile Include="Entities\PaypalPaymentProvider.cs" />
     <Compile Include="Entities\Merchant.cs" />

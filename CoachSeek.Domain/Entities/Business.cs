@@ -15,7 +15,7 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
         public Currency Currency { get; protected set; }
-        public PaymentProvider Payment { get; protected set; }
+        public PaymentProviderBase Payment { get; protected set; }
 
 
         public Business(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder, ISupportedCurrencyRepository supportedCurrencyRepository) 

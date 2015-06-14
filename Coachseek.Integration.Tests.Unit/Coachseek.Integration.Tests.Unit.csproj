@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emailing\AmazonEmailerTests.cs" />
+    <Compile Include="Fakes\StubPaymentMessageProcessor.cs" />
     <Compile Include="Fakes\StubUnsubscribedEmailAddressRepository.cs" />
     <Compile Include="Payments\PaypalPaymentsProviderApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
       <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>

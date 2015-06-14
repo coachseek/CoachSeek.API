@@ -1,7 +1,6 @@
-﻿using CoachSeek.Common.Extensions;
+﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
-using CoachSeek.DataAccess.Main.Memory.Repositories;
-using Coachseek.Infrastructure.Queueing.Azure;
+using StructureMap;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
@@ -11,11 +10,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         {
             DbAutoMapperConfigurator.Configure();
 
-            var queueClient = new AzurePaymentProcessingQueueClient();
-            var paymentRepository = new InMemoryTransactionRepository();
-            var isPaymentEnabled = AppSettings.IsPaymentEnabled.Parse<bool>();
-
-            var useCase = new ProcessPaymentsUseCase(queueClient, paymentRepository, isPaymentEnabled);
+            var container = new Container(new TypeRegistry());
+            var useCase = container.GetInstance<IProcessPaymentsUseCase>();
 
             //while (true)
                 useCase.Process();

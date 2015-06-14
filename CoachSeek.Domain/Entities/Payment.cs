@@ -7,8 +7,8 @@ namespace CoachSeek.Domain.Entities
     {
         protected override TransactionType TransactionType { get { return TransactionType.Payment; } }
 
-        public Payment(TransactionDetails details, Payer payer, Merchant merchant, GoodOrService item)
-            : base(details, payer, merchant, item)
+        public Payment(TransactionDetails details, Payer payer, Merchant merchant, GoodOrService item, string originalMessage)
+            : base(details, payer, merchant, item, originalMessage)
         { }
     }
 }

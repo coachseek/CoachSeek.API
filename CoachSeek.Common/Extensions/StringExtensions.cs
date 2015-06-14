@@ -62,5 +62,10 @@ namespace CoachSeek.Common.Extensions
 
             return char.ToUpper(input[0]) + input.Substring(1);
         }
+
+        public static bool CompareIgnoreCase(this string input, string comparison)
+        {
+            return string.Equals(input, comparison, StringComparison.CurrentCultureIgnoreCase);
+        }
     }
 }

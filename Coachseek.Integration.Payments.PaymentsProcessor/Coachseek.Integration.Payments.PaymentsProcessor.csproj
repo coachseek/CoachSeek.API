@@ -32,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CoachSeek.Application">
+      <HintPath>..\CoachSeek.Api\Bin\CoachSeek.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.3.1.5.154\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.5.154\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -49,9 +61,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="PaymentConverter.cs" />
+    <Compile Include="PaymentMessageProcessor.cs" />
+    <Compile Include="PaymentProcessorConfiguration.cs" />
     <Compile Include="ProcessPaymentsUseCase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -59,8 +74,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AppSettings.cs</LastGenOutput>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
+      <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
+      <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>

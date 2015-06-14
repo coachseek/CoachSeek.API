@@ -5,6 +5,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Models
     public class DbTransaction
     {
         public string Id { get; set; }
+        public string PaymentProvider { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
         public DateTime TransactionDate { get; set; }
@@ -18,5 +19,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Models
         public string ItemName { get; set; }
         public string ItemCurrency { get; set; }
         public decimal ItemAmount { get; set; }
+        public string OriginalMessage { get; set; }
     }
 }

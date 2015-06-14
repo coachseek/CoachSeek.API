@@ -6,10 +6,17 @@
         Payment
     }
 
+    public enum PaymentProvider
+    {
+        None = 0,
+        PayPal
+    }
+
     public enum TransactionStatus
     {
         None = 0,
-        Incomplete,
-        Completed
+        Pending,
+        Completed,
+        Denied
     }
 }
