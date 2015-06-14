@@ -37,8 +37,7 @@ BEGIN
 		c.[FirstName],
 		c.[LastName],
 		c.[Email],
-		c.[Phone],
-		c.[IsEmailUnsubscribed]
+		c.[Phone]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Customer] c

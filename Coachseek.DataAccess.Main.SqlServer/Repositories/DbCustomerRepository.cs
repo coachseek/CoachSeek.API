@@ -161,8 +161,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 FirstName = reader.GetString(3),
                 LastName = reader.GetString(4),
                 Email = reader.GetNullableString(5),
-                Phone = reader.GetNullableString(6),
-                IsEmailUnsubscribed = reader.GetBoolean(7)
+                Phone = reader.GetNullableString(6)
             };
         }
     }
