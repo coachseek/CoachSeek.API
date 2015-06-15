@@ -54,6 +54,7 @@
     <Compile Include="Services\ICustomerResolver.cs" />
     <Compile Include="UseCases\Admin\IEmailIsUnsubscribedUseCase.cs" />
     <Compile Include="UseCases\Admin\IEmailUnsubscribeUseCase.cs" />
+    <Compile Include="UseCases\Emailing\IProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\Executors\IUseCaseExecutor.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />

@@ -45,6 +45,7 @@
     <Compile Include="Emailing\AmazonEmailerTests.cs" />
     <Compile Include="Fakes\StubPaymentMessageProcessor.cs" />
     <Compile Include="Fakes\StubUnsubscribedEmailAddressRepository.cs" />
+    <Compile Include="Payments\PaymentMessageProcessorTests.cs" />
     <Compile Include="Payments\PaypalPaymentsProviderApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

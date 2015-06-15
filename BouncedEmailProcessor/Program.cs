@@ -1,7 +1,6 @@
 ﻿using System.Timers;
-using Coachseek.API.Client.Services;
-using CoachSeek.Application.UseCases.Emailing;
-using Coachseek.Infrastructure.Queueing.Amazon;
+using CoachSeek.Application.Contracts.UseCases.Emailing;
+using StructureMap;
 
 namespace Coachseek.Integration.Emailing.BouncedEmailProcessor
 {
@@ -23,10 +22,9 @@ namespace Coachseek.Integration.Emailing.BouncedEmailProcessor
 
         private static void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            var queueClient = new AmazonBouncedEmailQueueClient();
-            var apiClient = new CoachseekAdminApiClient(new AdminApiClient());
+            var container = new Container(new TypeRegistry());
+            var useCase = container.GetInstance<IProcessBouncedEmailMessagesUseCase>();
 
-            var useCase = new ProcessBouncedEmailMessagesUseCase(queueClient, apiClient);
             useCase.Process();
 
             SetTimer(60);
