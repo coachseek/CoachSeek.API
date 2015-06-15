@@ -60,10 +60,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="PaymentConverter.cs" />
+    <Compile Include="NewPaymentConverter.cs" />
     <Compile Include="PaymentMessageProcessor.cs" />
     <Compile Include="PaymentProcessorConfiguration.cs" />
-    <Compile Include="ProcessPaymentsUseCase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeRegistry.cs" />

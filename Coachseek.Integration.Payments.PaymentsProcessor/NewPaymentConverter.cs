@@ -9,41 +9,45 @@ using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
-    public static class PaymentConverter
+    public static class NewPaymentConverter
     {
         private const string PAYPAL_STATUS_COMPLETED = "Completed";
         private const string PAYPAL_STATUS_PENDING = "Pending";
         private const string PAYPAL_STATUS_DENIED = "Denied";
 
 
-        public static Payment Convert(PaymentProcessingMessage message)
+        public static NewPayment Convert(PaymentProcessingMessage message)
         {
             if (message.PaymentProvider == Constants.PAYPAL)
                 return ConvertFromPaypal(message.Contents);
 
+            if (message.PaymentProvider == Constants.TEST)
+                return CreateTestPayment(message);
+
             throw new InvalidOperationException("Unexpected payment provider.");
         }
 
-        public static Payment ConvertFromPaypal(string paypalMessage)
+
+        public static NewPayment ConvertFromPaypal(string paypalMessage)
         {
             var keyValuePairs = HttpUtility.ParseQueryString(paypalMessage);
 
+            var id = keyValuePairs.Get("txn_id");
             var details = GetTransactionDetailsFromPaypal(keyValuePairs);
             var payer = GetPayerFromPaypal(keyValuePairs);
             var merchant = GetMerchantFromPaypal(keyValuePairs);
             var item = GetItemFromPaypal(keyValuePairs);
 
-            return new Payment(details, payer, merchant, item, paypalMessage);
+            return new NewPayment(id, details, payer, merchant, item, paypalMessage);
         }
 
         private static TransactionDetails GetTransactionDetailsFromPaypal(NameValueCollection keyValuePairs)
         {
-            var id = keyValuePairs.Get("txn_id");
             var status = GetTransactionStatusFromPaypal(keyValuePairs.Get("payment_status"));
             var date = GetTransactionDateFromPaypal(keyValuePairs.Get("payment_date"));
             var isTestMessage = GetIsTestingFromPaypal(keyValuePairs.Get("test_ipn"));
 
-            return new TransactionDetails(id, status, PaymentProvider.PayPal, date, isTestMessage);
+            return new TransactionDetails(status, PaymentProvider.PayPal, date, isTestMessage);
         }
 
         private static TransactionStatus GetTransactionStatusFromPaypal(string paypalPaymentStatus)
@@ -98,6 +102,16 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var grossAmount = keyValuePairs.Get("mc_gross").Parse<decimal>();
 
             return new GoodOrService(itemId, itemName, new Money(currency, grossAmount));
+        }
+
+        private static NewPayment CreateTestPayment(PaymentProcessingMessage testMessage)
+        {
+            return new NewPayment(testMessage.Id,
+                                  null,
+                                  null,
+                                  null,
+                                  null, 
+                                  testMessage.Contents);
         }
     }
 }

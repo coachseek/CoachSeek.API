@@ -104,6 +104,7 @@
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\Payer.cs" />
+    <Compile Include="Entities\NewPayment.cs" />
     <Compile Include="Entities\PaymentProviderBase.cs" />
     <Compile Include="Entities\NullPaymentProvider.cs" />
     <Compile Include="Entities\PaypalPaymentProvider.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Entities\NewCredential.cs" />
     <Compile Include="Entities\NewUser.cs" />
     <Compile Include="Entities\SessionInCourse.cs" />
+    <Compile Include="Entities\NewTransaction.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\TransactionDetails.cs" />
     <Compile Include="Entities\User.cs" />

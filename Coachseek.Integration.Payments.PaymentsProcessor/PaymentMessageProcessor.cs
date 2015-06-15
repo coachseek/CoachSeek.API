@@ -7,8 +7,9 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
     public class PaymentMessageProcessor : IPaymentMessageProcessor
     {
-        private IPaymentProcessorConfiguration PaymentProcessorConfiguration { get; set; }
-        private ITransactionRepository TransactionRepository { get; set; }
+        public IPaymentProcessorConfiguration PaymentProcessorConfiguration { get; private set; }
+        public ITransactionRepository TransactionRepository { get; private set; }
+
 
         public PaymentMessageProcessor(IPaymentProcessorConfiguration paymentProcessorConfiguration, 
                                        ITransactionRepository transactionRepository)
@@ -17,19 +18,25 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             TransactionRepository = transactionRepository;
         }
 
+
         public void ProcessMessage(PaymentProcessingMessage message)
         {
             // Save to payment to database.
-            var payment = PaymentConverter.Convert(message);
-            var existingPayment = TransactionRepository.GetPayment(payment.Id);
-            if (existingPayment.IsFound())
-                return;
-            var data = TransactionRepository.AddPayment(payment);
+            var newPayment = NewPaymentConverter.Convert(message);
+            var payment = TransactionRepository.GetPayment(newPayment.Id);
+            if (payment.IsNotFound())
+            {
+                TransactionRepository.AddPayment(newPayment);
+                payment = newPayment;
+            }
 
             // Verify the payment with payment provider.
             var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
             var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
-            paymentApi.VerifyPayment(message);
+            var isVerified = paymentApi.VerifyPayment(message);
+            payment.Verify(isVerified);
+            TransactionRepository.VerifyPayment(payment);
+
 
             // Validate payment.
 

@@ -89,6 +89,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Infrastructure.Queueing.Tests.Unit", "Coachseek.Infrastructure.Queueing.Tests.Unit\Coachseek.Infrastructure.Queueing.Tests.Unit.csproj", "{6E85D3C1-2725-4E78-83FB-49B12F79BE2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.Payments.PaymentsProcessor", "Coachseek.Integration.Payments.PaymentsProcessor\Coachseek.Integration.Payments.PaymentsProcessor.csproj", "{D5B27288-CEA1-4BD9-B05C-DFC92610610A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{64BDE56F-D7E8-4103-B5C4-CA10EE93366D} = {64BDE56F-D7E8-4103-B5C4-CA10EE93366D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.Payments", "Coachseek.Integration.Payments\Coachseek.Integration.Payments.csproj", "{9BBD9A79-5253-477A-9FCB-0C0993375D44}"
 EndProject

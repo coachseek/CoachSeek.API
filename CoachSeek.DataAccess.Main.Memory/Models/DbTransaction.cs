@@ -6,6 +6,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Models
     {
         public string Id { get; set; }
         public string PaymentProvider { get; set; }
+        public bool? IsVerified { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
         public DateTime TransactionDate { get; set; }

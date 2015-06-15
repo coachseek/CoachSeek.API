@@ -1,10 +1,9 @@
 ﻿using System;
 using CoachSeek.Common;
-using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Entities
 {
-    public abstract class Transaction
+    public abstract class NewTransaction
     {
         private TransactionDetails Details { get; set; }
         private Payer Payer { get; set; }
@@ -30,30 +29,23 @@ namespace CoachSeek.Domain.Entities
         public string ItemName { get { return Item.Name; } }
         public string ItemCurrency { get { return Item.Money.Currency; } }
         public decimal ItemAmount { get { return Item.Money.Amount; } }
+        public string OriginalMessage { get; private set; }
 
 
-        protected Transaction(string id,
-                              TransactionDetails details, 
-                              Payer payer,
-                              Merchant merchant, 
-                              GoodOrService item)
+        protected NewTransaction(string id,
+                                 TransactionDetails details, 
+                                 Payer payer,
+                                 Merchant merchant, 
+                                 GoodOrService item,
+                                 string originalMessage)
         {
             Id = id;
             Details = details;
             Payer = payer;
             Merchant = merchant;
             Item = item;
+            OriginalMessage = originalMessage;
         }
-
-        protected Transaction(TransactionData data, bool isTesting)
-        {
-            Id = data.Id;
-            Details = new TransactionDetails(data.Status, data.PaymentProvider, data.TransactionDate, isTesting);
-            Payer = new Payer(data.PayerFirstName, data.PayerLastName, data.PayerEmail);
-            Merchant = new Merchant(data.MerchantId, data.MerchantName, data.MerchantEmail);
-            Item = new GoodOrService(data.ItemId, data.ItemName, new Money(data.ItemCurrency, data.ItemAmount));
-        }
-
 
         public void Verify(bool isVerified)
         {

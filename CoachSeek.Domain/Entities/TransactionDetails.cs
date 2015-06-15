@@ -1,34 +1,49 @@
 ﻿using System;
 using CoachSeek.Common;
+using CoachSeek.Common.Extensions;
 
 namespace CoachSeek.Domain.Entities
 {
     public class TransactionDetails
     {
-        public string Id { get; private set; }
         public TransactionStatus Status { get; private set; }
         public PaymentProvider PaymentProvider { get; private set; }
-        public bool? IsPaymentProviderVerified { get; private set; }
+        public bool? IsTransactionVerified { get; private set; }
         public DateTime TransactionDate { get; private set; }
         public bool IsTesting { get; private set; }
 
-        public bool HasPaymentBeenVerified
+        public bool IsVerified
         {
-            get { return IsPaymentProviderVerified.HasValue; }
+            get { return IsTransactionVerified.HasValue; }
         }
 
 
-        public TransactionDetails(string id, 
-                                  TransactionStatus status, 
+        public TransactionDetails(TransactionStatus status, 
                                   PaymentProvider paymentProvider,
                                   DateTime transactionDate, 
                                   bool isTesting)
         {
-            Id = id;
             Status = status;
             PaymentProvider = paymentProvider;
             TransactionDate = transactionDate;
             IsTesting = isTesting;
+        }
+
+        public TransactionDetails(string status,
+                                  string paymentProvider,
+                                  DateTime transactionDate,
+                                  bool isTesting)
+        {
+            Status = status.Parse<TransactionStatus>();
+            PaymentProvider = paymentProvider.Parse<PaymentProvider>();
+            TransactionDate = transactionDate;
+            IsTesting = isTesting;
+        }
+
+
+        public void Verify(bool isVerified)
+        {
+            IsTransactionVerified = isVerified;
         }
     }
 }

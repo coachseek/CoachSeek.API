@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using CoachSeek.Common;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.Domain.Entities;
@@ -11,6 +12,9 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 {
     public class InMemoryTransactionRepository : ITransactionRepository
     {
+        // Spy behaviour is included
+        public bool WasAddPaymentCalled;
+        public bool WasVerifyPaymentCalled;
 
         public static List<DbTransaction> Transactions { get; private set; }
 
@@ -18,6 +22,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         static InMemoryTransactionRepository()
         {
             Transactions = new List<DbTransaction>();
+        }
+
+        public InMemoryTransactionRepository()
+        {
+        }
+
+        public InMemoryTransactionRepository(IEnumerable<DbTransaction> transactions)
+        {
+            Transactions = new List<DbTransaction>(transactions);
         }
 
 
@@ -40,24 +53,43 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public TransactionData AddTransaction(Transaction transaction)
         {
+            WasAddPaymentCalled = true;
+
             var dbTransaction = Mapper.Map<Transaction, DbTransaction>(transaction);
             Transactions.Add(dbTransaction);
 
             return GetTransaction(transaction.Id);
         }
 
-
-        public PaymentData GetPayment(string id)
+        public void VerifyTransaction(Transaction transaction)
         {
-            var payment = Transactions.SingleOrDefault(x => x.Id == id && x.Type == Constants.TRANSACTION_PAYMENT);
-            return Mapper.Map<DbTransaction, PaymentData>(payment);
+            var dbTransaction = Transactions.Single(x => x.Id == transaction.Id);
+            if (dbTransaction.IsNotFound())
+                return;
+            dbTransaction.IsVerified = transaction.IsVerified;
         }
 
-        public PaymentData AddPayment(Payment payment)
-        {
-            AddTransaction(payment);
 
-            return GetPayment(payment.Id);
+        public Payment GetPayment(string id)
+        {
+            var payment = Transactions.SingleOrDefault(x => x.Id == id && x.Type == Constants.TRANSACTION_PAYMENT);
+            var data = Mapper.Map<DbTransaction, PaymentData>(payment);
+            return new Payment(data, true);
+        }
+
+        public void AddPayment(NewPayment newPayment)
+        {
+            WasAddPaymentCalled = true;
+
+            var dbTransaction = Mapper.Map<NewPayment, DbTransaction>(newPayment);
+            Transactions.Add(dbTransaction);
+        }
+
+        public void VerifyPayment(Payment payment)
+        {
+            WasVerifyPaymentCalled = true;
+
+            VerifyTransaction(payment);
         }
     }
 }

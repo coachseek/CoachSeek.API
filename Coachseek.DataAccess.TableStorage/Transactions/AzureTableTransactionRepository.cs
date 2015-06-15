@@ -47,12 +47,17 @@ namespace Coachseek.DataAccess.TableStorage.Transactions
             throw new System.NotImplementedException();
         }
 
-        public PaymentData GetPayment(string id)
+        public Payment GetPayment(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public PaymentData AddPayment(Payment payment)
+        public void AddPayment(NewPayment payment)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void VerifyPayment(Payment payment)
         {
             throw new System.NotImplementedException();
         }

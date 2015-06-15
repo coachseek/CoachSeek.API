@@ -6,6 +6,7 @@ namespace CoachSeek.Data.Model
     {
         public string Id { get; set; }
         public string PaymentProvider { get; set; }
+        public bool? IsVerified { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
         public DateTime TransactionDate { get; set; }
@@ -19,5 +20,7 @@ namespace CoachSeek.Data.Model
         public string ItemName { get; set; }
         public string ItemCurrency { get; set; }
         public decimal ItemAmount { get; set; }
+
+        // Don't need OriginalMessage as it's write only (ie. only for logging).
     }
 }

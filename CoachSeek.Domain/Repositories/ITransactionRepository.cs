@@ -10,8 +10,9 @@ namespace CoachSeek.Domain.Repositories
         TransactionData GetTransaction(string id, TransactionType type);
         TransactionData AddTransaction(Transaction transaction);
 
-        PaymentData GetPayment(string id);
-        PaymentData AddPayment(Payment payment);
+        Payment GetPayment(string id);
+        void AddPayment(NewPayment payment);
+        void VerifyPayment(Payment payment);
         //PaymentData UpdatePayment(Payment payment);
     }
 }

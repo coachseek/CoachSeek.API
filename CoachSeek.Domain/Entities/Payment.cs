@@ -1,5 +1,5 @@
-﻿using System;
-using CoachSeek.Common;
+﻿using CoachSeek.Common;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -7,8 +7,16 @@ namespace CoachSeek.Domain.Entities
     {
         protected override TransactionType TransactionType { get { return TransactionType.Payment; } }
 
-        public Payment(TransactionDetails details, Payer payer, Merchant merchant, GoodOrService item, string originalMessage)
-            : base(details, payer, merchant, item, originalMessage)
+        public Payment(string id,
+                       TransactionDetails details, 
+                       Payer payer, 
+                       Merchant merchant, 
+                       GoodOrService item)
+            : base(id, details, payer, merchant, item)
+        { }
+
+        public Payment(PaymentData data, bool isTesting)
+            : base(data, isTesting)
         { }
     }
 }
