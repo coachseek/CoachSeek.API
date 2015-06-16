@@ -3,6 +3,8 @@ CREATE PROCEDURE [dbo].[Business_Update]
 	@guid uniqueidentifier,
 	@name [nvarchar](100),
 	@currency [nchar](3),
+	@isOnlinePaymentEnabled [bit],
+	@forceOnlinePayment [bit],
 	@paymentProvider [nvarchar](50) = NULL,
 	@merchantAccountIdentifier [nvarchar](100) = NULL
 AS
@@ -14,6 +16,8 @@ BEGIN
 	SET 
 		[Name] = @name,
 		[Currency] = @currency,
+		[IsOnlinePaymentEnabled] = @isOnlinePaymentEnabled,
+		[ForceOnlinePayment] = @forceOnlinePayment,
 		[PaymentProvider] = @paymentProvider,
 		[MerchantAccountIdentifier] = @merchantAccountIdentifier
 	WHERE 
@@ -26,6 +30,8 @@ BEGIN
 		[Name],
 		[Domain],
 		[Currency],
+		[IsOnlinePaymentEnabled],
+		[ForceOnlinePayment],
 		[PaymentProvider],
 		[MerchantAccountIdentifier]
 	FROM 

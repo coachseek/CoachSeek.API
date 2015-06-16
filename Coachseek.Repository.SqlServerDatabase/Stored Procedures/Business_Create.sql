@@ -29,6 +29,8 @@ BEGIN
 		[Name],
 		[Domain],
 		[Currency],
+		[IsOnlinePaymentEnabled],
+		[ForceOnlinePayment],
 		[PaymentProvider],
 		[MerchantAccountIdentifier]
 	FROM 

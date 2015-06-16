@@ -109,6 +109,8 @@
     <Compile Include="Entities\NullPaymentProvider.cs" />
     <Compile Include="Entities\PaypalPaymentProvider.cs" />
     <Compile Include="Entities\Merchant.cs" />
+    <Compile Include="Entities\NullPaymentOptions.cs" />
+    <Compile Include="Entities\PaymentOptions.cs" />
     <Compile Include="Entities\SingleSessionBooking.cs" />
     <Compile Include="Entities\Business.cs" />
     <Compile Include="Entities\BusinessAdmin.cs" />

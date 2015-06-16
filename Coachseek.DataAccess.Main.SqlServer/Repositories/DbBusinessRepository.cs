@@ -159,14 +159,18 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@currency", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@isOnlinePaymentEnabled", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
                 command.Parameters[2].Value = business.Currency.Code;
-                command.Parameters[3].Value = business.Payment.Provider;
-                command.Parameters[4].Value = business.Payment.MerchantAccountIdentifier;
+                command.Parameters[3].Value = business.Payment.IsOnlinePaymentEnabled;
+                command.Parameters[4].Value = business.Payment.ForceOnlinePayment;
+                command.Parameters[5].Value = business.Payment.Provider;
+                command.Parameters[6].Value = business.Payment.MerchantAccountIdentifier;
 
                 reader = command.ExecuteReader();
 
@@ -682,8 +686,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Name = reader.GetString(2),
                 Domain = reader.GetString(3),
                 Currency = reader.GetNullableString(4),
-                PaymentProvider = reader.GetNullableString(5),
-                MerchantAccountIdentifier = reader.GetNullableString(6)
+                IsOnlinePaymentEnabled = reader.GetBoolean(5),
+                ForceOnlinePayment = reader.GetBoolean(6),
+                PaymentProvider = reader.GetNullableString(7),
+                MerchantAccountIdentifier = reader.GetNullableString(8)
             };
         }
 

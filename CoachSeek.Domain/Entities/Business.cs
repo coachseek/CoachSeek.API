@@ -3,7 +3,6 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Exceptions;
-using CoachSeek.Domain.Factories;
 using CoachSeek.Domain.Repositories;
 using System;
 
@@ -15,7 +14,7 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
         public Currency Currency { get; protected set; }
-        public PaymentProviderBase Payment { get; protected set; }
+        public PaymentOptions Payment { get; protected set; }
 
 
         public Business(BusinessAddCommand command, IBusinessDomainBuilder domainBuilder, ISupportedCurrencyRepository supportedCurrencyRepository) 
@@ -24,7 +23,7 @@ namespace CoachSeek.Domain.Entities
             Name = command.Name.Trim();
             Domain = domainBuilder.BuildDomain(command.Name);
             Currency = new Currency(command.Currency, supportedCurrencyRepository);
-            Payment = PaymentProviderFactory.CreateDefaultPaymentProvider();
+            Payment = new NullPaymentOptions();
         }
 
         public Business(Guid businessId, BusinessUpdateCommand command, ISupportedCurrencyRepository supportedCurrencyRepository)
@@ -34,7 +33,7 @@ namespace CoachSeek.Domain.Entities
             Id = businessId;
             Name = command.Name.Trim();
             SetCurrency(command, supportedCurrencyRepository, errors);
-            SetPaymentProvider(command, errors);
+            SetPaymentOptions(command, errors);
 
             errors.ThrowIfErrors();
         }
@@ -79,11 +78,14 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void SetPaymentProvider(BusinessUpdateCommand command, ValidationException errors)
+        private void SetPaymentOptions(BusinessUpdateCommand command, ValidationException errors)
         {
             try
             {
-                Payment = PaymentProviderFactory.CreatePaymentProvider(command.PaymentProvider, command.MerchantAccountIdentifier);
+                Payment = new PaymentOptions(command.IsOnlinePaymentEnabled,
+                                             command.ForceOnlinePayment, 
+                                             command.PaymentProvider, 
+                                             command.MerchantAccountIdentifier);
             }
             catch (Exception ex)
             {
@@ -93,6 +95,8 @@ namespace CoachSeek.Domain.Entities
                     errors.Add("Missing merchant account identifier.", "business.merchantAccountIdentifier");
                 if (ex is InvalidMerchantAccountIdentifierFormat)
                     errors.Add("Invalid merchant account identifier format.", "business.merchantAccountIdentifier");
+                if (ex is ValidationException)
+                    errors.Add((ValidationException)ex);
             }
         }
     }
