@@ -2,7 +2,7 @@
 {
     public abstract class PaymentProviderBase
     {
-        public abstract string Provider { get; }
+        public abstract string ProviderName { get; }
         public string MerchantAccountIdentifier { get; protected set; }
 
 

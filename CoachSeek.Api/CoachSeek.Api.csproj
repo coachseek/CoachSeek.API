@@ -221,6 +221,7 @@
     <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomerSaveCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiBusinessPaymentOptions.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionBooking.cs" />
     <Compile Include="Models\Api\Scheduling\ApiSessionTiming.cs" />

@@ -128,7 +128,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
                 command.Parameters[2].Value = business.Domain;
-                command.Parameters[3].Value = business.Currency.Code;
+                command.Parameters[3].Value = business.Currency;
 
                 reader = command.ExecuteReader();
 
@@ -166,11 +166,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
-                command.Parameters[2].Value = business.Currency.Code;
-                command.Parameters[3].Value = business.Payment.IsOnlinePaymentEnabled;
-                command.Parameters[4].Value = business.Payment.ForceOnlinePayment;
-                command.Parameters[5].Value = business.Payment.Provider;
-                command.Parameters[6].Value = business.Payment.MerchantAccountIdentifier;
+                command.Parameters[2].Value = business.Currency;
+                command.Parameters[3].Value = business.IsOnlinePaymentEnabled;
+                command.Parameters[4].Value = business.ForceOnlinePayment;
+                command.Parameters[5].Value = business.PaymentProvider;
+                command.Parameters[6].Value = business.MerchantAccountIdentifier;
 
                 reader = command.ExecuteReader();
 
@@ -685,14 +685,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Id = reader.GetGuid(1),
                 Name = reader.GetString(2),
                 Domain = reader.GetString(3),
-                Currency = reader.GetNullableString(4),
-                IsOnlinePaymentEnabled = reader.GetBoolean(5),
-                ForceOnlinePayment = reader.GetBoolean(6),
-                PaymentProvider = reader.GetNullableString(7),
-                MerchantAccountIdentifier = reader.GetNullableString(8)
+                Payment = new BusinessPaymentData
+                {
+                    Currency = reader.GetNullableString(4),
+                    IsOnlinePaymentEnabled = reader.GetBoolean(5),
+                    ForceOnlinePayment = reader.GetBoolean(6),
+                    PaymentProvider = reader.GetNullableString(7),
+                    MerchantAccountIdentifier = reader.GetNullableString(8)
+                }
             };
         }
-
 
 
         private SingleSessionData ReadSessionData(SqlDataReader reader)

@@ -85,7 +85,7 @@ namespace CoachSeek.Application.Tests.Unit
         {
             BusinessRepository.AddBusiness(new Business(new Guid(BUSINESS_ID), 
                                                         "Olaf's Tennis Coaching",
-                                                        "olafstenniscoaching"));
+                                                        "olafstenniscoaching", "USD"));
         }
 
         protected void SetupLocations()

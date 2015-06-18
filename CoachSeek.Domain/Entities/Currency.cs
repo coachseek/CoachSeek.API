@@ -21,5 +21,12 @@ namespace CoachSeek.Domain.Entities
             Code = currency.Code;
             Symbol = currency.Symbol;
         }
+
+        public Currency(string code)
+        {
+            // Testing constructor
+
+            Code = code;
+        }
     }
 }

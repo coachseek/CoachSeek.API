@@ -31,8 +31,9 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is CurrencyNotSupported)
-                    return new CurrencyNotSupportedErrorResponse();
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
                 throw;
             }
         }

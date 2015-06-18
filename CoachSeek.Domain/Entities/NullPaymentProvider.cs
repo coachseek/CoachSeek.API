@@ -6,6 +6,6 @@
             : base(null)
         { }
 
-        public override string Provider { get { return null; } }
+        public override string ProviderName { get { return null; } }
     }
 }

@@ -42,7 +42,7 @@ namespace CoachSeek.Api.Attributes
             var business = LookupBusinessFromDomain(request);
             if (business.IsNotFound())
                 return;
-            var currency = LookupCurrency(request, business.Currency);
+            var currency = LookupCurrency(request, business.Payment.Currency);
             context.Principal = CreateAnonymousPrincipal(business, currency);
         }
 

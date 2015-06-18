@@ -12,9 +12,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
         public static void Configure()
         {
             Mapper.CreateMap<Booking, DbBooking>();
-            Mapper.CreateMap<Business, DbBusiness>()
-                .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code))
-                .ForMember(dest => dest.MerchantAccountIdentifier, opt => opt.MapFrom(src => src.Payment.MerchantAccountIdentifier));
+            Mapper.CreateMap<Business, DbBusiness>();
             Mapper.CreateMap<BusinessAdminData, DbBusinessAdmin>();
             Mapper.CreateMap<Coach, DbCoach>();
             Mapper.CreateMap<CoachData, DbCoach>();

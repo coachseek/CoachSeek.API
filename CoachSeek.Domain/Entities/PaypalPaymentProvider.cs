@@ -14,8 +14,8 @@ namespace CoachSeek.Domain.Entities
             Validation();
         }
 
-        
-        public override string Provider { get { return PaymentProvider.PayPal.ToString(); } }
+
+        public override string ProviderName { get { return PaymentProvider.PayPal.ToString(); } }
 
 
         private void Validation()

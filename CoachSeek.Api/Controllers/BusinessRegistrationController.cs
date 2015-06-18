@@ -6,7 +6,6 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Services.Emailing;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
 

@@ -67,7 +67,7 @@ namespace CoachSeek.Api.Attributes
             if (business == null)
                 return null;
 
-            var currency = CreateSupportedCurrencyRepository(request).GetByCode(business.Currency);
+            var currency = CreateSupportedCurrencyRepository(request).GetByCode(business.Payment.Currency);
 
             cancellationToken.ThrowIfCancellationRequested();
             var identity = new CoachseekIdentity(username, "Basic", ConvertToBusinessDetails(business), ConvertToCurrencyDetails(currency));

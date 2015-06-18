@@ -37,11 +37,10 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         private void SetupBusinessRepository()
         {
             BusinessRepository = new InMemoryBusinessRepository();
-
-            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe"));
-            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers"));
-            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1"));
-            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2"));
+            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Ian's Cafe", "ianscafe", "NZD"));
+            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bob's Burgers", "bobsburgers", "NZD"));
+            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bobs Burgers", "bobsburgers1", "NZD"));
+            BusinessRepository.AddBusiness(new Business(Guid.NewGuid(), "Bob's Burgers #1", "bobsburgers2", "NZD"));
         }
 
         private BusinessAdminData SetupBusinessAdmin()

@@ -18,6 +18,7 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiBusinessAdminCommand, BusinessRegistrantCommand>();
             Mapper.CreateMap<ApiBusinessAdminCommand, UserAddCommand>();
             Mapper.CreateMap<ApiBusinessCommand, BusinessAddCommand>();
+            Mapper.CreateMap<ApiBusinessPaymentOptions, BusinessPaymentCommand>();
             Mapper.CreateMap<ApiBusinessRegistrationCommand, BusinessRegistrationCommand>();
             Mapper.CreateMap<ApiBusinessSaveCommand, BusinessUpdateCommand>();
             Mapper.CreateMap<ApiCoachKey, CoachKeyCommand>();
@@ -45,7 +46,6 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiSessionTiming, SessionTimingCommand>();
             Mapper.CreateMap<ApiWeeklyWorkingHours, WeeklyWorkingHoursCommand>();
 
-            
             // Out
             Mapper.CreateMap<SessionSearchData, ApiOutSessionSearchResult>();
             Mapper.CreateMap<SingleSessionData, ApiOutSingleSession>();

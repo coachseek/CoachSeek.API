@@ -63,7 +63,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             BusinessId = new Guid("111D234C-9627-4F9B-8552-8BE0AB28A558");
             var business = new Business(BusinessId, 
                                         "Ian's Tennis Academy",
-                                        "ianstennisacademy");
+                                        "ianstennisacademy", "NZD");
             BusinessRepository.AddBusiness(business);
             var customer = new Customer(new Guid("8A23F42D-9F6B-46FD-9922-3DA0E05B1A72"), 
                                         "Fred", "Flintstone", 

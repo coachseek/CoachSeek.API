@@ -30,8 +30,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
             useCase.Process();
 
-            SetTimer(60);
-            Timer.Start();
+            //SetTimer(60);
+            //Timer.Start();
         }
 
         private static void SetTimer(int numberOfSeconds = 1)
