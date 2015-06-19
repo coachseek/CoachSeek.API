@@ -5,12 +5,12 @@ using Coachseek.Integration.Contracts.Interfaces;
 
 namespace Coachseek.Integration.Payments
 {
-    public static class PaymentProviderApiFactory
+    public class PaymentProviderApiFactory : IPaymentProviderApiFactory
     {
-        public static IPaymentsProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isPaymentEnabled)
+        public IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isPaymentEnabled)
         {
             if (message.PaymentProvider == Constants.PAYPAL)
-                return new PaypalPaymentsProviderApi(isPaymentEnabled);
+                return new PaypalPaymentProviderApi(isPaymentEnabled);
 
             throw new InvalidOperationException("Unknown payment provider.");
         }

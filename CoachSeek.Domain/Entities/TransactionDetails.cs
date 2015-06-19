@@ -8,14 +8,8 @@ namespace CoachSeek.Domain.Entities
     {
         public TransactionStatus Status { get; private set; }
         public PaymentProvider PaymentProvider { get; private set; }
-        public bool? IsTransactionVerified { get; private set; }
         public DateTime TransactionDate { get; private set; }
         public bool IsTesting { get; private set; }
-
-        public bool IsVerified
-        {
-            get { return IsTransactionVerified.HasValue; }
-        }
 
 
         public TransactionDetails(TransactionStatus status, 
@@ -38,12 +32,6 @@ namespace CoachSeek.Domain.Entities
             PaymentProvider = paymentProvider.Parse<PaymentProvider>();
             TransactionDate = transactionDate;
             IsTesting = isTesting;
-        }
-
-
-        public void Verify(bool isVerified)
-        {
-            IsTransactionVerified = isVerified;
         }
     }
 }

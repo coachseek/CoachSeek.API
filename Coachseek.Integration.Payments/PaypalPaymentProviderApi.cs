@@ -6,13 +6,13 @@ using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Integration.Payments
 {
-    public class PaypalPaymentsProviderApi : PaymentsProviderApiBase
+    public class PaypalPaymentProviderApi : PaymentProviderApiBase
     {
         public override string SandboxUrl { get { return "https://www.sandbox.paypal.com/cgi-bin/webscr"; } }
         public override string LiveUrl { get { return "https://www.paypal.com/cgi-bin/webscr"; } }
 
 
-        public PaypalPaymentsProviderApi(bool isPaymentEnabled) 
+        public PaypalPaymentProviderApi(bool isPaymentEnabled) 
             : base(isPaymentEnabled)
         { }
 

@@ -15,7 +15,6 @@ namespace CoachSeek.Domain.Entities
 
         public string Id { get; private set; }
         public string PaymentProvider { get { return Details.PaymentProvider.ToString(); } }
-        public bool IsVerified { get { return Details.IsVerified; } }
         public string Type { get { return TransactionType.ToString(); } }
         public string Status { get { return Details.Status.ToString(); } }
         public DateTime TransactionDate { get { return Details.TransactionDate; } }
@@ -45,11 +44,6 @@ namespace CoachSeek.Domain.Entities
             Merchant = merchant;
             Item = item;
             OriginalMessage = originalMessage;
-        }
-
-        public void Verify(bool isVerified)
-        {
-            Details.Verify(isVerified);
         }
     }
 }

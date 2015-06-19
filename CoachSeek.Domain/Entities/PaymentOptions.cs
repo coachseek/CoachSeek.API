@@ -13,7 +13,7 @@ namespace CoachSeek.Domain.Entities
 
         public string CurrencyCode { get { return _currency.Code; } }
         public bool IsOnlinePaymentEnabled { get; protected set; }
-        public bool? ForceOnlinePayment { get; protected set; }
+        public bool ForceOnlinePayment { get; protected set; }
         public string PaymentProvider { get { return _paymentProvider.ProviderName; } }
         public string MerchantAccountIdentifier { get { return _paymentProvider.MerchantAccountIdentifier; } }
 
@@ -25,7 +25,7 @@ namespace CoachSeek.Domain.Entities
 
             SetCurrencyForAdd(command.Currency, supportedCurrencyRepository, validation);
             IsOnlinePaymentEnabled = false;
-            ForceOnlinePayment = null;
+            ForceOnlinePayment = false;
             _paymentProvider = PaymentProviderFactory.CreateDefaultPaymentProvider();
 
             validation.ThrowIfErrors();
@@ -48,7 +48,7 @@ namespace CoachSeek.Domain.Entities
 
         public PaymentOptions(string currency, 
                               bool isOnlinePaymentEnabled, 
-                              bool? forceOnlinePayment, 
+                              bool forceOnlinePayment, 
                               string paymentProvider, 
                               string merchantAccountIdentifier)
         {
@@ -117,8 +117,8 @@ namespace CoachSeek.Domain.Entities
 
             if (IsOnlinePaymentEnabled)
             {
-                if (!ForceOnlinePayment.HasValue)
-                    validation.Add("When Online Payment is enabled then the ForceOnlinePayment option must be specified.");
+                //if (!ForceOnlinePayment.HasValue)
+                //    validation.Add("When Online Payment is enabled then the ForceOnlinePayment option must be specified.");
                 if (_paymentProvider is NullPaymentProvider)
                     validation.Add("When Online Payment is enabled then an Online Payment Provider must be specified.");
             }

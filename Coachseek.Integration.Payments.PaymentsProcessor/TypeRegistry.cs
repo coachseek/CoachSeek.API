@@ -17,6 +17,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                     "CoachSeek.Application",
                     "CoachSeek.Application.Contracts",
                     "CoachSeek.DataAccess.Main.Memory",
+                    "Coachseek.Integration.Payments",
                     "Coachseek.Integration.Payments.PaymentsProcessor",
                     "Coachseek.Integration.Contracts",
                     //"CoachSeek.DataAccess.TableStorage",

@@ -9,6 +9,7 @@
     public enum PaymentProvider
     {
         None = 0,
+        Test,
         PayPal
     }
 

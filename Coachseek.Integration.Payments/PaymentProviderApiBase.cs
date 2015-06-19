@@ -3,7 +3,7 @@ using Coachseek.Integration.Contracts.Interfaces;
 
 namespace Coachseek.Integration.Payments
 {
-    public abstract class PaymentsProviderApiBase : IPaymentsProviderApi
+    public abstract class PaymentProviderApiBase : IPaymentProviderApi
     {
         private bool IsPaymentEnabled { get; set; }
 
@@ -11,7 +11,7 @@ namespace Coachseek.Integration.Payments
         public abstract string LiveUrl { get; }
 
 
-        protected PaymentsProviderApiBase(bool isPaymentEnabled)
+        protected PaymentProviderApiBase(bool isPaymentEnabled)
         {
             IsPaymentEnabled = isPaymentEnabled;
         }

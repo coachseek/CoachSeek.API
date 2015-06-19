@@ -2,7 +2,7 @@
 
 namespace Coachseek.Integration.Contracts.Interfaces
 {
-    public interface IPaymentsProviderApi
+    public interface IPaymentProviderApi
     {
         string SandboxUrl { get; }
         string LiveUrl { get; }

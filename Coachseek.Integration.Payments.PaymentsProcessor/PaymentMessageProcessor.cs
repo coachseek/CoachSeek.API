@@ -1,5 +1,5 @@
 ﻿using CoachSeek.Common.Extensions;
-using CoachSeek.Domain.Repositories;
+using CoachSeek.Domain.Entities;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Interfaces;
 
@@ -8,34 +8,35 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
     public class PaymentMessageProcessor : IPaymentMessageProcessor
     {
         public IPaymentProcessorConfiguration PaymentProcessorConfiguration { get; private set; }
-        public ITransactionRepository TransactionRepository { get; private set; }
+        public IDataAccessFactory DataAccessFactory { get; private set; }
+        public IPaymentProviderApiFactory PaymentProviderApiFactory { get; private set; }
 
 
-        public PaymentMessageProcessor(IPaymentProcessorConfiguration paymentProcessorConfiguration, 
-                                       ITransactionRepository transactionRepository)
+        public PaymentMessageProcessor(IPaymentProcessorConfiguration paymentProcessorConfiguration,
+                                       IDataAccessFactory dataAccessFactory,
+                                       IPaymentProviderApiFactory paymentProviderApiFactory)
         {
             PaymentProcessorConfiguration = paymentProcessorConfiguration;
-            TransactionRepository = transactionRepository;
+            DataAccessFactory = dataAccessFactory;
+            PaymentProviderApiFactory = paymentProviderApiFactory;
         }
 
 
         public void ProcessMessage(PaymentProcessingMessage message)
         {
-            // Save to payment to database.
+            var isVerified = AttemptMessageVerification(message);
+            if (!isVerified)
+                return;
             var newPayment = NewPaymentConverter.Convert(message);
-            var payment = TransactionRepository.GetPayment(newPayment.Id);
-            if (payment.IsNotFound())
-            {
-                TransactionRepository.AddPayment(newPayment);
-                payment = newPayment;
-            }
+            if (newPayment.IsPending)
+                return;
+            var dataAccess = DataAccessFactory.CreateDataAccess(newPayment.IsTesting);
+            var payment = SaveIfNewPayment(newPayment, dataAccess);
 
-            // Verify the payment with payment provider.
-            var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
-            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
-            var isVerified = paymentApi.VerifyPayment(message);
-            payment.Verify(isVerified);
-            TransactionRepository.VerifyPayment(payment);
+
+            // Update the Booking with the correct payment status.
+            //dataAccess.BusinessRepository.UpdateBookingPaymentStatus();
+
 
 
             // Validate payment.
@@ -46,10 +47,6 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             // ...set payment status to 'paid'.
 
 
-            // Save payment to the database.
-
-            // Verify payment with PayPal
-
             // Other checks...
 
             // check that Payment_status=Completed
@@ -57,6 +54,25 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             // check that Receiver_email is your Primary PayPal email
             // check that Payment_amount/Payment_currency are correct
             // process payment
+        }
+
+        private Payment SaveIfNewPayment(NewPayment newPayment, DataRepositories dataAccess)
+        {
+            var repository = dataAccess.TransactionRepository;
+            var payment = repository.GetPayment(newPayment.Id);
+            if (payment.IsNotFound())
+            {
+                repository.AddPayment(newPayment);
+                payment = newPayment;
+            }
+            return payment;
+        }
+
+        private bool AttemptMessageVerification(PaymentProcessingMessage message)
+        {
+            var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
+            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
+            return paymentApi.VerifyPayment(message);
         }
     }
 }

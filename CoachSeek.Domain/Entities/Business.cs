@@ -54,14 +54,22 @@ namespace CoachSeek.Domain.Entities
         public Business(Guid id, 
             string name, 
             string domain,
-            string currency)
+            string currency,
+            bool isOnlinePaymentEnabled = false,
+            bool forceOnlinePayment = false,
+            string paymentProvider = null,
+            string merchantAccountIdentifier = null)
         {
             // Testing constructor
 
             Id = id;
             Name = name;
             Domain = domain;
-            _payment = new PaymentOptions(currency, false, null, null, null);
+            _payment = new PaymentOptions(currency, 
+                                          isOnlinePaymentEnabled, 
+                                          forceOnlinePayment,
+                                          paymentProvider,
+                                          merchantAccountIdentifier);
         }
 
 

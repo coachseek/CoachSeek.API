@@ -43,20 +43,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emailing\AmazonEmailerTests.cs" />
+    <Compile Include="Fakes\StubDataAccessFactory.cs" />
     <Compile Include="Fakes\StubPaymentMessageProcessor.cs" />
     <Compile Include="Fakes\StubPaymentProcessorConfiguration.cs" />
+    <Compile Include="Fakes\StubPaymentProviderApi.cs" />
     <Compile Include="Fakes\StubUnsubscribedEmailAddressRepository.cs" />
+    <Compile Include="Payments\NewPaymentConverterTests.cs" />
     <Compile Include="Payments\PaymentMessageProcessorTests.cs" />
     <Compile Include="Payments\PaypalPaymentsProviderApiTests.cs" />
+    <Compile Include="Fakes\StubPaymentProviderApiFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
       <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
       <Name>CoachSeek.DataAccess.Main.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
+      <Name>CoachSeek.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>

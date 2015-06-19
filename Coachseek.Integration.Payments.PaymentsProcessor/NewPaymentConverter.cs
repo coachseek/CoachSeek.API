@@ -22,7 +22,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 return ConvertFromPaypal(message.Contents);
 
             if (message.PaymentProvider == Constants.TEST)
-                return CreateTestPayment(message);
+                return ConvertFromTestMessage(message);
 
             throw new InvalidOperationException("Unexpected payment provider.");
         }
@@ -64,6 +64,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static DateTime GetTransactionDateFromPaypal(string paypalPaymentDate)
         {
+            paypalPaymentDate = paypalPaymentDate.Substring(0, paypalPaymentDate.Length - 4);
             DateTime paymentDate;
             DateTime.TryParseExact(paypalPaymentDate,"HH:mm:ss MMM dd, yyyy", CultureInfo.InvariantCulture,
                 DateTimeStyles.None, out paymentDate);
@@ -87,7 +88,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static Merchant GetMerchantFromPaypal(NameValueCollection keyValuePairs)
         {
-            var businessId = keyValuePairs.Get("receiver_id");
+            var businessId = keyValuePairs.Get("custom");
             var businessName = keyValuePairs.Get("business");
             var businessEmail = keyValuePairs.Get("receiver_email");
 
@@ -104,14 +105,53 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return new GoodOrService(itemId, itemName, new Money(currency, grossAmount));
         }
 
-        private static NewPayment CreateTestPayment(PaymentProcessingMessage testMessage)
+        private static NewPayment ConvertFromTestMessage(PaymentProcessingMessage testMessage)
         {
+            var keyValuePairs = HttpUtility.ParseQueryString(testMessage.Contents);
+
             return new NewPayment(testMessage.Id,
-                                  null,
-                                  null,
-                                  null,
-                                  null, 
+                                  GetTransactionDetailsFromTest(keyValuePairs),
+                                  GetPayerFromTest(keyValuePairs),
+                                  GetMerchantFromTest(keyValuePairs),
+                                  GetItemFromTest(keyValuePairs), 
                                   testMessage.Contents);
+        }
+
+        private static TransactionDetails GetTransactionDetailsFromTest(NameValueCollection keyValuePairs)
+        {
+            var status = keyValuePairs.Get("status").Parse<TransactionStatus>();
+            var date = keyValuePairs.Get("date").Parse<DateTime>();
+            var isTestMessage = keyValuePairs.Get("isTesting").Parse<bool>();
+
+            return new TransactionDetails(status, PaymentProvider.Test, date, isTestMessage);
+        }
+
+        private static Payer GetPayerFromTest(NameValueCollection keyValuePairs)
+        {
+            var payerFirstName = keyValuePairs.Get("payerFirstName");
+            var payerLastName = keyValuePairs.Get("payerLastName");
+            var payerEmail = keyValuePairs.Get("payerEmail");
+
+            return new Payer(payerFirstName, payerLastName, payerEmail);
+        }
+
+        private static Merchant GetMerchantFromTest(NameValueCollection keyValuePairs)
+        {
+            var businessId = keyValuePairs.Get("businessId");
+            var businessName = keyValuePairs.Get("businessName");
+            var businessEmail = keyValuePairs.Get("businessEmail");
+
+            return new Merchant(businessId, businessName, businessEmail);
+        }
+
+        private static GoodOrService GetItemFromTest(NameValueCollection keyValuePairs)
+        {
+            var itemId = keyValuePairs.Get("itemId");
+            var itemName = keyValuePairs.Get("itemName");
+            var currency = keyValuePairs.Get("currency");
+            var grossAmount = keyValuePairs.Get("grossAmount").Parse<decimal>();
+
+            return new GoodOrService(itemId, itemName, new Money(currency, grossAmount));
         }
     }
 }

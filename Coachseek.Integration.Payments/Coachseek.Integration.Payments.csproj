@@ -46,9 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPaymentProviderApiFactory.cs" />
     <Compile Include="PaymentProviderApiFactory.cs" />
-    <Compile Include="PaymentsProviderApiBase.cs" />
-    <Compile Include="PaypalPaymentsProviderApi.cs" />
+    <Compile Include="PaymentProviderApiBase.cs" />
+    <Compile Include="PaypalPaymentProviderApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

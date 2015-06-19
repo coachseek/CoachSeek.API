@@ -12,7 +12,6 @@ namespace CoachSeek.Domain.Repositories
 
         Payment GetPayment(string id);
         void AddPayment(NewPayment payment);
-        void VerifyPayment(Payment payment);
         //PaymentData UpdatePayment(Payment payment);
     }
 }

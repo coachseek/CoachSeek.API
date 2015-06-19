@@ -35,7 +35,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
 
         private string WhenGetUrl(bool isPaymentEnabled)
         {
-            var provider = new PaypalPaymentsProviderApi(isPaymentEnabled);
+            var provider = new PaypalPaymentProviderApi(isPaymentEnabled);
             return provider.Url;
         }
 

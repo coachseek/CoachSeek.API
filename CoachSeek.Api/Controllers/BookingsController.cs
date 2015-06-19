@@ -79,15 +79,11 @@ namespace CoachSeek.Api.Controllers
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
-        //[ValidateModelState]
         public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
         {
             apiCommand.BookingId = id;
-
             ICommand command = DomainCommandConverter.Convert(apiCommand);
-
             var useCase = UseCaseExecutor.ExecuteFor(command, Context);
-
             return CreateGetWebResponse(useCase);
         }
         

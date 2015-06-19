@@ -13,6 +13,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
     public class InMemoryTransactionRepository : ITransactionRepository
     {
         // Spy behaviour is included
+        public bool WasGetPaymentCalled;
         public bool WasAddPaymentCalled;
         public bool WasVerifyPaymentCalled;
 
@@ -53,25 +54,17 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public TransactionData AddTransaction(Transaction transaction)
         {
-            WasAddPaymentCalled = true;
-
             var dbTransaction = Mapper.Map<Transaction, DbTransaction>(transaction);
             Transactions.Add(dbTransaction);
 
             return GetTransaction(transaction.Id);
         }
 
-        public void VerifyTransaction(Transaction transaction)
-        {
-            var dbTransaction = Transactions.Single(x => x.Id == transaction.Id);
-            if (dbTransaction.IsNotFound())
-                return;
-            dbTransaction.IsVerified = transaction.IsVerified;
-        }
-
 
         public Payment GetPayment(string id)
         {
+            WasGetPaymentCalled = true;
+
             var payment = Transactions.SingleOrDefault(x => x.Id == id && x.Type == Constants.TRANSACTION_PAYMENT);
             if (payment.IsNotFound())
                 return null;
@@ -85,13 +78,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             var dbTransaction = Mapper.Map<NewPayment, DbTransaction>(newPayment);
             Transactions.Add(dbTransaction);
-        }
-
-        public void VerifyPayment(Payment payment)
-        {
-            WasVerifyPaymentCalled = true;
-
-            VerifyTransaction(payment);
         }
     }
 }

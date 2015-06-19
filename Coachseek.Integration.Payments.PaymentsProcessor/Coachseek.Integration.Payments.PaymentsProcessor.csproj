@@ -60,6 +60,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="DataAccessFactory.cs" />
+    <Compile Include="DataRepositories.cs" />
+    <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="NewPaymentConverter.cs" />
     <Compile Include="PaymentMessageProcessor.cs" />
     <Compile Include="PaymentProcessorConfiguration.cs" />
@@ -87,6 +90,10 @@
     <ProjectReference Include="..\CoachSeek.DataAccess.Main.Memory\CoachSeek.DataAccess.Main.Memory.csproj">
       <Project>{1164B058-17CE-47B4-9CC4-23E0ADA480D6}</Project>
       <Name>CoachSeek.DataAccess.Main.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.DataAccess.Main.SqlServer\Coachseek.DataAccess.Main.SqlServer.csproj">
+      <Project>{23C99F42-6C8D-47A6-AC19-1638C002282A}</Project>
+      <Name>Coachseek.DataAccess.Main.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>

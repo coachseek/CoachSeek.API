@@ -4,6 +4,7 @@ namespace Coachseek.Integration.Tests.Unit.Fakes
 {
     public class StubPaymentProcessorConfiguration : IPaymentProcessorConfiguration
     {
+        public bool WasIsPaymentEnabledCalled;
         // Use nullable bool to ensure it's being set before being used.
         public bool? SetIsPaymentEnabled;
 
@@ -16,7 +17,12 @@ namespace Coachseek.Integration.Tests.Unit.Fakes
 
         public bool IsPaymentEnabled
         {
-            get { return SetIsPaymentEnabled.Value; }
+            get
+            {
+                WasIsPaymentEnabledCalled = true;
+
+                return SetIsPaymentEnabled.Value;
+            }
         }
     }
 }

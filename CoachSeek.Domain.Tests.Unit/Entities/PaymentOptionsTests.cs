@@ -62,7 +62,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             
             protected void ThenReturnUnsupportedCurrencyError(object response)
             {
-                AssertSingleError(response, "This currency is not supported.", "business.currency");
+                AssertSingleError(response, "This currency is not supported.", "registration.business.currency");
             }
 
             private void ThenCreatesValidPaymentOptions(object response)
@@ -73,7 +73,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 var payment = (PaymentOptions)response;
                 Assert.That(payment.CurrencyCode, Is.EqualTo("AUD"));
                 Assert.That(payment.IsOnlinePaymentEnabled, Is.False);
-                Assert.That(payment.ForceOnlinePayment, Is.Null);
+                Assert.That(payment.ForceOnlinePayment, Is.False);
                 Assert.That(payment.PaymentProvider, Is.Null);
                 Assert.That(payment.MerchantAccountIdentifier, Is.Null);
             }
@@ -104,14 +104,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 var parameters = GivenInvalidCurrencyAndPaymentProvider();
                 var response = WhenTryConstructPaymentOptions(parameters);
                 ThenReturnUnsupportedCurrencyAndPaymentProviderErrors(response);
-            }
-
-            [Test]
-            public void GivenOnlinePaymentEnabledButMissingForceOnlinePayment_WhenTryConstructPaymentOptions_ThenReturnMissingForceOnlinePaymentError()
-            {
-                var parameters = GivenOnlinePaymentEnabledButMissingForceOnlinePayment();
-                var response = WhenTryConstructPaymentOptions(parameters);
-                ThenReturnMissingForceOnlinePaymentError(response);
             }
 
             [Test]
@@ -172,22 +164,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 };
             }
 
-            private BusinessUpdateCommand GivenOnlinePaymentEnabledButMissingForceOnlinePayment()
-            {
-                return new BusinessUpdateCommand
-                {
-                    Name = "Business Invalid",
-                    Payment = new BusinessPaymentCommand
-                    {
-                        Currency = "USD",
-                        IsOnlinePaymentEnabled = true,
-                        ForceOnlinePayment = null,
-                        PaymentProvider = "PayPal",
-                        MerchantAccountIdentifier = "olaf@coachseek.com"
-                    }
-                };
-            }
-
             private BusinessUpdateCommand GivenOnlinePaymentEnabledButMissingPaymentProvider()
             {
                 return new BusinessUpdateCommand
@@ -198,21 +174,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                         Currency = "USD",
                         IsOnlinePaymentEnabled = true,
                         ForceOnlinePayment = false
-                    }
-                };
-            }
-
-            private BusinessUpdateCommand GivenOnlinePaymentEnabledAndInvalidPaymentProvider()
-            {
-                return new BusinessUpdateCommand
-                {
-                    Name = "Business Invalid",
-                    Payment = new BusinessPaymentCommand
-                    {
-                        Currency = "USD",
-                        IsOnlinePaymentEnabled = true,
-                        ForceOnlinePayment = true,
-                        PaymentProvider = "Fred"
                     }
                 };
             }
@@ -260,11 +221,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 AssertMultipleErrors(response, new[,] { { "This currency is not supported.", "business.payment.currency" },
                                                         { "This payment provider is not supported.", "business.payment.paymentProvider" } });
-            }
-
-            private void ThenReturnMissingForceOnlinePaymentError(object response)
-            {
-                AssertSingleError(response, "When Online Payment is enabled then the ForceOnlinePayment option must be specified.");
             }
 
             private void ThenReturnMissingPaymentProviderError(object response)
