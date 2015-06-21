@@ -18,6 +18,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasAddLocationCalled;
         public bool WasAddCoachCalled;
 
+        public bool WasGetBusinessByIdCalled;
         public bool WasUpdateBusinessCalled;
         public bool WasUpdateLocationCalled;
         public bool WasUpdateCoachCalled;
@@ -50,7 +51,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             CourseBookings = new Dictionary<Guid, List<DbCourseBooking>>();
         }
 
-        public void Clear()
+        public static void Clear()
         {
             Businesses.Clear();
 
@@ -67,19 +68,35 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public BusinessData GetBusiness(Guid businessId)
         {
-            var business = Businesses.FirstOrDefault(x => x.Id == businessId);
+            WasGetBusinessByIdCalled = true;
 
-            return Mapper.Map<DbBusiness, BusinessData>(business);
+            var business = Businesses.FirstOrDefault(x => x.Id == businessId);
+            return ConvertToBusinessData(business);
         }
 
         public BusinessData GetBusiness(string domain)
         {
             var business = Businesses.FirstOrDefault(x => x.Domain == domain);
-
-            return Mapper.Map<DbBusiness, BusinessData>(business);
+            return ConvertToBusinessData(business);
         }
 
-        public BusinessData AddBusiness(Business business)
+        private BusinessData ConvertToBusinessData(DbBusiness business)
+        {
+            if (business == null)
+                return null;
+
+            var businessData = Mapper.Map<DbBusiness, BusinessData>(business);
+
+            businessData.Payment.Currency = business.Currency;
+            businessData.Payment.IsOnlinePaymentEnabled = business.IsOnlinePaymentEnabled;
+            businessData.Payment.ForceOnlinePayment = business.ForceOnlinePayment;
+            businessData.Payment.PaymentProvider = business.PaymentProvider;
+            businessData.Payment.MerchantAccountIdentifier = business.MerchantAccountIdentifier;
+
+            return businessData;
+        }
+
+        public void AddBusiness(Business business)
         {
             WasAddBusinessCalled = true;
             DataPassedIn = business;
@@ -87,7 +104,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var dbBusiness = DbBusinessConverter.Convert(business);
             Businesses.Add(dbBusiness);
 
-            return GetBusiness(business.Id);
+            //return GetBusiness(business.Id);
         }
 
         public BusinessData UpdateBusiness(Business business)

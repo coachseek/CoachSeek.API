@@ -10,7 +10,7 @@ using CoachSeek.Domain.Repositories;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 {
-    public class DbBusinessRepository : IBusinessRepository
+    public class DbBusinessRepository : IBusinessRepository, ITransactionRepository
     {
         private SqlConnection _connection;
 
@@ -109,7 +109,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public BusinessData AddBusiness(Business business)
+        public void AddBusiness(Business business)
         {
             var wasAlreadyOpen = false;
             SqlDataReader reader = null;
@@ -132,10 +132,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 reader = command.ExecuteReader();
 
-                if (reader.HasRows && reader.Read())
-                    return ReadBusinessData(reader);
+                BusinessData businessData;
 
-                return null;
+                if (reader.HasRows && reader.Read())
+                    businessData = ReadBusinessData(reader);
             }
             finally
             {
@@ -659,6 +659,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 if (reader != null)
                     reader.Close();
             }
+        }
+
+        public Payment GetPayment(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddPayment(NewPayment payment)
+        {
+            throw new NotImplementedException();
         }
 
 

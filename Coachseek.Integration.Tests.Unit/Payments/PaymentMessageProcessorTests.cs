@@ -6,6 +6,7 @@ using CoachSeek.Domain.Entities;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Payments.PaymentsProcessor;
 using Coachseek.Integration.Tests.Unit.Fakes;
+using Coachseek.Logging.Tests.Unit.Fakes;
 using NUnit.Framework;
 
 namespace Coachseek.Integration.Tests.Unit.Payments
@@ -48,6 +49,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             get { return (InMemoryBusinessRepository)DataAccessFactory.BusinessRepository; }
         }
 
+        private StubLogRepository LogRepository
+        {
+            get { return (StubLogRepository)DataAccessFactory.LogRepository; }
+        }
+
 
         [SetUp]
         public void Setup()
@@ -59,11 +65,14 @@ namespace Coachseek.Integration.Tests.Unit.Payments
 
         private void SetupProcessor()
         {
+            InMemoryBusinessRepository.Clear();
+
             var transaction = CreateDbTransaction(EXISTING_MSG_ID, "Completed", true, BUSINESS_ID);
             var dataAccessFactory = new StubDataAccessFactory
             {
                 BusinessRepository = new InMemoryBusinessRepository(),
-                TransactionRepository = new InMemoryTransactionRepository(new[] { transaction })
+                TransactionRepository = new InMemoryTransactionRepository(new[] { transaction }),
+                LogRepository = new StubLogRepository()
             };
             var config = new StubPaymentProcessorConfiguration(true);
             var apiFactory = new StubPaymentProviderApiFactory
@@ -99,22 +108,56 @@ namespace Coachseek.Integration.Tests.Unit.Payments
 
 
         [Test]
-        public void GivenSpoofPaymentMessage_WhenTryProcessMessage_ThenFailsVerificationAndReturn()
+        public void GivenSpoofPaymentMessage_WhenTryProcessMessage_ThenFailsVerification()
         {
             var message = GivenSpoofPaymentMessage();
             WhenTryProcessMessage(message);
-            ThenFailsVerificationAndReturn();
+            ThenFailsVerification();
         }
 
         [Test]
-        public void GivenIsPendingPaymentMessage_WhenTryProcessMessage_ThenPassVerificationAndReturn()
+        public void GivenIsPendingPaymentMessage_WhenTryProcessMessage_ThenStopProcessingWithPendingPaymentMessageError()
         {
             var message = GivenIsPendingPaymentMessage();
             WhenTryProcessMessage(message);
-            ThenPassVerificationAndReturn();
+            ThenStopProcessingWithPendingPaymentMessageError();
         }
 
         [Test]
+        public void GivenIsNonExistentBusiness_WhenTryProcessMessage_ThenStopProcessingWithInvalidBusinessError()
+        {
+            var message = GivenIsNonExistentBusiness();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithInvalidBusinessError();
+        }
+
+        [Test]
+        public void GivenIsOnlinePaymentDisabled_WhenTryProcessMessage_ThenStopProcessingWithIsOnlinePaymentDisabledError()
+        {
+            var message = GivenIsOnlinePaymentDisabled();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithIsOnlinePaymentDisabledError();
+        }
+
+        [Test]
+        public void GivenMerchantAccountIdentifierMismatch_WhenTryProcessMessage_ThenStopProcessingWithMerchantAccountIdentifierMismatchError()
+        {
+            var message = GivenMerchantAccountIdentifierMismatch();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithMerchantAccountIdentifierMismatchError();
+        }
+
+
+
+        [Test, Ignore]
+        public void GivenIsExistingCompletedPayment_WhenTryProcessMessage_ThenLookupMessageAndReturn()
+        {
+            var message = GivenIsExistingCompletedPayment();
+            WhenTryProcessMessage(message);
+            ThenLookupMessageAndReturn();
+        }
+
+        [Test, Ignore]
         public void GivenIsDeniedPaymentButCanPayLater_WhenTryProcessMessage_ThenSavePaymentAndSetBookingToAwaitingPayment()
         {
             var message = GivenIsDeniedPaymentButCanPayLater();
@@ -125,12 +168,12 @@ namespace Coachseek.Integration.Tests.Unit.Payments
         // This scenario is not as important.
         //public void GivenIsDeniedPaymentAndMustPayNow_WhenTryProcessMessage_ThenSavePaymentAndDeleteBooking() ?
 
-        [Test]
-        public void GivenIsExistingCompletedPayment_WhenTryProcessMessage_ThenLookupMessageAndReturn()
+        [Test, Ignore]
+        public void GivenIsNewCompletedPayment_WhenTryProcessMessage_ThenSavePaymentAndSetBookingToPaid()
         {
-            var message = GivenIsExistingCompletedPayment();
+            var message = GivenIsNewCompletedPayment();
             WhenTryProcessMessage(message);
-            ThenLookupMessageAndReturn();
+            ThenSavePaymentAndSetBookingToPaid();
         }
 
 
@@ -145,6 +188,34 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Pending", BUSINESS_ID));
         }
 
+        private PaymentProcessingMessage GivenIsNonExistentBusiness()
+        {
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", Guid.NewGuid()));
+        }
+
+        private PaymentProcessingMessage GivenIsOnlinePaymentDisabled()
+        {
+            const bool isOnlinePaymentEnabled = false;
+            var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", isOnlinePaymentEnabled);
+            BusinessRepository.AddBusiness(business);
+
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+        }
+
+        private PaymentProcessingMessage GivenMerchantAccountIdentifierMismatch()
+        {
+            var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, "PayPal", "mickey@mouse.com");
+            BusinessRepository.AddBusiness(business);
+
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+        }
+
+
+        private PaymentProcessingMessage GivenIsExistingCompletedPayment()
+        {
+            return new PaymentProcessingMessage(EXISTING_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+        }
+
         private PaymentProcessingMessage GivenIsDeniedPaymentButCanPayLater()
         {
             const bool forceOnlinePayment = false;
@@ -154,9 +225,9 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Denied", BUSINESS_ID));
         }
 
-        private PaymentProcessingMessage GivenIsExistingCompletedPayment()
+        private PaymentProcessingMessage GivenIsNewCompletedPayment()
         {
-            return new PaymentProcessingMessage(EXISTING_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
         }
 
 
@@ -166,54 +237,101 @@ namespace Coachseek.Integration.Tests.Unit.Payments
         }
 
 
-        private void ThenFailsVerificationAndReturn()
+        private void ThenFailsVerification()
         {
-            AssertVerificationFailed();
+            Assert.That(PaymentProviderApiFactory.WasGetPaymentProviderApiCalled, Is.True);
+            Assert.That(PaymentProviderApiFactory.PaymentProviderApi.WasVerifyPaymentCalled, Is.True);
+            Assert.That(PaymentProviderApiFactory.PaymentProviderApi.VerifyPaymentResponse, Is.False);
 
-            Assert.That(DataAccessFactory.WasCreateDataAccessCalled, Is.False);
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Invalid message."));
         }
 
-        private void ThenPassVerificationAndReturn()
+        private void ThenStopProcessingWithPendingPaymentMessageError()
         {
             AssertVerificationPassed();
 
-            Assert.That(DataAccessFactory.WasCreateDataAccessCalled, Is.False);
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.False);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Pending payment."));
         }
+
+        private void ThenStopProcessingWithInvalidBusinessError()
+        {
+            AssertVerificationPassed();
+
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Invalid business."));
+        }
+
+        private void ThenStopProcessingWithIsOnlinePaymentDisabledError()
+        {
+            AssertVerificationPassed();
+
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Online payment is not enabled."));
+        }
+
+        private void ThenStopProcessingWithMerchantAccountIdentifierMismatchError()
+        {
+            AssertVerificationPassed();
+
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Merchant account identifiers don't match."));
+        }
+
+
 
         private void ThenLookupMessageAndReturn()
         {
             AssertVerificationPassed();
 
+            AssertLookupPayment();
             Assert.That(DataAccessFactory.WasCreateDataAccessCalled, Is.True);
-
-            // Lookup and saving payment
-            Assert.That(TransactionRepository.WasGetPaymentCalled, Is.True);
-            Assert.That(TransactionRepository.WasAddPaymentCalled, Is.False);
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.False);
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Pending payment."));
         }
 
         private void ThenSavePaymentAndSetBookingToAwaitingPayment()
         {
             AssertVerificationPassed();
-
-            Assert.That(DataAccessFactory.WasCreateDataAccessCalled, Is.True);
-
-            // Lookup and saving payment
-            Assert.That(TransactionRepository.WasGetPaymentCalled, Is.True);
-            Assert.That(TransactionRepository.WasAddPaymentCalled, Is.True);
+            AssertLookupAndSavePayment();
+            // TODO: Assert Set Booking To 'awaiting-payment'
         }
 
-        private void AssertVerificationFailed()
+        private void ThenSavePaymentAndSetBookingToPaid()
         {
-            Assert.That(PaymentProviderApiFactory.WasGetPaymentProviderApiCalled, Is.True);
-            Assert.That(PaymentProviderApiFactory.PaymentProviderApi.WasVerifyPaymentCalled, Is.True);
-            Assert.That(PaymentProviderApiFactory.PaymentProviderApi.VerifyPaymentResponse, Is.False);
+            AssertVerificationPassed();
+            AssertLookupAndSavePayment();
+            // TODO: Assert Set Booking To 'paid'
         }
+
 
         private void AssertVerificationPassed()
         {
             Assert.That(PaymentProviderApiFactory.WasGetPaymentProviderApiCalled, Is.True);
             Assert.That(PaymentProviderApiFactory.PaymentProviderApi.WasVerifyPaymentCalled, Is.True);
             Assert.That(PaymentProviderApiFactory.PaymentProviderApi.VerifyPaymentResponse, Is.True);
+        }
+
+        private void AssertLookupPayment()
+        {
+            Assert.That(TransactionRepository.WasGetPaymentCalled, Is.True);
+            Assert.That(TransactionRepository.WasAddPaymentCalled, Is.False);
+        }
+
+        private void AssertLookupAndSavePayment()
+        {
+            Assert.That(TransactionRepository.WasGetPaymentCalled, Is.True);
+            Assert.That(TransactionRepository.WasAddPaymentCalled, Is.True);
         }
     }
 }

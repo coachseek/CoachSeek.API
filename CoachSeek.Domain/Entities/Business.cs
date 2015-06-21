@@ -75,7 +75,15 @@ namespace CoachSeek.Domain.Entities
 
         public BusinessData ToData()
         {
-            return Mapper.Map<Business, BusinessData>(this);
+            var businessData = Mapper.Map<Business, BusinessData>(this);
+
+            businessData.Payment.Currency = Currency;
+            businessData.Payment.IsOnlinePaymentEnabled = IsOnlinePaymentEnabled;
+            businessData.Payment.ForceOnlinePayment = ForceOnlinePayment.GetValueOrDefault();
+            businessData.Payment.PaymentProvider = PaymentProvider;
+            businessData.Payment.MerchantAccountIdentifier = MerchantAccountIdentifier;
+
+            return businessData;
         }
     }
 }

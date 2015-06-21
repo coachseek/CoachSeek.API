@@ -5,6 +5,7 @@ using System.Web;
 using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
@@ -32,11 +33,15 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         {
             var keyValuePairs = HttpUtility.ParseQueryString(paypalMessage);
 
+            var validation = new ValidationException();
+
             var id = keyValuePairs.Get("txn_id");
             var details = GetTransactionDetailsFromPaypal(keyValuePairs);
             var payer = GetPayerFromPaypal(keyValuePairs);
-            var merchant = GetMerchantFromPaypal(keyValuePairs);
-            var item = GetItemFromPaypal(keyValuePairs);
+            var merchant = GetMerchantFromPaypal(keyValuePairs, validation);
+            var item = GetItemFromPaypal(keyValuePairs, validation);
+
+            validation.ThrowIfErrors();
 
             return new NewPayment(id, details, payer, merchant, item, paypalMessage);
         }
@@ -86,23 +91,51 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return new Payer(payerFirstName, payerLastName, payerEmail);
         }
 
-        private static Merchant GetMerchantFromPaypal(NameValueCollection keyValuePairs)
+        private static Merchant GetMerchantFromPaypal(NameValueCollection keyValuePairs, ValidationException errors)
         {
-            var businessId = keyValuePairs.Get("custom");
+            var businessId = GetBusinessIdFromPaypal(keyValuePairs, errors);
             var businessName = keyValuePairs.Get("business");
             var businessEmail = keyValuePairs.Get("receiver_email");
 
             return new Merchant(businessId, businessName, businessEmail);
         }
 
-        private static GoodOrService GetItemFromPaypal(NameValueCollection keyValuePairs)
+        private static GoodOrService GetItemFromPaypal(NameValueCollection keyValuePairs, ValidationException errors)
         {
-            var itemId = keyValuePairs.Get("item_number");
+            var itemId = GetItemIdFromPaypal(keyValuePairs, errors);
             var itemName = keyValuePairs.Get("item_name");
             var currency = keyValuePairs.Get("mc_currency");
             var grossAmount = keyValuePairs.Get("mc_gross").Parse<decimal>();
 
             return new GoodOrService(itemId, itemName, new Money(currency, grossAmount));
+        }
+
+        private static Guid GetBusinessIdFromPaypal(NameValueCollection keyValuePairs, ValidationException errors)
+        {
+            try
+            {
+                var businessId = keyValuePairs.Get("custom");
+                return new Guid(businessId);
+            }
+            catch (Exception)
+            {
+                errors.Add("The BusinessId must be a GUID.");
+                return Guid.Empty;
+            }
+        }
+
+        private static Guid GetItemIdFromPaypal(NameValueCollection keyValuePairs, ValidationException errors)
+        {
+            try
+            {
+                var itemId = keyValuePairs.Get("item_number");
+                return new Guid(itemId);
+            }
+            catch (Exception)
+            {
+                errors.Add("The ItemId must be a GUID.");
+                return Guid.Empty;
+            }
         }
 
         private static NewPayment ConvertFromTestMessage(PaymentProcessingMessage testMessage)
@@ -137,7 +170,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static Merchant GetMerchantFromTest(NameValueCollection keyValuePairs)
         {
-            var businessId = keyValuePairs.Get("businessId");
+            var businessId = keyValuePairs.Get("businessId").Parse<Guid>();
             var businessName = keyValuePairs.Get("businessName");
             var businessEmail = keyValuePairs.Get("businessEmail");
 
@@ -146,7 +179,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static GoodOrService GetItemFromTest(NameValueCollection keyValuePairs)
         {
-            var itemId = keyValuePairs.Get("itemId");
+            var itemId = keyValuePairs.Get("itemId").Parse<Guid>();
             var itemName = keyValuePairs.Get("itemName");
             var currency = keyValuePairs.Get("currency");
             var grossAmount = keyValuePairs.Get("grossAmount").Parse<decimal>();

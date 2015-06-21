@@ -26,8 +26,8 @@ namespace CoachSeek.Application.UseCases
             {
                 BusinessDomainBuilder.BusinessRepository = BusinessRepository;
                 var newBusiness = new Business(command, BusinessDomainBuilder, SupportedCurrencyRepository);
-                var data = BusinessRepository.AddBusiness(newBusiness);
-                return new Response(data);
+                BusinessRepository.AddBusiness(newBusiness);
+                return new Response(newBusiness.ToData());
             }
             catch (Exception ex)
             {

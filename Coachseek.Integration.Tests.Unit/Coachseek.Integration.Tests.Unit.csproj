@@ -94,6 +94,10 @@
       <Project>{9BBD9A79-5253-477A-9FCB-0C0993375D44}</Project>
       <Name>Coachseek.Integration.Payments</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Logging.Tests.Unit\Coachseek.Logging.Tests.Unit.csproj">
+      <Project>{317019EB-DCEC-4CF4-BA26-AA47DA188683}</Project>
+      <Name>Coachseek.Logging.Tests.Unit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

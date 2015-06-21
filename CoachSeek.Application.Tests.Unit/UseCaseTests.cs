@@ -52,8 +52,8 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected void SetupBusinessRepository()
         {
+            InMemoryBusinessRepository.Clear();
             BusinessRepository = new InMemoryBusinessRepository();
-            BusinessRepository.Clear();
 
             SetupBusiness();
             SetupLocations();

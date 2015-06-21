@@ -9,7 +9,7 @@ namespace CoachSeek.Domain.Repositories
     {
         BusinessData GetBusiness(Guid businessId);
         BusinessData GetBusiness(string domain);
-        BusinessData AddBusiness(Business business);
+        void AddBusiness(Business business);
         BusinessData UpdateBusiness(Business business);
 
         IList<LocationData> GetAllLocations(Guid businessId);

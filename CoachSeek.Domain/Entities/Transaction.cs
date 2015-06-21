@@ -24,10 +24,10 @@ namespace CoachSeek.Domain.Entities
         public string PayerFirstName { get { return Payer.FirstName; } }
         public string PayerLastName { get { return Payer.LastName; } }
         public string PayerEmail { get { return Payer.Email; } }
-        public string MerchantId { get { return Merchant.Id; } }
+        public Guid MerchantId { get { return Merchant.Id; } }
         public string MerchantName { get { return Merchant.Name; } }
         public string MerchantEmail { get { return Merchant.Email; } }
-        public string ItemId { get { return Item.Id; } }
+        public Guid ItemId { get { return Item.Id; } }
         public string ItemName { get { return Item.Name; } }
         public string ItemCurrency { get { return Item.Money.Currency; } }
         public decimal ItemAmount { get { return Item.Money.Amount; } }

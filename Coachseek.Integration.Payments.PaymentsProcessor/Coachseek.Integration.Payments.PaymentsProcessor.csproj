@@ -32,12 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoachSeek.Application">
-      <HintPath>..\CoachSeek.Api\Bin\CoachSeek.Application.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.3.1.5.154\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -83,6 +77,10 @@
       <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
       <Name>CoachSeek.Application.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Application\CoachSeek.Application.csproj">
+      <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
+      <Name>CoachSeek.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>
@@ -94,6 +92,10 @@
     <ProjectReference Include="..\Coachseek.DataAccess.Main.SqlServer\Coachseek.DataAccess.Main.SqlServer.csproj">
       <Project>{23C99F42-6C8D-47A6-AC19-1638C002282A}</Project>
       <Name>Coachseek.DataAccess.Main.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.DataAccess.TableStorage\Coachseek.DataAccess.TableStorage.csproj">
+      <Project>{2875AD19-2538-4D25-B9BC-6E71E999C0E9}</Project>
+      <Name>Coachseek.DataAccess.TableStorage</Name>
     </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>

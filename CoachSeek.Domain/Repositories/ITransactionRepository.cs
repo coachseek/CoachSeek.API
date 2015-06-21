@@ -6,9 +6,9 @@ namespace CoachSeek.Domain.Repositories
 {
     public interface ITransactionRepository
     {
-        TransactionData GetTransaction(string id);
-        TransactionData GetTransaction(string id, TransactionType type);
-        TransactionData AddTransaction(Transaction transaction);
+        //TransactionData GetTransaction(string id);
+        //TransactionData GetTransaction(string id, TransactionType type);
+        //TransactionData AddTransaction(Transaction transaction);
 
         Payment GetPayment(string id);
         void AddPayment(NewPayment payment);

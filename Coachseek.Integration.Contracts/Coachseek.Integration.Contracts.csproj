@@ -42,6 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidBooking.cs" />
+    <Compile Include="Exceptions\InvalidBusiness.cs" />
+    <Compile Include="Exceptions\InvalidPaymentMessage.cs" />
+    <Compile Include="Exceptions\MerchantAccountIdentifierMismatch.cs" />
+    <Compile Include="Exceptions\OnlinePaymentNotEnabled.cs" />
+    <Compile Include="Exceptions\PaymentAmountMismatch.cs" />
+    <Compile Include="Exceptions\PaymentCurrencyMismatch.cs" />
+    <Compile Include="Exceptions\PaymentProcessingException.cs" />
+    <Compile Include="Exceptions\PendingPayment.cs" />
     <Compile Include="Interfaces\IEmailer.cs" />
     <Compile Include="Interfaces\IPaymentMessageProcessor.cs" />
     <Compile Include="Interfaces\IPaymentProcessorConfiguration.cs" />

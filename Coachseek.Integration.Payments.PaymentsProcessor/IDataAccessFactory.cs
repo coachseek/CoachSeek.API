@@ -3,5 +3,6 @@
     public interface IDataAccessFactory
     {
         DataRepositories CreateDataAccess(bool isTesting);
+        DataRepositories CreateProductionDataAccess();
     }
 }

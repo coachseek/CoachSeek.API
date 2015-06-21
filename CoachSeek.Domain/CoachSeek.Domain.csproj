@@ -143,6 +143,7 @@
     <Compile Include="Repositories\ITransactionRepository.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />
     <Compile Include="Repositories\IUnsubscribedEmailAddressRepository.cs" />
+    <Compile Include="Repositories\ILogRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\BusinessDomainBuilder.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
@@ -235,6 +236,10 @@
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
       <Name>CoachSeek.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Logging.Contracts\Coachseek.Logging.Contracts.csproj">
+      <Project>{417aae9c-11b8-434b-8975-1c8de8491115}</Project>
+      <Name>Coachseek.Logging.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

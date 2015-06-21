@@ -8,5 +8,10 @@ namespace CoachSeek.Data.Model
         public string Name { get; set; }
         public string Domain { get; set; }
         public BusinessPaymentData Payment { get; set; }
+
+        public BusinessData()
+        {
+            Payment = new BusinessPaymentData();
+        }
     }
 }

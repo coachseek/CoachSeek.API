@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using StructureMap;
@@ -13,6 +14,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         static void Main(string[] args)
         {
+            ApplicationAutoMapperConfigurator.Configure();
             DbAutoMapperConfigurator.Configure();
 
             SetTimer();
