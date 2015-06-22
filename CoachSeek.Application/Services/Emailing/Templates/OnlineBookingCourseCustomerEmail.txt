@@ -16,9 +16,6 @@ Email: <<CustomerEmail>>
 Phone: <<CustomerPhone>>
 
 Thank you for your business! We're looking forward to seeing you there!
-Please bring payment along to the first session, or check with your coach for other alternatives e.g Online Banking.
-
-Have fun out there!
 
 Warm regards,
 

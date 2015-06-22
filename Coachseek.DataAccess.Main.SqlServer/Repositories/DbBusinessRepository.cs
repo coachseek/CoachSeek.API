@@ -112,7 +112,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public void AddBusiness(Business business)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -124,24 +123,25 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@currency", SqlDbType.NChar));
+                command.Parameters.Add(new SqlParameter("@isOnlinePaymentEnabled", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
                 command.Parameters[2].Value = business.Domain;
                 command.Parameters[3].Value = business.Currency;
+                command.Parameters[4].Value = business.IsOnlinePaymentEnabled;
+                command.Parameters[5].Value = business.ForceOnlinePayment;
+                command.Parameters[6].Value = business.PaymentProvider;
+                command.Parameters[7].Value = business.MerchantAccountIdentifier;
 
-                reader = command.ExecuteReader();
-
-                BusinessData businessData;
-
-                if (reader.HasRows && reader.Read())
-                    businessData = ReadBusinessData(reader);
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
