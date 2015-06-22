@@ -14,14 +14,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
     public class InMemoryBusinessRepository : IBusinessRepository
     {
         // Spy behaviour is included
-        public bool WasAddBusinessCalled;
-        public bool WasAddLocationCalled;
-        public bool WasAddCoachCalled;
-
         public bool WasGetBusinessByIdCalled;
+        public bool WasAddBusinessCalled;
         public bool WasUpdateBusinessCalled;
+        public bool WasAddLocationCalled;
         public bool WasUpdateLocationCalled;
+        public bool WasAddCoachCalled;
         public bool WasUpdateCoachCalled;
+        public bool WasGetSessionCalled;
+        public bool WasGetAllCustomerBookingsCalled;
 
         public Guid BusinessIdPassedIn;
         public object DataPassedIn;
@@ -328,6 +329,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public SingleSessionData GetSession(Guid businessId, Guid sessionId)
         {
+            WasGetSessionCalled = true;
+
             // Standalone + Course Sessions
             var businessSessions = GetAllSessions(businessId);
 
@@ -659,8 +662,9 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
         {
-            var customerBookings = new List<CustomerBookingData>();
+            WasGetAllCustomerBookingsCalled = true;
 
+            var customerBookings = new List<CustomerBookingData>();
             var customers = GetAllCustomers(businessId);
 
             // Sessions

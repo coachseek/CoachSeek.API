@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
@@ -16,10 +17,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments
     {
         private const string PROVIDER_TEST = "Test";
         private const string BUSINESS_ID = "6A857C90-2446-4197-B251-F1189A7BB39F";
+        private const string BOOKING_ID = "3386F697-1DB0-4F3C-A1EC-450533A43079";
         private const string EXISTING_MSG_ID = "1";
         private const string NEW_MSG_ID = "2";
         private const string TEST_MESSAGE =
-            "status={0}&isTesting=true&date=2020-01-01&payerFirstName=Mike&payerLastName=Smith&payerEmail=mike@smith.com&businessId={1}&businessName=TestBusiness&businessEmail=test@business.com&itemId=3&itemName=Session1&currency=NZD&grossAmount=15";
+            "status={0}&isTesting=true&date=2020-01-01&payerFirstName=Mike&payerLastName=Smith&payerEmail=mike@smith.com&businessId={1}&businessName=TestBusiness&businessEmail=test@business.com&itemId={2}&itemName=Session1&currency=NZD&grossAmount=15";
 
 
         private PaymentMessageProcessor Processor { get; set; }
@@ -67,7 +69,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
         {
             InMemoryBusinessRepository.Clear();
 
-            var transaction = CreateDbTransaction(EXISTING_MSG_ID, "Completed", true, BUSINESS_ID);
+            var transaction = CreateDbTransaction(EXISTING_MSG_ID, "Completed", true, BUSINESS_ID, BOOKING_ID);
             var dataAccessFactory = new StubDataAccessFactory
             {
                 BusinessRepository = new InMemoryBusinessRepository(),
@@ -83,7 +85,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             Processor = new PaymentMessageProcessor(config, dataAccessFactory, apiFactory);
         }
 
-        private DbTransaction CreateDbTransaction(string id, string status, bool? isVerified, string businessId)
+        private DbTransaction CreateDbTransaction(string id, string status, bool? isVerified, string businessId, string bookingId)
         {
             return new DbTransaction
             {
@@ -99,7 +101,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
                 MerchantId = businessId,
                 MerchantName = "TestBusiness",
                 MerchantEmail = "test@business.com",
-                ItemId = "3",
+                ItemId = bookingId,
                 ItemName = "Session1",
                 ItemCurrency = "NZD",
                 ItemAmount = 15,
@@ -147,6 +149,30 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             ThenStopProcessingWithMerchantAccountIdentifierMismatchError();
         }
 
+        [Test]
+        public void GivenIsNonExistentBooking_WhenTryProcessMessage_ThenStopProcessingWithInvalidBookingError()
+        {
+            var message = GivenIsNonExistentBooking();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithInvalidBookingError();
+        }
+
+        [Test]
+        public void GivenPaymentCurrencyMismatch_WhenTryProcessMessage_ThenStopProcessingWithPaymentCurrencyMismatchError()
+        {
+            var message = GivenPaymentCurrencyMismatch();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithPaymentCurrencyMismatchError();
+        }
+
+        [Test, Ignore]
+        public void GivenPaymentAmountMismatch_WhenTryProcessMessage_ThenStopProcessingWithPaymentAmountMismatchError()
+        {
+            var message = GivenPaymentAmountMismatch();
+            WhenTryProcessMessage(message);
+            ThenStopProcessingWithPaymentCurrencyMismatchError();
+        }
+
 
 
         [Test, Ignore]
@@ -180,17 +206,17 @@ namespace Coachseek.Integration.Tests.Unit.Payments
         private PaymentProcessingMessage GivenSpoofPaymentMessage()
         {
             PaymentProviderApiFactory.PaymentProviderApi = new StubPaymentProviderApi(false);
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenIsPendingPaymentMessage()
         {
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Pending", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Pending", BUSINESS_ID, BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenIsNonExistentBusiness()
         {
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", Guid.NewGuid()));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", Guid.NewGuid(), BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenIsOnlinePaymentDisabled()
@@ -199,7 +225,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", isOnlinePaymentEnabled);
             BusinessRepository.AddBusiness(business);
 
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenMerchantAccountIdentifierMismatch()
@@ -207,13 +233,45 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, "PayPal", "mickey@mouse.com");
             BusinessRepository.AddBusiness(business);
 
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
+        }
+
+        private PaymentProcessingMessage GivenIsNonExistentBooking()
+        {
+            var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, "PayPal", "test@business.com");
+            BusinessRepository.AddBusiness(business);
+
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, Guid.NewGuid()));
+        }
+
+        private PaymentProcessingMessage GivenPaymentCurrencyMismatch()
+        {
+            var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "USD", true, false, "PayPal", "test@business.com");
+            BusinessRepository.AddBusiness(business);
+            var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
+                new SessionKeyData {Id = Guid.NewGuid()},
+                new CustomerKeyData {Id = Guid.NewGuid()});
+            BusinessRepository.AddSessionBooking(business.Id, booking);
+
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
+        }
+
+        private PaymentProcessingMessage GivenPaymentAmountMismatch()
+        {
+            var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, "PayPal", "test@business.com");
+            BusinessRepository.AddBusiness(business);
+            var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
+                new SessionKeyData { Id = Guid.NewGuid() },
+                new CustomerKeyData { Id = Guid.NewGuid() });
+            BusinessRepository.AddSessionBooking(business.Id, booking);
+
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
 
 
         private PaymentProcessingMessage GivenIsExistingCompletedPayment()
         {
-            return new PaymentProcessingMessage(EXISTING_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(EXISTING_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenIsDeniedPaymentButCanPayLater()
@@ -222,12 +280,12 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             var business = new Business(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, forceOnlinePayment);
             BusinessRepository.AddBusiness(business);
 
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Denied", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Denied", BUSINESS_ID, BOOKING_ID));
         }
 
         private PaymentProcessingMessage GivenIsNewCompletedPayment()
         {
-            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID));
+            return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
 
 
@@ -285,6 +343,28 @@ namespace Coachseek.Integration.Tests.Unit.Payments
 
             Assert.That(LogRepository.WasLogErrorCalled, Is.True);
             Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Merchant account identifiers don't match."));
+        }
+
+        private void ThenStopProcessingWithInvalidBookingError()
+        {
+            AssertVerificationPassed();
+
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
+            Assert.That(BusinessRepository.WasGetAllCustomerBookingsCalled, Is.True);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Invalid booking."));
+        }
+
+        private void ThenStopProcessingWithPaymentCurrencyMismatchError()
+        {
+            AssertVerificationPassed();
+
+            Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
+            Assert.That(BusinessRepository.WasGetAllCustomerBookingsCalled, Is.True);
+
+            Assert.That(LogRepository.WasLogErrorCalled, Is.True);
+            Assert.That(LogRepository.PassedInMessage, Is.EqualTo("The payment currency does not match the business currency."));
         }
 
 
