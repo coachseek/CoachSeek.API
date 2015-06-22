@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -63,8 +64,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 if (newPayment.ItemAmount != ((RepeatedSession)sessionOrCourse).Pricing.CoursePrice.Value)
                     throw new PaymentAmountMismatch();
             var payment = SaveIfNewPayment(newPayment, dataAccess);
-            //if (payment.IsCompleted)
-                //dataAccess.BusinessRepository.PayBooking();
+            if (payment.IsCompleted)
+                dataAccess.BusinessRepository.SetBookingPaymentStatus(business.Id, booking.Id, Constants.PAYMENT_STATUS_AWAITING_PAYMENT);
         }
 
         private void ValidatePaymentStatus(NewPayment newPayment)

@@ -565,6 +565,29 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             throw new NotImplementedException();
         }
 
+        public void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            var dbSessionBookings = GetAllDbSessionBookings(businessId);
+            var dbSessionBooking = dbSessionBookings.SingleOrDefault(x => x.Id == bookingId);
+            if (dbSessionBooking != null)
+            {
+                dbSessionBooking.PaymentStatus = paymentStatus;
+                return;
+            }
+
+            var dbCourseBookings = GetAllDbCourseBookings(businessId);
+            var dbCourseBooking = dbCourseBookings.SingleOrDefault(x => x.Id == bookingId);
+            if (dbCourseBooking != null)
+            {
+                dbCourseBooking.PaymentStatus = paymentStatus;
+                foreach (var sessionBooking in dbCourseBooking.SessionBookings)
+                    sessionBooking.PaymentStatus = paymentStatus;
+                return;
+            }
+
+            throw new InvalidOperationException("Not a session nor a course booking.");
+        }
+
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {
             //var dbBookings = GetAllDbBookings(businessId);

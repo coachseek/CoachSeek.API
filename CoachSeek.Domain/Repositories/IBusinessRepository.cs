@@ -51,8 +51,9 @@ namespace CoachSeek.Domain.Repositories
         CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId);
         CourseBookingData AddCourseBooking(Guid businessId, CourseBooking courseBooking);
         void UpdateBooking(Guid businessId, BookingData booking);
-
         void DeleteBooking(Guid businessId, Guid bookingId);
+
+        void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus);
 
         IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId);
         IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId);

@@ -568,6 +568,30 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_UpdatePaymentStatus]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = bookingId;
+                command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+                command.Parameters[2].Value = paymentStatus;
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
 
         public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
         {
