@@ -48,7 +48,6 @@ namespace CoachSeek.Application.UseCases
             var errors = new ValidationException();
 
             ValidateCustomer(newBooking.Customer.Id, errors);
-
             ValidateCommandAdditional(newBooking, errors);
 
             errors.ThrowIfErrors();

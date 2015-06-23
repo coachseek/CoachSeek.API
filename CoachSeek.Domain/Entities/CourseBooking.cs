@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
@@ -8,32 +7,30 @@ namespace CoachSeek.Domain.Entities
     public class CourseBooking : Booking
     {
         public SessionKeyData Course { get; set; }
-
         public IList<SingleSessionBooking> SessionBookings { get; set; }
 
 
-        public CourseBooking(BookingAddCommand command, RepeatedSessionData existingCourse)
-            : this(command.Session, command.Customer, existingCourse.Sessions)
+        public CourseBooking(BookingAddCommand command, IEnumerable<SessionInCourse> existingSessions)
+            : base(command)
         {
-            PaymentStatus = command.PaymentStatus;
-            HasAttended = command.HasAttended;
-        }
-
-        public CourseBooking(SessionKeyCommand course, CustomerKeyCommand customer, IList<SingleSessionData> existingSessions)
-            : base(customer)
-        {
-            Course = new SessionKeyData { Id = course.Id };
+            Course = new SessionKeyData { Id = command.Session.Id };
 
             SessionBookings = new List<SingleSessionBooking>();
-            var customerKeyData = new CustomerKeyData { Id = customer.Id };
             foreach (var session in existingSessions)
-                SessionBookings.Add(new SingleSessionBooking(Guid.NewGuid(), session.ToKeyData(), customerKeyData, Id));
+            {
+                var sessionCommand = CreateSessionBookingAddCommand(command, session);
+                SessionBookings.Add(new SingleSessionBooking(sessionCommand, Id));                
+            }
         }
 
-        public CourseBooking(Guid id, SessionKeyData course, CustomerKeyData customer)
-            : base(id, customer)
+
+        private BookingAddCommand CreateSessionBookingAddCommand(BookingAddCommand courseCommand, SessionInCourse session)
         {
-            Course = new SessionKeyData { Id = course.Id };                        
+            return new BookingAddCommand
+            {
+                Customer = new CustomerKeyCommand {Id = courseCommand.Customer.Id},
+                Session = new SessionKeyCommand {Id = session.Id}
+            };
         }
     }
 }

@@ -25,7 +25,7 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 ValidateCommand(command);
-                var newBooking = new CourseBooking(command, Course.ToData());
+                var newBooking = new CourseBooking(command, Course.Sessions);
                 ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddCourseBooking(Business.Id, newBooking);
                 PostProcessing(newBooking);

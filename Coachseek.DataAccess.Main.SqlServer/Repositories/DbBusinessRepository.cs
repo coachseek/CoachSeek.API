@@ -440,49 +440,47 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
-            command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = courseBooking.Id;
             command.Parameters[2].Value = courseBooking.Course.Id;
             command.Parameters[3].Value = courseBooking.Customer.Id;
             command.Parameters[4].Value = courseBooking.PaymentStatus;
-            command.Parameters[5].Value = courseBooking.HasAttended;
 
             command.ExecuteNonQuery();
         }
 
-        public void UpdateBooking(Guid businessId, BookingData booking)
-        {
-            try
-            {
-                Connection.Open();
+        //public void UpdateBooking(Guid businessId, BookingData booking)
+        //{
+        //    try
+        //    {
+        //        Connection.Open();
 
-                UpdateSessionBookingData(businessId, booking);
-            }
-            finally
-            {
-                if (Connection != null)
-                    Connection.Close();
-            }
-        }
+        //        UpdateSessionBookingData(businessId, booking);
+        //    }
+        //    finally
+        //    {
+        //        if (Connection != null)
+        //            Connection.Close();
+        //    }
+        //}
 
-        private void UpdateSessionBookingData(Guid businessId, BookingData booking)
-        {
-            var command = new SqlCommand("Booking_Update", Connection) { CommandType = CommandType.StoredProcedure };
+        //private void UpdateSessionBookingData(Guid businessId, BookingData booking)
+        //{
+        //    var command = new SqlCommand("Booking_Update", Connection) { CommandType = CommandType.StoredProcedure };
 
-            command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-            command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
-            command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
-            command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
+        //    command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+        //    command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+        //    command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+        //    command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
 
-            command.Parameters[0].Value = businessId;
-            command.Parameters[1].Value = booking.Id;
-            command.Parameters[2].Value = booking.PaymentStatus.ConvertNullToDbNull();
-            command.Parameters[3].Value = booking.HasAttended.ConvertNullToDbNull();
+        //    command.Parameters[0].Value = businessId;
+        //    command.Parameters[1].Value = booking.Id;
+        //    command.Parameters[2].Value = booking.PaymentStatus.ConvertNullToDbNull();
+        //    command.Parameters[3].Value = booking.HasAttended.ConvertNullToDbNull();
 
-            command.ExecuteNonQuery();
-        }
+        //    command.ExecuteNonQuery();
+        //}
         
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
@@ -542,7 +540,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     Name = customerName
                 },
                 PaymentStatus = paymentStatus,
-                HasAttended = hasAttended
+                HasAttended = hasAttended.GetValueOrDefault()
             };
         }
 
@@ -582,6 +580,30 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[1].Value = bookingId;
                 command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
                 command.Parameters[2].Value = paymentStatus;
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+        }
+
+        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool hasAttended)
+        {
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_UpdateHasAttended]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[1].Value = sessionBookingId;
+                command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+                command.Parameters[2].Value = hasAttended;
 
                 command.ExecuteNonQuery();
             }
@@ -970,8 +992,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Customer = new CustomerKeyData { Id = customerId, Name = customerName },
                 Course = new SessionKeyData { Id = courseId, Name = courseName },
                 SessionBookings = sessionBookings,
-                PaymentStatus = paymentStatus,
-                HasAttended = hasAttended
+                PaymentStatus = paymentStatus
             };
         }
 

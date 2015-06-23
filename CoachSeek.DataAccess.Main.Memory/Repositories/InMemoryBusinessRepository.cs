@@ -24,6 +24,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasGetSessionCalled;
         public bool WasGetAllCustomerBookingsCalled;
         public bool WasSetBookingPaymentStatusCalled;
+        public bool WasSetBookingAttendanceCalled;
 
         public Guid BusinessIdPassedIn;
         public object DataPassedIn;
@@ -561,11 +562,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetCourseBooking(businessId, booking.Id);
         }
 
-        public void UpdateBooking(Guid businessId, BookingData booking)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
         {
             WasSetBookingPaymentStatusCalled = true;
@@ -589,6 +585,16 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             }
 
             throw new InvalidOperationException("Not a session nor a course booking.");
+        }
+
+        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool hasAttended)
+        {
+            WasSetBookingAttendanceCalled = true;
+
+            var dbSessionBookings = GetAllDbSessionBookings(businessId);
+            var dbSessionBooking = dbSessionBookings.SingleOrDefault(x => x.Id == sessionBookingId);
+            if (dbSessionBooking != null)
+                dbSessionBooking.HasAttended = hasAttended;
         }
 
         public void DeleteBooking(Guid businessId, Guid bookingId)

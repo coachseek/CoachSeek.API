@@ -4,8 +4,7 @@ CREATE PROCEDURE [dbo].[Booking_CreateCourseBooking]
 	@bookingGuid uniqueidentifier,
 	@courseGuid uniqueidentifier,
 	@customerGuid uniqueidentifier,
-	@paymentStatus nvarchar(50) = null,
-	@hasAttended bit = null
+	@paymentStatus nvarchar(50) = null
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -53,7 +52,7 @@ BEGIN
 		@customerId,
 		NULL,
 		@paymentStatus,
-		@hasAttended
+		NULL
 	)
 	
 	--SELECT

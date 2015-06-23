@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
@@ -7,27 +8,29 @@ namespace CoachSeek.Domain.Entities
     public class SingleSessionBooking : Booking
     {
         public Guid? ParentId { get; set; }
+        public bool HasAttended { get; set; }
         public SessionKeyData Session { get; set; }
 
-
-        public SingleSessionBooking(BookingAddCommand command)
-            : this(command.Session, command.Customer)
-        {
-            PaymentStatus = command.PaymentStatus;
-            HasAttended = command.HasAttended;
-        }
-
-        public SingleSessionBooking(SessionKeyCommand session, CustomerKeyCommand customer)
-            : base(customer)
-        {
-            ParentId = null;
-            Session = new SessionKeyData { Id = session.Id };
-        }
-
-        public SingleSessionBooking(Guid id, SessionKeyData session, CustomerKeyData customer, Guid? parentId = null)
-            : base(id, customer)
+        // Command parameters denote that it's data from outside the application (ie. user input).
+        public SingleSessionBooking(BookingAddCommand command, Guid? parentId = null)
+            : base(command)
         {
             ParentId = parentId;
+            HasAttended = false;
+            Session = new SessionKeyData { Id = command.Session.Id };
+        }
+
+        // Data parameters denote that it's data from inside the application (ie. database).
+        public SingleSessionBooking(Guid id, 
+                                    SessionKeyData session,
+                                    CustomerKeyData customer, 
+                                    string paymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE, 
+                                    bool hasAttended = false, 
+                                    Guid? parentId = null)
+            : base(id, paymentStatus, customer)
+        {
+            ParentId = parentId;
+            HasAttended = hasAttended;
             Session = new SessionKeyData { Id = session.Id };
         }
     }
