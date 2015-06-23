@@ -120,6 +120,7 @@
     <Build Include="Stored Procedures\Business_GetByGuid.sql" />
     <Build Include="Stored Procedures\Business_Update.sql" />
     <Build Include="Stored Procedures\Booking_UpdatePaymentStatus.sql" />
+    <Build Include="Stored Procedures\Booking_UpdateHasAttended.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />
