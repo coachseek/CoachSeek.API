@@ -112,6 +112,13 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
+    public class InvalidPaymentStatusErrorResponse : ErrorResponse
+    {
+        public InvalidPaymentStatusErrorResponse()
+            : base(Resources.ErrorInvalidPaymentStatus)
+        { }
+    }
+
     public class ClashingSessionErrorResponse : ErrorResponse
     {
         public ClashingSessionErrorResponse(ClashingSession clashingSession)

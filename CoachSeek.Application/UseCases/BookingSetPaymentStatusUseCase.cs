@@ -1,5 +1,9 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Common;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -7,10 +11,34 @@ namespace CoachSeek.Application.UseCases
     {
         public Response SetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
-            var booking = BusinessRepository.GetSessionBooking(Business.Id, command.BookingId);
-            booking.PaymentStatus = command.PaymentStatus;
-            BusinessRepository.UpdateBooking(Business.Id, booking);
-            return new Response();
+            try
+            {
+                var booking = BusinessRepository.GetSessionBooking(Business.Id, command.BookingId);
+                if (booking.IsNotFound())
+                    return new NotFoundResponse();
+                ValidatePaymentStatus(command.PaymentStatus);
+                BusinessRepository.SetBookingPaymentStatus(Business.Id, booking.Id, command.PaymentStatus);
+                return new Response();
+            }
+            catch (Exception ex)
+            {
+                if (ex is InvalidPaymentStatus)
+                    return new InvalidPaymentStatusErrorResponse();
+                if (ex is ValidationException)
+                    return new ErrorResponse((ValidationException)ex);
+
+                throw;
+            }
+        }
+
+        private void ValidatePaymentStatus(string paymentStatus)
+        {
+            if (paymentStatus == Constants.PAYMENT_STATUS_PENDING_INVOICE ||
+                paymentStatus == Constants.PAYMENT_STATUS_PENDING_PAYMENT ||
+                paymentStatus == Constants.PAYMENT_STATUS_PAID)
+                return;
+
+            throw new InvalidPaymentStatus();
         }
     }
 }

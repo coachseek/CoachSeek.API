@@ -132,6 +132,7 @@
     <Compile Include="Exceptions\InvalidCustomer.cs" />
     <Compile Include="Exceptions\InvalidEndDate.cs" />
     <Compile Include="Exceptions\InvalidMerchantAccountIdentifierFormat.cs" />
+    <Compile Include="Exceptions\InvalidPaymentStatus.cs" />
     <Compile Include="Exceptions\InvalidStartDate.cs" />
     <Compile Include="Exceptions\InvalidUser.cs" />
     <Compile Include="Exceptions\MissingMerchantAccountIdentifier.cs" />

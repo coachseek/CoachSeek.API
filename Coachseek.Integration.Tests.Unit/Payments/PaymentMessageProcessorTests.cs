@@ -184,11 +184,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments
         }
 
         [Test, Ignore]
-        public void GivenIsDeniedPaymentButCanPayLater_WhenTryProcessMessage_ThenSavePaymentAndSetBookingToAwaitingPayment()
+        public void GivenIsDeniedPaymentButCanPayLater_WhenTryProcessMessage_ThenSavePaymentAndSetBookingToPendingPayment()
         {
             var message = GivenIsDeniedPaymentButCanPayLater();
             WhenTryProcessMessage(message);
-            ThenSavePaymentAndSetBookingToAwaitingPayment();
+            ThenSavePaymentAndSetBookingToPendingPayment();
         }
 
         // This scenario is not as important.
@@ -380,11 +380,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Pending payment."));
         }
 
-        private void ThenSavePaymentAndSetBookingToAwaitingPayment()
+        private void ThenSavePaymentAndSetBookingToPendingPayment()
         {
             AssertVerificationPassed();
             AssertLookupAndSavePayment();
-            // TODO: Assert Set Booking To 'awaiting-payment'
+            // TODO: Assert Set Booking To 'pending-payment'
         }
 
         private void ThenSavePaymentAndSetBookingToPaid()

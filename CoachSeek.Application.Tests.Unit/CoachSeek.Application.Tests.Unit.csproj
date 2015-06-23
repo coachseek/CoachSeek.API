@@ -49,6 +49,7 @@
     <Compile Include="Services\CustomerResolverTests.cs" />
     <Compile Include="LocationUseCaseTests.cs" />
     <Compile Include="Services\Emailing\EmailerFactoryTests.cs" />
+    <Compile Include="UseCases\BookingSetPaymentStatusUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />

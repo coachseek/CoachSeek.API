@@ -27,6 +27,8 @@ namespace CoachSeek.Application.Tests.Unit
         protected const string SESSION_THREE = "33648896-460D-409D-A2BA-D8F1EA852757";
         protected const string SESSION_FOUR = "B715BFC7-B9D4-4C67-8014-17B2825C081C";
         protected const string SESSION_FIVE = "B76E3493-01CA-40A5-8B90-B3157A7AAB21";
+        protected const string CUSTOMER_FRED_ID = "F85C888E-5904-4019-80B7-F02EDB7F2DA8";
+        protected const string BOOKING_FRED_SESSION_TWO_ID = "C2CB8461-D67E-40FC-8333-FAE5BDB39A49";
 
         protected InMemoryUserRepository UserRepository { get; set; }
         protected InMemoryBusinessRepository BusinessRepository { get; set; }
@@ -62,6 +64,7 @@ namespace CoachSeek.Application.Tests.Unit
             SetupSessions();
             SetupCourses();
             SetupCustomers();
+            SetupSessionBookings();
 
             BusinessRepository.WasAddBusinessCalled = false;
             BusinessRepository.WasAddLocationCalled = false;
@@ -121,6 +124,12 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected void SetupCustomers()
         {
+            SetupCustomerFred();
+        }
+
+        protected void SetupSessionBookings()
+        {
+            SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15();
         }
 
         private void SetupBrownsBayLocation()
@@ -312,6 +321,28 @@ namespace CoachSeek.Application.Tests.Unit
             };
 
             BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
+        }
+
+        protected void SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15()
+        {
+            BusinessRepository.AddSessionBooking(new Guid(BUSINESS_ID),
+                                                 new SingleSessionBooking(new Guid(BOOKING_FRED_SESSION_TWO_ID),
+                                                                          new SessionKeyData { Id = new Guid(SESSION_TWO) },
+                                                                          new CustomerKeyData { Id = new Guid(CUSTOMER_FRED_ID) }));
+        }
+
+        protected void SetupCustomerFred()
+        {
+            var data = new CustomerData
+            {
+                Id = new Guid(CUSTOMER_FRED_ID),
+                FirstName = "Fred",
+                LastName = "Flintstone",
+                Email = "fred@flintstones.net",
+                Phone = "241241"
+            };
+
+            BusinessRepository.AddCustomer(new Guid(BUSINESS_ID), new Customer(data));
         }
 
         protected void AssertSingleError(Response response, 

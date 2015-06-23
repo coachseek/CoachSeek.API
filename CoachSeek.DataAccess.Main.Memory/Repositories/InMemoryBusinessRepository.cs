@@ -23,6 +23,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasUpdateCoachCalled;
         public bool WasGetSessionCalled;
         public bool WasGetAllCustomerBookingsCalled;
+        public bool WasSetBookingPaymentStatusCalled;
 
         public Guid BusinessIdPassedIn;
         public object DataPassedIn;
@@ -567,6 +568,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
         {
+            WasSetBookingPaymentStatusCalled = true;
+
             var dbSessionBookings = GetAllDbSessionBookings(businessId);
             var dbSessionBooking = dbSessionBookings.SingleOrDefault(x => x.Id == bookingId);
             if (dbSessionBooking != null)

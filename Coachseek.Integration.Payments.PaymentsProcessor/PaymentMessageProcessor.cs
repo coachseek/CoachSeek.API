@@ -65,7 +65,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                     throw new PaymentAmountMismatch();
             var payment = SaveIfNewPayment(newPayment, dataAccess);
             if (payment.IsCompleted)
-                dataAccess.BusinessRepository.SetBookingPaymentStatus(business.Id, booking.Id, Constants.PAYMENT_STATUS_AWAITING_PAYMENT);
+                dataAccess.BusinessRepository.SetBookingPaymentStatus(business.Id, booking.Id, Constants.PAYMENT_STATUS_PENDING_PAYMENT);
         }
 
         private void ValidatePaymentStatus(NewPayment newPayment)

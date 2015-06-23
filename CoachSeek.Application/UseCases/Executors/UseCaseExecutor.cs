@@ -3,7 +3,6 @@ using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
-using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases.Executors
 {
