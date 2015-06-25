@@ -61,15 +61,17 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public Payment GetPayment(string id)
+        public Payment GetPayment(string paymentProvider, string id)
         {
             WasGetPaymentCalled = true;
 
-            var payment = Transactions.SingleOrDefault(x => x.Id == id && x.Type == Constants.TRANSACTION_PAYMENT);
+            var payment = Transactions.SingleOrDefault(x => x.Id == id
+                                                       && x.PaymentProvider == paymentProvider 
+                                                       && x.Type == Constants.TRANSACTION_PAYMENT);
             if (payment.IsNotFound())
                 return null;
             var data = Mapper.Map<DbTransaction, PaymentData>(payment);
-            return new Payment(data, true);
+            return new Payment(data);
         }
 
         public void AddPayment(NewPayment newPayment)

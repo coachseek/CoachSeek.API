@@ -1,6 +1,4 @@
-﻿using CoachSeek.Common;
-using CoachSeek.Data.Model;
-using CoachSeek.Domain.Entities;
+﻿using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Domain.Repositories
 {
@@ -10,7 +8,7 @@ namespace CoachSeek.Domain.Repositories
         //TransactionData GetTransaction(string id, TransactionType type);
         //TransactionData AddTransaction(Transaction transaction);
 
-        Payment GetPayment(string id);
+        Payment GetPayment(string paymentProvider, string id);
         void AddPayment(NewPayment payment);
         //PaymentData UpdatePayment(Payment payment);
     }

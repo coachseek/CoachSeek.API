@@ -45,12 +45,15 @@
     <Compile Include="Exceptions\InvalidBooking.cs" />
     <Compile Include="Exceptions\InvalidBusiness.cs" />
     <Compile Include="Exceptions\InvalidPaymentMessage.cs" />
+    <Compile Include="Exceptions\IsTestingStatusMismatch.cs" />
     <Compile Include="Exceptions\MerchantAccountIdentifierMismatch.cs" />
     <Compile Include="Exceptions\OnlinePaymentNotEnabled.cs" />
     <Compile Include="Exceptions\PaymentAmountMismatch.cs" />
+    <Compile Include="Exceptions\PaymentConversionException.cs" />
     <Compile Include="Exceptions\PaymentCurrencyMismatch.cs" />
     <Compile Include="Exceptions\PaymentProcessingException.cs" />
     <Compile Include="Exceptions\PendingPayment.cs" />
+    <Compile Include="Exceptions\UnknownPaymentProvider.cs" />
     <Compile Include="Interfaces\IEmailer.cs" />
     <Compile Include="Interfaces\IPaymentMessageProcessor.cs" />
     <Compile Include="Interfaces\IPaymentProcessorConfiguration.cs" />
@@ -59,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>

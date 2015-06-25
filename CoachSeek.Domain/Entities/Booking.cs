@@ -22,28 +22,12 @@ namespace CoachSeek.Domain.Entities
             Customer = new CustomerKeyData { Id = command.Customer.Id };
         }
 
-        //protected Booking(CustomerKeyCommand customer)
-        //    : this(Guid.NewGuid(), customer)
-        //{ }
-
-        //protected Booking(Guid id, CustomerKeyCommand customer)
-        //{
-        //    Id = id;
-        //    Customer = new CustomerKeyData { Id = customer.Id };
-        //}
-
         // Data parameters denote that it's data from inside the application (ie. database).
         protected Booking(Guid id, string paymentStatus, CustomerKeyData customer)
         {
             Id = id;
             PaymentStatus = paymentStatus;
             Customer = customer;
-        }
-
-
-        public BookingData ToData()
-        {
-            return Mapper.Map<Booking, BookingData>(this);
         }
     }
 }

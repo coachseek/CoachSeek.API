@@ -16,8 +16,6 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             BusinessRepository = businessRepository;
             TransactionRepository = transactionRepository;
             LogRepository = logRepository;
-
-
         }
     }
 }

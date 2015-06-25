@@ -76,7 +76,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
                 TransactionRepository = new InMemoryTransactionRepository(new[] { transaction }),
                 LogRepository = new StubLogRepository()
             };
-            var config = new StubPaymentProcessorConfiguration(true);
+            var config = new StubPaymentProcessorConfiguration();
             var apiFactory = new StubPaymentProviderApiFactory
             {
                 PaymentProviderApi = new StubPaymentProviderApi(true)
@@ -361,7 +361,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments
             AssertVerificationPassed();
 
             Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
-            Assert.That(BusinessRepository.WasGetAllCustomerBookingsCalled, Is.True);
+            Assert.That(BusinessRepository.WasGetAllCustomerBookingsCalled, Is.False);
 
             Assert.That(LogRepository.WasLogErrorCalled, Is.True);
             Assert.That(LogRepository.PassedInMessage, Is.EqualTo("The payment currency does not match the business currency."));

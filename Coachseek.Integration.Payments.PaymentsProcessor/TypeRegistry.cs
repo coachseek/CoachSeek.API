@@ -19,9 +19,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                     "CoachSeek.DataAccess.Main.Memory",
                     "Coachseek.Integration.Payments",
                     "Coachseek.Integration.Payments.PaymentsProcessor",
-                    "Coachseek.Integration.Contracts",
-                    //"CoachSeek.DataAccess.TableStorage",
-                    //"CoachSeek.Domain"
+                    "Coachseek.Integration.Contracts"
                 };
 
             Scan(x =>
@@ -31,7 +29,6 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             });
 
             For<IPaymentProcessingQueueClient>().Use<AzurePaymentProcessingQueueClient>();
-            For<ITransactionRepository>().Use<InMemoryTransactionRepository>();
         }
     }
 }

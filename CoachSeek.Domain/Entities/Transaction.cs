@@ -16,7 +16,7 @@ namespace CoachSeek.Domain.Entities
 
         public string Id { get; private set; }
         public string PaymentProvider { get { return Details.PaymentProvider.ToString(); } }
-        public bool IsTesting { get { return Details.IsTesting; } }
+        //public bool IsTesting { get { return Details.IsTesting; } }
         public string Type { get { return TransactionType.ToString(); } }
         public string Status { get { return Details.Status.ToString(); } }
         public TransactionStatus TransactionStatus { get { return Details.Status; } }
@@ -49,10 +49,10 @@ namespace CoachSeek.Domain.Entities
             Item = item;
         }
 
-        protected Transaction(TransactionData data, bool isTesting)
+        protected Transaction(TransactionData data)
         {
             Id = data.Id;
-            Details = new TransactionDetails(data.Status, data.PaymentProvider, data.TransactionDate, isTesting);
+            Details = new TransactionDetails(data.Status, data.PaymentProvider, data.TransactionDate);
             Payer = new Payer(data.PayerFirstName, data.PayerLastName, data.PayerEmail);
             Merchant = new Merchant(data.MerchantId, data.MerchantName, data.MerchantEmail);
             Item = new GoodOrService(data.ItemId, data.ItemName, new Money(data.ItemCurrency, data.ItemAmount));

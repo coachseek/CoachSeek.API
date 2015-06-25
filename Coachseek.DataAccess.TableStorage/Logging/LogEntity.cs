@@ -16,6 +16,7 @@ namespace Coachseek.DataAccess.TableStorage.Logging
             LogLevel = logMessage.LogLevel.ToString();
             Message = logMessage.Message;
             DateTime = logMessage.DateTime;
+            Data = logMessage.Data;
         }
 
         public Guid Id { get; set; }
@@ -23,5 +24,6 @@ namespace Coachseek.DataAccess.TableStorage.Logging
         public string LogLevel { get; set; }
         public string Message { get; set; }
         public DateTime DateTime { get; set; }
+        public string Data { get; set; }
     }
 }

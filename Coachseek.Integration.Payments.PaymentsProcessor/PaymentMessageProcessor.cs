@@ -31,41 +31,50 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         public void ProcessMessage(PaymentProcessingMessage message)
         {
-            var dataAccess = DataAccessFactory.CreateProductionDataAccess();
+            var isTesting = !PaymentProcessorConfiguration.IsPaymentEnabled;
+            var dataAccess = DataAccessFactory.CreateDataAccess(isTesting);
 
             try
             {
                 VerifyMessage(message);
                 var newPayment = NewPaymentConverter.Convert(message);
-                dataAccess = DataAccessFactory.CreateDataAccess(newPayment.IsTesting);
+                if (newPayment.IsTesting != isTesting)
+                    throw new IsTestingStatusMismatch();
                 ProcessPayment(newPayment, dataAccess);
+                dataAccess.LogRepository.LogInfo("Message successfully processed.", message.ToString());
             }
             catch (PaymentProcessingException ex)
             {
-                dataAccess.LogRepository.LogError(ex);
+                dataAccess.LogRepository.LogError(ex, message.ToString());
             }
         }
 
-        public void ProcessPayment(NewPayment newPayment, DataRepositories dataAccess)
+
+        private void VerifyMessage(PaymentProcessingMessage message)
+        {
+            var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
+            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
+            if (!paymentApi.VerifyPayment(message))
+                throw new InvalidPaymentMessage();
+        }
+
+        private void ProcessPayment(NewPayment newPayment, DataRepositories dataAccess)
+        {
+            ValidatePayment(newPayment, dataAccess);
+            var payment = SaveIfNewPayment(newPayment, dataAccess);
+            if (payment.IsCompleted)
+                SetBookingAsPaid(payment, dataAccess);
+        }
+
+        private void ValidatePayment(NewPayment newPayment, DataRepositories dataAccess)
         {
             ValidatePaymentStatus(newPayment);
             var business = dataAccess.BusinessRepository.GetBusiness(newPayment.MerchantId);
             ValidateBusiness(business, newPayment);
             var booking = GetBooking(dataAccess, business.Id, newPayment.ItemId);
-            if (booking.IsNotFound())
-                throw new InvalidBooking();
-            if (newPayment.ItemCurrency != business.Payment.Currency)
-                throw new PaymentCurrencyMismatch();
+            ValidateBooking(booking, newPayment);
             var sessionOrCourse = GetSessionOrCourse(business.Id, booking.SessionId, dataAccess);
-            if (sessionOrCourse is SingleSession)
-                if (newPayment.ItemAmount != ((SingleSession)sessionOrCourse).Pricing.SessionPrice.Value)
-                    throw new PaymentAmountMismatch();
-            if (sessionOrCourse is RepeatedSession)
-                if (newPayment.ItemAmount != ((RepeatedSession)sessionOrCourse).Pricing.CoursePrice.Value)
-                    throw new PaymentAmountMismatch();
-            var payment = SaveIfNewPayment(newPayment, dataAccess);
-            if (payment.IsCompleted)
-                dataAccess.BusinessRepository.SetBookingPaymentStatus(business.Id, booking.Id, Constants.PAYMENT_STATUS_PENDING_PAYMENT);
+            ValidateSessionOrCourse(sessionOrCourse, newPayment);
         }
 
         private void ValidatePaymentStatus(NewPayment newPayment)
@@ -82,6 +91,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new OnlinePaymentNotEnabled();
             if (newPayment.MerchantEmail != business.Payment.MerchantAccountIdentifier)
                 throw new MerchantAccountIdentifierMismatch();
+            if (newPayment.ItemCurrency != business.Payment.Currency)
+                throw new PaymentCurrencyMismatch();
         }
 
         private CustomerBookingData GetBooking(DataRepositories dataAccess, Guid businessId, Guid itemId)
@@ -90,9 +101,21 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return bookings.SingleOrDefault(x => x.Id == itemId);
         }
 
-        //private void ValidateBooking(Session sessionOrCourse, NewPayment payment)
-        //{
-        //}
+        private void ValidateBooking(CustomerBookingData booking, NewPayment newPayment)
+        {
+            if (booking.IsNotFound())
+                throw new InvalidBooking();
+        }
+
+        private void ValidateSessionOrCourse(Session sessionOrCourse, NewPayment newPayment)
+        {
+            if (sessionOrCourse is SingleSession)
+                if (newPayment.ItemAmount != ((SingleSession)sessionOrCourse).Pricing.SessionPrice.Value)
+                    throw new PaymentAmountMismatch();
+            if (sessionOrCourse is RepeatedSession)
+                if (newPayment.ItemAmount != ((RepeatedSession)sessionOrCourse).Pricing.CoursePrice.Value)
+                    throw new PaymentAmountMismatch();
+        }
 
         protected Session GetSessionOrCourse(Guid businessId, Guid sessionId, DataRepositories dataAccess)
         {
@@ -124,7 +147,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private Payment SaveIfNewPayment(NewPayment newPayment, DataRepositories dataAccess)
         {
             var repository = dataAccess.TransactionRepository;
-            var payment = repository.GetPayment(newPayment.Id);
+            var payment = repository.GetPayment(newPayment.PaymentProvider, newPayment.Id);
             if (payment.IsNotFound())
             {
                 repository.AddPayment(newPayment);
@@ -133,12 +156,9 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return payment;
         }
 
-        private void VerifyMessage(PaymentProcessingMessage message)
+        private void SetBookingAsPaid(Payment payment, DataRepositories dataAccess)
         {
-            var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
-            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
-            if (!paymentApi.VerifyPayment(message))
-                throw new InvalidPaymentMessage();
+            dataAccess.BusinessRepository.SetBookingPaymentStatus(payment.MerchantId, payment.ItemId, Constants.PAYMENT_STATUS_PAID);
         }
     }
 }

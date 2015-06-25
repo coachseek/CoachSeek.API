@@ -1,5 +1,7 @@
-﻿using CoachSeek.Common;
+﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
+using NUnit.Framework.Constraints;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -15,8 +17,15 @@ namespace CoachSeek.Domain.Entities
             : base(id, details, payer, merchant, item)
         { }
 
-        public Payment(PaymentData data, bool isTesting)
-            : base(data, isTesting)
+        public Payment(PaymentData data)
+            : base(data)
         { }
+
+        public Payment(TransactionData data)
+            : base(data)
+        {
+            if (data.Type != "Payment")
+                throw new InvalidOperationException("Invalid transaction type.");
+        }
     }
 }

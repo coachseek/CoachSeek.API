@@ -1,6 +1,4 @@
-﻿using System.Web.UI;
-using CoachSeek.DataAccess.Main.Memory.Repositories;
-using Coachseek.DataAccess.Main.SqlServer.Repositories;
+﻿using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Logging;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
@@ -22,15 +20,10 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private DataRepositories CreateTestingRepositories()
         {
-#if DEBUG
-            return new DataRepositories(new DbTestBusinessRepository(),
-                                        new InMemoryTransactionRepository(),
-                                        //new AzureTestTableLogRepository(APPLICATION));
-                                        new AzureTableLogRepository(APPLICATION));
-#else
-            return new DataRepositories(new DbTestBusinessRepository(), 
-                                        new InMemoryTransactionRepository());
-#endif
+            var dbTestBusinessRepository = new DbTestBusinessRepository();
+            return new DataRepositories(dbTestBusinessRepository,
+                                        dbTestBusinessRepository,
+                                        new AzureTestTableLogRepository(APPLICATION));
         }
 
         private static DataRepositories CreateProductionRepositories()
