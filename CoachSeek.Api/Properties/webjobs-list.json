@@ -3,6 +3,9 @@
   "WebJobs": [
     {
       "filePath": "../BouncedEmailProcessor/Coachseek.Integration.Emailing.BouncedEmailProcessor.csproj"
+    },
+    {
+      "filePath": "../Coachseek.Integration.Payments.PaymentsProcessor/Coachseek.Integration.Payments.PaymentsProcessor.csproj"
     }
   ]
 }

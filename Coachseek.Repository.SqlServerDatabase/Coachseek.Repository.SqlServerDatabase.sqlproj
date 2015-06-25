@@ -121,6 +121,9 @@
     <Build Include="Stored Procedures\Business_Update.sql" />
     <Build Include="Stored Procedures\Booking_UpdatePaymentStatus.sql" />
     <Build Include="Stored Procedures\Booking_UpdateHasAttended.sql" />
+    <Build Include="Tables\Transaction.sql" />
+    <Build Include="Stored Procedures\Transaction_GetPaymentByProviderAndId.sql" />
+    <Build Include="Stored Procedures\Transaction_Create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />
