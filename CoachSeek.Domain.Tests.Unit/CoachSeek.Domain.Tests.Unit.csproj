@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ColourTests.cs" />
+    <Compile Include="Entities\CurrencyTests.cs" />
     <Compile Include="Entities\DailyWorkingHoursTests.cs" />
     <Compile Include="Entities\DateTests.cs" />
     <Compile Include="Entities\PaymentOptionsTests.cs" />
