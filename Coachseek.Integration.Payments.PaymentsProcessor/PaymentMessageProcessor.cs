@@ -89,6 +89,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new InvalidBusiness();
             if (!business.Payment.IsOnlinePaymentEnabled)
                 throw new OnlinePaymentNotEnabled();
+            if (newPayment.PaymentProvider != business.Payment.PaymentProvider)
+                throw new PaymentProviderMismatch();
             if (newPayment.MerchantEmail != business.Payment.MerchantAccountIdentifier)
                 throw new MerchantAccountIdentifierMismatch();
             if (newPayment.ItemCurrency != business.Payment.Currency)

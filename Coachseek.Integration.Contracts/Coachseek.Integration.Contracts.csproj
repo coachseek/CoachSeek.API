@@ -46,6 +46,7 @@
     <Compile Include="Exceptions\InvalidBusiness.cs" />
     <Compile Include="Exceptions\InvalidPaymentMessage.cs" />
     <Compile Include="Exceptions\IsTestingStatusMismatch.cs" />
+    <Compile Include="Exceptions\PaymentProviderMismatch.cs" />
     <Compile Include="Exceptions\MerchantAccountIdentifierMismatch.cs" />
     <Compile Include="Exceptions\OnlinePaymentNotEnabled.cs" />
     <Compile Include="Exceptions\PaymentAmountMismatch.cs" />
