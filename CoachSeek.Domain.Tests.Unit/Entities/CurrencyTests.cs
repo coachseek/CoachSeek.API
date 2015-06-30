@@ -56,43 +56,43 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        public string GivenDefaultCurrencyCode()
+        private string GivenDefaultCurrencyCode()
         {
             return "NZD";
         }
 
-        public string GivenNullCurrency()
+        private string GivenNullCurrency()
         {
             return null;
         }
 
-        public string GivenEmptyCurrency()
+        private string GivenEmptyCurrency()
         {
             return "";
         }
 
-        public string GivenIsNotFoundCurrency()
+        private string GivenIsNotFoundCurrency()
         {
             return "IsNotFoundCurrency";
         }
 
-        public string[] GivenCorrectCurrencyCode(string code,string symbol)
+        private string[] GivenCorrectCurrencyCode(string code, string symbol)
         {
             return new[]{code,symbol};
         }
-    
-        public Currency WhenConstructCurrency(string currency)
+
+        private Currency WhenConstructCurrency(string currency)
         {
             return new Currency(currency, new HardCodedSupportedCurrencyRepository());   
         }
 
-        public void ThenReturnDefaultCurrency(Currency currency)
+        private void ThenReturnDefaultCurrency(Currency currency)
         {
             Assert.That(currency.Code, Is.EqualTo("NZD"));
             Assert.That(currency.Symbol, Is.EqualTo("$"));
         }
 
-        public void ThenReturnCorrectCurrency(Currency currency,string code,string symbol)
+        private void ThenReturnCorrectCurrency(Currency currency, string code, string symbol)
         {
             Assert.That(currency.Code,Is.EqualTo(code));
             Assert.That(currency.Symbol, Is.EqualTo(symbol));
