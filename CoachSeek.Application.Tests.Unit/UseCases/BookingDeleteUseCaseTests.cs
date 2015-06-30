@@ -53,7 +53,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenReturnResponse(response);
         }
 
-        public Guid GivenInvalidBookingId()
+        private Guid GivenInvalidBookingId()
         {
             return new Guid(INVALID_BUSINESS_ID);
         }
