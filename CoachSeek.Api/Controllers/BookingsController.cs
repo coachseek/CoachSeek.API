@@ -84,7 +84,7 @@ namespace CoachSeek.Api.Controllers
             apiCommand.BookingId = id;
             ICommand command = DomainCommandConverter.Convert(apiCommand);
             var response = UseCaseExecutor.ExecuteFor(command, Context);
-            return CreateGetWebResponse(response);
+            return CreatePostWebResponse(response);
         }
         
 
