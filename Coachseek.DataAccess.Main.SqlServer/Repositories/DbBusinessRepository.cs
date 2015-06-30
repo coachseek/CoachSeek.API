@@ -602,7 +602,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[1].Value = sessionBookingId;
-                command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
                 command.Parameters[2].Value = hasAttended;
 
                 command.ExecuteNonQuery();
