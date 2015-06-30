@@ -42,6 +42,20 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             ThenReturnDefaultCurrency(currency);
         }
 
+        [Test]
+        public void GivenCorrectCurrencyCode_WhenConstructCurrency_ThenReturnCorrectCurrency()
+        {
+            var code_GBP = GivenCorrectCurrencyCode("GBP","£");
+            var currency_GBP = WhenConstructCurrency(code_GBP[0]);
+            ThenReturnCorrectCurrency(currency_GBP,code_GBP[0], code_GBP[1]);
+
+            var code_EUR = GivenCorrectCurrencyCode("EUR", "€");
+            var currency_EUR = WhenConstructCurrency(code_EUR[0]);
+            ThenReturnCorrectCurrency(currency_EUR, code_EUR[0],code_EUR[1]);
+
+        }
+
+
         public string GivenDefaultCurrencyCode()
         {
             return "NZD";
@@ -61,18 +75,27 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             return "IsNotFoundCurrency";
         }
-    
 
+        public string[] GivenCorrectCurrencyCode(string code,string symbol)
+        {
+            return new[]{code,symbol};
+        }
+    
         public Currency WhenConstructCurrency(string currency)
         {
             return new Currency(currency, new HardCodedSupportedCurrencyRepository());   
         }
 
-
         public void ThenReturnDefaultCurrency(Currency currency)
         {
             Assert.That(currency.Code, Is.EqualTo("NZD"));
             Assert.That(currency.Symbol, Is.EqualTo("$"));
+        }
+
+        public void ThenReturnCorrectCurrency(Currency currency,string code,string symbol)
+        {
+            Assert.That(currency.Code,Is.EqualTo(code));
+            Assert.That(currency.Symbol, Is.EqualTo(symbol));
         }
     }
 }
