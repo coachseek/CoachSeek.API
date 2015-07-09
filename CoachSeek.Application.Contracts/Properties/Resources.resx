@@ -189,6 +189,9 @@
   <data name="ErrorNoLocationUpdateData" xml:space="preserve">
     <value>Missing location data.</value>
   </data>
+  <data name="ErrorSessionsInCourseBookingBelongToSameCourse" xml:space="preserve">
+    <value>For a course booking, all sessions must belong to the same course.</value>
+  </data>
   <data name="ErrorUserDuplicateEmail" xml:space="preserve">
     <value>The user with this email address already exists.</value>
   </data>

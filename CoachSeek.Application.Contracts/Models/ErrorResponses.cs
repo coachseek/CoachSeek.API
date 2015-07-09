@@ -86,11 +86,14 @@ namespace CoachSeek.Application.Contracts.Models
     public class InvalidSessionErrorResponse : ErrorResponse
     {
         public InvalidSessionErrorResponse()
-            : base(Resources.ErrorInvalidSession, "session.id")
+            : base(Resources.ErrorInvalidSession)
         { }
+    }
 
-        public InvalidSessionErrorResponse(string field)
-            : base(Resources.ErrorInvalidSession, field)
+    public class SessionsInCourseBookingMustBelongToSameCourseErrorResponse : ErrorResponse
+    {
+        public SessionsInCourseBookingMustBelongToSameCourseErrorResponse()
+            : base(Resources.ErrorSessionsInCourseBookingBelongToSameCourse)
         { }
     }
 
@@ -175,5 +178,12 @@ namespace CoachSeek.Application.Contracts.Models
     //        : base("Cannot change from a session in a course to a course.")
     //    { }
     //}
+
+    public class BookingUpdateNotSupportedErrorResponse : ErrorResponse
+    {
+        public BookingUpdateNotSupportedErrorResponse()
+            : base("Booking update is not yet supported.")
+        { }
+    }
 }
 

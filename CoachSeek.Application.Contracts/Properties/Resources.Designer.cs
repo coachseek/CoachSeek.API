@@ -277,6 +277,15 @@ namespace CoachSeek.Application.Contracts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For a course booking, all sessions must belong to the same course..
+        /// </summary>
+        internal static string ErrorSessionsInCourseBookingBelongToSameCourse {
+            get {
+                return ResourceManager.GetString("ErrorSessionsInCourseBookingBelongToSameCourse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The user with this email address already exists..
         /// </summary>
         internal static string ErrorUserDuplicateEmail {

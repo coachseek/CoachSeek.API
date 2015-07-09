@@ -29,6 +29,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
+    <OutputPath>bin\Testing\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
@@ -54,17 +63,22 @@
     <Compile Include="Services\Emailing\NullEmailer.cs" />
     <Compile Include="UseCases\Admin\EmailIsUnsubscribedUseCase.cs" />
     <Compile Include="UseCases\Admin\EmailUnsubscribeUseCase.cs" />
+    <Compile Include="UseCases\BookingAddUseCase.cs" />
     <Compile Include="UseCases\BookingSetAttendanceUseCase.cs" />
     <Compile Include="UseCases\BookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\BusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\CourseOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\CourseBookingAddUseCase.cs" />
     <Compile Include="UseCases\BusinessGetUseCase.cs" />
+    <Compile Include="UseCases\CourseSessionBookingAddUseCase.cs" />
+    <Compile Include="UseCases\CourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\CustomerOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\Emailing\ProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Executors\UseCaseExecutor.cs" />
     <Compile Include="UseCases\PaypalReceivePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\ProcessPaymentsUseCase.cs" />
+    <Compile Include="UseCases\StandaloneSessionOnlineBookingAddUseCase.cs" />
+    <Compile Include="UseCases\StandaloneSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\SingleSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\SingleSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\Factories\BookingAddUseCaseFactory.cs" />

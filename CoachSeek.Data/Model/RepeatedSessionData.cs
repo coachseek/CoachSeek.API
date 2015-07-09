@@ -15,7 +15,10 @@ namespace CoachSeek.Data.Model
             Sessions = new List<SingleSessionData>();
         }
 
-        public RepeatedSessionData(SessionData session, RepetitionData repetition, RepeatedSessionPricingData pricing, IList<SingleSessionData> childSessions)
+        public RepeatedSessionData(SessionData session, 
+                                   RepetitionData repetition, 
+                                   RepeatedSessionPricingData pricing, 
+                                   IList<SingleSessionData> childSessions)
             : base(session)
         {
             Repetition = repetition;

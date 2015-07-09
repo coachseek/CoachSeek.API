@@ -1,4 +1,5 @@
-﻿using Coachseek.API.Client.Models;
+﻿using System;
+using Coachseek.API.Client.Models;
 
 namespace Coachseek.API.Client.Services
 {
@@ -16,6 +17,13 @@ namespace Coachseek.API.Client.Services
             var http = CreateWebRequest(relativeUrl, scheme);
             SetBasicAuthHeader(http, username, password);
             return Post<TResponse>(http, json);
+        }
+
+        public ApiResponse Delete<TResponse>(string username, string password, string relativeUrl, Guid id, string scheme = "https")
+        {
+            var http = CreateWebRequest(relativeUrl, id, scheme);
+            SetBasicAuthHeader(http, username, password);
+            return Delete<TResponse>(http);
         }
     }
 }

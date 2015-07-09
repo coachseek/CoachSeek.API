@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
@@ -27,6 +28,10 @@ namespace CoachSeek.Application.Tests.Unit
         protected const string SESSION_THREE = "33648896-460D-409D-A2BA-D8F1EA852757";
         protected const string SESSION_FOUR = "B715BFC7-B9D4-4C67-8014-17B2825C081C";
         protected const string SESSION_FIVE = "B76E3493-01CA-40A5-8B90-B3157A7AAB21";
+        protected const string COURSE_ONE = "A300E8D6-96DC-4CA9-B9A2-9BD8B0E47E89";
+        protected const string COURSE_ONE_SESSION_ONE = "A090913B-0EDD-4718-8437-FD7B884692BC";
+        protected const string COURSE_ONE_SESSION_TWO = "B9095C5A-4459-495B-B25D-05AC504283E5";
+        protected const string COURSE_ONE_SESSION_THREE = "C7277C52-A725-47C4-96D7-BA3562DA1DA9";
         protected const string CUSTOMER_FRED_ID = "F85C888E-5904-4019-80B7-F02EDB7F2DA8";
         protected const string BOOKING_FRED_SESSION_TWO_ID = "C2CB8461-D67E-40FC-8333-FAE5BDB39A49";
 
@@ -66,9 +71,7 @@ namespace CoachSeek.Application.Tests.Unit
             SetupCustomers();
             SetupSessionBookings();
 
-            BusinessRepository.WasAddBusinessCalled = false;
-            BusinessRepository.WasAddLocationCalled = false;
-            BusinessRepository.WasAddCoachCalled = false;
+            BusinessRepository.ClearWasCalled();
         }
 
         protected void SetupSupportedCurrencyRepository()
@@ -89,6 +92,15 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.AddBusiness(new Business(new Guid(BUSINESS_ID), 
                                                         "Olaf's Tennis Coaching",
                                                         "olafstenniscoaching", "USD"));
+        }
+
+        protected ApplicationContext CreateApplicationContext()
+        {
+            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            var currency = new CurrencyDetails("NZD", "$");
+            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
+            var emailContext = new EmailContext(true, false, "", null);
+            return new ApplicationContext(businessContext, emailContext, null, true);
         }
 
         protected void SetupLocations()
@@ -120,6 +132,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected void SetupCourses()
         {
+            SetupCourseBillMiniRedOrakeiStartingOnJan21From14To15For3Days();
         }
 
         protected void SetupCustomers()
@@ -323,6 +336,63 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.AddSession(new Guid(BUSINESS_ID), new StandaloneSession(data, GetCoreData(data)));
         }
 
+        private void SetupCourseBillMiniRedOrakeiStartingOnJan21From14To15For3Days()
+        {
+            var data = new RepeatedSessionData
+            {
+                Id = new Guid(COURSE_ONE),
+                Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                Repetition = new RepetitionData(3, "d"),
+                Booking = new SessionBookingData(10, true),
+                Presentation = new PresentationData { Colour = "Red" },
+                Pricing = new RepeatedSessionPricingData(20, 50),
+                Sessions = new List<SingleSessionData>
+                {
+                    new SingleSessionData
+                    {
+                        Id = new Guid(COURSE_ONE_SESSION_ONE),
+                        ParentId = new Guid(COURSE_ONE),
+                        Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                        Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
+                        Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                        Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                        Booking = new SessionBookingData(10, true),
+                        Presentation = new PresentationData { Colour = "Red" },
+                        Pricing = new SingleSessionPricingData(20)
+                    },
+                    new SingleSessionData
+                    {
+                        Id = new Guid(COURSE_ONE_SESSION_TWO),
+                        ParentId = new Guid(COURSE_ONE),
+                        Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                        Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
+                        Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                        Timing = new SessionTimingData("2015-01-22", "14:00", 60),
+                        Booking = new SessionBookingData(10, true),
+                        Presentation = new PresentationData { Colour = "Red" },
+                        Pricing = new SingleSessionPricingData(20)
+                    },
+                    new SingleSessionData
+                    {
+                        Id = new Guid(COURSE_ONE_SESSION_THREE),
+                        ParentId = new Guid(COURSE_ONE),
+                        Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
+                        Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
+                        Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
+                        Timing = new SessionTimingData("2015-01-23", "14:00", 60),
+                        Booking = new SessionBookingData(10, true),
+                        Presentation = new PresentationData { Colour = "Red" },
+                        Pricing = new SingleSessionPricingData(20)
+                    }
+                }
+            };
+
+            BusinessRepository.AddCourse(new Guid(BUSINESS_ID), new RepeatedSession(data, GetCoreData(data)));
+        }
+
         protected void SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15()
         {
             BusinessRepository.AddSessionBooking(new Guid(BUSINESS_ID),
@@ -363,6 +433,21 @@ namespace CoachSeek.Application.Tests.Unit
         {
             Assert.That(error.Message, Is.EqualTo(expectedMessage));
             Assert.That(error.Field, Is.EqualTo(expectedField));
+        }
+
+        protected void AssertMultipleErrors(Response response, string[,] expectedErrors)
+        {
+            Assert.That(response.Data, Is.Null);
+            Assert.That(response.Errors, Is.Not.Null);
+            Assert.That(response.Errors.Count, Is.EqualTo(expectedErrors.GetLength(0)));
+            
+            var i = 0;
+            foreach (var error in response.Errors)
+            {
+                Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 0]));
+                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
+                i++;
+            }
         }
     }
 }

@@ -15,26 +15,30 @@ namespace Coachseek.API.Client.Services
             return (HttpWebRequest)WebRequest.Create(url);
         }
 
+        protected HttpWebRequest CreateWebRequest(string relativeUrl, Guid id, string scheme = "https")
+        {
+            var url = FormatUrl(relativeUrl, id, scheme);
+            return (HttpWebRequest)WebRequest.Create(url);
+        }
+
         protected string FormatBaseUrl(string scheme = "https")
         {
-#if DEBUG
             if (scheme.ToLower() == "https")
-                return "https://localhost:44300";
+                return Properties.Settings.Default.HttpsBaseUrl;
             if (scheme.ToLower() == "http")
-                return "http://localhost:5272";
+                return Properties.Settings.Default.HttpBaseUrl;
 
             throw new InvalidOperationException("Scheme not supported.");
-#else
-            if (scheme.ToLower() == "https" || scheme.ToLower() == "http")
-                return string.Format("{0}://api.coachseek.com", scheme.ToLower());
-
-            throw new InvalidOperationException("Scheme not supported.");
-#endif
         }
 
         protected virtual Uri FormatUrl(string relativeUrl, string scheme = "https")
         {
             return new Uri(string.Format("{0}/{1}", FormatBaseUrl(scheme), relativeUrl));
+        }
+
+        protected virtual Uri FormatUrl(string relativeUrl, Guid id, string scheme = "https")
+        {
+            return new Uri(string.Format("{0}/{1}/{2}", FormatBaseUrl(scheme), relativeUrl, id));
         }
 
         protected ApiResponse Get<TResponse>(HttpWebRequest request)
@@ -49,6 +53,13 @@ namespace Coachseek.API.Client.Services
             PreparePostRequest(request);
             MakeAdditionalChangesToRequest(request);
             SendData(json, request);
+            return HandleResponse<TResponse>(request);
+        }
+
+        protected ApiResponse Delete<TResponse>(HttpWebRequest request)
+        {
+            PrepareDeleteRequest(request);
+            MakeAdditionalChangesToRequest(request);
             return HandleResponse<TResponse>(request);
         }
 
@@ -69,6 +80,12 @@ namespace Coachseek.API.Client.Services
             request.Accept = "application/json";
             request.ContentType = "application/json";
             request.Method = "POST";
+        }
+
+        private void PrepareDeleteRequest(HttpWebRequest request)
+        {
+            request.Accept = "application/json";
+            request.Method = "DELETE";
         }
 
         private static void SendData(string json, HttpWebRequest request)

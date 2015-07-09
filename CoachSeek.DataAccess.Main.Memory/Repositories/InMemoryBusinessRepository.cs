@@ -25,6 +25,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasGetAllCustomerBookingsCalled;
         public bool WasSetBookingPaymentStatusCalled;
         public bool WasSetBookingAttendanceCalled;
+        public bool WasDeleteBookingCalled;
 
         public Guid BusinessIdPassedIn;
         public object DataPassedIn;
@@ -66,6 +67,21 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Courses.Clear();
             SessionBookings.Clear();
             CourseBookings.Clear();
+        }
+
+        public void ClearWasCalled()
+        {
+            WasGetBusinessByIdCalled = false;
+            WasAddBusinessCalled = false;
+            WasUpdateBusinessCalled = false;
+            WasAddLocationCalled = false;
+            WasUpdateLocationCalled = false;
+            WasAddCoachCalled = false;
+            WasUpdateCoachCalled = false;
+            WasGetSessionCalled = false;
+            WasGetAllCustomerBookingsCalled = false;
+            WasSetBookingPaymentStatusCalled = false;
+            WasSetBookingAttendanceCalled = false;
         }
 
 
@@ -599,6 +615,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
         {
+            WasDeleteBookingCalled = true;
+
             //var dbBookings = GetAllDbBookings(businessId);
 
             //var dbBooking = dbBookings.Find(x => x.Id == bookingId);

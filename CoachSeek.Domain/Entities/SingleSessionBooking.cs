@@ -12,12 +12,12 @@ namespace CoachSeek.Domain.Entities
         public SessionKeyData Session { get; set; }
 
         // Command parameters denote that it's data from outside the application (ie. user input).
-        public SingleSessionBooking(BookingAddCommand command, Guid? parentId = null)
-            : base(command)
+        public SingleSessionBooking(SessionKeyCommand session, CustomerKeyCommand customer, Guid? parentId = null)
+            : base(customer)
         {
             ParentId = parentId;
             HasAttended = false;
-            Session = new SessionKeyData { Id = command.Session.Id };
+            Session = new SessionKeyData { Id = session.Id };
         }
 
         // Data parameters denote that it's data from inside the application (ie. database).

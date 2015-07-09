@@ -29,6 +29,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
+    <OutputPath>bin\Testing\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -45,14 +54,20 @@
   <ItemGroup>
     <Compile Include="CoachUseCaseTests.cs" />
     <Compile Include="Fakes\StubBusinessRegistrationEmailer.cs" />
+    <Compile Include="Fakes\StubCourseSessionOnlineBookingAddUseCase.cs" />
+    <Compile Include="Fakes\StubCourseSessionBookingAddUseCase.cs" />
     <Compile Include="Fakes\StubOnlineBookingEmailer.cs" />
+    <Compile Include="Fakes\StubStandaloneSessionOnlineBookingAddUseCase.cs" />
+    <Compile Include="Fakes\StubStandaloneSessionBookingAddUseCase.cs" />
     <Compile Include="Services\CustomerResolverTests.cs" />
     <Compile Include="LocationUseCaseTests.cs" />
     <Compile Include="Services\Emailing\EmailerFactoryTests.cs" />
     <Compile Include="UseCases\BookingDeleteUseCaseTests.cs" />
+    <Compile Include="UseCases\BookingAddMasterUseCaseTests.cs" />
     <Compile Include="UseCases\BookingSetPaymentStatusUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
+    <Compile Include="UseCases\CourseSessionBookingAddUseCaseTests.cs" />
     <Compile Include="UseCases\LocationAddUseCaseTests.cs" />
     <Compile Include="UseCases\BusinessGetByDomainUseCaseTests.cs" />
     <Compile Include="UseCases\BusinessAddUseCaseTests.cs" />
@@ -60,6 +75,7 @@
     <Compile Include="UseCases\LocationUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\ProcessPaymentsUseCaseTests.cs" />
     <Compile Include="UseCases\SessionSearchUseCaseTests.cs" />
+    <Compile Include="UseCases\StandaloneSessionBookingAddUseCaseTests.cs" />
     <Compile Include="UseCases\UserAddUseCaseTests.cs" />
     <Compile Include="UseCaseTests.cs" />
   </ItemGroup>

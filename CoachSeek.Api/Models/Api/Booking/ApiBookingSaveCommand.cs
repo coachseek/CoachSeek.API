@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoachSeek.Api.Models.Api.Booking
 {
     public class ApiBookingSaveCommand : ApiSaveCommand
     {
         [Required]
-        public ApiSessionKey Session { get; set; }
+        public IList<ApiSessionKey> Sessions { get; set; }
         [Required]
         public ApiCustomerKey Customer { get; set; }
-
-        public string PaymentStatus { get; set; }
-        public bool? HasAttended { get; set; }
     }
 }

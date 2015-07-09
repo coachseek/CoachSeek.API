@@ -21,6 +21,7 @@ namespace CoachSeek.Api.Controllers
         public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
         public IUseCaseExecutor UseCaseExecutor { get; set; }
 
+
         public BookingsController()
         { }
 
@@ -52,11 +53,7 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBookingSaveCommand booking)
         {
-            if (booking.IsNew())
-                return AddBooking(booking);
-
-            //return UpdateBooking(booking);
-            return null;
+            return booking.IsNew() ? AddBooking(booking) : UpdateBooking(booking);
         }
 
         // POST: OnlineBooking/Bookings
@@ -67,13 +64,8 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage PostOnlineBooking(ApiBookingSaveCommand booking)
         {
-            if (booking.IsNew())
-                return AddOnlineBooking(booking);
-
-            //return UpdateBooking(booking);
-            return null;
+            return booking.IsNew() ? AddOnlineBooking(booking) : UpdateOnlineBooking(booking);
         }
-
 
         // POST: Bookings/{booking_id}
         [BasicAuthentication]
@@ -87,7 +79,6 @@ namespace CoachSeek.Api.Controllers
             return CreatePostWebResponse(response);
         }
         
-
         // DELETE: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
@@ -112,12 +103,15 @@ namespace CoachSeek.Api.Controllers
             return CreatePostWebResponse(response);
         }
 
-        //private HttpResponseMessage UpdateBooking(ApiBookingSaveCommand booking)
-        //{
-        //    var command = CoachUpdateCommandConverter.Convert(BusinessId, booking);
-        //    var response = CoachUpdateUseCase.UpdateCoach(command);
-        //    return CreatePostWebResponse(response);
-        //}
+        private HttpResponseMessage UpdateBooking(ApiBookingSaveCommand booking)
+        {
+            return CreateWebErrorResponse(new BookingUpdateNotSupportedErrorResponse());
+        }
+
+        private HttpResponseMessage UpdateOnlineBooking(ApiBookingSaveCommand booking)
+        {
+            return CreateWebErrorResponse(new BookingUpdateNotSupportedErrorResponse());
+        }
 
         private BookingData GetBooking(Guid id)
         {

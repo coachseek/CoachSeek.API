@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -15,11 +14,11 @@ namespace CoachSeek.Domain.Entities
 
 
         // Command parameters denote that it's data from outside the application (ie. user input).
-        protected Booking(BookingAddCommand command)
+        protected Booking(CustomerKeyCommand customer)
         {
             Id = Guid.NewGuid();
             PaymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE;
-            Customer = new CustomerKeyData { Id = command.Customer.Id };
+            Customer = new CustomerKeyData { Id = customer.Id };
         }
 
         // Data parameters denote that it's data from inside the application (ie. database).

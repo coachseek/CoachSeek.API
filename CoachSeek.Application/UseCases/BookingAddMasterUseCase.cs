@@ -1,6 +1,9 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Contracts.UseCases.Factories;
+using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using System;
@@ -9,12 +12,21 @@ namespace CoachSeek.Application.UseCases
 {
     public class BookingAddMasterUseCase : SessionBaseUseCase, IBookingAddMasterUseCase
     {
-        private IBookingAddUseCaseFactory BookingAddUseCaseFactory { get; set; }
+        public IStandaloneSessionBookingAddUseCase StandaloneSessionBookingAddUseCase { get; private set; }
+        public IStandaloneSessionOnlineBookingAddUseCase StandaloneSessionOnlineBookingAddUseCase { get; private set; }
+        public ICourseSessionBookingAddUseCase CourseSessionBookingAddUseCase { get; private set; }
+        public ICourseSessionOnlineBookingAddUseCase CourseSessionOnlineBookingAddUseCase { get; private set; }
 
 
-        public BookingAddMasterUseCase(IBookingAddUseCaseFactory bookingAddUseCaseFactory)
+        public BookingAddMasterUseCase(IStandaloneSessionBookingAddUseCase standaloneSessionBookingAddUseCase,
+                                       IStandaloneSessionOnlineBookingAddUseCase standaloneSessionOnlineBookingAddUseCase,
+                                       ICourseSessionBookingAddUseCase courseSessionBookingAddUseCase,
+                                       ICourseSessionOnlineBookingAddUseCase courseSessionOnlineBookingAddUseCase)
         {
-            BookingAddUseCaseFactory = bookingAddUseCaseFactory;
+            StandaloneSessionBookingAddUseCase = standaloneSessionBookingAddUseCase;
+            StandaloneSessionOnlineBookingAddUseCase = standaloneSessionOnlineBookingAddUseCase;
+            CourseSessionBookingAddUseCase = courseSessionBookingAddUseCase;
+            CourseSessionOnlineBookingAddUseCase = courseSessionOnlineBookingAddUseCase;
         }
 
 
@@ -22,17 +34,13 @@ namespace CoachSeek.Application.UseCases
         {
             try
             {
-                var bookingAddUseCase = CreateBookingAddUseCase(command);
-                return bookingAddUseCase.AddBooking(command);
+                Validate(command);
+                var useCase = SelectBookingAddUseCase(command);
+                return useCase.AddBooking(command);
             }
             catch (Exception ex)
             {
-                if (ex is InvalidSession)
-                    return new InvalidSessionErrorResponse("booking.session.id");
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -40,96 +48,122 @@ namespace CoachSeek.Application.UseCases
         {
             try
             {
-                var bookingAddUseCase = CreateOnlineBookingAddUseCase(command);
-                return bookingAddUseCase.AddBooking(command);
+                Validate(command);
+                var useCase = SelectOnlineBookingAddUseCase(command);
+                return useCase.AddBooking(command);
             }
             catch (Exception ex)
             {
-                if (ex is InvalidSession)
-                    return new InvalidSessionErrorResponse("booking.session.id");
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
 
-        private IBookingAddUseCase CreateBookingAddUseCase(BookingAddCommand command)
+        private void Validate(BookingAddCommand command)
         {
-            BookingAddUseCaseFactory.Initialise(Context);
-            return BookingAddUseCaseFactory.CreateBookingUseCase(command);
+            if (!command.Sessions.Any())
+                throw new ValidationException("A booking must have at least one session.");
         }
 
-        private IBookingAddUseCase CreateOnlineBookingAddUseCase(BookingAddCommand command)
+        private IBookingAddUseCase SelectBookingAddUseCase(BookingAddCommand command)
         {
-            BookingAddUseCaseFactory.Initialise(Context);
-            return BookingAddUseCaseFactory.CreateOnlineBookingUseCase(command);
+            var firstSession = GetSession(command.Sessions.First().Id);
+            if (IsStandaloneSession(firstSession))
+                return SetupStandaloneSessionBookingAddUseCase(firstSession);
+            var course = GetCourse(firstSession.ParentId.Value);
+            return SetupCourseSessionBookingAddUseCase(course);
         }
 
+        private IBookingAddUseCase SelectOnlineBookingAddUseCase(BookingAddCommand command)
+        {
+            var firstSession = GetSession(command.Sessions.First().Id);
+            if (IsStandaloneSession(firstSession))
+                return SetupStandaloneSessionOnlineBookingAddUseCase(firstSession);
+            var course = GetCourse(firstSession.ParentId.Value);
+            return SetupCourseSessionOnlineBookingAddUseCase(course);
+        }
 
-        //private void ValidateAdd(BookingAddCommand newBooking)
-        //{
-        //    var errors = new ValidationException();
+        private static Response HandleException(Exception ex)
+        {
+            if (ex is InvalidSession)
+                return new InvalidSessionErrorResponse();
+            if (ex is ValidationException)
+                return new ErrorResponse((ValidationException)ex);
 
-        //    ValidateSession(newBooking.Session.Id, errors);
-        //    ValidateCustomer(newBooking.Customer.Id, errors);
+            throw ex;
+        }
 
-        //    errors.ThrowIfErrors();
+        private SingleSessionData GetSession(Guid sessionId)
+        {
+            var session = BusinessRepository.GetSession(Business.Id, sessionId);
+            if (session.IsNotFound())
+                throw new InvalidSession();
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
+            AddBookingsToSession(session, bookings);
+            return session;
+        }
 
-        //    //ValidateBooking(newBooking, errors);
-        //}
+        private void AddBookingsToSession(SingleSessionData session, IList<CustomerBookingData> bookings)
+        {
+            session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+            session.Booking.BookingCount = session.Booking.Bookings.Count;
+        }
 
+        private bool IsStandaloneSession(SingleSessionData session)
+        {
+            return !session.ParentId.HasValue;
+        }
 
-        //private void ValidateAdd(Booking newBooking)
-        //{
-        //    var errors = new ValidationException();
+        private IStandaloneSessionBookingAddUseCase SetupStandaloneSessionBookingAddUseCase(SingleSessionData session)
+        {
+            StandaloneSessionBookingAddUseCase.Session = session;
+            StandaloneSessionBookingAddUseCase.Initialise(Context);
 
-        //    ValidateSession(newBooking, errors);
-        //    ValidateCustomer(newBooking, errors);
+            return StandaloneSessionBookingAddUseCase;
+        }
 
-        //    errors.ThrowIfErrors();
+        private IStandaloneSessionBookingAddUseCase SetupStandaloneSessionOnlineBookingAddUseCase(SingleSessionData session)
+        {
+            StandaloneSessionOnlineBookingAddUseCase.Session = session;
+            StandaloneSessionOnlineBookingAddUseCase.Initialise(Context);
 
-        //    ValidateBooking(newBooking, errors);
-        //}
+            return StandaloneSessionOnlineBookingAddUseCase;
+        }
 
-        //private void ValidateSession(Guid sessionId, ValidationException errors)
-        //{
-        //    var sessionOrCourse = GetExistingSessionOrCourse(sessionId);
-        //    if (sessionOrCourse.IsNotFound())
-        //        errors.Add("This session does not exist.", "booking.session.id");
-        //}
+        private ICourseSessionBookingAddUseCase SetupCourseSessionBookingAddUseCase(RepeatedSessionData course)
+        {
+            CourseSessionBookingAddUseCase.Course = course;
+            CourseSessionBookingAddUseCase.Initialise(Context);
 
-        //private void ValidateSession(Booking newBooking, ValidationException errors)
-        //{
-        //    var sessionOrCourse = GetExistingSessionOrCourse(newBooking.Session.Id);
-        //    if (sessionOrCourse.IsNotFound())
-        //        errors.Add("This session does not exist.", "booking.session.id");
-        //}
+            return CourseSessionBookingAddUseCase;
+        }
 
-        //private void ValidateCustomer(Guid customerId, ValidationException errors)
-        //{
-        //    var customer = BusinessRepository.GetCustomer(BusinessId, customerId);
-        //    if (customer.IsNotFound())
-        //        errors.Add("This customer does not exist.", "booking.customer.id");
-        //}
+        private ICourseSessionOnlineBookingAddUseCase SetupCourseSessionOnlineBookingAddUseCase(RepeatedSessionData course)
+        {
+            CourseSessionOnlineBookingAddUseCase.Course = course;
+            CourseSessionOnlineBookingAddUseCase.Initialise(Context);
 
-        //private void ValidateCustomer(Booking newBooking, ValidationException errors)
-        //{
-        //    var customer = BusinessRepository.GetCustomer(BusinessId, newBooking.Customer.Id);
-        //    if (customer.IsNotFound())
-        //        errors.Add("This customer does not exist.", "booking.customer.id");
-        //}
+            return CourseSessionOnlineBookingAddUseCase;
+        }
 
-        //private void ValidateBooking(Booking newBooking, ValidationException errors)
-        //{
-        //    var bookings = BusinessRepository.GetAllBookings(BusinessId);
-        //    var isExistingBooking = bookings.Any(x => x.Session.Id == newBooking.Session.Id
-        //                                              && x.Customer.Id == newBooking.Customer.Id);
-        //    if (isExistingBooking)
-        //        throw new ValidationException("This customer is already in this session.");
+        private RepeatedSessionData GetCourse(Guid courseId)
+        {
+            var course = BusinessRepository.GetCourse(Business.Id, courseId);
+            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
+            AddBookingsToCourse(course, bookings);
+            return course;
+        }
 
-        //    // TODO: Session or Course is full.
-        //}
+        private void AddBookingsToCourse(RepeatedSessionData course, IList<CustomerBookingData> bookings)
+        {
+            course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
+            course.Booking.BookingCount = course.Booking.Bookings.Count;
+
+            foreach (var session in course.Sessions)
+            {
+                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
+                session.Booking.BookingCount = session.Booking.Bookings.Count;
+            }
+        }
     }
 }

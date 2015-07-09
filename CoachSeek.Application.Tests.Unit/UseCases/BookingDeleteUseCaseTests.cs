@@ -46,11 +46,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
-        public void GivenValidBookingId_WhenTryDeleteBooking_ThenReturnResponse()
+        public void GivenValidBookingId_WhenTryDeleteBooking_ThenDeleteBooking()
         {
             var bookingId = GivenValidBookingId();
             var response = WhenTryDeleteBooking(bookingId);
-            ThenReturnResponse(response);
+            ThenDeleteBooking(response);
         }
 
         private Guid GivenInvalidBookingId()
@@ -97,11 +97,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response, Is.InstanceOf<NotFoundResponse>());
         }
 
-        private void ThenReturnResponse(object response)
+        private void ThenDeleteBooking(object response)
         {
-             Assert.That(response, Is.InstanceOf<Response>());  
+            Assert.That(BusinessRepository.WasDeleteBookingCalled, Is.True);  
         }
-
     }
-
 }
