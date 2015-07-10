@@ -5,7 +5,7 @@ namespace CoachSeek.Data.Model
     public class SessionBookingData
     {
         public int StudentCapacity { get; set; }
-        public int BookingCount { get; set; }
+        public int BookingCount { get { return Bookings.Count; }}
         public bool IsOnlineBookable { get; set; }
         public IList<CustomerBookingData> Bookings { get; set; }
 

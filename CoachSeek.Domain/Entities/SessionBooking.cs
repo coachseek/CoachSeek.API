@@ -32,7 +32,6 @@ namespace CoachSeek.Domain.Entities
         {
             var data = Mapper.Map<SessionBooking, SessionBookingData>(this);
             data.Bookings = Bookings;
-            data.BookingCount = Bookings.Count;
 
             return data;
         }

@@ -118,7 +118,6 @@ namespace CoachSeek.Application.UseCases
         private void AddBookingsToSession(SingleSessionData session, IList<CustomerBookingData> bookings)
         {
             session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
-            session.Booking.BookingCount = session.Booking.Bookings.Count;
         }
 
         private IList<SingleSessionData> FilterSessionsByDate(IList<SingleSessionData> sessions, string startDate, string endDate)
@@ -173,13 +172,9 @@ namespace CoachSeek.Application.UseCases
             foreach (var course in courses)
             {
                 course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
-                course.Booking.BookingCount = course.Booking.Bookings.Count;
 
                 foreach (var session in course.Sessions)
-                {
                     session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
-                    session.Booking.BookingCount = session.Booking.Bookings.Count;
-                }
             }
         }
 

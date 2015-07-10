@@ -106,7 +106,6 @@ namespace CoachSeek.Application.UseCases
         private void AddBookingsToSession(SingleSessionData session, IList<CustomerBookingData> bookings)
         {
             session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
-            session.Booking.BookingCount = session.Booking.Bookings.Count;
         }
 
         private bool IsStandaloneSession(SingleSessionData session)
@@ -157,13 +156,9 @@ namespace CoachSeek.Application.UseCases
         private void AddBookingsToCourse(RepeatedSessionData course, IList<CustomerBookingData> bookings)
         {
             course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
-            course.Booking.BookingCount = course.Booking.Bookings.Count;
 
             foreach (var session in course.Sessions)
-            {
                 session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
-                session.Booking.BookingCount = session.Booking.Bookings.Count;
-            }
         }
     }
 }
