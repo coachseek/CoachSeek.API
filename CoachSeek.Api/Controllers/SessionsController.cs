@@ -40,9 +40,9 @@ namespace CoachSeek.Api.Controllers
         // GET: Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [BasicAuthentication]
         [Authorize]
-        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null, bool? useNewSearch = null)
+        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId, useNewSearch);
+            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
         }
 
         // GET: OnlineBooking/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
@@ -89,20 +89,12 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null, bool? useNewSearch = null)
+        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             SessionSearchUseCase.Initialise(Context);
 
             try
             {
-                // TODO: Remove if on useNewSearch
-                if (!useNewSearch.HasValue)
-                {
-                    // Old search results. TODO: Remove
-                    var responseOld = SessionSearchUseCase.SearchForSessionsOld(startDate, endDate, coachId, locationId, serviceId);
-                    return CreateGetWebResponse(responseOld);
-                }
-
                 var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
                 var apiSearchResponse = ApiOutSessionSearchResultConverter.Convert(response);
                 return CreateGetWebResponse(apiSearchResponse);
