@@ -15,12 +15,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public RepeatedSessionPricing(PricingCommand sessionPricing)
+        public RepeatedSessionPricing(PricingCommand sessionPricing, int sessionCount)
         {
             if (sessionPricing.SessionPrice == null && sessionPricing.CoursePrice == null)
                 throw new ValidationException("At least a session or course price must be specified.", "session.pricing");
 
-            ValidateAndCreatePricing(sessionPricing);
+            ValidateAndCreatePricing(sessionPricing, sessionCount);
         }
 
         public RepeatedSessionPricing(decimal? sessionPrice, decimal? coursePrice)
@@ -36,12 +36,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreatePricing(PricingCommand sessionPricing)
+        private void ValidateAndCreatePricing(PricingCommand sessionPricing, int sessionCount)
         {
             var errors = new ValidationException();
 
             ValidateAndCreateSessionPrice(sessionPricing.SessionPrice, errors);
-            ValidateAndCreateCoursePrice(sessionPricing.CoursePrice, errors);
+            ValidateAndCreateCoursePrice(sessionPricing.CoursePrice, sessionCount, errors);
 
             errors.ThrowIfErrors();
         }
@@ -58,11 +58,14 @@ namespace CoachSeek.Domain.Entities
             }
         }
 
-        private void ValidateAndCreateCoursePrice(decimal? coursePrice, ValidationException errors)
+        private void ValidateAndCreateCoursePrice(decimal? coursePrice, int sessionCount,  ValidationException errors)
         {
             try
             {
-                _coursePrice = new Price(coursePrice);
+                if (coursePrice.HasValue)
+                    _coursePrice = new Price(coursePrice);
+                else
+                    _coursePrice = new Price(_sessionPrice.Amount * sessionCount);
             }
             catch (InvalidPrice)
             {
