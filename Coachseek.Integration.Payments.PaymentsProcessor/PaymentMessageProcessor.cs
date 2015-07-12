@@ -132,7 +132,11 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
             var course = dataAccess.BusinessRepository.GetCourse(businessId, sessionId);
             if (course.IsExisting())
-                return new RepeatedSession(course, LookupCoreData(businessId, session, dataAccess));
+                return new RepeatedSession(course, 
+                                           LookupCoreData(businessId, session, dataAccess),
+                                           dataAccess.BusinessRepository.GetAllLocations(businessId),
+                                           dataAccess.BusinessRepository.GetAllCoaches(businessId),
+                                           dataAccess.BusinessRepository.GetAllServices(businessId));
 
             return null;
         }

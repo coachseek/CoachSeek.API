@@ -338,6 +338,23 @@ namespace CoachSeek.Application.Tests.Unit
 
         private void SetupCourseBillMiniRedOrakeiStartingOnJan21From14To15For3Days()
         {
+            var coach = new CoachData
+            {
+                Id = new Guid(COACH_BILL_ID),
+                FirstName = "Bill",
+                LastName = "Gates",
+                Email = "bill@microsoft.com",
+                Phone = "095286912",
+                WorkingHours = SetupWeekendWorkingHoursData()
+            };
+            var location = new LocationData { Id = new Guid(LOCATION_ORAKEI_ID), Name = "Orakei Tennis Club" };
+            var service = new ServiceData
+            {
+                Id = new Guid(SERVICE_MINI_RED_ID),
+                Name = "Mini Red",
+                Repetition = new RepetitionData { SessionCount = 1 }
+            };
+
             var data = new RepeatedSessionData
             {
                 Id = new Guid(COURSE_ONE),
@@ -390,7 +407,8 @@ namespace CoachSeek.Application.Tests.Unit
                 }
             };
 
-            BusinessRepository.AddCourse(new Guid(BUSINESS_ID), new RepeatedSession(data, GetCoreData(data)));
+            var course = new RepeatedSession(data, GetCoreData(data), new[] { location }, new[] { coach }, new[] { service });
+            BusinessRepository.AddCourse(new Guid(BUSINESS_ID),course);
         }
 
         protected void SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15()

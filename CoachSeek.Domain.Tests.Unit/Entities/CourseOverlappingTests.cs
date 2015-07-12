@@ -75,14 +75,26 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 }
             };
 
+            var coach = new CoachData
+            {
+                Id = coachId,
+                FirstName = "a",
+                LastName = "b",
+                Email = "a@b.c",
+                Phone = "1",
+                WorkingHours = SetupWorkingHours()
+            };
+            var location = new LocationData {Id = locationId, Name = "here"};
+            var service = new ServiceData {Id = serviceId, Name = "blowjob", Repetition = new RepetitionData(1)};
+
             var coreData = new CoreData
             {
-                Coach = new CoachData { Id = coachId, FirstName = "a", LastName = "b", Email = "a@b.c", Phone = "1", WorkingHours = SetupWorkingHours() },
-                Location = new LocationData { Id = locationId, Name = "here" },
-                Service = new ServiceData { Id = serviceId, Name = "blowjob", Repetition = new RepetitionData(1)}
+                Coach = coach,
+                Location = location,
+                Service = service
             };
 
-            return new RepeatedSession(data, coreData);
+            return new RepeatedSession(data, coreData, new[] { location }, new[] { coach }, new[] { service });
         }
 
         private WeeklyWorkingHoursData SetupWorkingHours()

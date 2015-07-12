@@ -1,4 +1,6 @@
-﻿namespace CoachSeek.Domain.Entities
+﻿using CoachSeek.Common.Extensions;
+
+namespace CoachSeek.Domain.Entities
 {
     public class PhoneNumber
     {
@@ -7,7 +9,8 @@
         public PhoneNumber(string phone)
         {
             // Uppercase:0800 HOTCHICKS
-            Phone = phone.Trim().ToUpper();
+            if (phone != null)
+                Phone = phone.Trim().ToUpper();
         }
     }
 }

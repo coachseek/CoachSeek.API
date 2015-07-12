@@ -44,12 +44,41 @@ namespace CoachSeek.Domain.Entities
             UpdateSessions(existingCourse, existingCourse.Sessions, command, coreData);
         }
 
-        public RepeatedSession(RepeatedSessionData data, CoreData coreData)
-            : this(data, coreData.Location, coreData.Coach, coreData.Service)
+        public RepeatedSession(RepeatedSessionData data, 
+            CoreData coreData,
+            IEnumerable<LocationData> locations,
+            IEnumerable<CoachData> coaches,
+            IEnumerable<ServiceData> services)
+            : this(data, 
+                   coreData.Location, 
+                   coreData.Coach, 
+                   coreData.Service, 
+                   locations,
+                   coaches,
+                   services)
         { }
 
-        public RepeatedSession(RepeatedSessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation, data.Repetition, data.Pricing, data.Sessions)
+        public RepeatedSession(RepeatedSessionData data, 
+                               LocationData location, 
+                               CoachData coach, 
+                               ServiceData service,
+                               IEnumerable<LocationData> locations,
+                               IEnumerable<CoachData> coaches,
+                               IEnumerable<ServiceData> services)
+
+            : this(data.Id, 
+                   location, 
+                   coach, 
+                   service, 
+                   data.Timing, 
+                   data.Booking, 
+                   data.Presentation, 
+                   data.Repetition, 
+                   data.Pricing, 
+                   data.Sessions,
+                   locations,
+                   coaches,
+                   services)
         { }
 
 
@@ -62,14 +91,28 @@ namespace CoachSeek.Domain.Entities
                        PresentationData presentation,
                        RepetitionData repetition,
                        RepeatedSessionPricingData pricing,
-                       IEnumerable<SingleSessionData> sessions)
+                       IEnumerable<SingleSessionData> sessions,
+                       IEnumerable<LocationData> locations,
+                       IEnumerable<CoachData> coaches,
+                       IEnumerable<ServiceData> services)
             : base(id, location, coach, service, timing, booking, presentation)
         {
             _repetition = new SessionRepetition(repetition);
             _pricing = new RepeatedSessionPricing(pricing.SessionPrice, pricing.CoursePrice);
 
             // Recreated the Session collection
-            Sessions = sessions.Select(session => new SessionInCourse(session, location, coach, service)).ToList();
+            var courseSessions = new List<SessionInCourse>();
+            foreach (var session in sessions)
+            {
+                var sessionLocation = locations.First(x => x.Id == session.Location.Id);
+                var sessionCoach = coaches.First(x => x.Id == session.Coach.Id);
+                var sessionService = services.First(x => x.Id == session.Service.Id);
+
+                var courseSession = new SessionInCourse(session, sessionLocation, sessionCoach, sessionService);
+                courseSessions.Add(courseSession);
+            }
+
+            Sessions = courseSessions.ToList();
         }
 
 
