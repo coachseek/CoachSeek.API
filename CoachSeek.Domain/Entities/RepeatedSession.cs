@@ -45,31 +45,14 @@ namespace CoachSeek.Domain.Entities
         }
 
         public RepeatedSession(RepeatedSessionData data, 
-            CoreData coreData,
-            IEnumerable<LocationData> locations,
-            IEnumerable<CoachData> coaches,
-            IEnumerable<ServiceData> services)
-            : this(data, 
-                   coreData.Location, 
-                   coreData.Coach, 
-                   coreData.Service, 
-                   locations,
-                   coaches,
-                   services)
-        { }
+                               IList<LocationData> locations,
+                               IList<CoachData> coaches,
+                               IList<ServiceData> services)
 
-        public RepeatedSession(RepeatedSessionData data, 
-                               LocationData location, 
-                               CoachData coach, 
-                               ServiceData service,
-                               IEnumerable<LocationData> locations,
-                               IEnumerable<CoachData> coaches,
-                               IEnumerable<ServiceData> services)
-
-            : this(data.Id, 
-                   location, 
-                   coach, 
-                   service, 
+            : this(data.Id,
+                   locations.Single(x => x.Id == data.Location.Id),
+                   coaches.Single(x => x.Id == data.Coach.Id),
+                   services.Single(x => x.Id == data.Service.Id),
                    data.Timing, 
                    data.Booking, 
                    data.Presentation, 
@@ -92,9 +75,9 @@ namespace CoachSeek.Domain.Entities
                        RepetitionData repetition,
                        RepeatedSessionPricingData pricing,
                        IEnumerable<SingleSessionData> sessions,
-                       IEnumerable<LocationData> locations,
-                       IEnumerable<CoachData> coaches,
-                       IEnumerable<ServiceData> services)
+                       IList<LocationData> locations,
+                       IList<CoachData> coaches,
+                       IList<ServiceData> services)
             : base(id, location, coach, service, timing, booking, presentation)
         {
             _repetition = new SessionRepetition(repetition);

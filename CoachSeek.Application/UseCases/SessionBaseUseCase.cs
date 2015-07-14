@@ -22,7 +22,6 @@ namespace CoachSeek.Application.UseCases
             var course = BusinessRepository.GetCourse(Business.Id, sessionId);
             if (course.IsExisting())
                 return new RepeatedSession(course, 
-                                           LookupCoreData(course),
                                            BusinessRepository.GetAllLocations(Business.Id),
                                            BusinessRepository.GetAllCoaches(Business.Id),
                                            BusinessRepository.GetAllServices(Business.Id));

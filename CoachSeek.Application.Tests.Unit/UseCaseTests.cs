@@ -407,7 +407,7 @@ namespace CoachSeek.Application.Tests.Unit
                 }
             };
 
-            var course = new RepeatedSession(data, GetCoreData(data), new[] { location }, new[] { coach }, new[] { service });
+            var course = new RepeatedSession(data, new[] { location }, new[] { coach }, new[] { service });
             BusinessRepository.AddCourse(new Guid(BUSINESS_ID),course);
         }
 

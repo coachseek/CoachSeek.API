@@ -94,7 +94,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Service = service
             };
 
-            return new RepeatedSession(data, coreData, new[] { location }, new[] { coach }, new[] { service });
+            return new RepeatedSession(data, new[] { location }, new[] { coach }, new[] { service });
         }
 
         private WeeklyWorkingHoursData SetupWorkingHours()

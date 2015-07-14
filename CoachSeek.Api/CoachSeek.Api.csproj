@@ -330,6 +330,11 @@
   <ItemGroup>
     <Content Include="Properties\webjobs-list.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.Testing.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
