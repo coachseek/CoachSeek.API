@@ -1,6 +1,5 @@
 ﻿using System;
 using CoachSeek.Common.Extensions;
-using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases

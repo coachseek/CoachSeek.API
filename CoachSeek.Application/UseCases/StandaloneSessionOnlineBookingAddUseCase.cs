@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateIsOnlineBookable(ValidationException errors)
         {
             if (!Session.Booking.IsOnlineBookable)
-                errors.Add("This session is not online bookable.", "booking.session");
+                errors.Add("A session is not online bookable.", "booking.sessions");
         }
 
         protected override void PostProcessing(SingleSessionBooking newBooking)

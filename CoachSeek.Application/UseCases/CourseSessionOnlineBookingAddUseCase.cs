@@ -1,26 +1,35 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Services.Emailing;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CourseSessionOnlineBookingAddUseCase : ICourseSessionOnlineBookingAddUseCase
+    public class CourseSessionOnlineBookingAddUseCase : CourseSessionBookingAddUseCase, ICourseSessionOnlineBookingAddUseCase
     {
-        public RepeatedSessionData Course
+        protected override void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
         {
-            set { throw new NotImplementedException(); }
+            ValidateIsOnlineBookable(errors);
         }
 
-        public Response AddBooking(BookingAddCommand command)
+        private void ValidateIsOnlineBookable(ValidationException errors)
         {
-            throw new NotImplementedException();
+            if (!Course.Booking.IsOnlineBookable)
+                errors.Add("The course is not online bookable.");
         }
 
-        public void Initialise(ApplicationContext context)
+        protected override void PostProcessing(CourseBooking newBooking)
         {
-            throw new NotImplementedException();
+            var emailer = new OnlineBookingEmailer();
+            emailer.Initialise(Context);
+
+            var course = Context.BusinessContext.BusinessRepository.GetCourse(Business.Id, newBooking.Course.Id);
+            var coach = Context.BusinessContext.BusinessRepository.GetCoach(Business.Id, course.Coach.Id);
+            var customer = Context.BusinessContext.BusinessRepository.GetCustomer(Business.Id, newBooking.Customer.Id);
+
+            emailer.SendCourseEmailToCustomer(newBooking, course, coach, customer);
+            emailer.SendCourseEmailToCoach(newBooking, course, coach, customer);
         }
     }
 }

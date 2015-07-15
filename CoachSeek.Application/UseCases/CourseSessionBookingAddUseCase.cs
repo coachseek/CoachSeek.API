@@ -12,7 +12,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class CourseSessionBookingAddUseCase : BookingAddUseCase, ICourseSessionBookingAddUseCase
     {
-        public RepeatedSessionData Course { set; private get; }
+        public RepeatedSessionData Course { set; protected get; }
 
 
         public Response AddBooking(BookingAddCommand command)
