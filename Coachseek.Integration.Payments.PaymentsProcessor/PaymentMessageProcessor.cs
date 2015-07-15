@@ -4,7 +4,6 @@ using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Repositories;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Exceptions;
 using Coachseek.Integration.Contracts.Interfaces;
@@ -82,7 +81,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 return;
             }
             var course = dataAccess.BusinessRepository.GetCourse(business.Id, customerBooking.SessionId);
-            ValidateMultipleSessionPaymentAmount(course, (CourseBookingData)booking, newPayment);
+            ValidateCoursePaymentAmount(course, (CourseBookingData)booking, newPayment);
         }
 
         private void ValidatePaymentStatus(NewPayment newPayment)
@@ -123,23 +122,30 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PaymentAmountMismatch();
         }
 
-        private static void ValidateMultipleSessionPaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
+        private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
         {
             if (IsBookingForWholeCourse(booking, course))
-            {
-                var coursePrice = course.Pricing.CoursePrice ??
-                                  course.Pricing.SessionPrice.Value * course.Repetition.SessionCount;
-
-                if (newPayment.ItemAmount != coursePrice)
-                    throw new PaymentAmountMismatch();                
-            }
+                ValidateWholeCoursePaymentAmount(course, newPayment);
             else
-            {
-                var bookingPrice = course.Pricing.SessionPrice.Value * booking.SessionBookings.Count;
+                ValidateMultipleSessionPaymentAmount(course, booking, newPayment);
+        }
 
-                if (newPayment.ItemAmount != bookingPrice)
-                    throw new PaymentAmountMismatch();
-            }
+        private static void ValidateWholeCoursePaymentAmount(RepeatedSessionData course, NewPayment newPayment)
+        {
+            var coursePrice = course.Pricing.CoursePrice ??
+                              course.Pricing.SessionPrice.Value * course.Repetition.SessionCount;
+
+            if (newPayment.ItemAmount != coursePrice)
+                throw new PaymentAmountMismatch();
+        }
+
+        private static void ValidateMultipleSessionPaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
+        {
+            var sessionPrice = course.Pricing.SessionPrice ??
+                               Math.Round(course.Pricing.CoursePrice.Value / course.Repetition.SessionCount, 2);
+
+            if (newPayment.ItemAmount != sessionPrice * booking.SessionBookings.Count)
+                throw new PaymentAmountMismatch();
         }
 
         private static bool IsBookingForWholeCourse(CourseBookingData booking, RepeatedSessionData course)

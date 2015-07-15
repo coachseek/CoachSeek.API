@@ -34,16 +34,16 @@ namespace CoachSeek.Application.Services.Emailing
             Emailer.Send(email);
         }
 
-        public void SendCourseEmailToCustomer(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        public void SendCourseEmailToCustomer(CourseBooking booking, CoachData coach, CustomerData customer)
         {
-            var subjectAndBody = CreateCourseCustomerEmailSubjectAndBody(booking, course, coach, customer);
+            var subjectAndBody = CreateCourseCustomerEmailSubjectAndBody(booking, coach, customer);
             var email = new Email(Sender, customer.Email, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
         }
 
-        public void SendCourseEmailToCoach(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        public void SendCourseEmailToCoach(CourseBooking booking, CoachData coach, CustomerData customer)
         {
-            var subjectAndBody = CreateCourseCoachEmailSubjectAndBody(booking, course, coach, customer);
+            var subjectAndBody = CreateCourseCoachEmailSubjectAndBody(booking, coach, customer);
             var recipients = new List<string> { Context.BusinessContext.AdminEmail, coach.Email };
             var email = new Email(Sender, recipients, subjectAndBody.Item1, subjectAndBody.Item2);
             Emailer.Send(email);
@@ -66,18 +66,18 @@ namespace CoachSeek.Application.Services.Emailing
             return ExtractSubjectAndBody(emailTemplate);
         }
 
-        private Tuple<string, string> CreateCourseCustomerEmailSubjectAndBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateCourseCustomerEmailSubjectAndBody(CourseBooking booking, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_CUSTOMER);
-            var substitutes = CreateCourseSubstitutes(booking, course, coach, customer);
+            var substitutes = CreateCourseSubstitutes(booking, coach, customer);
             var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
             return ExtractSubjectAndBody(emailTemplate);
         }
 
-        private Tuple<string, string> CreateCourseCoachEmailSubjectAndBody(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        private Tuple<string, string> CreateCourseCoachEmailSubjectAndBody(CourseBooking booking, CoachData coach, CustomerData customer)
         {
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_COACH);
-            var substitutes = CreateCourseSubstitutes(booking, course, coach, customer);
+            var substitutes = CreateCourseSubstitutes(booking, coach, customer);
             var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
             return ExtractSubjectAndBody(emailTemplate);
         }
@@ -117,7 +117,7 @@ namespace CoachSeek.Application.Services.Emailing
         }
 
 
-        private Dictionary<string, string> CreateCourseSubstitutes(CourseBooking booking, RepeatedSessionData course, CoachData coach, CustomerData customer)
+        private Dictionary<string, string> CreateCourseSubstitutes(CourseBooking booking, CoachData coach, CustomerData customer)
         {
             var courseValues = new Dictionary<string, string>
             {
@@ -126,17 +126,18 @@ namespace CoachSeek.Application.Services.Emailing
                 {"CustomerLastName", customer.LastName},
                 {"CustomerEmail", customer.Email},
                 {"CustomerPhone", customer.Phone},
-                {"LocationName", course.Location.Name},
+                {"LocationName", booking.Course.Location.Name},
                 {"CoachFirstName", coach.FirstName},
                 {"CoachLastName", coach.LastName},
-                {"ServiceName", course.Service.Name},
-                {"StartDate", ReformatDate(course.Timing.StartDate)},
-                {"StartTime", course.Timing.StartTime},
-                {"Duration", FormatDuration(course.Timing.Duration)},
-                {"SessionCount", course.Repetition.SessionCount.ToString()},
-                {"RepeatFrequency", course.Repetition.RepeatFrequency == "d" ? "days" : "weeks"},
+                {"ServiceName", booking.Course.Service.Name},
+                {"StartDate", ReformatDate(booking.Course.Timing.StartDate)},
+                {"StartTime", booking.Course.Timing.StartTime},
+                {"Duration", FormatDuration(booking.Course.Timing.Duration)},
+                {"SessionCount", booking.Course.Repetition.SessionCount.ToString()},
+                {"RepeatFrequency", booking.Course.Repetition.RepeatFrequency == "d" ? "days" : "weeks"},
                 {"CurrencySymbol", CurrencySymbol},
-                {"CoursePrice", CalculateCoursePrice(course).ToString("0.00")}
+                {"BookedSessionCount", CreateBookedSessionCount(booking)},
+                {"BookingPrice", booking.BookingPrice.ToString("0.00")}
             };
 
             // TODO: Include session values
@@ -164,15 +165,13 @@ namespace CoachSeek.Application.Services.Emailing
             return 0;
         }
 
-        private decimal CalculateCoursePrice(RepeatedSessionData course)
+        private string CreateBookedSessionCount(CourseBooking booking)
         {
-            if (course.Pricing.CoursePrice.HasValue)
-                return course.Pricing.CoursePrice.Value;
-
-            if (course.Pricing.SessionPrice.HasValue)
-                return course.Pricing.SessionPrice.Value * course.Repetition.SessionCount;
-            
-            return 0;
+            if (booking.Course.Sessions.Count == booking.SessionBookings.Count)
+                return string.Format("Onto all {0} sessions", booking.SessionBookings.Count);
+            if (booking.SessionBookings.Count == 1)
+                return string.Format("Onto one session");
+            return string.Format("Onto {0} sessions", booking.SessionBookings.Count);
         }
     }
 }

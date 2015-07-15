@@ -8,7 +8,8 @@ Location: <<LocationName>>
 Coach: <<CoachFirstName>> <<CoachLastName>>
 Service: <<ServiceName>>
 Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>>, occurring for a total of <<SessionCount>> <<RepeatFrequency>>
-Price: <<CurrencySymbol>><<CoursePrice>>
+Booked: <<BookedSessionCount>> 
+Price: <<CurrencySymbol>><<BookingPrice>>
 
 Your details:
 Name: <<CustomerFirstName>> <<CustomerLastName>>

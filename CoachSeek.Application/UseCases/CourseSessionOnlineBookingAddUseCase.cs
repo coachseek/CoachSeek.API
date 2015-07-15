@@ -24,12 +24,11 @@ namespace CoachSeek.Application.UseCases
             var emailer = new OnlineBookingEmailer();
             emailer.Initialise(Context);
 
-            var course = Context.BusinessContext.BusinessRepository.GetCourse(Business.Id, newBooking.Course.Id);
-            var coach = Context.BusinessContext.BusinessRepository.GetCoach(Business.Id, course.Coach.Id);
+            var coach = Context.BusinessContext.BusinessRepository.GetCoach(Business.Id, newBooking.Course.Coach.Id);
             var customer = Context.BusinessContext.BusinessRepository.GetCustomer(Business.Id, newBooking.Customer.Id);
 
-            emailer.SendCourseEmailToCustomer(newBooking, course, coach, customer);
-            emailer.SendCourseEmailToCoach(newBooking, course, coach, customer);
+            emailer.SendCourseEmailToCustomer(newBooking, coach, customer);
+            emailer.SendCourseEmailToCoach(newBooking, coach, customer);
         }
     }
 }
