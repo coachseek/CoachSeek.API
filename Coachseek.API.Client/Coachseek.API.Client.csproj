@@ -71,6 +71,7 @@
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Services\BusinessAnonymousApiClient.cs" />
     <Compile Include="Services\CoachseekAdminApiClient.cs" />
+    <Compile Include="Services\JsonSerialiser.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
