@@ -66,6 +66,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private void ProcessPayment(NewPayment newPayment, DataRepositories dataAccess)
         {
             ValidatePayment(newPayment, dataAccess);
+            newPayment = ModifyPayment(newPayment, dataAccess);
             var payment = SaveIfNewPayment(newPayment, dataAccess);
             if (payment.IsCompleted)
                 SetBookingAsPaid(payment, dataAccess);
@@ -87,6 +88,20 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             }
             var course = dataAccess.BusinessRepository.GetCourse(business.Id, customerBooking.SessionId);
             ValidateCoursePaymentAmount(course, (CourseBookingData)booking, newPayment);
+        }
+
+        private NewPayment ModifyPayment(NewPayment newPayment, DataRepositories dataAccess)
+        {
+            if (newPayment.PaymentProvider == Constants.PAYPAL)
+                return ModifyPaymentForPaypal(newPayment, dataAccess);
+
+            return newPayment;
+        }
+
+        private NewPayment ModifyPaymentForPaypal(NewPayment newPayment, DataRepositories dataAccess)
+        {
+            var business = dataAccess.BusinessRepository.GetBusiness(newPayment.MerchantId);
+            return new NewPayment(newPayment, business.Name);
         }
 
         private void ValidatePaymentStatus(NewPayment newPayment)

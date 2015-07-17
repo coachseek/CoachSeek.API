@@ -21,5 +21,15 @@ namespace CoachSeek.Domain.Entities
             IsTesting = isTesting;
             OriginalMessage = originalMessage;
         }
+
+        public NewPayment(NewPayment newPayment, string updatedMerchantName)
+            : this(newPayment.Id,
+                   newPayment.IsTesting,
+                   newPayment.Details,
+                   newPayment.Payer,
+                   new Merchant(newPayment.MerchantId, updatedMerchantName, newPayment.MerchantEmail),
+                   newPayment.Item,
+                   newPayment.OriginalMessage)
+        { }
     }
 }

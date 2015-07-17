@@ -1,7 +1,6 @@
 ﻿using System;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
-using NUnit.Framework.Constraints;
 
 namespace CoachSeek.Domain.Entities
 {

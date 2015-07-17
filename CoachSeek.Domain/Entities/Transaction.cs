@@ -6,17 +6,16 @@ namespace CoachSeek.Domain.Entities
 {
     public abstract class Transaction
     {
-        private TransactionDetails Details { get; set; }
-        private Payer Payer { get; set; }
-        private Merchant Merchant { get; set; }
-        private GoodOrService Item { get; set; }
+        public TransactionDetails Details { get; private set; }
+        public Payer Payer { get; private set; }
+        public Merchant Merchant { get; private set; }
+        public GoodOrService Item { get; private set; }
 
         protected abstract TransactionType TransactionType { get; }
 
 
         public string Id { get; private set; }
         public string PaymentProvider { get { return Details.PaymentProvider.ToString(); } }
-        //public bool IsTesting { get { return Details.IsTesting; } }
         public string Type { get { return TransactionType.ToString(); } }
         public string Status { get { return Details.Status.ToString(); } }
         public TransactionStatus TransactionStatus { get { return Details.Status; } }

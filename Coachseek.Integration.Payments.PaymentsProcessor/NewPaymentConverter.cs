@@ -107,8 +107,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private static Merchant GetMerchantFromPaypal(NameValueCollection keyValuePairs, ValidationException errors)
         {
             var businessId = GetBusinessIdFromPaypal(keyValuePairs, errors);
-            var businessName = keyValuePairs.Get("business");
-            var businessEmail = keyValuePairs.Get("receiver_email");
+            var businessName = keyValuePairs.Get("business") ?? keyValuePairs.Get("receiver_email");
+            var businessEmail = keyValuePairs.Get("receiver_email") ?? keyValuePairs.Get("business");
 
             return new Merchant(businessId, businessName, businessEmail);
         }
