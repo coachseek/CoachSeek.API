@@ -84,7 +84,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, null, BusinessRepository, SupportedCurrencyRepository, null);
             var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(businessContext, emailContext, null, true);
+            var context = new ApplicationContext(businessContext, emailContext, true);
             useCase.Initialise(context);
 
             try

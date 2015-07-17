@@ -2,7 +2,13 @@
 
 namespace Coachseek.Integration.Contracts.Exceptions
 {
-    public abstract class PaymentProcessingException : Exception
+    public class PaymentProcessingException : Exception
     {
+        public PaymentProcessingException()
+        { }
+
+        public PaymentProcessingException(string message) 
+            : base(message)
+        { }
     }
 }

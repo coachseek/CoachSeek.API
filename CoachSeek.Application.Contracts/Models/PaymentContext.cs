@@ -2,7 +2,7 @@
 {
     public class PaymentContext
     {
-        public bool IsPaymentEnabled { get; private set; }
+        private bool IsPaymentEnabled { get; set; }
 
 
         public PaymentContext(bool isPaymentEnabled)

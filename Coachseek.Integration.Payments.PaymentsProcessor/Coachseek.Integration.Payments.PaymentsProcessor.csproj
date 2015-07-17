@@ -67,6 +67,7 @@
     <Compile Include="DataAccessFactory.cs" />
     <Compile Include="DataRepositories.cs" />
     <Compile Include="IDataAccessFactory.cs" />
+    <Compile Include="IsTestMessageDeterminator.cs" />
     <Compile Include="NewPaymentConverter.cs" />
     <Compile Include="PaymentMessageProcessor.cs" />
     <Compile Include="PaymentProcessorConfiguration.cs" />

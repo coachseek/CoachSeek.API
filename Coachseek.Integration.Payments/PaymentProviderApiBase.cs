@@ -5,21 +5,21 @@ namespace Coachseek.Integration.Payments
 {
     public abstract class PaymentProviderApiBase : IPaymentProviderApi
     {
-        private bool IsPaymentEnabled { get; set; }
+        private bool IsTestMessage { get; set; }
 
         public abstract string SandboxUrl { get; }
         public abstract string LiveUrl { get; }
 
 
-        protected PaymentProviderApiBase(bool isPaymentEnabled)
+        protected PaymentProviderApiBase(bool isTestMessage)
         {
-            IsPaymentEnabled = isPaymentEnabled;
+            IsTestMessage = isTestMessage;
         }
 
 
         public string Url
         {
-            get { return IsPaymentEnabled ? LiveUrl : SandboxUrl; }
+            get { return IsTestMessage ? SandboxUrl : LiveUrl; }
         }
 
 

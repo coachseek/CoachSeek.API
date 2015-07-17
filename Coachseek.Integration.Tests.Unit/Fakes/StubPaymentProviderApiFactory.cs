@@ -10,7 +10,7 @@ namespace Coachseek.Integration.Tests.Unit.Fakes
         public bool WasGetPaymentProviderApiCalled;
 
 
-        public IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isPaymentEnabled)
+        public IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isTestMessage)
         {
             WasGetPaymentProviderApiCalled = true;
 

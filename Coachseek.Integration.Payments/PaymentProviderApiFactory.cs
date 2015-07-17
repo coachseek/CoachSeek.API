@@ -7,10 +7,10 @@ namespace Coachseek.Integration.Payments
 {
     public class PaymentProviderApiFactory : IPaymentProviderApiFactory
     {
-        public IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isPaymentEnabled)
+        public IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isTestMessage)
         {
             if (message.PaymentProvider == Constants.PAYPAL)
-                return new PaypalPaymentProviderApi(isPaymentEnabled);
+                return new PaypalPaymentProviderApi(isTestMessage);
 
             throw new InvalidOperationException("Unknown payment provider.");
         }

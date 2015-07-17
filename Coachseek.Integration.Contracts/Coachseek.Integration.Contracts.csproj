@@ -54,7 +54,7 @@
     <Compile Include="Exceptions\InvalidBooking.cs" />
     <Compile Include="Exceptions\InvalidBusiness.cs" />
     <Compile Include="Exceptions\InvalidPaymentMessage.cs" />
-    <Compile Include="Exceptions\IsTestingStatusMismatch.cs" />
+    <Compile Include="Exceptions\ProductionMessageForNonProductionEnvironment.cs" />
     <Compile Include="Exceptions\PaymentProviderMismatch.cs" />
     <Compile Include="Exceptions\MerchantAccountIdentifierMismatch.cs" />
     <Compile Include="Exceptions\OnlinePaymentNotEnabled.cs" />
@@ -72,6 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
       <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
       <Name>CoachSeek.Domain</Name>

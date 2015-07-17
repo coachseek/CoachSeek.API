@@ -5,6 +5,6 @@ namespace Coachseek.Integration.Payments
 {
     public interface IPaymentProviderApiFactory
     {
-        IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isPaymentEnabled);
+        IPaymentProviderApi GetPaymentProviderApi(PaymentProcessingMessage message, bool isTestMessage);
     }
 }

@@ -8,7 +8,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
     /// </summary>
     public static class AppSettings
     {
-        public static string IsPaymentEnabled { get { return GetConfigSettingItem("IsPaymentEnabled"); } }
+        public static string Environment { get { return GetConfigSettingItem("Environment"); } }
     
         private const string MISSING_CONFIG = "Invalid configuration. Required AppSettings section is missing";
         private const string INVALID_CONFIG_SETTING = "Invalid configuration setting name: {0}";

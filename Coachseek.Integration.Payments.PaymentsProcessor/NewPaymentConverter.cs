@@ -77,7 +77,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             if (paypalPaymentStatus.CompareIgnoreCase(PAYPAL_STATUS_DENIED))
                 return TransactionStatus.Denied;
 
-            throw new InvalidOperationException("Unexpected PayPal payment status.");
+            throw new PaymentProcessingException("Unexpected PayPal payment status.");
         }
 
         private static DateTime GetTransactionDateFromPaypal(string paypalPaymentDate)

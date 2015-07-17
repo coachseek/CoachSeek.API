@@ -1,13 +1,26 @@
-﻿using CoachSeek.Common.Extensions;
+﻿using System;
+using CoachSeek.Common.Extensions;
 using Coachseek.Integration.Contracts.Interfaces;
+using Environment = CoachSeek.Common.Environment;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
     public class PaymentProcessorConfiguration : IPaymentProcessorConfiguration
     {
-        public bool IsPaymentEnabled
+        public Environment Environment
         {
-            get { return AppSettings.IsPaymentEnabled.Parse<bool>(); ; }
+            get
+            {
+                var configEnvironment = AppSettings.Environment;
+                foreach (Environment environment in Enum.GetValues(typeof (Environment)))
+                {
+                    var environmentName = Enum.GetName(typeof (Environment), environment);
+                    if (configEnvironment == environmentName)
+                        return environment;
+                }
+
+                return Environment.Debug;
+            }
         }
     }
 }

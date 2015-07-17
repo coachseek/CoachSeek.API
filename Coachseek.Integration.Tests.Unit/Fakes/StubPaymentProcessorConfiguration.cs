@@ -1,27 +1,27 @@
-﻿using Coachseek.Integration.Contracts.Interfaces;
+﻿using CoachSeek.Common;
+using Coachseek.Integration.Contracts.Interfaces;
 
 namespace Coachseek.Integration.Tests.Unit.Fakes
 {
     public class StubPaymentProcessorConfiguration : IPaymentProcessorConfiguration
     {
-        public bool WasIsPaymentEnabledCalled;
-        // Use nullable bool to ensure it's being set before being used.
-        public bool? SetIsPaymentEnabled;
+        public bool WasGetEnvironmentCalled;
+        public Environment SetEnvironment;
 
 
-        public StubPaymentProcessorConfiguration(bool isPaymentEnabled = false)
+        public StubPaymentProcessorConfiguration(Environment environment = Environment.Testing)
         {
-            SetIsPaymentEnabled = isPaymentEnabled;
+            SetEnvironment = environment;
         }
 
 
-        public bool IsPaymentEnabled
+        public Environment Environment
         {
             get
             {
-                WasIsPaymentEnabledCalled = true;
+                WasGetEnvironmentCalled = true;
 
-                return SetIsPaymentEnabled.Value;
+                return SetEnvironment;
             }
         }
     }

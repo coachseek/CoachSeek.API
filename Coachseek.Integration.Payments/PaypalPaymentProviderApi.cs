@@ -12,8 +12,8 @@ namespace Coachseek.Integration.Payments
         public override string LiveUrl { get { return "https://www.paypal.com/cgi-bin/webscr"; } }
 
 
-        public PaypalPaymentProviderApi(bool isPaymentEnabled) 
-            : base(isPaymentEnabled)
+        public PaypalPaymentProviderApi(bool isTestMessage)
+            : base(isTestMessage)
         { }
 
 

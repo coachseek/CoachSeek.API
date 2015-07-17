@@ -17,7 +17,7 @@ namespace CoachSeek.Api
         public static string AWSRegion { get { return GetConfigSettingItem("AWSRegion"); } }
         public static string EmailSender { get { return GetConfigSettingItem("EmailSender"); } }
         public static string IsEmailingEnabled { get { return GetConfigSettingItem("IsEmailingEnabled"); } }
-        public static string IsPaymentEnabled { get { return GetConfigSettingItem("IsPaymentEnabled"); } }
+        //public static string IsPaymentEnabled { get { return GetConfigSettingItem("IsPaymentEnabled"); } }
         public static string AdminUserName { get { return GetConfigSettingItem("AdminUserName"); } }
         public static string AdminPassword { get { return GetConfigSettingItem("AdminPassword"); } }
     

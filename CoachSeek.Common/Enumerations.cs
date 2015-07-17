@@ -1,5 +1,12 @@
 ﻿namespace CoachSeek.Common
 {
+    public enum Environment
+    {
+        Debug = 0,
+        Testing,
+        Production
+    }
+
     public enum TransactionType
     {
         None = 0,

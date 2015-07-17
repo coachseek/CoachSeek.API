@@ -1,7 +1,9 @@
-﻿namespace Coachseek.Integration.Contracts.Interfaces
+﻿using CoachSeek.Common;
+
+namespace Coachseek.Integration.Contracts.Interfaces
 {
     public interface IPaymentProcessorConfiguration
     {
-        bool IsPaymentEnabled { get; }
+        Environment Environment { get; }
     }
 }

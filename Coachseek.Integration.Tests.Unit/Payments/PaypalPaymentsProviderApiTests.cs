@@ -7,35 +7,35 @@ namespace Coachseek.Integration.Tests.Unit.Payments
     public class PaypalPaymentsProviderApiTests
     {
         [Test]
-        public void GivenIsPaymentEnabledIsFalse_WhenGetPaypalUrl_ThenReturnsPaypalSandboxUrl()
+        public void GivenMessageIsTestMessage_WhenGetPaypalUrl_ThenReturnsPaypalSandboxUrl()
         {
-            var isPaymentEnabled = GivenIsPaymentEnabledIsFalse();
-            var url = WhenGetUrl(isPaymentEnabled);
+            var isTestMessage = GivenMessageIsTestMessage();
+            var url = WhenGetUrl(isTestMessage);
             ThenReturnsPaypalSandboxUrl(url);
         }
 
         [Test]
-        public void GivenIsPaymentEnabledIsTrue_WhenGetPaypalUrl_ThenReturnsPaypalLiveUrl()
+        public void GivenMessageIsNotTestMessage_WhenGetPaypalUrl_ThenReturnsPaypalLiveUrl()
         {
-            var isPaymentEnabled = GivenIsPaymentEnabledIsTrue();
-            var url = WhenGetUrl(isPaymentEnabled);
+            var isTestMessage = GivenMessageIsNotTestMessage();
+            var url = WhenGetUrl(isTestMessage);
             ThenReturnsPaypalLiveUrl(url);
         }
 
-        private bool GivenIsPaymentEnabledIsFalse()
-        {
-            return false;
-        }
-
-        private bool GivenIsPaymentEnabledIsTrue()
+        private bool GivenMessageIsTestMessage()
         {
             return true;
         }
 
-
-        private string WhenGetUrl(bool isPaymentEnabled)
+        private bool GivenMessageIsNotTestMessage()
         {
-            var provider = new PaypalPaymentProviderApi(isPaymentEnabled);
+            return false;
+        }
+
+
+        private string WhenGetUrl(bool isTestMessage)
+        {
+            var provider = new PaypalPaymentProviderApi(isTestMessage);
             return provider.Url;
         }
 

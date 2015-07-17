@@ -7,6 +7,7 @@ using CoachSeek.Domain.Entities;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Exceptions;
 using Coachseek.Integration.Contracts.Interfaces;
+using Environment = CoachSeek.Common.Environment;
 using InvalidBooking = Coachseek.Integration.Contracts.Exceptions.InvalidBooking;
 using InvalidBusiness = Coachseek.Integration.Contracts.Exceptions.InvalidBusiness;
 
@@ -28,18 +29,18 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             PaymentProviderApiFactory = paymentProviderApiFactory;
         }
 
+        private Environment Environment
+        {
+            get { return PaymentProcessorConfiguration.Environment; }
+        }
 
         public void ProcessMessage(PaymentProcessingMessage message)
         {
-            var isTesting = !PaymentProcessorConfiguration.IsPaymentEnabled;
-            var dataAccess = DataAccessFactory.CreateDataAccess(isTesting);
-
+            var dataAccess = GetDataAccess();
             try
             {
-                VerifyMessage(message);
                 var newPayment = NewPaymentConverter.Convert(message);
-                if (newPayment.IsTesting != isTesting)
-                    throw new IsTestingStatusMismatch();
+                VerifyMessage(message, newPayment.IsTesting);
                 ProcessPayment(newPayment, dataAccess);
                 dataAccess.LogRepository.LogInfo("Message successfully processed.", message.ToString());
             }
@@ -49,11 +50,15 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             }
         }
 
-
-        private void VerifyMessage(PaymentProcessingMessage message)
+        private DataRepositories GetDataAccess()
         {
-            var isPaymentEnabled = PaymentProcessorConfiguration.IsPaymentEnabled;
-            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isPaymentEnabled);
+            var isTesting = PaymentProcessorConfiguration.Environment != Environment.Production;
+            return DataAccessFactory.CreateDataAccess(isTesting);
+        }
+
+        private void VerifyMessage(PaymentProcessingMessage message, bool isTestMessage)
+        {
+            var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isTestMessage);
             if (!paymentApi.VerifyPayment(message))
                 throw new InvalidPaymentMessage();
         }
@@ -86,6 +91,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private void ValidatePaymentStatus(NewPayment newPayment)
         {
+            if (Environment != Environment.Production && !newPayment.IsTesting)
+                throw new ProductionMessageForNonProductionEnvironment();
             if (newPayment.IsPending)
                 throw new PendingPayment();
         }
