@@ -89,18 +89,18 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateIsNewBooking(CourseBooking newBooking)
         {
-            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
-            var isExistingBooking = bookings.Any(x => x.SessionId == newBooking.Course.Id
-                                              && x.Customer.Id == newBooking.Customer.Id);
-            if (isExistingBooking)
-                throw new ValidationException("This customer is already booked for this course.");
+            var customerSessionBookings = BusinessRepository.GetAllCustomerBookings(Business.Id)
+                                                            .Where(x => x.Customer.Id == newBooking.Customer.Id)
+                                                            .Where(x => x.ParentId != null)
+                                                            .ToList();
+
+            foreach (var customerSessionBooking in customerSessionBookings)
+                if (newBooking.SessionBookings.Select(x => x.Session.Id).Contains(customerSessionBooking.SessionId))
+                    throw new ValidationException("This customer is already booked onto a session in this course.");
         }
 
         private void ValidateSpacesAvailable()
         {
-            //if (Course.Booking.BookingCount >= Course.Booking.StudentCapacity)
-            //    throw new ValidationException("This course is already fully booked.");
-
             foreach (var session in Course.Sessions)
                 if (session.Booking.BookingCount >= session.Booking.StudentCapacity)
                     throw new ValidationException("One or more of the sessions is already fully booked.");
