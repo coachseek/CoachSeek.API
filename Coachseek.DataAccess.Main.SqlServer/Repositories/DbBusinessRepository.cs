@@ -752,7 +752,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@status", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime2));
+                command.Parameters.Add(new SqlParameter("@transactionDate", SqlDbType.DateTime2));
+                command.Parameters.Add(new SqlParameter("@processedDate", SqlDbType.DateTime2));
                 command.Parameters.Add(new SqlParameter("@payerFirstName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@payerLastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@payerEmail", SqlDbType.NVarChar));
@@ -770,17 +771,18 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[2].Value = payment.Type;
                 command.Parameters[3].Value = payment.Status;
                 command.Parameters[4].Value = payment.TransactionDate;
-                command.Parameters[5].Value = payment.PayerFirstName;
-                command.Parameters[6].Value = payment.PayerLastName;
-                command.Parameters[7].Value = payment.PayerEmail;
-                command.Parameters[8].Value = payment.MerchantId;
-                command.Parameters[9].Value = payment.MerchantName;
-                command.Parameters[10].Value = payment.MerchantEmail;
-                command.Parameters[11].Value = payment.ItemId;
-                command.Parameters[12].Value = payment.ItemName;
-                command.Parameters[13].Value = payment.ItemCurrency;
-                command.Parameters[14].Value = payment.ItemAmount;
-                command.Parameters[15].Value = payment.OriginalMessage;
+                command.Parameters[5].Value = payment.ProcessedDate;
+                command.Parameters[6].Value = payment.PayerFirstName;
+                command.Parameters[7].Value = payment.PayerLastName;
+                command.Parameters[8].Value = payment.PayerEmail;
+                command.Parameters[9].Value = payment.MerchantId;
+                command.Parameters[10].Value = payment.MerchantName;
+                command.Parameters[11].Value = payment.MerchantEmail;
+                command.Parameters[12].Value = payment.ItemId;
+                command.Parameters[13].Value = payment.ItemName;
+                command.Parameters[14].Value = payment.ItemCurrency;
+                command.Parameters[15].Value = payment.ItemAmount;
+                command.Parameters[16].Value = payment.OriginalMessage;
 
                 command.ExecuteNonQuery();
             }
@@ -800,16 +802,17 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Type = reader.GetString(2),
                 Status = reader.GetString(3),
                 TransactionDate = reader.GetDateTime(4),
-                PayerFirstName = reader.GetString(5),
-                PayerLastName = reader.GetString(6),
-                PayerEmail = reader.GetString(7),
-                MerchantId = reader.GetGuid(8),
-                MerchantName = reader.GetString(9),
-                MerchantEmail = reader.GetString(10),
-                ItemId = reader.GetGuid(11),
-                ItemName = reader.GetString(12),
-                ItemCurrency = reader.GetString(13),
-                ItemAmount = reader.GetDecimal(14)
+                ProcessedDate = reader.GetDateTime(5),
+                PayerFirstName = reader.GetString(6),
+                PayerLastName = reader.GetString(7),
+                PayerEmail = reader.GetString(8),
+                MerchantId = reader.GetGuid(9),
+                MerchantName = reader.GetString(10),
+                MerchantEmail = reader.GetString(11),
+                ItemId = reader.GetGuid(12),
+                ItemName = reader.GetString(13),
+                ItemCurrency = reader.GetString(14),
+                ItemAmount = reader.GetDecimal(15)
             };
         }
 

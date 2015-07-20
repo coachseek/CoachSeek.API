@@ -65,7 +65,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var status = GetTransactionStatusFromPaypal(keyValuePairs.Get("payment_status"));
             var date = GetTransactionDateFromPaypal(keyValuePairs.Get("payment_date"));
 
-            return new TransactionDetails(status, PaymentProvider.PayPal, date);
+            return new NewTransactionDetails(status, PaymentProvider.PayPal, date);
         }
 
         private static TransactionStatus GetTransactionStatusFromPaypal(string paypalPaymentStatus)
@@ -169,7 +169,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var status = keyValuePairs.Get("status").Parse<TransactionStatus>();
             var date = keyValuePairs.Get("date").Parse<DateTime>();
 
-            return new TransactionDetails(status, PaymentProvider.Test, date);
+            return new NewTransactionDetails(status, PaymentProvider.Test, date);
         }
 
         private static Payer GetPayerFromTest(NameValueCollection keyValuePairs)

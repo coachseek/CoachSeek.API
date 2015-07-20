@@ -3,7 +3,8 @@
     [PaymentProvider] NVARCHAR (50)    NOT NULL,
     [Type]            NVARCHAR (50)    NOT NULL,
     [Status]          NVARCHAR (50)    NOT NULL,
-    [Date]            DATETIME2 (7)    NOT NULL,
+    [TransactionDate] DATETIME2 (7)    NOT NULL,
+    [ProcessedDate]   DATETIME2 (7)    NOT NULL,
     [PayerFirstName]  NVARCHAR (50)    NOT NULL,
     [PayerLastName]   NVARCHAR (50)    NOT NULL,
     [PayerEmail]      NVARCHAR (100)   NOT NULL,
@@ -17,4 +18,8 @@
     [OriginalMessage] NVARCHAR (MAX)   NOT NULL,
     CONSTRAINT [PK_Transaction] PRIMARY KEY CLUSTERED ([Id] ASC, [PaymentProvider] ASC)
 );
+
+
+
+
 

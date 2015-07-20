@@ -132,6 +132,7 @@
     <Compile Include="Entities\SessionInCourse.cs" />
     <Compile Include="Entities\NewTransaction.cs" />
     <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\NewTransactionDetails.cs" />
     <Compile Include="Entities\TransactionDetails.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\DuplicateBooking.cs" />

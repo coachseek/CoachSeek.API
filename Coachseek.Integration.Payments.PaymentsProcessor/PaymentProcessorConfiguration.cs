@@ -1,5 +1,4 @@
 ﻿using System;
-using CoachSeek.Common.Extensions;
 using Coachseek.Integration.Contracts.Interfaces;
 using Environment = CoachSeek.Common.Environment;
 

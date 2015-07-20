@@ -9,24 +9,28 @@ namespace CoachSeek.Domain.Entities
         public TransactionStatus Status { get; private set; }
         public PaymentProvider PaymentProvider { get; private set; }
         public DateTime TransactionDate { get; private set; }
+        public DateTime ProcessedDate { get; private set; }
 
 
         public TransactionDetails(TransactionStatus status, 
                                   PaymentProvider paymentProvider,
-                                  DateTime transactionDate)
+                                  DateTime transactionDate,
+                                  DateTime processedDate)
         {
             Status = status;
             PaymentProvider = paymentProvider;
             TransactionDate = transactionDate;
+            ProcessedDate = processedDate;
         }
 
         public TransactionDetails(string status,
                                   string paymentProvider,
-                                  DateTime transactionDate)
-        {
-            Status = status.Parse<TransactionStatus>();
-            PaymentProvider = paymentProvider.Parse<PaymentProvider>();
-            TransactionDate = transactionDate;
-        }
+                                  DateTime transactionDate,
+                                  DateTime processedDate) 
+            : this(status.Parse<TransactionStatus>(),
+                   paymentProvider.Parse<PaymentProvider>(),
+                   transactionDate,
+                   processedDate)
+        { }
     }
 }

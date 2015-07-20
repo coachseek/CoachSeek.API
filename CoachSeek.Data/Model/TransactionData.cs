@@ -9,6 +9,7 @@ namespace CoachSeek.Data.Model
         public string Type { get; set; }
         public string Status { get; set; }
         public DateTime TransactionDate { get; set; }
+        public DateTime ProcessedDate { get; set; }
         public string PayerFirstName { get; set; }
         public string PayerLastName { get; set; }
         public string PayerEmail { get; set; }
