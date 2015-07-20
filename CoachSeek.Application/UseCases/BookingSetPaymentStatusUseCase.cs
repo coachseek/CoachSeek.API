@@ -35,6 +35,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (paymentStatus == Constants.PAYMENT_STATUS_PENDING_INVOICE ||
                 paymentStatus == Constants.PAYMENT_STATUS_PENDING_PAYMENT ||
+                paymentStatus == Constants.PAYMENT_STATUS_OVERDUE_PAYMENT ||
                 paymentStatus == Constants.PAYMENT_STATUS_PAID)
                 return;
 
