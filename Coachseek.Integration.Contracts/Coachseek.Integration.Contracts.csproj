@@ -63,7 +63,8 @@
     <Compile Include="Exceptions\PaymentCurrencyMismatch.cs" />
     <Compile Include="Exceptions\PaymentProcessingException.cs" />
     <Compile Include="Exceptions\PendingPayment.cs" />
-    <Compile Include="Exceptions\UnknownPaymentProvider.cs" />
+    <Compile Include="Exceptions\UnexpectedPaymentStatus.cs" />
+    <Compile Include="Exceptions\UnexpectedPaymentProvider.cs" />
     <Compile Include="Interfaces\IEmailer.cs" />
     <Compile Include="Interfaces\IPaymentMessageProcessor.cs" />
     <Compile Include="Interfaces\IPaymentProcessorConfiguration.cs" />

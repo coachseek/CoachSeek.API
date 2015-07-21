@@ -141,7 +141,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, NewPayment newPayment)
         {
             if (newPayment.ItemAmount != session.Pricing.SessionPrice.Value)
-                throw new PaymentAmountMismatch();
+                throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.Value);
         }
 
         private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
@@ -158,16 +158,17 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                               course.Pricing.SessionPrice.Value * course.Repetition.SessionCount;
 
             if (newPayment.ItemAmount != coursePrice)
-                throw new PaymentAmountMismatch();
+                throw new PaymentAmountMismatch(newPayment.ItemAmount, coursePrice);
         }
 
         private static void ValidateMultipleSessionPaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
         {
             var sessionPrice = course.Pricing.SessionPrice ??
                                Math.Round(course.Pricing.CoursePrice.Value / course.Repetition.SessionCount, 2);
+            var multipleSessionPrice = sessionPrice * booking.SessionBookings.Count;
 
-            if (newPayment.ItemAmount != sessionPrice * booking.SessionBookings.Count)
-                throw new PaymentAmountMismatch();
+            if (newPayment.ItemAmount != multipleSessionPrice)
+                throw new PaymentAmountMismatch(newPayment.ItemAmount, multipleSessionPrice);
         }
 
         private static bool IsBookingForWholeCourse(CourseBookingData booking, RepeatedSessionData course)

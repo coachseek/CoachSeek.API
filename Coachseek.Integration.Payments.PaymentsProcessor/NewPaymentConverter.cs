@@ -39,7 +39,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             if (message.PaymentProvider == Constants.TEST)
                 return ConvertFromTestMessage(message);
 
-            throw new UnknownPaymentProvider();
+            throw new UnexpectedPaymentProvider(message.PaymentProvider);
         }
 
         public static NewPayment ConvertFromPaypal(string paypalMessage)
@@ -77,7 +77,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             if (paypalPaymentStatus.CompareIgnoreCase(PAYPAL_STATUS_DENIED))
                 return TransactionStatus.Denied;
 
-            throw new PaymentProcessingException("Unexpected PayPal payment status.");
+            throw new UnexpectedPaymentStatus(Constants.PAYPAL, paypalPaymentStatus);
         }
 
         private static DateTime GetTransactionDateFromPaypal(string paypalPaymentDate)
