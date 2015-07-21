@@ -89,7 +89,7 @@ namespace CoachSeek.Application.Services.Emailing
                 var sessionTemplate = TemplateProcessor.ProcessTemplate(template, substitutes);
                 stringBuilder.AppendLine(sessionTemplate);
             }
-            return stringBuilder.ToString().Trim();
+            return stringBuilder.ToString().TrimEnd();
         }
 
         private Dictionary<string, string> CreateCourseSessionSubstitutes(SingleSessionData session)
