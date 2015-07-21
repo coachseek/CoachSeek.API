@@ -1,0 +1,1 @@
+﻿	* <<Date>> at <<StartTime>> for <<Duration>>

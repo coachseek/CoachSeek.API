@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Services;
 using Coachseek.Integration.Contracts.Models;
@@ -17,6 +19,7 @@ namespace CoachSeek.Application.Services.Emailing
         private const string TEMPLATE_RESOURCE_COURSE_CUSTOMER = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingCourseCustomerEmail.txt";
         private const string TEMPLATE_RESOURCE_SESSION_COACH = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingSessionCoachEmail.txt";
         private const string TEMPLATE_RESOURCE_COURSE_COACH = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingCourseCoachEmail.txt";
+        private const string TEMPLATE_RESOURCE_COURSE_SESSION = "CoachSeek.Application.Services.Emailing.Templates.OnlineBookingCourseSessionTemplate.txt";
 
 
         public void SendSessionEmailToCustomer(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
@@ -68,16 +71,44 @@ namespace CoachSeek.Application.Services.Emailing
 
         private Tuple<string, string> CreateCourseCustomerEmailSubjectAndBody(CourseBooking booking, CoachData coach, CustomerData customer)
         {
+            var sessionsTemplate = CreateCourseSessionsTemplate(booking);
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_CUSTOMER);
-            var substitutes = CreateCourseSubstitutes(booking, coach, customer);
+            var substitutes = CreateCourseSubstitutes(booking, coach, customer, sessionsTemplate);
             var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
             return ExtractSubjectAndBody(emailTemplate);
         }
 
+        private string CreateCourseSessionsTemplate(CourseBooking courseBooking)
+        {
+            var template = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_SESSION);
+            var stringBuilder = new StringBuilder();
+            foreach (var sessionBooking in courseBooking.SessionBookings)
+            {
+                var session = courseBooking.Course.Sessions.First(x => x.Id == sessionBooking.Session.Id);
+                var substitutes = CreateCourseSessionSubstitutes(session);
+                var sessionTemplate = TemplateProcessor.ProcessTemplate(template, substitutes);
+                stringBuilder.AppendLine(sessionTemplate);
+            }
+            return stringBuilder.ToString().Trim();
+        }
+
+        private Dictionary<string, string> CreateCourseSessionSubstitutes(SingleSessionData session)
+        {
+            var sessionValues = new Dictionary<string, string>
+            {
+                {"Date", ReformatDate(session.Timing.StartDate)},
+                {"StartTime", session.Timing.StartTime},
+                {"Duration", FormatDuration(session.Timing.Duration)},
+            };
+
+            return sessionValues;
+        }
+
         private Tuple<string, string> CreateCourseCoachEmailSubjectAndBody(CourseBooking booking, CoachData coach, CustomerData customer)
         {
+            var sessionsTemplate = CreateCourseSessionsTemplate(booking);
             var bodyTemplate = ReadEmbeddedTextResource(TEMPLATE_RESOURCE_COURSE_COACH);
-            var substitutes = CreateCourseSubstitutes(booking, coach, customer);
+            var substitutes = CreateCourseSubstitutes(booking, coach, customer, sessionsTemplate);
             var emailTemplate = TemplateProcessor.ProcessTemplate(bodyTemplate, substitutes);
             return ExtractSubjectAndBody(emailTemplate);
         }
@@ -117,7 +148,7 @@ namespace CoachSeek.Application.Services.Emailing
         }
 
 
-        private Dictionary<string, string> CreateCourseSubstitutes(CourseBooking booking, CoachData coach, CustomerData customer)
+        private Dictionary<string, string> CreateCourseSubstitutes(CourseBooking booking, CoachData coach, CustomerData customer, string sessionsText)
         {
             var courseValues = new Dictionary<string, string>
             {
@@ -137,6 +168,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"RepeatFrequency", booking.Course.Repetition.RepeatFrequency == "d" ? "days" : "weeks"},
                 {"CurrencySymbol", CurrencySymbol},
                 {"BookedSessionCount", CreateBookedSessionCount(booking)},
+                {"BookedSessions", sessionsText},
                 {"BookingPrice", booking.BookingPrice.ToString("0.00")}
             };
 
@@ -168,10 +200,10 @@ namespace CoachSeek.Application.Services.Emailing
         private string CreateBookedSessionCount(CourseBooking booking)
         {
             if (booking.Course.Sessions.Count == booking.SessionBookings.Count)
-                return string.Format("Onto all {0} sessions", booking.SessionBookings.Count);
+                return string.Format("Booked onto all {0} sessions", booking.SessionBookings.Count);
             if (booking.SessionBookings.Count == 1)
-                return string.Format("Onto one session");
-            return string.Format("Onto {0} sessions", booking.SessionBookings.Count);
+                return string.Format("Booked onto one session");
+            return string.Format("Booked onto {0} sessions", booking.SessionBookings.Count);
         }
     }
 }
