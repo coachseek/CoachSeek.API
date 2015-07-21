@@ -16,7 +16,7 @@ namespace CoachSeek.Api.Controllers
         public IUserAddUseCase UserAddUseCase { get; set; }
         public IBusinessAddUseCase BusinessAddUseCase { get; set; }
         public IUserAssociateWithBusinessUseCase UserAssociateWithBusinessUseCase { get; set; }
-        public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
+        //public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
 
         public BusinessRegistrationController()
@@ -24,13 +24,13 @@ namespace CoachSeek.Api.Controllers
 
         public BusinessRegistrationController(IUserAddUseCase userAddUseCase,
                                               IBusinessAddUseCase businessAddUseCase,
-                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase,
-                                              IBusinessRegistrationEmailer businessRegistrationEmailer)
+                                              IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase)
+                                              //IBusinessRegistrationEmailer businessRegistrationEmailer)
         {
             UserAddUseCase = userAddUseCase;
             BusinessAddUseCase = businessAddUseCase;
             UserAssociateWithBusinessUseCase = userAssociateWithBusinessUseCase;
-            BusinessRegistrationEmailer = businessRegistrationEmailer;
+            //BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
 
@@ -57,7 +57,7 @@ namespace CoachSeek.Api.Controllers
                 return CreateWebErrorResponse(userUpdateResponse);
 
             var registrationData = new RegistrationData(userData, businessData);
-            SendRegistrationEmail(registrationData);
+            //SendRegistrationEmail(registrationData);
 
             return CreateWebSuccessResponse(new Response(registrationData));
         }
@@ -84,11 +84,11 @@ namespace CoachSeek.Api.Controllers
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
         }
 
-        private void SendRegistrationEmail(RegistrationData registration)
-        {
-            BusinessRegistrationEmailer.Initialise(Context);
-            BusinessRegistrationEmailer.SendEmail(registration);
-        }
+        //private void SendRegistrationEmail(RegistrationData registration)
+        //{
+        //    BusinessRegistrationEmailer.Initialise(Context);
+        //    BusinessRegistrationEmailer.SendEmail(registration);
+        //}
 
         protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
         {
