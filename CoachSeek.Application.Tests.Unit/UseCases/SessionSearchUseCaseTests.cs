@@ -313,7 +313,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var session = sessions[0];
             Assert.That(session.Id, Is.EqualTo(new Guid(SESSION_THREE)));
             var courses = searchData.Courses;
-            Assert.That(courses.Count, Is.EqualTo(0));
+            Assert.That(courses.Count, Is.EqualTo(1));
         }
 
         private void ThenSessionSearchWillReturnMultipleSessions(object response)
@@ -333,7 +333,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(sessionThree.Id, Is.EqualTo(new Guid(SESSION_FOUR)));
 
             var courses = searchData.Courses;
-            Assert.That(courses.Count, Is.EqualTo(0));
+            Assert.That(courses.Count, Is.EqualTo(1));
         }
 
         private void ThenSessionSearchFailsWithInvalidCoachIdError(object response)
