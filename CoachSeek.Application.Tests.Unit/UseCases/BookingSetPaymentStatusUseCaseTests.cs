@@ -1,7 +1,9 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Common;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 
@@ -10,6 +12,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
     [TestFixture]
     public class BookingSetPaymentStatusUseCaseTests : UseCaseTests
     {
+        private BookingData BookingData { get; set; }
+        private StubBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
+
+
         [TestFixtureSetUp]
         public void SetupAllTests()
         {
@@ -50,6 +56,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private BookingSetPaymentStatusCommand GivenNonExistentBookingId()
         {
+            BookingData = null;
+
             return new BookingSetPaymentStatusCommand
             {
                 BookingId = Guid.NewGuid(),
@@ -59,6 +67,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private BookingSetPaymentStatusCommand GivenNonExistentPaymentStatus()
         {
+            BookingData = new SingleSessionBookingData { Id = new Guid(BOOKING_FRED_SESSION_TWO_ID) };
+
             return new BookingSetPaymentStatusCommand
             {
                 BookingId = new Guid(BOOKING_FRED_SESSION_TWO_ID),
@@ -68,6 +78,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private BookingSetPaymentStatusCommand GivenValidBookingSetPaymentStatusCommand()
         {
+            BookingData = new SingleSessionBookingData { Id = new Guid(BOOKING_FRED_SESSION_TWO_ID) };
+
             return new BookingSetPaymentStatusCommand
             {
                 BookingId = new Guid(BOOKING_FRED_SESSION_TWO_ID),
@@ -78,7 +90,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         
         private object WhenTrySetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
-            var useCase = new BookingSetPaymentStatusUseCase(null);
+            BookingGetByIdUseCase = new StubBookingGetByIdUseCase(BookingData);
+            var useCase = new BookingSetPaymentStatusUseCase(BookingGetByIdUseCase);
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, null, BusinessRepository, SupportedCurrencyRepository, null);
@@ -99,18 +112,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnNotFound(object response)
         {
+            Assert.That(BookingGetByIdUseCase.WasGetBookingCalled, Is.True);
+
             Assert.That(response, Is.InstanceOf<NotFoundResponse>());
         }
 
         private void ThenReturnInvalidPaymentStatusError(object response)
         {
             AssertSingleError((Response)response, "This payment status does not exist.");
-            BusinessRepository.WasSetBookingPaymentStatusCalled = false;
+
+            Assert.That(BookingGetByIdUseCase.WasGetBookingCalled, Is.True);
+            Assert.That(BusinessRepository.WasSetBookingPaymentStatusCalled, Is.False);
         }
 
         private void ThenUpdateBookingPaymentStatus(object response)
         {
-            BusinessRepository.WasSetBookingPaymentStatusCalled = true;
+            Assert.That(BookingGetByIdUseCase.WasGetBookingCalled, Is.True);
+            Assert.That(BusinessRepository.WasSetBookingPaymentStatusCalled, Is.True);
         }
     }
 }

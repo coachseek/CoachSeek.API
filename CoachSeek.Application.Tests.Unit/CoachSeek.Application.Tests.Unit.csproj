@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoachUseCaseTests.cs" />
+    <Compile Include="Fakes\StubBookingGetByIdUseCase.cs" />
     <Compile Include="Fakes\StubBusinessRegistrationEmailer.cs" />
     <Compile Include="Fakes\StubCourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="Fakes\StubCourseSessionBookingAddUseCase.cs" />

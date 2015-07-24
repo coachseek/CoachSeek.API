@@ -178,12 +178,11 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         protected BookingData GetSessionOrCourseBooking(Guid businessId, Guid bookingId, DataRepositories dataAccess)
         {
-            // GetSessionBooking also returns course bookings so call GetCourseBooking first. TODO
+            var sessionBooking = dataAccess.BusinessRepository.GetSessionBooking(businessId, bookingId);
+            if (sessionBooking.IsFound())
+                return sessionBooking;
             var courseBooking = dataAccess.BusinessRepository.GetCourseBooking(businessId, bookingId);
-            if (courseBooking.IsExisting())
-                return courseBooking;
-            
-            return dataAccess.BusinessRepository.GetSessionBooking(businessId, bookingId);
+            return courseBooking;
         }
 
         protected Session GetSessionOrCourse(Guid businessId, Guid sessionId, DataRepositories dataAccess)
