@@ -87,7 +87,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateAddBooking(CourseBooking newBooking)
         {
             ValidateIsNewBooking(newBooking);
-            ValidateSpacesAvailable();
+            ValidateSpacesAvailable(newBooking);
 
             ValidateAddBookingAdditional(newBooking);
         }
@@ -104,11 +104,14 @@ namespace CoachSeek.Application.UseCases
                     throw new ValidationException("This customer is already booked onto a session in this course.");
         }
 
-        private void ValidateSpacesAvailable()
+        private void ValidateSpacesAvailable(CourseBooking newBooking)
         {
-            foreach (var session in Course.Sessions)
+            foreach (var sessionBookings in newBooking.SessionBookings)
+            {
+                var session = Course.Sessions.First(x => x.Id == sessionBookings.Session.Id);
                 if (session.Booking.BookingCount >= session.Booking.StudentCapacity)
                     throw new ValidationException("One or more of the sessions is already fully booked.");
+            }
         }
 
         protected virtual void ValidateAddBookingAdditional(CourseBooking newBooking)
