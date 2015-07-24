@@ -10,7 +10,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
     [TestFixture]
     public class BookingSetPaymentStatusUseCaseTests : UseCaseTests
     {
-
         [TestFixtureSetUp]
         public void SetupAllTests()
         {
@@ -79,7 +78,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         
         private object WhenTrySetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
-            var useCase = new BookingSetPaymentStatusUseCase();
+            var useCase = new BookingSetPaymentStatusUseCase(null);
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, null, BusinessRepository, SupportedCurrencyRepository, null);

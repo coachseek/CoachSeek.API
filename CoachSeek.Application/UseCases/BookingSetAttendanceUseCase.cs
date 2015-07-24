@@ -1,10 +1,11 @@
 ﻿using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingSetAttendanceUseCase : BaseUseCase
+    public class BookingSetAttendanceUseCase : BaseUseCase, IBookingSetAttendanceUseCase
     {
         public Response SetAttendance(BookingSetAttendanceCommand command)
         {
@@ -13,10 +14,6 @@ namespace CoachSeek.Application.UseCases
                 return new NotFoundResponse();
             BusinessRepository.SetBookingAttendance(Business.Id, booking.Id, command.HasAttended);
             return new Response();
-
-            //booking.HasAttended = command.HasAttended;
-            //BusinessRepository.UpdateBooking(Business.Id, booking);
-            //return new Response();
         }
     }
 }

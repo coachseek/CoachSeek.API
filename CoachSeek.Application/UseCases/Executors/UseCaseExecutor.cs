@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
@@ -8,20 +9,29 @@ namespace CoachSeek.Application.UseCases.Executors
 {
     public class UseCaseExecutor : IUseCaseExecutor
     {
+        public IBookingSetAttendanceUseCase BookingSetAttendanceUseCase { get; set; }
+        public IBookingSetPaymentStatusUseCase BookingSetPaymentStatusUseCase { get; set; }
+
+        public UseCaseExecutor(IBookingSetAttendanceUseCase bookingSetAttendanceUseCase,
+                               IBookingSetPaymentStatusUseCase bookingSetPaymentStatusUseCase)
+        {
+            BookingSetAttendanceUseCase = bookingSetAttendanceUseCase;
+            BookingSetPaymentStatusUseCase = bookingSetPaymentStatusUseCase;
+        }
+
+
         public Response ExecuteFor<T>(T command, ApplicationContext context) where T : ICommand
         {
             if (command.GetType() == typeof(BookingSetAttendanceCommand))
             {
-                var useCase = new BookingSetAttendanceUseCase();
-                useCase.Initialise(context);
-                return useCase.SetAttendance(command as BookingSetAttendanceCommand);
+                BookingSetAttendanceUseCase.Initialise(context);
+                return BookingSetAttendanceUseCase.SetAttendance(command as BookingSetAttendanceCommand);
             }
 
             if (command.GetType() == typeof(BookingSetPaymentStatusCommand))
             {
-                var useCase = new BookingSetPaymentStatusUseCase();
-                useCase.Initialise(context);
-                return useCase.SetPaymentStatus(command as BookingSetPaymentStatusCommand);
+                BookingSetPaymentStatusUseCase.Initialise(context);
+                return BookingSetPaymentStatusUseCase.SetPaymentStatus(command as BookingSetPaymentStatusCommand);
             }
 
             throw new NotImplementedException();

@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
@@ -7,13 +8,22 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class BookingSetPaymentStatusUseCase : BaseUseCase
+    public class BookingSetPaymentStatusUseCase : BaseUseCase, IBookingSetPaymentStatusUseCase
     {
+        private IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
+
+        public BookingSetPaymentStatusUseCase(IBookingGetByIdUseCase bookingGetByIdUseCase)
+        {
+            BookingGetByIdUseCase = bookingGetByIdUseCase;
+        }
+
+
         public Response SetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
             try
             {
-                var booking = BusinessRepository.GetSessionBooking(Business.Id, command.BookingId);
+                BookingGetByIdUseCase.Initialise(Context);
+                var booking = BookingGetByIdUseCase.GetBooking(command.BookingId);
                 if (booking.IsNotFound())
                     return new NotFoundResponse();
                 ValidatePaymentStatus(command.PaymentStatus);

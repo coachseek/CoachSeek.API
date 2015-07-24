@@ -32,7 +32,7 @@ namespace CoachSeek.Application.UseCases
                 }
                 catch (Exception ex)
                 {
-
+                    // Log error
                 }
             }
         }

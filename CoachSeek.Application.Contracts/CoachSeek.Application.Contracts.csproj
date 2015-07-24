@@ -69,6 +69,8 @@
     <Compile Include="UseCases\Executors\IUseCaseExecutor.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
+    <Compile Include="UseCases\IBookingSetAttendanceUseCase.cs" />
+    <Compile Include="UseCases\IBookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
     <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
