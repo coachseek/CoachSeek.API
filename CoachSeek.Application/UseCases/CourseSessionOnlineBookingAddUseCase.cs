@@ -13,6 +13,11 @@ namespace CoachSeek.Application.UseCases
             ValidateIsOnlineBookable(errors);
         }
 
+        protected override CourseBooking CreateCourseBooking(BookingAddCommand command)
+        {
+            return new CourseOnlineBooking(command, Course);
+        }
+
         private void ValidateIsOnlineBookable(ValidationException errors)
         {
             if (!Course.Booking.IsOnlineBookable)

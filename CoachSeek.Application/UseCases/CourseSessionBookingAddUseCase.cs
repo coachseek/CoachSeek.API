@@ -20,7 +20,7 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 ValidateCommand(command);
-                var newBooking = new CourseBooking(command, Course);
+                var newBooking = CreateCourseBooking(command);
                 ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddCourseBooking(Business.Id, newBooking);
                 PostProcessing(newBooking);
@@ -48,6 +48,11 @@ namespace CoachSeek.Application.UseCases
             ValidateCommandAdditional(newBooking, errors);
 
             errors.ThrowIfErrors();
+        }
+
+        protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command)
+        {
+            return new CourseBooking(command, Course);
         }
 
         private void ValidateSessions(IList<SessionKeyCommand> commandSessions, ValidationException errors)

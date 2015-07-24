@@ -8,9 +8,9 @@ namespace CoachSeek.Domain.Entities
 {
     public class CourseBooking : Booking
     {
-        public RepeatedSessionData Course { get; private set; }
-        public IList<SingleSessionBooking> SessionBookings { get; private set; }
-        public decimal BookingPrice { get; private set; }
+        public RepeatedSessionData Course { get; protected set; }
+        public IList<SingleSessionBooking> SessionBookings { get; protected set; }
+        public decimal BookingPrice { get; protected set; }
 
 
         public CourseBooking(BookingAddCommand command, RepeatedSessionData course)
@@ -22,21 +22,23 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void CreateSessionBookings(BookingAddCommand command, RepeatedSessionData course)
+        protected void CreateSessionBookings(BookingAddCommand command, RepeatedSessionData course)
         {
             // Create session bookings in the course's session order.
             SessionBookings = new List<SingleSessionBooking>();
             foreach (var session in course.Sessions)
                 if (command.Sessions.Select(x => x.Id).Contains(session.Id))
-                    SessionBookings.Add(new SingleSessionBooking(new SessionKeyCommand(session.Id), command.Customer, Id));
+                    SessionBookings.Add(CreateSingleSessionBooking(session, command.Customer, Id));
         }
 
-        private void CalculateBookingPrice()
+        protected virtual SingleSessionBooking CreateSingleSessionBooking(SingleSessionData session, CustomerKeyCommand customer, Guid parentId)
         {
-            if (IsBookingForWholeCourse)
-                BookingPrice = CalculateCoursePrice();
-            else
-                BookingPrice = CalculateMultiSessionPrice();
+            return new SingleSessionBooking(new SessionKeyCommand(session.Id), customer, parentId);
+        }
+
+        protected void CalculateBookingPrice()
+        {
+            BookingPrice = IsBookingForWholeCourse ? CalculateCoursePrice() : CalculateMultiSessionPrice();
         }
 
         private bool IsBookingForWholeCourse

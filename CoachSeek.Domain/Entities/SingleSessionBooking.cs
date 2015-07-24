@@ -12,12 +12,16 @@ namespace CoachSeek.Domain.Entities
         public SessionKeyData Session { get; set; }
 
         // Command parameters denote that it's data from outside the application (ie. user input).
-        public SingleSessionBooking(SessionKeyCommand session, CustomerKeyCommand customer, Guid? parentId = null)
+        public SingleSessionBooking(SessionKeyCommand session, 
+                                    CustomerKeyCommand customer, 
+                                    Guid? parentId = null,
+                                    string paymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE)
             : base(customer)
         {
             ParentId = parentId;
-            HasAttended = false;
             Session = new SessionKeyData { Id = session.Id };
+            HasAttended = false;
+            PaymentStatus = paymentStatus;
         }
 
         // Data parameters denote that it's data from inside the application (ie. database).
@@ -30,8 +34,9 @@ namespace CoachSeek.Domain.Entities
             : base(id, paymentStatus, customer)
         {
             ParentId = parentId;
+            Session = session;
             HasAttended = hasAttended;
-            Session = new SessionKeyData { Id = session.Id };
+            PaymentStatus = paymentStatus;
         }
     }
 }

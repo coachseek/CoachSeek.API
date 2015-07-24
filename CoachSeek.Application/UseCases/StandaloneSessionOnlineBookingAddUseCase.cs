@@ -8,10 +8,18 @@ namespace CoachSeek.Application.UseCases
 {
     public class StandaloneSessionOnlineBookingAddUseCase : StandaloneSessionBookingAddUseCase, IStandaloneSessionOnlineBookingAddUseCase
     {
-        protected override void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
+        protected override void ValidateCommandAdditional(BookingAddCommand newBooking, 
+                                                          ValidationException errors)
         {
             ValidateIsOnlineBookable(errors);
         }
+
+        protected override SingleSessionBooking CreateSingleSessionBooking(SessionKeyCommand session,
+                                                                           CustomerKeyCommand customer)
+        {
+            return new SingleSessionOnlineBooking(session, customer);
+        }
+
 
         private void ValidateIsOnlineBookable(ValidationException errors)
         {

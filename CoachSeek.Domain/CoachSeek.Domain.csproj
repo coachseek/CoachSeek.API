@@ -109,10 +109,12 @@
     <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
     <Compile Include="Contracts\ICommand.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
+    <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
+    <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
     <Compile Include="Entities\TestPaymentProvider.cs" />
     <Compile Include="Entities\Payer.cs" />
     <Compile Include="Entities\NewPayment.cs" />
