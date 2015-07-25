@@ -39,7 +39,6 @@ BEGIN
 	BEGIN
 		-- It's a Course. Return no records.
 		SELECT
-			bk.[Id],
 			b.[Guid] AS BusinessGuid,
 			bk.[Guid],
 			bk2.[Guid] AS ParentGuid,
@@ -75,7 +74,6 @@ BEGIN
 	BEGIN
 		-- It's a Session.
 		SELECT
-			bk.[Id],
 			b.[Guid] AS BusinessGuid,
 			bk.[Guid],
 			bk2.[Guid] AS ParentGuid,

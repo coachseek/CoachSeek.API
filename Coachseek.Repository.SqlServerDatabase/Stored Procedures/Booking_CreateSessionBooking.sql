@@ -66,7 +66,6 @@ BEGIN
 	)
 	
 	SELECT
-		bk.[Id],
 		b.[Guid] AS BusinessGuid,
 		bk.[Guid],
 		bk2.[Guid] AS ParentGuid,

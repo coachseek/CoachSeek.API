@@ -450,37 +450,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.ExecuteNonQuery();
         }
 
-        //public void UpdateBooking(Guid businessId, BookingData booking)
-        //{
-        //    try
-        //    {
-        //        Connection.Open();
-
-        //        UpdateSessionBookingData(businessId, booking);
-        //    }
-        //    finally
-        //    {
-        //        if (Connection != null)
-        //            Connection.Close();
-        //    }
-        //}
-
-        //private void UpdateSessionBookingData(Guid businessId, BookingData booking)
-        //{
-        //    var command = new SqlCommand("Booking_Update", Connection) { CommandType = CommandType.StoredProcedure };
-
-        //    command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //    command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
-        //    command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
-        //    command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
-
-        //    command.Parameters[0].Value = businessId;
-        //    command.Parameters[1].Value = booking.Id;
-        //    command.Parameters[2].Value = booking.PaymentStatus.ConvertNullToDbNull();
-        //    command.Parameters[3].Value = booking.HasAttended.ConvertNullToDbNull();
-
-        //    command.ExecuteNonQuery();
-        //}
         
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
@@ -516,14 +485,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private SingleSessionBookingData ReadSessionBookingData(SqlDataReader reader)
         {
-            var id = reader.GetGuid(2);
-            var parentId = reader.GetNullableGuid(3);
-            var sessionId = reader.GetGuid(4);
-            var sessionName = reader.GetString(5);
-            var customerId = reader.GetGuid(6);
-            var customerName = reader.GetString(7);
-            var paymentStatus = reader.GetNullableString(8);
-            var hasAttended = reader.GetNullableBool(9);
+            var id = reader.GetGuid(1);
+            var parentId = reader.GetNullableGuid(2);
+            var sessionId = reader.GetGuid(3);
+            var sessionName = reader.GetString(4);
+            var customerId = reader.GetGuid(5);
+            var customerName = reader.GetString(6);
+            var paymentStatus = reader.GetNullableString(7);
+            var hasAttended = reader.GetNullableBool(8);
 
             return new SingleSessionBookingData
             {
@@ -1070,14 +1039,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private CourseBookingData ReadCourseAndSessionsBookingData(SqlDataReader reader)
         {
-            var id = reader.GetGuid(2);
-            var parentId = reader.GetNullableGuid(3);
-            var courseId = reader.GetGuid(4);
-            var courseName = reader.GetString(5);
-            var customerId = reader.GetGuid(6);
-            var customerName = reader.GetString(7);
-            var paymentStatus = reader.GetNullableString(8);
-            var hasAttended = reader.GetNullableBool(9);
+            var id = reader.GetGuid(1);
+            var parentId = reader.GetNullableGuid(2);
+            var courseId = reader.GetGuid(3);
+            var courseName = reader.GetString(4);
+            var customerId = reader.GetGuid(5);
+            var customerName = reader.GetString(6);
+            var paymentStatus = reader.GetNullableString(7);
+            var hasAttended = reader.GetNullableBool(8);
             
             var sessionBookings = new List<SingleSessionBookingData>();
 
