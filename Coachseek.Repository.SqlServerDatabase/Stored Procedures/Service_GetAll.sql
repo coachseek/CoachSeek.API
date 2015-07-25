@@ -6,7 +6,6 @@ BEGIN
 	SET NOCOUNT ON;
 	
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s.[Name],
@@ -27,6 +26,7 @@ BEGIN
 		b.[Guid] = @businessGuid
 	ORDER BY
 		s.[Name]
+
 END
 
 

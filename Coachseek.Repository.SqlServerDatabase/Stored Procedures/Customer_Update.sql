@@ -30,21 +30,7 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @customerGuid
 
-	SELECT
-		c.[Id],
-		b.[Guid] AS BusinessGuid,
-		c.[Guid],
-		c.[FirstName],
-		c.[LastName],
-		c.[Email],
-		c.[Phone]
-	FROM
-		[dbo].[Business] b
-		INNER JOIN [dbo].[Customer] c
-			ON b.Id = c.BusinessId
-	WHERE
-		c.[BusinessId] = @businessId
-		AND c.[Guid] = @customerGuid
+	EXEC [dbo].[Customer_GetByGuid] @businessGuid, @customerGuid
 
 END
 

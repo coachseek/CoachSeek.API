@@ -145,8 +145,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         {
             return new LocationData
             {
-                Id = reader.GetGuid(2),
-                Name = reader.GetString(3)
+                Id = reader.GetGuid(1),
+                Name = reader.GetString(2)
             };
         }
     }

@@ -157,11 +157,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         {
             return new CustomerData
             {
-                Id = reader.GetGuid(2),
-                FirstName = reader.GetString(3),
-                LastName = reader.GetString(4),
-                Email = reader.GetNullableString(5),
-                Phone = reader.GetNullableString(6)
+                Id = reader.GetGuid(1),
+                FirstName = reader.GetString(2),
+                LastName = reader.GetString(3),
+                Email = reader.GetNullableString(4),
+                Phone = reader.GetNullableString(5)
             };
         }
     }

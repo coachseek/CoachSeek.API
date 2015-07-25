@@ -24,13 +24,7 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @locationGuid
 
-	SELECT
-		*
-	FROM 
-		[dbo].[Location]
-	WHERE
-		[BusinessId] = @businessId
-		AND [Guid] = @locationGuid
+	EXEC [dbo].[Location_GetByGuid] @businessGuid, @locationGuid
 
 END
 

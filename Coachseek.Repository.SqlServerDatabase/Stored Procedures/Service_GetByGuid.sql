@@ -7,7 +7,6 @@ BEGIN
 	SET NOCOUNT ON;
 	
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s.[Name],
@@ -27,6 +26,7 @@ BEGIN
 	WHERE
 		b.[Guid] = @businessGuid
 		AND s.[Guid] = @serviceGuid
+
 END
 
 

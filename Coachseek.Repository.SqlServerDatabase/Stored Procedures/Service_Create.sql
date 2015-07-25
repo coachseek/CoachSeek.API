@@ -58,7 +58,6 @@ BEGIN
 	)
 
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s.[Name],

@@ -255,58 +255,57 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         {
             return new CoachData
             {
-                Id = reader.GetGuid(2),
-                FirstName = reader.GetString(3),
-                LastName = reader.GetString(4),
-                Email = reader.GetString(5),
-                Phone = reader.GetString(6),
+                Id = reader.GetGuid(1),
+                FirstName = reader.GetString(2),
+                LastName = reader.GetString(3),
+                Email = reader.GetString(4),
+                Phone = reader.GetString(5),
                 WorkingHours = new WeeklyWorkingHoursData
                 {
                     Monday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(7),
-                        StartTime = reader.GetNullableStringTrimmed(8),
-                        FinishTime = reader.GetNullableStringTrimmed(9)
+                        IsAvailable = reader.GetBoolean(6),
+                        StartTime = reader.GetNullableStringTrimmed(7),
+                        FinishTime = reader.GetNullableStringTrimmed(8)
                     },
                     Tuesday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(10),
-                        StartTime = reader.GetNullableStringTrimmed(11),
-                        FinishTime = reader.GetNullableStringTrimmed(12)
+                        IsAvailable = reader.GetBoolean(9),
+                        StartTime = reader.GetNullableStringTrimmed(10),
+                        FinishTime = reader.GetNullableStringTrimmed(11)
                     },
                     Wednesday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(13),
-                        StartTime = reader.GetNullableStringTrimmed(14),
-                        FinishTime = reader.GetNullableStringTrimmed(15)
+                        IsAvailable = reader.GetBoolean(12),
+                        StartTime = reader.GetNullableStringTrimmed(13),
+                        FinishTime = reader.GetNullableStringTrimmed(14)
                     },
                     Thursday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(16),
-                        StartTime = reader.GetNullableStringTrimmed(17),
-                        FinishTime = reader.GetNullableStringTrimmed(18)
+                        IsAvailable = reader.GetBoolean(15),
+                        StartTime = reader.GetNullableStringTrimmed(16),
+                        FinishTime = reader.GetNullableStringTrimmed(17)
                     },
                     Friday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(19),
-                        StartTime = reader.GetNullableStringTrimmed(20),
-                       FinishTime = reader.GetNullableStringTrimmed(21)
+                        IsAvailable = reader.GetBoolean(18),
+                        StartTime = reader.GetNullableStringTrimmed(19),
+                       FinishTime = reader.GetNullableStringTrimmed(20)
                     },
                     Saturday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(22),
-                        StartTime = reader.GetNullableStringTrimmed(23),
-                        FinishTime = reader.GetNullableStringTrimmed(24)
+                        IsAvailable = reader.GetBoolean(21),
+                        StartTime = reader.GetNullableStringTrimmed(22),
+                        FinishTime = reader.GetNullableStringTrimmed(23)
                     },
                     Sunday = new DailyWorkingHoursData
                     {
-                        IsAvailable = reader.GetBoolean(25),
-                        StartTime = reader.GetNullableStringTrimmed(26),
-                        FinishTime = reader.GetNullableStringTrimmed(27)
+                        IsAvailable = reader.GetBoolean(24),
+                        StartTime = reader.GetNullableStringTrimmed(25),
+                        FinishTime = reader.GetNullableStringTrimmed(26)
                     }
                 }
             };
         }
-
     }
 }

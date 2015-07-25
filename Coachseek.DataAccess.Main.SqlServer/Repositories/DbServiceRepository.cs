@@ -179,30 +179,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         
         private ServiceData ReadServiceData(SqlDataReader reader)
         {
+            var id = reader.GetGuid(1);
+            var name = reader.GetString(2);
+            var description = reader.GetNullableString(3);
+            var duration = reader.GetNullableInt16(4);
+            var studentCapacity = reader.GetNullableByte(5);
+            var isOnlineBookable = reader.GetNullableBool(6);
+            var sessionCount = reader.GetByte(7);
+            var repeatFrequency = reader.GetNullableString(8);
+            var sessionPrice = reader.GetNullableDecimal(9);
+            var coursePrice = reader.GetNullableDecimal(10);
+            var colour = reader.GetNullableStringTrimmed(11);
+
             var service = new ServiceData
             {
-                Id = reader.GetGuid(2),
-                Name = reader.GetString(3),
-                Description = reader.GetNullableString(4)
+                Id = id,
+                Name = name,
+                Description = description
             };
 
-            var duration = reader.GetNullableInt16(5);
             if (duration.IsExisting())
                 service.Timing = new ServiceTimingData { Duration = duration };
 
-            var studentCapacity = reader.GetNullableByte(6);
-            var isOnlineBookable = reader.GetNullableBool(7);
             if (studentCapacity.IsExisting() || isOnlineBookable.IsExisting())
                 service.Booking = new ServiceBookingData { StudentCapacity = studentCapacity, IsOnlineBookable = isOnlineBookable };
 
-            service.Repetition = new RepetitionData { SessionCount = reader.GetByte(8), RepeatFrequency = reader.GetNullableString(9) };
+            service.Repetition = new RepetitionData { SessionCount = sessionCount, RepeatFrequency = repeatFrequency };
 
-            var sessionPrice = reader.GetNullableDecimal(10);
-            var coursePrice = reader.GetNullableDecimal(11);
             if (sessionPrice.IsExisting() || coursePrice.IsExisting())
                 service.Pricing = new RepeatedSessionPricingData { SessionPrice = sessionPrice, CoursePrice = coursePrice };
 
-            var colour = reader.GetNullableStringTrimmed(12);
             if (colour.IsExisting())
                 service.Presentation = new PresentationData { Colour = colour };
 

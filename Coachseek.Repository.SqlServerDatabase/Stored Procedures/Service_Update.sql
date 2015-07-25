@@ -42,13 +42,7 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @serviceGuid
 
-	SELECT
-		*
-	FROM 
-		[dbo].[Service]
-	WHERE
-		[BusinessId] = @businessId
-		AND [Guid] = @serviceGuid
+	EXEC [dbo].[Service_GetByGuid] @businessGuid, @serviceGuid
 
 END
 

@@ -40,7 +40,6 @@ BEGIN
 	)
 
 	SELECT
-		c.[Id],
 		b.[Guid] AS BusinessGuid,
 		c.[Guid],
 		c.[FirstName],
