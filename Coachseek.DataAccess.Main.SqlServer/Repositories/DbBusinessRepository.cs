@@ -272,11 +272,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
-        {
-            return SessionRepository.GetAllStandaloneSessions(businessId);
-        }
-
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
         {
             return SessionRepository.GetAllSessions(businessId);

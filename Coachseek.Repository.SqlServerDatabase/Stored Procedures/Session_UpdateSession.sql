@@ -78,7 +78,6 @@ BEGIN
 		AND [Guid] = @sessionGuid
 
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s2.[Guid] AS ParentGuid,

@@ -108,7 +108,6 @@
     <Build Include="Stored Procedures\Session_CreateSession.sql" />
     <Build Include="Stored Procedures\Session_DeleteByGuid.sql" />
     <Build Include="Stored Procedures\Session_GetAllCourses.sql" />
-    <Build Include="Stored Procedures\Session_GetAllCourseSessions.sql" />
     <Build Include="Stored Procedures\Session_GetAllSessions.sql" />
     <Build Include="Stored Procedures\Session_GetAllStandaloneSessions.sql" />
     <Build Include="Stored Procedures\Session_GetCourseByGuid.sql" />

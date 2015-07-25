@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Session_GetCourseByGuid]
 	@businessGuid uniqueidentifier,
 	@courseGuid uniqueidentifier
@@ -29,7 +30,6 @@ BEGIN
 	)
 
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s2.[Guid] AS ParentGuid,
@@ -65,7 +65,6 @@ BEGIN
 			ON c.[Id] = s.[CoachId]
 		LEFT JOIN [dbo].[Service] svc
 			ON svc.[Id] = s.[ServiceId]
-
 	ORDER BY
 		s2.[Guid]
 

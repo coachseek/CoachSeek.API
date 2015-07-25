@@ -32,7 +32,6 @@ namespace CoachSeek.Domain.Repositories
         CustomerData AddCustomer(Guid businessId, Customer customer);
         CustomerData UpdateCustomer(Guid businessId, Customer customer);
 
-        IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId);
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
         SingleSessionData AddSession(Guid businessId, StandaloneSession session);

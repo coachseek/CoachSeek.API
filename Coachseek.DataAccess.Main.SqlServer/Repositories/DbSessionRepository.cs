@@ -15,35 +15,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         { }
 
 
-        public IList<SingleSessionData> GetAllStandaloneSessions(Guid businessId)
-        {
-            var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("[Session_GetAllStandaloneSessions]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
-
-                var sessions = new List<SingleSessionData>();
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                    sessions.Add(ReadSessionData(reader));
-
-                return sessions;
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
         {
             var wasAlreadyOpen = false;
@@ -179,26 +150,26 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         protected SingleSessionData ReadSessionData(SqlDataReader reader)
         {
-            var id = reader.GetGuid(2);
-            var parentId = reader.GetNullableGuid(3);
-            var locationId = reader.GetGuid(4);
-            var locationName = reader.GetString(5);
-            var coachId = reader.GetGuid(6);
-            var coachFirstName = reader.GetString(7);
-            var coachLastName = reader.GetString(8);
-            var serviceId = reader.GetGuid(9);
-            var serviceName = reader.GetString(10);
-            var name = reader.GetNullableString(11);
-            var startDate = reader.GetDateTime(12).ToString("yyyy-MM-dd");
-            var startTime = reader.GetTimeSpan(13).ToString(@"h\:mm");
-            var duration = reader.GetInt16(14);
-            var studentCapacity = reader.GetByte(15);
-            var isOnlineBookable = reader.GetBoolean(16);
-            var sessionCount = reader.GetByte(17);
-            var repeatFrequency = reader.GetNullableStringTrimmed(18);
-            var sessionPrice = reader.GetNullableDecimal(19);   // Nullable because for a course session this can be null.
-            var coursePrice = reader.GetNullableDecimal(20);
-            var colour = reader.GetNullableStringTrimmed(21);
+            var id = reader.GetGuid(1);
+            var parentId = reader.GetNullableGuid(2);
+            var locationId = reader.GetGuid(3);
+            var locationName = reader.GetString(4);
+            var coachId = reader.GetGuid(5);
+            var coachFirstName = reader.GetString(6);
+            var coachLastName = reader.GetString(7);
+            var serviceId = reader.GetGuid(8);
+            var serviceName = reader.GetString(9);
+            var name = reader.GetNullableString(10);
+            var startDate = reader.GetDateTime(11).ToString("yyyy-MM-dd");
+            var startTime = reader.GetTimeSpan(12).ToString(@"h\:mm");
+            var duration = reader.GetInt16(13);
+            var studentCapacity = reader.GetByte(14);
+            var isOnlineBookable = reader.GetBoolean(15);
+            var sessionCount = reader.GetByte(16);
+            var repeatFrequency = reader.GetNullableStringTrimmed(17);
+            var sessionPrice = reader.GetNullableDecimal(18);   // Nullable because for a course session this can be null.
+            var coursePrice = reader.GetNullableDecimal(19);
+            var colour = reader.GetNullableStringTrimmed(20);
 
             if (sessionCount != 1)
                 throw new InvalidOperationException("Single session must have only a single session.");

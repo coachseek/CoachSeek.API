@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE PROCEDURE [dbo].[Session_CreateCourse]
 	@businessGuid uniqueidentifier,
 	@courseGuid uniqueidentifier,
@@ -96,7 +97,6 @@ BEGIN
 	)
 
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		l.[Guid] AS LocationGuid,

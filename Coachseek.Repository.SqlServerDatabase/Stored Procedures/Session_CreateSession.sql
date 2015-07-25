@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE PROCEDURE [dbo].[Session_CreateSession]
 	@businessGuid uniqueidentifier,
 	@sessionGuid uniqueidentifier,
@@ -105,7 +106,6 @@ BEGIN
 	)
 
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s2.[Guid] AS ParentGuid,

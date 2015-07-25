@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Session_GetAllSessions]
 	@businessGuid uniqueidentifier
 AS
@@ -6,7 +7,6 @@ BEGIN
 	SET NOCOUNT ON;
 	
 	SELECT
-		s.[Id],
 		b.[Guid] AS BusinessGuid,
 		s.[Guid],
 		s2.[Guid] AS ParentGuid,

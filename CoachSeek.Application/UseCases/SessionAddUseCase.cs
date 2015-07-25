@@ -131,27 +131,5 @@ namespace CoachSeek.Application.UseCases
 
             return sessions;
         }
-
-        private List<StandaloneSession> GetAllStandaloneSessions()
-        {
-            var locations = BusinessRepository.GetAllLocations(Business.Id);
-            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
-            var services = BusinessRepository.GetAllServices(Business.Id);
-
-            var sessionDatas = BusinessRepository.GetAllStandaloneSessions(Business.Id);
-
-            var sessions = new List<StandaloneSession>();
-            foreach (var sessionData in sessionDatas)
-            {
-                var location = locations.Single(x => x.Id == sessionData.Location.Id);
-                var coach = coaches.Single(x => x.Id == sessionData.Coach.Id);
-                var service = services.Single(x => x.Id == sessionData.Service.Id);
-
-                var session = new StandaloneSession(sessionData, location, coach, service);
-                sessions.Add(session);
-            }
-
-            return sessions;
-        }
     }
 }
