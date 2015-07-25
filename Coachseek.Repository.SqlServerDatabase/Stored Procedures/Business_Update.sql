@@ -25,7 +25,6 @@ BEGIN
 
 
 	SELECT
-		[Id],
 		[Guid],
 		[Name],
 		[Domain],

@@ -803,18 +803,27 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private BusinessData ReadBusinessData(SqlDataReader reader)
         {
+            var id = reader.GetGuid(0);
+            var name = reader.GetString(1);
+            var domain = reader.GetString(2);
+            var currency = reader.GetNullableString(3);
+            var isOnlinePaymentEnabled = reader.GetBoolean(4);
+            var forceOnlinePayment = reader.GetBoolean(5);
+            var paymentProvider = reader.GetNullableString(6);
+            var merchantAccountIdentifier = reader.GetNullableString(7);
+
             return new BusinessData
             {
-                Id = reader.GetGuid(1),
-                Name = reader.GetString(2),
-                Domain = reader.GetString(3),
+                Id = id,
+                Name = name,
+                Domain = domain,
                 Payment = new BusinessPaymentData
                 {
-                    Currency = reader.GetNullableString(4),
-                    IsOnlinePaymentEnabled = reader.GetBoolean(5),
-                    ForceOnlinePayment = reader.GetBoolean(6),
-                    PaymentProvider = reader.GetNullableString(7),
-                    MerchantAccountIdentifier = reader.GetNullableString(8)
+                    Currency = currency,
+                    IsOnlinePaymentEnabled = isOnlinePaymentEnabled,
+                    ForceOnlinePayment = forceOnlinePayment,
+                    PaymentProvider = paymentProvider,
+                    MerchantAccountIdentifier = merchantAccountIdentifier
                 }
             };
         }
