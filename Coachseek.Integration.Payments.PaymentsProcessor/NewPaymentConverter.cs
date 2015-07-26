@@ -49,7 +49,6 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var validation = new ValidationException();
 
             var id = keyValuePairs.Get("txn_id");
-            var isTestMessage = GetIsTestingFromPaypal(keyValuePairs.Get("test_ipn"));
             var details = GetTransactionDetailsFromPaypal(keyValuePairs);
             var payer = GetPayerFromPaypal(keyValuePairs);
             var merchant = GetMerchantFromPaypal(keyValuePairs, validation);
@@ -57,15 +56,16 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
             validation.ThrowIfErrors();
 
-            return new NewPayment(id, isTestMessage, details, payer, merchant, item, paypalMessage);
+            return new NewPayment(id, details, payer, merchant, item, paypalMessage);
         }
 
         private static TransactionDetails GetTransactionDetailsFromPaypal(NameValueCollection keyValuePairs)
         {
             var status = GetTransactionStatusFromPaypal(keyValuePairs.Get("payment_status"));
             var date = GetTransactionDateFromPaypal(keyValuePairs.Get("payment_date"));
+            var isTestMessage = GetIsTestingFromPaypal(keyValuePairs.Get("test_ipn"));
 
-            return new NewTransactionDetails(status, PaymentProvider.PayPal, date);
+            return new NewTransactionDetails(status, PaymentProvider.PayPal, date, isTestMessage);
         }
 
         private static TransactionStatus GetTransactionStatusFromPaypal(string paypalPaymentStatus)
@@ -156,7 +156,6 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var keyValuePairs = HttpUtility.ParseQueryString(testMessage.Contents);
 
             return new NewPayment(testMessage.Id,
-                                  keyValuePairs.Get("isTesting").Parse<bool>(),
                                   GetTransactionDetailsFromTest(keyValuePairs),
                                   GetPayerFromTest(keyValuePairs),
                                   GetMerchantFromTest(keyValuePairs),
@@ -168,8 +167,9 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         {
             var status = keyValuePairs.Get("status").Parse<TransactionStatus>();
             var date = keyValuePairs.Get("date").Parse<DateTime>();
+            var isTesting = keyValuePairs.Get("isTesting").Parse<bool>();
 
-            return new NewTransactionDetails(status, PaymentProvider.Test, date);
+            return new NewTransactionDetails(status, PaymentProvider.Test, date, isTesting);
         }
 
         private static Payer GetPayerFromTest(NameValueCollection keyValuePairs)

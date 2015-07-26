@@ -78,9 +78,7 @@
   <ItemGroup>
     <Build Include="Tables\Booking.sql" />
     <Build Include="Tables\Business.sql" />
-    <Build Include="Tables\BusinessUser.sql" />
     <Build Include="Tables\Coach.sql" />
-    <Build Include="Tables\Colour.sql" />
     <Build Include="Tables\Customer.sql" />
     <Build Include="Tables\Location.sql" />
     <Build Include="Tables\Service.sql" />

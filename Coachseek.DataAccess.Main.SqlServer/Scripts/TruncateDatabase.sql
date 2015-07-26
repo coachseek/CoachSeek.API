@@ -14,6 +14,7 @@ ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Session]
 GO
 
 -- Truncate Tables
+TRUNCATE TABLE [dbo].[Transaction]
 TRUNCATE TABLE [dbo].[Location]
 TRUNCATE TABLE [dbo].[Coach]
 TRUNCATE TABLE [dbo].[Service]

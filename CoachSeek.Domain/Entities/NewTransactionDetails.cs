@@ -8,20 +8,24 @@ namespace CoachSeek.Domain.Entities
     {
         public NewTransactionDetails(TransactionStatus status, 
                                      PaymentProvider paymentProvider,
-                                     DateTime transactionDate)
+                                     DateTime transactionDate,
+                                     bool isTesting)
             : base(status,
                    paymentProvider,
                    transactionDate,
-                   DateTime.UtcNow)
+                   DateTime.UtcNow,
+                   isTesting)
         { }
 
         public NewTransactionDetails(string status,
                                      string paymentProvider,
-                                     DateTime transactionDate)
+                                     DateTime transactionDate,
+                                     bool isTesting)
             : base(status.Parse<TransactionStatus>(),
                    paymentProvider.Parse<PaymentProvider>(),
                    transactionDate,
-                   DateTime.UtcNow)
+                   DateTime.UtcNow,
+                   isTesting)
         { }
     }
 }

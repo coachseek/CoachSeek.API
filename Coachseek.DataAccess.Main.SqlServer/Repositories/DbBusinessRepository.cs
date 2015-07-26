@@ -728,6 +728,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@itemName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@itemCurrency", SqlDbType.NChar));
                 command.Parameters.Add(new SqlParameter("@itemAmount", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@isTesting", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@originalMessage", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = payment.Id;
@@ -746,7 +747,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[13].Value = payment.ItemName;
                 command.Parameters[14].Value = payment.ItemCurrency;
                 command.Parameters[15].Value = payment.ItemAmount;
-                command.Parameters[16].Value = payment.OriginalMessage;
+                command.Parameters[16].Value = payment.IsTesting;
+                command.Parameters[17].Value = payment.OriginalMessage;
 
                 command.ExecuteNonQuery();
             }
@@ -776,7 +778,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 ItemId = reader.GetGuid(12),
                 ItemName = reader.GetString(13),
                 ItemCurrency = reader.GetString(14),
-                ItemAmount = reader.GetDecimal(15)
+                ItemAmount = reader.GetDecimal(15),
+                IsTesting = reader.GetBoolean(16)
             };
         }
 

@@ -34,7 +34,7 @@ namespace CoachSeek.Domain.Entities
         public bool IsPending { get { return Details.Status == TransactionStatus.Pending; } }
         public bool IsDenied { get { return Details.Status == TransactionStatus.Denied; } }
         public bool IsCompleted { get { return Details.Status == TransactionStatus.Completed; } }
-
+        public bool IsTesting { get { return Details.IsTesting; } }
 
         protected Transaction(string id,
                               TransactionDetails details, 
@@ -52,7 +52,7 @@ namespace CoachSeek.Domain.Entities
         protected Transaction(TransactionData data)
         {
             Id = data.Id;
-            Details = new TransactionDetails(data.Status, data.PaymentProvider, data.TransactionDate, data.ProcessedDate);
+            Details = new TransactionDetails(data.Status, data.PaymentProvider, data.TransactionDate, data.ProcessedDate, data.IsTesting);
             Payer = new Payer(data.PayerFirstName, data.PayerLastName, data.PayerEmail);
             Merchant = new Merchant(data.MerchantId, data.MerchantName, data.MerchantEmail);
             Item = new GoodOrService(data.ItemId, data.ItemName, new Money(data.ItemCurrency, data.ItemAmount));

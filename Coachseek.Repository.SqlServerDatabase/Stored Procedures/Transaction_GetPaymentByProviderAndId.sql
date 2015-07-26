@@ -22,7 +22,8 @@ BEGIN
 		[ItemId],
 		[ItemName],
 		[ItemCurrency],
-		[ItemAmount]
+		[ItemAmount],
+		[IsTesting]
 	FROM
 		[dbo].[Transaction]
 	WHERE

@@ -15,9 +15,12 @@
     [ItemName]        NVARCHAR (200)   NOT NULL,
     [ItemCurrency]    NCHAR (3)        NOT NULL,
     [ItemAmount]      DECIMAL (19, 4)  NOT NULL,
+    [IsTesting]       BIT              NOT NULL,
     [OriginalMessage] NVARCHAR (MAX)   NOT NULL,
     CONSTRAINT [PK_Transaction] PRIMARY KEY CLUSTERED ([Id] ASC, [PaymentProvider] ASC)
 );
+
+
 
 
 

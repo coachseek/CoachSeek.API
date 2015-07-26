@@ -20,6 +20,7 @@ namespace CoachSeek.Data.Model
         public string ItemName { get; set; }
         public string ItemCurrency { get; set; }
         public decimal ItemAmount { get; set; }
+        public bool IsTesting { get; set; }
 
         // Don't need OriginalMessage as it's write only (ie. only for logging).
     }

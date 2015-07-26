@@ -16,6 +16,7 @@ CREATE PROCEDURE [dbo].[Transaction_Create]
 	@itemName nvarchar(200),
 	@itemCurrency nchar(3),
 	@itemAmount decimal(19, 4),
+	@isTesting bit,
 	@originalMessage nvarchar(MAX)
 AS
 BEGIN
@@ -39,6 +40,7 @@ BEGIN
 		[ItemName],
 		[ItemCurrency],
 		[ItemAmount],
+		[IsTesting],
 		[OriginalMessage]
 	)
 	VALUES
@@ -59,6 +61,7 @@ BEGIN
 		@itemName,
 		@itemCurrency,
 		@itemAmount,
+		@isTesting,
 		@originalMessage
 	)
 
