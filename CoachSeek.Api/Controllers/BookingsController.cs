@@ -38,7 +38,7 @@ namespace CoachSeek.Api.Controllers
 
 
         // GET: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
-        [BasicAuthentication]
+        [BasicAuthenticationOrAnonymous]
         [Authorize]
         public HttpResponseMessage Get(Guid id)
         {
@@ -78,7 +78,7 @@ namespace CoachSeek.Api.Controllers
             var response = UseCaseExecutor.ExecuteFor(command, Context);
             return CreatePostWebResponse(response);
         }
-        
+
         // DELETE: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [Authorize]
