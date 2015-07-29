@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models;
@@ -14,7 +13,6 @@ namespace CoachSeek.Api.Controllers
     {
         private BusinessDetails _business;
         private CurrencyDetails _currency;
-        private bool? _isPaymentEnabled;
 
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
@@ -68,16 +66,6 @@ namespace CoachSeek.Api.Controllers
             get { return AppSettings.IsEmailingEnabled.Parse(true); }
         }
 
-        //public bool IsPaymentEnabled
-        //{
-        //    set { _isPaymentEnabled = value; }
-        //    get
-        //    {
-        //        if (_isPaymentEnabled.HasValue)
-        //            return _isPaymentEnabled.Value;
-        //        return AppSettings.IsPaymentEnabled.Parse(false);
-        //    }
-        //}
 
         protected ApplicationContext Context
         {
@@ -86,10 +74,8 @@ namespace CoachSeek.Api.Controllers
                 var userName = ControllerContext.RequestContext.Principal.Identity.Name;
                 var businessContext = new BusinessContext(Business, Currency, userName, BusinessRepository, SupportedCurrencyRepository, UserRepository);
                 var emailContext = new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository);
-                //var paymentContext = new PaymentContext(IsPaymentEnabled);
 
                 return new ApplicationContext(businessContext, emailContext, IsTesting);
-                //return new ApplicationContext(businessContext, emailContext, paymentContext, IsTesting);
             }            
         }
 

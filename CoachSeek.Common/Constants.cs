@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
+        public const string BUSINESS_DOMAIN = "Business-Domain";
+        public const string AUTHORIZATION = "Authorization";
+
         public const string ANONYMOUS_USER = "anonymous";
 
         // Payment Providers

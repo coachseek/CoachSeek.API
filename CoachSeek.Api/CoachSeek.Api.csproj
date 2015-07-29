@@ -317,6 +317,10 @@
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Logging.Contracts\Coachseek.Logging.Contracts.csproj">
+      <Project>{417AAE9C-11B8-434B-8975-1C8DE8491115}</Project>
+      <Name>Coachseek.Logging.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppSettings.tt">

@@ -1,7 +1,6 @@
 ﻿using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Repositories;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Principal;
@@ -13,8 +12,6 @@ namespace CoachSeek.Api.Attributes
 {
     public class BasicAuthenticationOrAnonymousAttribute : BasicAuthenticationAttribute
     {
-        private const string BUSINESS_DOMAIN = "Business-Domain";
-
         public async override Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             // When the Principal is set this indicates Success
@@ -37,7 +34,7 @@ namespace CoachSeek.Api.Attributes
         private async Task AuthoriseForAnonymousBusinessUser(HttpAuthenticationContext context)
         {
             var request = context.Request;
-            if (!request.Headers.Contains(BUSINESS_DOMAIN))
+            if (!request.Headers.Contains(Constants.BUSINESS_DOMAIN))
                 return;
             var business = LookupBusinessFromDomain(request);
             if (business.IsNotFound())
@@ -48,7 +45,7 @@ namespace CoachSeek.Api.Attributes
 
         private BusinessData LookupBusinessFromDomain(HttpRequestMessage request)
         {
-            var domain = request.Headers.GetValues(BUSINESS_DOMAIN).ToList().First();
+            var domain = request.Headers.GetValues(Constants.BUSINESS_DOMAIN).ToList().First();
             var businessRepository = CreateBusinessRepository(request);
             return businessRepository.GetBusiness(domain);
         }

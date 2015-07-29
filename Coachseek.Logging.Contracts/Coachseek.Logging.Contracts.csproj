@@ -41,6 +41,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,13 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestLogMessage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

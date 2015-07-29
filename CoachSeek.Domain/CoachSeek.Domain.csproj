@@ -154,6 +154,7 @@
     <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />
+    <Compile Include="Repositories\IHttpRequestLogRepository.cs" />
     <Compile Include="Repositories\ITransactionRepository.cs" />
     <Compile Include="Repositories\ISupportedCurrencyRepository.cs" />
     <Compile Include="Repositories\IUnsubscribedEmailAddressRepository.cs" />

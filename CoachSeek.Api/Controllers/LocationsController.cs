@@ -44,17 +44,6 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        //// GET: OnlineBooking/Locations
-        //[Route("OnlineBooking/Locations")]
-        //[BasicAuthenticationOrAnonymous]
-        //[Authorize]
-        //public HttpResponseMessage GetForOnlineBooking()
-        //{
-        //    LocationsGetAllUseCase.Initialise(BusinessRepository, BusinessId);
-        //    var response = LocationsGetAllUseCase.GetLocations();
-        //    return CreateGetWebResponse(response);
-        //}
-
         // GET: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthenticationOrAnonymous]
         [Authorize]
