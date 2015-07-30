@@ -603,7 +603,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             throw new InvalidOperationException("Not a session nor a course booking.");
         }
 
-        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool hasAttended)
+        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended)
         {
             WasSetBookingAttendanceCalled = true;
 

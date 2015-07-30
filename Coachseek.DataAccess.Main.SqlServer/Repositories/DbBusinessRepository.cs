@@ -504,7 +504,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     Name = customerName
                 },
                 PaymentStatus = paymentStatus,
-                HasAttended = hasAttended.GetValueOrDefault()
+                HasAttended = hasAttended
             };
         }
 
@@ -554,7 +554,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool hasAttended)
+        public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended)
         {
             try
             {

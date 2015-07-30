@@ -53,7 +53,7 @@ namespace CoachSeek.Domain.Repositories
         void DeleteBooking(Guid businessId, Guid bookingId);
 
         void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus);
-        void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool hasAttended);
+        void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended);
 
         IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId);
         IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId);
