@@ -2,7 +2,7 @@
 CREATE PROCEDURE [dbo].[Booking_UpdateHasAttended]	
 	@businessGuid uniqueidentifier,
 	@bookingGuid uniqueidentifier,
-	@hasAttended bit
+	@hasAttended bit = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
