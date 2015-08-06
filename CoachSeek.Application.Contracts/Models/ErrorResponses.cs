@@ -115,6 +115,13 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
+    public class InvalidEmailTemplateErrorResponse : ErrorResponse
+    {
+        public InvalidEmailTemplateErrorResponse()
+            : base(Resources.ErrorInvalidPaymentStatus)
+        { }
+    }
+
     public class InvalidPaymentStatusErrorResponse : ErrorResponse
     {
         public InvalidPaymentStatusErrorResponse()

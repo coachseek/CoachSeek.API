@@ -3,7 +3,7 @@ using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Application.Contracts.UseCases.Executors
 {
-    public interface IUseCaseExecutor
+    public interface IBookingUseCaseExecutor
     {
         Response ExecuteFor<T>(T command, ApplicationContext context) where T : ICommand;
     }

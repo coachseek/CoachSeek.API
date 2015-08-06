@@ -19,7 +19,7 @@ namespace CoachSeek.Api.Controllers
         public IBookingGetByIdUseCase BookingGetByIdUseCase { get; set; }
         public IBookingAddMasterUseCase BookingAddMasterUseCase { get; set; }
         public IBookingDeleteUseCase BookingDeleteUseCase { get; set; }
-        public IUseCaseExecutor UseCaseExecutor { get; set; }
+        public IBookingUseCaseExecutor BookingUseCaseExecutor { get; set; }
 
 
         public BookingsController()
@@ -28,12 +28,12 @@ namespace CoachSeek.Api.Controllers
         public BookingsController(IBookingGetByIdUseCase bookingGetByIdUseCase,
                                   IBookingAddMasterUseCase bookingAddMasterUseCase,
                                   IBookingDeleteUseCase bookingDeleteUseCase,
-                                  IUseCaseExecutor useCaseExecutor)
+                                  IBookingUseCaseExecutor bookingUseCaseExecutor)
         {
             BookingGetByIdUseCase = bookingGetByIdUseCase;
             BookingAddMasterUseCase = bookingAddMasterUseCase;
             BookingDeleteUseCase = bookingDeleteUseCase;
-            UseCaseExecutor = useCaseExecutor;
+            BookingUseCaseExecutor = bookingUseCaseExecutor;
         }
 
 
@@ -75,7 +75,7 @@ namespace CoachSeek.Api.Controllers
         {
             apiCommand.BookingId = id;
             ICommand command = DomainCommandConverter.Convert(apiCommand);
-            var response = UseCaseExecutor.ExecuteFor(command, Context);
+            var response = BookingUseCaseExecutor.ExecuteFor(command, Context);
             return CreatePostWebResponse(response);
         }
 

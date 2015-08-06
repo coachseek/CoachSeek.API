@@ -71,6 +71,8 @@
     <Compile Include="Commands\BookingSetPaymentStatusCommand.cs" />
     <Compile Include="Commands\BookingSetAttendanceCommand.cs" />
     <Compile Include="Commands\BusinessPaymentCommand.cs" />
+    <Compile Include="Commands\EmailTemplateUpdateCommand.cs" />
+    <Compile Include="Commands\BusinessSetCustomerOnlineBookingEmailCustomisationCommand.cs" />
     <Compile Include="Commands\BusinessUpdateCommand.cs" />
     <Compile Include="Commands\BusinessAddCommand.cs" />
     <Compile Include="Commands\BookingAddCommand.cs" />
@@ -112,6 +114,13 @@
     <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingSessionEmailTemplateDefault.cs" />
+    <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingCourseEmailTemplateDefault.cs" />
+    <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingCourseEmailTemplate.cs" />
+    <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingSessionEmailTemplate.cs" />
+    <Compile Include="Entities\EmailTemplating\EmailTemplateCollection.cs" />
+    <Compile Include="Entities\EmailTemplating\EmailTemplate.cs" />
+    <Compile Include="Entities\EmailTemplating\IEmailTemplate.cs" />
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
@@ -142,6 +151,7 @@
     <Compile Include="Exceptions\DuplicateUser.cs" />
     <Compile Include="Exceptions\InvalidBooking.cs" />
     <Compile Include="Exceptions\CurrencyNotSupported.cs" />
+    <Compile Include="Exceptions\InvalidEmailTemplate.cs" />
     <Compile Include="Exceptions\InvalidCustomer.cs" />
     <Compile Include="Exceptions\InvalidEndDate.cs" />
     <Compile Include="Exceptions\InvalidMerchantAccountIdentifierFormat.cs" />
@@ -151,6 +161,7 @@
     <Compile Include="Exceptions\MissingMerchantAccountIdentifier.cs" />
     <Compile Include="Exceptions\PaymentProviderNotSupported.cs" />
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
+    <Compile Include="Factories\EmailTemplateFactory.cs" />
     <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Repositories\DataRepositories.cs" />

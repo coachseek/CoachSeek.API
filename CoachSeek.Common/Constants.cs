@@ -18,5 +18,9 @@
         public const string PAYMENT_STATUS_PENDING_PAYMENT = "pending-payment";
         public const string PAYMENT_STATUS_OVERDUE_PAYMENT = "overdue-payment";
         public const string PAYMENT_STATUS_PAID = "paid";
+
+        // Email Templates
+        public const string EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING = "CustomerSessionBooking";
+        public const string EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING = "CustomerCourseBooking";
     }
 }

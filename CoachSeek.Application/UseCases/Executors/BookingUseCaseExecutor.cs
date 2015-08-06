@@ -7,13 +7,13 @@ using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Application.UseCases.Executors
 {
-    public class UseCaseExecutor : IUseCaseExecutor
+    public class BookingUseCaseExecutor : IBookingUseCaseExecutor
     {
         public IBookingSetAttendanceUseCase BookingSetAttendanceUseCase { get; set; }
         public IBookingSetPaymentStatusUseCase BookingSetPaymentStatusUseCase { get; set; }
 
-        public UseCaseExecutor(IBookingSetAttendanceUseCase bookingSetAttendanceUseCase,
-                               IBookingSetPaymentStatusUseCase bookingSetPaymentStatusUseCase)
+        public BookingUseCaseExecutor(IBookingSetAttendanceUseCase bookingSetAttendanceUseCase,
+                                      IBookingSetPaymentStatusUseCase bookingSetPaymentStatusUseCase)
         {
             BookingSetAttendanceUseCase = bookingSetAttendanceUseCase;
             BookingSetPaymentStatusUseCase = bookingSetPaymentStatusUseCase;

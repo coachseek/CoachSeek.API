@@ -65,8 +65,8 @@
     <Compile Include="UseCases\Admin\IEmailIsUnsubscribedUseCase.cs" />
     <Compile Include="UseCases\Admin\IEmailUnsubscribeUseCase.cs" />
     <Compile Include="UseCases\Emailing\IProcessBouncedEmailMessagesUseCase.cs" />
+    <Compile Include="UseCases\Executors\IBookingUseCaseExecutor.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
-    <Compile Include="UseCases\Executors\IUseCaseExecutor.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
     <Compile Include="UseCases\IBookingAddUseCase.cs" />
     <Compile Include="UseCases\IBookingSetAttendanceUseCase.cs" />
@@ -76,6 +76,11 @@
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICustomerOnlineBookingAddUseCase.cs" />
+    <Compile Include="UseCases\IEmailTemplateDeleteUseCase.cs" />
+    <Compile Include="UseCases\IEmailTemplateGetAllUseCase.cs" />
+    <Compile Include="UseCases\IEmailTemplateGetByTypeUseCase.cs" />
+    <Compile Include="UseCases\IEmailTemplateTypesGetAllUseCase.cs" />
+    <Compile Include="UseCases\IEmailTemplateUpdateUseCase.cs" />
     <Compile Include="UseCases\IPaypalReceivePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\IProcessPaymentsUseCase.cs" />
     <Compile Include="UseCases\IStandaloneSessionOnlineBookingAddUseCase.cs" />

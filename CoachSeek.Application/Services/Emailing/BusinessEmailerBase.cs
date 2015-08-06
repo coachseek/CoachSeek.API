@@ -29,8 +29,8 @@ namespace CoachSeek.Application.Services.Emailing
         protected string ReadEmbeddedTextResource(string resourceName)
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-                return reader.ReadToEnd();
+                using (var reader = new StreamReader(stream))
+                    return reader.ReadToEnd();
         }
 
         public void Initialise(ApplicationContext context)

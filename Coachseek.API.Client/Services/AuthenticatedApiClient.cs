@@ -19,11 +19,11 @@ namespace Coachseek.API.Client.Services
             return Post<TResponse>(http, json);
         }
 
-        public ApiResponse Delete<TResponse>(string username, string password, string relativeUrl, Guid id, string scheme = "https")
+        public ApiResponse Delete(string username, string password, string relativeUrl, string id, string scheme = "https")
         {
             var http = CreateWebRequest(relativeUrl, id, scheme);
             SetBasicAuthHeader(http, username, password);
-            return Delete<TResponse>(http);
+            return Delete(http);
         }
     }
 }

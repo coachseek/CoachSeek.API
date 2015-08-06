@@ -9,13 +9,13 @@ namespace Coachseek.API.Client.Services
 {
     public abstract class ApiClientBase
     {
-        protected HttpWebRequest CreateWebRequest(string relativeUrl, string scheme = "https")
+        protected HttpWebRequest CreateWebRequest(string relativeUrl, string scheme)
         {
             var url = FormatUrl(relativeUrl, scheme);
             return (HttpWebRequest)WebRequest.Create(url);
         }
 
-        protected HttpWebRequest CreateWebRequest(string relativeUrl, Guid id, string scheme = "https")
+        protected HttpWebRequest CreateWebRequest(string relativeUrl, string id, string scheme)
         {
             var url = FormatUrl(relativeUrl, id, scheme);
             return (HttpWebRequest)WebRequest.Create(url);
@@ -41,6 +41,11 @@ namespace Coachseek.API.Client.Services
             return new Uri(string.Format("{0}/{1}/{2}", FormatBaseUrl(scheme), relativeUrl, id));
         }
 
+        protected virtual Uri FormatUrl(string relativeUrl, string id, string scheme)
+        {
+            return new Uri(string.Format("{0}/{1}/{2}", FormatBaseUrl(scheme), relativeUrl, id));
+        }
+
         protected ApiResponse Get<TResponse>(HttpWebRequest request)
         {
             PrepareGetRequest(request);
@@ -56,11 +61,11 @@ namespace Coachseek.API.Client.Services
             return HandleResponse<TResponse>(request);
         }
 
-        protected ApiResponse Delete<TResponse>(HttpWebRequest request)
+        protected ApiResponse Delete(HttpWebRequest request)
         {
             PrepareDeleteRequest(request);
             MakeAdditionalChangesToRequest(request);
-            return HandleResponse<TResponse>(request);
+            return HandleResponse(request);
         }
 
         protected virtual void MakeAdditionalChangesToRequest(HttpWebRequest request)
@@ -96,6 +101,36 @@ namespace Coachseek.API.Client.Services
             var newStream = request.GetRequestStream();
             newStream.Write(bytes, 0, bytes.Length);
             newStream.Close();
+        }
+
+        private ApiResponse HandleResponse(HttpWebRequest request)
+        {
+            try
+            {
+                request.Timeout = 200000;
+                var response = request.GetResponse();
+                var status = ((HttpWebResponse)response).StatusCode;
+                var stream = response.GetResponseStream();
+                var sr = new StreamReader(stream);
+                var content = sr.ReadToEnd();
+
+                return new ApiResponse(status, content);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                    return new ApiResponse(HttpStatusCode.RequestTimeout);
+
+                var status = ((HttpWebResponse)ex.Response).StatusCode;
+                using (var stream = ex.Response.GetResponseStream())
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        var errors = reader.ReadToEnd();
+                        return new ApiResponse(status, DeserialiseErrors(errors));
+                    }
+                }
+            }
         }
 
         private ApiResponse HandleResponse<TResponse>(HttpWebRequest request)

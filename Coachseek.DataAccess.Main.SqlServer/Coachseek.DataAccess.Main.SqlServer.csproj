@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbBusinessRepository.cs" />
+    <Compile Include="Repositories\DbEmailTemplateRepository.cs" />
     <Compile Include="Repositories\DbCourseRepository.cs" />
     <Compile Include="Repositories\DbCustomerRepository.cs" />
     <Compile Include="Repositories\DbSessionRepository.cs" />

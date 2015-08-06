@@ -156,6 +156,9 @@
   <data name="ErrorInvalidEmailAddressFormat" xml:space="preserve">
     <value>The email address is not valid.</value>
   </data>
+  <data name="ErrorInvalidEmailTemplate" xml:space="preserve">
+    <value>This email template does not exist.</value>
+  </data>
   <data name="ErrorInvalidLocation" xml:space="preserve">
     <value>This location does not exist.</value>
   </data>

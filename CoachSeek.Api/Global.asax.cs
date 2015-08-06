@@ -1,13 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using CoachSeek.Api.Filters;
-using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
-using CoachSeek.Common.Services.Authentication;
 using Coachseek.DataAccess.TableStorage.Logging;
 using Coachseek.Logging.Contracts;
 using StructureMap;

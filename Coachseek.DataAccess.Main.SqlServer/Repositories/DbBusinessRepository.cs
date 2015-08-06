@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.EmailTemplating;
 using CoachSeek.Domain.Repositories;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
@@ -37,6 +38,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbCustomerRepository CustomerRepository { get; set; }
         private DbSessionRepository SessionRepository { get; set; }
         private DbCourseRepository CourseRepository { get; set; }
+        private DbEmailTemplateRepository EmailTemplateRepository { get; set; }
 
 
         public DbBusinessRepository()
@@ -47,8 +49,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
             SessionRepository = new DbSessionRepository(ConnectionStringKey);
             CourseRepository = new DbCourseRepository(ConnectionStringKey);
+            EmailTemplateRepository = new DbEmailTemplateRepository(ConnectionStringKey);
         }
-
 
 
         public BusinessData GetBusiness(Guid businessId)
@@ -670,6 +672,33 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     reader.Close();
             }
         }
+
+
+        public IList<EmailTemplateData> GetAllEmailTemplates(Guid businessId)
+        {
+            return EmailTemplateRepository.GetAllEmailTemplates(businessId);
+        }
+
+        public EmailTemplateData GetEmailTemplate(Guid businessId, string templateType)
+        {
+            return EmailTemplateRepository.GetEmailTemplate(businessId, templateType);
+        }
+
+        public void AddEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            EmailTemplateRepository.AddEmailTemplate(businessId, emailTemplate);
+        }
+
+        public void UpdateEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            EmailTemplateRepository.UpdateEmailTemplate(businessId, emailTemplate);
+        }
+
+        public void DeleteEmailTemplate(Guid businessId, string templateType)
+        {
+            EmailTemplateRepository.DeleteEmailTemplate(businessId, templateType);
+        }
+
 
         public Payment GetPayment(string paymentProvider, string id)
         {

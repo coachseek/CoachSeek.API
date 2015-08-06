@@ -55,6 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="UseCases\EmailTemplateDeleteUseCase.cs" />
+    <Compile Include="UseCases\EmailTemplateGetAllUseCase.cs" />
+    <Compile Include="UseCases\EmailTemplateGetByTypeUseCase.cs" />
+    <Compile Include="UseCases\EmailTemplateUpdateUseCase.cs" />
     <Compile Include="Services\Emailing\BusinessEmailerBase.cs" />
     <Compile Include="Services\CustomerResolver.cs" />
     <Compile Include="Services\Emailing\OnlineBookingEmailer.cs" />
@@ -74,7 +78,7 @@
     <Compile Include="UseCases\CourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\CustomerOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\Emailing\ProcessBouncedEmailMessagesUseCase.cs" />
-    <Compile Include="UseCases\Executors\UseCaseExecutor.cs" />
+    <Compile Include="UseCases\Executors\BookingUseCaseExecutor.cs" />
     <Compile Include="UseCases\PaypalReceivePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\ProcessPaymentsUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionOnlineBookingAddUseCase.cs" />

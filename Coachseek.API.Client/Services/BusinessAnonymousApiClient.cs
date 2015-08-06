@@ -7,14 +7,14 @@ namespace Coachseek.API.Client.Services
     {
         public ApiResponse Get<TResponse>(string businessDomain, string relativeUrl, string scheme = "https")
         {
-            var http = CreateWebRequest(relativeUrl);
+            var http = CreateWebRequest(relativeUrl, scheme);
             SetBusinessDomainHeader(http, businessDomain);
             return Get<TResponse>(http);
         }
 
         public ApiResponse Post<TResponse>(string json, string businessDomain, string relativeUrl, string scheme = "https")
         {
-            var http = CreateWebRequest(relativeUrl);
+            var http = CreateWebRequest(relativeUrl, scheme);
             SetBusinessDomainHeader(http, businessDomain);
             return Post<TResponse>(http, json);
         }

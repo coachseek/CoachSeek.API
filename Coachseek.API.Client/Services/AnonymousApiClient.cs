@@ -1,5 +1,4 @@
-﻿using System;
-using Coachseek.API.Client.Models;
+﻿using Coachseek.API.Client.Models;
 
 namespace Coachseek.API.Client.Services
 {
@@ -17,10 +16,10 @@ namespace Coachseek.API.Client.Services
             return Post<TResponse>(http, json);
         }
 
-        public ApiResponse Delete<TResponse>(string relativeUrl, Guid id, string scheme = "https")
+        public ApiResponse Delete(string relativeUrl, string id, string scheme = "https")
         {
             var http = CreateWebRequest(relativeUrl, id, scheme);
-            return Delete<TResponse>(http);
+            return Delete(http);
         }
     }
 }

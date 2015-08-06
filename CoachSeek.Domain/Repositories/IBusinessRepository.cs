@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.EmailTemplating;
 
 namespace CoachSeek.Domain.Repositories
 {
@@ -58,5 +59,11 @@ namespace CoachSeek.Domain.Repositories
         IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId);
         IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId);
         IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId);
+
+        IList<EmailTemplateData> GetAllEmailTemplates(Guid businessId);
+        EmailTemplateData GetEmailTemplate(Guid businessId, string templateType);
+        void AddEmailTemplate(Guid businessId, EmailTemplate emailTemplate);
+        void UpdateEmailTemplate(Guid businessId, EmailTemplate emailTemplate);
+        void DeleteEmailTemplate(Guid businessId, string templateType);
     }
 }

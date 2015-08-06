@@ -61,6 +61,7 @@
     <Compile Include="Model\CourseBookingData.cs" />
     <Compile Include="Model\CourseKeyData.cs" />
     <Compile Include="Model\CurrencyData.cs" />
+    <Compile Include="Model\EmailTemplateData.cs" />
     <Compile Include="Model\TransactionData.cs" />
     <Compile Include="Model\PaymentData.cs" />
     <Compile Include="Model\SessionSearchData.cs" />

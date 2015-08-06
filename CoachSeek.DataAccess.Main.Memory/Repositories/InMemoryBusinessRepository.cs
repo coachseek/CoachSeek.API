@@ -4,6 +4,7 @@ using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
 using CoachSeek.DataAccess.Models;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.EmailTemplating;
 using CoachSeek.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -734,6 +735,32 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
 
             return customerBookings;
+        }
+
+
+        public IList<EmailTemplateData> GetAllEmailTemplates(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public EmailTemplateData GetEmailTemplate(Guid businessId, string templateType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEmailTemplate(Guid businessId, string templateType)
+        {
+            throw new NotImplementedException();
         }
     }
 }
