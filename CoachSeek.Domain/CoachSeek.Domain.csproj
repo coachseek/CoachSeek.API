@@ -114,6 +114,9 @@
     <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\BouncedEmail.cs" />
+    <Compile Include="Entities\OnlineBookingEmail.cs" />
+    <Compile Include="Entities\Email.cs" />
     <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingSessionEmailTemplateDefault.cs" />
     <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingCourseEmailTemplateDefault.cs" />
     <Compile Include="Entities\EmailTemplating\CustomerOnlineBookingCourseEmailTemplate.cs" />
@@ -267,6 +270,12 @@
       <Project>{417aae9c-11b8-434b-8975-1c8de8491115}</Project>
       <Name>Coachseek.Logging.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Entities\EmailTemplating\Templates\OnlineBookingCustomerCourseEmail.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Entities\EmailTemplating\Templates\OnlineBookingCustomerSessionEmail.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

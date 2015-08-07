@@ -69,7 +69,6 @@
     <Compile Include="Interfaces\IPaymentMessageProcessor.cs" />
     <Compile Include="Interfaces\IPaymentProcessorConfiguration.cs" />
     <Compile Include="Interfaces\IPaymentProviderApi.cs" />
-    <Compile Include="Models\Email.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

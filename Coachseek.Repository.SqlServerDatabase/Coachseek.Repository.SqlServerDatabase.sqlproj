@@ -125,6 +125,12 @@
     <Build Include="Tables\Transaction.sql" />
     <Build Include="Stored Procedures\Transaction_GetPaymentByProviderAndId.sql" />
     <Build Include="Stored Procedures\Transaction_Create.sql" />
+    <Build Include="Tables\EmailTemplate.sql" />
+    <Build Include="Stored Procedures\EmailTemplate_Update.sql" />
+    <Build Include="Stored Procedures\EmailTemplate_GetByType.sql" />
+    <Build Include="Stored Procedures\EmailTemplate_GetAll.sql" />
+    <Build Include="Stored Procedures\EmailTemplate_DeleteByType.sql" />
+    <Build Include="Stored Procedures\EmailTemplate_Create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

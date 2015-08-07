@@ -8,6 +8,14 @@ namespace CoachSeek.Application.UseCases
 {
     public class StandaloneSessionOnlineBookingAddUseCase : StandaloneSessionBookingAddUseCase, IStandaloneSessionOnlineBookingAddUseCase
     {
+        private IEmailTemplateGetByTypeUseCase EmailTemplateGetByTypeUseCase { get; set; }
+
+        public StandaloneSessionOnlineBookingAddUseCase(IEmailTemplateGetByTypeUseCase emailTemplateGetByTypeUseCase)
+        {
+            EmailTemplateGetByTypeUseCase = emailTemplateGetByTypeUseCase;
+        }
+
+
         protected override void ValidateCommandAdditional(BookingAddCommand newBooking, 
                                                           ValidationException errors)
         {
@@ -29,7 +37,7 @@ namespace CoachSeek.Application.UseCases
 
         protected override void PostProcessing(SingleSessionBooking newBooking)
         {
-            var emailer = new OnlineBookingEmailer();
+            var emailer = new OnlineBookingEmailer(EmailTemplateGetByTypeUseCase);
             emailer.Initialise(Context);
 
             var session = Context.BusinessContext.BusinessRepository.GetSession(Business.Id, newBooking.Session.Id);

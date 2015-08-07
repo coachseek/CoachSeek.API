@@ -79,8 +79,6 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
             builder.AppendLine("");
             builder.AppendLine("<<CoachFirstName>> <<CoachLastName>>");
             builder.AppendLine("<<BusinessName>>");
-            builder.AppendLine("");
-            builder.Append("Online booking powered by Coachseek (http://www.coachseek.com)");
 
             return builder.ToString();
         }

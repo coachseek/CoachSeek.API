@@ -45,8 +45,7 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
                     "SessionCount",
                     "RepeatFrequency",
                     "CurrencySymbol",
-                    "BookedSessionCount",
-                    "BookedSessions",
+                    "BookedSessionsList",
                     "BookingPrice"
                 };
             }
@@ -70,8 +69,7 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
             builder.AppendLine("Coach: <<CoachFirstName>> <<CoachLastName>>");
             builder.AppendLine("Service: <<ServiceName>>");
             builder.AppendLine("Timing: Starting on <<StartDate>> at <<StartTime>> for <<Duration>>, occurring for a total of <<SessionCount>> <<RepeatFrequency>>");
-            builder.AppendLine("<<BookedSessionCount>>:");
-            builder.AppendLine("<<BookedSessions>>");
+            builder.AppendLine("<<BookedSessionsList>>");
             builder.AppendLine("Price: <<CurrencySymbol>><<BookingPrice>>");
             builder.AppendLine("");
             builder.AppendLine("Your details:");
@@ -85,8 +83,6 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
             builder.AppendLine("");
             builder.AppendLine("<<CoachFirstName>> <<CoachLastName>>");
             builder.AppendLine("<<BusinessName>>");
-            builder.AppendLine("");
-            builder.Append("Online booking powered by Coachseek (http://www.coachseek.com)");
 
             return builder.ToString();
         }

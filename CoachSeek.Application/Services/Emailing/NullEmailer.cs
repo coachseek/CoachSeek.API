@@ -1,5 +1,5 @@
-﻿using Coachseek.Integration.Contracts.Interfaces;
-using Coachseek.Integration.Contracts.Models;
+﻿using CoachSeek.Domain.Entities;
+using Coachseek.Integration.Contracts.Interfaces;
 
 namespace CoachSeek.Application.Services.Emailing
 {

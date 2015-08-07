@@ -8,6 +8,14 @@ namespace CoachSeek.Application.UseCases
 {
     public class CourseSessionOnlineBookingAddUseCase : CourseSessionBookingAddUseCase, ICourseSessionOnlineBookingAddUseCase
     {
+        private IEmailTemplateGetByTypeUseCase EmailTemplateGetByTypeUseCase { get; set; }
+
+        public CourseSessionOnlineBookingAddUseCase(IEmailTemplateGetByTypeUseCase emailTemplateGetByTypeUseCase)
+        {
+            EmailTemplateGetByTypeUseCase = emailTemplateGetByTypeUseCase;
+        }
+
+
         protected override void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
         {
             ValidateIsOnlineBookable(errors);
@@ -26,7 +34,7 @@ namespace CoachSeek.Application.UseCases
 
         protected override void PostProcessing(CourseBooking newBooking)
         {
-            var emailer = new OnlineBookingEmailer();
+            var emailer = new OnlineBookingEmailer(EmailTemplateGetByTypeUseCase);
             emailer.Initialise(Context);
 
             var coach = Context.BusinessContext.BusinessRepository.GetCoach(Business.Id, newBooking.Course.Coach.Id);

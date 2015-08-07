@@ -1,5 +1,5 @@
-﻿using CoachSeek.Domain.Repositories;
-using Coachseek.Integration.Contracts.Models;
+﻿using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Repositories;
 using Coachseek.Integration.Emailing.Amazon;
 using Coachseek.Integration.Tests.Unit.Fakes;
 using NUnit.Framework;
@@ -27,7 +27,7 @@ namespace Coachseek.Integration.Tests.Unit.Emailing
         private bool WhenTryAndSendEmail(IUnsubscribedEmailAddressRepository repository)
         {
             var emailer = new AmazonEmailer(repository);
-            return emailer.Send(new Email("", "", "", ""));
+            return emailer.Send(new BouncedEmail("", "", "", ""));
         }
     }
 }

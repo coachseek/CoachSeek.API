@@ -33,7 +33,7 @@ namespace CoachSeek.Application.Services.Emailing
                     return reader.ReadToEnd();
         }
 
-        public void Initialise(ApplicationContext context)
+        public virtual void Initialise(ApplicationContext context)
         {
             Context = context;
         }

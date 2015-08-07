@@ -1,4 +1,4 @@
-﻿using Coachseek.Integration.Contracts.Models;
+﻿using CoachSeek.Domain.Entities;
 
 namespace Coachseek.Integration.Contracts.Interfaces
 {
