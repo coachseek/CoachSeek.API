@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
@@ -44,6 +45,11 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
             };
         }
 
+
+        protected IList<string> WrapPlaceholdersInDelimiter(string[] placeholders)
+        {
+            return placeholders.Select(placeholder => string.Format("<<{0}>>", placeholder)).ToList();
+        }
 
         private void ValidateCommand(EmailTemplateUpdateCommand command)
         {

@@ -28,7 +28,7 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
         {
             get
             {
-                return new[] 
+                var placeholders = new[] 
                 {
                     "BusinessName", 
                     "CustomerFirstName",
@@ -45,6 +45,8 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
                     "CurrencySymbol",
                     "SessionPrice"
                 };
+
+                return WrapPlaceholdersInDelimiter(placeholders);
             }
         }
 
