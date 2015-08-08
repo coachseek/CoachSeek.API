@@ -37,18 +37,17 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
-        // GET: EmailTemplates/CustomerSessionBooking
+        // GET: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Get(string id)
         {
-            var templateType = id;
             EmailTemplateGetByTypeUseCase.Initialise(Context);
-            var response = EmailTemplateGetByTypeUseCase.GetEmailTemplate(templateType);
+            var response = EmailTemplateGetByTypeUseCase.GetEmailTemplate(id);
             return CreateGetWebResponse(response);
         }
 
-        // POST: EmailTemplates/CustomerSessionBooking
+        // POST: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -62,14 +61,13 @@ namespace CoachSeek.Api.Controllers
             return CreatePostWebResponse(response);
         }
 
-        // DELETE: EmailTemplates/CustomerSessionBooking
+        // DELETE: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
         [Authorize]
         public HttpResponseMessage Delete(string id)
         {
-            var templateType = id;
             EmailTemplateDeleteUseCase.Initialise(Context);
-            var response = EmailTemplateDeleteUseCase.DeleteEmailTemplate(templateType);
+            var response = EmailTemplateDeleteUseCase.DeleteEmailTemplate(id);
             return CreateDeleteWebResponse(response);
         }
     }

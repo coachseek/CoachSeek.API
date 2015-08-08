@@ -24,8 +24,6 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is InvalidEmailTemplate)
-                    return new InvalidEmailTemplateErrorResponse();
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 

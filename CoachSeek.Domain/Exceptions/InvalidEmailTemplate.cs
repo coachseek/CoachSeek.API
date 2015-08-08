@@ -1,8 +1,8 @@
-﻿using System;
+﻿//using System;
 
-namespace CoachSeek.Domain.Exceptions
-{
-    public class InvalidEmailTemplate : Exception
-    {
-    }
-}
+//namespace CoachSeek.Domain.Exceptions
+//{
+//    public class InvalidEmailTemplate : Exception
+//    {
+//    }
+//}
