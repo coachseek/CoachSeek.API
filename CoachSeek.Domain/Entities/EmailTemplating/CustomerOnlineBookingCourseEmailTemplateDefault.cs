@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
 
         public override string Type
         {
-            get { return Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING; }
+            get { return Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE; }
         }
 
         public override IList<string> Placeholders

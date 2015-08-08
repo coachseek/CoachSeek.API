@@ -71,7 +71,7 @@ namespace CoachSeek.Application.Services.Emailing
 
         private Tuple<string, string> CreateCustomerSessionEmailSubjectAndBody(SingleSessionBooking booking, SingleSessionData session, CoachData coach, CustomerData customer)
         {
-            var template = EmailTemplateGetByTypeUseCase.GetEmailTemplate(Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING);
+            var template = EmailTemplateGetByTypeUseCase.GetEmailTemplate(Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION);
             var substitutes = CreateSessionSubstitutes(booking, coach, customer, session);
 
             var subject = ReplaceTemplatePlaceholders(template.Subject, substitutes);
@@ -82,7 +82,7 @@ namespace CoachSeek.Application.Services.Emailing
 
         private Tuple<string, string> CreateCustomerCourseEmailSubjectAndBody(CourseBooking booking, CoachData coach, CustomerData customer)
         {
-            var template = EmailTemplateGetByTypeUseCase.GetEmailTemplate(Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING);
+            var template = EmailTemplateGetByTypeUseCase.GetEmailTemplate(Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE);
             var substitutes = CreateCourseSubstitutes(booking, coach, customer);
 
             var subject = ReplaceTemplatePlaceholders(template.Subject, substitutes);

@@ -69,8 +69,8 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
 
         private void ValidateType(string templateType, ValidationException errors)
         {
-            if (templateType != Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING &&
-                templateType != Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING)
+            if (templateType != Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION &&
+                templateType != Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE)
                 errors.Add("Email template type is not valid.", "emailTemplate.type");
         }
 

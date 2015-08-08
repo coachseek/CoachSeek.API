@@ -11,16 +11,16 @@ namespace CoachSeek.Domain.Factories
     {
         public static bool IsValidTemplateType(string templateType)
         {
-            return (templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING ||
-                    templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING);
+            return (templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION ||
+                    templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE);
         }
 
         public static EmailTemplate BuildEmailTemplate(EmailTemplateUpdateCommand command)
         {
-            if (command.Type == Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING)
+            if (command.Type == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION)
                 return new CustomerOnlineBookingSessionEmailTemplate(command);
 
-            if (command.Type == Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING)
+            if (command.Type == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE)
                 return new CustomerOnlineBookingCourseEmailTemplate(command);
 
             throw new ValidationException("Email template type is not valid.", "emailTemplate.type");
@@ -28,10 +28,10 @@ namespace CoachSeek.Domain.Factories
 
         public static EmailTemplate BuildEmailTemplate(EmailTemplateData templateData)
         {
-            if (templateData.Type == Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING)
+            if (templateData.Type == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION)
                 return new CustomerOnlineBookingSessionEmailTemplate(templateData);
 
-            if (templateData.Type == Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING)
+            if (templateData.Type == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE)
                 return new CustomerOnlineBookingCourseEmailTemplate(templateData);
 
             // Throw InvalidOperationException because we should never come in here.
@@ -40,10 +40,10 @@ namespace CoachSeek.Domain.Factories
 
         public static EmailTemplate BuildDefaultEmailTemplate(string templateType)
         {
-            if (templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING)
+            if (templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION)
                 return new CustomerOnlineBookingSessionEmailTemplateDefault();
 
-            if (templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING)
+            if (templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE)
                 return new CustomerOnlineBookingCourseEmailTemplateDefault();
 
             // Throw InvalidOperationException because we should never come in here.

@@ -20,7 +20,7 @@
         public const string PAYMENT_STATUS_PAID = "paid";
 
         // Email Templates
-        public const string EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING = "CustomerSessionBooking";
-        public const string EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING = "CustomerCourseBooking";
+        public const string EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION = "OnlineBookingCustomerSession";
+        public const string EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE = "OnlineBookingCustomerCourse";
     }
 }

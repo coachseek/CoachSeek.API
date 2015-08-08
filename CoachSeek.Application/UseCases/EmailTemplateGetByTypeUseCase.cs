@@ -25,8 +25,8 @@ namespace CoachSeek.Application.UseCases
 
         private bool IsValidEmailTemplate(string templateType)
         {
-            return (templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_SESSION_BOOKING ||
-                    templateType == Constants.EMAIL_TEMPLATE_CUSTOMER_COURSE_BOOKING);
+            return (templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION ||
+                    templateType == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE);
         }
     }
 }
