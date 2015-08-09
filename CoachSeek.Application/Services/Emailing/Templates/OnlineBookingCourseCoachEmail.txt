@@ -14,8 +14,7 @@ Coach: <<CoachFirstName>> <<CoachLastName>>
 Location: <<LocationName>>
 Service: <<ServiceName>>
 Date: Starting on <<StartDate>> at <<StartTime>> for <<Duration>>, occurring for a total of <<SessionCount>> <<RepeatFrequency>>.
-<<BookedSessionCount>>:
-<<BookedSessions>>
+<<BookedSessionsList>>
 Price: <<CurrencySymbol>><<BookingPrice>>
 
 Your customer has also received a confirmation of this booking. And you'll be delighted to know this person has been automatically loaded into your Coachseek database, and the register for the course! Too easy!
