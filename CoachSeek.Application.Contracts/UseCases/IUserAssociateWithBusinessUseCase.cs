@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IUserAssociateWithBusinessUseCase : IUserRepositorySetter
     {
-        Response AssociateUserWithBusiness(UserAssociateWithBusinessCommand command);
+        IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command);
     }
 }

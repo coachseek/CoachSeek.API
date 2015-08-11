@@ -12,7 +12,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionAddUseCase : BaseUseCase, ISessionAddUseCase
     {
-        public Response AddSession(SessionAddCommand command)
+        public IResponse AddSession(SessionAddCommand command)
         {
             try
             {
@@ -25,8 +25,8 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is ClashingSession)
-                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 

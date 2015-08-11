@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class LocationAddUseCase : BaseUseCase, ILocationAddUseCase
     {
-        public Response AddLocation(LocationAddCommand command)
+        public IResponse AddLocation(LocationAddCommand command)
         {
             try
             {
@@ -21,12 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is DuplicateLocation)
-                    return new DuplicateLocationErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -35,7 +30,7 @@ namespace CoachSeek.Application.UseCases
             var locations = BusinessRepository.GetAllLocations(Business.Id);
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
             if (isExistingLocation)
-                throw new DuplicateLocation();
+                throw new DuplicateLocation(newLocation.Name);
         }
     }
 }

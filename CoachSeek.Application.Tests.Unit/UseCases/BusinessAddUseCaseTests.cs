@@ -67,7 +67,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response WhenAddBusiness(BusinessAddCommand command)
+        private IResponse WhenAddBusiness(BusinessAddCommand command)
         {
             var useCase = new BusinessAddUseCase(BusinessDomainBuilder);
             var business = new BusinessDetails(Guid.Empty, "", "");
@@ -79,7 +79,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return useCase.AddBusiness(command);
         }
 
-        private void ThenBusinessAddFailsWithMissingBusinessError(Response response)
+        private void ThenBusinessAddFailsWithMissingBusinessError(IResponse response)
         {
             AssertMissingRegistrationError(response);
             AssertBusinessRegistrationFails();
@@ -90,7 +90,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertBusinessIsRegistered();
         }
 
-        private void AssertMissingRegistrationError(Response response)
+        private void AssertMissingRegistrationError(IResponse response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

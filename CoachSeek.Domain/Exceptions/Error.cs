@@ -6,12 +6,20 @@ namespace CoachSeek.Domain.Exceptions
     {
         public string Message { get; private set; }
         public string Field { get; private set; }
+        public string Code { get; private set; }
+        public string Data { get; private set; }
 
         public Error(string message, string field = null)
         {
-            //Code = code;
             Message = message;
             Field = field;
+        }
+
+        public Error(string message, string code, string data = null)
+        {
+            Message = message;
+            Code = code;
+            Data = data;
         }
 
 

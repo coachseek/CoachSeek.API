@@ -1,8 +1,13 @@
-﻿using System;
+﻿using CoachSeek.Common;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class DuplicateLocation : Exception
+    public class DuplicateLocation : SingleErrorException
     {
+        public DuplicateLocation(string locationName)
+            : base(string.Format("Location '{0}' already exists.", locationName),
+                   ErrorCodes.LocationDuplicate,
+                   locationName)
+        { }
     }
 }

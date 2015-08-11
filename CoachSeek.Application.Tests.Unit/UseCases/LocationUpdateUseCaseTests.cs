@@ -29,9 +29,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         [Test]
         public void GivenNonExistentLocation_WhenUpdateLocation_ThenLocationUpdateFailsWithInvalidLocationError()
         {
-            var request = GivenNonExistentLocation();
-            var response = WhenUpdateLocation(request);
-            ThenLocationUpdateFailsWithInvalidLocationError(response);
+            var command = GivenNonExistentLocation();
+            var response = WhenUpdateLocation(command);
+            ThenLocationUpdateFailsWithInvalidLocationError(response, command.Id);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new LocationUpdateCommand
             {
-                Id = new Guid(LOCATION_REMUERA_ID),
+                Id = Guid.NewGuid(),
                 Name = "Remuera Tennis Club"
             };
         }
@@ -83,7 +83,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
-        private Response WhenUpdateLocation(LocationUpdateCommand request)
+        private IResponse WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase();
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
@@ -102,43 +102,43 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
-        private void ThenLocationUpdateFailsWithInvalidLocationError(Response response)
+        private void ThenLocationUpdateFailsWithInvalidLocationError(IResponse response, Guid locationId)
         {
-            AssertInvalidLocationError(response);
+            AssertInvalidLocationError(response, locationId);
 
             Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
-        private void ThenLocationUpdateFailsWithDuplicateLocationError(Response response)
+        private void ThenLocationUpdateFailsWithDuplicateLocationError(IResponse response)
         {
             AssertDuplicateLocationError(response);
 
             Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.False);
         }
 
-        private void ThenLocationUpdateSucceeds(Response response)
+        private void ThenLocationUpdateSucceeds(IResponse response)
         {
             Assert.That(BusinessRepository.WasUpdateLocationCalled, Is.True);
 
             AssertResponseReturnsUpdatedLocation(response);
         }
 
-        private void AssertMissingLocationError(Response response)
+        private void AssertMissingLocationError(IResponse response)
         {
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertInvalidLocationError(Response response)
+        private void AssertInvalidLocationError(IResponse response, Guid locationId)
         {
-            AssertSingleError(response, "This location does not exist.", "location.id");
+            AssertSingleError(response, ErrorCodes.LocationInvalid, "This location does not exist.", locationId.ToString());
         }
 
-        private void AssertDuplicateLocationError(Response response)
+        private void AssertDuplicateLocationError(IResponse response)
         {
-            AssertSingleError(response, "This location already exists.", "location.name");
+            AssertSingleError(response, ErrorCodes.LocationDuplicate, "Location 'Browns Bay Racquets Club' already exists.", "Browns Bay Racquets Club");
         }
 
-        private void AssertResponseReturnsUpdatedLocation(Response response)
+        private void AssertResponseReturnsUpdatedLocation(IResponse response)
         {
             var location = (LocationData)response.Data;
             Assert.That(location, Is.Not.Null);

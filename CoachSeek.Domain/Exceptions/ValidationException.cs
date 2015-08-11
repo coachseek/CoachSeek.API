@@ -41,6 +41,11 @@ namespace CoachSeek.Domain.Exceptions
             Errors.AddRange(exception.Errors);
         }
 
+        public void Add(SingleErrorException exception)
+        {
+            Errors.Add(exception.ToError());
+        }
+
         public bool HasErrors
         {
             get { return Errors.Any(); }

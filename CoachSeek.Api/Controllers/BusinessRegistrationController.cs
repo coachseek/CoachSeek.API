@@ -4,7 +4,6 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
@@ -16,7 +15,6 @@ namespace CoachSeek.Api.Controllers
         public IUserAddUseCase UserAddUseCase { get; set; }
         public IBusinessAddUseCase BusinessAddUseCase { get; set; }
         public IUserAssociateWithBusinessUseCase UserAssociateWithBusinessUseCase { get; set; }
-        //public IBusinessRegistrationEmailer BusinessRegistrationEmailer { get; set; }
 
 
         public BusinessRegistrationController()
@@ -25,12 +23,10 @@ namespace CoachSeek.Api.Controllers
         public BusinessRegistrationController(IUserAddUseCase userAddUseCase,
                                               IBusinessAddUseCase businessAddUseCase,
                                               IUserAssociateWithBusinessUseCase userAssociateWithBusinessUseCase)
-                                              //IBusinessRegistrationEmailer businessRegistrationEmailer)
         {
             UserAddUseCase = userAddUseCase;
             BusinessAddUseCase = businessAddUseCase;
             UserAssociateWithBusinessUseCase = userAssociateWithBusinessUseCase;
-            //BusinessRegistrationEmailer = businessRegistrationEmailer;
         }
 
 
@@ -57,12 +53,10 @@ namespace CoachSeek.Api.Controllers
                 return CreateWebErrorResponse(userUpdateResponse);
 
             var registrationData = new RegistrationData(userData, businessData);
-            //SendRegistrationEmail(registrationData);
-
             return CreateWebSuccessResponse(new Response(registrationData));
         }
 
-        private Response AddUser(ApiBusinessAdminCommand command)
+        private IResponse AddUser(ApiBusinessAdminCommand command)
         {
             var userAddCommand = UserAddCommandConverter.Convert(command);
             UserAddUseCase.UserRepository = UserRepository;
@@ -70,25 +64,19 @@ namespace CoachSeek.Api.Controllers
             return UserAddUseCase.AddUser(userAddCommand);
         }
 
-        private Response AddBusiness(ApiBusinessCommand command)
+        private IResponse AddBusiness(ApiBusinessCommand command)
         {
             var businessAddCommand = BusinessAddCommandConverter.Convert(command);
             BusinessAddUseCase.Initialise(Context);
             return BusinessAddUseCase.AddBusiness(businessAddCommand);
         }
 
-        private Response AssociateUserWithBusiness(UserData user, BusinessData business)
+        private IResponse AssociateUserWithBusiness(UserData user, BusinessData business)
         {
             var userBusinessCommand = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
             UserAssociateWithBusinessUseCase.UserRepository = UserRepository;
             return UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(userBusinessCommand);
         }
-
-        //private void SendRegistrationEmail(RegistrationData registration)
-        //{
-        //    BusinessRegistrationEmailer.Initialise(Context);
-        //    BusinessRegistrationEmailer.SendEmail(registration);
-        //}
 
         protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
         {

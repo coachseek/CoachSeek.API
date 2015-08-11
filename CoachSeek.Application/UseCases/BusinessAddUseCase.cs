@@ -17,7 +17,7 @@ namespace CoachSeek.Application.UseCases
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
-        public Response AddBusiness(BusinessAddCommand command)
+        public IResponse AddBusiness(BusinessAddCommand command)
         {
             if (command == null)
                 return new MissingBusinessRegistrationDataErrorResponse();

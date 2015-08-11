@@ -8,7 +8,7 @@ namespace CoachSeek.Application.UseCases.Admin
 {
     public class EmailUnsubscribeUseCase : BaseUseCase, IEmailUnsubscribeUseCase
     {
-        public Response Unsubscribe(string emailAddress)
+        public IResponse Unsubscribe(string emailAddress)
         {
             try
             {

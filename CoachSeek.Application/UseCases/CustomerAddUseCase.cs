@@ -20,7 +20,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response AddCustomer(CustomerAddCommand command)
+        public IResponse AddCustomer(CustomerAddCommand command)
         {
             try
             {
@@ -33,8 +33,8 @@ namespace CoachSeek.Application.UseCases
             {
                 if (ex is InvalidEmailAddressFormat)
                     return new InvalidEmailAddressFormatErrorResponse("customer.email");
-                if (ex is DuplicateCustomer)
-                    return new DuplicateCustomerErrorResponse();
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 
@@ -46,7 +46,7 @@ namespace CoachSeek.Application.UseCases
         {
             var existingCustomer = LookupCustomer(newCustomer);
             if (existingCustomer.IsFound())
-                throw new DuplicateCustomer();
+                throw new DuplicateCustomer(newCustomer);
         }
 
         private Customer LookupCustomer(Customer newCustomer)

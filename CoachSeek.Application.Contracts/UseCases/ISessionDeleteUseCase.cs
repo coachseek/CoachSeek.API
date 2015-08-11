@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ISessionDeleteUseCase : IApplicationContextSetter
     {
-        Response DeleteSession(Guid id);
+        IResponse DeleteSession(Guid id);
     }
 }

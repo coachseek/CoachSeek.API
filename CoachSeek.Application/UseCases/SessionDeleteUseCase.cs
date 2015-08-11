@@ -11,7 +11,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionDeleteUseCase : SessionBaseUseCase, ISessionDeleteUseCase
     {
-        public Response DeleteSession(Guid id)
+        public IResponse DeleteSession(Guid id)
         {
             var sessionOrCourse = GetExistingSessionOrCourse(id);
             if (sessionOrCourse == null)

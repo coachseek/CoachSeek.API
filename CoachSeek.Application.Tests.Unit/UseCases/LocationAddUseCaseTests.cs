@@ -65,7 +65,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenAddLocation(LocationAddCommand command)
+        private IResponse WhenAddLocation(LocationAddCommand command)
         {
             var useCase = new LocationAddUseCase();
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
@@ -85,7 +85,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasAddLocationCalled, Is.False);
         }
 
-        private void ThenLocationAddFailsWithDuplicateLocationError(Response response)
+        private void ThenLocationAddFailsWithDuplicateLocationError(IResponse response)
         {
             AssertDuplicateLocationError(response);
 
@@ -103,14 +103,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(location.Name, Is.EqualTo("Mt Roskill Squash Club"));
         }
 
-        private void AssertMissingLocationError(Response response)
+        private void AssertMissingLocationError(IResponse response)
         {
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertDuplicateLocationError(Response response)
+        private void AssertDuplicateLocationError(IResponse response)
         {
-            AssertSingleError(response, "This location already exists.", "location.name");
+            AssertSingleError(response, ErrorCodes.LocationDuplicate, "Location 'oraKei Tennis Club' already exists.", "oraKei Tennis Club");
         }
     }
 }

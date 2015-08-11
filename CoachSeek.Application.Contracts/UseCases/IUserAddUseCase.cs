@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IUserAddUseCase : IUserRepositorySetter
     {
-        Response AddUser(UserAddCommand command);
+        IResponse AddUser(UserAddCommand command);
     }
 }

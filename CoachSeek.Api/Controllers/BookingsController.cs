@@ -119,19 +119,19 @@ namespace CoachSeek.Api.Controllers
             return BookingGetByIdUseCase.GetBooking(id);
         }
 
-        private Response AddBooking(BookingAddCommand command)
+        private IResponse AddBooking(BookingAddCommand command)
         {
             BookingAddMasterUseCase.Initialise(Context);
             return BookingAddMasterUseCase.AddBooking(command);
         }
 
-        private Response AddOnlineBooking(BookingAddCommand command)
+        private IResponse AddOnlineBooking(BookingAddCommand command)
         {
             BookingAddMasterUseCase.Initialise(Context);
             return BookingAddMasterUseCase.AddOnlineBooking(command);
         }
 
-        private Response DeleteBooking(Guid id)
+        private IResponse DeleteBooking(Guid id)
         {
             BookingDeleteUseCase.Initialise(Context);
             return BookingDeleteUseCase.DeleteBooking(id);

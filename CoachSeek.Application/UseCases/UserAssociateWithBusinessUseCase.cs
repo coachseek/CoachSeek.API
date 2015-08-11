@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
         public IUserRepository UserRepository { get; set; }
 
 
-        public Response AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
+        public IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
         {
             //if (command == null)
             //    return new NoUserAddDataResponse();

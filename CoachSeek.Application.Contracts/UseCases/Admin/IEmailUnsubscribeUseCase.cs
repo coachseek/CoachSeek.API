@@ -4,6 +4,6 @@ namespace CoachSeek.Application.Contracts.UseCases.Admin
 {
     public interface IEmailUnsubscribeUseCase : IApplicationContextSetter
     {
-        Response Unsubscribe(string emailAddress);
+        IResponse Unsubscribe(string emailAddress);
     }
 }

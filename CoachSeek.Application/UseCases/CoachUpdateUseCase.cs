@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class CoachUpdateUseCase : BaseUseCase, ICoachUpdateUseCase
     {
-        public Response UpdateCoach(CoachUpdateCommand command)
+        public IResponse UpdateCoach(CoachUpdateCommand command)
         {
             try
             {
@@ -21,14 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is InvalidCoach)
-                    return new InvalidCoachErrorResponse();
-                if (ex is DuplicateCoach)
-                    return new DuplicateCoachErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -38,12 +31,12 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingCoach = coaches.Any(x => x.Id == coach.Id);
             if (!isExistingCoach)
-                throw new InvalidCoach();
+                throw new InvalidCoach(coach.Id);
 
             var existingCoach = coaches.FirstOrDefault(x => x.FirstName.ToLower() == coach.FirstName.ToLower()
                                                     && x.LastName.ToLower() == coach.LastName.ToLower());
             if (existingCoach != null && existingCoach.Id != coach.Id)
-                throw new DuplicateCoach();
+                throw new DuplicateCoach(coach.Name);
         }
     }
 }

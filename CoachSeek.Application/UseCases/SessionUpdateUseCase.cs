@@ -12,7 +12,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionUpdateUseCase : SessionBaseUseCase, ISessionUpdateUseCase
     {
-        public Response UpdateSession(SessionUpdateCommand command)
+        public IResponse UpdateSession(SessionUpdateCommand command)
         {
             var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
             if (sessionOrCourse == null)
@@ -22,7 +22,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private Response UpdateSessionOrCourse(SessionUpdateCommand command, Session existingSessionOrCourse)
+        private IResponse UpdateSessionOrCourse(SessionUpdateCommand command, Session existingSessionOrCourse)
         {
             if (existingSessionOrCourse is StandaloneSession)
                 return HandleUpdateStandaloneSession(command, (StandaloneSession)existingSessionOrCourse);
@@ -34,7 +34,7 @@ namespace CoachSeek.Application.UseCases
             throw new InvalidOperationException("Unexpected session type!");
         }
 
-        private Response HandleUpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
+        private IResponse HandleUpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 return new CannotChangeSessionToCourseErrorResponse();
@@ -42,7 +42,7 @@ namespace CoachSeek.Application.UseCases
             return UpdateStandaloneSession(existingSession, command);
         }
 
-        private Response HandleUpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
+        private IResponse HandleUpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 return new CannotChangeSessionToCourseErrorResponse();
@@ -50,7 +50,7 @@ namespace CoachSeek.Application.UseCases
             return UpdateSessionInCourse(existingSession, command);
         }
 
-        private Response HandleUpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
+        private IResponse HandleUpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
         {
             try
             {
@@ -62,8 +62,8 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is ClashingSession)
-                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 
@@ -89,7 +89,7 @@ namespace CoachSeek.Application.UseCases
             return coreData;
         }
 
-        private Response UpdateStandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command)
+        private IResponse UpdateStandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command)
         {
             try
             {
@@ -101,8 +101,8 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is ClashingSession)
-                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 
@@ -110,7 +110,7 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private Response UpdateSessionInCourse(SessionInCourse existingSession, SessionUpdateCommand command)
+        private IResponse UpdateSessionInCourse(SessionInCourse existingSession, SessionUpdateCommand command)
         {
             try
             {
@@ -122,8 +122,8 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is ClashingSession)
-                    return new ClashingSessionErrorResponse((ClashingSession)ex);
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 

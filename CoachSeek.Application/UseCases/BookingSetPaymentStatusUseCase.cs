@@ -18,7 +18,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response SetPaymentStatus(BookingSetPaymentStatusCommand command)
+        public IResponse SetPaymentStatus(BookingSetPaymentStatusCommand command)
         {
             try
             {

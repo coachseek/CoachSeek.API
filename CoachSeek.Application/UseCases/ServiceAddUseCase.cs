@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class ServiceAddUseCase : BaseUseCase, IServiceAddUseCase
     {
-        public Response AddService(ServiceAddCommand command)
+        public IResponse AddService(ServiceAddCommand command)
         {
             try
             {
@@ -21,12 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is DuplicateService)
-                    return new DuplicateServiceErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -35,7 +30,7 @@ namespace CoachSeek.Application.UseCases
             var services = BusinessRepository.GetAllServices(Business.Id);
             var isExistingService = services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
             if (isExistingService)
-                throw new DuplicateService();
+                throw new DuplicateService(newService.Name);
         }
     }
 }

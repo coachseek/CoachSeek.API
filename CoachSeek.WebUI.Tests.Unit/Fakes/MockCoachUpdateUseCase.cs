@@ -10,7 +10,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasUpdateCoachCalled;
         public CoachUpdateCommand Command;
-        public Response Response;
+        public IResponse Response;
 
         public Guid BusinessId { get; set; }
         public IBusinessRepository BusinessRepository { get; set; }
@@ -20,7 +20,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         {
         }
 
-        public Response UpdateCoach(CoachUpdateCommand command)
+        public IResponse UpdateCoach(CoachUpdateCommand command)
         {
             WasUpdateCoachCalled = true;
             Command = command;

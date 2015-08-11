@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBookingSetPaymentStatusUseCase : IApplicationContextSetter
     {
-        Response SetPaymentStatus(BookingSetPaymentStatusCommand command);
+        IResponse SetPaymentStatus(BookingSetPaymentStatusCommand command);
     }
 }

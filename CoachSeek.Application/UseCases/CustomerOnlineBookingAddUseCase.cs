@@ -23,7 +23,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response AddCustomer(CustomerAddCommand command)
+        public IResponse AddCustomer(CustomerAddCommand command)
         {
             try
             {

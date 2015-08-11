@@ -17,7 +17,7 @@ namespace CoachSeek.Domain.Entities
                 code = DEFAULT_CURRENCY;
             var currency = supportedCurrencyRepository.GetByCode(code);
             if (currency.IsNotFound())
-                throw new CurrencyNotSupported();
+                throw new CurrencyNotSupported(code);
             Code = currency.Code;
             Symbol = currency.Symbol;
         }

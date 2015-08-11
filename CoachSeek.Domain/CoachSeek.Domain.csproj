@@ -164,6 +164,7 @@
     <Compile Include="Exceptions\MissingMerchantAccountIdentifier.cs" />
     <Compile Include="Exceptions\PaymentProviderNotSupported.cs" />
     <Compile Include="Exceptions\SessionOrCourseNotFound.cs" />
+    <Compile Include="Exceptions\SingleErrorException.cs" />
     <Compile Include="Factories\EmailTemplateFactory.cs" />
     <Compile Include="Factories\PaymentProviderFactory.cs" />
     <Compile Include="Entities\Payment.cs" />
@@ -217,12 +218,10 @@
     <Compile Include="Entities\UnavailableDailyWorkingHours.cs" />
     <Compile Include="Entities\WeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\ClashingSession.cs" />
-    <Compile Include="Exceptions\DuplicateBusinessAdmin.cs" />
     <Compile Include="Exceptions\DuplicateService.cs" />
     <Compile Include="Exceptions\DuplicateCoach.cs" />
     <Compile Include="Exceptions\DuplicateLocation.cs" />
     <Compile Include="Exceptions\Error.cs" />
-    <Compile Include="Exceptions\InvalidBusiness.cs" />
     <Compile Include="Exceptions\InvalidCoach.cs" />
     <Compile Include="Exceptions\InvalidColour.cs" />
     <Compile Include="Exceptions\InvalidDailyWorkingHours.cs" />

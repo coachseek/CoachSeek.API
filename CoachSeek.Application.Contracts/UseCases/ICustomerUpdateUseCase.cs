@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ICustomerUpdateUseCase : IApplicationContextSetter
     {
-        Response UpdateCustomer(CustomerUpdateCommand command);
+        IResponse UpdateCustomer(CustomerUpdateCommand command);
     }
 }

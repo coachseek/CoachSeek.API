@@ -98,7 +98,7 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
-        protected HttpResponseMessage CreatePostWebResponse(Response response)
+        protected HttpResponseMessage CreatePostWebResponse(IResponse response)
         {
             if (response is NotFoundResponse)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -107,7 +107,7 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
 
-        protected HttpResponseMessage CreateDeleteWebResponse(Response response)
+        protected HttpResponseMessage CreateDeleteWebResponse(IResponse response)
         {
             if (response is NotFoundResponse)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -117,7 +117,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        protected HttpResponseMessage CreateWebErrorResponse(Response response)
+        protected HttpResponseMessage CreateWebErrorResponse(IResponse response)
         {
             if (response is NotFoundResponse)
                 return Request.CreateResponse(HttpStatusCode.NotFound);

@@ -1,25 +1,24 @@
-﻿
-//namespace CoachSeek.Common
-//{
-//    public enum ErrorCodes
-//    {
-//        // Common
-//        ErrorNoPostData = 1010,
+﻿namespace CoachSeek.Common
+{
+    public static class ErrorCodes
+    {
+        public static string UserDuplicate { get { return "user-duplicate"; } }
 
-//        // Business
-//        ErrorNoBusinessRegistrationData = 1010,
-//        ErrorBusinessAdminDuplicateEmail = 1020,
-//        ErrorInvalidBusiness = 1030,
-//        ErrorNoBusinessDomain = 1040,
-//        // Locations
-//        ErrorNoLocationAddData = 1110,
-//        ErrorDuplicateLocation = 1120,
-//        ErrorNoLocationUpdateData = 1130,
-//        ErrorInvalidLocation = 1140,
-//        // Coaches
-//        ErrorNoCoachAddData = 1210,
-//        ErrorDuplicateCoach = 1220,
-//        ErrorNoCoachUpdateData = 1230,
-//        ErrorInvalidCoach = 1240,
-//    }
-//}
+        public static string CurrencyNotSupported { get { return "currency-not-supported"; } }
+        public static string PaymentProviderNotSupported { get { return "payment-provider-not-supported"; } }
+        
+        
+        public static string LocationInvalid { get { return "location-invalid"; } }
+        public static string LocationDuplicate { get { return "location-duplicate"; } }
+
+        public static string CoachInvalid { get { return "coach-invalid"; } }
+        public static string CoachDuplicate { get { return "coach-duplicate"; } }
+
+        public static string ServiceDuplicate { get { return "service-duplicate"; } }
+        
+        public static string SessionClashing { get { return "session-clashing"; } }
+
+        public static string CustomerInvalid { get { return "customer-invalid"; } }
+        public static string CustomerDuplicate { get { return "customer-duplicate"; } }
+    }
+}

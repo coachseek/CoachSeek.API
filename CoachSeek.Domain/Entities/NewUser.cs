@@ -27,7 +27,7 @@ namespace CoachSeek.Domain.Entities
         {
             var user = repository.GetByUsername(Email);
             if (user.IsExisting())
-                throw new DuplicateUser();
+                throw new DuplicateUser(user);
 
             var newUser = repository.Save(this);
 

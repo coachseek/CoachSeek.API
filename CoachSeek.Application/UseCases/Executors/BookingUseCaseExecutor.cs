@@ -20,7 +20,7 @@ namespace CoachSeek.Application.UseCases.Executors
         }
 
 
-        public Response ExecuteFor<T>(T command, ApplicationContext context) where T : ICommand
+        public IResponse ExecuteFor<T>(T command, ApplicationContext context) where T : ICommand
         {
             if (command.GetType() == typeof(BookingSetAttendanceCommand))
             {

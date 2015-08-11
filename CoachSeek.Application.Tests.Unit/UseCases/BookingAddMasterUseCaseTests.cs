@@ -185,23 +185,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenTryAddBooking(BookingAddCommand command)
+        private IResponse WhenTryAddBooking(BookingAddCommand command)
         {
             return UseCase.AddBooking(command);
         }
 
 
-        private void ThenReturnMissingSessionError(Response response)
+        private void ThenReturnMissingSessionError(IResponse response)
         {
             AssertSingleError(response, "A booking must have at least one session.");
         }
 
-        private void ThenReturnInvalidSessionError(Response response)
+        private void ThenReturnInvalidSessionError(IResponse response)
         {
             AssertSingleError(response, "This session does not exist.");
         }
 
-        private void ThenInvokeAddStandaloneSessionBookingUseCase(Response response)
+        private void ThenInvokeAddStandaloneSessionBookingUseCase(IResponse response)
         {
             Assert.That(StandaloneSessionUseCase.WasSessionSet, Is.True);
             Assert.That(StandaloneSessionUseCase.WasInitialiseCalled, Is.True);
@@ -212,7 +212,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(CourseSessionUseCase.WasAddBookingCalled, Is.False);
         }
 
-        private void ThenInvokeAddCourseSessionBookingUseCase(Response response)
+        private void ThenInvokeAddCourseSessionBookingUseCase(IResponse response)
         {
             Assert.That(StandaloneSessionUseCase.WasSessionSet, Is.False);
             Assert.That(StandaloneSessionUseCase.WasInitialiseCalled, Is.False);

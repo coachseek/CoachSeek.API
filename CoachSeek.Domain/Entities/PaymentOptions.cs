@@ -66,28 +66,27 @@ namespace CoachSeek.Domain.Entities
                                        ISupportedCurrencyRepository supportedCurrencyRepository,
                                        ValidationException errors)
         {
-            SetCurrency(currency, supportedCurrencyRepository, errors, "registration.business.currency");
+            SetCurrency(currency, supportedCurrencyRepository, errors);
         }
 
         private void SetCurrencyForUpdate(string currency,
                                           ISupportedCurrencyRepository supportedCurrencyRepository,
                                           ValidationException errors)
         {
-            SetCurrency(currency, supportedCurrencyRepository, errors, "business.payment.currency");
+            SetCurrency(currency, supportedCurrencyRepository, errors);
         }
 
         private void SetCurrency(string currency,
                                  ISupportedCurrencyRepository supportedCurrencyRepository,
-                                 ValidationException errors,
-                                 string field)
+                                 ValidationException errors)
         {
             try
             {
                 _currency = new Currency(currency, supportedCurrencyRepository);
             }
-            catch (CurrencyNotSupported)
+            catch (CurrencyNotSupported currencyNotSupported)
             {
-                errors.Add("This currency is not supported.", field);
+                errors.Add(currencyNotSupported);
             }
         }
 
@@ -100,8 +99,8 @@ namespace CoachSeek.Domain.Entities
             }
             catch (Exception ex)
             {
-                if (ex is PaymentProviderNotSupported)
-                    errors.Add("This payment provider is not supported.", "business.payment.paymentProvider");
+                if (ex is SingleErrorException)
+                    errors.Add(ex as SingleErrorException);
                 if (ex is MissingMerchantAccountIdentifier)
                     errors.Add("Missing merchant account identifier.", "business.payment.merchantAccountIdentifier");
                 if (ex is InvalidMerchantAccountIdentifierFormat)

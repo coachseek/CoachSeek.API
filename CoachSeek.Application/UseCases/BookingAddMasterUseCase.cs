@@ -30,7 +30,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response AddBooking(BookingAddCommand command)
+        public IResponse AddBooking(BookingAddCommand command)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        public Response AddOnlineBooking(BookingAddCommand command)
+        public IResponse AddOnlineBooking(BookingAddCommand command)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace CoachSeek.Application.UseCases
             return SetupCourseSessionOnlineBookingAddUseCase(course);
         }
 
-        private static Response HandleException(Exception ex)
+        private static IResponse HandleException(Exception ex)
         {
             if (ex is InvalidSession)
                 return new InvalidSessionErrorResponse();

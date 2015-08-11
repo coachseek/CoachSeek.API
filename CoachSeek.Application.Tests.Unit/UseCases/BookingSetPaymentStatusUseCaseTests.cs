@@ -119,7 +119,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnInvalidPaymentStatusError(object response)
         {
-            AssertSingleError((Response)response, "This payment status does not exist.");
+            AssertSingleError((IResponse)response, "This payment status does not exist.");
 
             Assert.That(BookingGetByIdUseCase.WasGetBookingCalled, Is.True);
             Assert.That(BusinessRepository.WasSetBookingPaymentStatusCalled, Is.False);

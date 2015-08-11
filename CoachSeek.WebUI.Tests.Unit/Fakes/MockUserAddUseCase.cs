@@ -9,11 +9,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasAddUserCalled;
         public UserAddCommand Command;
-        public Response Response;
+        public IResponse Response;
 
         public IUserRepository UserRepository { get; set; }
         
-        public Response AddUser(UserAddCommand command)
+        public IResponse AddUser(UserAddCommand command)
         {
             WasAddUserCalled = true;
 

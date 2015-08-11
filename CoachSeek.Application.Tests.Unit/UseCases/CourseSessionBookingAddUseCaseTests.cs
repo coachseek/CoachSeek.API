@@ -95,23 +95,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenTryAddBooking(BookingAddCommand command)
+        private IResponse WhenTryAddBooking(BookingAddCommand command)
         {
             return UseCase.AddBooking(command);
         }
 
 
-        private void ThenReturnSessionNotInCourseError(Response response)
+        private void ThenReturnSessionNotInCourseError(IResponse response)
         {
             AssertSingleError(response, "One or more of the sessions is not in the course.", "booking.sessions");
         }
 
-        private void ThenReturnDuplicateSessionInCourseError(Response response)
+        private void ThenReturnDuplicateSessionInCourseError(IResponse response)
         {
             AssertSingleError(response, "Some sessions are duplicates.", "booking.sessions");
         }
 
-        private void ThenReturnInvalidCustomerError(Response response)
+        private void ThenReturnInvalidCustomerError(IResponse response)
         {
             AssertSingleError(response, "This customer does not exist.", "booking.customer.id");
         }

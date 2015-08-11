@@ -13,7 +13,7 @@ namespace CoachSeek.Application.UseCases
         public IUserRepository UserRepository { get; set; }
 
 
-        public Response AddUser(UserAddCommand command)
+        public IResponse AddUser(UserAddCommand command)
         {
             if (command == null)
                 return new NoDataErrorResponse();
@@ -32,8 +32,8 @@ namespace CoachSeek.Application.UseCases
 
         private ErrorResponse HandleUserAddException(Exception ex)
         {
-            if (ex is DuplicateUser)
-                return new DuplicateUserErrorResponse();
+            if (ex is SingleErrorException)
+                return new ErrorResponse(ex as SingleErrorException);
 
             return null;
         }

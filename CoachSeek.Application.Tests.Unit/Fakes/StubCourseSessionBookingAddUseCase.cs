@@ -21,7 +21,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
             WasInitialiseCalled = true;
         }
 
-        public Response AddBooking(BookingAddCommand command)
+        public IResponse AddBooking(BookingAddCommand command)
         {
             WasAddBookingCalled = true;
 

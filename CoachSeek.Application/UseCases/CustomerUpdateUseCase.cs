@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class CustomerUpdateUseCase : BaseUseCase, ICustomerUpdateUseCase
     {
-        public Response UpdateCustomer(CustomerUpdateCommand command)
+        public IResponse UpdateCustomer(CustomerUpdateCommand command)
         {
             try
             {
@@ -21,12 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is InvalidCustomer)
-                    return new InvalidCustomerErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -36,7 +31,7 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingCustomer = customers.Any(x => x.Id == customer.Id);
             if (!isExistingCustomer)
-                throw new InvalidCustomer();
+                throw new InvalidCustomer(customer.Id);
 
             //var existingCustomer = customers.FirstOrDefault(x => x.FirstName.ToLower() == customer.FirstName.ToLower()
             //                                        && x.LastName.ToLower() == customer.LastName.ToLower());

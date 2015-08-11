@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -62,7 +63,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             
             protected void ThenReturnUnsupportedCurrencyError(object response)
             {
-                AssertSingleError(response, "This currency is not supported.", "registration.business.currency");
+                AssertSingleError(response, ErrorCodes.CurrencyNotSupported, "Currency 'XXX' is not supported.", "XXX");
             }
 
             private void ThenCreatesValidPaymentOptions(object response)
@@ -209,18 +210,18 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
             protected void ThenReturnUnsupportedCurrencyError(object response)
             {
-                AssertSingleError(response, "This currency is not supported.", "business.payment.currency");
+                AssertSingleError(response, ErrorCodes.CurrencyNotSupported, "Currency 'ZZZ' is not supported.", "ZZZ");
             }
 
             private void ThenReturnUnsupportedPaymentProviderError(object response)
             {
-                AssertSingleError(response, "This payment provider is not supported.", "business.payment.paymentProvider");
+                AssertSingleError(response, ErrorCodes.PaymentProviderNotSupported, "Payment provider 'FRED' is not supported.", "FRED");
             }
 
             private void ThenReturnUnsupportedCurrencyAndPaymentProviderErrors(object response)
             {
-                AssertMultipleErrors(response, new[,] { { "This currency is not supported.", "business.payment.currency" },
-                                                        { "This payment provider is not supported.", "business.payment.paymentProvider" } });
+                ConfirmMultipleErrors(response, new[,] { { ErrorCodes.CurrencyNotSupported, "Currency 'WWW' is not supported.", "WWW" },
+                                                         { ErrorCodes.PaymentProviderNotSupported, "Payment provider 'OLAF' is not supported.", "OLAF" } });
             }
 
             private void ThenReturnMissingPaymentProviderError(object response)

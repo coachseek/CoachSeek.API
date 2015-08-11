@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBookingAddUseCase : IApplicationContextSetter
     {
-        Response AddBooking(BookingAddCommand command);
+        IResponse AddBooking(BookingAddCommand command);
     }
 }

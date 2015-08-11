@@ -1,6 +1,8 @@
-﻿using CoachSeek.Application.Contracts;
+﻿using System;
+using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common;
+using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
@@ -25,6 +27,17 @@ namespace CoachSeek.Application.UseCases
             BusinessRepository = Context.BusinessContext.BusinessRepository;
             SupportedCurrencyRepository = Context.BusinessContext.SupportedCurrencyRepository;
             UnsubscribedEmailAddressRepository = Context.EmailContext.UnsubscribedEmailAddressRepository;
+        }
+
+
+        protected ErrorResponse HandleException(Exception ex)
+        {
+            if (ex is SingleErrorException)
+                return new ErrorResponse(ex as SingleErrorException);
+            if (ex is ValidationException)
+                return new ErrorResponse(ex as ValidationException);
+
+            throw ex;
         }
     }
 }

@@ -9,11 +9,11 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
     {
         public bool WasAssociateUserWithBusinessCalled;
         public UserAssociateWithBusinessCommand Command;
-        public Response Response;
+        public IResponse Response;
 
         public IUserRepository UserRepository { get; set; }
 
-        public Response AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
+        public IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
         {
             WasAssociateUserWithBusinessCalled = true;
             Command = command;

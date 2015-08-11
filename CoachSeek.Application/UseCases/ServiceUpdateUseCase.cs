@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class ServiceUpdateUseCase : BaseUseCase, IServiceUpdateUseCase
     {
-        public Response UpdateService(ServiceUpdateCommand command)
+        public IResponse UpdateService(ServiceUpdateCommand command)
         {
             try
             {
@@ -23,8 +23,8 @@ namespace CoachSeek.Application.UseCases
             {
                 if (ex is InvalidService)
                     return new InvalidServiceErrorResponse();
-                if (ex is DuplicateService)
-                    return new DuplicateServiceErrorResponse();
+                if (ex is SingleErrorException)
+                    return new ErrorResponse(ex as SingleErrorException);
                 if (ex is ValidationException)
                     return new ErrorResponse((ValidationException)ex);
 
@@ -42,7 +42,7 @@ namespace CoachSeek.Application.UseCases
 
             var existingService = services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
             if (existingService != null && existingService.Id != service.Id)
-                throw new DuplicateService();
+                throw new DuplicateService(service.Name);
         }
     }
 }

@@ -133,7 +133,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenUpdateCoach(CoachUpdateCommand command)
+        private IResponse WhenUpdateCoach(CoachUpdateCommand command)
         {
             var useCase = new CoachUpdateUseCase();
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
@@ -145,35 +145,28 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return useCase.UpdateCoach(command);
         }
 
-        private void ThenCoachUpdateFailsWithMissingCoachError(Response response)
-        {
-            AssertMissingCoachError(response);
-
-            Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
-        }
-
-        private void ThenCoachUpdateFailsWithInvalidCoachError(Response response)
+        private void ThenCoachUpdateFailsWithInvalidCoachError(IResponse response)
         {
             AssertInvalidCoachError(response);
 
             Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
-        private void ThenCoachUpdateFailsWithDuplicateCoachError(Response response)
+        private void ThenCoachUpdateFailsWithDuplicateCoachError(IResponse response)
         {
             AssertDuplicateCoachError(response);
 
             Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
-        private void ThenCoachUpdateFailsWithInvalidWorkingHoursError(Response response)
+        private void ThenCoachUpdateFailsWithInvalidWorkingHoursError(IResponse response)
         {
             AssertInvalidWorkingHoursError(response);
 
             Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.False);
         }
 
-        private void ThenCoachUpdateSucceeds(Response response)
+        private void ThenCoachUpdateSucceeds(IResponse response)
         {
             Assert.That(BusinessRepository.WasUpdateCoachCalled, Is.True);
 
@@ -181,22 +174,22 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void AssertMissingCoachError(Response response)
+        private void AssertMissingCoachError(IResponse response)
         {
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertInvalidCoachError(Response response)
+        private void AssertInvalidCoachError(IResponse response)
         {
-            AssertSingleError(response, "This coach does not exist.", "coach.id");
+            AssertSingleError(response, ErrorCodes.CoachInvalid, "This coach does not exist.", COACH_WARREN_ID.ToLower());
         }
 
-        private void AssertDuplicateCoachError(Response response)
+        private void AssertDuplicateCoachError(IResponse response)
         {
-            AssertSingleError(response, "This coach already exists.");
+            AssertSingleError(response, ErrorCodes.CoachDuplicate, "Coach 'Bill Gates' already exists.", "Bill Gates");
         }
 
-        private void AssertInvalidWorkingHoursError(Response response)
+        private void AssertInvalidWorkingHoursError(IResponse response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
@@ -208,7 +201,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertError(response.Errors[3], "The sunday working hours are not valid.", "coach.workingHours.sunday");
         }
 
-        private void AssertResponseReturnsUpdatedCoach(Response response)
+        private void AssertResponseReturnsUpdatedCoach(IResponse response)
         {
             var coach = (CoachData)response.Data;
             Assert.That(coach, Is.Not.Null);

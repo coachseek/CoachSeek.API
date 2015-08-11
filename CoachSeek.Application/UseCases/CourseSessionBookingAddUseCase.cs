@@ -15,7 +15,7 @@ namespace CoachSeek.Application.UseCases
         public RepeatedSessionData Course { set; protected get; }
 
 
-        public Response AddBooking(BookingAddCommand command)
+        public IResponse AddBooking(BookingAddCommand command)
         {
             try
             {

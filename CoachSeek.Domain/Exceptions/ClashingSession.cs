@@ -1,19 +1,22 @@
-﻿using System;
+﻿using CoachSeek.Common;
 using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class ClashingSession : Exception
+    public class ClashingSession : SingleErrorException
     {
-        public Session Session { get; set; }
-
-
-        public ClashingSession()
+        public ClashingSession(Session clashingSession)
+            : base("This session clashes with one or more sessions.",
+                   ErrorCodes.SessionClashing,
+                   FormatClashingSessionMessage(clashingSession))
         { }
 
-        public ClashingSession(Session session)
+
+        private static string FormatClashingSessionMessage(Session clashingSession)
         {
-            Session = session;
+            return string.Format("Clashing session: {0}; SessionId = {{{1}}}",
+                                 clashingSession.Name,
+                                 clashingSession.Id);
         }
     }
 }

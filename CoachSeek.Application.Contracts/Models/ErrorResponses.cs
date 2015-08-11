@@ -1,5 +1,4 @@
 ﻿using CoachSeek.Application.Contracts.Properties;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models
 {
@@ -17,56 +16,11 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
-    public class CurrencyNotSupportedErrorResponse : ErrorResponse
-    {
-        public CurrencyNotSupportedErrorResponse()
-            : base(Resources.ErrorCurrencyNotSupported, "registration.business.currency")
-        { }
-
-        public CurrencyNotSupportedErrorResponse(string field)
-            : base(Resources.ErrorCurrencyNotSupported, field)
-        { }
-    }
-
-    public class DuplicateUserErrorResponse : ErrorResponse
-    {
-        public DuplicateUserErrorResponse()
-            : base(Resources.ErrorUserDuplicateEmail, "registration.admin.email")
-        { }
-    }
-
-    public class DuplicateLocationErrorResponse : ErrorResponse
-    {
-        public DuplicateLocationErrorResponse()
-            : base(Resources.ErrorDuplicateLocation, "location.name")
-        { }
-    }
-
-    public class DuplicateCoachErrorResponse : ErrorResponse
-    {
-        public DuplicateCoachErrorResponse()
-            : base(Resources.ErrorDuplicateCoach)
-        { }
-    }
 
     public class DuplicateCustomerErrorResponse : ErrorResponse
     {
         public DuplicateCustomerErrorResponse()
             : base(Resources.ErrorDuplicateCustomer)
-        { }
-    }
-
-    public class DuplicateServiceErrorResponse : ErrorResponse
-    {
-        public DuplicateServiceErrorResponse()
-            : base(Resources.ErrorDuplicateService, "service.name")
-        { }
-    }
-
-    public class InvalidLocationErrorResponse : ErrorResponse
-    {
-        public InvalidLocationErrorResponse()
-            : base(Resources.ErrorInvalidLocation, "location.id")
         { }
     }
 
@@ -127,20 +81,6 @@ namespace CoachSeek.Application.Contracts.Models
         public InvalidPaymentStatusErrorResponse()
             : base(Resources.ErrorInvalidPaymentStatus)
         { }
-    }
-
-    public class ClashingSessionErrorResponse : ErrorResponse
-    {
-        public ClashingSessionErrorResponse(ClashingSession clashingSession)
-            : base(Resources.ErrorClashingSession, null, ErrorCode.ClashingSession, FormatClashingSessionMessage(clashingSession))
-        { }
-
-        private static string FormatClashingSessionMessage(ClashingSession clashingSession)
-        {
-            return string.Format("Clashing session: {0}; SessionId = {{{1}}}", 
-                clashingSession.Session.Name,
-                clashingSession.Session.Id);
-        }
     }
 
     public class InvalidEmailAddressFormatErrorResponse : ErrorResponse

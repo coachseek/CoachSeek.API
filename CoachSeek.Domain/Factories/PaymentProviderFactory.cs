@@ -22,7 +22,7 @@ namespace CoachSeek.Domain.Factories
             if (providerType.CompareIgnoreCase(PaymentProvider.PayPal.ToString()))
                 return new PaypalPaymentProvider(merchantAccountIdentifier);
 
-            throw new PaymentProviderNotSupported();
+            throw new PaymentProviderNotSupported(providerType);
         }
     }
 }

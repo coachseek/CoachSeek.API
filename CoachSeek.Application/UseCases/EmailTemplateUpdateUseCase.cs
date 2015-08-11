@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class EmailTemplateUpdateUseCase : BaseUseCase, IEmailTemplateUpdateUseCase
     {
-        public Response UpdateEmailTemplate(EmailTemplateUpdateCommand command)
+        public IResponse UpdateEmailTemplate(EmailTemplateUpdateCommand command)
         {
             try
             {

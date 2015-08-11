@@ -5,6 +5,6 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBusinessUpdateUseCase : IApplicationContextSetter
     {
-        Response UpdateBusiness(BusinessUpdateCommand command);
+        IResponse UpdateBusiness(BusinessUpdateCommand command);
     }
 }

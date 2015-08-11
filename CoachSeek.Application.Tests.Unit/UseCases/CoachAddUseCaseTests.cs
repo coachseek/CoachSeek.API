@@ -104,7 +104,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenAddCoach(CoachAddCommand command)
+        private IResponse WhenAddCoach(CoachAddCommand command)
         {
             var useCase = new CoachAddUseCase();
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
@@ -124,14 +124,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
         }
 
-        private void ThenCoachAddFailsWithDuplicateCoachError(Response response)
+        private void ThenCoachAddFailsWithDuplicateCoachError(IResponse response)
         {
             AssertDuplicateCoachError(response);
 
             Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
         }
 
-        private void ThenCoachAddFailsWithInvalidWorkingHoursError(Response response)
+        private void ThenCoachAddFailsWithInvalidWorkingHoursError(IResponse response)
         {
             AssertInvalidWorkingHoursError(response);
 
@@ -159,12 +159,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertDuplicateCoachError(Response response)
+        private void AssertDuplicateCoachError(IResponse response)
         {
-            AssertSingleError(response, "This coach already exists.");
+            AssertSingleError(response, ErrorCodes.CoachDuplicate, "Coach 'Bill Gates' already exists.", "Bill Gates");
         }
 
-        private void AssertInvalidWorkingHoursError(Response response)
+        private void AssertInvalidWorkingHoursError(IResponse response)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

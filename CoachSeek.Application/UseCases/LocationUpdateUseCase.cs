@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class LocationUpdateUseCase : BaseUseCase, ILocationUpdateUseCase
     {
-        public Response UpdateLocation(LocationUpdateCommand command)
+        public IResponse UpdateLocation(LocationUpdateCommand command)
         {
             try
             {
@@ -21,14 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is InvalidLocation)
-                    return new InvalidLocationErrorResponse();
-                if (ex is DuplicateLocation)
-                    return new DuplicateLocationErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -38,11 +31,11 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingLocation = locations.Any(x => x.Id == location.Id);
             if (!isExistingLocation)
-                throw new InvalidLocation();
+                throw new InvalidLocation(location.Id);
 
             var existingLocation = locations.FirstOrDefault(x => x.Name.ToLower() == location.Name.ToLower());
             if (existingLocation != null && existingLocation.Id != location.Id)
-                throw new DuplicateLocation();
+                throw new DuplicateLocation(location.Name);
         }
     }
 }

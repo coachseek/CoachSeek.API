@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
 {
     public class CoachAddUseCase : BaseUseCase, ICoachAddUseCase
     {
-        public Response AddCoach(CoachAddCommand command)
+        public IResponse AddCoach(CoachAddCommand command)
         {
             try
             {
@@ -21,12 +21,7 @@ namespace CoachSeek.Application.UseCases
             }
             catch (Exception ex)
             {
-                if (ex is DuplicateCoach)
-                    return new DuplicateCoachErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -36,7 +31,7 @@ namespace CoachSeek.Application.UseCases
             var isExistingCoach = coaches.Any(x => x.FirstName.ToLower() == newCoach.FirstName.ToLower()
                                                 && x.LastName.ToLower() == newCoach.LastName.ToLower());
             if (isExistingCoach)
-                throw new DuplicateCoach();
+                throw new DuplicateCoach(newCoach.Name);
         }
     }
 }

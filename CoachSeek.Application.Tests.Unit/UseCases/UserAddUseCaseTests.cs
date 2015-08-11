@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 
@@ -74,7 +75,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private Response WhenAddUser(UserAddCommand command)
+        private IResponse WhenAddUser(UserAddCommand command)
         {
             var useCase = new UserAddUseCase {UserRepository = UserRepository};
 
@@ -82,31 +83,31 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenUserAddFailsWithMissingUserError(Response response)
+        private void ThenUserAddFailsWithMissingUserError(IResponse response)
         {
             AssertMissingUserError(response);
             AssertSaveNewUserIsCalled(false);
         }
 
-        private void ThenUserAddFailsWithDuplicateUserError(Response response)
+        private void ThenUserAddFailsWithDuplicateUserError(IResponse response)
         {
             AssertDuplicateUserError(response);
             AssertSaveNewUserIsCalled(false);
         }
 
-        private void ThenUserAddSucceeds(Response response)
+        private void ThenUserAddSucceeds(IResponse response)
         {
             AssertSaveNewUserIsCalled(true);
         }
 
-        private void AssertMissingUserError(Response response)
+        private void AssertMissingUserError(IResponse response)
         {
             AssertSingleError(response, "Missing data.");
         }
 
-        private void AssertDuplicateUserError(Response response)
+        private void AssertDuplicateUserError(IResponse response)
         {
-            AssertSingleError(response, "The user with this email address already exists.", "registration.admin.email");
+            AssertSingleError(response, ErrorCodes.UserDuplicate, "The user with email address 'bgates@gmail.com' already exists.", "bgates@gmail.com");
         }
 
 
