@@ -13,13 +13,5 @@
             EmailContext = emailContext;
             IsTesting = isTesting;
         }
-
-        //public ApplicationContext(BusinessContext businessContext, EmailContext emailContext, PaymentContext paymentContext, bool isTesting)
-        //{
-        //    BusinessContext = businessContext;
-        //    EmailContext = emailContext;
-        //    PaymentContext = paymentContext;
-        //    IsTesting = isTesting;
-        //}
     }
 }

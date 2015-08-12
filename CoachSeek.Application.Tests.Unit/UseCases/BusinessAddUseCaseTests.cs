@@ -2,7 +2,6 @@
 using System.Linq;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Common;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -38,14 +37,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
 
         [Test]
-        public void GivenNoBusinessAddCommand_WhenAddBusiness_ThenBusinessAddFailsWithMissingBusinessError()
-        {
-            var command = GivenNoBusinessAddCommand();
-            var response = WhenAddBusiness(command);
-            ThenBusinessAddFailsWithMissingBusinessError(response);
-        }
-
-        [Test]
         public void GivenAValidBusinessName_WhenAddBusiness_ThenBusinessAddSucceeds()
         {
             var command = GivenAValidBusinessName();
@@ -53,11 +44,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenBusinessAddSucceeds();
         }
 
-
-        private BusinessAddCommand GivenNoBusinessAddCommand()
-        {
-            return null;
-        }
 
         private BusinessAddCommand GivenAValidBusinessName()
         {
@@ -69,13 +55,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private IResponse WhenAddBusiness(BusinessAddCommand command)
         {
-            var useCase = new BusinessAddUseCase(BusinessDomainBuilder);
-            var business = new BusinessDetails(Guid.Empty, "", "");
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, SupportedCurrencyRepository, null);
-            var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(businessContext, emailContext, true);
-            useCase.Initialise(context);
+            var useCase = new BusinessAddUseCase(BusinessDomainBuilder)
+            {
+                BusinessRepository = BusinessRepository,
+                SupportedCurrencyRepository = SupportedCurrencyRepository
+            };
+
             return useCase.AddBusiness(command);
         }
 
@@ -117,6 +102,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var businessData = (Business)BusinessRepository.DataPassedIn;
             Assert.That(businessData.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(businessData.Name, Is.EqualTo("Ian's Tennis Coaching"));
+            Assert.That(businessData.Currency, Is.EqualTo("NZD"));
         }
     }
 }

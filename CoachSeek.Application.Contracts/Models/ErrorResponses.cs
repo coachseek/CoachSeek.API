@@ -2,13 +2,6 @@
 
 namespace CoachSeek.Application.Contracts.Models
 {
-    public class NoDataErrorResponse : ErrorResponse
-    {
-        public NoDataErrorResponse()
-            : base(Resources.ErrorNoData)
-        { }
-    }
-
     public class MissingBusinessRegistrationDataErrorResponse : ErrorResponse
     {
         public MissingBusinessRegistrationDataErrorResponse() 

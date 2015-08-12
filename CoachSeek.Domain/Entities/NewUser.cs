@@ -1,6 +1,5 @@
 ﻿using System;
 using CoachSeek.Common.Extensions;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
@@ -23,15 +22,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public override UserData Save(IUserRepository repository)
+        public override void Save(IUserRepository repository)
         {
             var user = repository.GetByUsername(Email);
             if (user.IsExisting())
                 throw new DuplicateUser(user);
-
-            var newUser = repository.Save(this);
-
-            return newUser.ToData();
+            repository.Save(this);
         }
     }
 }

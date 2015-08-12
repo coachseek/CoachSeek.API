@@ -57,15 +57,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public virtual UserData Save(IUserRepository repository)
+        public virtual void Save(IUserRepository repository)
         {
-            var user = repository.GetByUsername(Email);
-            if (!user.IsExisting())
+            var existingUser = repository.GetByUsername(Email);
+            if (!existingUser.IsExisting())
                 throw new InvalidUser();
-
-            var existingUser = repository.Save(this);
-
-            return existingUser.ToData();
+            repository.Save(this);
         }
 
         public UserData ToData()

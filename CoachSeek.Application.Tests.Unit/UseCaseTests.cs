@@ -6,6 +6,7 @@ using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -481,6 +482,16 @@ namespace CoachSeek.Application.Tests.Unit
                 Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
                 i++;
             }
+        }
+
+        protected void AssertSingleErrorException(SingleErrorException exception,
+                                                  string errorCode,
+                                                  string errorMessage,
+                                                  string errorData = null)
+        {
+            Assert.That(exception.ErrorCode, Is.EqualTo(errorCode));
+            Assert.That(exception.Message, Is.EqualTo(errorMessage));
+            Assert.That(exception.Data, Is.EqualTo(errorData));
         }
     }
 }

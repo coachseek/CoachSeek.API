@@ -1,7 +1,9 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -22,13 +24,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupBusinessRepository();
         }
 
-        [Test]
-        public void GivenNoUserAddCommand_WhenAddUser_ThenUserAddFailsWithMissingUserError()
-        {
-            var command = GivenNoUserAddCommand();
-            var response = WhenAddUser(command);
-            ThenUserAddFailsWithMissingUserError(response);
-        }
 
         [Test]
         public void GivenExistingUser_WhenAddUser_ThenUserAddFailsWithDuplicateUserError()
@@ -46,11 +41,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             ThenUserAddSucceeds(response);
         }
 
-
-        private UserAddCommand GivenNoUserAddCommand()
-        {
-            return null;
-        }
 
         private UserAddCommand GivenExistingUser()
         {
@@ -75,39 +65,42 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private IResponse WhenAddUser(UserAddCommand command)
+        private object WhenAddUser(UserAddCommand command)
         {
             var useCase = new UserAddUseCase {UserRepository = UserRepository};
 
-            return useCase.AddUser(command);
+            try
+            {
+                return useCase.AddUser(command);
+            }
+            catch (Exception ex)
+            {
+                return ex;
+            }
         }
 
 
-        private void ThenUserAddFailsWithMissingUserError(IResponse response)
-        {
-            AssertMissingUserError(response);
-            AssertSaveNewUserIsCalled(false);
-        }
-
-        private void ThenUserAddFailsWithDuplicateUserError(IResponse response)
+        private void ThenUserAddFailsWithDuplicateUserError(object response)
         {
             AssertDuplicateUserError(response);
             AssertSaveNewUserIsCalled(false);
         }
 
-        private void ThenUserAddSucceeds(IResponse response)
+        private void ThenUserAddSucceeds(object response)
         {
+            Assert.That(response, Is.InstanceOf<Response>());
+
             AssertSaveNewUserIsCalled(true);
         }
 
-        private void AssertMissingUserError(IResponse response)
+        private void AssertDuplicateUserError(object response)
         {
-            AssertSingleError(response, "Missing data.");
-        }
+            Assert.That(response, Is.InstanceOf<DuplicateUser>());
+            var duplicateUser = (DuplicateUser)response;
 
-        private void AssertDuplicateUserError(IResponse response)
-        {
-            AssertSingleError(response, ErrorCodes.UserDuplicate, "The user with email address 'bgates@gmail.com' already exists.", "bgates@gmail.com");
+            Assert.That(duplicateUser.ErrorCode, Is.EqualTo(ErrorCodes.UserDuplicate));
+            Assert.That(duplicateUser.Message, Is.EqualTo("The user with email address 'bgates@gmail.com' already exists."));
+            Assert.That(duplicateUser.Data, Is.EqualTo("bgates@gmail.com"));
         }
 
 

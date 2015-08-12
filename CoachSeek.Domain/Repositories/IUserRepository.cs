@@ -5,8 +5,8 @@ namespace CoachSeek.Domain.Repositories
 {
     public interface IUserRepository
     {
-        User Save(NewUser newUser);
-        User Save(User user);
+        void Save(NewUser newUser);
+        void Save(User user);
 
         User Get(Guid id);
         User GetByUsername(string username);

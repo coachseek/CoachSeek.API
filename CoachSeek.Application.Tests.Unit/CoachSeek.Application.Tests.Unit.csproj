@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoachUseCaseTests.cs" />
+    <Compile Include="Fakes\MockBusinessAddUseCase.cs" />
+    <Compile Include="Fakes\MockUserAddUseCase.cs" />
+    <Compile Include="Fakes\MockUserAssociateWithBusinessUseCase.cs" />
     <Compile Include="Fakes\StubBookingGetByIdUseCase.cs" />
     <Compile Include="Fakes\StubBusinessRegistrationEmailer.cs" />
     <Compile Include="Fakes\StubCourseSessionOnlineBookingAddUseCase.cs" />
@@ -66,6 +70,7 @@
     <Compile Include="UseCases\BookingDeleteUseCaseTests.cs" />
     <Compile Include="UseCases\BookingAddMasterUseCaseTests.cs" />
     <Compile Include="UseCases\BookingSetPaymentStatusUseCaseTests.cs" />
+    <Compile Include="UseCases\BusinessRegistrationUseCaseTests.cs" />
     <Compile Include="UseCases\CoachAddUseCaseTests.cs" />
     <Compile Include="UseCases\CoachUpdateUseCaseTests.cs" />
     <Compile Include="UseCases\CourseSessionBookingAddUseCaseTests.cs" />

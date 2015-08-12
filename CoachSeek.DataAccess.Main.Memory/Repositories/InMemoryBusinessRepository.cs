@@ -123,8 +123,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             var dbBusiness = DbBusinessConverter.Convert(business);
             Businesses.Add(dbBusiness);
-
-            //return GetBusiness(business.Id);
         }
 
         public BusinessData UpdateBusiness(Business business)

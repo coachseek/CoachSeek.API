@@ -1,6 +1,7 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.UseCases
@@ -12,20 +13,16 @@ namespace CoachSeek.Application.UseCases
 
         public IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
         {
-            //if (command == null)
-            //    return new NoUserAddDataResponse();
-
-            // Get user from repository
             var user = UserRepository.Get(command.UserId);
+            SetBusinessDetailsOnUser(user, command);
+            user.Save(UserRepository);
+            return new Response();
+        }
 
-            // Fill in business info on user.
+        private void SetBusinessDetailsOnUser(User user, UserAssociateWithBusinessCommand command)
+        {
             user.BusinessId = command.BusinessId;
             user.BusinessName = command.BusinessName;
-
-            // Update user.
-            var updatedUser = user.Save(UserRepository);
-
-            return new Response(updatedUser);
         }
     }
 }

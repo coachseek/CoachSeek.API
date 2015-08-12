@@ -12,7 +12,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
     {
         // Spy behaviour is included
         public bool WasSaveNewUserCalled;
-        public bool WasSaveUserCalled; 
+        public bool WasSaveUserCalled;
 
         public static List<DbUser> Users { get; private set; }
 
@@ -27,17 +27,16 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             Users.Clear();
         }
 
-        public User Save(NewUser newUser)
+        public void Save(NewUser newUser)
         {
             WasSaveNewUserCalled = true;
 
             var dbUser = DbUserConverter.Convert(newUser);
 
             Users.Add(dbUser);
-            return newUser;
         }
 
-        public User Save(User user)
+        public void Save(User user)
         {
             WasSaveUserCalled = true;
 
@@ -45,8 +44,6 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             var existingUser = Users.Single(x => x.Id == dbUser.Id);
             var existingIndex = Users.IndexOf(existingUser);
             Users[existingIndex] = dbUser;
-            var updateUser = Users.Single(x => x.Id == dbUser.Id);
-            return CreateUser(updateUser);
         }
 
         public User Get(Guid id)

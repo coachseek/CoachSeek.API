@@ -4,11 +4,12 @@ using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface IBusinessAddUseCase
+    public interface IBusinessRegistrationUseCase
     {
+        IUserRepository UserRepository { set; }
         IBusinessRepository BusinessRepository { set; }
         ISupportedCurrencyRepository SupportedCurrencyRepository { set; }
 
-        IResponse AddBusiness(BusinessAddCommand command);
+        IResponse RegisterBusiness(BusinessRegistrationCommand command);
     }
 }

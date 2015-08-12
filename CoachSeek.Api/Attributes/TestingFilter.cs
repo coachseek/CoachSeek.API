@@ -8,6 +8,13 @@ namespace CoachSeek.Api.Attributes
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            SetRepositoriesOnBaseController(actionContext);
+
+            base.OnActionExecuting(actionContext);
+        }
+
+        private void SetRepositoriesOnBaseController(HttpActionContext actionContext)
+        {
             var isTesting = actionContext.Request.Headers.Contains("Testing");
             var repositories = DataAccessFactory.CreateDataAccess(isTesting);
 
@@ -16,8 +23,6 @@ namespace CoachSeek.Api.Attributes
             controller.UserRepository = repositories.UserRepository;
             controller.SupportedCurrencyRepository = repositories.SupportedCurrencyRepository;
             controller.UnsubscribedEmailAddressRepository = repositories.UnsubscribedEmailAddressRepository;
-
-            base.OnActionExecuting(actionContext);
         }
     }
 }

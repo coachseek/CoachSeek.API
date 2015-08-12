@@ -13,7 +13,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         protected override string TableName { get { return "users"; } }
 
 
-        public User Save(NewUser newUser)
+        public void Save(NewUser newUser)
         {
             var user = new UserEntity(newUser.UserName)
             {
@@ -27,26 +27,24 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             };
 
             Table.Execute(TableOperation.Insert(user));
-
-            return newUser;
         }
 
-        public User Save(User user)
+        public void Save(User user)
         {
             try
             {
-                return Update(user);
+                Update(user);
             }
             catch (StorageException ex)
             {
                 if (ex.RequestInformation.HttpStatusCode == 412)
-                    return Update(user);
+                    Update(user);
 
                 throw;
             }
         }
 
-        private User Update(User user)
+        private void Update(User user)
         {
             var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, user.UserName);
             var retrievedResult = Table.Execute(retrieveOperation);
@@ -56,12 +54,8 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                 throw new Exception(); // TODO
 
             UpdateEntity(user, updateEntity);
-
             var updateOperation = TableOperation.Replace(updateEntity);
-
             Table.Execute(updateOperation);
-
-            return user;
         }
 
         private static void UpdateEntity(User user, UserEntity updateEntity)

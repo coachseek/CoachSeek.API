@@ -11,9 +11,11 @@ ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Service]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Session]
 ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Customer]
 ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Session]
+ALTER TABLE [dbo].[EmailTemplate] DROP CONSTRAINT [FK_EmailTemplate_Business]
 GO
 
 -- Truncate Tables
+TRUNCATE TABLE [dbo].[EmailTemplate]
 TRUNCATE TABLE [dbo].[Transaction]
 TRUNCATE TABLE [dbo].[Location]
 TRUNCATE TABLE [dbo].[Coach]
@@ -47,4 +49,8 @@ ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Customer] FO
 	REFERENCES [dbo].[Customer] ([Id])
 ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Session] FOREIGN KEY([SessionId])
 	REFERENCES [dbo].[Session] ([Id])
+ALTER TABLE [dbo].[EmailTemplate]  WITH CHECK ADD  CONSTRAINT [FK_EmailTemplate_Business] FOREIGN KEY([BusinessId])
+	REFERENCES [dbo].[Business] ([Id])
+GO
+
 GO

@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="Services\UserAssociateWithBusinessCommandBuilder.cs" />
+    <Compile Include="UseCases\BusinessRegistrationUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateDeleteUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateGetAllUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateGetByTypeUseCase.cs" />

@@ -74,6 +74,7 @@
     <Compile Include="UseCases\IBookingSetAttendanceUseCase.cs" />
     <Compile Include="UseCases\IBookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
+    <Compile Include="UseCases\IBusinessRegistrationUseCase.cs" />
     <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionBookingAddUseCase.cs" />

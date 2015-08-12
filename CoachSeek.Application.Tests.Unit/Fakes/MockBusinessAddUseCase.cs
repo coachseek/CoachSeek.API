@@ -4,11 +4,12 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
 
-namespace CoachSeek.WebUI.Tests.Unit.Fakes
+namespace CoachSeek.Application.Tests.Unit.Fakes
 {
     public class MockBusinessAddUseCase : IBusinessAddUseCase
     {
         public bool WasAddBusinessCalled;
+        public Exception Exception;
         public BusinessAddCommand Command;
         public IResponse Response;
 
@@ -17,14 +18,13 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         public ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
 
 
-        public void Initialise(ApplicationContext context)
-        {
-        }
-
         public IResponse AddBusiness(BusinessAddCommand command)
         {
             WasAddBusinessCalled = true;
             Command = command;
+
+            if (Exception != null)
+                throw Exception;
             return Response;
         }
     }
