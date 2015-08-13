@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class ValidationException : Exception
+    public class ValidationException : CoachseekException
     {
         public List<Error> Errors { get; private set; }
 
@@ -25,10 +24,21 @@ namespace CoachSeek.Domain.Exceptions
             Errors = new List<Error> { error };
         }
 
+        public ValidationException(IEnumerable<ErrorData> errors)
+        {
+            Errors = new List<Error>();
+            foreach(var error in errors)
+                Errors.Add(new Error(error.Code, error.Message, error.Data));
+        }
+
         public ValidationException(IEnumerable<Error> errors)
         {
             Errors = new List<Error>(errors);
         }
+
+        public ValidationException(CoachseekException exception) 
+            : this(exception.ToData())
+        { }
 
 
         public void Add(string errorMessage, string field = null)
@@ -43,7 +53,9 @@ namespace CoachSeek.Domain.Exceptions
 
         public void Add(SingleErrorException exception)
         {
-            Errors.Add(exception.ToError());
+            var errors = exception.ToData();
+            foreach (var error in errors)
+                Errors.Add(new Error(error.Code, error.Message, error.Data));
         }
 
         public bool HasErrors
@@ -57,15 +69,12 @@ namespace CoachSeek.Domain.Exceptions
                 throw this;
         }
 
-        public IList<ErrorData> ToData()
+        public override IList<ErrorData> ToData()
         {
             var data = new List<ErrorData>();
-
             if (!HasErrors)
                 return data;
-
             data.AddRange(Errors.Select(error => error.ToData()));
-
             return data;
         }
     }

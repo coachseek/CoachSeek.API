@@ -30,6 +30,10 @@ namespace CoachSeek.Domain.Entities
         {
             Id = Guid.NewGuid();
 
+            _location = new Location(coreData.Location);
+            _coach = new Coach(coreData.Coach);
+            _service = new Service(coreData.Service);
+
             ValidateAndCreate(command, coreData);
         }
 
@@ -37,12 +41,12 @@ namespace CoachSeek.Domain.Entities
         {
             Id = command.Id;
 
+            _location = new Location(coreData.Location);
+            _coach = new Coach(coreData.Coach);
+            _service = new Service(coreData.Service);
+
             ValidateAndCreate(command, coreData);
         }
-
-        protected Session(SessionData data, LocationData location, CoachData coach, ServiceData service)
-            : this(data.Id, location, coach, service, data.Timing, data.Booking, data.Presentation)
-        { }
 
         protected Session(Guid id,
                        LocationData location,
@@ -76,15 +80,10 @@ namespace CoachSeek.Domain.Entities
         private void ValidateAndCreate(SessionAddCommand command, CoreData coreData)
         {
             var errors = new ValidationException();
-
-            ValidateAndCreateLocation(coreData.Location, errors);
-            ValidateAndCreateCoach(coreData.Coach, errors);
-            ValidateAndCreateService(coreData.Service, errors);
-
+            
             ValidateAndCreateSessionTiming(command.Timing, errors);
             ValidateAndCreateSessionBooking(command.Booking, errors);
             ValidateAndCreateSessionPresentation(command.Presentation, errors);
-
             ValidateAdditional(command, coreData, errors);
 
             errors.ThrowIfErrors();
@@ -97,59 +96,59 @@ namespace CoachSeek.Domain.Entities
         { }
 
 
-        protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
-        {
-            if (location == null)
-            {
-                errors.Add("The location field is required.", "session.location");
-                return;
-            }
+        //protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
+        //{
+        //    if (location == null)
+        //    {
+        //        errors.Add("The location field is required.", "session.location");
+        //        return;
+        //    }
 
-            try
-            {
-                _location = new Location(location);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
+        //    try
+        //    {
+        //        _location = new Location(location);
+        //    }
+        //    catch (ValidationException ex)
+        //    {
+        //        errors.Add(ex);
+        //    }
+        //}
 
-        protected void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
-        {
-            if (coach == null)
-            {
-                errors.Add("The coach field is required.", "session.coach");
-                return;
-            }
+        //protected void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
+        //{
+        //    if (coach == null)
+        //    {
+        //        errors.Add("The coach field is required.", "session.coach");
+        //        return;
+        //    }
 
-            try
-            {
-                _coach = new Coach(coach);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
+        //    try
+        //    {
+        //        _coach = new Coach(coach);
+        //    }
+        //    catch (ValidationException ex)
+        //    {
+        //        errors.Add(ex);
+        //    }
+        //}
 
-        protected void ValidateAndCreateService(ServiceData service, ValidationException errors)
-        {
-            if (service == null)
-            {
-                errors.Add("The service field is required.", "session.service");
-                return;
-            }
+        //protected void ValidateAndCreateService(ServiceData service, ValidationException errors)
+        //{
+        //    if (service == null)
+        //    {
+        //        errors.Add("The service field is required.", "session.service");
+        //        return;
+        //    }
 
-            try
-            {
-                _service = new Service(service);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
+        //    try
+        //    {
+        //        _service = new Service(service);
+        //    }
+        //    catch (ValidationException ex)
+        //    {
+        //        errors.Add(ex);
+        //    }
+        //}
 
         protected void ValidateAndCreateSessionTiming(SessionTimingCommand sessionTiming, ValidationException errors)
         {

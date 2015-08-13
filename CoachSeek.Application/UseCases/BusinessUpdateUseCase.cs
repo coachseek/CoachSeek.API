@@ -18,7 +18,7 @@ namespace CoachSeek.Application.UseCases
                 var data = BusinessRepository.UpdateBusiness(business);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }

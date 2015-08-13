@@ -19,7 +19,7 @@ namespace CoachSeek.Application.UseCases
                 var data = BusinessRepository.AddCoach(Business.Id, newCoach);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }

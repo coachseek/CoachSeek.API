@@ -14,6 +14,9 @@
         public static string CoachInvalid { get { return "coach-invalid"; } }
         public static string CoachDuplicate { get { return "coach-duplicate"; } }
 
+        public static string ColourInvalid { get { return "colour-invalid"; } }
+
+        public static string ServiceInvalid { get { return "service-invalid"; } }
         public static string ServiceDuplicate { get { return "service-duplicate"; } }
         
         public static string SessionClashing { get { return "session-clashing"; } }

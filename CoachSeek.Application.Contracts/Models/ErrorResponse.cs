@@ -26,15 +26,21 @@ namespace CoachSeek.Application.Contracts.Models
             Errors.Add(new ErrorData(field, message, code, data));
         }
 
-        public ErrorResponse(SingleErrorException exception)
+        public ErrorResponse(CoachseekException exception)
         {
-            Errors.Add(exception.ToError().ToData());
+            foreach (var errorData in exception.ToData())
+                Errors.Add(errorData);
         }
 
-        public ErrorResponse(ValidationException exception)
-        {
-            foreach (var error in exception.Errors)
-                Errors.Add(error.ToData());
-        }
+        //public ErrorResponse(SingleErrorException exception)
+        //{
+        //    Errors.Add(exception.ToError().ToData());
+        //}
+
+        //public ErrorResponse(ValidationException exception)
+        //{
+        //    foreach (var error in exception.Errors)
+        //        Errors.Add(error.ToData());
+        //}
     }
 }

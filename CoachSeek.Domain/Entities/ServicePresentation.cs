@@ -31,14 +31,11 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
-                if (command == null || command.Colour == null)
-                    throw new ValidationException("The colour field is required.", "service.presentation.colour");
-
-                _colour = new Colour(command.Colour);
+                _colour = command == null ? new ColourDefault() : new Colour(command.Colour);
             }
-            catch (InvalidColour)
+            catch (InvalidColour ex)
             {
-                throw new ValidationException("The colour field is not valid.", "service.presentation.colour");
+                throw new ValidationException(ex);
             }
         }
 

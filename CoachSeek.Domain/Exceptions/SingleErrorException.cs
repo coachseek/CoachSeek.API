@@ -1,8 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class SingleErrorException : Exception
+    public class SingleErrorException : CoachseekException
     {
         public string ErrorCode { get; private set; }
         public new string Data { get; private set; }
@@ -14,9 +15,12 @@ namespace CoachSeek.Domain.Exceptions
             Data = data;
         }
 
-        public Error ToError()
+        public override IList<ErrorData> ToData()
         {
-            return new Error(Message, ErrorCode, Data);
+            return new List<ErrorData>
+            {
+                new ErrorData(null, Message, ErrorCode, Data)
+            };
         }
     }
 }

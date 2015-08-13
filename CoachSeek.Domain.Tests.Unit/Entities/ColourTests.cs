@@ -8,14 +8,16 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     public class ColourTests
     {
         [Test]
-        public void DefaultColourTest()
+        public void ColourDefaultTest()
         {
-            Assert.That(Colour.Default, Is.EqualTo("green"));
+            Assert.That(new ColourDefault().Colouration, Is.EqualTo("green"));
         }
 
         [Test]
         public void TestColours()
         {
+            ColourSuccess(null, "green");
+            ColourSuccess("", "green");
             ColourSuccess("orange", "orange");
             ColourSuccess("yellow", "yellow");
             ColourSuccess("red", "red");
@@ -31,8 +33,6 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             ColourSuccess("Dark-Red", "dark-red");
             ColourSuccess("   mid-Blue    ", "mid-blue");
 
-            ColourFailure(null);
-            ColourFailure("");
             ColourFailure("darkred");
             ColourFailure("midgreen");
             ColourFailure("aquamarine");

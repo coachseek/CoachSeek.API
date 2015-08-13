@@ -4,38 +4,47 @@ namespace CoachSeek.Domain.Entities
 {
     public class Colour
     {
-        public static string Default { get { return "green"; } }
+        protected const string DEFAULT_COLOUR = "green";
 
         private readonly string _colour;
 
-        public string Colouration { get { return _colour; } }
+        public virtual string Colouration { get { return _colour; } }
 
         public Colour(string colour)
         {
-            if (colour == null)
-                throw new InvalidColour();
-
-            _colour = colour.Trim().ToLowerInvariant();
-
-            Validate();
+            if (string.IsNullOrEmpty(colour))
+                _colour = DEFAULT_COLOUR;
+            else
+            {
+                _colour = colour.Trim().ToLowerInvariant();
+                Validate();
+            }
         }
 
         private void Validate()
         {
-            if (!(IsYellow || IsOrange || IsGreen || IsMidGreen || IsDarkGreen ||
-                  IsRed || IsDarkRed || IsBlue || IsMidBlue || IsDarkBlue))
-                throw new InvalidColour();
+            if (!(IsGreen || 
+                  IsYellow || 
+                  IsOrange || 
+                  IsMidGreen || 
+                  IsDarkGreen ||
+                  IsRed || 
+                  IsDarkRed || 
+                  IsBlue || 
+                  IsMidBlue || 
+                  IsDarkBlue))
+                throw new InvalidColour(_colour);
         }
 
-        private bool IsYellow { get { return Colouration == "yellow"; } }
-        private bool IsOrange { get { return Colouration == "orange"; } }
-        private bool IsGreen { get { return Colouration == "green"; } }
-        private bool IsMidGreen { get { return Colouration == "mid-green"; } }
-        private bool IsDarkGreen { get { return Colouration == "dark-green"; } }
-        private bool IsRed { get { return Colouration == "red"; } }
-        private bool IsDarkRed { get { return Colouration == "dark-red"; } }
-        private bool IsBlue { get { return Colouration == "blue"; } }
-        private bool IsMidBlue { get { return Colouration == "mid-blue"; } }
-        private bool IsDarkBlue { get { return Colouration == "dark-blue"; } }
+        private bool IsGreen { get { return _colour == "green"; } }
+        private bool IsYellow { get { return _colour == "yellow"; } }
+        private bool IsOrange { get { return _colour == "orange"; } }
+        private bool IsMidGreen { get { return _colour == "mid-green"; } }
+        private bool IsDarkGreen { get { return _colour == "dark-green"; } }
+        private bool IsRed { get { return _colour == "red"; } }
+        private bool IsDarkRed { get { return _colour == "dark-red"; } }
+        private bool IsBlue { get { return _colour == "blue"; } }
+        private bool IsMidBlue { get { return _colour == "mid-blue"; } }
+        private bool IsDarkBlue { get { return _colour == "dark-blue"; } }
     }
 }

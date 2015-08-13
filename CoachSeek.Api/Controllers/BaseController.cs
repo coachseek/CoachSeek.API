@@ -85,6 +85,11 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
+        protected HttpResponseMessage CreateGetErrorWebResponse(CoachseekException exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.BadRequest, exception.ToData());
+        }
+
         protected HttpResponseMessage CreateGetErrorWebResponse(ValidationException errors)
         {
             return Request.CreateResponse(HttpStatusCode.BadRequest, errors.ToData());

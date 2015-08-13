@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Common;
+﻿using CoachSeek.Common;
 using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Domain.Exceptions

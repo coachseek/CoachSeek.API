@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -81,6 +82,13 @@ namespace CoachSeek.Application.UseCases
             var location = BusinessRepository.GetLocation(Business.Id, command.Location.Id);
             var coach = BusinessRepository.GetCoach(Business.Id, command.Coach.Id);
             var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
+
+            if (!location.IsExisting())
+                throw new InvalidLocation(command.Location.Id);
+            if (!coach.IsExisting())
+                throw new InvalidCoach(command.Coach.Id);
+            if (!service.IsExisting())
+                throw new InvalidService(command.Service.Id);
 
             var coreData = new CoreData(location, coach, service);
 

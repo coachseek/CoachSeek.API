@@ -493,5 +493,31 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(exception.Message, Is.EqualTo(errorMessage));
             Assert.That(exception.Data, Is.EqualTo(errorData));
         }
+
+        protected void AssertInvalidCoach(object response, Guid invalidCoachId)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<InvalidCoach>());
+            var errors = ((InvalidCoach)response).ToData();
+            Assert.That(errors.Count, Is.EqualTo(1));
+            var error = errors[0];
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.CoachInvalid));
+            Assert.That(error.Message, Is.EqualTo("This coach does not exist."));
+            Assert.That(error.Data, Is.EqualTo(invalidCoachId.ToString()));
+            Assert.That(error.Field, Is.Null);
+        }
+
+        protected void AssertInvalidLocation(object response, Guid invalidLocationId)
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<InvalidLocation>());
+            var errors = ((InvalidLocation)response).ToData();
+            Assert.That(errors.Count, Is.EqualTo(1));
+            var error = errors[0];
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.LocationInvalid));
+            Assert.That(error.Message, Is.EqualTo("This location does not exist."));
+            Assert.That(error.Data, Is.EqualTo(invalidLocationId.ToString()));
+            Assert.That(error.Field, Is.Null);
+        }
     }
 }

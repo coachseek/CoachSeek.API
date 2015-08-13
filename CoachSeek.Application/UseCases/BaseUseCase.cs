@@ -30,7 +30,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        protected ErrorResponse HandleException(Exception ex)
+        protected ErrorResponse HandleException(CoachseekException ex)
         {
             if (ex is SingleErrorException)
                 return new ErrorResponse(ex as SingleErrorException);

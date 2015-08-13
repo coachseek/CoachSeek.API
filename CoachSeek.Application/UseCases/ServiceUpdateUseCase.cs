@@ -19,16 +19,9 @@ namespace CoachSeek.Application.UseCases
                 var data = BusinessRepository.UpdateService(Business.Id, service);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is InvalidService)
-                    return new InvalidServiceErrorResponse();
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -38,7 +31,7 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingService = services.Any(x => x.Id == service.Id);
             if (!isExistingService)
-                throw new InvalidService();
+                throw new InvalidService(service.Id);
 
             var existingService = services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
             if (existingService != null && existingService.Id != service.Id)

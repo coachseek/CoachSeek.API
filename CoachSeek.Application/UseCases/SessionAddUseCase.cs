@@ -23,14 +23,9 @@ namespace CoachSeek.Application.UseCases
 
                 return CreateCourse(command, coreData);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 

@@ -17,19 +17,6 @@ namespace CoachSeek.Application.Contracts.Models
         { }
     }
 
-    public class InvalidCoachErrorResponse  : ErrorResponse
-    {
-        public InvalidCoachErrorResponse()
-            : base(Resources.ErrorInvalidCoach, "coach.id")
-        { }
-    }
-    public class InvalidServiceErrorResponse : ErrorResponse
-    {
-        public InvalidServiceErrorResponse()
-            : base(Resources.ErrorInvalidService, "service.id")
-        { }
-    }
-
     public class InvalidSessionErrorResponse : ErrorResponse
     {
         public InvalidSessionErrorResponse()

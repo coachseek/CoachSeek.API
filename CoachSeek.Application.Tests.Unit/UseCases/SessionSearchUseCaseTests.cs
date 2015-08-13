@@ -101,7 +101,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var criteria = GivenNoValidCoachId();
             var response = WhenCallSearchForSessions(criteria);
-            ThenSessionSearchFailsWithInvalidCoachIdError(response);
+            ThenSessionSearchFailsWithInvalidCoachIdError(response, criteria.Item3.Value);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var criteria = GivenNoValidLocationId();
             var response = WhenCallSearchForSessions(criteria);
-            ThenSessionSearchFailsWithInvalidLocationIdError(response);
+            ThenSessionSearchFailsWithInvalidLocationIdError(response, criteria.Item4.Value);
         }
 
         [Test]
@@ -336,15 +336,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(courses.Count, Is.EqualTo(1));
         }
 
-        private void ThenSessionSearchFailsWithInvalidCoachIdError(object response)
+        private void ThenSessionSearchFailsWithInvalidCoachIdError(object response, Guid invalidCoachId)
         {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("Not a valid coachId."));
-            Assert.That(error.Field, Is.EqualTo("coachId"));
+            AssertInvalidCoach(response, invalidCoachId);
         }
 
         private void ThenSessionSearchWillReturnSessionsForCoach(object response)
@@ -365,15 +359,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(courses.Count, Is.EqualTo(0));
         }
 
-        private void ThenSessionSearchFailsWithInvalidLocationIdError(object response)
+        private void ThenSessionSearchFailsWithInvalidLocationIdError(object response, Guid invalidLocationId)
         {
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<ValidationException>());
-            var errors = ((ValidationException)response).Errors;
-            Assert.That(errors.Count, Is.EqualTo(1));
-            var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("Not a valid locationId."));
-            Assert.That(error.Field, Is.EqualTo("locationId"));
+            AssertInvalidLocation(response, invalidLocationId);
         }
 
         private void ThenSessionSearchWillReturnSessionsForLocation(object response)

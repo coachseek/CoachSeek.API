@@ -15,7 +15,7 @@ namespace CoachSeek.Domain.Exceptions
             Field = field;
         }
 
-        public Error(string message, string code, string data = null)
+        public Error(string code, string message, string data = null)
         {
             Message = message;
             Code = code;

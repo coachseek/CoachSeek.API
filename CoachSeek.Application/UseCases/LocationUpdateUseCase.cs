@@ -19,7 +19,7 @@ namespace CoachSeek.Application.UseCases
                 var data = BusinessRepository.UpdateLocation(Business.Id, location);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }
