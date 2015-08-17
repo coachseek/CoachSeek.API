@@ -7,6 +7,7 @@ using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 
@@ -195,12 +196,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void GivenUserAddUseCaseFails()
         {
-            UserAddUseCase.Exception = new SingleErrorException("UserAddUseCase Error");
+            UserAddUseCase.Exception = new UserDuplicate(new User(Guid.NewGuid(), new Guid(BUSINESS_ID), BUSINESS_NAME, "x@y.z", "x", "y", "z", ""));
         }
 
         private void GivenBusinessAddUseCaseFails()
         {
-            BusinessAddUseCase.Exception = new SingleErrorException("BusinessAddUseCase Error");
+            BusinessAddUseCase.Exception = new SingleErrorException("hello", "world!");
         }
 
         private void GivenAssociateUseCaseFails()

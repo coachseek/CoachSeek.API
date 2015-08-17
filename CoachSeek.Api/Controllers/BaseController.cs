@@ -85,19 +85,9 @@ namespace CoachSeek.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
-        protected HttpResponseMessage CreateGetErrorWebResponse(CoachseekException exception)
-        {
-            return Request.CreateResponse(HttpStatusCode.BadRequest, exception.ToData());
-        }
-
-        protected HttpResponseMessage CreateGetErrorWebResponse(ValidationException errors)
-        {
-            return Request.CreateResponse(HttpStatusCode.BadRequest, errors.ToData());
-        }
-
         protected HttpResponseMessage CreateGetWebResponse(object data)
         {
-            if (data == null)
+            if (data.IsNotFound())
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
             return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -128,6 +118,11 @@ namespace CoachSeek.Api.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
+        }
+
+        protected HttpResponseMessage CreateWebErrorResponse(CoachseekException exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.BadRequest, exception.Errors);
         }
 
         protected HttpResponseMessage CreateWebSuccessResponse(Response response)

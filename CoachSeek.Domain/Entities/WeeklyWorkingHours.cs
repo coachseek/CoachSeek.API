@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Data.Model;
+﻿using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 
@@ -44,41 +43,39 @@ namespace CoachSeek.Domain.Entities
         {
             var errors = new ValidationException();
 
-            _monday = CreateWorkingHours(workingHoursCommand.Monday, errors, "monday");
-            _tuesday = CreateWorkingHours(workingHoursCommand.Tuesday, errors, "tuesday");
-            _wednesday = CreateWorkingHours(workingHoursCommand.Wednesday, errors, "wednesday");
-            _thursday = CreateWorkingHours(workingHoursCommand.Thursday, errors, "thursday");
-            _friday = CreateWorkingHours(workingHoursCommand.Friday, errors, "friday");
-            _saturday = CreateWorkingHours(workingHoursCommand.Saturday, errors, "saturday");
-            _sunday = CreateWorkingHours(workingHoursCommand.Sunday, errors, "sunday");
+            _monday = CreateWorkingHours(workingHoursCommand.Monday, errors, "Monday");
+            _tuesday = CreateWorkingHours(workingHoursCommand.Tuesday, errors, "Tuesday");
+            _wednesday = CreateWorkingHours(workingHoursCommand.Wednesday, errors, "Wednesday");
+            _thursday = CreateWorkingHours(workingHoursCommand.Thursday, errors, "Thursday");
+            _friday = CreateWorkingHours(workingHoursCommand.Friday, errors, "Friday");
+            _saturday = CreateWorkingHours(workingHoursCommand.Saturday, errors, "Saturday");
+            _sunday = CreateWorkingHours(workingHoursCommand.Sunday, errors, "Sunday");
 
             errors.ThrowIfErrors();
         }
 
-        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursData workingDay, ValidationException errors, string day)
+        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursData workingDay, ValidationException errors, string dayOfWeek)
         {
             try
             {
-                return new DailyWorkingHours(workingDay);
+                return new DailyWorkingHours(workingDay, dayOfWeek);
             }
-            catch (Exception)
+            catch (SingleErrorException ex)
             {
-                errors.Add(string.Format("The {0} working hours are not valid.", day), string.Format("coach.workingHours.{0}", day));
-
+                errors.Add(ex);
                 return null;
             }
         }
 
-        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursCommand workingDayCommand, ValidationException errors, string day)
+        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursCommand workingDayCommand, ValidationException errors, string dayOfWeek)
         {
             try
             {
-                return new DailyWorkingHours(workingDayCommand);
+                return new DailyWorkingHours(workingDayCommand, dayOfWeek);
             }
-            catch (Exception)
+            catch (SingleErrorException ex)
             {
-                errors.Add(string.Format("The {0} working hours are not valid.", day), string.Format("coach.workingHours.{0}", day));
-
+                errors.Add(ex);
                 return null;
             }
         }

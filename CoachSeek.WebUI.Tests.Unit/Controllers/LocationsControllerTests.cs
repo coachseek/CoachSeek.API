@@ -243,7 +243,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         private void AssertErrorResponse(HttpResponseMessage response)
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            List<ErrorData> errors;
+            List<Error> errors;
             Assert.That(response.TryGetContentValue(out errors), Is.True);
             var error = errors[0];
             Assert.That(error.Field, Is.Null);

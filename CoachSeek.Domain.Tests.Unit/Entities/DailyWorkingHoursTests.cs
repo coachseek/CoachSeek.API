@@ -159,7 +159,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new DailyWorkingHours(data);
+                return new DailyWorkingHours(data, "monday");
             }
             catch (Exception ex)
             {
@@ -170,7 +170,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private void ThenThrowInvalidDailyWorkingHours(object response)
         {
-            Assert.That(response, Is.InstanceOf<InvalidDailyWorkingHours>());
+            Assert.That(response, Is.InstanceOf<DailyWorkingHoursInvalid>());
         }
 
         private void ThenCreateAvailableDailyWorkingHours(object response)

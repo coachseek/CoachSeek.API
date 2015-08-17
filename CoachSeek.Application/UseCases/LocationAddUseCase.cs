@@ -30,7 +30,7 @@ namespace CoachSeek.Application.UseCases
             var locations = BusinessRepository.GetAllLocations(Business.Id);
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
             if (isExistingLocation)
-                throw new DuplicateLocation(newLocation.Name);
+                throw new LocationDuplicate(newLocation.Name);
         }
     }
 }

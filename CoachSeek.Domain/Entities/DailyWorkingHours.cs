@@ -15,20 +15,20 @@ namespace CoachSeek.Domain.Entities
         public string FinishTime { get { return _finish != null ? _finish.ToData() : null; } }
 
 
-        public DailyWorkingHours(DailyWorkingHoursData data)
-        {
-            if (data.IsAvailable)
-                CreateAvailableWorkingHours(data.StartTime, data.FinishTime);
-            else
-                CreateUnavailableWorkingHours(data.StartTime, data.FinishTime);
-        }
-
-        public DailyWorkingHours(DailyWorkingHoursCommand command)
+        public DailyWorkingHours(DailyWorkingHoursCommand command, string dayOfWeek)
         {
             if (command.IsAvailable)
-                CreateAvailableWorkingHours(command.StartTime, command.FinishTime);
+                CreateAvailableWorkingHours(command.StartTime, command.FinishTime, dayOfWeek);
             else
-                CreateUnavailableWorkingHours(command.StartTime, command.FinishTime);
+                CreateUnavailableWorkingHours(command.StartTime, command.FinishTime, dayOfWeek);
+        }
+
+        public DailyWorkingHours(DailyWorkingHoursData data, string dayOfWeek)
+        {
+            if (data.IsAvailable)
+                CreateAvailableWorkingHours(data.StartTime, data.FinishTime, dayOfWeek);
+            else
+                CreateUnavailableWorkingHours(data.StartTime, data.FinishTime, dayOfWeek);
         }
 
 
@@ -43,7 +43,7 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void CreateAvailableWorkingHours(string startTime, string finishTime)
+        private void CreateAvailableWorkingHours(string startTime, string finishTime, string dayOfWeek)
         {
             IsAvailable = true;
 
@@ -54,14 +54,14 @@ namespace CoachSeek.Domain.Entities
             }
             catch (Exception)
             {
-                throw new InvalidDailyWorkingHours();
+                throw new DailyWorkingHoursInvalid(dayOfWeek);
             }
 
             if (!_finish.IsAfter(_start))
-                throw new InvalidDailyWorkingHours();
+                throw new DailyWorkingHoursInvalid(dayOfWeek);
         }
 
-        private void CreateUnavailableWorkingHours(string startTime, string finishTime)
+        private void CreateUnavailableWorkingHours(string startTime, string finishTime, string dayOfWeek)
         {
             IsAvailable = false;
 
@@ -72,14 +72,14 @@ namespace CoachSeek.Domain.Entities
             }
             catch (Exception)
             {
-                throw new InvalidDailyWorkingHours();
+                throw new DailyWorkingHoursInvalid(dayOfWeek);
             }
 
             if (_finish == null || _start == null)
                 return;
 
             if (!_finish.IsAfter(_start))
-                throw new InvalidDailyWorkingHours();
+                throw new DailyWorkingHoursInvalid(dayOfWeek);
         }
     }
 }

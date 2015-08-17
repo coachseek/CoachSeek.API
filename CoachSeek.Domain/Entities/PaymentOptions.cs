@@ -101,12 +101,6 @@ namespace CoachSeek.Domain.Entities
             {
                 if (ex is SingleErrorException)
                     errors.Add(ex as SingleErrorException);
-                if (ex is MissingMerchantAccountIdentifier)
-                    errors.Add("Missing merchant account identifier.", "business.payment.merchantAccountIdentifier");
-                if (ex is InvalidMerchantAccountIdentifierFormat)
-                    errors.Add("Invalid merchant account identifier format.", "business.payment.merchantAccountIdentifier");
-                if (ex is ValidationException)
-                    errors.Add((ValidationException)ex);
             }
         }
 
@@ -115,12 +109,8 @@ namespace CoachSeek.Domain.Entities
             var validation = new ValidationException();
 
             if (IsOnlinePaymentEnabled)
-            {
-                //if (!ForceOnlinePayment.HasValue)
-                //    validation.Add("When Online Payment is enabled then the ForceOnlinePayment option must be specified.");
                 if (_paymentProvider is NullPaymentProvider)
-                    validation.Add("When Online Payment is enabled then an Online Payment Provider must be specified.");
-            }
+                    validation.Add(new PaymentProviderRequiredWhenOnlineBookingIsEnabled());
 
             validation.ThrowIfErrors();
         }

@@ -9,35 +9,35 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     public class EmailAddressTests
     {
         [Test]
-        public void GivenNullEmail_WhenConstructEmailAddress_ThenThrowMissingEmailAddress()
+        public void GivenNullEmail_WhenConstructEmailAddress_ThenThrowEmailAddressRequired()
         {
             var email = GivenNullEmail();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowMissingEmailAddress(response);
+            ThenThrowEmailAddressRequired(response);
         }
 
         [Test]
-        public void GivenEmptyEmail_WhenConstructEmailAddress_ThenThrowInvalidEmailAddressFormat()
+        public void GivenEmptyEmail_WhenConstructEmailAddress_ThenThrowEmailAddressFormatInvalid()
         {
             var email = GivenEmptyEmail();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowInvalidEmailAddressFormat(response);
+            ThenThrowEmailAddressFormatInvalid(response);
         }
 
         [Test]
-        public void GivenWhitespaceEmail_WhenConstructEmailAddress_ThenThrowInvalidEmailAddressFormat()
+        public void GivenWhitespaceEmail_WhenConstructEmailAddress_ThenThrowEmailAddressFormatInvalid()
         {
             var email = GivenWhitespaceEmail();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowInvalidEmailAddressFormat(response);
+            ThenThrowEmailAddressFormatInvalid(response);
         }
 
         [Test]
-        public void GivenInvalidEmailFormat_WhenConstructEmailAddress_ThenThrowInvalidEmailAddressFormat()
+        public void GivenInvalidEmailFormat_WhenConstructEmailAddress_ThenThrowEmailAddressFormatInvalid()
         {
             var email = GivenInvalidEmailFormat();
             var response = WhenConstructEmailAddress(email);
-            ThenThrowInvalidEmailAddressFormat(response);
+            ThenThrowEmailAddressFormatInvalid(response);
         }
 
         [Test]
@@ -86,14 +86,14 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-        private void ThenThrowMissingEmailAddress(object response)
+        private void ThenThrowEmailAddressRequired(object response)
         {
-            Assert.That(response, Is.InstanceOf<MissingEmailAddress>());
+            Assert.That(response, Is.InstanceOf<EmailAddressRequired>());
         }
 
-        private void ThenThrowInvalidEmailAddressFormat(object response)
+        private void ThenThrowEmailAddressFormatInvalid(object response)
         {
-            Assert.That(response, Is.InstanceOf<InvalidEmailAddressFormat>());
+            Assert.That(response, Is.InstanceOf<EmailAddressFormatInvalid>());
         }
 
         private void ThenConstructEmailAddress(object response)

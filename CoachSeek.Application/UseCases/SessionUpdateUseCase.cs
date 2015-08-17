@@ -15,61 +15,61 @@ namespace CoachSeek.Application.UseCases
     {
         public IResponse UpdateSession(SessionUpdateCommand command)
         {
-            var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
-            if (sessionOrCourse == null)
-                return new NotFoundResponse();
-
-            return UpdateSessionOrCourse(command, sessionOrCourse);
+            try
+            {
+                var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
+                if (sessionOrCourse.IsNotFound())
+                    return new NotFoundResponse();
+                return UpdateSessionOrCourse(command, sessionOrCourse);
+            }
+            catch (CoachseekException ex)
+            {
+                return HandleException(ex);
+            }
         }
 
 
         private IResponse UpdateSessionOrCourse(SessionUpdateCommand command, Session existingSessionOrCourse)
         {
             if (existingSessionOrCourse is StandaloneSession)
-                return HandleUpdateStandaloneSession(command, (StandaloneSession)existingSessionOrCourse);
+                return UpdateStandaloneSession(command, existingSessionOrCourse as StandaloneSession);
             if (existingSessionOrCourse is SessionInCourse)
-                return HandleUpdateSessionInCourse(command, (SessionInCourse)existingSessionOrCourse);
+                return UpdateSessionInCourse(command, existingSessionOrCourse as SessionInCourse);
             if (existingSessionOrCourse is RepeatedSession)
-                return HandleUpdateCourse(command, (RepeatedSession)existingSessionOrCourse);
+                return UpdateCourse(command, (RepeatedSession)existingSessionOrCourse);
 
             throw new InvalidOperationException("Unexpected session type!");
         }
 
-        private IResponse HandleUpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
+        private IResponse UpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
         {
             if (IsChangingSessionToCourse(command))
-                return new CannotChangeSessionToCourseErrorResponse();
-
-            return UpdateStandaloneSession(existingSession, command);
+                throw new SessionChangeToCourseNotSupported();
+            var coreData = LookupAndValidateCoreData(command);
+            var updateSession = new StandaloneSession(existingSession, command, coreData);
+            ValidateUpdate(updateSession);
+            var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
+            return new Response(data);
         }
 
-        private IResponse HandleUpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
+        private IResponse UpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
         {
             if (IsChangingSessionToCourse(command))
-                return new CannotChangeSessionToCourseErrorResponse();
-
-            return UpdateSessionInCourse(existingSession, command);
+                throw new SessionChangeToCourseNotSupported();
+            var coreData = LookupAndValidateCoreData(command);
+            var updateSession = new SessionInCourse(existingSession, command, coreData);
+            ValidateUpdate(updateSession);
+            var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
+            return new Response(data);
         }
 
-        private IResponse HandleUpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
+        private IResponse UpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
         {
-            try
-            {
-                var coreData = LookupAndValidateCoreData(command);
-                var updateCourse = new RepeatedSession(existingCourse, command, coreData);
-                ValidateUpdate(existingCourse, updateCourse);
-                var data = BusinessRepository.UpdateCourse(Business.Id, updateCourse);
-                return new Response(data);
-            }
-            catch (Exception ex)
-            {
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
-            }
+            var coreData = LookupAndValidateCoreData(command);
+            var updateCourse = new RepeatedSession(existingCourse, command, coreData);
+            ValidateUpdate(existingCourse, updateCourse);
+            var data = BusinessRepository.UpdateCourse(Business.Id, updateCourse);
+            return new Response(data);
         }
 
         private bool IsChangingSessionToCourse(SessionUpdateCommand command)
@@ -84,59 +84,17 @@ namespace CoachSeek.Application.UseCases
             var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
 
             if (!location.IsExisting())
-                throw new InvalidLocation(command.Location.Id);
+                throw new LocationInvalid(command.Location.Id);
             if (!coach.IsExisting())
-                throw new InvalidCoach(command.Coach.Id);
+                throw new CoachInvalid(command.Coach.Id);
             if (!service.IsExisting())
-                throw new InvalidService(command.Service.Id);
+                throw new ServiceInvalid(command.Service.Id);
 
             var coreData = new CoreData(location, coach, service);
 
             ValidateCoreData(coreData);
 
             return coreData;
-        }
-
-        private IResponse UpdateStandaloneSession(StandaloneSession existingSession, SessionUpdateCommand command)
-        {
-            try
-            {
-                var coreData = LookupAndValidateCoreData(command);
-                var updateSession = new StandaloneSession(existingSession, command, coreData);
-                ValidateUpdate(updateSession);
-                var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
-                return new Response(data);
-            }
-            catch (Exception ex)
-            {
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
-            }
-        }
-
-        private IResponse UpdateSessionInCourse(SessionInCourse existingSession, SessionUpdateCommand command)
-        {
-            try
-            {
-                var coreData = LookupAndValidateCoreData(command);
-                var updateSession = new SessionInCourse(existingSession, command, coreData);
-                ValidateUpdate(updateSession);
-                var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
-                return new Response(data);
-            }
-            catch (Exception ex)
-            {
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
-            }
         }
 
         private void ValidateUpdate(SingleSession updateSession)
@@ -184,7 +142,7 @@ namespace CoachSeek.Application.UseCases
             foreach (var singleSession in singleSessions)
             {
                 if (session.IsOverlapping(singleSession))
-                    throw new ClashingSession(singleSession);
+                    throw new SessionClashing(singleSession);
             }
         }
 

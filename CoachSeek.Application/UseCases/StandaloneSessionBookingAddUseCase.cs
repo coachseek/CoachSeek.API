@@ -26,14 +26,9 @@ namespace CoachSeek.Application.UseCases
                 PostProcessing(newBooking);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is InvalidSession)
-                    return new InvalidSessionErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -58,7 +53,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateSessionCount(IList<SessionKeyCommand> sessions, ValidationException errors)
         {
             if (sessions.Count > 1)
-                errors.Add("Standalone sessions must be booked one at a time.", "booking.sessions");
+                errors.Add(new StandaloneSessionsMustBeBookedOneAtATime());
         }
 
         protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
@@ -89,7 +84,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateSpacesAvailable()
         {
             if (Session.Booking.BookingCount >= Session.Booking.StudentCapacity)
-                throw new ValidationException("This session is already fully booked.");
+                throw new SessionFullyBooked(Session.Id);
         }
 
         protected virtual void ValidateAddBookingAdditional(SingleSessionBooking newBooking)

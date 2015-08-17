@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 
@@ -41,7 +42,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenNonExistentCustomer();
             var response = WhenTryAddBooking(command);
-            ThenReturnInvalidCustomerError(response);
+            ThenReturnInvalidCustomerError(response, command.Customer.Id);
         }
 
         [Test]
@@ -49,7 +50,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenMultipleErrorsInCommand();
             var response = WhenTryAddBooking(command);
-            ThenReturnMultipleErrors(response);
+            ThenReturnMultipleErrors(response, command);
         }
 
 
@@ -100,18 +101,21 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnMultipleSessionsError(IResponse response)
         {
-            AssertSingleError(response, "Standalone sessions must be booked one at a time.", "booking.sessions");
+            AssertSingleError(response, 
+                              ErrorCodes.StandaloneSessionsMustBeBookedOneAtATime, 
+                              "Standalone sessions must be booked one at a time.", 
+                              null);
         }
 
-        private void ThenReturnInvalidCustomerError(IResponse response)
+        private void ThenReturnInvalidCustomerError(IResponse response, Guid customerId)
         {
-            AssertSingleError(response, "This customer does not exist.", "booking.customer.id");
+            AssertSingleError(response, ErrorCodes.CustomerInvalid, "This customer does not exist.", customerId.ToString());
         }
 
-        private void ThenReturnMultipleErrors(IResponse response)
+        private void ThenReturnMultipleErrors(IResponse response, BookingAddCommand command)
         {
-            AssertMultipleErrors(response, new[,] { { "Standalone sessions must be booked one at a time.", "booking.sessions" },
-                                                    { "This customer does not exist.", "booking.customer.id" } });
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.StandaloneSessionsMustBeBookedOneAtATime, "Standalone sessions must be booked one at a time.", null, null },
+                                                    { ErrorCodes.CustomerInvalid, "This customer does not exist.", command.Customer.Id.ToString(), null } });
         }
     }
 }

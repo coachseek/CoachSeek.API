@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Exceptions
 {
     public abstract class CoachseekException : Exception
     {
         protected CoachseekException()
-        { }
+        {
+            Errors = new List<Error>();
+        }
 
         protected CoachseekException(string message)
             : base(message)
-        { }
+        {
+            Errors = new List<Error>();   
+        }
 
-        public abstract IList<ErrorData> ToData();
+        public List<Error> Errors { get; protected set; }
     }
 }

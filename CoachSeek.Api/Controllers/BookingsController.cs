@@ -11,6 +11,7 @@ using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -105,12 +106,12 @@ namespace CoachSeek.Api.Controllers
 
         private HttpResponseMessage UpdateBooking(ApiBookingSaveCommand booking)
         {
-            return CreateWebErrorResponse(new BookingUpdateNotSupportedErrorResponse());
+            return CreateWebErrorResponse(new BookingUpdateNotSupported());
         }
 
         private HttpResponseMessage UpdateOnlineBooking(ApiBookingSaveCommand booking)
         {
-            return CreateWebErrorResponse(new BookingUpdateNotSupportedErrorResponse());
+            return CreateWebErrorResponse(new BookingUpdateNotSupported());
         }
 
         private BookingData GetBooking(Guid id)

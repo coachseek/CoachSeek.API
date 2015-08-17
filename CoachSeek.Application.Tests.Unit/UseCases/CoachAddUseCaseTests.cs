@@ -166,17 +166,13 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertInvalidWorkingHoursError(IResponse response)
         {
-            Assert.That(response.Data, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(7));
-
-            AssertError(response.Errors[0], "The monday working hours are not valid.", "coach.workingHours.monday");
-            AssertError(response.Errors[1], "The tuesday working hours are not valid.", "coach.workingHours.tuesday");
-            AssertError(response.Errors[2], "The wednesday working hours are not valid.", "coach.workingHours.wednesday");
-            AssertError(response.Errors[3], "The thursday working hours are not valid.", "coach.workingHours.thursday");
-            AssertError(response.Errors[4], "The friday working hours are not valid.", "coach.workingHours.friday");
-            AssertError(response.Errors[5], "The saturday working hours are not valid.", "coach.workingHours.saturday");
-            AssertError(response.Errors[6], "The sunday working hours are not valid.", "coach.workingHours.sunday");
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.DailyWorkingHoursInvalid, "Monday working hours are not valid.", "Monday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Tuesday working hours are not valid.", "Tuesday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Wednesday working hours are not valid.", "Wednesday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Thursday working hours are not valid.", "Thursday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Friday working hours are not valid.", "Friday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Saturday working hours are not valid.", "Saturday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Sunday working hours are not valid.", "Sunday", null } });
         }
     }
 }

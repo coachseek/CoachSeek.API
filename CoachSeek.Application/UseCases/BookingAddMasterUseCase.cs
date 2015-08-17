@@ -38,7 +38,7 @@ namespace CoachSeek.Application.UseCases
                 var useCase = SelectBookingAddUseCase(command);
                 return useCase.AddBooking(command);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }
@@ -52,7 +52,7 @@ namespace CoachSeek.Application.UseCases
                 var useCase = SelectOnlineBookingAddUseCase(command);
                 return useCase.AddBooking(command);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }
@@ -62,7 +62,7 @@ namespace CoachSeek.Application.UseCases
         private void Validate(BookingAddCommand command)
         {
             if (!command.Sessions.Any())
-                throw new ValidationException("A booking must have at least one session.");
+                throw new BookingSessionRequired();
         }
 
         private IBookingAddUseCase SelectBookingAddUseCase(BookingAddCommand command)
@@ -83,21 +83,11 @@ namespace CoachSeek.Application.UseCases
             return SetupCourseSessionOnlineBookingAddUseCase(course);
         }
 
-        private static IResponse HandleException(Exception ex)
-        {
-            if (ex is InvalidSession)
-                return new InvalidSessionErrorResponse();
-            if (ex is ValidationException)
-                return new ErrorResponse((ValidationException)ex);
-
-            throw ex;
-        }
-
         private SingleSessionData GetSession(Guid sessionId)
         {
             var session = BusinessRepository.GetSession(Business.Id, sessionId);
             if (session.IsNotFound())
-                throw new InvalidSession();
+                throw new InvalidSession(sessionId);
             var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToSession(session, bookings);
             return session;

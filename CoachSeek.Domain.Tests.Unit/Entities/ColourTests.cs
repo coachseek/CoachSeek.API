@@ -55,13 +55,13 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 response = new Colour(colourInput);
             }
-            catch (InvalidColour ex)
+            catch (ColourInvalid ex)
             {
                 response = ex;
             }
 
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<InvalidColour>());
+            Assert.That(response, Is.InstanceOf<ColourInvalid>());
         }
     }
 }

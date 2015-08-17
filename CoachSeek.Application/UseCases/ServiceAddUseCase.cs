@@ -30,7 +30,7 @@ namespace CoachSeek.Application.UseCases
             var services = BusinessRepository.GetAllServices(Business.Id);
             var isExistingService = services.Any(x => x.Name.ToLower() == newService.Name.ToLower());
             if (isExistingService)
-                throw new DuplicateService(newService.Name);
+                throw new ServiceDuplicate(newService.Name);
         }
     }
 }

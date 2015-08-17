@@ -31,12 +31,12 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingCoach = coaches.Any(x => x.Id == coach.Id);
             if (!isExistingCoach)
-                throw new InvalidCoach(coach.Id);
+                throw new CoachInvalid(coach.Id);
 
             var existingCoach = coaches.FirstOrDefault(x => x.FirstName.ToLower() == coach.FirstName.ToLower()
                                                     && x.LastName.ToLower() == coach.LastName.ToLower());
             if (existingCoach != null && existingCoach.Id != coach.Id)
-                throw new DuplicateCoach(coach.Name);
+                throw new CoachDuplicate(coach.Name);
         }
     }
 }

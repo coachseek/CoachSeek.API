@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 
@@ -50,7 +51,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenNonExistentCustomer();
             var response = WhenTryAddBooking(command);
-            ThenReturnInvalidCustomerError(response);
+            ThenReturnInvalidCustomerError(response, command.Customer.Id);
         }
 
 
@@ -111,9 +112,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertSingleError(response, "Some sessions are duplicates.", "booking.sessions");
         }
 
-        private void ThenReturnInvalidCustomerError(IResponse response)
+        private void ThenReturnInvalidCustomerError(IResponse response, Guid customerId)
         {
-            AssertSingleError(response, "This customer does not exist.", "booking.customer.id");
+            AssertSingleError(response, ErrorCodes.CustomerInvalid, "This customer does not exist.", customerId.ToString());
         }
     }
 }

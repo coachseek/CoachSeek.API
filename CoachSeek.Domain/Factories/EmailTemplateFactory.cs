@@ -18,7 +18,7 @@ namespace CoachSeek.Domain.Factories
         public static EmailTemplate BuildEmailTemplate(EmailTemplateUpdateCommand command)
         {
             if (!IsValidTemplateType(command.Type))
-                throw new ValidationException("Email template type is not valid.", "emailTemplate.type");
+                throw new EmailTemplateTypeInvalid(command.Type);
 
             if (command.Type == Constants.EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION)
                 return new CustomerOnlineBookingSessionEmailTemplate(command);

@@ -42,7 +42,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenNonExistentPaymentStatus();
             var response = WhenTrySetPaymentStatus(command);
-            ThenReturnInvalidPaymentStatusError(response);
+            ThenReturnInvalidPaymentStatusError(response, command.PaymentStatus);
         }
 
         [Test]
@@ -117,9 +117,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response, Is.InstanceOf<NotFoundResponse>());
         }
 
-        private void ThenReturnInvalidPaymentStatusError(object response)
+        private void ThenReturnInvalidPaymentStatusError(object response, string paymentStatus)
         {
-            AssertSingleError((IResponse)response, "This payment status does not exist.");
+            AssertSingleError((IResponse)response, 
+                              ErrorCodes.PaymentStatusInvalid,
+                              string.Format("Payment status '{0}' does not exist.", paymentStatus), 
+                              paymentStatus);
 
             Assert.That(BookingGetByIdUseCase.WasGetBookingCalled, Is.True);
             Assert.That(BusinessRepository.WasSetBookingPaymentStatusCalled, Is.False);

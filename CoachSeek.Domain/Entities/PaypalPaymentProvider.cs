@@ -9,7 +9,7 @@ namespace CoachSeek.Domain.Entities
             : base(merchantAccountIdentifier)
         {
             if (MerchantAccountIdentifier == null)
-                throw new MissingMerchantAccountIdentifier();
+                throw new MerchantAccountIdentifierRequired();
 
             Validation();
         }
@@ -25,9 +25,9 @@ namespace CoachSeek.Domain.Entities
                 // PayPal merchant account identifiers are email addresses.
                 var email = new EmailAddress(MerchantAccountIdentifier);
             }
-            catch (InvalidEmailAddressFormat)
+            catch (EmailAddressFormatInvalid)
             {
-                throw new InvalidMerchantAccountIdentifierFormat();
+                throw new MerchantAccountIdentifierFormatInvalid();
             }
         }
     }

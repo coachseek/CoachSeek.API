@@ -31,11 +31,11 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingService = services.Any(x => x.Id == service.Id);
             if (!isExistingService)
-                throw new InvalidService(service.Id);
+                throw new ServiceInvalid(service.Id);
 
             var existingService = services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
             if (existingService != null && existingService.Id != service.Id)
-                throw new DuplicateService(service.Name);
+                throw new ServiceDuplicate(service.Name);
         }
     }
 }

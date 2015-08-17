@@ -191,14 +191,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertInvalidWorkingHoursError(IResponse response)
         {
-            Assert.That(response.Data, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(4));
-
-            AssertError(response.Errors[0], "The monday working hours are not valid.", "coach.workingHours.monday");
-            AssertError(response.Errors[1], "The wednesday working hours are not valid.", "coach.workingHours.wednesday");
-            AssertError(response.Errors[2], "The thursday working hours are not valid.", "coach.workingHours.thursday");
-            AssertError(response.Errors[3], "The sunday working hours are not valid.", "coach.workingHours.sunday");
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.DailyWorkingHoursInvalid, "Monday working hours are not valid.", "Monday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Wednesday working hours are not valid.", "Wednesday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Thursday working hours are not valid.", "Thursday", null },
+                                                    { ErrorCodes.DailyWorkingHoursInvalid, "Sunday working hours are not valid.", "Sunday", null } });
         }
 
         private void AssertResponseReturnsUpdatedCoach(IResponse response)

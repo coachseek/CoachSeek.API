@@ -95,8 +95,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertDuplicateUserError(object response)
         {
-            Assert.That(response, Is.InstanceOf<DuplicateUser>());
-            var duplicateUser = (DuplicateUser)response;
+            Assert.That(response, Is.InstanceOf<UserDuplicate>());
+            var duplicateUser = (UserDuplicate)response;
 
             Assert.That(duplicateUser.ErrorCode, Is.EqualTo(ErrorCodes.UserDuplicate));
             Assert.That(duplicateUser.Message, Is.EqualTo("The user with email address 'bgates@gmail.com' already exists."));

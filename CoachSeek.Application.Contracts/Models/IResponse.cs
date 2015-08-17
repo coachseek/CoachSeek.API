@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models
 {
     public interface IResponse
     {
         bool IsSuccessful { get; }
-        IList<ErrorData> Errors { get; }
+        IList<Error> Errors { get; }
         object Data { get; }
     }
 }

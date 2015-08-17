@@ -5,7 +5,6 @@ using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -34,14 +33,9 @@ namespace CoachSeek.Application.UseCases
                 CustomerAddUseCase.Initialise(Context);
                 return CustomerAddUseCase.AddCustomer(command);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is InvalidEmailAddressFormat)
-                    return new InvalidEmailAddressFormatErrorResponse("customer.email");
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 

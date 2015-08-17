@@ -90,7 +90,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         private void SetupBusiness()
         {
-            BusinessRepository.AddBusiness(new Business(new Guid(BUSINESS_ID), 
+            BusinessRepository.AddBusiness(new Business(new Guid(BUSINESS_ID),
                                                         "Olaf's Tennis Coaching",
                                                         "olafstenniscoaching", "USD"));
         }
@@ -148,7 +148,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         private void SetupBrownsBayLocation()
         {
-            var data = new LocationData {Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club"};
+            var data = new LocationData { Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club" };
 
             BusinessRepository.AddLocation(new Guid(BUSINESS_ID), new Location(data));
         }
@@ -257,12 +257,12 @@ namespace CoachSeek.Application.Tests.Unit
             var data = new SingleSessionData
             {
                 Id = new Guid(SESSION_ONE),
-                Location = new LocationKeyData {Id = new Guid(LOCATION_BROWNS_BAY_ID)},
-                Coach = new CoachKeyData {Id = new Guid(COACH_ALBERT_ID)},
-                Service = new ServiceKeyData {Id = new Guid(SERVICE_MINI_RED_ID)},
+                Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
+                Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
+                Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
                 Timing = new SessionTimingData("2015-01-20", "9:00", 60),
                 Booking = new SessionBookingData(8, true),
-                Presentation = new PresentationData {Colour = "Red"},
+                Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
             };
 
@@ -409,7 +409,7 @@ namespace CoachSeek.Application.Tests.Unit
             };
 
             var course = new RepeatedSession(data, new[] { location }, new[] { coach }, new[] { service });
-            BusinessRepository.AddCourse(new Guid(BUSINESS_ID),course);
+            BusinessRepository.AddCourse(new Guid(BUSINESS_ID), course);
         }
 
         protected void SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15()
@@ -434,8 +434,8 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.AddCustomer(new Guid(BUSINESS_ID), new Customer(data));
         }
 
-        protected void AssertSingleError(IResponse response, 
-                                         string expectedMessage, 
+        protected void AssertSingleError(IResponse response,
+                                         string expectedMessage,
                                          string expectedField = null)
         {
             Assert.That(response.Data, Is.Null);
@@ -461,12 +461,21 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(error.Data, Is.EqualTo(expectedData));
         }
 
-        protected void AssertError(ErrorData error,
-                                   string expectedMessage,
-                                   string expectedField = null)
+        protected void AssertMultipleErrors(object response, string[,] expectedErrors)
         {
-            Assert.That(error.Message, Is.EqualTo(expectedMessage));
-            Assert.That(error.Field, Is.EqualTo(expectedField));
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var errors = ((ValidationException)response).Errors;
+
+            Assert.That(errors.Count, Is.EqualTo(expectedErrors.GetLength(0)));
+
+            var i = 0;
+            foreach (var error in errors)
+            {
+                Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 0]));
+                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
+                i++;
+            }
         }
 
         protected void AssertMultipleErrors(IResponse response, string[,] expectedErrors)
@@ -474,12 +483,14 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);
             Assert.That(response.Errors.Count, Is.EqualTo(expectedErrors.GetLength(0)));
-            
+
             var i = 0;
             foreach (var error in response.Errors)
             {
-                Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 0]));
-                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
+                Assert.That(error.Code, Is.EqualTo(expectedErrors[i, 0]));
+                Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 1]));
+                Assert.That(error.Data, Is.EqualTo(expectedErrors[i, 2]));
+                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 3]));
                 i++;
             }
         }
@@ -497,8 +508,8 @@ namespace CoachSeek.Application.Tests.Unit
         protected void AssertInvalidCoach(object response, Guid invalidCoachId)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<InvalidCoach>());
-            var errors = ((InvalidCoach)response).ToData();
+            Assert.That(response, Is.InstanceOf<CoachInvalid>());
+            var errors = ((CoachInvalid)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
             Assert.That(error.Code, Is.EqualTo(ErrorCodes.CoachInvalid));
@@ -510,8 +521,8 @@ namespace CoachSeek.Application.Tests.Unit
         protected void AssertInvalidLocation(object response, Guid invalidLocationId)
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<InvalidLocation>());
-            var errors = ((InvalidLocation)response).ToData();
+            Assert.That(response, Is.InstanceOf<LocationInvalid>());
+            var errors = ((LocationInvalid)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
             Assert.That(error.Code, Is.EqualTo(ErrorCodes.LocationInvalid));

@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models
 {
     public class ErrorResponse : IResponse
     {
-        private List<ErrorData> _errors;
+        private List<Error> _errors;
 
-        public IList<ErrorData> Errors
+        public IList<Error> Errors
         {
-            get { return _errors ?? (_errors = new List<ErrorData>()); }
+            get { return _errors ?? (_errors = new List<Error>()); }
         }
 
         public object Data { get { return null; } }
@@ -21,26 +20,15 @@ namespace CoachSeek.Application.Contracts.Models
         }
 
 
-        public ErrorResponse(string message, string field = null, string code = null, string data = null)
+        public ErrorResponse(string code, string message, string data = null, string field = null)
         {
-            Errors.Add(new ErrorData(field, message, code, data));
+            Errors.Add(new Error(code, message, data));
         }
 
         public ErrorResponse(CoachseekException exception)
         {
-            foreach (var errorData in exception.ToData())
-                Errors.Add(errorData);
+            foreach (var error in exception.Errors)
+                Errors.Add(error);
         }
-
-        //public ErrorResponse(SingleErrorException exception)
-        //{
-        //    Errors.Add(exception.ToError().ToData());
-        //}
-
-        //public ErrorResponse(ValidationException exception)
-        //{
-        //    foreach (var error in exception.Errors)
-        //        Errors.Add(error.ToData());
-        //}
     }
 }

@@ -31,11 +31,11 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingLocation = locations.Any(x => x.Id == location.Id);
             if (!isExistingLocation)
-                throw new InvalidLocation(location.Id);
+                throw new LocationInvalid(location.Id);
 
             var existingLocation = locations.FirstOrDefault(x => x.Name.ToLower() == location.Name.ToLower());
             if (existingLocation != null && existingLocation.Id != location.Id)
-                throw new DuplicateLocation(location.Name);
+                throw new LocationDuplicate(location.Name);
         }
     }
 }

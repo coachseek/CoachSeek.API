@@ -10,7 +10,7 @@ namespace CoachSeek.Application.UseCases
         {
             var customer = BusinessRepository.GetCustomer(Business.Id, customerId);
             if (customer.IsNotFound())
-                errors.Add("This customer does not exist.", "booking.customer.id");
+                errors.Add(new CustomerInvalid(customerId));
         }
     }
 }

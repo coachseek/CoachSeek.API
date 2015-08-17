@@ -1,13 +1,11 @@
-﻿using CoachSeek.Data.Model;
-
-namespace CoachSeek.Domain.Exceptions
+﻿namespace CoachSeek.Domain.Exceptions
 {
     public class Error
     {
-        public string Message { get; private set; }
-        public string Field { get; private set; }
         public string Code { get; private set; }
+        public string Message { get; private set; }
         public string Data { get; private set; }
+        public string Field { get; private set; }
 
         public Error(string message, string field = null)
         {
@@ -17,15 +15,9 @@ namespace CoachSeek.Domain.Exceptions
 
         public Error(string code, string message, string data = null)
         {
-            Message = message;
             Code = code;
+            Message = message;
             Data = data;
-        }
-
-
-        public ErrorData ToData()
-        {
-            return AutoMapper.Mapper.Map<Error, ErrorData>(this);
         }
     }
 }

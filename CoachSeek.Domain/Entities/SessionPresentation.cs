@@ -35,7 +35,7 @@ namespace CoachSeek.Domain.Entities
             {
                 _colour = new Colour(command.Colour);
             }
-            catch (InvalidColour)
+            catch (ColourInvalid)
             {
                 throw new ValidationException("The colour field is not valid.", "session.presentation.colour");
             }

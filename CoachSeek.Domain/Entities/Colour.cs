@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Entities
                   IsBlue || 
                   IsMidBlue || 
                   IsDarkBlue))
-                throw new InvalidColour(_colour);
+                throw new ColourInvalid(_colour);
         }
 
         private bool IsGreen { get { return _colour == "green"; } }

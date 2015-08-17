@@ -29,16 +29,9 @@ namespace CoachSeek.Application.UseCases
                 var data = BusinessRepository.AddCustomer(Business.Id, newCustomer);
                 return new Response(data);
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is InvalidEmailAddressFormat)
-                    return new InvalidEmailAddressFormatErrorResponse("customer.email");
-                if (ex is SingleErrorException)
-                    return new ErrorResponse(ex as SingleErrorException);
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -46,7 +39,7 @@ namespace CoachSeek.Application.UseCases
         {
             var existingCustomer = LookupCustomer(newCustomer);
             if (existingCustomer.IsFound())
-                throw new DuplicateCustomer(newCustomer);
+                throw new CustomerDuplicate(newCustomer);
         }
 
         private Customer LookupCustomer(Customer newCustomer)

@@ -76,10 +76,10 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage PostOnlineBooking([FromBody]ApiCustomerSaveCommand customer)
         {
-            if (customer.IsNew())
-                return AddOnlineBookingCustomer(customer);
+            if (customer.IsExisting())
+                return CreateWebErrorResponse(new UseExistingCustomerForOnlineBookingNotSupported());
 
-            return CreateGetErrorWebResponse(new ValidationException("Existing customer used for online booking."));
+            return AddOnlineBookingCustomer(customer);
         }
 
         private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)

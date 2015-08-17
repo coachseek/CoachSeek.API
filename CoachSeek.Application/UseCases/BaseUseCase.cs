@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Application.Contracts;
+﻿using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common;
 using CoachSeek.Domain.Exceptions;

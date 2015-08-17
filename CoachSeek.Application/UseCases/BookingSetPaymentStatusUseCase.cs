@@ -30,14 +30,9 @@ namespace CoachSeek.Application.UseCases
                 BusinessRepository.SetBookingPaymentStatus(Business.Id, booking.Id, command.PaymentStatus);
                 return new Response();
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is InvalidPaymentStatus)
-                    return new InvalidPaymentStatusErrorResponse();
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
 
@@ -49,7 +44,7 @@ namespace CoachSeek.Application.UseCases
                 paymentStatus == Constants.PAYMENT_STATUS_PAID)
                 return;
 
-            throw new InvalidPaymentStatus();
+            throw new PaymentStatusInvalid(paymentStatus);
         }
     }
 }

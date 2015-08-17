@@ -199,7 +199,7 @@ namespace CoachSeek.Application.UseCases
             CoachGetByIdUseCase.Initialise(Context);
             var coach = CoachGetByIdUseCase.GetCoach(coachId.Value);
             if (coach.IsNotFound())
-                throw new InvalidCoach(coachId.Value);
+                throw new CoachInvalid(coachId.Value);
         }
 
         private void ValidateLocation(Guid? locationId)
@@ -209,7 +209,7 @@ namespace CoachSeek.Application.UseCases
             LocationGetByIdUseCase.Initialise(Context);
             var location = LocationGetByIdUseCase.GetLocation(locationId.Value);
             if (location.IsNotFound())
-                throw new InvalidLocation(locationId.Value);
+                throw new LocationInvalid(locationId.Value);
         }
 
         private void ValidateService(Guid? serviceId)
@@ -219,7 +219,7 @@ namespace CoachSeek.Application.UseCases
             ServiceGetByIdUseCase.Initialise(Context);
             var service = ServiceGetByIdUseCase.GetService(serviceId.Value);
             if (service.IsNotFound())
-                throw new InvalidService(serviceId.Value);
+                throw new ServiceInvalid(serviceId.Value);
         }
 
         private void ValidateDates(string searchStartDate, string searchEndDate)

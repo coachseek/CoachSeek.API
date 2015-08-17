@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Contracts.Models
 {
@@ -13,6 +13,6 @@ namespace CoachSeek.Application.Contracts.Models
         }
 
         public virtual bool IsSuccessful { get { return true; } }
-        public IList<ErrorData> Errors { get { return null; } }
+        public IList<Error> Errors { get { return null; } }
     }
 }

@@ -31,7 +31,7 @@ namespace CoachSeek.Application.UseCases
 
             var isExistingCustomer = customers.Any(x => x.Id == customer.Id);
             if (!isExistingCustomer)
-                throw new InvalidCustomer(customer.Id);
+                throw new CustomerInvalid(customer.Id);
 
             //var existingCustomer = customers.FirstOrDefault(x => x.FirstName.ToLower() == customer.FirstName.ToLower()
             //                                        && x.LastName.ToLower() == customer.LastName.ToLower());

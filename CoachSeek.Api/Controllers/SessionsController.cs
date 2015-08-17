@@ -3,10 +3,7 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
-using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Common;
-using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -104,7 +101,7 @@ namespace CoachSeek.Api.Controllers
             }
             catch (CoachseekException ex)
             {
-                return CreateGetErrorWebResponse(ex);
+                return CreateWebErrorResponse(ex);
             }
         }
 
@@ -120,7 +117,7 @@ namespace CoachSeek.Api.Controllers
             }
             catch (CoachseekException ex)
             {
-                return CreateGetErrorWebResponse(ex);
+                return CreateWebErrorResponse(ex);
             }
         }
 

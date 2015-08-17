@@ -22,12 +22,9 @@ namespace CoachSeek.Application.UseCases
                     BusinessRepository.UpdateEmailTemplate(Business.Id, template);
                 return new Response();
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
-                if (ex is ValidationException)
-                    return new ErrorResponse((ValidationException)ex);
-
-                throw;
+                return HandleException(ex);
             }
         }
     }

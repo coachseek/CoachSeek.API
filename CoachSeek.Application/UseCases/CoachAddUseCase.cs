@@ -31,7 +31,7 @@ namespace CoachSeek.Application.UseCases
             var isExistingCoach = coaches.Any(x => x.FirstName.ToLower() == newCoach.FirstName.ToLower()
                                                 && x.LastName.ToLower() == newCoach.LastName.ToLower());
             if (isExistingCoach)
-                throw new DuplicateCoach(newCoach.Name);
+                throw new CoachDuplicate(newCoach.Name);
         }
     }
 }

@@ -4,7 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Api.Filters
 {
@@ -26,7 +28,7 @@ namespace CoachSeek.Api.Filters
         {
             if (_validate(actionContext.ActionArguments))
             {
-                var errors = new [] { new ErrorData("Please post us some data!") };
+                var errors = new [] { new Error(ErrorCodes.DataMissing, "Please post us some data!", null) };
 
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
             }

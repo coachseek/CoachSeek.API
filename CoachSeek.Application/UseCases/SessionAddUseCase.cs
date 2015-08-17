@@ -80,7 +80,7 @@ namespace CoachSeek.Application.UseCases
             foreach (var session in sessions)
             {
                 if (newSession.IsOverlapping(session))
-                    throw new ClashingSession(session);
+                    throw new SessionClashing(session);
             }
         }
 
@@ -101,7 +101,7 @@ namespace CoachSeek.Application.UseCases
             foreach (var session in sessions)
             {
                 if (newCourse.IsOverlapping(session))
-                    throw new ClashingSession(session);
+                    throw new SessionClashing(session);
             }
         }
 

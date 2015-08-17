@@ -11,7 +11,7 @@ namespace CoachSeek.Domain.Entities
         public EmailAddress(string email)
         {
             if (email == null)
-                throw new MissingEmailAddress();
+                throw new EmailAddressRequired();
 
             var emailAddress = email.Trim().ToLower();
             ValidateFormat(emailAddress);
@@ -28,7 +28,7 @@ namespace CoachSeek.Domain.Entities
             catch (Exception)
             {
                 // Catch ArgumentException, FormatException
-                throw new InvalidEmailAddressFormat();
+                throw new EmailAddressFormatInvalid();
             }
         }
     }

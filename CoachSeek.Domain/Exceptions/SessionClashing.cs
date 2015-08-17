@@ -3,11 +3,11 @@ using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class ClashingSession : SingleErrorException
+    public class SessionClashing : SingleErrorException
     {
-        public ClashingSession(Session clashingSession)
-            : base("This session clashes with one or more sessions.",
-                   ErrorCodes.SessionClashing,
+        public SessionClashing(Session clashingSession)
+            : base(ErrorCodes.SessionClashing, 
+                   "This session clashes with one or more sessions.",
                    FormatClashingSessionMessage(clashingSession))
         { }
 
