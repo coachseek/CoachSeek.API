@@ -102,7 +102,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void ThenReturnMultipleSessionsError(IResponse response)
         {
             AssertSingleError(response, 
-                              ErrorCodes.StandaloneSessionsMustBeBookedOneAtATime, 
+                              ErrorCodes.StandaloneSessionMustBeBookedOneAtATime, 
                               "Standalone sessions must be booked one at a time.", 
                               null);
         }
@@ -114,7 +114,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnMultipleErrors(IResponse response, BookingAddCommand command)
         {
-            AssertMultipleErrors(response, new[,] { { ErrorCodes.StandaloneSessionsMustBeBookedOneAtATime, "Standalone sessions must be booked one at a time.", null, null },
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.StandaloneSessionMustBeBookedOneAtATime, "Standalone sessions must be booked one at a time.", null, null },
                                                     { ErrorCodes.CustomerInvalid, "This customer does not exist.", command.Customer.Id.ToString(), null } });
         }
     }

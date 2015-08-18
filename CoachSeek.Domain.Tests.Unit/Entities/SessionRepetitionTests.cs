@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionCommand(-10, "w");
             var response = WhenConstruct(sessionRepetition);
-            AssertSingleError(response, "The sessionCount field is not valid.", "session.repetition.sessionCount");
+            AssertSingleError(response, 
+                              ErrorCodes.SessionCountInvalid,              
+                              "The SessionCount field is not valid.",
+                              "-10");
         }
 
         [Test]
@@ -21,7 +25,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionCommand(10, "xxx");
             var response = WhenConstruct(sessionRepetition);
-            AssertSingleError(response, "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency");
+            AssertSingleError(response, 
+                              ErrorCodes.RepeatFrequencyInvalid, 
+                              "The RepeatFrequency field is not valid.", 
+                              "xxx");
         }
 
         [Test]
@@ -37,8 +44,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionCommand(-3, "abc");
             var response = WhenConstruct(sessionRepetition);
-            AssertMultipleErrors(response, new[,] { { "The sessionCount field is not valid.", "session.repetition.sessionCount" },
-                                                    { "The repeatFrequency field is not valid.", "session.repetition.repeatFrequency" } });
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.SessionCountInvalid, "The SessionCount field is not valid.", "-3", null },
+                                                    { ErrorCodes.RepeatFrequencyInvalid, "The RepeatFrequency field is not valid.", "abc", null } });
         }
 
         [Test]
@@ -46,7 +53,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionCommand(100, "d");
             var response = WhenConstruct(sessionRepetition);
-            AssertSingleError(response, "The maximum number of daily sessions is 30.", "session.repetition.sessionCount");
+            AssertSingleError(response,
+                              ErrorCodes.CourseExceedsMaximumNumberOfDailySessions,
+                              "100 exceeds the maximum number of daily sessions in a course of 30.",
+                              "Maximum Allowed Daily Session Count: 30; Specified Session Count: 100");
         }
 
         [Test]
@@ -54,7 +64,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionRepetition = new RepetitionCommand(90, "w");
             var response = WhenConstruct(sessionRepetition);
-            AssertSingleError(response, "The maximum number of weekly sessions is 26.", "session.repetition.sessionCount");
+            AssertSingleError(response, 
+                              ErrorCodes.CourseExceedsMaximumNumberOfWeeklySessions,
+                              "90 exceeds the maximum number of weekly sessions in a course of 26.",
+                              "Maximum Allowed Weekly Session Count: 26; Specified Session Count: 90");
         }
 
 

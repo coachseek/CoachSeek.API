@@ -15,16 +15,10 @@ namespace CoachSeek.Domain.Entities
             Validate();
         }
 
-        public bool IsOpenEnded { get { return Count == -1; } }
-
-
         private void Validate()
         {
-            if (IsOpenEnded)
-                return;
-
             if (Count <= 0)
-                throw new InvalidSessionCount();
+                throw new SessionCountInvalid(Count);
         }
     }
 }

@@ -45,45 +45,44 @@ namespace CoachSeek.Domain.Entities
         private ServicePresentation ServicePresentation { get; set; }
 
         private bool IsPriced { get { return ServicePricing != null; } }
-        private bool IsCourse { get { return ServiceRepetition.IsRepeatingSession; } }
+        private bool IsCourse { get { return ServiceRepetition.IsCourse; } }
         private bool IsSingleSession { get { return ServiceRepetition.IsSingleSession; } }
         private bool HasSessionPrice { get { return (IsPriced && ServicePricing.SessionPrice.HasValue); } }
         private bool HasCoursePrice { get { return (IsPriced && ServicePricing.CoursePrice.HasValue); } }
-        private bool IsOpenEnded { get { return (IsCourse && ServiceRepetition.IsOpenEnded); } }
 
-
-        public Service(ServiceData data)
-            : this(data.Id, data.Name, data.Description, data.Timing, data.Booking, data.Pricing, data.Repetition, data.Presentation)
-        { }
 
         public Service(ServiceAddCommand command)
-            : this(Guid.NewGuid(), command.Name, command.Description, command.Timing, command.Booking, command.Pricing, command.Repetition, command.Presentation)
+            : this(Guid.NewGuid(), 
+                   command.Name, 
+                   command.Description, 
+                   command.Timing, 
+                   command.Booking, 
+                   command.Pricing, 
+                   command.Repetition, 
+                   command.Presentation)
         { }
 
         public Service(ServiceUpdateCommand command)
-            : this(command.Id, command.Name, command.Description, command.Timing, command.Booking, command.Pricing, command.Repetition, command.Presentation)
+            : this(command.Id, 
+                   command.Name, 
+                   command.Description, 
+                   command.Timing, 
+                   command.Booking, 
+                   command.Pricing, 
+                   command.Repetition, 
+                   command.Presentation)
         { }
 
-        public Service(Guid id, 
-                       string name, 
-                       string description,
-                       ServiceTimingData timing,
-                       ServiceBookingData booking,
-                       RepeatedSessionPricingData pricing, 
-                       RepetitionData repetition,
-                       PresentationData presentation)
-        {
-            Id = id;
-            Name = name.Trim();
-            if (description != null)
-                Description = description.Trim();
-
-            ValidateAndCreateEntities(timing, booking, pricing, repetition, presentation);
-            ValidateEntityInteractions();
-
-            if (IsCourse && HasSessionPrice && !HasCoursePrice)
-                ServicePricing = new ServicePricing(ServicePricing, Repetition.SessionCount);
-        }
+        public Service(ServiceData data)
+            : this(data.Id, 
+                   data.Name, 
+                   data.Description, 
+                   data.Timing, 
+                   data.Booking, 
+                   data.Pricing, 
+                   data.Repetition, 
+                   data.Presentation)
+        { }
 
         public Service(Guid id,
                        string name,
@@ -101,9 +100,22 @@ namespace CoachSeek.Domain.Entities
 
             ValidateAndCreateEntities(timing, booking, pricing, repetition, presentation);
             ValidateEntityInteractions();
+        }
 
-            if (IsCourse && HasSessionPrice && !HasCoursePrice)
-                ServicePricing = new ServicePricing(ServicePricing, Repetition.SessionCount);
+        public Service(Guid id, 
+                       string name, 
+                       string description,
+                       ServiceTimingData timing,
+                       ServiceBookingData booking,
+                       RepeatedSessionPricingData pricing, 
+                       RepetitionData repetition,
+                       PresentationData presentation)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+
+            CreateEntities(timing, booking, pricing, repetition, presentation);
         }
 
         public ServiceData ToData()
@@ -117,21 +129,17 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateEntities(ServiceTimingData timing, 
-                                               ServiceBookingData booking,
-                                               RepeatedSessionPricingData pricing, 
-                                               RepetitionData repetition,
-                                               PresentationData presentation)
+        private void CreateEntities(ServiceTimingData timing, 
+                                    ServiceBookingData booking,
+                                    RepeatedSessionPricingData pricing, 
+                                    RepetitionData repetition,
+                                    PresentationData presentation)
         {
-            var errors = new ValidationException();
-
-            ValidateAndCreateTiming(timing, errors);
-            ValidateAndCreateBooking(booking, errors);
-            ValidateAndCreatePricing(pricing, errors);
-            ValidateAndCreateRepetition(repetition, errors);
-            ValidateAndCreatePresentation(presentation, errors);
-
-            errors.ThrowIfErrors();
+            CreateTiming(timing);
+            CreateBooking(booking);
+            CreateRepetition(repetition);   // CreatePricing depends on CreateRepetition having been called first.
+            CreatePricing(pricing);
+            CreatePresentation(presentation);
         }
 
         private void ValidateAndCreateEntities(ServiceTimingCommand timing,
@@ -144,8 +152,8 @@ namespace CoachSeek.Domain.Entities
 
             ValidateAndCreateTiming(timing, errors);
             ValidateAndCreateBooking(booking, errors);
+            ValidateAndCreateRepetition(repetition, errors);    // ValidateAndCreatePricing depends on ValidateAndCreateRepetition having been called first.
             ValidateAndCreatePricing(pricing, errors);
-            ValidateAndCreateRepetition(repetition, errors);
             ValidateAndCreatePresentation(presentation, errors);
 
             errors.ThrowIfErrors();
@@ -155,24 +163,10 @@ namespace CoachSeek.Domain.Entities
         {
             var errors = new ValidationException();
 
-            if (HasCoursePrice && (!IsCourse || IsOpenEnded))
-                errors.Add("The coursePrice cannot be specified if the service is not for a course or is open-ended.",
-                           "service.pricing.coursePrice");
+            if (IsSingleSession && HasCoursePrice)
+                errors.Add(new ServiceForStandaloneSessionMustHaveNoCoursePrice());
 
             errors.ThrowIfErrors();
-        }
-
-        private void ValidateAndCreateTiming(ServiceTimingData timing, ValidationException errors)
-        {
-            try
-            {
-                if (timing != null)
-                    ServiceTiming = new ServiceTiming(timing);
-            }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
         }
 
         private void ValidateAndCreateTiming(ServiceTimingCommand timing, ValidationException errors)
@@ -182,20 +176,7 @@ namespace CoachSeek.Domain.Entities
                 if (timing != null)
                     ServiceTiming = new ServiceTiming(timing);
             }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreateBooking(ServiceBookingData booking, ValidationException errors)
-        {
-            try
-            {
-                if (booking != null)
-                    ServiceBooking = new ServiceBooking(booking);
-            }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }
@@ -208,25 +189,7 @@ namespace CoachSeek.Domain.Entities
                 if (booking != null)
                     ServiceBooking = new ServiceBooking(booking);
             }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreateRepetition(RepetitionData repetition, ValidationException errors)
-        {
-            if (repetition == null)
-            {
-                errors.Add("The repetition field is required.", "service.repetition");
-                return;
-            }
-
-            try
-            {
-                ServiceRepetition = new ServiceRepetition(repetition);
-            }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }
@@ -234,30 +197,12 @@ namespace CoachSeek.Domain.Entities
 
         private void ValidateAndCreateRepetition(RepetitionCommand repetition, ValidationException errors)
         {
-            if (repetition == null)
-            {
-                errors.Add("The repetition field is required.", "service.repetition");
-                return;
-            }
-
             try
             {
+                // Data input validation ensures that the RepetitionCommand is always present.
                 ServiceRepetition = new ServiceRepetition(repetition);
             }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreatePricing(RepeatedSessionPricingData pricing, ValidationException errors)
-        {
-            try
-            {
-                if (pricing != null)
-                    ServicePricing = new ServicePricing(pricing);
-            }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }
@@ -267,23 +212,10 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
-                if (pricing != null)
-                    ServicePricing = new ServicePricing(pricing);
+                if (pricing != null && ServiceRepetition != null)
+                    ServicePricing = new ServicePricing(pricing, ServiceRepetition);
             }
-            catch (ValidationException ex)
-            {
-                errors.Add(ex);
-            }
-        }
-
-        private void ValidateAndCreatePresentation(PresentationData presentation, ValidationException errors)
-        {
-            try
-            {
-                if (presentation != null)
-                    ServicePresentation = new ServicePresentation(presentation);
-            }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }
@@ -295,10 +227,39 @@ namespace CoachSeek.Domain.Entities
             {
                 ServicePresentation = new ServicePresentation(presentation);
             }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }
+        }
+
+        private void CreateTiming(ServiceTimingData timing)
+        {
+            if (timing != null)
+                ServiceTiming = new ServiceTiming(timing);
+        }
+
+        private void CreateBooking(ServiceBookingData booking)
+        {
+            if (booking != null)
+                ServiceBooking = new ServiceBooking(booking);
+        }
+
+        private void CreateRepetition(RepetitionData repetition)
+        {
+            ServiceRepetition = new ServiceRepetition(repetition);
+        }
+
+        private void CreatePricing(RepeatedSessionPricingData pricing)
+        {
+            if (pricing != null)
+                ServicePricing = new ServicePricing(pricing);
+        }
+
+        private void CreatePresentation(PresentationData presentation)
+        {
+            if (presentation != null)
+                ServicePresentation = new ServicePresentation(presentation);
         }
     }
 }

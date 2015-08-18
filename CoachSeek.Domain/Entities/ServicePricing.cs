@@ -13,83 +13,82 @@ namespace CoachSeek.Domain.Entities
         private Price _coursePrice { get; set; }
 
 
-        public ServicePricing(RepeatedSessionPricingData pricingData)
-        {
-            ValidateHavePrices(pricingData);
-            ValidateAndSetPrices(pricingData);
-        }
-
-        public ServicePricing(PricingCommand pricingCommand)
+        public ServicePricing(PricingCommand pricingCommand, ServiceRepetition repetition)
         {
             ValidateHavePrices(pricingCommand);
-            ValidateAndSetPrices(pricingCommand);
+            ValidateAndSetPrices(pricingCommand, repetition);
         }
 
-        private void ValidateHavePrices(RepeatedSessionPricingData pricingData)
+        public ServicePricing(RepeatedSessionPricingData pricingData)
         {
-            if (!pricingData.SessionPrice.HasValue && !pricingData.CoursePrice.HasValue)
-                throw new ValidationException("This service is priced but has neither sessionPrice nor coursePrice.", "service.pricing");
+            SetPrices(pricingData);
         }
 
-        private void ValidateHavePrices(PricingCommand pricingCommand)
-        {
-            if (!pricingCommand.SessionPrice.HasValue && !pricingCommand.CoursePrice.HasValue)
-                throw new ValidationException("This service is priced but has neither sessionPrice nor coursePrice.", "service.pricing");
-        }
-
-        private void ValidateAndSetPrices(RepeatedSessionPricingData pricingData)
-        {
-            var errors = new ValidationException();
-
-            CreateSessionPrice(pricingData.SessionPrice, errors);
-            CreateCoursePrice(pricingData.CoursePrice, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-        private void ValidateAndSetPrices(PricingCommand pricingCommand)
-        {
-            var errors = new ValidationException();
-
-            CreateSessionPrice(pricingCommand.SessionPrice, errors);
-            CreateCoursePrice(pricingCommand.CoursePrice, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-        public ServicePricing(ServicePricing pricing, int sessionCount)
-        {
-            _sessionPrice = pricing._sessionPrice;
-            _coursePrice = new Price(pricing.SessionPrice.Value, sessionCount);
-        }
 
         public RepeatedSessionPricingData ToData()
         {
             return AutoMapper.Mapper.Map<ServicePricing, RepeatedSessionPricingData>(this);
         }
 
-        private void CreateSessionPrice(decimal? sessionPrice, ValidationException errors)
+
+        private void ValidateHavePrices(PricingCommand pricingCommand)
+        {
+            if (!pricingCommand.SessionPrice.HasValue && !pricingCommand.CoursePrice.HasValue)
+                throw new ServiceIsPricedButHasNoPrices();
+        }
+
+        private void ValidateAndSetPrices(PricingCommand pricingCommand, ServiceRepetition repetition)
+        {
+            var errors = new ValidationException();
+
+            // Creation of Course price depends on creation of session price.
+            ValidateAndCreateSessionPrice(pricingCommand.SessionPrice, errors);
+            ValidateAndCreateCoursePrice(pricingCommand, repetition, errors);
+
+            errors.ThrowIfErrors();
+        }
+
+        private void ValidateAndCreateSessionPrice(decimal? sessionPrice, ValidationException errors)
         {
             try
             {
                 _sessionPrice = new Price(sessionPrice);
             }
-            catch (InvalidPrice)
+            catch (PriceInvalid ex)
             {
-                errors.Add("The sessionPrice is not valid.", "service.pricing.sessionPrice");
+                errors.Add(new SessionPriceInvalid(ex));
             }
         }
 
-        private void CreateCoursePrice(decimal? coursePrice, ValidationException errors)
+        private void ValidateAndCreateCoursePrice(PricingCommand pricingCommand, ServiceRepetition repetition, ValidationException errors)
         {
             try
             {
-                _coursePrice = new Price(coursePrice);
+                if (repetition.IsCourse)
+                {
+                    if (pricingCommand.CoursePrice.HasValue)
+                        _coursePrice = new Price(pricingCommand.CoursePrice.Value);
+                    else
+                        _coursePrice = new Price(pricingCommand.SessionPrice.GetValueOrDefault(), repetition.SessionCount);
+                }
+                else
+                {
+                    if (pricingCommand.CoursePrice.HasValue)
+                        errors.Add(new ServiceForStandaloneSessionMustHaveNoCoursePrice());
+                    else
+                        _coursePrice = new NullPrice();
+                }
             }
-            catch (InvalidPrice)
+            catch (PriceInvalid ex)
             {
-                errors.Add("The coursePrice is not valid.", "service.pricing.coursePrice");
+                errors.Add(new CoursePriceInvalid(ex));
             }
+        }
+
+        private void SetPrices(RepeatedSessionPricingData pricingData)
+        {
+            _sessionPrice = new Price(pricingData.SessionPrice);
+            _coursePrice = new Price(pricingData.CoursePrice);
         }
     }
 }

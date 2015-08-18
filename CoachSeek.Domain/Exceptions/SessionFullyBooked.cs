@@ -7,7 +7,7 @@ namespace CoachSeek.Domain.Exceptions
     {
         public SessionFullyBooked(Guid sessionId)
             : base(ErrorCodes.SessionFullyBooked,
-                   "This session is already fully booked.",
+                   "Session is already fully booked.",
                    sessionId.ToString())
         { }
     }

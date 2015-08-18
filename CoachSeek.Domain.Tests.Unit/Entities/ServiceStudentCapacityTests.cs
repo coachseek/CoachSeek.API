@@ -37,7 +37,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidStudentCapacity>());
+                Assert.That(ex, Is.TypeOf<StudentCapacityInvalid>());
             }
         }
     }

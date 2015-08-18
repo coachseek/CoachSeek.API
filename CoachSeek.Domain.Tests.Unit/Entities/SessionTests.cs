@@ -1,5 +1,6 @@
 ﻿using System;
 using CoachSeek.Application.Configuration;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -246,10 +247,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 AssertMultipleErrors(response, new[,]
                 {
-                    {"The startDate field is not valid.", "session.timing.startDate"},
-                    {"The duration field is not valid.", "session.timing.duration"},
-                    {"The colour field is not valid.", "session.presentation.colour"},
-                    {"The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice"}
+                    {null, "The startDate field is not valid.", null, "session.timing.startDate"},
+                    {null, "The duration field is not valid.", null, "session.timing.duration"},
+                    {null, "The colour field is not valid.", null, "session.presentation.colour"},
+                    {ErrorCodes.StandaloneSessionMustHaveNoCoursePrice, "Standalone sessions must not have the CoursePrice set.", null, null}
                 });
             }
 

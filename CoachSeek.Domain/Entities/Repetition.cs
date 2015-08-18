@@ -15,9 +15,8 @@ namespace CoachSeek.Domain.Entities
         protected SessionCount _sessionCount { get; set; }
         protected RepeatFrequency _frequency { get; set; }
 
-        public bool IsOpenEnded { get { return _sessionCount.IsOpenEnded; } }
         public bool IsSingleSession { get { return _sessionCount.Count == 1; } }
-        public bool IsRepeatingSession { get { return !IsSingleSession; } }
+        public bool IsCourse { get { return !IsSingleSession; } }
         public bool HasRepeatFrequency { get { return RepeatFrequency != null; } }
         public bool IsRepeatedEveryDay { get { return HasRepeatFrequency && _frequency.IsRepeatedEveryDay; } }
         public bool IsRepeatedEveryWeek { get { return HasRepeatFrequency && _frequency.IsRepeatedEveryWeek; } } 
@@ -33,17 +32,15 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
 
             if (IsSingleSession && HasRepeatFrequency)
-                throw new ValidationException("For a single session the repeatFrequency must not be set.", RepeatFrequencyPath);
-            if (IsRepeatingSession)
+                throw new StandaloneSessionMustHaveNoRepeatFrequency();
+            if (IsCourse)
             {
                 if (!HasRepeatFrequency)
-                    throw new ValidationException("For a repeated session the repeatFrequency must be set.", RepeatFrequencyPath);
+                    throw new CourseMustHaveRepeatFrequency();
                 if (_frequency.IsRepeatedEveryDay && SessionCount > MAXIMUM_DAILY_REPEAT)
-                    throw new ValidationException(
-                        string.Format("The maximum number of daily sessions is {0}.", MAXIMUM_DAILY_REPEAT), SessionCountPath);
+                    throw new CourseExceedsMaximumNumberOfDailySessions(SessionCount, MAXIMUM_DAILY_REPEAT);
                 if (_frequency.IsRepeatedEveryWeek && SessionCount > MAXIMUM_WEEKLY_REPEAT)
-                    throw new ValidationException(
-                        string.Format("The maximum number of weekly sessions is {0}.", MAXIMUM_WEEKLY_REPEAT), SessionCountPath);
+                    throw new CourseExceedsMaximumNumberOfWeeklySessions(SessionCount, MAXIMUM_WEEKLY_REPEAT);
             }
         }
 
@@ -56,19 +53,15 @@ namespace CoachSeek.Domain.Entities
         public abstract RepetitionData ToData();
 
 
-        protected abstract string SessionCountPath { get; }
-        protected abstract string RepeatFrequencyPath { get; }
-
-
         protected void ValidateAndCreateSessionCount(int count, ValidationException errors)
         {
             try
             {
                 _sessionCount = new SessionCount(count);
             }
-            catch (InvalidSessionCount)
+            catch (CoachseekException ex)
             {
-                errors.Add("The sessionCount field is not valid.", SessionCountPath);
+                errors.Add(ex);
             }
         }
 
@@ -78,9 +71,9 @@ namespace CoachSeek.Domain.Entities
             {
                 _frequency = new RepeatFrequency(frequency);
             }
-            catch (InvalidRepeatFrequency)
+            catch (CoachseekException ex)
             {
-                errors.Add("The repeatFrequency field is not valid.", RepeatFrequencyPath);
+                errors.Add(ex);
             }
         }
     }

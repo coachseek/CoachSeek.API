@@ -22,16 +22,5 @@ namespace CoachSeek.Domain.Entities
         {
             return AutoMapper.Mapper.Map<SessionRepetition, RepetitionData>(this);
         }
-
-
-        protected override string SessionCountPath
-        {
-            get { return "session.repetition.sessionCount"; }
-        }
-
-        protected override string RepeatFrequencyPath
-        {
-            get { return "session.repetition.repeatFrequency"; }
-        }
     }
 }

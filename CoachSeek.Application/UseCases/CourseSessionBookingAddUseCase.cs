@@ -61,7 +61,7 @@ namespace CoachSeek.Application.UseCases
             {
                 if (!Course.Sessions.Select(x => x.Id).Contains(commandSession.Id))
                 {
-                    errors.Add("One or more of the sessions is not in the course.", "booking.sessions");
+                    errors.Add(new SessionNotInCourse(commandSession.Id, Course.Id));
                     return;
                 }
             }
@@ -95,7 +95,7 @@ namespace CoachSeek.Application.UseCases
 
             foreach (var customerSessionBooking in customerSessionBookings)
                 if (newBooking.SessionBookings.Select(x => x.Session.Id).Contains(customerSessionBooking.SessionId))
-                    throw new ValidationException("This customer is already booked onto a session in this course.");
+                    throw new CustomerAlreadyBookedOntoSession(newBooking.Customer.Id, customerSessionBooking.SessionId);
         }
 
         private void ValidateSpacesAvailable(CourseBooking newBooking)
@@ -104,7 +104,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var session = Course.Sessions.First(x => x.Id == sessionBookings.Session.Id);
                 if (session.Booking.BookingCount >= session.Booking.StudentCapacity)
-                    throw new ValidationException("One or more of the sessions is already fully booked.");
+                    throw new SessionFullyBooked(sessionBookings.Session.Id);
             }
         }
 

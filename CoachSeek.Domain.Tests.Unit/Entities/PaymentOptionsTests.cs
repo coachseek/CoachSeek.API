@@ -220,8 +220,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
             private void ThenReturnUnsupportedCurrencyAndPaymentProviderErrors(object response)
             {
-                ConfirmMultipleErrors(response, new[,] { { ErrorCodes.CurrencyNotSupported, "Currency 'WWW' is not supported.", "WWW" },
-                                                         { ErrorCodes.PaymentProviderNotSupported, "Payment provider 'OLAF' is not supported.", "OLAF" } });
+                AssertMultipleErrors(response, new[,] { { ErrorCodes.CurrencyNotSupported, "Currency 'WWW' is not supported.", "WWW" },
+                                                        { ErrorCodes.PaymentProviderNotSupported, "Payment provider 'OLAF' is not supported.", "OLAF" } });
             }
 
             private void ThenReturnMissingPaymentProviderError(object response)

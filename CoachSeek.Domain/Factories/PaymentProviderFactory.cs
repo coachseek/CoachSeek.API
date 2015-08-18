@@ -16,6 +16,7 @@ namespace CoachSeek.Domain.Factories
         {
             if (providerType == null)
                 return CreateDefaultPaymentProvider();
+
             if (providerType.CompareIgnoreCase(PaymentProvider.Test.ToString()))
                 return new TestPaymentProvider(merchantAccountIdentifier);
 

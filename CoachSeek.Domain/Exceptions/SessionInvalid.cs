@@ -3,9 +3,9 @@ using CoachSeek.Common;
 
 namespace CoachSeek.Domain.Exceptions
 {
-    public class InvalidSession : SingleErrorException
+    public class SessionInvalid : SingleErrorException
     {
-        public InvalidSession(Guid sessionId)
+        public SessionInvalid(Guid sessionId)
             : base(ErrorCodes.ServiceInvalid, 
                    "This session does not exist.",
                    sessionId.ToString())

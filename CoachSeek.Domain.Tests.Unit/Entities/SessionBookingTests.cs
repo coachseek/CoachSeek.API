@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionBooking = new SessionBookingCommand(-3, true);
             var response = WhenConstruct(sessionBooking);
-            AssertSingleError(response, "The studentCapacity field is not valid.", "session.booking.studentCapacity");
+            AssertSingleError(response, 
+                              ErrorCodes.StudentCapacityInvalid,
+                              "StudentCapacity of -3 is not valid.", 
+                              "-3");
         }
 
         [Test]

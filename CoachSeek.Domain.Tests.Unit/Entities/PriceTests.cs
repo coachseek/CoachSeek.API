@@ -58,7 +58,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidPrice>());
+                Assert.That(ex, Is.TypeOf<PriceInvalid>());
             }
         }
 
@@ -71,7 +71,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidPrice>());
+                Assert.That(ex, Is.TypeOf<PriceInvalid>());
             }
         }
     }

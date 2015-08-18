@@ -21,11 +21,11 @@ namespace CoachSeek.Domain.Entities
             if (Minutes == null)
                 return;
             if (Minutes.Value <= 0)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes.Value);
             if (Minutes.Value > MINUTES_IN_ONE_DAY)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes.Value);
             if (Minutes.Value % MINUTES_IN_INCREMENT > 0)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes.Value);
         }
     }
 }

@@ -87,7 +87,7 @@ namespace CoachSeek.Application.UseCases
         {
             var session = BusinessRepository.GetSession(Business.Id, sessionId);
             if (session.IsNotFound())
-                throw new InvalidSession(sessionId);
+                throw new SessionInvalid(sessionId);
             var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
             AddBookingsToSession(session, bookings);
             return session;

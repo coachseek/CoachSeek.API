@@ -99,7 +99,7 @@ namespace CoachSeek.Domain.Entities
             {
                 _duration = new SessionDuration(duration.Value);
             }
-            catch (InvalidDuration)
+            catch (DurationInvalid)
             {
                 errors.Add("The duration field is not valid.", "session.timing.duration");
             }

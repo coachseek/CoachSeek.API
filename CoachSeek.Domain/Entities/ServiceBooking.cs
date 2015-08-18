@@ -36,14 +36,14 @@ namespace CoachSeek.Domain.Entities
 
         private void CreateStudentCapacity(int? studentCapacity)
         {
-            try
-            {
+            //try
+            //{
                 _studentCapacity = new ServiceStudentCapacity(studentCapacity);
-            }
-            catch (InvalidStudentCapacity)
-            {
-                throw new ValidationException("The studentCapacity field is not valid.", "service.booking.studentCapacity");
-            }
+            //}
+            //catch (StudentCapacityInvalid)
+            //{
+            //    throw new ValidationException("The studentCapacity field is not valid.", "service.booking.studentCapacity");
+            //}
         }
     }
 }

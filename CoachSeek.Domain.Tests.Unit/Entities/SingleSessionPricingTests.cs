@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionPricing = new PricingCommand(-10, null);
             var response = WhenConstruct(sessionPricing);
-            AssertSingleError(response, "The sessionPrice field is not valid.", "session.pricing.sessionPrice");
+            AssertSingleError(response, 
+                              ErrorCodes.SessionPriceInvalid,
+                              "A SessionPrice of -10 is not valid.", 
+                              "-10");
         }
 
         [Test]

@@ -11,13 +11,14 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void SessionCountCreationTests()
         {
+            SessionCountCreationFailure(-1000);
             SessionCountCreationFailure(-50);
             SessionCountCreationFailure(-5);
             SessionCountCreationFailure(-3);
             SessionCountCreationFailure(-2);
+            SessionCountCreationFailure(-1);
             SessionCountCreationFailure(0);
 
-            SessionCountCreationSuccess(-1); // -1 is used for Open-Ended.
             SessionCountCreationSuccess(1);
             SessionCountCreationSuccess(2);
             SessionCountCreationSuccess(3);
@@ -44,7 +45,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidSessionCount>());
+                Assert.That(ex, Is.TypeOf<SessionCountInvalid>());
             }
         }
     }

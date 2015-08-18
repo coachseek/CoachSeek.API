@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionPricing = new PricingCommand(-10, null);
             var response = WhenConstruct(sessionPricing);
-            AssertSingleError(response, "The sessionPrice field is not valid.", "session.pricing.sessionPrice");
+            AssertSingleError(response, 
+                              ErrorCodes.SessionPriceInvalid,
+                              "A SessionPrice of -10 is not valid.", 
+                              "-10");
         }
 
         [Test]
@@ -22,7 +26,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             // A StandaloneSession is standalone and so should never have a CoursePrice passed in.
             var sessionPricing = new PricingCommand(10, 100);
             var response = WhenConstruct(sessionPricing);
-            AssertSingleError(response, "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
+            AssertSingleError(response,
+                              ErrorCodes.StandaloneSessionMustHaveNoCoursePrice,
+                              "Standalone sessions must not have the CoursePrice set.", 
+                              null);
         }
 
         [Test]
@@ -30,8 +37,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionPricing = new PricingCommand(-10, 100);
             var response = WhenConstruct(sessionPricing);
-            AssertMultipleErrors(response, new[,] { { "The sessionPrice field is not valid.", "session.pricing.sessionPrice" },
-                                                    { "The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice" } });
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.SessionPriceInvalid, "A SessionPrice of -10 is not valid.", "-10", null },
+                                                    { ErrorCodes.StandaloneSessionMustHaveNoCoursePrice, "Standalone sessions must not have the CoursePrice set.", null, null } });
         }
 
         [Test]

@@ -53,17 +53,7 @@ namespace CoachSeek.Domain.Entities.EmailTemplating
 
         private void ValidateCommand(EmailTemplateUpdateCommand command)
         {
-            var errors = new ValidationException();
-
-            ValidateSubject(command.Subject, errors);
-
-            errors.ThrowIfErrors();
-        }
-
-        private void ValidateSubject(string subject, ValidationException errors)
-        {
-            if (string.IsNullOrEmpty(subject))
-                errors.Add("Email template must have a subject.", "emailTemplate.subject");
+            // Email subject is already validated as part of data input validation. 
         }
     }
 }

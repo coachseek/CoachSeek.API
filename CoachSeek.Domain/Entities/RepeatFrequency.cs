@@ -19,9 +19,8 @@ namespace CoachSeek.Domain.Entities
         {
             if (_frequency == null)
                 return;
-
             if (!(IsRepeatedEveryDay || IsRepeatedEveryWeek))
-                throw new InvalidRepeatFrequency();
+                throw new RepeatFrequencyInvalid(_frequency);
         }
 
         public bool IsRepeatedEveryDay

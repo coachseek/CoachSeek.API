@@ -37,9 +37,9 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingCommand("2014-15-15", "27:45", 35);
             var response = WhenConstruct(sessionTiming);
-            AssertMultipleErrors(response, new[,] { { "The startDate field is not valid.", "session.timing.startDate" },
-                                                    { "The startTime field is not valid.", "session.timing.startTime" },
-                                                    { "The duration field is not valid.", "session.timing.duration" } });
+            AssertMultipleErrors(response, new[,] { { null, "The startDate field is not valid.", null, "session.timing.startDate" },
+                                                    { null, "The startTime field is not valid.", null, "session.timing.startTime" },
+                                                    { null, "The duration field is not valid.", null, "session.timing.duration" } });
         }
 
 

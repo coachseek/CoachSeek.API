@@ -8,9 +8,6 @@ namespace CoachSeek.Domain.Entities
         public PaypalPaymentProvider(string merchantAccountIdentifier)
             : base(merchantAccountIdentifier)
         {
-            if (MerchantAccountIdentifier == null)
-                throw new MerchantAccountIdentifierRequired();
-
             Validation();
         }
 
@@ -20,6 +17,9 @@ namespace CoachSeek.Domain.Entities
 
         private void Validation()
         {
+            if (MerchantAccountIdentifier == null)
+                throw new MerchantAccountIdentifierRequired();
+
             try
             {
                 // PayPal merchant account identifiers are email addresses.

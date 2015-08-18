@@ -42,9 +42,10 @@ namespace CoachSeek.Domain.Entities
             var errors = new ValidationException();
 
             ValidateAndCreateStudentCapacity(command.StudentCapacity, errors);
-            ValidateAndCreateIsOnlineBookable(command.IsOnlineBookable, errors);
 
             errors.ThrowIfErrors();
+
+            IsOnlineBookable = command.IsOnlineBookable;
         }
 
         private void CreateSessionBooking(SessionBookingData data)
@@ -55,30 +56,16 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateStudentCapacity(int? studentCapacity, ValidationException errors)
+        private void ValidateAndCreateStudentCapacity(int studentCapacity, ValidationException errors)
         {
-            if (!studentCapacity.HasValue)
-            {
-                errors.Add("The studentCapacity field is required.", "session.booking.studentCapacity");
-                return;
-            }
-
             try
             {
-                _studentCapacity = new SessionStudentCapacity(studentCapacity.Value);
+                _studentCapacity = new SessionStudentCapacity(studentCapacity);
             }
-            catch (InvalidStudentCapacity)
+            catch (StudentCapacityInvalid ex)
             {
-                errors.Add("The studentCapacity field is not valid.", "session.booking.studentCapacity");
+                errors.Add(ex);
             }
-        }
-
-        private void ValidateAndCreateIsOnlineBookable(bool? isOnlineBookable, ValidationException errors)
-        {
-            if (!isOnlineBookable.HasValue)
-                errors.Add("The isOnlineBookable field is required.", "session.booking.isOnlineBookable");
-            else
-                IsOnlineBookable = isOnlineBookable.Value;
         }
     }
 }

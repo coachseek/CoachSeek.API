@@ -53,7 +53,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateSessionCount(IList<SessionKeyCommand> sessions, ValidationException errors)
         {
             if (sessions.Count > 1)
-                errors.Add(new StandaloneSessionsMustBeBookedOneAtATime());
+                errors.Add(new StandaloneSessionMustBeBookedOneAtATime());
         }
 
         protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
@@ -78,7 +78,7 @@ namespace CoachSeek.Application.UseCases
         {
             var isExistingBooking = Session.Booking.Bookings.Any(x => x.Customer.Id == newBooking.Customer.Id);
             if (isExistingBooking)
-                throw new ValidationException("This customer is already booked for this session.");
+                throw new CustomerAlreadyBookedOntoSession(newBooking.Customer.Id, Session.Id);
         }
 
         private void ValidateSpacesAvailable()

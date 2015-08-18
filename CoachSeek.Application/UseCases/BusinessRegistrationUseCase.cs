@@ -40,7 +40,7 @@ namespace CoachSeek.Application.UseCases
                 AssociateUserWithBusiness(user, business);
                 return new Response(new RegistrationData(user, business));
             }
-            catch (Exception ex)
+            catch (CoachseekException ex)
             {
                 return HandleException(ex);
             }
@@ -57,7 +57,7 @@ namespace CoachSeek.Application.UseCases
             UserAssociateWithBusinessUseCase.UserRepository = UserRepository;
         }
 
-        private ErrorResponse HandleException(Exception ex)
+        private ErrorResponse HandleException(CoachseekException ex)
         {
             if (ex is SingleErrorException)
                 return new ErrorResponse(ex as SingleErrorException);

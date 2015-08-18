@@ -19,11 +19,11 @@ namespace CoachSeek.Domain.Entities
         private void Validate()
         {
             if (Minutes <= 0)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes);
             if (Minutes > MINUTES_IN_ONE_DAY)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes);
             if (Minutes % MINUTES_IN_INCREMENT > 0)
-                throw new InvalidDuration();
+                throw new DurationInvalid(Minutes);
         }
     }
 }

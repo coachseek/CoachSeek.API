@@ -18,7 +18,7 @@ namespace CoachSeek.Domain.Entities
         private void Validate()
         {
             if (Maximum < 0 || Maximum > 100)
-                throw new InvalidStudentCapacity();
+                throw new StudentCapacityInvalid(Maximum.GetValueOrDefault());
         }
     }
 }

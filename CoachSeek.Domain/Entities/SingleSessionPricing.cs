@@ -58,9 +58,9 @@ namespace CoachSeek.Domain.Entities
             {
                 var sessionPrice = new Price(pricing.SessionPrice);
             }
-            catch (InvalidPrice)
+            catch (PriceInvalid ex)
             {
-                errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
+                errors.Add(new SessionPriceInvalid(ex));
             }
         }
 

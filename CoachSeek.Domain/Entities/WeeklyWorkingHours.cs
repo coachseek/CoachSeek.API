@@ -24,21 +24,6 @@ namespace CoachSeek.Domain.Entities
         public DailyWorkingHoursData Sunday { get { return _sunday.ToData(); } }
 
 
-        public WeeklyWorkingHours(WeeklyWorkingHoursData workingHoursData)
-        {
-            var errors = new ValidationException();
-
-            _monday = CreateWorkingHours(workingHoursData.Monday, errors, "monday");
-            _tuesday = CreateWorkingHours(workingHoursData.Tuesday, errors, "tuesday");
-            _wednesday = CreateWorkingHours(workingHoursData.Wednesday, errors, "wednesday");
-            _thursday = CreateWorkingHours(workingHoursData.Thursday, errors, "thursday");
-            _friday = CreateWorkingHours(workingHoursData.Friday, errors, "friday");
-            _saturday = CreateWorkingHours(workingHoursData.Saturday, errors, "saturday");
-            _sunday = CreateWorkingHours(workingHoursData.Sunday, errors, "sunday");
-
-            errors.ThrowIfErrors();
-        }
-
         public WeeklyWorkingHours(WeeklyWorkingHoursCommand workingHoursCommand)
         {
             var errors = new ValidationException();
@@ -54,30 +39,15 @@ namespace CoachSeek.Domain.Entities
             errors.ThrowIfErrors();
         }
 
-        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursData workingDay, ValidationException errors, string dayOfWeek)
+        public WeeklyWorkingHours(WeeklyWorkingHoursData workingHoursData)
         {
-            try
-            {
-                return new DailyWorkingHours(workingDay, dayOfWeek);
-            }
-            catch (SingleErrorException ex)
-            {
-                errors.Add(ex);
-                return null;
-            }
-        }
-
-        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursCommand workingDayCommand, ValidationException errors, string dayOfWeek)
-        {
-            try
-            {
-                return new DailyWorkingHours(workingDayCommand, dayOfWeek);
-            }
-            catch (SingleErrorException ex)
-            {
-                errors.Add(ex);
-                return null;
-            }
+            _monday = new DailyWorkingHours(workingHoursData.Monday, "Monday");
+            _tuesday = new DailyWorkingHours(workingHoursData.Tuesday, "Tuesday");
+            _wednesday = new DailyWorkingHours(workingHoursData.Wednesday, "Wednesday");
+            _thursday = new DailyWorkingHours(workingHoursData.Thursday, "Thursday");
+            _friday = new DailyWorkingHours(workingHoursData.Friday, "Friday");
+            _saturday = new DailyWorkingHours(workingHoursData.Saturday, "Saturday");
+            _sunday = new DailyWorkingHours(workingHoursData.Sunday, "Sunday");
         }
 
         public WeeklyWorkingHoursData ToData()
@@ -92,6 +62,20 @@ namespace CoachSeek.Domain.Entities
                 Saturday = Saturday,
                 Sunday = Sunday
             };
+        }
+
+
+        private DailyWorkingHours CreateWorkingHours(DailyWorkingHoursCommand workingDayCommand, ValidationException errors, string dayOfWeek)
+        {
+            try
+            {
+                return new DailyWorkingHours(workingDayCommand, dayOfWeek);
+            }
+            catch (SingleErrorException ex)
+            {
+                errors.Add(ex);
+                return null;
+            }
         }
     }
 }

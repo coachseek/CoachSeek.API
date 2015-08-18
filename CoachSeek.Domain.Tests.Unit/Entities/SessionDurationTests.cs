@@ -44,7 +44,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidDuration>());
+                Assert.That(ex, Is.TypeOf<DurationInvalid>());
             }
         }
     }

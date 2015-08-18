@@ -35,7 +35,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenASessionDoesNotBelongToTheCourse();
             var response = WhenTryAddBooking(command);
-            ThenReturnSessionNotInCourseError(response);
+            ThenReturnSessionNotInCourseError(response, command.Sessions[1].Id, new Guid(COURSE_ONE));
         }
 
         [Test]
@@ -102,9 +102,12 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenReturnSessionNotInCourseError(IResponse response)
+        private void ThenReturnSessionNotInCourseError(IResponse response, Guid sessionId, Guid courseId)
         {
-            AssertSingleError(response, "One or more of the sessions is not in the course.", "booking.sessions");
+            AssertSingleError(response, 
+                              ErrorCodes.SessionNotInCourse,
+                              "Session is not in course.",
+                              string.Format("Session: '{0}', Course: '{1}'", sessionId, courseId));
         }
 
         private void ThenReturnDuplicateSessionInCourseError(IResponse response)

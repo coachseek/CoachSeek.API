@@ -26,7 +26,7 @@ namespace CoachSeek.Domain.Entities
         public RepeatedSessionPricing(decimal? sessionPrice, decimal? coursePrice)
             : base(sessionPrice)
         {
-            CreateCoursePricing(coursePrice);
+            _coursePrice = new Price(coursePrice);
         }
 
 
@@ -52,9 +52,9 @@ namespace CoachSeek.Domain.Entities
             {
                 _sessionPrice = new Price(sessionPrice);
             }
-            catch (InvalidPrice)
+            catch (PriceInvalid ex)
             {
-                errors.Add("The sessionPrice field is not valid.", "session.pricing.sessionPrice");
+                errors.Add(new SessionPriceInvalid(ex));
             }
         }
 
@@ -65,17 +65,12 @@ namespace CoachSeek.Domain.Entities
                 if (coursePrice.HasValue)
                     _coursePrice = new Price(coursePrice);
                 else
-                    _coursePrice = new Price(_sessionPrice.Amount * sessionCount);
+                    _coursePrice = new Price(_sessionPrice.Amount.GetValueOrDefault(), sessionCount);
             }
-            catch (InvalidPrice)
+            catch (PriceInvalid ex)
             {
-                errors.Add("The coursePrice field is not valid.", "session.pricing.coursePrice");
+                errors.Add(new CoursePriceInvalid(ex));
             }
-        }
-
-        private void CreateCoursePricing(decimal? coursePrice)
-        {
-            _coursePrice = new Price(coursePrice);
         }
     }
 }

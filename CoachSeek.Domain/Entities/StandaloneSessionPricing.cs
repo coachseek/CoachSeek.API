@@ -5,7 +5,7 @@ namespace CoachSeek.Domain.Entities
 {
     public class StandaloneSessionPricing : SingleSessionPricing
     {
-        public new decimal SessionPrice { get { return _sessionPrice.Amount.Value; } }
+        public new decimal SessionPrice { get { return _sessionPrice.Amount.GetValueOrDefault(); } }
 
 
         public StandaloneSessionPricing(PricingCommand sessionPricing)
@@ -19,10 +19,9 @@ namespace CoachSeek.Domain.Entities
         protected override void ValidateAdditional(ValidationException errors, PricingCommand pricing)
         {
             if (!pricing.SessionPrice.HasValue)
-                errors.Add("A sessionPrice is required.", "session.pricing.sessionPrice");
-
+                errors.Add(new StandaloneSessionMustHaveSessionPrice());
             if (pricing.CoursePrice.HasValue)
-                errors.Add("The coursePrice field must not be specified for a single session.", "session.pricing.coursePrice");
+                errors.Add(new StandaloneSessionMustHaveNoCoursePrice());
         }
     }
 }

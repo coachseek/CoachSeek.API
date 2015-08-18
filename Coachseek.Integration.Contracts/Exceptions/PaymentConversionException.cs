@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using CoachSeek.Domain.Exceptions;
+﻿using CoachSeek.Domain.Exceptions;
 
 namespace Coachseek.Integration.Contracts.Exceptions
 {

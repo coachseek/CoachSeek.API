@@ -50,7 +50,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
             catch (Exception ex)
             {
-                Assert.That(ex, Is.TypeOf<InvalidRepeatFrequency>());
+                Assert.That(ex, Is.TypeOf<RepeatFrequencyInvalid>());
             }
         }
     }

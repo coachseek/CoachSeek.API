@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Factories;
 using CoachSeek.Domain.Repositories;
@@ -42,8 +41,6 @@ namespace CoachSeek.Domain.Entities
             SetPaymentProvider(command.Payment, validation);
 
             validation.ThrowIfErrors();
-
-            Validate();
         }
 
         public PaymentOptions(string currency, 
@@ -84,9 +81,9 @@ namespace CoachSeek.Domain.Entities
             {
                 _currency = new Currency(currency, supportedCurrencyRepository);
             }
-            catch (CurrencyNotSupported currencyNotSupported)
+            catch (SingleErrorException ex)
             {
-                errors.Add(currencyNotSupported);
+                errors.Add(ex);
             }
         }
 
@@ -96,23 +93,14 @@ namespace CoachSeek.Domain.Entities
             {
                 _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(payment.PaymentProvider,
                                                                                 payment.MerchantAccountIdentifier);
+
+                if (IsOnlinePaymentEnabled && _paymentProvider is NullPaymentProvider)
+                        throw new PaymentProviderRequiredWhenOnlineBookingIsEnabled();
             }
-            catch (Exception ex)
+            catch (SingleErrorException ex)
             {
-                if (ex is SingleErrorException)
-                    errors.Add(ex as SingleErrorException);
+                errors.Add(ex);
             }
-        }
-
-        private void Validate()
-        {
-            var validation = new ValidationException();
-
-            if (IsOnlinePaymentEnabled)
-                if (_paymentProvider is NullPaymentProvider)
-                    validation.Add(new PaymentProviderRequiredWhenOnlineBookingIsEnabled());
-
-            validation.ThrowIfErrors();
         }
     }
 }
