@@ -105,7 +105,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateUpdate(RepeatedSession existingCourse, RepeatedSession updateCourse)
         {
             if (HasDifferingCourseRepetitions(existingCourse, updateCourse))
-                throw new ValidationException("Cannot change the repetition of a course.");
+                throw new CourseChangeRepetitionNotSupported();
         }
 
         private bool HasDifferingCourseRepetitions(RepeatedSession existingCourse, RepeatedSession updateCourse)

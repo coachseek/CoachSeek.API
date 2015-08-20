@@ -13,11 +13,18 @@ namespace CoachSeek.Domain.Entities
         public TimeOfDay(string time)
         {
             if (time == null)
-                throw new InvalidTimeOfDay();
+                throw new TimeInvalid(time);
 
-            var components = SplitIntoHourAndMinute(time);
-            Hour = ParseOutHour(components[0]);
-            Minute = ParseOutMinute(components[1]);
+            try
+            {
+                var components = SplitIntoHourAndMinute(time);
+                Hour = ParseOutHour(components[0]);
+                Minute = ParseOutMinute(components[1]);
+            }
+            catch (FormatException)
+            {
+                throw new TimeInvalid(time);
+            }
         }
 
         public TimeOfDay(DateTime time)
@@ -31,7 +38,6 @@ namespace CoachSeek.Domain.Entities
         {
             if (earlier.Hour > Hour)
                 return false;
-
             if (earlier.Hour == Hour && earlier.Minute >= Minute)
                     return false;                
 
@@ -48,27 +54,19 @@ namespace CoachSeek.Domain.Entities
         {
             var components = time.Trim().Split(':');
             if (components.GetLength(0) != 2)
-                throw new InvalidTimeOfDay();
+                throw new FormatException();
             return components;
         }
 
         private int ParseOutHour(string hourString)
         {
             if (hourString.Length < 1 || hourString.Length > 2)
-                throw new InvalidTimeOfDay();
+                throw new FormatException();
 
-            int hourInt;
-            try
-            {
-                hourInt = hourString.ParseOrThrow<int>();
-            }
-            catch (Exception)
-            {
-                throw new InvalidTimeOfDay();
-            }
+            var hourInt = hourString.ParseOrThrow<int>();
 
             if (hourInt < 0 || hourInt > 23)
-                throw new InvalidTimeOfDay();
+                throw new FormatException();
 
             return hourInt;
         }
@@ -81,7 +79,7 @@ namespace CoachSeek.Domain.Entities
                 minuteString == "45")
                 return minuteString.Parse<int>();
 
-            throw new InvalidTimeOfDay();
+            throw new FormatException();
         }
     }
 }

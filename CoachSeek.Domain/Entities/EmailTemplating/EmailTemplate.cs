@@ -2,7 +2,6 @@
 using System.Linq;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities.EmailTemplating
 {

@@ -12,21 +12,6 @@ namespace CoachSeek.Domain.Entities
         private Colour _colour { get; set; }
 
 
-        public ServicePresentation(PresentationData data)
-        {
-            try
-            {
-                if (data == null || data.Colour == null)
-                    throw new ValidationException("The colour field is required.", "service.presentation.colour");
-
-                _colour = new Colour(data.Colour);
-            }
-            catch (ColourInvalid)
-            {
-                throw new ValidationException("The colour field is not valid.", "service.presentation.colour");
-            }
-        }
-
         public ServicePresentation(PresentationCommand command)
         {
             try
@@ -37,6 +22,11 @@ namespace CoachSeek.Domain.Entities
             {
                 throw new ValidationException(ex);
             }
+        }
+
+        public ServicePresentation(PresentationData data)
+        {
+            _colour = new Colour(data.Colour);
         }
 
 

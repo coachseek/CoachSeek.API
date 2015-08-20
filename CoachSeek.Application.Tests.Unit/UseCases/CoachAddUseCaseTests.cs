@@ -156,7 +156,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertMissingCoachError(Response response)
         {
-            AssertSingleError(response, "Missing data.");
+            AssertSingleError(response, ErrorCodes.DataMissing, "Missing data.");
         }
 
         private void AssertDuplicateCoachError(IResponse response)

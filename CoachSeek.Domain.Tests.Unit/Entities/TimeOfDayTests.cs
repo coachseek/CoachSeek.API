@@ -215,7 +215,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
         private void ThenThrowInvalidTimeOfDay(object response)
         {
-            Assert.That(response, Is.InstanceOf<InvalidTimeOfDay>());
+            Assert.That(response, Is.InstanceOf<TimeInvalid>());
         }
 
         private void ThenCreateTimeOfDay(object response)

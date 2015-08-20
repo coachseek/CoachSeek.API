@@ -17,7 +17,7 @@ namespace CoachSeek.Domain.Entities
             DateTime date;
             var succeeded = DateTime.TryParse(dateString, out date);
             if (!succeeded)
-                throw new InvalidDate();
+                throw new DateInvalid(dateString);
             _date = date;
         }
 

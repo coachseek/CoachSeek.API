@@ -6,7 +6,7 @@ namespace CoachSeek.Domain.Exceptions
     public class SessionInvalid : SingleErrorException
     {
         public SessionInvalid(Guid sessionId)
-            : base(ErrorCodes.ServiceInvalid, 
+            : base(ErrorCodes.SessionInvalid, 
                    "This session does not exist.",
                    sessionId.ToString())
         { }

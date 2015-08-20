@@ -58,19 +58,6 @@ namespace CoachSeek.Application.UseCases
             return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
         }
 
-        // Deprecated. TODO: Remove
-        public IList<SingleSessionData> SearchForSessionsOld(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
-        {
-            var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
-            Validate(parameters);
-
-            var matchingSessions = FindMatchingSessions(parameters);
-            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
-            AddBookingsToSessions(matchingSessions, bookings);
-
-            return matchingSessions;
-        }
-
         private SearchParameters PackageUpParameters(string startDate, string endDate, Guid? coachId, Guid? locationId, Guid? serviceId)
         {
             return new SearchParameters
@@ -240,7 +227,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (string.IsNullOrEmpty(startDate))
             {
-                errors.Add("The startDate is missing.", "startDate");
+                errors.Add(new StartDateRequired());
                 return;
             }
 
@@ -248,9 +235,9 @@ namespace CoachSeek.Application.UseCases
             {
                 var start = new Date(startDate);
             }
-            catch (InvalidDate)
+            catch (DateInvalid ex)
             {
-                errors.Add("The startDate is not a valid date.", "startDate");
+                errors.Add(new StartDateInvalid(ex));
             }
         }
 
@@ -258,7 +245,7 @@ namespace CoachSeek.Application.UseCases
         {
             if (string.IsNullOrEmpty(endDate))
             {
-                errors.Add("The endDate is missing.", "endDate");
+                errors.Add(new EndDateRequired());
                 return;
             }
 
@@ -266,9 +253,9 @@ namespace CoachSeek.Application.UseCases
             {
                 var end = new Date(endDate);
             }
-            catch (InvalidDate)
+            catch (DateInvalid ex)
             {
-                errors.Add("The endDate is not a valid date.", "endDate");
+                errors.Add(new EndDateInvalid(ex));
             }
         }
 

@@ -112,7 +112,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnDuplicateSessionInCourseError(IResponse response)
         {
-            AssertSingleError(response, "Some sessions are duplicates.", "booking.sessions");
+            AssertSingleError(response, 
+                              ErrorCodes.BookingContainsDuplicateSessions, 
+                              "Booking contains duplicate sessions.");
         }
 
         private void ThenReturnInvalidCustomerError(IResponse response, Guid customerId)

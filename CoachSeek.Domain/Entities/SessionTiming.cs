@@ -69,9 +69,9 @@ namespace CoachSeek.Domain.Entities
             {
                 _startDate = new Date(startDate);
             }
-            catch (InvalidDate)
+            catch (DateInvalid ex)
             {
-                errors.Add("The startDate field is not valid.", "session.timing.startDate");
+                errors.Add(new StartDateInvalid(ex));
             }
         }
 
@@ -81,27 +81,21 @@ namespace CoachSeek.Domain.Entities
             {
                 _startTime = new TimeOfDay(startTime);
             }
-            catch (InvalidTimeOfDay)
+            catch (TimeInvalid ex)
             {
-                errors.Add("The startTime field is not valid.", "session.timing.startTime");
+                errors.Add(new StartTimeInvalid(ex));
             }
         }
 
-        private void ValidateAndCreateDuration(int? duration, ValidationException errors)
+        private void ValidateAndCreateDuration(int duration, ValidationException errors)
         {
-            if (!duration.HasValue)
-            {
-                errors.Add("The duration field is required.", "session.timing.duration");
-                return;
-            }
-
             try
             {
-                _duration = new SessionDuration(duration.Value);
+                _duration = new SessionDuration(duration);
             }
-            catch (DurationInvalid)
+            catch (DurationInvalid ex)
             {
-                errors.Add("The duration field is not valid.", "session.timing.duration");
+                errors.Add(ex);
             }
         }
     }

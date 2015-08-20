@@ -434,22 +434,22 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.AddCustomer(new Guid(BUSINESS_ID), new Customer(data));
         }
 
-        protected void AssertSingleError(IResponse response,
-                                         string expectedMessage,
-                                         string expectedField = null)
-        {
-            Assert.That(response.Data, Is.Null);
-            Assert.That(response.Errors, Is.Not.Null);
-            Assert.That(response.Errors.Count, Is.EqualTo(1));
-            var error = response.Errors.First();
-            Assert.That(error.Message, Is.EqualTo(expectedMessage));
-            Assert.That(error.Field, Is.EqualTo(expectedField));
-        }
+        //protected void AssertSingleError(IResponse response,
+        //                                 string expectedMessage,
+        //                                 string expectedField = null)
+        //{
+        //    Assert.That(response.Data, Is.Null);
+        //    Assert.That(response.Errors, Is.Not.Null);
+        //    Assert.That(response.Errors.Count, Is.EqualTo(1));
+        //    var error = response.Errors.First();
+        //    Assert.That(error.Message, Is.EqualTo(expectedMessage));
+        //    Assert.That(error.Field, Is.EqualTo(expectedField));
+        //}
 
         protected void AssertSingleError(IResponse response,
                                          string expectedCode,
                                          string expectedMessage,
-                                         string expectedData)
+                                         string expectedData = null)
         {
             Assert.That(response.Data, Is.Null);
             Assert.That(response.Errors, Is.Not.Null);

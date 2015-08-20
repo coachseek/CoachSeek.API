@@ -96,60 +96,6 @@ namespace CoachSeek.Domain.Entities
         { }
 
 
-        //protected void ValidateAndCreateLocation(LocationData location, ValidationException errors)
-        //{
-        //    if (location == null)
-        //    {
-        //        errors.Add("The location field is required.", "session.location");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        _location = new Location(location);
-        //    }
-        //    catch (ValidationException ex)
-        //    {
-        //        errors.Add(ex);
-        //    }
-        //}
-
-        //protected void ValidateAndCreateCoach(CoachData coach, ValidationException errors)
-        //{
-        //    if (coach == null)
-        //    {
-        //        errors.Add("The coach field is required.", "session.coach");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        _coach = new Coach(coach);
-        //    }
-        //    catch (ValidationException ex)
-        //    {
-        //        errors.Add(ex);
-        //    }
-        //}
-
-        //protected void ValidateAndCreateService(ServiceData service, ValidationException errors)
-        //{
-        //    if (service == null)
-        //    {
-        //        errors.Add("The service field is required.", "session.service");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        _service = new Service(service);
-        //    }
-        //    catch (ValidationException ex)
-        //    {
-        //        errors.Add(ex);
-        //    }
-        //}
-
         protected void ValidateAndCreateSessionTiming(SessionTimingCommand sessionTiming, ValidationException errors)
         {
             try
@@ -180,7 +126,7 @@ namespace CoachSeek.Domain.Entities
             {
                 _presentation = new SessionPresentation(sessionPresentation);
             }
-            catch (ValidationException ex)
+            catch (CoachseekException ex)
             {
                 errors.Add(ex);
             }

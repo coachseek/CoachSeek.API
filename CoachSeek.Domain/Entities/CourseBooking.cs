@@ -49,13 +49,13 @@ namespace CoachSeek.Domain.Entities
         private decimal CalculateCoursePrice()
         {
             return Course.Pricing.CoursePrice ??
-                   Course.Pricing.SessionPrice.Value * Course.Repetition.SessionCount;
+                   Course.Pricing.SessionPrice.GetValueOrDefault() * Course.Repetition.SessionCount;
         }
 
         private decimal CalculateMultiSessionPrice()
         {
             var sessionPrice = Course.Pricing.SessionPrice ??
-                               Math.Round(Course.Pricing.CoursePrice.Value / Course.Repetition.SessionCount, 2);
+                               Math.Round(Course.Pricing.CoursePrice.GetValueOrDefault() / Course.Repetition.SessionCount, 2);
 
             return sessionPrice * SessionBookings.Count;
         }

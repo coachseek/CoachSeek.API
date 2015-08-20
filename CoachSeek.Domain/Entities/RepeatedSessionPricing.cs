@@ -18,7 +18,7 @@ namespace CoachSeek.Domain.Entities
         public RepeatedSessionPricing(PricingCommand sessionPricing, int sessionCount)
         {
             if (sessionPricing.SessionPrice == null && sessionPricing.CoursePrice == null)
-                throw new ValidationException("At least a session or course price must be specified.", "session.pricing");
+                throw new CourseMustHavePrice();
 
             ValidateAndCreatePricing(sessionPricing, sessionCount);
         }

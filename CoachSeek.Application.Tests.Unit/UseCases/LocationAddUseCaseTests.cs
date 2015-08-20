@@ -105,7 +105,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertMissingLocationError(IResponse response)
         {
-            AssertSingleError(response, "Missing data.");
+            AssertSingleError(response, ErrorCodes.DataMissing, "Missing data.");
         }
 
         private void AssertDuplicateLocationError(IResponse response)

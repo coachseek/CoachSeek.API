@@ -70,7 +70,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateSessionsUnique(IEnumerable<SessionKeyCommand> commandSessions, ValidationException errors)
         {
             if (commandSessions.GroupBy(x => x.Id).SelectMany(grp => grp.Skip(1)).Any())
-                errors.Add("Some sessions are duplicates.", "booking.sessions");
+                errors.Add(new BookingContainsDuplicateSessions());
         }
 
         protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)

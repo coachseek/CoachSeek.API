@@ -247,10 +247,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             {
                 AssertMultipleErrors(response, new[,]
                 {
-                    {null, "The startDate field is not valid.", null, "session.timing.startDate"},
-                    {null, "The duration field is not valid.", null, "session.timing.duration"},
-                    {null, "The colour field is not valid.", null, "session.presentation.colour"},
-                    {ErrorCodes.StandaloneSessionMustHaveNoCoursePrice, "Standalone sessions must not have the CoursePrice set.", null, null}
+                    { ErrorCodes.StartDateInvalid, "'2014-02-30' is not a valid start date.", "2014-02-30", null },
+                    { ErrorCodes.DurationInvalid, "Duration '25' is not valid.", "25", null },
+                    { ErrorCodes.ColourInvalid, "Colour 'maroon' is not valid.", "maroon", null },
+                    { ErrorCodes.StandaloneSessionMustHaveNoCoursePrice, "Standalone sessions must not have the CoursePrice set.", null, null }
                 });
             }
 

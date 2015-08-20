@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Common;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingCommand("2014-02-31", "12:45", 75);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The startDate field is not valid.", "session.timing.startDate");
+            AssertSingleError(response,
+                              ErrorCodes.StartDateInvalid,
+                              "'2014-02-31' is not a valid start date.",
+                              "2014-02-31");
         }
 
         [Test]
@@ -21,7 +25,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingCommand("2014-02-28", "25:00", 75);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The startTime field is not valid.", "session.timing.startTime");
+            AssertSingleError(response, 
+                              ErrorCodes.StartTimeInvalid,
+                              "'25:00' is not a valid start time.", 
+                              "25:00");
         }
 
         [Test]
@@ -29,7 +36,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingCommand("2014-02-28", "23:00", 69);
             var response = WhenConstruct(sessionTiming);
-            AssertSingleError(response, "The duration field is not valid.", "session.timing.duration");
+            AssertSingleError(response, 
+                              ErrorCodes.DurationInvalid,
+                              "Duration '69' is not valid.", 
+                              "69");
         }
 
         [Test]
@@ -37,9 +47,9 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionTiming = new SessionTimingCommand("2014-15-15", "27:45", 35);
             var response = WhenConstruct(sessionTiming);
-            AssertMultipleErrors(response, new[,] { { null, "The startDate field is not valid.", null, "session.timing.startDate" },
-                                                    { null, "The startTime field is not valid.", null, "session.timing.startTime" },
-                                                    { null, "The duration field is not valid.", null, "session.timing.duration" } });
+            AssertMultipleErrors(response, new[,] { { ErrorCodes.StartDateInvalid, "'2014-15-15' is not a valid start date.", "2014-15-15", null },
+                                                    { ErrorCodes.StartTimeInvalid, "'27:45' is not a valid start time.", "27:45", null },
+                                                    { ErrorCodes.DurationInvalid, "Duration '35' is not valid.", "35", null } });
         }
 
 

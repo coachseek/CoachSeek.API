@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using NUnit.Framework;
 
@@ -55,7 +56,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var command = GivenSingleSessionDoesNotExist();
             var response = WhenTryAddBooking(command);
-            ThenReturnInvalidSessionError(response);
+            ThenReturnInvalidSessionError(response, command.Sessions[0].Id);
         }
 
         [Test]
@@ -193,12 +194,15 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void ThenReturnMissingSessionError(IResponse response)
         {
-            AssertSingleError(response, "A booking must have at least one session.");
+            AssertSingleError(response, ErrorCodes.BookingSessionRequired, "A booking must have at least one session.");
         }
 
-        private void ThenReturnInvalidSessionError(IResponse response)
+        private void ThenReturnInvalidSessionError(IResponse response, Guid sessionId)
         {
-            AssertSingleError(response, "This session does not exist.");
+            AssertSingleError(response, 
+                              ErrorCodes.SessionInvalid, 
+                              "This session does not exist.",
+                              sessionId.ToString());
         }
 
         private void ThenInvokeAddStandaloneSessionBookingUseCase(IResponse response)

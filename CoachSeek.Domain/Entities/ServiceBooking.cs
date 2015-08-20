@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -36,14 +35,7 @@ namespace CoachSeek.Domain.Entities
 
         private void CreateStudentCapacity(int? studentCapacity)
         {
-            //try
-            //{
-                _studentCapacity = new ServiceStudentCapacity(studentCapacity);
-            //}
-            //catch (StudentCapacityInvalid)
-            //{
-            //    throw new ValidationException("The studentCapacity field is not valid.", "service.booking.studentCapacity");
-            //}
+            _studentCapacity = new ServiceStudentCapacity(studentCapacity);
         }
     }
 }

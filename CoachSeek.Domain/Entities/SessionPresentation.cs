@@ -14,7 +14,7 @@ namespace CoachSeek.Domain.Entities
 
         public SessionPresentation(PresentationCommand command)
         {
-            ValidateAndCreateSessionPresentation(command);
+            CreateSessionPresentation(command);
         }
 
         public SessionPresentation(PresentationData data)
@@ -29,16 +29,9 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void ValidateAndCreateSessionPresentation(PresentationCommand command)
+        private void CreateSessionPresentation(PresentationCommand command)
         {
-            try
-            {
-                _colour = new Colour(command.Colour);
-            }
-            catch (ColourInvalid)
-            {
-                throw new ValidationException("The colour field is not valid.", "session.presentation.colour");
-            }
+            _colour = new Colour(command.Colour);
         }
 
         private void CreateSessionPresentation(PresentationData data)

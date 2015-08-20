@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using NUnit.Framework;
@@ -13,7 +14,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var sessionPresentation = new PresentationCommand { Colour = "aquamarine" };
             var response = WhenConstruct(sessionPresentation);
-            AssertSingleError(response, "The colour field is not valid.", "session.presentation.colour");
+            AssertSingleError(response,
+                              ErrorCodes.ColourInvalid,
+                              "Colour 'aquamarine' is not valid.",
+                              "aquamarine");
         }
 
         [Test]

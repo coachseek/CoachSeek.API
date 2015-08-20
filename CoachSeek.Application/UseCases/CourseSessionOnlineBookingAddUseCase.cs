@@ -29,7 +29,7 @@ namespace CoachSeek.Application.UseCases
         private void ValidateIsOnlineBookable(ValidationException errors)
         {
             if (!Course.Booking.IsOnlineBookable)
-                errors.Add("The course is not online bookable.");
+                errors.Add(new CourseNotOnlineBookable(Course.Id));
         }
 
         protected override void PostProcessing(CourseBooking newBooking)

@@ -61,7 +61,7 @@ namespace CoachSeek.Domain.Entities
         {
             var existingUser = repository.GetByUsername(Email);
             if (!existingUser.IsExisting())
-                throw new InvalidUser();
+                throw new UserInvalid(Email);
             repository.Save(this);
         }
 

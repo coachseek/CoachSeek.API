@@ -226,7 +226,10 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
 
             private void ThenReturnMissingPaymentProviderError(object response)
             {
-                AssertSingleError(response, "When Online Payment is enabled then an Online Payment Provider must be specified.");
+                AssertSingleError(response, 
+                                  ErrorCodes.PaymentProviderRequiredWhenOnlineBookingIsEnabled,
+                                  "When Online Payment is enabled then an Online Payment Provider must be specified.",
+                                  null);
             }
 
             private void ThenCreatesValidPaymentOptions(object response)

@@ -230,8 +230,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("The startDate is missing."));
-            Assert.That(error.Field, Is.EqualTo("startDate"));
+
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.StartDateRequired));
+            Assert.That(error.Message, Is.EqualTo("The StartDate field is required."));
+            Assert.That(error.Data, Is.Null);
         }
 
         private void ThenSessionSearchFailsWithInvalidStartDateError(object response)
@@ -241,8 +243,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("The startDate is not a valid date."));
-            Assert.That(error.Field, Is.EqualTo("startDate"));
+
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.StartDateInvalid));
+            Assert.That(error.Message, Is.EqualTo("'abc' is not a valid start date."));
+            Assert.That(error.Data, Is.EqualTo("abc"));
         }
 
         private void ThenSessionSearchFailsWithMissingEndDateError(object response)
@@ -252,8 +256,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("The endDate is missing."));
-            Assert.That(error.Field, Is.EqualTo("endDate"));
+
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.EndDateRequired));
+            Assert.That(error.Message, Is.EqualTo("The EndDate field is required."));
+            Assert.That(error.Data, Is.Null);
         }
 
         private void ThenSessionSearchFailsWithInvalidEndDateError(object response)
@@ -263,8 +269,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
             var error = errors[0];
-            Assert.That(error.Message, Is.EqualTo("The endDate is not a valid date."));
-            Assert.That(error.Field, Is.EqualTo("endDate"));
+
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.EndDateInvalid));
+            Assert.That(error.Message, Is.EqualTo("'xyz' is not a valid end date."));
+            Assert.That(error.Data, Is.EqualTo("xyz"));
         }
 
         private void ThenSessionSearchFailsWithInvalidStartAndEndDateErrors(object response)
@@ -273,12 +281,16 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response, Is.InstanceOf<ValidationException>());
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(2));
+
             var firstError = errors[0];
-            Assert.That(firstError.Message, Is.EqualTo("The startDate is not a valid date."));
-            Assert.That(firstError.Field, Is.EqualTo("startDate"));
+            Assert.That(firstError.Code, Is.EqualTo(ErrorCodes.StartDateInvalid));
+            Assert.That(firstError.Message, Is.EqualTo("'hello' is not a valid start date."));
+            Assert.That(firstError.Data, Is.EqualTo("hello"));
+
             var secondError = errors[1];
-            Assert.That(secondError.Message, Is.EqualTo("The endDate is not a valid date."));
-            Assert.That(secondError.Field, Is.EqualTo("endDate"));
+            Assert.That(secondError.Code, Is.EqualTo(ErrorCodes.EndDateInvalid));
+            Assert.That(secondError.Message, Is.EqualTo("'world!' is not a valid end date."));
+            Assert.That(secondError.Data, Is.EqualTo("world!"));
         }
 
         private void ThenSessionSearchFailsWithStartDateIsAfterEndDateError(object response)

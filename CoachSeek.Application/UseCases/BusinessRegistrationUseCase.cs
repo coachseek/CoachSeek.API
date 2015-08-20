@@ -1,5 +1,4 @@
-﻿using System;
-using CoachSeek.Application.Contracts.Models;
+﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services;
 using CoachSeek.Data.Model;
@@ -84,15 +83,5 @@ namespace CoachSeek.Application.UseCases
             var command = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
             UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(command);
         }
-
-        //protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
-        //{
-        //    return new BusinessDetails(business.Id, business.Name, business.Domain);
-        //}
-
-        //protected CurrencyDetails ConvertToCurrencyDetails(CurrencyData currency)
-        //{
-        //    return new CurrencyDetails(currency.Code, currency.Symbol);
-        //}
     }
 }
