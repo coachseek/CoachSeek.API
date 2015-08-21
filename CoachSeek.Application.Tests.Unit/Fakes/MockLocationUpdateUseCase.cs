@@ -4,15 +4,15 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
 
-namespace CoachSeek.WebUI.Tests.Unit.Fakes
+namespace CoachSeek.Application.Tests.Unit.Fakes
 {
-    public class MockLocationAddUseCase : ILocationAddUseCase
+    public class MockLocationUpdateUseCase : ILocationUpdateUseCase
     {
-        public bool WasAddLocationCalled;
-        public LocationAddCommand Command;
+        public bool WasUpdateLocationCalled;
+        public LocationUpdateCommand Command;
         public IResponse Response;
 
-        public Guid BusinessId { get; set; }
+        public Guid BusinessId { set; get; }
         public IBusinessRepository BusinessRepository { get; set; }
 
 
@@ -20,9 +20,9 @@ namespace CoachSeek.WebUI.Tests.Unit.Fakes
         {
         }
 
-        public IResponse AddLocation(LocationAddCommand command)
+        public IResponse UpdateLocation(LocationUpdateCommand command)
         {
-            WasAddLocationCalled = true;
+            WasUpdateLocationCalled = true;
             Command = command;
 
             return Response;

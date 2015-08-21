@@ -24,6 +24,7 @@
         public static string StartDateInvalid { get { return "startdate-invalid"; } }
         public static string EndDateRequired { get { return "enddate-required"; } }
         public static string EndDateInvalid { get { return "enddate-invalid"; } }
+        public static string StartDateAfterEndDate { get { return "startdate-after-enddate"; } }
         public static string TimeInvalid { get { return "time-invalid"; } }
         public static string StartTimeInvalid { get { return "starttime-invalid"; } }
         public static string DurationInvalid { get { return "duration-invalid"; } }

@@ -165,6 +165,7 @@
     <Compile Include="Exceptions\SessionHasBookingsCannotDelete.cs" />
     <Compile Include="Exceptions\EndDateInvalid.cs" />
     <Compile Include="Exceptions\EndDateRequired.cs" />
+    <Compile Include="Exceptions\StartDateAfterEndDate.cs" />
     <Compile Include="Exceptions\StartDateRequired.cs" />
     <Compile Include="Exceptions\StartDateInvalid.cs" />
     <Compile Include="Exceptions\SessionPriceInvalid.cs" />

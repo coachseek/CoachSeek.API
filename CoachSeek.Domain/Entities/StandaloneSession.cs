@@ -43,36 +43,6 @@ namespace CoachSeek.Domain.Entities
         { }
 
 
-        //public void Apply(SessionUpdateCommand command, CoreData updateCoreData)
-        //{
-        //    if (updateCoreData.Service.IsExisting())
-        //        _service = new Service(updateCoreData.Service);
-        //    if (updateCoreData.Location.IsExisting())
-        //        _location = new Location(updateCoreData.Location);
-        //    if (updateCoreData.Coach.IsExisting())
-        //        _coach = new Coach(updateCoreData.Coach);
-
-        //    if (command.Timing.IsExisting())
-        //    {
-        //        var newTiming = new SessionTiming
-        //        {
-
-        //        };
-
-        //        if (command.Timing.StartDate.IsExisting())
-        //            _timing.StartDate = command.Timing.StartDate;
-        //        if (command.Timing.StartTime.IsExisting())
-        //            _timing.StartTime = command.Timing.StartTime;
-        //    }
-
-        ////public LocationKeyData Location { get { return _location.ToKeyData(); } }
-        ////public CoachKeyData Coach { get { return _coach.ToKeyData(); } }
-        ////public SessionTimingData Timing { get { return _timing.ToData(); } }
-        ////public SessionBookingData Booking { get { return _booking.ToData(); } }
-        ////public PresentationData Presentation { get { return _presentation.ToData(); } }
-
-        //}
-
         protected override void ValidateAdditional(SessionAddCommand command,
                                                    CoreData coreData,
                                                    ValidationException errors)

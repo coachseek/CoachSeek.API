@@ -88,7 +88,6 @@
     <Compile Include="Entities\PriceTests.cs" />
     <Compile Include="Entities\RepeatFrequencyTests.cs" />
     <Compile Include="Entities\SessionCountTests.cs" />
-    <Compile Include="Entities\ServiceDefaultsTests.cs" />
     <Compile Include="Entities\ServiceRepetitionTests.cs" />
     <Compile Include="Entities\ServiceStudentCapacityTests.cs" />
     <Compile Include="Entities\SingleSessionPricingTests.cs" />

@@ -8,19 +8,6 @@ namespace CoachSeek.Domain.Tests.Unit
     {
         protected const int DAYS_IN_WEEK = 7;
 
-        //protected void AssertSingleError(object response, string expectedMessage, string expectedField = null)
-        //{
-        //    Assert.That(response, Is.Not.Null);
-        //    Assert.That(response, Is.InstanceOf<CoachseekException>());
-        //    var errors = ((CoachseekException)response).Errors;
-
-        //    Assert.That(errors.Count, Is.EqualTo(1));
-
-        //    var error = errors[0];
-        //    Assert.That(error.Message, Is.EqualTo(expectedMessage));
-        //    Assert.That(error.Field, Is.EqualTo(expectedField));
-        //}
-
         protected void AssertSingleError(object response, string expectedCode, string expectedMessage, string expectedData)
         {
             Assert.That(response, Is.Not.Null);

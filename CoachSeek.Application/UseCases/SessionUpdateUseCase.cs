@@ -116,18 +116,16 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateCoreData(CoreData coreData)
         {
-            var validationException = new ValidationException();
+            var errors = new ValidationException();
 
-            if (coreData.Location == null)
-                validationException.Add("Invalid location.");
+            if (!coreData.Location.IsExisting())
+                errors.Add(new LocationInvalid(coreData.Location.Id));
+            if (!coreData.Coach.IsExisting())
+                errors.Add(new CoachInvalid(coreData.Coach.Id));
+            if(!coreData.Service.IsExisting())
+                errors.Add(new ServiceInvalid(coreData.Service.Id));
 
-            if (coreData.Coach == null)
-                validationException.Add("Invalid coach.");
-
-            if(coreData.Service == null)
-                validationException.Add("Invalid service.");
-
-            validationException.ThrowIfErrors();
+            errors.ThrowIfErrors();
         }
 
         private void ValidateIsNotOverlapping(SingleSession command)

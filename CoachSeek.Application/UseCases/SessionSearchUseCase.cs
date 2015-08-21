@@ -220,7 +220,7 @@ namespace CoachSeek.Application.UseCases
             var endDate = new Date(searchEndDate);
 
             if (startDate.IsAfter(endDate))
-                throw new ValidationException("The startDate is after the endDate.", "startDate");
+                throw new StartDateAfterEndDate(startDate, endDate);
         }
 
         private static void ValidateStartDate(string startDate, ValidationException errors)
