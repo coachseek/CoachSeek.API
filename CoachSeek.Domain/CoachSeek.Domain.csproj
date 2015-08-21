@@ -116,6 +116,7 @@
     <Compile Include="Entities\CourseBooking.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\BouncedEmail.cs" />
+    <Compile Include="Entities\NewBusiness.cs" />
     <Compile Include="Entities\NullPrice.cs" />
     <Compile Include="Entities\OnlineBookingEmail.cs" />
     <Compile Include="Entities\Email.cs" />

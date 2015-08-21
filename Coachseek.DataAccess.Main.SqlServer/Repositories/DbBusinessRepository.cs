@@ -111,7 +111,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public void AddBusiness(Business business)
+        public void AddBusiness(NewBusiness business)
         {
             var wasAlreadyOpen = false;
 
@@ -129,6 +129,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@createdOn", SqlDbType.DateTime2));
+                command.Parameters.Add(new SqlParameter("@isTesting", SqlDbType.Bit));
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
@@ -138,6 +140,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[5].Value = business.ForceOnlinePayment;
                 command.Parameters[6].Value = business.PaymentProvider;
                 command.Parameters[7].Value = business.MerchantAccountIdentifier;
+                command.Parameters[8].Value = business.CreatedOn;
+                command.Parameters[9].Value = business.IsTesting;
 
                 command.ExecuteNonQuery();
             }

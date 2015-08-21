@@ -61,7 +61,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             BusinessRepository = new InMemoryBusinessRepository();
 
             BusinessId = new Guid("111D234C-9627-4F9B-8552-8BE0AB28A558");
-            var business = new Business(BusinessId, 
+            var business = new NewBusiness(BusinessId, 
                                         "Ian's Tennis Academy",
                                         "ianstennisacademy", "NZD");
             BusinessRepository.AddBusiness(business);

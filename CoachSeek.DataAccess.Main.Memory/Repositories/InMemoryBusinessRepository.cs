@@ -116,7 +116,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessData;
         }
 
-        public void AddBusiness(Business business)
+        public void AddBusiness(NewBusiness business)
         {
             WasAddBusinessCalled = true;
             DataPassedIn = business;

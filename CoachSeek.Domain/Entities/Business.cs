@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
-using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
 using System;
 
@@ -9,27 +8,17 @@ namespace CoachSeek.Domain.Entities
 {
     public class Business
     {
-        private readonly PaymentOptions _payment;
+        protected PaymentOptions Payment { get; set; }
 
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public string Domain { get; private set; }
-        public string Currency { get { return _payment.CurrencyCode; } }
-        public bool IsOnlinePaymentEnabled { get { return _payment.IsOnlinePaymentEnabled; } }
-        public bool? ForceOnlinePayment { get { return _payment.ForceOnlinePayment; } }
-        public string PaymentProvider { get { return _payment.PaymentProvider; } }
-        public string MerchantAccountIdentifier { get { return _payment.MerchantAccountIdentifier; } }
+        public Guid Id { get; protected set; }
+        public string Name { get; protected set; }
+        public string Domain { get; protected set; }
+        public string Currency { get { return Payment.CurrencyCode; } }
+        public bool IsOnlinePaymentEnabled { get { return Payment.IsOnlinePaymentEnabled; } }
+        public bool? ForceOnlinePayment { get { return Payment.ForceOnlinePayment; } }
+        public string PaymentProvider { get { return Payment.PaymentProvider; } }
+        public string MerchantAccountIdentifier { get { return Payment.MerchantAccountIdentifier; } }
 
-
-        public Business(BusinessAddCommand command, 
-                        IBusinessDomainBuilder domainBuilder, 
-                        ISupportedCurrencyRepository supportedCurrencyRepository) 
-        {
-            Id = Guid.NewGuid();
-            Name = command.Name.Trim();
-            Domain = domainBuilder.BuildDomain(command.Name);
-            _payment = new PaymentOptions(command, supportedCurrencyRepository);
-        }
 
         public Business(Guid businessId, 
                         BusinessUpdateCommand command, 
@@ -37,10 +26,10 @@ namespace CoachSeek.Domain.Entities
         {
             Id = businessId;
             Name = command.Name.Trim();
-            _payment = new PaymentOptions(command, supportedCurrencyRepository);
+            Payment = new PaymentOptions(command, supportedCurrencyRepository);
         }
 
-        public Business()
+        protected Business()
         {
             Id = Guid.NewGuid();
         }
@@ -65,11 +54,11 @@ namespace CoachSeek.Domain.Entities
             Id = id;
             Name = name;
             Domain = domain;
-            _payment = new PaymentOptions(currency, 
-                                          isOnlinePaymentEnabled, 
-                                          forceOnlinePayment,
-                                          paymentProvider,
-                                          merchantAccountIdentifier);
+            Payment = new PaymentOptions(currency, 
+                                         isOnlinePaymentEnabled, 
+                                         forceOnlinePayment,
+                                         paymentProvider,
+                                         merchantAccountIdentifier);
         }
 
 

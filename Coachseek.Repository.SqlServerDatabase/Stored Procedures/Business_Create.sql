@@ -7,11 +7,16 @@ CREATE PROCEDURE [dbo].[Business_Create](
 	@isOnlinePaymentEnabled [bit] = 0,
 	@forceOnlinePayment [bit] = 0,
 	@paymentProvider [nvarchar](50) = NULL,
-	@merchantAccountIdentifier [nvarchar](100) = NULL	
+	@merchantAccountIdentifier [nvarchar](100) = NULL,
+	@createdOn [datetime2] = NULL,
+	@isTesting [bit] = 0
 	)
 AS
 BEGIN
 	SET NOCOUNT ON;
+
+	IF @createdOn IS NULL
+        SET @createdOn = GETUTCDATE()
 
 	INSERT INTO [dbo].[Business]
 	(
@@ -22,7 +27,9 @@ BEGIN
 		[IsOnlinePaymentEnabled],
 		[ForceOnlinePayment],
 		[PaymentProvider],
-		[MerchantAccountIdentifier]
+		[MerchantAccountIdentifier],
+		[CreatedOn],
+		[IsTesting]
 	)
 	VALUES
 	(
@@ -33,7 +40,9 @@ BEGIN
 		@isOnlinePaymentEnabled,
 		@forceOnlinePayment,
 		@paymentProvider,
-		@merchantAccountIdentifier	
+		@merchantAccountIdentifier,
+		@createdOn,
+		@isTesting
 	)
 
 END

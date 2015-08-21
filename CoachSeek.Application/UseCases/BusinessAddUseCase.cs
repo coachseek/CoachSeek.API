@@ -19,10 +19,10 @@ namespace CoachSeek.Application.UseCases
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
-        public IResponse AddBusiness(BusinessAddCommand command)
+        public IResponse AddBusiness(BusinessRegistrationCommand command)
         {
             BusinessDomainBuilder.BusinessRepository = BusinessRepository;
-            var newBusiness = new Business(command, BusinessDomainBuilder, SupportedCurrencyRepository);
+            var newBusiness = new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
             BusinessRepository.AddBusiness(newBusiness);
             return new Response(newBusiness.ToData());
         }

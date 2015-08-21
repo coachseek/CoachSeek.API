@@ -300,7 +300,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void AssertPassRelevantInfoIntoAddBusiness()
         {
-            var command = ((MockBusinessAddUseCase)UseCase.BusinessAddUseCase).Command;
+            var command = ((MockBusinessAddUseCase)UseCase.BusinessAddUseCase).Command.Business;
             Assert.That(command, Is.Not.Null);
             Assert.That(command.Name, Is.EqualTo(BUSINESS_NAME));
             Assert.That(command.Currency, Is.EqualTo("NZD"));

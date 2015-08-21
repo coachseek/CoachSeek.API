@@ -10,7 +10,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
     {
         public bool WasAddBusinessCalled;
         public Exception Exception;
-        public BusinessAddCommand Command;
+        public BusinessRegistrationCommand Command;
         public IResponse Response;
 
         public Guid BusinessId { get; set; }
@@ -18,7 +18,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
         public ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
 
 
-        public IResponse AddBusiness(BusinessAddCommand command)
+        public IResponse AddBusiness(BusinessRegistrationCommand command)
         {
             WasAddBusinessCalled = true;
             Command = command;

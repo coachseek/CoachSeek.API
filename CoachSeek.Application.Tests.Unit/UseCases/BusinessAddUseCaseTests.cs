@@ -45,15 +45,16 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private BusinessAddCommand GivenAValidBusinessName()
+        private BusinessRegistrationCommand GivenAValidBusinessName()
         {
-            return new BusinessAddCommand
+            return new BusinessRegistrationCommand
             {
-                Name = "  Ian's Tennis Coaching"
+                Business = new BusinessAddCommand { Name = "  Ian's Tennis Coaching" },
+                Admin = new UserAddCommand { Email = "ian@bishman.co.nz" }
             };
         }
 
-        private IResponse WhenAddBusiness(BusinessAddCommand command)
+        private IResponse WhenAddBusiness(BusinessRegistrationCommand command)
         {
             var useCase = new BusinessAddUseCase(BusinessDomainBuilder)
             {

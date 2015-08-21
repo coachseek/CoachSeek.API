@@ -35,7 +35,7 @@ namespace CoachSeek.Application.UseCases
             {
                 SetRepositoriesOnUseCases();
                 var user = AddUser(command.Admin);
-                var business = AddBusiness(command.Business);
+                var business = AddBusiness(command);
                 AssociateUserWithBusiness(user, business);
                 return new Response(new RegistrationData(user, business));
             }
@@ -72,7 +72,7 @@ namespace CoachSeek.Application.UseCases
             return response.Data as UserData;
         }
 
-        private BusinessData AddBusiness(BusinessAddCommand command)
+        private BusinessData AddBusiness(BusinessRegistrationCommand command)
         {
             var response = BusinessAddUseCase.AddBusiness(command);
             return response.Data as BusinessData;

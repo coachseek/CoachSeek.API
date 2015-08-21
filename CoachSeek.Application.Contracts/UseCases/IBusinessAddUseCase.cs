@@ -9,6 +9,6 @@ namespace CoachSeek.Application.Contracts.UseCases
         IBusinessRepository BusinessRepository { set; }
         ISupportedCurrencyRepository SupportedCurrencyRepository { set; }
 
-        IResponse AddBusiness(BusinessAddCommand command);
+        IResponse AddBusiness(BusinessRegistrationCommand registration);
     }
 }
