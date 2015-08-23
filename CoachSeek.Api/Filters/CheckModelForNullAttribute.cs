@@ -28,7 +28,7 @@ namespace CoachSeek.Api.Filters
         {
             if (_validate(actionContext.ActionArguments))
             {
-                var errors = new [] { new Error(ErrorCodes.DataMissing, "Please post us some data!", null) };
+                var errors = new [] { new Error(ErrorCodes.DataRequired, "Please post us some data!", null) };
 
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
             }

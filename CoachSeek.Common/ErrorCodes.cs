@@ -2,13 +2,13 @@
 {
     public static class ErrorCodes
     {
-        public static string DataMissing { get { return "data-missing"; } }
+        public static string DataRequired { get { return "data-required"; } }
 
         public static string UserDuplicate { get { return "user-duplicate"; } }
         public static string UserInvalid { get { return "user-invalid"; } }
 
         public static string CurrencyNotSupported { get { return "currency-not-supported"; } }
-        public static string MerchantAccountIdentifierFormatInvalid { get { return "merchantAccountIdentifier-format-invalid"; } }
+        public static string MerchantAccountIdentifierFormatInvalid { get { return "merchantaccountidentifier-format-invalid"; } }
         public static string PaymentProviderRequiredWhenOnlineBookingIsEnabled { get { return "paymentprovider-required-when-online-booking-is-enabled"; } }
         public static string PaymentProviderNotSupported { get { return "paymentprovider-not-supported"; } }
         

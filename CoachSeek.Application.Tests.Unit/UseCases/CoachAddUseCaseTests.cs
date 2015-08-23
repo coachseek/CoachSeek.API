@@ -48,11 +48,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private CoachAddCommand GivenNoCoachAddCommand()
-        {
-            return null;
-        }
-
         private CoachAddCommand GivenExistingCoach()
         {
             return new CoachAddCommand
@@ -117,13 +112,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private void ThenCoachAddFailsWithMissingCoachError(Response response)
-        {
-            AssertMissingCoachError(response);
-
-            Assert.That(BusinessRepository.WasAddCoachCalled, Is.False);
-        }
-
         private void ThenCoachAddFailsWithDuplicateCoachError(IResponse response)
         {
             AssertDuplicateCoachError(response);
@@ -152,11 +140,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(coach.Email, Is.EqualTo("steve.jobs@apple.com"));
             Assert.That(coach.Phone, Is.EqualTo("021888888"));
             AssertStandardWorkingHours(coach);
-        }
-
-        private void AssertMissingCoachError(Response response)
-        {
-            AssertSingleError(response, ErrorCodes.DataMissing, "Missing data.");
         }
 
         private void AssertDuplicateCoachError(IResponse response)
