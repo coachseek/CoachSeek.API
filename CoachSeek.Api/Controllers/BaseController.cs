@@ -66,6 +66,12 @@ namespace CoachSeek.Api.Controllers
             get { return AppSettings.IsEmailingEnabled.Parse(true); }
         }
 
+        protected bool IsUserTrackingEnabled
+        {
+            get { return AppSettings.IsUserTrackingEnabled.Parse(false); }
+        }
+
+
 
         protected ApplicationContext Context
         {

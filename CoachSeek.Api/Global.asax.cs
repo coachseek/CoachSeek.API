@@ -11,7 +11,7 @@ using StructureMap;
 namespace CoachSeek.Api
 {
     public class MvcApplication : HttpApplication
-    { 
+    {
         private bool IsRequestLoggingEnabled
         {
             get { return AppSettings.IsRequestLoggingEnabled.Parse(false); }

@@ -20,6 +20,8 @@ namespace CoachSeek.Api
         public static string IsRequestLoggingEnabled { get { return GetConfigSettingItem("IsRequestLoggingEnabled"); } }
         public static string AdminUserName { get { return GetConfigSettingItem("AdminUserName"); } }
         public static string AdminPassword { get { return GetConfigSettingItem("AdminPassword"); } }
+        public static string IsUserTrackingEnabled { get { return GetConfigSettingItem("IsUserTrackingEnabled"); } }
+        public static string UserTrackerCredentials { get { return GetConfigSettingItem("UserTrackerCredentials"); } }
     
         private const string MISSING_CONFIG = "Invalid configuration. Required AppSettings section is missing";
         private const string INVALID_CONFIG_SETTING = "Invalid configuration setting name: {0}";

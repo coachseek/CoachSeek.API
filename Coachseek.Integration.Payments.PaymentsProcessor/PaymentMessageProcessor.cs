@@ -5,11 +5,11 @@ using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
-using Coachseek.Integration.Contracts.Exceptions;
-using Coachseek.Integration.Contracts.Interfaces;
+using Coachseek.Integration.Contracts.Payments.Exceptions;
+using Coachseek.Integration.Contracts.Payments.Interfaces;
 using Environment = CoachSeek.Common.Environment;
-using InvalidBooking = Coachseek.Integration.Contracts.Exceptions.InvalidBooking;
-using InvalidBusiness = Coachseek.Integration.Contracts.Exceptions.InvalidBusiness;
+using InvalidBooking = Coachseek.Integration.Contracts.Payments.Exceptions.InvalidBooking;
+using InvalidBusiness = Coachseek.Integration.Contracts.Payments.Exceptions.InvalidBusiness;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {

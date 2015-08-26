@@ -6,7 +6,7 @@ using Amazon;
 using Amazon.SimpleEmail.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
-using Coachseek.Integration.Contracts.Interfaces;
+using Coachseek.Integration.Contracts.Emailing.Interfaces;
 
 namespace Coachseek.Integration.Emailing.Amazon
 {

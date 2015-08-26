@@ -321,6 +321,14 @@
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
+      <Project>{a4372b73-fd12-46c8-9e82-f798770b079d}</Project>
+      <Name>Coachseek.Integration.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.UserTracking\Coachseek.Integration.UserTracking.csproj">
+      <Project>{BB38568D-A4A3-407A-B8F4-2ED35A531601}</Project>
+      <Name>Coachseek.Integration.UserTracking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Logging.Contracts\Coachseek.Logging.Contracts.csproj">
       <Project>{417AAE9C-11B8-434B-8975-1C8DE8491115}</Project>
       <Name>Coachseek.Logging.Contracts</Name>

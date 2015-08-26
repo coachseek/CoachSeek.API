@@ -44,24 +44,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emailing\AmazonEmailerTests.cs" />
-    <Compile Include="Fakes\StubDataAccessFactory.cs" />
-    <Compile Include="Fakes\StubPaymentMessageProcessor.cs" />
-    <Compile Include="Fakes\StubPaymentProcessorConfiguration.cs" />
-    <Compile Include="Fakes\StubPaymentProviderApi.cs" />
-    <Compile Include="Fakes\StubUnsubscribedEmailAddressRepository.cs" />
-    <Compile Include="Payments\NewPaymentConverterTests.cs" />
-    <Compile Include="Payments\PaymentMessageProcessorTests.cs" />
-    <Compile Include="Payments\PaypalPaymentsProviderApiTests.cs" />
-    <Compile Include="Fakes\StubPaymentProviderApiFactory.cs" />
+    <Compile Include="Emailing\Tests\AmazonEmailerTests.cs" />
+    <Compile Include="Payments\Fakes\StubDataAccessFactory.cs" />
+    <Compile Include="Payments\Fakes\StubPaymentMessageProcessor.cs" />
+    <Compile Include="Payments\Fakes\StubPaymentProcessorConfiguration.cs" />
+    <Compile Include="Payments\Fakes\StubPaymentProviderApi.cs" />
+    <Compile Include="Emailing\Fakes\StubUnsubscribedEmailAddressRepository.cs" />
+    <Compile Include="Payments\Tests\NewPaymentConverterTests.cs" />
+    <Compile Include="Payments\Tests\PaymentMessageProcessorTests.cs" />
+    <Compile Include="Payments\Tests\PaypalPaymentsProviderApiTests.cs" />
+    <Compile Include="Payments\Fakes\StubPaymentProviderApiFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserTracking\Fakes\StubUserTracker.cs" />
+    <Compile Include="UserTracking\Fakes\StubUserTrackerFactory.cs" />
+    <Compile Include="UserTracking\Tests\UserTrackerFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -104,11 +102,16 @@
       <Project>{9BBD9A79-5253-477A-9FCB-0C0993375D44}</Project>
       <Name>Coachseek.Integration.Payments</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.UserTracking\Coachseek.Integration.UserTracking.csproj">
+      <Project>{BB38568D-A4A3-407A-B8F4-2ED35A531601}</Project>
+      <Name>Coachseek.Integration.UserTracking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Logging.Tests.Unit\Coachseek.Logging.Tests.Unit.csproj">
       <Project>{317019EB-DCEC-4CF4-BA26-AA47DA188683}</Project>
       <Name>Coachseek.Logging.Tests.Unit</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

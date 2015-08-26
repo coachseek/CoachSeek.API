@@ -1,7 +1,7 @@
 ﻿using CoachSeek.Application.UseCases;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes;
-using Coachseek.Integration.Tests.Unit.Fakes;
+using Coachseek.Integration.Tests.Unit.Payments.Fakes;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases

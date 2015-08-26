@@ -11,6 +11,7 @@ namespace CoachSeek.Data.Model
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Name { get { return string.Format("{0} {1}", FirstName, LastName); } }
         public string Email { get; set; }
 
         public string Username { get; set; }

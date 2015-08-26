@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Repositories;
-using Coachseek.Integration.Contracts.Interfaces;
+using Coachseek.Integration.Contracts.Emailing.Interfaces;
 using Coachseek.Integration.Emailing.Amazon;
 
 namespace CoachSeek.Application.Services.Emailing

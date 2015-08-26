@@ -9,6 +9,7 @@ using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
+using Coachseek.Integration.Tests.Unit.UserTracking.Fakes;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -27,7 +28,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             return new BusinessRegistrationUseCase(new MockUserAddUseCase(), 
                                                    new MockBusinessAddUseCase(), 
-                                                   new MockUserAssociateWithBusinessUseCase())
+                                                   new MockUserAssociateWithBusinessUseCase(),
+                                                   new StubUserTrackerFactory())
             {
                 UserRepository = new InMemoryUserRepository(),
                 BusinessRepository = new InMemoryBusinessRepository(),
@@ -40,6 +42,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(useCase.UserAddUseCase, Is.Not.Null);
             Assert.That(useCase.BusinessAddUseCase, Is.Not.Null);
             Assert.That(useCase.UserAssociateWithBusinessUseCase, Is.Not.Null);
+            Assert.That(useCase.UserTrackerFactory, Is.Not.Null);
         }
     }
 
@@ -56,6 +59,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private MockUserAddUseCase UserAddUseCase { get; set; }
         private MockBusinessAddUseCase BusinessAddUseCase { get; set; }
         private MockUserAssociateWithBusinessUseCase AssociateUseCase { get; set; }
+        private StubUserTrackerFactory UserTrackerFactory { get; set; }
 
         private UserData UserData { get; set; }
         private BusinessData BusinessData { get; set; }
@@ -73,13 +77,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             SetupUserAddUseCase();
             SetupBusinessAddUseCase();
             SetupAssociateUseCase();
+            SetupUserTrackerFactory();
 
             SetupUseCase();
         }
 
         private void SetupUseCase()
         {
-            UseCase = new BusinessRegistrationUseCase(UserAddUseCase, BusinessAddUseCase, AssociateUseCase)
+            UseCase = new BusinessRegistrationUseCase(UserAddUseCase, BusinessAddUseCase, AssociateUseCase, UserTrackerFactory)
             {
                 UserRepository = new InMemoryUserRepository(),
                 BusinessRepository = new InMemoryBusinessRepository(),
@@ -138,6 +143,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             };
         }
 
+        private void SetupUserTrackerFactory()
+        {
+            UserTrackerFactory = new StubUserTrackerFactory();
+        }
+
         private BusinessRegistrationCommand Command
         {
             get
@@ -186,6 +196,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
+        public void GivenCreateTrackingUserFails_WhenRegisterBusiness_ThenStillSucceedsAndCompletesFullWorkflow()
+        {
+            GivenCreateTrackingUserFails();
+            var response = WhenRegisterBusiness();
+            ThenStillSucceedsAndCompletesFullWorkflow(response);
+        }
+
+        [Test]
         public void GivenAllUseCasesSucceed_WhenRegisterBusiness_ThenSucceedsAndCompletesFullWorkflow()
         {
             GivenAllUseCasesSucceed();
@@ -209,9 +227,14 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssociateUseCase.Exception = new ValidationException("AssociateUseCase Error");
         }
 
+        private void GivenCreateTrackingUserFails()
+        {
+            UserTrackerFactory.Exception = new InvalidOperationException("UserTracker Error");
+        }
+
         private void GivenAllUseCasesSucceed()
         {
-            // Already all set up.
+            // Nothing to do here.
         }
 
 
@@ -220,6 +243,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             return UseCase.RegisterBusiness(Command);
         }
 
+
         private void ThenFailAndEndWorkflowAfterUserAddUseCase(IResponse response)
         {
             AssertWasAddUserCalled(true);
@@ -227,6 +251,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
             AssertWasAddBusinessCalled(false);
             AssertWasAssociateUserWithBusinessCalled(false);
+            AssertWasCreateTrackingUserCalled(false);
 
             AssertErrorResponse(response);
         }
@@ -240,6 +265,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertPassRelevantInfoIntoAddBusiness();
 
             AssertWasAssociateUserWithBusinessCalled(false);
+            AssertWasCreateTrackingUserCalled(false);
 
             AssertErrorResponse(response);
         }
@@ -255,7 +281,26 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertWasAssociateUserWithBusinessCalled(true);
             AssertPassRelevantInfoIntoAssociateUserWithBusiness();
 
+            AssertWasCreateTrackingUserCalled(false);
+
             AssertErrorResponse(response);
+        }
+
+        private void ThenStillSucceedsAndCompletesFullWorkflow(IResponse response)
+        {
+            AssertWasAddUserCalled(true);
+            AssertPassRelevantInfoIntoAddUser();
+
+            AssertWasAddBusinessCalled(true);
+            AssertPassRelevantInfoIntoAddBusiness();
+
+            AssertWasAssociateUserWithBusinessCalled(true);
+            AssertPassRelevantInfoIntoAssociateUserWithBusiness();
+
+            AssertWasCreateTrackingUserCalled(true);
+            AssertPassRelevantInfoIntoCreateTrackingUser();
+
+            AssertSuccessResponse(response);
         }
 
         private void ThenSucceedsAndCompletesFullWorkflow(IResponse response)
@@ -268,6 +313,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
             AssertWasAssociateUserWithBusinessCalled(true);
             AssertPassRelevantInfoIntoAssociateUserWithBusiness();
+
+            AssertWasCreateTrackingUserCalled(true);
+            AssertPassRelevantInfoIntoCreateTrackingUser();
 
             AssertSuccessResponse(response);
         }
@@ -286,6 +334,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private void AssertWasAssociateUserWithBusinessCalled(bool wasCalled)
         {
             Assert.That(AssociateUseCase.WasAssociateUserWithBusinessCalled, Is.EqualTo(wasCalled));
+        }
+
+        private void AssertWasCreateTrackingUserCalled(bool wasCalled)
+        {
+            Assert.That(UserTrackerFactory.UserTracker.WasCreateTrackingUserCalled, Is.EqualTo(wasCalled));
         }
 
         private void AssertPassRelevantInfoIntoAddUser()
@@ -313,6 +366,15 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(command.UserId, Is.EqualTo(new Guid(USER_ID)));
             Assert.That(command.BusinessId, Is.EqualTo(new Guid(BUSINESS_ID)));
             Assert.That(command.BusinessName, Is.EqualTo(BUSINESS_NAME));
+        }
+
+        private void AssertPassRelevantInfoIntoCreateTrackingUser()
+        {
+            var user = (UserTrackerFactory.UserTracker).User;
+            Assert.That(user, Is.Not.Null);
+            Assert.That(user.FirstName, Is.EqualTo("Olaf"));
+            Assert.That(user.LastName, Is.EqualTo("Thielke"));
+            Assert.That(user.Email, Is.EqualTo("olaf@gmail.com"));
         }
 
         private void AssertErrorResponse(IResponse response)

@@ -1,5 +1,5 @@
 ﻿using System;
-using Coachseek.Integration.Contracts.Interfaces;
+using Coachseek.Integration.Contracts.Payments.Interfaces;
 using Environment = CoachSeek.Common.Environment;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor

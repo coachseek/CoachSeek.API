@@ -22,14 +22,16 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand registration)
         {
-            SetRepositoriesOnUseCase();
+            InitialiseUseCase();
             var command = BusinessRegistrationCommandConverter.Convert(registration);
             var response = BusinessRegistrationUseCase.RegisterBusiness(command);
             return CreatePostWebResponse(response);
         }
 
-        private void SetRepositoriesOnUseCase()
+        private void InitialiseUseCase()
         {
+            BusinessRegistrationUseCase.IsUserTrackingEnabled = IsUserTrackingEnabled;
+            BusinessRegistrationUseCase.UserTrackerCredentials = AppSettings.UserTrackerCredentials;
             BusinessRegistrationUseCase.UserRepository = UserRepository;
             BusinessRegistrationUseCase.BusinessRepository = BusinessRepository;
             BusinessRegistrationUseCase.SupportedCurrencyRepository = SupportedCurrencyRepository;

@@ -27,4 +27,10 @@
         Completed,
         Denied
     }
+
+    public enum ApiDataFormat
+    {
+        Json,
+        Xml
+    }
 }

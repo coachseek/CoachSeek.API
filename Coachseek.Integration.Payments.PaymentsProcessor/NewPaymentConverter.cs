@@ -7,7 +7,7 @@ using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
-using Coachseek.Integration.Contracts.Exceptions;
+using Coachseek.Integration.Contracts.Payments.Exceptions;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {

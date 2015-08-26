@@ -69,8 +69,10 @@
     <Compile Include="Interfaces\IAdminApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ApiResponse.cs" />
+    <Compile Include="Services\BasicAuthenticationApiWebClient.cs" />
     <Compile Include="Services\BusinessAnonymousApiClient.cs" />
     <Compile Include="Services\CoachseekAdminApiClient.cs" />
+    <Compile Include="Services\ApiWebClient.cs" />
     <Compile Include="Services\JsonSerialiser.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
@@ -81,6 +83,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

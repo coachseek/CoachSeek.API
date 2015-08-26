@@ -1,5 +1,5 @@
 ﻿using Coachseek.Infrastructure.Queueing.Contracts.Payment;
-using Coachseek.Integration.Contracts.Interfaces;
+using Coachseek.Integration.Contracts.Payments.Interfaces;
 
 namespace Coachseek.Integration.Payments
 {

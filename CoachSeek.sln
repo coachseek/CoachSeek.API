@@ -99,6 +99,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Logging.Contracts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Logging.Tests.Unit", "Coachseek.Logging.Tests.Unit\Coachseek.Logging.Tests.Unit.csproj", "{317019EB-DCEC-4CF4-BA26-AA47DA188683}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserTracking", "UserTracking", "{2BC85DC0-C23A-413F-AB49-3403CF379C92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.UserTracking", "Coachseek.Integration.UserTracking\Coachseek.Integration.UserTracking.csproj", "{BB38568D-A4A3-407A-B8F4-2ED35A531601}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -568,6 +572,21 @@ Global
 		{317019EB-DCEC-4CF4-BA26-AA47DA188683}.Testing|Mixed Platforms.ActiveCfg = Testing|Any CPU
 		{317019EB-DCEC-4CF4-BA26-AA47DA188683}.Testing|Mixed Platforms.Build.0 = Testing|Any CPU
 		{317019EB-DCEC-4CF4-BA26-AA47DA188683}.Testing|x86.ActiveCfg = Testing|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Testing|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Testing|Mixed Platforms.Build.0 = Release|Any CPU
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601}.Testing|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -604,5 +623,7 @@ Global
 		{9BBD9A79-5253-477A-9FCB-0C0993375D44} = {C67F73B9-8807-4499-ACC1-705D383F7E56}
 		{417AAE9C-11B8-434B-8975-1C8DE8491115} = {340F31B1-9759-4770-AC42-0CC0F868AF33}
 		{317019EB-DCEC-4CF4-BA26-AA47DA188683} = {340F31B1-9759-4770-AC42-0CC0F868AF33}
+		{2BC85DC0-C23A-413F-AB49-3403CF379C92} = {2F106CB1-100A-47EE-A481-A8418149846C}
+		{BB38568D-A4A3-407A-B8F4-2ED35A531601} = {2BC85DC0-C23A-413F-AB49-3403CF379C92}
 	EndGlobalSection
 EndGlobal
