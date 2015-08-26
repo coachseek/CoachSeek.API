@@ -30,6 +30,7 @@ namespace CoachSeek.Api.Controllers
 
         private void InitialiseUseCase()
         {
+            BusinessRegistrationUseCase.IsTesting = IsTesting;
             BusinessRegistrationUseCase.IsUserTrackingEnabled = IsUserTrackingEnabled;
             BusinessRegistrationUseCase.UserTrackerCredentials = AppSettings.UserTrackerCredentials;
             BusinessRegistrationUseCase.UserRepository = UserRepository;

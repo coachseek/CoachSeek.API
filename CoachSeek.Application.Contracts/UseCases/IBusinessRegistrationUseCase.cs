@@ -6,6 +6,7 @@ namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IBusinessRegistrationUseCase
     {
+        bool IsTesting { set; }
         bool IsUserTrackingEnabled { set; }
         string UserTrackerCredentials { set; }
         IUserRepository UserRepository { set; }
