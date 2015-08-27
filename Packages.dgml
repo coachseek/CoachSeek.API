@@ -1,28 +1,115 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="CoachSeek.WebUI.Tests.Unit" Label="CoachSeek.WebUI.Tests.Unit" Category="Project" />
-    <Node Id="NUnit 2.6.3" Label="NUnit 2.6.3" Category="Package" />
-    <Node Id="CoachSeek.WebUI" Label="CoachSeek.WebUI" Category="Project" />
-    <Node Id="AngularJS.Core 1.2.24" Label="AngularJS.Core 1.2.24" Category="Package" />
-    <Node Id="AngularJS.Route 1.2.24" Label="AngularJS.Route 1.2.24" Category="Package" />
+    <Node Id="Infrastructure\Coachseek.Infrastructure.Queueing.Tests.Unit" Label="Coachseek.Infrastructure.Queueing.Tests.Unit" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Infrastructure\Coachseek.Infrastructure.Queueing.Azure" Label="Coachseek.Infrastructure.Queueing.Azure" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.6.2" Label="Microsoft.Data.Edm 5.6.2" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.6.2" Label="Microsoft.Data.OData 5.6.2" Category="Package" />
+    <Node Id="Microsoft.Data.Services.Client 5.6.2" Label="Microsoft.Data.Services.Client 5.6.2" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Label="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="System.Spatial 5.6.2" Label="System.Spatial 5.6.2" Category="Package" />
+    <Node Id="WindowsAzure.Storage 4.3.0" Label="WindowsAzure.Storage 4.3.0" Category="Package" />
+    <Node Id="Infrastructure\Coachseek.Infrastructure.Queueing.Amazon" Label="Coachseek.Infrastructure.Queueing.Amazon" Category="Project" />
+    <Node Id="AWSSDK 2.3.35.0" Label="AWSSDK 2.3.35.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Infrastructure\Coachseek.Infrastructure.Queueing.Contracts" Label="Coachseek.Infrastructure.Queueing.Contracts" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Integration\UserTracking\Coachseek.Integration.UserTracking" Label="Coachseek.Integration.UserTracking" Category="Project" />
+    <Node Id="Newtonsoft.Json 6.0.4" Label="Newtonsoft.Json 6.0.4" Category="Package" />
+    <Node Id="Integration\Payments\Coachseek.Integration.Payments" Label="Coachseek.Integration.Payments" Category="Project" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Integration\Payments\Coachseek.Integration.Payments.PaymentsProcessor" Label="Coachseek.Integration.Payments.PaymentsProcessor" Category="Project" />
+    <Node Id="Microsoft.Web.WebJobs.Publish 1.0.2" Label="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="structuremap 3.1.5.154" Label="structuremap 3.1.5.154" Category="Package" />
+    <Node Id="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Label="Coachseek.Integration.Payments.Paypal.Tester" Category="Project" />
     <Node Id="Antlr 3.4.1.9004" Label="Antlr 3.4.1.9004" Category="Package" />
     <Node Id="bootstrap 3.0.0" Label="bootstrap 3.0.0" Category="Package" />
-    <Node Id="EntityFramework 6.1.1" Label="EntityFramework 6.1.1" Category="Package" />
     <Node Id="jQuery 1.10.2" Label="jQuery 1.10.2" Category="Package" />
     <Node Id="jQuery.Validation 1.11.1" Label="jQuery.Validation 1.11.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 5.2.2" Label="Microsoft.AspNet.Mvc 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 3.2.2" Label="Microsoft.AspNet.Razor 3.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.Web.Optimization 1.1.3" Label="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 3.2.2" Label="Microsoft.AspNet.WebPages 3.2.2" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Validation 3.2.2" Label="Microsoft.jQuery.Unobtrusive.Validation 3.2.2" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Modernizr 2.6.2" Label="Modernizr 2.6.2" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.4" Label="Newtonsoft.Json 6.0.4" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Respond 1.2.0" Label="Respond 1.2.0" Category="Package" />
+    <Node Id="WebGrease 1.5.2" Label="WebGrease 1.5.2" Category="Package" />
+    <Node Id="Integration\Coachseek.Integration.Tests.Unit" Label="Coachseek.Integration.Tests.Unit" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Integration\Emailing\Coachseek.Integration.Emailing.Amazon" Label="Coachseek.Integration.Emailing.Amazon" Category="Project" />
+    <Node Id="AWSSDK 2.3.35.0" Label="AWSSDK 2.3.35.0" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Integration\Emailing\Coachseek.Integration.Emailing.BouncedEmailProcessor" Label="Coachseek.Integration.Emailing.BouncedEmailProcessor" Category="Project" />
+    <Node Id="Microsoft.Web.WebJobs.Publish 1.0.2" Label="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="structuremap 3.1.5.154" Label="structuremap 3.1.5.154" Category="Package" />
+    <Node Id="Integration\Emailing\Coachseek.Integration.Emailing.Amazon.Tester" Label="Coachseek.Integration.Emailing.Amazon.Tester" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Integration\Coachseek.Integration.Contracts" Label="Coachseek.Integration.Contracts" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Domain\CoachSeek.Data.Tests.Unit" Label="CoachSeek.Data.Tests.Unit" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Domain\CoachSeek.Data" Label="CoachSeek.Data" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Domain\CoachSeek.Domain" Label="CoachSeek.Domain" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.Core 2.1.0" Label="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Domain\CoachSeek.Domain.Tests.Unit" Label="CoachSeek.Domain.Tests.Unit" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="DataAccess\Coachseek.DataAccess.TableStorage" Label="Coachseek.DataAccess.TableStorage" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.6.2" Label="Microsoft.Data.Edm 5.6.2" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.6.2" Label="Microsoft.Data.OData 5.6.2" Category="Package" />
+    <Node Id="Microsoft.Data.Services.Client 5.6.2" Label="Microsoft.Data.Services.Client 5.6.2" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Label="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 5.0.8" Label="Newtonsoft.Json 5.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="System.Spatial 5.6.2" Label="System.Spatial 5.6.2" Category="Package" />
+    <Node Id="WindowsAzure.Storage 4.3.0" Label="WindowsAzure.Storage 4.3.0" Category="Package" />
+    <Node Id="DataAccess\Coachseek.DataAccess.Main.SqlServer" Label="Coachseek.DataAccess.Main.SqlServer" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="DataAccess\CoachSeek.DataAccess.Main.Memory" Label="CoachSeek.DataAccess.Main.Memory" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="EntityFramework 6.1.1" Label="EntityFramework 6.1.1" Category="Package" />
     <Node Id="Microsoft.AspNet.Identity.Core 2.1.0" Label="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package" />
     <Node Id="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Label="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="DataAccess\CoachSeek.DataAccess.Authentication" Label="CoachSeek.DataAccess.Authentication" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.Core 2.1.0" Label="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Application\CoachSeek.Application" Label="CoachSeek.Application" Category="Project" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="Application\CoachSeek.Application.Tests.Unit" Label="CoachSeek.Application.Tests.Unit" Category="Project" />
+    <Node Id="Microsoft.AspNet.Identity.Core 2.1.0" Label="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="Application\CoachSeek.Application.Contracts" Label="CoachSeek.Application.Contracts" Category="Project" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="API\Coachseek.API.Client" Label="Coachseek.API.Client" Category="Project" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Package" />
+    <Node Id="API\CoachSeek.Api" Label="CoachSeek.Api" Category="Project" />
+    <Node Id="Antlr 3.4.1.9004" Label="Antlr 3.4.1.9004" Category="Package" />
+    <Node Id="AutoMapper 3.2.1" Label="AutoMapper 3.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Cors 5.2.2" Label="Microsoft.AspNet.Cors 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.Core 2.1.0" Label="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package" />
     <Node Id="Microsoft.AspNet.Identity.Owin 2.1.0" Label="Microsoft.AspNet.Identity.Owin 2.1.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.Mvc 5.2.0" Label="Microsoft.AspNet.Mvc 5.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.Razor 3.2.0" Label="Microsoft.AspNet.Razor 3.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.Web.Optimization 1.1.3" Label="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Package" />
     <Node Id="Microsoft.AspNet.WebApi 5.2.0" Label="Microsoft.AspNet.WebApi 5.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.WebApi.Client 5.2.0" Label="Microsoft.AspNet.WebApi.Client 5.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.WebApi.Core 5.2.0" Label="Microsoft.AspNet.WebApi.Core 5.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.WebApi.WebHost 5.2.0" Label="Microsoft.AspNet.WebApi.WebHost 5.2.0" Category="Package" />
-    <Node Id="Microsoft.AspNet.WebPages 3.2.0" Label="Microsoft.AspNet.WebPages 3.2.0" Category="Package" />
-    <Node Id="Microsoft.jQuery.Unobtrusive.Validation 3.2.0" Label="Microsoft.jQuery.Unobtrusive.Validation 3.2.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 5.2.2" Label="Microsoft.AspNet.WebApi.Client 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 5.2.2" Label="Microsoft.AspNet.WebApi.Core 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Cors 5.2.2" Label="Microsoft.AspNet.WebApi.Cors 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 5.2.2" Label="Microsoft.AspNet.WebApi.WebHost 5.2.2" Category="Package" />
     <Node Id="Microsoft.Owin 2.1.0" Label="Microsoft.Owin 2.1.0" Category="Package" />
     <Node Id="Microsoft.Owin.Host.SystemWeb 2.1.0" Label="Microsoft.Owin.Host.SystemWeb 2.1.0" Category="Package" />
     <Node Id="Microsoft.Owin.Security 2.1.0" Label="Microsoft.Owin.Security 2.1.0" Category="Package" />
@@ -33,37 +120,121 @@
     <Node Id="Microsoft.Owin.Security.OAuth 2.1.0" Label="Microsoft.Owin.Security.OAuth 2.1.0" Category="Package" />
     <Node Id="Microsoft.Owin.Security.Twitter 2.1.0" Label="Microsoft.Owin.Security.Twitter 2.1.0" Category="Package" />
     <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
-    <Node Id="Modernizr 2.6.2" Label="Modernizr 2.6.2" Category="Package" />
+    <Node Id="Microsoft.Web.WebJobs.Publish 1.0.2" Label="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Package" />
     <Node Id="morelinq 1.1.0" Label="morelinq 1.1.0" Category="Package" />
-    <Node Id="Newtonsoft.Json 6.0.3" Label="Newtonsoft.Json 6.0.3" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.4" Label="Newtonsoft.Json 6.0.4" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
     <Node Id="Owin 1.0" Label="Owin 1.0" Category="Package" />
-    <Node Id="Respond 1.2.0" Label="Respond 1.2.0" Category="Package" />
+    <Node Id="structuremap 3.1.4.143" Label="structuremap 3.1.4.143" Category="Package" />
+    <Node Id="T4AppSettings 1.1.0" Label="T4AppSettings 1.1.0" Category="Package" />
     <Node Id="WebGrease 1.5.2" Label="WebGrease 1.5.2" Category="Package" />
+    <Node Id="API\CoachSeek.WebUI.Tests.Unit" Label="CoachSeek.WebUI.Tests.Unit" Category="Project" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 5.2.2" Label="Microsoft.AspNet.WebApi.Client 5.2.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 5.2.2" Label="Microsoft.AspNet.WebApi.Core 5.2.2" Category="Package" />
+    <Node Id="Newtonsoft.Json 6.0.4" Label="Newtonsoft.Json 6.0.4" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
+    <Node Id="CoachSeek.Common" Label="CoachSeek.Common" Category="Project" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Package" />
+    <Node Id="NUnit 2.6.4" Label="NUnit 2.6.4" Category="Package" />
   </Nodes>
   <Links>
-    <Link Source="CoachSeek.WebUI.Tests.Unit" Target="NUnit 2.6.3" Category="Installed Package" />
-    <Link Source="AngularJS.Route 1.2.24" Target="AngularJS.Core 1.2.24" Category="Package Dependency" />
-    <Link Source="bootstrap 3.0.0" Target="jQuery 1.10.2" Category="Package Dependency" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.6.2" Target="System.Spatial 5.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.6.2" Target="Microsoft.Data.Edm 5.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.Services.Client 5.6.2" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Newtonsoft.Json 5.0.8" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.Services.Client 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Newtonsoft.Json 5.0.8" Category="Package Dependency" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Azure" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Azure" Target="WindowsAzure.Storage 4.3.0" Category="Installed Package" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Amazon" Target="AWSSDK 2.3.35.0" Category="Installed Package" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Amazon" Target="Newtonsoft.Json 6.0.8" Category="Installed Package" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Amazon" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Infrastructure\Coachseek.Infrastructure.Queueing.Contracts" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\UserTracking\Coachseek.Integration.UserTracking" Target="Newtonsoft.Json 6.0.4" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments" Target="Newtonsoft.Json 6.0.8" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.PaymentsProcessor" Target="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.PaymentsProcessor" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.PaymentsProcessor" Target="structuremap 3.1.5.154" Category="Installed Package" />
     <Link Source="jQuery.Validation 1.11.1" Target="jQuery 1.10.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 5.2.2" Target="Microsoft.AspNet.WebPages 3.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 5.2.2" Target="Microsoft.AspNet.Razor 3.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="WebGrease 1.5.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.2" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.2" Target="Microsoft.AspNet.Razor 3.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.2" Target="jQuery 1.10.2" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.2" Target="jQuery.Validation 1.11.1" Category="Package Dependency" />
+    <Link Source="WebGrease 1.5.2" Target="Antlr 3.4.1.9004" Category="Package Dependency" />
+    <Link Source="WebGrease 1.5.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="bootstrap 3.0.0" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="Microsoft.AspNet.Mvc 5.2.2" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="Microsoft.jQuery.Unobtrusive.Validation 3.2.2" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="Modernizr 2.6.2" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Payments\Coachseek.Integration.Payments.Paypal.Tester" Target="Respond 1.2.0" Category="Installed Package" />
+    <Link Source="Integration\Coachseek.Integration.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.Amazon" Target="AWSSDK 2.3.35.0" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.Amazon" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.BouncedEmailProcessor" Target="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.BouncedEmailProcessor" Target="Newtonsoft.Json 6.0.8" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.BouncedEmailProcessor" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.BouncedEmailProcessor" Target="structuremap 3.1.5.154" Category="Installed Package" />
+    <Link Source="Integration\Emailing\Coachseek.Integration.Emailing.Amazon.Tester" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Integration\Coachseek.Integration.Contracts" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Data.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Data" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Data" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Domain" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Domain" Target="Microsoft.AspNet.Identity.Core 2.1.0" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Domain" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Domain.Tests.Unit" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="Domain\CoachSeek.Domain.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.6.2" Target="System.Spatial 5.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.6.2" Target="Microsoft.Data.Edm 5.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.Services.Client 5.6.2" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Newtonsoft.Json 5.0.8" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.Services.Client 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Microsoft.Data.OData 5.6.2" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 4.3.0" Target="Newtonsoft.Json 5.0.8" Category="Package Dependency" />
+    <Link Source="DataAccess\Coachseek.DataAccess.TableStorage" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="DataAccess\Coachseek.DataAccess.TableStorage" Target="WindowsAzure.Storage 4.3.0" Category="Installed Package" />
+    <Link Source="DataAccess\Coachseek.DataAccess.Main.SqlServer" Target="NUnit 2.6.4" Category="Installed Package" />
     <Link Source="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Target="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Target="EntityFramework 6.1.1" Category="Package Dependency" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Main.Memory" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Main.Memory" Target="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Category="Installed Package" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Main.Memory" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Authentication" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Authentication" Target="Microsoft.AspNet.Identity.Core 2.1.0" Category="Installed Package" />
+    <Link Source="DataAccess\CoachSeek.DataAccess.Authentication" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Application\CoachSeek.Application" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="Application\CoachSeek.Application.Tests.Unit" Target="Microsoft.AspNet.Identity.Core 2.1.0" Category="Installed Package" />
+    <Link Source="Application\CoachSeek.Application.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="Application\CoachSeek.Application.Contracts" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="API\Coachseek.API.Client" Target="Newtonsoft.Json 6.0.8" Category="Installed Package" />
     <Link Source="Microsoft.AspNet.Identity.Owin 2.1.0" Target="Microsoft.AspNet.Identity.Core 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.AspNet.Identity.Owin 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.AspNet.Identity.Owin 2.1.0" Target="Microsoft.Owin.Security.Cookies 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.AspNet.Identity.Owin 2.1.0" Target="Microsoft.Owin.Security.OAuth 2.1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.Mvc 5.2.0" Target="Microsoft.AspNet.WebPages 3.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.Mvc 5.2.0" Target="Microsoft.AspNet.Razor 3.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="WebGrease 1.5.2" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebApi 5.2.0" Target="Microsoft.AspNet.WebApi.WebHost 5.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebApi.Core 5.2.0" Target="Microsoft.AspNet.WebApi.Client 5.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebApi.WebHost 5.2.0" Target="Microsoft.AspNet.WebApi.Core 5.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebPages 3.2.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
-    <Link Source="Microsoft.AspNet.WebPages 3.2.0" Target="Microsoft.AspNet.Razor 3.2.0" Category="Package Dependency" />
-    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.0" Target="jQuery 1.10.2" Category="Package Dependency" />
-    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.0" Target="jQuery.Validation 1.11.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 5.2.0" Target="Microsoft.AspNet.WebApi.WebHost 5.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 5.2.2" Target="Microsoft.AspNet.WebApi.Client 5.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Cors 5.2.2" Target="Microsoft.AspNet.WebApi.Core 5.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Cors 5.2.2" Target="Microsoft.AspNet.Cors 5.2.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 5.2.2" Target="Microsoft.AspNet.WebApi.Core 5.2.2" Category="Package Dependency" />
     <Link Source="Microsoft.Owin 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Host.SystemWeb 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Host.SystemWeb 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
@@ -76,43 +247,49 @@
     <Link Source="Microsoft.Owin.Security.Cookies 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Cookies 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Facebook 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.Owin.Security.Facebook 2.1.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Facebook 2.1.0" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Facebook 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Facebook 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Google 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.Owin.Security.Google 2.1.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Google 2.1.0" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Google 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Google 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.OAuth 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.OAuth 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.Owin.Security.OAuth 2.1.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.OAuth 2.1.0" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.OAuth 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Twitter 2.1.0" Target="Owin 1.0" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Twitter 2.1.0" Target="Microsoft.Owin 2.1.0" Category="Package Dependency" />
-    <Link Source="Microsoft.Owin.Security.Twitter 2.1.0" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Twitter 2.1.0" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
     <Link Source="Microsoft.Owin.Security.Twitter 2.1.0" Target="Microsoft.Owin.Security 2.1.0" Category="Package Dependency" />
     <Link Source="WebGrease 1.5.2" Target="Antlr 3.4.1.9004" Category="Package Dependency" />
-    <Link Source="WebGrease 1.5.2" Target="Newtonsoft.Json 6.0.3" Category="Package Dependency" />
-    <Link Source="CoachSeek.WebUI" Target="AngularJS.Route 1.2.24" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="bootstrap 3.0.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.AspNet.Identity.EntityFramework 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.AspNet.Identity.Owin 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.AspNet.Mvc 5.2.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.AspNet.WebApi 5.2.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.jQuery.Unobtrusive.Validation 3.2.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.Owin.Host.SystemWeb 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.Owin.Security.Facebook 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.Owin.Security.Google 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Microsoft.Owin.Security.Twitter 2.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Modernizr 2.6.2" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="morelinq 1.1.0" Category="Installed Package" />
-    <Link Source="CoachSeek.WebUI" Target="Respond 1.2.0" Category="Installed Package" />
+    <Link Source="WebGrease 1.5.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="API\CoachSeek.Api" Target="AutoMapper 3.2.1" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.AspNet.Identity.Owin 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.AspNet.WebApi 5.2.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.AspNet.WebApi.Cors 5.2.2" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Owin.Host.SystemWeb 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Owin.Security.Facebook 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Owin.Security.Google 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Owin.Security.MicrosoftAccount 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Owin.Security.Twitter 2.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="Microsoft.Web.WebJobs.Publish 1.0.2" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="morelinq 1.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="structuremap 3.1.4.143" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="T4AppSettings 1.1.0" Category="Installed Package" />
+    <Link Source="API\CoachSeek.Api" Target="WebGrease 1.5.2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 5.2.2" Target="Newtonsoft.Json 6.0.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 5.2.2" Target="Microsoft.AspNet.WebApi.Client 5.2.2" Category="Package Dependency" />
+    <Link Source="API\CoachSeek.WebUI.Tests.Unit" Target="Microsoft.AspNet.WebApi.Core 5.2.2" Category="Installed Package" />
+    <Link Source="API\CoachSeek.WebUI.Tests.Unit" Target="NUnit 2.6.4" Category="Installed Package" />
+    <Link Source="CoachSeek.Common" Target="Newtonsoft.Json 6.0.8" Category="Installed Package" />
+    <Link Source="CoachSeek.Common" Target="NUnit 2.6.4" Category="Installed Package" />
   </Links>
   <Categories>
     <Category Id="Project" />
