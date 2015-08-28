@@ -42,13 +42,6 @@
     <Reference Include="AWSSDK">
       <HintPath>..\packages\AWSSDK.2.3.35.0\lib\net45\AWSSDK.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coachseek.API.Client\Coachseek.API.Client.csproj">
+      <Project>{BCE21902-0020-49B4-89C4-347A97055F93}</Project>
+      <Name>Coachseek.API.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>

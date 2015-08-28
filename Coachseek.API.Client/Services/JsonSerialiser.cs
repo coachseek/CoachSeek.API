@@ -8,5 +8,10 @@ namespace Coachseek.API.Client.Services
         {
             return JsonConvert.SerializeObject(toBeSerialised, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
+
+        public static T Deserialise<T>(string toBeDeserialised)
+        {
+            return JsonConvert.DeserializeObject<T>(toBeDeserialised);
+        }
     }
 }

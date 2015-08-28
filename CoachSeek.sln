@@ -27,6 +27,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{A3A81634-C2B1-4CDF-A1F0-ABE4F6FD30DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{CC138F45-D94A-4939-96EB-ADE5982C717A}"
+	ProjectSection(SolutionItems) = preProject
+		Coachseek.API.Client\packages.config = Coachseek.API.Client\packages.config
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{E415E6AC-CF57-434C-B2BB-9714912A2F38}"
 EndProject
@@ -71,8 +74,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.Emailing.BouncedEmailProcessor", "BouncedEmailProcessor\Coachseek.Integration.Emailing.BouncedEmailProcessor.csproj", "{0A192757-4BEF-456F-AA61-F644DAA3423C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.API.Client", "Coachseek.API.Client\Coachseek.API.Client.csproj", "{BCE21902-0020-49B4-89C4-347A97055F93}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.Payments.Paypal.Tester", "Coachseek.Integration.Payments.Paypal.Tester\Coachseek.Integration.Payments.Paypal.Tester.csproj", "{4383CA46-1F6B-4425-8014-2ED4664ABA3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emailing", "Emailing", "{17A2BA56-06A8-4E7F-BC33-ED677EA3A530}"
 EndProject
@@ -437,21 +438,6 @@ Global
 		{BCE21902-0020-49B4-89C4-347A97055F93}.Testing|Mixed Platforms.ActiveCfg = Testing|Any CPU
 		{BCE21902-0020-49B4-89C4-347A97055F93}.Testing|Mixed Platforms.Build.0 = Testing|Any CPU
 		{BCE21902-0020-49B4-89C4-347A97055F93}.Testing|x86.ActiveCfg = Testing|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Release|x86.ActiveCfg = Release|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Testing|Any CPU.ActiveCfg = Testing|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Testing|Any CPU.Build.0 = Testing|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Testing|Mixed Platforms.ActiveCfg = Testing|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Testing|Mixed Platforms.Build.0 = Testing|Any CPU
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B}.Testing|x86.ActiveCfg = Testing|Any CPU
 		{7E834247-E081-4B11-87C9-7AE8DD0CF68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E834247-E081-4B11-87C9-7AE8DD0CF68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E834247-E081-4B11-87C9-7AE8DD0CF68F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -612,7 +598,6 @@ Global
 		{FF7EDA53-24F0-4F49-9165-9A390529FD68} = {17A2BA56-06A8-4E7F-BC33-ED677EA3A530}
 		{0A192757-4BEF-456F-AA61-F644DAA3423C} = {17A2BA56-06A8-4E7F-BC33-ED677EA3A530}
 		{BCE21902-0020-49B4-89C4-347A97055F93} = {A3A81634-C2B1-4CDF-A1F0-ABE4F6FD30DB}
-		{4383CA46-1F6B-4425-8014-2ED4664ABA3B} = {C67F73B9-8807-4499-ACC1-705D383F7E56}
 		{17A2BA56-06A8-4E7F-BC33-ED677EA3A530} = {2F106CB1-100A-47EE-A481-A8418149846C}
 		{C67F73B9-8807-4499-ACC1-705D383F7E56} = {2F106CB1-100A-47EE-A481-A8418149846C}
 		{7E834247-E081-4B11-87C9-7AE8DD0CF68F} = {340F31B1-9759-4770-AC42-0CC0F868AF33}

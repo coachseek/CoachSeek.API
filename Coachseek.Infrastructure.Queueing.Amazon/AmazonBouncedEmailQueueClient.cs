@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Amazon.SQS.Model;
+using Coachseek.API.Client.Services;
 using Coachseek.Infrastructure.Queueing.Amazon.Models;
 using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Emailing;
-using Newtonsoft.Json;
 
 namespace Coachseek.Infrastructure.Queueing.Amazon
 {
@@ -56,8 +56,8 @@ namespace Coachseek.Infrastructure.Queueing.Amazon
 
         private BouncedEmailMessage ConvertToBouncedEmailMessage(Message message)
         {
-            var notification = JsonConvert.DeserializeObject<AmazonSqsNotification>(message.Body);
-            var sesBounceMessage = JsonConvert.DeserializeObject<AmazonSesBounceNotification>(notification.Message);
+            var notification = JsonSerialiser.Deserialise<AmazonSqsNotification>(message.Body);
+            var sesBounceMessage = JsonSerialiser.Deserialise<AmazonSesBounceNotification>(notification.Message);
 
             var receiptId = message.ReceiptHandle;
             var bounceType = sesBounceMessage.Bounce.BounceType;
