@@ -60,7 +60,8 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
 
         public User GetByBusinessId(Guid businessId)
         {
-            throw new NotImplementedException();
+            var dbUser = Users.FirstOrDefault(x => x.BusinessId == businessId);
+            return CreateUser(dbUser);
         }
 
 
@@ -73,6 +74,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
                 dbUser.BusinessId,
                 dbUser.BusinessName,
                 dbUser.Email,
+                dbUser.Phone,
                 dbUser.FirstName,
                 dbUser.LastName,
                 dbUser.Username,

@@ -2,7 +2,6 @@
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
-using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.Configuration
 {

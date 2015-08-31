@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnonymousUserDetails.cs" />
+    <Compile Include="UserDetails.cs" />
     <Compile Include="BusinessDetails.cs" />
     <Compile Include="CoachseekAdminIdentity.cs" />
     <Compile Include="CoachseekAnonymousIdentity.cs" />

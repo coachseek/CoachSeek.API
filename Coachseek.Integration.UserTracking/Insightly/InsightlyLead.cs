@@ -5,11 +5,12 @@ namespace Coachseek.Integration.UserTracking.Insightly
     [JsonObject(MemberSerialization.OptIn)]
     public class InsightlyLead
     {
-        public InsightlyLead(string firstName, string lastName, string email)
+        public InsightlyLead(string firstName, string lastName, string email, string phone)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            Phone = phone;
         }
 
 
@@ -21,5 +22,8 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         [JsonProperty(PropertyName = "EMAIL_ADDRESS", NullValueHandling = NullValueHandling.Ignore)]
         public string Email { get; private set; }
+
+        [JsonProperty(PropertyName = "PHONE_NUMBER", NullValueHandling = NullValueHandling.Ignore)]
+        public string Phone { get; private set; }
     }
 }

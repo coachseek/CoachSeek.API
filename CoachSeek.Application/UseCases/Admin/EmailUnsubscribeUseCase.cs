@@ -5,7 +5,7 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases.Admin
 {
-    public class EmailUnsubscribeUseCase : BaseUseCase, IEmailUnsubscribeUseCase
+    public class EmailUnsubscribeUseCase : BaseAdminUseCase, IEmailUnsubscribeUseCase
     {
         public IResponse Unsubscribe(string emailAddress)
         {

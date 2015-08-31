@@ -11,6 +11,7 @@ namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
+        private UserDetails _user;
         private BusinessDetails _business;
         private CurrencyDetails _currency;
 
@@ -18,6 +19,20 @@ namespace CoachSeek.Api.Controllers
         public IUserRepository UserRepository { set; protected get; }
         public ISupportedCurrencyRepository SupportedCurrencyRepository { set; protected get; }
         public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; protected get; }
+
+        public UserDetails CurrentUser
+        {
+            // Make User public and setable for unit testing.
+            set { _user = value; }
+            get
+            {
+                if (_user != null)
+                    return _user;
+                if (RequestContext.Principal.Identity is CoachseekIdentity)
+                    return ((CoachseekIdentity)RequestContext.Principal.Identity).User;
+                return null;
+            }
+        }
 
         public BusinessDetails Business
         {
@@ -72,19 +87,31 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-
         protected ApplicationContext Context
+        {
+            get { return new ApplicationContext(UserContext, BusinessContext, EmailContext, IsTesting); }            
+        }
+
+
+        private UserContext UserContext
+        {
+            get { return new UserContext(CurrentUser, UserRepository); }
+        }
+
+        private BusinessContext BusinessContext
         {
             get
             {
-                var userName = ControllerContext.RequestContext.Principal.Identity.Name;
-                var businessContext = new BusinessContext(Business, Currency, userName, BusinessRepository, SupportedCurrencyRepository, UserRepository);
-                var emailContext = new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository);
-
-                return new ApplicationContext(businessContext, emailContext, IsTesting);
-            }            
+                if (Business == null)
+                    return null;
+                return new BusinessContext(Business, Currency, BusinessRepository, SupportedCurrencyRepository, UserRepository);
+            }
         }
 
+        private EmailContext EmailContext
+        {
+            get { return new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository); }
+        }
 
         protected HttpResponseMessage CreateNotFoundWebResponse()
         {

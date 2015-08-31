@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Application.Contracts.UseCases.Admin
 {
-    public interface IEmailUnsubscribeUseCase : IApplicationContextSetter
+    public interface IEmailUnsubscribeUseCase : IAdminApplicationContextSetter
     {
         IResponse Unsubscribe(string emailAddress);
     }

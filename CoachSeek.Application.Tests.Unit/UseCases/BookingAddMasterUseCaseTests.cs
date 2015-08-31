@@ -34,6 +34,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         public void Setup()
         {
             SetupBusinessRepository();
+            SetupUserRepository();
 
             UseCase = new BookingAddMasterUseCase(new StubStandaloneSessionBookingAddUseCase(), 
                                                   new StubStandaloneSessionOnlineBookingAddUseCase(),

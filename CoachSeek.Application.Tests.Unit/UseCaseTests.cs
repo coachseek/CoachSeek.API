@@ -84,7 +84,15 @@ namespace CoachSeek.Application.Tests.Unit
         {
             return new List<User> 
             {
-                new User(Guid.NewGuid(), Guid.NewGuid(), "my business", "bgates@gmail.com", "William", "Gates", "bgates@gmail.com", "Microsoft75")
+                new User(Guid.NewGuid(), 
+                         new Guid(BUSINESS_ID),
+                         "Olaf's Tennis Coaching",
+                         "bgates@gmail.com", 
+                         "021 234 567", 
+                         "William", 
+                         "Gates", 
+                         "bgates@gmail.com", 
+                         "Microsoft75")
             };
         }
 
@@ -100,9 +108,9 @@ namespace CoachSeek.Application.Tests.Unit
         {
             var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
             var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
+            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
             var emailContext = new EmailContext(true, false, "", null);
-            return new ApplicationContext(businessContext, emailContext, true);
+            return new ApplicationContext(null, businessContext, emailContext, true);
         }
 
         protected void SetupLocations()

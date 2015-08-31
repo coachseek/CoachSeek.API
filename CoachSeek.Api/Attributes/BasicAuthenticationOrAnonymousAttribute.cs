@@ -58,8 +58,8 @@ namespace CoachSeek.Api.Attributes
 
         private GenericPrincipal CreateAnonymousPrincipal(BusinessData business, CurrencyData currency)
         {
-
-            var identity = new CoachseekAnonymousIdentity(ConvertToBusinessDetails(business), ConvertToCurrencyDetails(currency));
+            var identity = new CoachseekAnonymousIdentity(ConvertToBusinessDetails(business), 
+                                                          ConvertToCurrencyDetails(currency));
             return new GenericPrincipal(identity, new[] { "Anonymous" });
         }
     }

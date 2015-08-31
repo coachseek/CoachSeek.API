@@ -13,6 +13,9 @@ namespace CoachSeek.Api.Models.Api.Setup
         [Required, StringLength(100), EmailAddress]
         public string Email { get; set; }
 
+        [StringLength(50)]
+        public string Phone { get; set; }
+
         [Required, StringLength(20)]
         public string Password { get; set; }
     }

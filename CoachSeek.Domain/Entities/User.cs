@@ -23,10 +23,12 @@ namespace CoachSeek.Domain.Entities
         public string FirstName { get { return Person.FirstName; } }
         public string LastName { get { return Person.LastName; } }
         public string Email { get { return EmailAddress.Email; } }
+        public string Phone { get { return PhoneNumber.Phone; } }
         public string PasswordHash { get { return Credential.PasswordHash; } }
 
         protected PersonName Person { get; set; }
         protected EmailAddress EmailAddress { get; set; }
+        protected PhoneNumber PhoneNumber { get; set; }
         protected Credential Credential { get; set; }
 
 
@@ -38,6 +40,7 @@ namespace CoachSeek.Domain.Entities
                    data.BusinessId,
                    data.BusinessName,
                    data.Email,
+                   data.Phone,
                    data.FirstName, 
                    data.LastName, 
                    data.Username,
@@ -45,7 +48,7 @@ namespace CoachSeek.Domain.Entities
         { }
 
         public User(Guid id, Guid? businessId, string businessName,
-                    string email, string firstName, string lastName, 
+                    string email, string phone, string firstName, string lastName, 
                     string username, string passwordHash)
         {
             Id = id;
@@ -53,6 +56,7 @@ namespace CoachSeek.Domain.Entities
             BusinessName = businessName;
             Person = new PersonName(firstName, lastName);
             EmailAddress = new EmailAddress(email);
+            PhoneNumber = new PhoneNumber(phone);
             Credential = new Credential(username, passwordHash);
         }
 

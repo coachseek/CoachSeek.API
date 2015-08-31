@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Admin;
 
 namespace CoachSeek.Api.Controllers
@@ -10,15 +11,18 @@ namespace CoachSeek.Api.Controllers
     {
         public IEmailUnsubscribeUseCase EmailUnsubscribeUseCase { get; set; }
         public IEmailIsUnsubscribedUseCase EmailIsUnsubscribedUseCase { get; set; }
+        public IUserGetByEmailUserCase UserGetByEmailUserCase { get; set; }
 
         public AdminController()
         { }
 
         public AdminController(IEmailUnsubscribeUseCase emailUnsubscribeUseCase,
-                               IEmailIsUnsubscribedUseCase emailIsUnsubscribedUseCase)
+                               IEmailIsUnsubscribedUseCase emailIsUnsubscribedUseCase,
+                               IUserGetByEmailUserCase userGetByEmailUserCase)
         {
             EmailUnsubscribeUseCase = emailUnsubscribeUseCase;
             EmailIsUnsubscribedUseCase = emailIsUnsubscribedUseCase;
+            UserGetByEmailUserCase = userGetByEmailUserCase;
         }
 
 
@@ -48,6 +52,18 @@ namespace CoachSeek.Api.Controllers
             if (!isUnsubscribed)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             return Request.CreateResponse(HttpStatusCode.Found);
+        }
+
+        // GET: Admin/Users/olaf@coachseek.com
+        [Route("Admin/Users/{email}")]
+        [BasicAdminAuthentication]
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage GetUser(string email)
+        {
+            UserGetByEmailUserCase.Initialise(Context);
+            var user = UserGetByEmailUserCase.GetUser(email);
+            return CreateGetWebResponse(user);
         }
     }
 }

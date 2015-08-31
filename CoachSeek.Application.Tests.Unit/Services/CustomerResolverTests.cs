@@ -1,7 +1,9 @@
 ﻿using System;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Services;
 using CoachSeek.Common;
+using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Entities;
@@ -14,12 +16,15 @@ namespace CoachSeek.Application.Tests.Unit.Services
     {
         private ApplicationContext Context { get; set; }
         private Guid BusinessId { get; set; }
+        private Guid UserId { get; set; }
         private InMemoryBusinessRepository BusinessRepository { get; set; }
+        private InMemoryUserRepository UserRepository { get; set; }
 
 
         [TestFixtureSetUp]
         public void SetupAllTests()
         {
+            ApplicationAutoMapperConfigurator.Configure();
             DbAutoMapperConfigurator.Configure();
         }
 
@@ -32,11 +37,12 @@ namespace CoachSeek.Application.Tests.Unit.Services
         private void SetupApplicationContext()
         {
             SetupBusinessRepository();
+            SetupUserRepository();
 
             var business = new BusinessDetails(BusinessId, "", "");
             var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, null, BusinessRepository, null, null);
-            Context = new ApplicationContext(businessContext, null, true);
+            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
+            Context = new ApplicationContext(null, businessContext, null, true);
         }
 
 
@@ -69,6 +75,23 @@ namespace CoachSeek.Application.Tests.Unit.Services
                                         "Fred", "Flintstone", 
                                         "fred@flintstones.net", "123456");
             BusinessRepository.AddCustomer(business.Id, customer);
+        }
+
+        private void SetupUserRepository()
+        {
+            UserRepository = new InMemoryUserRepository();
+
+            UserId = new Guid("3CE43207-4A4F-48B0-BED3-F831A3246DF3");
+            var user = new User(UserId, 
+                                BusinessId, 
+                                "Ian's Tennis Academy", 
+                                "bob.smith@test.com", 
+                                "021 666 999", 
+                                "Bob", 
+                                "Smith", 
+                                "bob.smith@test.com", 
+                                "");
+            UserRepository.Add(user);
         }
 
 

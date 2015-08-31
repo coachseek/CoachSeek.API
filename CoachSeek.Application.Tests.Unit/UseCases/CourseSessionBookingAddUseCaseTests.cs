@@ -24,6 +24,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         public void Setup()
         {
             SetupBusinessRepository();
+            SetupUserRepository();
 
             UseCase = new CourseSessionBookingAddUseCase();
             UseCase.Initialise(CreateApplicationContext());

@@ -1,6 +1,7 @@
 ﻿using CoachSeek.Api.Results;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 using CoachSeek.Domain.Services;
 using System.Net.Http;
@@ -50,34 +51,55 @@ namespace CoachSeek.Api.Attributes
 
         private IPrincipal Authenticate(string username, string password, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            var user = CreateUserRepository(request).GetByUsername(username);
+            var user = GetUserByUsername(username, request, cancellationToken);
             if (user == null)
                 return null;
-
             var isAuthenticated = PasswordHasher.ValidatePassword(password, user.PasswordHash);
             if (!isAuthenticated)
                 return null;
-
             if (!user.BusinessId.HasValue)
                 return new NoBusinessPrincipal();
-
-            cancellationToken.ThrowIfCancellationRequested();
-            var business = CreateBusinessRepository(request).GetBusiness(user.BusinessId.Value);
+            var business = GetBusiness(user, request, cancellationToken);
             if (business == null)
                 return null;
-
-            var currency = CreateSupportedCurrencyRepository(request).GetByCode(business.Payment.Currency);
-
+            var currency = GetCurrency(business, request);
+            return CreatePrincipal(user, business, currency, cancellationToken);
+        }
+        
+        private User GetUserByUsername(string username, HttpRequestMessage request, CancellationToken cancellationToken)
+        {
             cancellationToken.ThrowIfCancellationRequested();
-            var identity = new CoachseekIdentity(username, "Basic", ConvertToBusinessDetails(business), ConvertToCurrencyDetails(currency));
-            var principal = new GenericPrincipal(identity, new[] { "BusinessAdmin" });
-            return principal;
+            return CreateUserRepository(request).GetByUsername(username);
+        }
+
+        private BusinessData GetBusiness(User user, HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return CreateBusinessRepository(request).GetBusiness(user.BusinessId.GetValueOrDefault());
+        }
+
+        private CurrencyData GetCurrency(BusinessData business, HttpRequestMessage request)
+        {
+            return CreateSupportedCurrencyRepository(request).GetByCode(business.Payment.Currency);
+        }
+
+        private IPrincipal CreatePrincipal(User user, BusinessData business, CurrencyData currency, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var identity = new CoachseekIdentity(ConvertToUserDetails(user),
+                                                 ConvertToBusinessDetails(business),
+                                                 ConvertToCurrencyDetails(currency));
+            return new GenericPrincipal(identity, new[] { "BusinessAdmin" });
+        }
+
+        protected UserDetails ConvertToUserDetails(User user)
+        {
+            return new UserDetails(user.Id, user.UserName, user.FirstName, user.LastName);
         }
 
         protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
         {
-            return new BusinessDetails(business.Id, business.Name, business.Domain); 
+            return new BusinessDetails(business.Id, business.Name, business.Domain);
         }
 
         protected CurrencyDetails ConvertToCurrencyDetails(CurrencyData currency)

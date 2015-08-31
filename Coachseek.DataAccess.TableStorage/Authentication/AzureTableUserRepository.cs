@@ -21,6 +21,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 Email = newUser.Email,
+                Phone = newUser.Phone,
                 PasswordHash = newUser.PasswordHash,
                 BusinessId = newUser.BusinessId,
                 BusinessName = newUser.BusinessName,
@@ -75,7 +76,15 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             foreach (var user in Table.ExecuteQuery(query))
             {
                 if (user.Id == id)
-                    return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
+                    return new User(user.Id, 
+                                    user.BusinessId, 
+                                    user.BusinessName,
+                                    user.Email,
+                                    user.Phone,
+                                    user.FirstName, 
+                                    user.LastName, 
+                                    user.RowKey, 
+                                    user.PasswordHash);
             }
 
             return null;
@@ -91,7 +100,15 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
             var user = (UserEntity) retrievedResult.Result;
 
-            return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
+            return new User(user.Id, 
+                            user.BusinessId, 
+                            user.BusinessName,
+                            user.Email,
+                            user.Phone,
+                            user.FirstName, 
+                            user.LastName, 
+                            user.RowKey, 
+                            user.PasswordHash);
         }
 
         public User GetByBusinessId(Guid businessId)
@@ -112,7 +129,15 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
             var user = results.First();
 
-            return new User(user.Id, user.BusinessId, user.BusinessName, user.Email, user.FirstName, user.LastName, user.RowKey, user.PasswordHash);
+            return new User(user.Id, 
+                            user.BusinessId, 
+                            user.BusinessName,
+                            user.Email,
+                            user.Phone,
+                            user.FirstName, 
+                            user.LastName, 
+                            user.RowKey, 
+                            user.PasswordHash);
         }
     }
 }

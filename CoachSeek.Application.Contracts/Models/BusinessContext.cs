@@ -16,8 +16,7 @@ namespace CoachSeek.Application.Contracts.Models
 
 
         public BusinessContext(BusinessDetails business, 
-                               CurrencyDetails currency, 
-                               string userName,
+                               CurrencyDetails currency,
                                IBusinessRepository businessRepository,
                                ISupportedCurrencyRepository supportedCurrencyRepository,
                                IUserRepository userRepository)
@@ -26,29 +25,7 @@ namespace CoachSeek.Application.Contracts.Models
             Currency = currency;
             BusinessRepository = businessRepository;
             SupportedCurrencyRepository = supportedCurrencyRepository;
-            AdminEmail = ResolveAdminEmail(userName, userRepository);
-        }
-
-        private string ResolveAdminEmail(string userName, IUserRepository userRepository)
-        {
-            if (!IsUserInBusinessContext(userName))
-                return null;
-            if (IsAuthenticatedUser(userName))
-                return userName;
-            var user = LookupBusinessAdminUser(userRepository);
-            return user.Email;
-        }
-
-        private bool IsUserInBusinessContext(string userName)
-        {
-            if (Business == null)
-                return false;
-            return Business.Id != Guid.Empty && userName != "";
-        }
-
-        private bool IsAuthenticatedUser(string userName)
-        {
-            return userName != Constants.ANONYMOUS_USER;
+            AdminEmail = LookupBusinessAdminUser(userRepository).Email;
         }
 
         private User LookupBusinessAdminUser(IUserRepository userRepository)

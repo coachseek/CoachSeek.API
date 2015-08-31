@@ -214,7 +214,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void GivenUserAddUseCaseFails()
         {
-            UserAddUseCase.Exception = new UserDuplicate(new User(Guid.NewGuid(), new Guid(BUSINESS_ID), BUSINESS_NAME, "x@y.z", "x", "y", "z", ""));
+            UserAddUseCase.Exception = new UserDuplicate(new User(Guid.NewGuid(), new Guid(BUSINESS_ID), BUSINESS_NAME, "x@y.z", "a", "x", "y", "z", ""));
         }
 
         private void GivenBusinessAddUseCaseFails()

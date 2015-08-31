@@ -7,8 +7,10 @@ using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
+using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
 using System;
@@ -43,6 +45,25 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
             };
+        }
+
+        protected InMemoryUserRepository SetupUserRepository()
+        {
+            var userRepository = new InMemoryUserRepository();
+
+            var user = new User(Guid.NewGuid(),
+                new Guid(BUSINESS_ID),
+                "Olaf's Tennis Coaching",
+                "bgates@gmail.com",
+                "021 234 567",
+                "William",
+                "Gates",
+                "bgates@gmail.com",
+                "Microsoft75");
+
+            userRepository.Add(user);
+
+            return userRepository;
         }
 
         private CoachData SetupCoach()
@@ -187,6 +208,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
 
             Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            Controller.UserRepository = SetupUserRepository();
             Controller.CoachAddUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);
@@ -204,6 +226,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             };
 
             Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            Controller.UserRepository = SetupUserRepository();
             Controller.CoachUpdateUseCase = useCase;
 
             return Controller.Post(apiCoachSaveCommand);
