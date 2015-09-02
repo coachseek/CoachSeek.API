@@ -224,7 +224,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void GivenAssociateUseCaseFails()
         {
-            AssociateUseCase.Exception = new ValidationException("AssociateUseCase Error");
+            AssociateUseCase.Exception = new ValidationException("some-error", "AssociateUseCase Error");
         }
 
         private void GivenCreateTrackingUserFails()

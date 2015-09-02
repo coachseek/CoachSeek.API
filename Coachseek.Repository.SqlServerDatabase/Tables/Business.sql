@@ -10,8 +10,11 @@
     [IsOnlinePaymentEnabled]    BIT              CONSTRAINT [DF_Business_IsOnlinePaymentEnabled] DEFAULT ((0)) NOT NULL,
     [ForceOnlinePayment]        BIT              CONSTRAINT [DF_Business_ForceOnlinePayment] DEFAULT ((0)) NOT NULL,
     [IsTesting]                 BIT              CONSTRAINT [DF_Business_IsTesting] DEFAULT ((0)) NOT NULL,
+    [Sport]                     NVARCHAR (100)   NULL,
     CONSTRAINT [PK_Business] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

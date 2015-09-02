@@ -9,5 +9,8 @@ namespace CoachSeek.Api.Models.Api.Setup
 
         [Required, StringLength(3)]
         public string Currency { get; set; }
+
+        [StringLength(100)]
+        public string Sport { get; set; }
     }
 }

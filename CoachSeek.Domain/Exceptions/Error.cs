@@ -5,12 +5,10 @@
         public string Code { get; private set; }
         public string Message { get; private set; }
         public string Data { get; private set; }
-        public string Field { get; private set; }
 
-        public Error(string message, string field = null)
+        public Error(string message)
         {
             Message = message;
-            Field = field;
         }
 
         public Error(string code, string message, string data = null)

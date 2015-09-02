@@ -222,7 +222,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
         private PaymentProcessingMessage GivenIsOnlinePaymentDisabled()
         {
             const bool isOnlinePaymentEnabled = false;
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", isOnlinePaymentEnabled);
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", "Tennis", isOnlinePaymentEnabled);
             BusinessRepository.AddBusiness(business);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
@@ -230,7 +230,8 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
 
         private PaymentProcessingMessage GivenMerchantAccountIdentifierMismatch()
         {
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, PROVIDER_TEST, "mickey@mouse.com");
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", "Tennis", true, false, 
+                                           PROVIDER_TEST, "mickey@mouse.com");
             BusinessRepository.AddBusiness(business);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
@@ -238,7 +239,8 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
 
         private PaymentProcessingMessage GivenIsNonExistentBooking()
         {
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, PROVIDER_TEST, "test@business.com");
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", "Tennis", true, false, 
+                                           PROVIDER_TEST, "test@business.com");
             BusinessRepository.AddBusiness(business);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, Guid.NewGuid()));
@@ -246,7 +248,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
 
         private PaymentProcessingMessage GivenPaymentCurrencyMismatch()
         {
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "USD", true, false, PROVIDER_TEST, "test@business.com");
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "USD", "Tennis", true, false, PROVIDER_TEST, "test@business.com");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
                 new SessionKeyData {Id = Guid.NewGuid()},
@@ -258,7 +260,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
 
         private PaymentProcessingMessage GivenPaymentAmountMismatch()
         {
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, false, "PayPal", "test@business.com");
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", "Tennis", true, false, "PayPal", "test@business.com");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
                 new SessionKeyData { Id = Guid.NewGuid() },
@@ -277,7 +279,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
         private PaymentProcessingMessage GivenIsDeniedPaymentButCanPayLater()
         {
             const bool forceOnlinePayment = false;
-            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", true, forceOnlinePayment);
+            var business = new NewBusiness(new Guid(BUSINESS_ID), "TestBusiness", "testbusiness", "NZD", "Tennis", true, forceOnlinePayment);
             BusinessRepository.AddBusiness(business);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Denied", BUSINESS_ID, BOOKING_ID));

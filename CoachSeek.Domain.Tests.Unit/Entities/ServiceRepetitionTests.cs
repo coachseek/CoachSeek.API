@@ -63,8 +63,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 {
                     Assert.That(error.Code, Is.EqualTo(expectedErrors[i, 0]));
                     Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 1]));
-                    Assert.That(error.Data, Is.EqualTo(expectedErrors[i, 2]));
-                    Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 3]));
+                    Assert.That(error.Data, Is.EqualTo(expectedErrors[i, 2]));;
                     i++;
                 }
             }

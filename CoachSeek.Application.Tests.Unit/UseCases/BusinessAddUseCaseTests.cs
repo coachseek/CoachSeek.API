@@ -83,7 +83,6 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(response.Errors.Count, Is.EqualTo(1));
             var error = response.Errors.First();
             Assert.That(error.Message, Is.EqualTo("Missing business registration data."));
-            Assert.That(error.Field, Is.Null);
         }
 
         private void AssertBusinessRegistrationFails()

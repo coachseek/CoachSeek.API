@@ -8,9 +8,9 @@ namespace CoachSeek.Domain.Exceptions
         public ValidationException()
         { }
 
-        public ValidationException(string errorMessage, string field = null)
+        public ValidationException(string code, string message)
         {
-            Errors.Add(new Error(errorMessage, field));
+            Errors.Add(new Error(code, message));
         }
 
         public ValidationException(Error error)

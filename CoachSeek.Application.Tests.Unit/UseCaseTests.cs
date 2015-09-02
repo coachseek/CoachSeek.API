@@ -482,7 +482,6 @@ namespace CoachSeek.Application.Tests.Unit
             foreach (var error in errors)
             {
                 Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 0]));
-                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 1]));
                 i++;
             }
         }
@@ -499,7 +498,6 @@ namespace CoachSeek.Application.Tests.Unit
                 Assert.That(error.Code, Is.EqualTo(expectedErrors[i, 0]));
                 Assert.That(error.Message, Is.EqualTo(expectedErrors[i, 1]));
                 Assert.That(error.Data, Is.EqualTo(expectedErrors[i, 2]));
-                Assert.That(error.Field, Is.EqualTo(expectedErrors[i, 3]));
                 i++;
             }
         }
@@ -524,7 +522,6 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(error.Code, Is.EqualTo(ErrorCodes.CoachInvalid));
             Assert.That(error.Message, Is.EqualTo("This coach does not exist."));
             Assert.That(error.Data, Is.EqualTo(invalidCoachId.ToString()));
-            Assert.That(error.Field, Is.Null);
         }
 
         protected void AssertInvalidLocation(object response, Guid invalidLocationId)
@@ -537,7 +534,6 @@ namespace CoachSeek.Application.Tests.Unit
             Assert.That(error.Code, Is.EqualTo(ErrorCodes.LocationInvalid));
             Assert.That(error.Message, Is.EqualTo("This location does not exist."));
             Assert.That(error.Data, Is.EqualTo(invalidLocationId.ToString()));
-            Assert.That(error.Field, Is.Null);
         }
     }
 }

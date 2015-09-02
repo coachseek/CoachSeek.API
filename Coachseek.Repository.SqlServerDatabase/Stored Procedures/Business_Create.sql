@@ -3,6 +3,7 @@ CREATE PROCEDURE [dbo].[Business_Create](
 	@guid [uniqueidentifier],
 	@name [nvarchar](100),
 	@domain [nvarchar](100),
+	@sport [nvarchar](100) = NULL,
 	@currency [nchar](3),
 	@isOnlinePaymentEnabled [bit] = 0,
 	@forceOnlinePayment [bit] = 0,
@@ -29,7 +30,8 @@ BEGIN
 		[PaymentProvider],
 		[MerchantAccountIdentifier],
 		[CreatedOn],
-		[IsTesting]
+		[IsTesting],
+		[Sport]
 	)
 	VALUES
 	(
@@ -42,7 +44,8 @@ BEGIN
 		@paymentProvider,
 		@merchantAccountIdentifier,
 		@createdOn,
-		@isTesting
+		@isTesting,
+		@sport
 	)
 
 END

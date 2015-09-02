@@ -142,7 +142,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachAddUseCase
             {
-                Response = new ErrorResponse(new ValidationException("Error!"))
+                Response = new ErrorResponse(new ValidationException("some-error", "Error!"))
             };
         }
 
@@ -158,7 +158,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
         {
             return new MockCoachUpdateUseCase
             {
-                Response = new ErrorResponse(new ValidationException("Error!"))
+                Response = new ErrorResponse(new ValidationException("some-error", "Error!"))
             };
         }
 
@@ -321,7 +321,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             List<Error> errors;
             Assert.That(response.TryGetContentValue(out errors), Is.True);
             var error = errors[0];
-            Assert.That(error.Field, Is.Null);
+            Assert.That(error.Code, Is.EqualTo("some-error"));
             Assert.That(error.Message, Is.EqualTo("Error!"));
         }
 
