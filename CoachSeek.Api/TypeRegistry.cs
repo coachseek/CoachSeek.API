@@ -2,6 +2,7 @@
 using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Repositories;
 using Coachseek.Infrastructure.Queueing.Azure;
+using Coachseek.Infrastructure.Queueing.Contracts.Import;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.UserTracking;
 using Coachseek.Integration.UserTracking;
@@ -32,6 +33,7 @@ namespace CoachSeek.Api
 
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
             For<IPaymentProcessingQueueClient>().Use<AzurePaymentProcessingQueueClient>();
+            For<IDataImportQueueClient>().Use<AzureDataImportQueueClient>();
             For<IUserTrackerFactory>().Use<UserTrackerFactory>();
         }
     }

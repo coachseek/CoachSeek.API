@@ -54,6 +54,8 @@
     <Compile Include="Emailing\BouncedEmailMessage.cs" />
     <Compile Include="Emailing\IBouncedEmailQueueClient.cs" />
     <Compile Include="IMessage.cs" />
+    <Compile Include="Import\IDataImportQueueClient.cs" />
+    <Compile Include="Import\DataImportMessage.cs" />
     <Compile Include="IQueueClient.cs" />
     <Compile Include="Payment\IPaymentProcessingQueueClient.cs" />
     <Compile Include="Payment\PaymentProcessingMessage.cs" />
@@ -63,6 +65,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

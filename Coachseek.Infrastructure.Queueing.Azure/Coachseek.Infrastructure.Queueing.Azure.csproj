@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureDataImportQueueClient.cs" />
     <Compile Include="AzurePaymentProcessingQueueClient.cs" />
     <Compile Include="AzureQueueClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

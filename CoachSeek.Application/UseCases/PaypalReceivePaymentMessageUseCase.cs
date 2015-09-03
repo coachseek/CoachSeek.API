@@ -16,7 +16,7 @@ namespace CoachSeek.Application.UseCases
 
         public void Receive(string formData)
         {
-            var message = new PaymentProcessingMessage(null, Constants.PAYPAL, formData);
+            var message = PaymentProcessingMessage.Create(Constants.PAYPAL, formData);
             PaymentProcessingQueueClient.Push(message);
         }
     }

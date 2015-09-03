@@ -1,8 +1,14 @@
-﻿using CoachSeek.Api.Attributes;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Import;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -17,6 +23,7 @@ namespace CoachSeek.Api.Controllers
         public ICustomerAddUseCase CustomerAddUseCase { get; set; }
         public ICustomerUpdateUseCase CustomerUpdateUseCase { get; set; }
         public ICustomerOnlineBookingAddUseCase CustomerOnlineBookingAddUseCase { get; set; }
+        public ICustomerReceiveDataImportMessageUseCase CustomerReceiveDataImportMessageUseCase { get; set; }
 
         public CustomersController()
         { }
@@ -25,13 +32,15 @@ namespace CoachSeek.Api.Controllers
                                    ICustomerGetByIdUseCase customerGetByIdUseCase,
                                    ICustomerAddUseCase customerAddUseCase,
                                    ICustomerUpdateUseCase customerUpdateUseCase,
-                                   ICustomerOnlineBookingAddUseCase customerOnlineBookingAddUseCase)
+                                   ICustomerOnlineBookingAddUseCase customerOnlineBookingAddUseCase,
+                                   ICustomerReceiveDataImportMessageUseCase customerReceiveDataImportMessageUseCase)
         {
             CustomersGetAllUseCase = customersGetAllUseCase;
             CustomerGetByIdUseCase = customerGetByIdUseCase;
             CustomerAddUseCase = customerAddUseCase;
             CustomerUpdateUseCase = customerUpdateUseCase;
             CustomerOnlineBookingAddUseCase = customerOnlineBookingAddUseCase;
+            CustomerReceiveDataImportMessageUseCase = customerReceiveDataImportMessageUseCase;
         }
 
 
@@ -80,6 +89,40 @@ namespace CoachSeek.Api.Controllers
                 return CreateWebErrorResponse(new UseExistingCustomerForOnlineBookingNotSupported());
 
             return AddOnlineBookingCustomer(customer);
+        }
+ 
+        // POST: Customers/Upload
+        [Route("Customers/Upload")]
+        [BasicAuthentication]
+        [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> ImportData()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+
+            foreach (var file in await ReadDataImportFiles())
+                CustomerReceiveDataImportMessageUseCase.Receive(Business.Id, file);
+
+            return Ok();
+        }
+
+
+        private async Task<List<string>> ReadDataImportFiles()
+        {
+            var files = new List<string>();
+
+            var provider = new MultipartMemoryStreamProvider();
+            await Request.Content.ReadAsMultipartAsync(provider);
+
+            foreach (var file in provider.Contents)
+            {
+                var fileBytes = await file.ReadAsByteArrayAsync();
+                var fileContent = Encoding.Default.GetString(fileBytes);
+                files.Add(fileContent);
+            }
+
+            return files;
         }
 
         private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)

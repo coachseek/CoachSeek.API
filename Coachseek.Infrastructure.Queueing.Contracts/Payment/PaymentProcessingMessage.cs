@@ -9,6 +9,7 @@ namespace Coachseek.Infrastructure.Queueing.Contracts.Payment
         public string Contents { get; private set; }
 
 
+        // Testing constructor
         public PaymentProcessingMessage(string id, string paymentProvider, string contents)
         {
             Id = id;
@@ -25,6 +26,11 @@ namespace Coachseek.Infrastructure.Queueing.Contracts.Payment
             var parts = payloadString.Split('|');
             PaymentProvider = parts[0].Split(':')[1];
             Contents = parts[1].Split(':')[1];
+        }
+
+        public static PaymentProcessingMessage Create(string paymentProvider, string contents)
+        {
+            return new PaymentProcessingMessage(null, paymentProvider, contents);
         }
 
         public override string ToString()
