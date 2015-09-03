@@ -86,6 +86,10 @@
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
+      <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>
+      <Name>Coachseek.Integration.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

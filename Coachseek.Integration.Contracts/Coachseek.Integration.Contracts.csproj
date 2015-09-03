@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataImport\DataImportException.cs" />
+    <Compile Include="DataImport\MessageTooLarge.cs" />
     <Compile Include="Payments\Exceptions\InvalidBooking.cs" />
     <Compile Include="Payments\Exceptions\InvalidBusiness.cs" />
     <Compile Include="Payments\Exceptions\InvalidPaymentMessage.cs" />

@@ -79,7 +79,7 @@
     <Compile Include="UseCases\CustomerOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\Emailing\ProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Executors\BookingUseCaseExecutor.cs" />
-    <Compile Include="UseCases\Import\CustomerReceiveDataImportMessageUseCase.cs" />
+    <Compile Include="UseCases\DataImport\CustomerReceiveDataImportMessageUseCase.cs" />
     <Compile Include="UseCases\PaypalReceivePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\ProcessPaymentsUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionOnlineBookingAddUseCase.cs" />

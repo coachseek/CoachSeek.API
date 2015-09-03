@@ -110,7 +110,7 @@ namespace CoachSeek.Application.Tests.Unit
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
             var emailContext = new EmailContext(true, false, "", null);
-            return new ApplicationContext(null, businessContext, emailContext, true);
+            return new ApplicationContext(null, businessContext, emailContext, null, true);
         }
 
         protected void SetupLocations()

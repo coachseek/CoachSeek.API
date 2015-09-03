@@ -2,12 +2,16 @@
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Authentication;
 using Coachseek.DataAccess.TableStorage.Emailing;
+using Coachseek.DataAccess.TableStorage.Logging;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Api
 {
     public static class DataAccessFactory
     {
+        private const string APPLICATION = "API";
+
+
         public static DataRepositories CreateDataAccess(bool isTesting)
         {
             return isTesting ? CreateTestingRepositories() : CreateProductionRepositories();
@@ -21,12 +25,14 @@ namespace CoachSeek.Api
             return new DataRepositories(new DbTestBusinessRepository(), 
                                         new AzureTestTableUserRepository(), 
                                         new AzureTestTableUnsubscribedEmailAddressRepository(),
-                                        new HardCodedSupportedCurrencyRepository());
+                                        new HardCodedSupportedCurrencyRepository(),
+                                        new AzureTestTableLogRepository(APPLICATION));
 #else
             return new DataRepositories(new DbTestBusinessRepository(), 
                                         new AzureTestTableUserRepository(),
                                         new AzureTestTableUnsubscribedEmailAddressRepository(),
-                                        new HardCodedSupportedCurrencyRepository());
+                                        new HardCodedSupportedCurrencyRepository(),
+                                        new AzureTestTableLogRepository(APPLICATION));
 #endif
         }
 
@@ -35,7 +41,8 @@ namespace CoachSeek.Api
             return new DataRepositories(new DbBusinessRepository(), 
                                         new AzureTableUserRepository(),
                                         new AzureTableUnsubscribedEmailAddressRepository(),
-                                        new HardCodedSupportedCurrencyRepository());
+                                        new HardCodedSupportedCurrencyRepository(),
+                                        new AzureTableLogRepository(APPLICATION));
         }
     }
 }

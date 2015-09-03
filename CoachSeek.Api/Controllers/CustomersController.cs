@@ -2,17 +2,17 @@
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Application.Contracts.UseCases.Import;
+using CoachSeek.Application.Contracts.UseCases.DataImport;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
 using System.Web.Http;
+using Coachseek.Integration.Contracts.DataImport;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -101,25 +101,39 @@ namespace CoachSeek.Api.Controllers
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
 
-            foreach (var file in await ReadDataImportFiles())
-                CustomerReceiveDataImportMessageUseCase.Receive(Business.Id, file);
+            CustomerReceiveDataImportMessageUseCase.Initialise(Context);
+            File importFile = null;
+            try
+            {
+                foreach (var file in await ReadDataImportFiles())
+                {
+                    importFile = file;
+                    CustomerReceiveDataImportMessageUseCase.Receive(Business.Id, file.Content);
+                }
+            }
+            catch (DataImportException ex)
+            {
+                if (importFile != null)
+                    LogRepository.LogError(ex, importFile.Name);
+            }
 
             return Ok();
         }
 
 
-        private async Task<List<string>> ReadDataImportFiles()
+        private async Task<List<File>> ReadDataImportFiles()
         {
-            var files = new List<string>();
+            var files = new List<File>();
 
             var provider = new MultipartMemoryStreamProvider();
             await Request.Content.ReadAsMultipartAsync(provider);
 
             foreach (var file in provider.Contents)
             {
+                var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
                 var fileBytes = await file.ReadAsByteArrayAsync();
                 var fileContent = Encoding.Default.GetString(fileBytes);
-                files.Add(fileContent);
+                files.Add(new File(filename, fileContent));
             }
 
             return files;
@@ -147,6 +161,19 @@ namespace CoachSeek.Api.Controllers
             CustomerOnlineBookingAddUseCase.Initialise(Context);
             var response = CustomerOnlineBookingAddUseCase.AddCustomer(command);
             return CreatePostWebResponse(response);
+        }
+
+
+        private class File
+        {
+            public string Name { get; private set; }
+            public string Content { get; private set; }
+
+            public File(string name, string content)
+            {
+                Name = name;
+                Content = content;
+            }
         }
     }
 }

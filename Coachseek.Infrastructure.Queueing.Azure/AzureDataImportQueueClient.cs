@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Import;
+using Coachseek.Integration.Contracts.DataImport;
 using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace Coachseek.Infrastructure.Queueing.Azure
@@ -28,7 +30,14 @@ namespace Coachseek.Infrastructure.Queueing.Azure
         public void Push(DataImportMessage message)
         {
             var azureMessage = ConvertToNewCloudQueueMessage(message);
-            AzureQueueClient.Push(Queue, azureMessage);
+            try
+            {
+                AzureQueueClient.Push(Queue, azureMessage);
+            }
+            catch (Exception ex)
+            {
+                throw new DataImportException(ex.Message, ex);
+            }
         }
 
         public IList<DataImportMessage> Peek()

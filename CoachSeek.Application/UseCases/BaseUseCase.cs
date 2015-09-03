@@ -14,6 +14,7 @@ namespace CoachSeek.Application.UseCases
         protected IBusinessRepository BusinessRepository { set; get; }
         protected ISupportedCurrencyRepository SupportedCurrencyRepository { set; get; }
         protected IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; get; }
+        protected ILogRepository LogRepository { set; get; }
 
 
         public void Initialise(ApplicationContext context)
@@ -26,6 +27,7 @@ namespace CoachSeek.Application.UseCases
             BusinessRepository = Context.BusinessContext.BusinessRepository;
             SupportedCurrencyRepository = Context.BusinessContext.SupportedCurrencyRepository;
             UnsubscribedEmailAddressRepository = Context.EmailContext.UnsubscribedEmailAddressRepository;
+            LogRepository = Context.LogRepository;
         }
 
 

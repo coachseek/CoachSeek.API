@@ -19,6 +19,7 @@ namespace CoachSeek.Api.Controllers
         public IUserRepository UserRepository { set; protected get; }
         public ISupportedCurrencyRepository SupportedCurrencyRepository { set; protected get; }
         public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; protected get; }
+        public ILogRepository LogRepository { set; protected get; }
 
         public UserDetails CurrentUser
         {
@@ -89,7 +90,14 @@ namespace CoachSeek.Api.Controllers
 
         protected ApplicationContext Context
         {
-            get { return new ApplicationContext(UserContext, BusinessContext, EmailContext, IsTesting); }            
+            get 
+            { 
+                return new ApplicationContext(UserContext, 
+                                              BusinessContext, 
+                                              EmailContext, 
+                                              LogRepository, 
+                                              IsTesting); 
+            }
         }
 
 

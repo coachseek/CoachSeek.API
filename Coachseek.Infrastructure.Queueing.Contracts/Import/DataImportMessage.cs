@@ -33,7 +33,7 @@ namespace Coachseek.Infrastructure.Queueing.Contracts.Import
             Contents = parts[3].Split(':')[1];
         }
 
-        public static DataImportMessage Create(Guid businessId, string data, string entityType = "Customer", string dataFormat = "CSV")
+        public static DataImportMessage Create(Guid businessId, string data, string entityType, string dataFormat)
         {
             return new DataImportMessage(null, businessId, data, entityType, dataFormat);
         }

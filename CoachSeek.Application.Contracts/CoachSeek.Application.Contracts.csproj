@@ -86,7 +86,7 @@
     <Compile Include="UseCases\IEmailTemplateGetByTypeUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateTypesGetAllUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateUpdateUseCase.cs" />
-    <Compile Include="UseCases\Import\ICustomerReceiveDataImportMessageUseCase.cs" />
+    <Compile Include="UseCases\DataImport\ICustomerReceiveDataImportMessageUseCase.cs" />
     <Compile Include="UseCases\IPaypalReceivePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\IProcessPaymentsUseCase.cs" />
     <Compile Include="UseCases\IStandaloneSessionOnlineBookingAddUseCase.cs" />

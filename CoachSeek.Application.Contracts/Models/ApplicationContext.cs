@@ -1,4 +1,6 @@
-﻿namespace CoachSeek.Application.Contracts.Models
+﻿using CoachSeek.Domain.Repositories;
+
+namespace CoachSeek.Application.Contracts.Models
 {
     public class ApplicationContext : AdminApplicationContext
     {
@@ -7,9 +9,10 @@
 
         public ApplicationContext(UserContext userContext, 
                                   BusinessContext businessContext, 
-                                  EmailContext emailContext, 
+                                  EmailContext emailContext,
+                                  ILogRepository logRepository,
                                   bool isTesting) 
-            : base(userContext, emailContext, isTesting)
+            : base(userContext, emailContext, logRepository, isTesting)
         {
             BusinessContext = businessContext;
         }

@@ -23,6 +23,7 @@ namespace CoachSeek.Api.Attributes
             controller.UserRepository = repositories.UserRepository;
             controller.SupportedCurrencyRepository = repositories.SupportedCurrencyRepository;
             controller.UnsubscribedEmailAddressRepository = repositories.UnsubscribedEmailAddressRepository;
+            controller.LogRepository = repositories.LogRepository;
         }
     }
 }
