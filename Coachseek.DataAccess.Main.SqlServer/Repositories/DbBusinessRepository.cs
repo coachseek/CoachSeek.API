@@ -203,9 +203,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             LocationRepository.AddLocation(businessId, location);
         }
 
-        public LocationData UpdateLocation(Guid businessId, Location location)
+        public void UpdateLocation(Guid businessId, Location location)
         {
-            return LocationRepository.UpdateLocation(businessId, location);
+            LocationRepository.UpdateLocation(businessId, location);
         }
 
 

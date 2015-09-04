@@ -168,7 +168,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Locations[businessId] = dbLocations;
         }
 
-        public LocationData UpdateLocation(Guid businessId, Location location)
+        public void UpdateLocation(Guid businessId, Location location)
         {
             WasUpdateLocationCalled = true;
             BusinessIdPassedIn = businessId;
@@ -180,8 +180,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var index = dbLocations.FindIndex(x => x.Id == location.Id);
             dbLocations[index] = dbLocation;
             Locations[businessId] = dbLocations;
-
-            return GetLocation(businessId, location.Id);
         }
 
 

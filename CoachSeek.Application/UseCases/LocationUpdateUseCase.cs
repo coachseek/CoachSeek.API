@@ -3,7 +3,6 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 using System.Linq;
 
 namespace CoachSeek.Application.UseCases
@@ -16,8 +15,8 @@ namespace CoachSeek.Application.UseCases
             {
                 var location = new Location(command);
                 ValidateUpdate(location);
-                var data = BusinessRepository.UpdateLocation(Business.Id, location);
-                return new Response(data);
+                BusinessRepository.UpdateLocation(Business.Id, location);
+                return new Response(location.ToData());
             }
             catch (CoachseekException ex)
             {

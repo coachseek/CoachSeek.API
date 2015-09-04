@@ -24,8 +24,6 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @locationGuid
 
-	EXEC [dbo].[Location_GetByGuid] @businessGuid, @locationGuid
-
 END
 
 
