@@ -154,7 +154,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessLocations.FirstOrDefault(x => x.Id == locationId);
         }
 
-        public LocationData AddLocation(Guid businessId, Location location)
+        public void AddLocation(Guid businessId, Location location)
         {
             WasAddLocationCalled = true;
             BusinessIdPassedIn = businessId;
@@ -166,8 +166,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             dbLocations.Add(dbLocation);
 
             Locations[businessId] = dbLocations;
-
-            return GetLocation(businessId, location.Id);
         }
 
         public LocationData UpdateLocation(Guid businessId, Location location)

@@ -73,10 +73,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public LocationData AddLocation(Guid businessId, Location location)
+        public void AddLocation(Guid businessId, Location location)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -92,17 +91,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[1].Value = location.Id;
                 command.Parameters[2].Value = location.Name;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadLocationData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 

@@ -29,17 +29,6 @@ BEGIN
 		@name
 	)
 
-	SELECT
-		b.[Guid] AS BusinessGuid,
-		l.[Guid],
-		l.[Name]
-	FROM 
-		[dbo].[Business] b
-		INNER JOIN [dbo].[Location] l
-			ON b.Id = l.BusinessId
-	WHERE
-		l.[Id] = SCOPE_IDENTITY()
-
 END
 
 

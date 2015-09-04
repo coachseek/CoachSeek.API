@@ -16,8 +16,8 @@ namespace CoachSeek.Application.UseCases
             {
                 var newLocation = new Location(command);
                 ValidateAdd(newLocation);
-                var data = BusinessRepository.AddLocation(Business.Id, newLocation);
-                return new Response(data);
+                BusinessRepository.AddLocation(Business.Id, newLocation);
+                return new Response(newLocation.ToData());
             }
             catch (CoachseekException ex)
             {
