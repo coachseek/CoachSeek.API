@@ -25,5 +25,9 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         [JsonProperty(PropertyName = "PHONE_NUMBER", NullValueHandling = NullValueHandling.Ignore)]
         public string Phone { get; private set; }
+
+        // 398793 is the Insightly status id for 'OPEN - NEW LEAD' for the Coachseek Insightly account.   
+        [JsonProperty(PropertyName = "LEAD_STATUS_ID", NullValueHandling = NullValueHandling.Ignore)]
+        public int StatusId { get { return 398793; } }
     }
 }
