@@ -23,20 +23,4 @@ BEGIN
 	WHERE 
 		[Guid] = @guid
 
-
-	SELECT
-		[Guid],
-		[Name],
-		[Domain],
-		[Sport],
-		[Currency],
-		[IsOnlinePaymentEnabled],
-		[ForceOnlinePayment],
-		[PaymentProvider],
-		[MerchantAccountIdentifier]
-	FROM 
-		[dbo].[Business]
-	WHERE 
-		[Guid] = @guid
-
 END

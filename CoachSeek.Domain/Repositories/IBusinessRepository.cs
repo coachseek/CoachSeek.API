@@ -11,7 +11,7 @@ namespace CoachSeek.Domain.Repositories
         BusinessData GetBusiness(Guid businessId);
         BusinessData GetBusiness(string domain);
         void AddBusiness(NewBusiness business);
-        BusinessData UpdateBusiness(Business business);
+        void UpdateBusiness(Business business);
 
         IList<LocationData> GetAllLocations(Guid businessId);
         LocationData GetLocation(Guid businessId, Guid locationId);

@@ -21,12 +21,14 @@ namespace CoachSeek.Domain.Entities
         public string MerchantAccountIdentifier { get { return Payment.MerchantAccountIdentifier; } }
 
 
-        public Business(Guid businessId, 
+        public Business(BusinessData existingBusiness, 
                         BusinessUpdateCommand command, 
                         ISupportedCurrencyRepository supportedCurrencyRepository)
         {
-            Id = businessId;
+            Id = existingBusiness.Id;
             Name = command.Name.Trim();
+            Domain = existingBusiness.Domain;
+            Sport = existingBusiness.Sport;
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
         }
 

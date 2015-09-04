@@ -153,10 +153,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public BusinessData UpdateBusiness(Business business)
+        public void UpdateBusiness(Business business)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -180,18 +179,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[5].Value = business.PaymentProvider;
                 command.Parameters[6].Value = business.MerchantAccountIdentifier;
 
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadBusinessData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 

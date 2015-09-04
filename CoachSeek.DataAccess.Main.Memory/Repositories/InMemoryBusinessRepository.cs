@@ -125,7 +125,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses.Add(dbBusiness);
         }
 
-        public BusinessData UpdateBusiness(Business business)
+        public void UpdateBusiness(Business business)
         {
             WasUpdateBusinessCalled = true;
             DataPassedIn = business;
@@ -137,8 +137,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             dbNewBusiness.Domain = dbExistingBusiness.Domain;
 
             Businesses[index] = dbNewBusiness;
-
-            return GetBusiness(business.Id);
         }
 
 

@@ -14,12 +14,10 @@ namespace CoachSeek.Application.UseCases
         {
             try
             {
-                // TODO: Get existing business and then pass it into the Business constructor.
-                //var existingBusiness = BusinessRepository.GetBusiness(Business.Id);
-                var business = new Business(Business.Id, command, SupportedCurrencyRepository);
-                var data = BusinessRepository.UpdateBusiness(business);
-                return new Response(data);
-                //return new Response(business.ToData());
+                var existingBusiness = BusinessRepository.GetBusiness(Business.Id);
+                var business = new Business(existingBusiness, command, SupportedCurrencyRepository);
+                BusinessRepository.UpdateBusiness(business);
+                return new Response(business.ToData());
             }
             catch (CoachseekException ex)
             {
