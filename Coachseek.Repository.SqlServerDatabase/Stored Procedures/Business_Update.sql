@@ -28,6 +28,7 @@ BEGIN
 		[Guid],
 		[Name],
 		[Domain],
+		[Sport],
 		[Currency],
 		[IsOnlinePaymentEnabled],
 		[ForceOnlinePayment],

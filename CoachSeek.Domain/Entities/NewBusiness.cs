@@ -7,7 +7,6 @@ namespace CoachSeek.Domain.Entities
 {
     public class NewBusiness : Business
     {
-        public string Sport { get; private set; }
         public DateTime CreatedOn { get; private set; }
         public bool IsTesting { get; set; }
 
@@ -38,6 +37,7 @@ namespace CoachSeek.Domain.Entities
             : base(id, 
                    name, 
                    domain, 
+                   sport,
                    currency, 
                    isOnlinePaymentEnabled, 
                    forceOnlinePayment, 
@@ -46,7 +46,6 @@ namespace CoachSeek.Domain.Entities
         {
             // Testing constructor
 
-            Sport = sport;
             CreatedOn = DateTime.Now;
             IsTesting = isTesting;
         }

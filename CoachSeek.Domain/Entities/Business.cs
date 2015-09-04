@@ -13,6 +13,7 @@ namespace CoachSeek.Domain.Entities
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
+        public string Sport { get; protected set; }
         public string Currency { get { return Payment.CurrencyCode; } }
         public bool IsOnlinePaymentEnabled { get { return Payment.IsOnlinePaymentEnabled; } }
         public bool? ForceOnlinePayment { get { return Payment.ForceOnlinePayment; } }
@@ -41,8 +42,9 @@ namespace CoachSeek.Domain.Entities
         }
 
         public Business(Guid id, 
-            string name, 
+            string name,
             string domain,
+            string sport,
             string currency,
             bool isOnlinePaymentEnabled = false,
             bool forceOnlinePayment = false,
@@ -54,6 +56,7 @@ namespace CoachSeek.Domain.Entities
             Id = id;
             Name = name;
             Domain = domain;
+            Sport = sport;
             Payment = new PaymentOptions(currency, 
                                          isOnlinePaymentEnabled, 
                                          forceOnlinePayment,

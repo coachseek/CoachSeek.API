@@ -839,17 +839,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var id = reader.GetGuid(0);
             var name = reader.GetString(1);
             var domain = reader.GetString(2);
-            var currency = reader.GetNullableString(3);
-            var isOnlinePaymentEnabled = reader.GetBoolean(4);
-            var forceOnlinePayment = reader.GetBoolean(5);
-            var paymentProvider = reader.GetNullableString(6);
-            var merchantAccountIdentifier = reader.GetNullableString(7);
+            var sport = reader.GetNullableString(3);
+            var currency = reader.GetNullableString(4);
+            var isOnlinePaymentEnabled = reader.GetBoolean(5);
+            var forceOnlinePayment = reader.GetBoolean(6);
+            var paymentProvider = reader.GetNullableString(7);
+            var merchantAccountIdentifier = reader.GetNullableString(8);
 
             return new BusinessData
             {
                 Id = id,
                 Name = name,
                 Domain = domain,
+                Sport = sport,
                 Payment = new BusinessPaymentData
                 {
                     Currency = currency,
