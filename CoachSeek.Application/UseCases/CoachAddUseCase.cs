@@ -3,7 +3,6 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 using System.Linq;
 
 namespace CoachSeek.Application.UseCases
@@ -16,8 +15,8 @@ namespace CoachSeek.Application.UseCases
             {
                 var newCoach = new Coach(command);
                 ValidateAdd(newCoach);
-                var data = BusinessRepository.AddCoach(Business.Id, newCoach);
-                return new Response(data);
+                BusinessRepository.AddCoach(Business.Id, newCoach);
+                return new Response(newCoach.ToData());
             }
             catch (CoachseekException ex)
             {

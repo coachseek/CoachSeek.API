@@ -20,13 +20,13 @@ namespace CoachSeek.Domain.Repositories
 
         IList<CoachData> GetAllCoaches(Guid businessId);
         CoachData GetCoach(Guid businessId, Guid coachId);
-        CoachData AddCoach(Guid businessId, Coach coach);
+        void AddCoach(Guid businessId, Coach coach);
         CoachData UpdateCoach(Guid businessId, Coach coach);
 
         IList<ServiceData> GetAllServices(Guid businessId);
         ServiceData GetService(Guid businessId, Guid serviceId);
         void AddService(Guid businessId, Service service);
-        ServiceData UpdateService(Guid businessId, Service service);
+        void UpdateService(Guid businessId, Service service);
 
         IList<CustomerData> GetAllCustomers(Guid businessId);
         CustomerData GetCustomer(Guid businessId, Guid customerId);

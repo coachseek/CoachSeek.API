@@ -42,8 +42,6 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @serviceGuid
 
-	EXEC [dbo].[Service_GetByGuid] @businessGuid, @serviceGuid
-
 END
 
 

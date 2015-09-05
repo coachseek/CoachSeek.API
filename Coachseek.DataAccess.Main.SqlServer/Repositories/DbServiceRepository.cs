@@ -118,10 +118,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public ServiceData UpdateService(Guid businessId, Service service)
+        public void UpdateService(Guid businessId, Service service)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -155,17 +154,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[10].Value = service.Pricing == null ? null : service.Pricing.CoursePrice;
                 command.Parameters[11].Value = service.Presentation == null ? null : service.Presentation.Colour;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadServiceData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 

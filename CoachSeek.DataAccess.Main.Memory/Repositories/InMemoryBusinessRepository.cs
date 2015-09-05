@@ -197,7 +197,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessCoaches.FirstOrDefault(x => x.Id == coachId);
         }
 
-        public CoachData AddCoach(Guid businessId, Coach coach)
+        public void AddCoach(Guid businessId, Coach coach)
         {
             WasAddCoachCalled = true;
             BusinessIdPassedIn = businessId;
@@ -209,8 +209,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             dbCoaches.Add(dbCoach);
 
             Coaches[businessId] = dbCoaches;
-
-            return GetCoach(businessId, coach.Id);
         }
 
         public CoachData UpdateCoach(Guid businessId, Coach coach)
@@ -254,7 +252,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Services[businessId] = dbServices;
         }
 
-        public ServiceData UpdateService(Guid businessId, Service service)
+        public void UpdateService(Guid businessId, Service service)
         {
             var dbService = Mapper.Map<Service, DbService>(service);
 
@@ -262,8 +260,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var index = dbServices.FindIndex(x => x.Id == service.Id);
             dbServices[index] = dbService;
             Services[businessId] = dbServices;
-
-            return GetService(businessId, service.Id);
         }
 
 

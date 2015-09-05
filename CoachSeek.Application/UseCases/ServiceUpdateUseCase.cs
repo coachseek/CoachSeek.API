@@ -3,7 +3,6 @@ using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 using System.Linq;
 
 namespace CoachSeek.Application.UseCases
@@ -14,10 +13,9 @@ namespace CoachSeek.Application.UseCases
         {
             try
             {
-                var service = new Service(command);
-                ValidateUpdate(service);
-                var data = BusinessRepository.UpdateService(Business.Id, service);
-                return new Response(data);
+                var service = ValidateAndCreateService(command);
+                BusinessRepository.UpdateService(Business.Id, service);
+                return new Response(service.ToData());
             }
             catch (CoachseekException ex)
             {
@@ -25,17 +23,18 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateUpdate(Service service)
+
+        private Service ValidateAndCreateService(ServiceUpdateCommand command)
         {
-            var services = BusinessRepository.GetAllServices(Business.Id);
-
-            var isExistingService = services.Any(x => x.Id == service.Id);
+            var allServices = BusinessRepository.GetAllServices(Business.Id);
+            var isExistingService = allServices.Any(x => x.Id == command.Id);
             if (!isExistingService)
-                throw new ServiceInvalid(service.Id);
-
-            var existingService = services.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
+                throw new ServiceInvalid(command.Id);
+            var service = new Service(command);
+            var existingService = allServices.FirstOrDefault(x => x.Name.ToLower() == service.Name.ToLower());
             if (existingService != null && existingService.Id != service.Id)
                 throw new ServiceDuplicate(service.Name);
+            return service;
         }
     }
 }
