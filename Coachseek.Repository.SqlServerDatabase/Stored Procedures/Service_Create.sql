@@ -57,26 +57,6 @@ BEGIN
 		@colour
 	)
 
-	SELECT
-		b.[Guid] AS BusinessGuid,
-		s.[Guid],
-		s.[Name],
-		s.[Description],
-		s.[Duration],
-		s.[StudentCapacity],
-		s.[IsOnlineBookable],
-		s.[SessionCount],
-		s.[RepeatFrequency],
-		s.[SessionPrice],
-		s.[CoursePrice],
-		s.[Colour]
-	FROM 
-		[dbo].[Business] b
-		INNER JOIN [dbo].[Service] s
-			ON b.Id = s.BusinessId
-	WHERE
-		s.[Id] = SCOPE_IDENTITY()
-
 END
 
 

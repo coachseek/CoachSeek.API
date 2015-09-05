@@ -244,7 +244,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessServices.FirstOrDefault(x => x.Id == serviceId);
         }
 
-        public ServiceData AddService(Guid businessId, Service service)
+        public void AddService(Guid businessId, Service service)
         {
             var dbService = Mapper.Map<Service, DbService>(service);
 
@@ -252,8 +252,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             dbServices.Add(dbService);
 
             Services[businessId] = dbServices;
-
-            return GetService(businessId, service.Id);
         }
 
         public ServiceData UpdateService(Guid businessId, Service service)

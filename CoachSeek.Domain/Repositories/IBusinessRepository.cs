@@ -25,7 +25,7 @@ namespace CoachSeek.Domain.Repositories
 
         IList<ServiceData> GetAllServices(Guid businessId);
         ServiceData GetService(Guid businessId, Guid serviceId);
-        ServiceData AddService(Guid businessId, Service service);
+        void AddService(Guid businessId, Service service);
         ServiceData UpdateService(Guid businessId, Service service);
 
         IList<CustomerData> GetAllCustomers(Guid businessId);

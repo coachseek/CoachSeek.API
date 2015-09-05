@@ -16,8 +16,8 @@ namespace CoachSeek.Application.UseCases
             {
                 var newService = new Service(command);
                 ValidateAdd(newService);
-                var data = BusinessRepository.AddService(Business.Id, newService);
-                return new Response(data);
+                BusinessRepository.AddService(Business.Id, newService);
+                return new Response(newService.ToData());
             }
             catch (CoachseekException ex)
             {

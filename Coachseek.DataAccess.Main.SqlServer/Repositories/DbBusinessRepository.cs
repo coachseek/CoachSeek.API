@@ -240,9 +240,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return ServiceRepository.GetService(businessId, serviceId);
         }
 
-        public ServiceData AddService(Guid businessId, Service service)
+        public void AddService(Guid businessId, Service service)
         {
-            return ServiceRepository.AddService(businessId, service);
+            ServiceRepository.AddService(businessId, service);
         }
 
         public ServiceData UpdateService(Guid businessId, Service service)

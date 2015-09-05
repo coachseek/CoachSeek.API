@@ -74,16 +74,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public ServiceData AddService(Guid businessId, Service service)
+        public void AddService(Guid businessId, Service service)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Service_Create", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Service_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
@@ -111,17 +110,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[10].Value = service.Pricing == null ? null : service.Pricing.CoursePrice;
                 command.Parameters[11].Value = service.Presentation == null ? null : service.Presentation.Colour;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadServiceData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
@@ -134,7 +127,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Service_Update", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Service_Update]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@serviceGuid", SqlDbType.UniqueIdentifier));
