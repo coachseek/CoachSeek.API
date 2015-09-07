@@ -45,7 +45,7 @@ namespace CoachSeek.Application.UseCases
                 var user = AddUser(command.Admin);
                 var business = AddBusiness(command);
                 AssociateUserWithBusiness(user, business);
-                PostProcessing(user);
+                PostProcessing(user, business);
                 return new Response(new RegistrationData(user, business));
             }
             catch (CoachseekException ex)
@@ -93,18 +93,18 @@ namespace CoachSeek.Application.UseCases
             UserAssociateWithBusinessUseCase.AssociateUserWithBusiness(command);
         }
 
-        private void PostProcessing(UserData user)
+        private void PostProcessing(UserData user, BusinessData business)
         {
-            CreateTrackingUser(user);
+            CreateTrackingUser(user, business);
         }
 
-        private void CreateTrackingUser(UserData user)
+        private void CreateTrackingUser(UserData user, BusinessData business)
         {
             try
             {
                 UserTrackerFactory.Credentials = UserTrackerCredentials;
                 var userTracker = UserTrackerFactory.GetUserTracker(IsUserTrackingEnabled, IsTesting);
-                userTracker.CreateTrackingUser(user);
+                userTracker.CreateTrackingUser(user, business);
             }
             catch (Exception)
             {

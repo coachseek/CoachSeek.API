@@ -10,7 +10,7 @@ namespace Coachseek.Integration.UserTracking
             
         }
 
-        public void CreateTrackingUser(UserData user)
+        public void CreateTrackingUser(UserData user, BusinessData business)
         {
             // Do nothing
         }

@@ -4,6 +4,6 @@ namespace Coachseek.Integration.Contracts.UserTracking
 {
     public interface IUserTracker
     {
-        void CreateTrackingUser(UserData user);
+        void CreateTrackingUser(UserData user, BusinessData business);
     }
 }

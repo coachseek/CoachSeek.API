@@ -5,12 +5,13 @@ namespace Coachseek.Integration.UserTracking.Insightly
     [JsonObject(MemberSerialization.OptIn)]
     public class InsightlyLead
     {
-        public InsightlyLead(string firstName, string lastName, string email, string phone)
+        public InsightlyLead(string firstName, string lastName, string email, string phone, string sport)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Phone = phone;
+            Sport = sport;
         }
 
 
@@ -26,8 +27,15 @@ namespace Coachseek.Integration.UserTracking.Insightly
         [JsonProperty(PropertyName = "PHONE_NUMBER", NullValueHandling = NullValueHandling.Ignore)]
         public string Phone { get; private set; }
 
-        // 398793 is the Insightly status id for 'OPEN - NEW LEAD' for the Coachseek Insightly account.   
+        [JsonProperty(PropertyName = "TITLE", NullValueHandling = NullValueHandling.Ignore)]
+        public string Sport { get; private set; }
+
+        // 398793 is the Insightly Status Id for 'OPEN - NEW LEAD' for the Coachseek Insightly account.   
         [JsonProperty(PropertyName = "LEAD_STATUS_ID", NullValueHandling = NullValueHandling.Ignore)]
         public int StatusId { get { return 398793; } }
+
+        // 420119 is the Insightly Source Id for 'Signup' for the Coachseek Insightly account.   
+        [JsonProperty(PropertyName = "LEAD_SOURCE_ID", NullValueHandling = NullValueHandling.Ignore)]
+        public int SourceId { get { return 420119; } }
     }
 }

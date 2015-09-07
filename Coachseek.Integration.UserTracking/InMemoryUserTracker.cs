@@ -15,7 +15,7 @@ namespace Coachseek.Integration.UserTracking
             Credentials = credentials;
         }
 
-        public void CreateTrackingUser(UserData user)
+        public void CreateTrackingUser(UserData user, BusinessData business)
         {
             WasCreateUserCalled = true;
         }
