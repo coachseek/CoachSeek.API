@@ -72,8 +72,6 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @coachGuid
 
-	EXEC [dbo].[Coach_GetByGuid] @businessGuid, @coachGuid
-
 END
 
 

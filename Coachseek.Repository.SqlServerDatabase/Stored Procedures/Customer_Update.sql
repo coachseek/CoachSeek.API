@@ -30,8 +30,6 @@ BEGIN
 		[BusinessId] = @businessId
 		AND [Guid] = @customerGuid
 
-	EXEC [dbo].[Customer_GetByGuid] @businessGuid, @customerGuid
-
 END
 
 

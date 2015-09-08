@@ -74,10 +74,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public CustomerData AddCustomer(Guid businessId, Customer customer)
+        public void AddCustomer(Guid businessId, Customer customer)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -99,24 +98,17 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadCustomerData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
-        public CustomerData UpdateCustomer(Guid businessId, Customer customer)
+        public void UpdateCustomer(Guid businessId, Customer customer)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
@@ -138,17 +130,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadCustomerData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 

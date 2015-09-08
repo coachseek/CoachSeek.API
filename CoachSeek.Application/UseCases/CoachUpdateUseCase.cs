@@ -16,8 +16,8 @@ namespace CoachSeek.Application.UseCases
             {
                 var coach = new Coach(command);
                 ValidateUpdate(coach);
-                var data = BusinessRepository.UpdateCoach(Business.Id, coach);
-                return new Response(data);
+                BusinessRepository.UpdateCoach(Business.Id, coach);
+                return new Response(coach.ToData());
             }
             catch (CoachseekException ex)
             {

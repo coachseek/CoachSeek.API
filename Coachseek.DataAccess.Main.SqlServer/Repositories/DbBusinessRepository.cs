@@ -224,9 +224,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CoachRepository.AddCoach(businessId, coach);
         }
 
-        public CoachData UpdateCoach(Guid businessId, Coach coach)
+        public void UpdateCoach(Guid businessId, Coach coach)
         {
-            return CoachRepository.UpdateCoach(businessId, coach);
+            CoachRepository.UpdateCoach(businessId, coach);
         }
 
 
@@ -261,14 +261,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return CustomerRepository.GetCustomer(businessId, customerId);
         }
 
-        public CustomerData AddCustomer(Guid businessId, Customer customer)
+        public void AddCustomer(Guid businessId, Customer customer)
         {
-            return CustomerRepository.AddCustomer(businessId, customer);
+            CustomerRepository.AddCustomer(businessId, customer);
         }
 
-        public CustomerData UpdateCustomer(Guid businessId, Customer customer)
+        public void UpdateCustomer(Guid businessId, Customer customer)
         {
-            return CustomerRepository.UpdateCustomer(businessId, customer);
+            CustomerRepository.UpdateCustomer(businessId, customer);
         }
 
 

@@ -21,7 +21,7 @@ namespace CoachSeek.Domain.Repositories
         IList<CoachData> GetAllCoaches(Guid businessId);
         CoachData GetCoach(Guid businessId, Guid coachId);
         void AddCoach(Guid businessId, Coach coach);
-        CoachData UpdateCoach(Guid businessId, Coach coach);
+        void UpdateCoach(Guid businessId, Coach coach);
 
         IList<ServiceData> GetAllServices(Guid businessId);
         ServiceData GetService(Guid businessId, Guid serviceId);
@@ -30,8 +30,8 @@ namespace CoachSeek.Domain.Repositories
 
         IList<CustomerData> GetAllCustomers(Guid businessId);
         CustomerData GetCustomer(Guid businessId, Guid customerId);
-        CustomerData AddCustomer(Guid businessId, Customer customer);
-        CustomerData UpdateCustomer(Guid businessId, Customer customer);
+        void AddCustomer(Guid businessId, Customer customer);
+        void UpdateCustomer(Guid businessId, Customer customer);
 
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);

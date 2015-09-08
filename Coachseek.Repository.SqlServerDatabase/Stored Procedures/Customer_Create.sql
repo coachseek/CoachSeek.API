@@ -39,20 +39,6 @@ BEGIN
 		@phone
 	)
 
-	SELECT
-		b.[Guid] AS BusinessGuid,
-		c.[Guid],
-		c.[FirstName],
-		c.[LastName],
-		c.[Email],
-		c.[Phone]
-	FROM 
-		[dbo].[Business] b
-		INNER JOIN [dbo].[Customer] c
-			ON b.Id = c.BusinessId
-	WHERE
-		c.[Id] = SCOPE_IDENTITY()
-
 END
 
 

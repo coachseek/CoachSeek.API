@@ -155,16 +155,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public CoachData UpdateCoach(Guid businessId, Coach coach)
+        public void UpdateCoach(Guid businessId, Coach coach)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Coach_Update", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Coach_Update]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
@@ -229,17 +228,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[25].Value = coach.WorkingHours.Sunday.StartTime;
                 command.Parameters[26].Value = coach.WorkingHours.Sunday.FinishTime;
 
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadCoachData(reader);
-
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
