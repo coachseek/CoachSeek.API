@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Session] (
     [Id]               INT              IDENTITY (1, 1) NOT NULL,
     [BusinessId]       INT              NOT NULL,
-    [Guid]             UNIQUEIDENTIFIER CONSTRAINT [DF_Session_Guid] DEFAULT (newid()) NOT NULL,
+    [Guid]             UNIQUEIDENTIFIER NOT NULL,
     [ParentId]         INT              NULL,
     [LocationId]       INT              NOT NULL,
     [CoachId]          INT              NOT NULL,
@@ -26,7 +26,17 @@
 );
 
 
+
+
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Session_Guid]
     ON [dbo].[Session]([Guid] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Session_BusinessId_Cover]
+    ON [dbo].[Session]([BusinessId] ASC)
+    INCLUDE([Id], [Guid], [ParentId], [LocationId], [CoachId], [ServiceId], [Name], [StartDate], [StartTime], [Duration], [StudentCapacity], [IsOnlineBookable], [SessionCount], [RepeatFrequency], [SessionPrice], [CoursePrice], [Colour]);
 

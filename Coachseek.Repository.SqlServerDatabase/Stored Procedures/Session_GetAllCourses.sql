@@ -44,8 +44,6 @@ BEGIN
 		b.[Guid] = @businessGuid
 		AND s.[ParentId] IS NULL
 		AND s.[SessionCount] > 1
-	ORDER BY
-		s.[Name]
 
 END
 
