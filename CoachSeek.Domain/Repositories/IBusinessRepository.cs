@@ -35,14 +35,14 @@ namespace CoachSeek.Domain.Repositories
 
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
-        SingleSessionData AddSession(Guid businessId, StandaloneSession session);
-        SingleSessionData UpdateSession(Guid businessId, SingleSession session);
+        void AddSession(Guid businessId, StandaloneSession session);
+        void UpdateSession(Guid businessId, SingleSession session);
         void DeleteSession(Guid businessId, Guid sessionId);
 
         IList<RepeatedSessionData> GetAllCourses(Guid businessId);
         RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
-        RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course);
-        RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course);
+        void AddCourse(Guid businessId, RepeatedSession course);
+        void UpdateCourse(Guid businessId, RepeatedSession course);
         void DeleteCourse(Guid businessId, Guid courseId);
 
         SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId);

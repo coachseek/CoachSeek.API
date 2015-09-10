@@ -282,14 +282,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return SessionRepository.GetSession(businessId, sessionId);
         }
 
-        public SingleSessionData AddSession(Guid businessId, StandaloneSession session)
+        public void AddSession(Guid businessId, StandaloneSession session)
         {
-            return SessionRepository.AddSession(businessId, session);
+            SessionRepository.AddSession(businessId, session);
         }
 
-        public SingleSessionData UpdateSession(Guid businessId, SingleSession session)
+        public void UpdateSession(Guid businessId, SingleSession session)
         {
-            return SessionRepository.UpdateSession(businessId, session);
+            SessionRepository.UpdateSession(businessId, session);
         }
 
         public void DeleteSession(Guid businessId, Guid sessionId)
@@ -308,14 +308,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return CourseRepository.GetCourse(businessId, courseId);
         }
 
-        public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
+        public void AddCourse(Guid businessId, RepeatedSession course)
         {
-            return CourseRepository.AddCourse(businessId, course);
+            CourseRepository.AddCourse(businessId, course);
         }
 
-        public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
+        public void UpdateCourse(Guid businessId, RepeatedSession course)
         {
-            return CourseRepository.UpdateCourse(businessId, course);
+            CourseRepository.UpdateCourse(businessId, course);
         }
 
         public void DeleteCourse(Guid businessId, Guid courseId)

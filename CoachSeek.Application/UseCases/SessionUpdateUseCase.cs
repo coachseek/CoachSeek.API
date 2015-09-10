@@ -48,8 +48,8 @@ namespace CoachSeek.Application.UseCases
             var coreData = LookupAndValidateCoreData(command);
             var updateSession = new StandaloneSession(existingSession, command, coreData);
             ValidateUpdate(updateSession);
-            var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
-            return new Response(data);
+            BusinessRepository.UpdateSession(Business.Id, updateSession);
+            return new Response(updateSession.ToData());
         }
 
         private IResponse UpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
@@ -59,8 +59,8 @@ namespace CoachSeek.Application.UseCases
             var coreData = LookupAndValidateCoreData(command);
             var updateSession = new SessionInCourse(existingSession, command, coreData);
             ValidateUpdate(updateSession);
-            var data = BusinessRepository.UpdateSession(Business.Id, updateSession);
-            return new Response(data);
+            BusinessRepository.UpdateSession(Business.Id, updateSession);
+            return new Response(updateSession.ToData());
         }
 
         private IResponse UpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
@@ -68,8 +68,8 @@ namespace CoachSeek.Application.UseCases
             var coreData = LookupAndValidateCoreData(command);
             var updateCourse = new RepeatedSession(existingCourse, command, coreData);
             ValidateUpdate(existingCourse, updateCourse);
-            var data = BusinessRepository.UpdateCourse(Business.Id, updateCourse);
-            return new Response(data);
+            BusinessRepository.UpdateCourse(Business.Id, updateCourse);
+            return new Response(updateCourse.ToData());
         }
 
         private bool IsChangingSessionToCourse(SessionUpdateCommand command)

@@ -81,7 +81,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        public RepeatedSessionData AddCourse(Guid businessId, RepeatedSession course)
+        public void AddCourse(Guid businessId, RepeatedSession course)
         {
             var wasAlreadyOpen = false;
 
@@ -92,8 +92,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 AddCourseData(businessId, course);
                 foreach (var session in course.Sessions)
                     AddSession(businessId, session);
-
-                return GetCourse(businessId, course.Id);
             }
             finally
             {
@@ -101,7 +99,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public RepeatedSessionData UpdateCourse(Guid businessId, RepeatedSession course)
+        public void UpdateCourse(Guid businessId, RepeatedSession course)
         {
             var wasAlreadyOpen = false;
 
@@ -112,8 +110,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 UpdateCourseData(businessId, course);
                 foreach (var session in course.Sessions)
                     UpdateSession(businessId, session);
-
-                return GetCourse(businessId, course.Id);
             }
             finally
             {

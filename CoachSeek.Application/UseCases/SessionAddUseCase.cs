@@ -50,16 +50,16 @@ namespace CoachSeek.Application.UseCases
         {
             var newSession = new StandaloneSession(command, coreData);
             ValidateAdd(newSession);
-            var data = BusinessRepository.AddSession(Business.Id, newSession);
-            return new Response(data);
+            BusinessRepository.AddSession(Business.Id, newSession);
+            return new Response(newSession.ToData());
         }
 
         private Response CreateCourse(SessionAddCommand command, CoreData coreData)
         {
             var newCourse = new RepeatedSession(command, coreData);
             ValidateAdd(newCourse);
-            var data = BusinessRepository.AddCourse(Business.Id, newCourse);
-            return new Response(data);
+            BusinessRepository.AddCourse(Business.Id, newCourse);
+            return new Response(newCourse.ToData());
         }
 
         private void ValidateAdd(StandaloneSession newSession)

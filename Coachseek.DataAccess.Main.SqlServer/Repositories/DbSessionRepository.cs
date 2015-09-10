@@ -74,53 +74,41 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public SingleSessionData AddSession(Guid businessId, SingleSession session)
+        public void AddSession(Guid businessId, SingleSession session)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Session_CreateSession", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Session_CreateSession]", Connection) { CommandType = CommandType.StoredProcedure };
                 SetCreateOrUpdateParameters(command, businessId, session);
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadSessionData(reader);
 
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
-        public SingleSessionData UpdateSession(Guid businessId, SingleSession session)
+        public void UpdateSession(Guid businessId, SingleSession session)
         {
             var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
 
             try
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Session_UpdateSession", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Session_UpdateSession]", Connection) { CommandType = CommandType.StoredProcedure };
                 SetCreateOrUpdateParameters(command, businessId, session);
-                reader = command.ExecuteReader();
-                if (reader.HasRows && reader.Read())
-                    return ReadSessionData(reader);
 
-                return null;
+                command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
             }
         }
 
