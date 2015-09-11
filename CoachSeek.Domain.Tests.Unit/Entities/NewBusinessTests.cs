@@ -266,7 +266,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(response, Is.InstanceOf<NewBusiness>());
             var newBusiness = (NewBusiness)response;
 
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             Assert.That(newBusiness.CreatedOn, Is.GreaterThan(now.Subtract(new TimeSpan(0, 1, 0))));
             Assert.That(newBusiness.CreatedOn, Is.LessThan(now.Add(new TimeSpan(0, 1, 0))));
         }

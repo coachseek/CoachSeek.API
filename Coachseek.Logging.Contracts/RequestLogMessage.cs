@@ -20,7 +20,7 @@ namespace Coachseek.Logging.Contracts
         {
             get
             {
-                _finishTime = _finishTime ?? DateTime.Now;
+                _finishTime = _finishTime ?? DateTime.UtcNow;
                 return _finishTime.Value;
             } 
         }

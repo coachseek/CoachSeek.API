@@ -7,7 +7,6 @@ namespace CoachSeek.Domain.Entities
 {
     public class NewBusiness : Business
     {
-        public DateTime CreatedOn { get; private set; }
         public bool IsTesting { get; set; }
 
         public NewBusiness(BusinessRegistrationCommand registration, 
@@ -19,7 +18,7 @@ namespace CoachSeek.Domain.Entities
             Domain = domainBuilder.BuildDomain(command.Name);
             Sport = command.Sport == null ? null : command.Sport.Trim();
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
-            CreatedOn = DateTime.Now; // On Windows Azure this is UTC/GMT time.
+            CreatedOn = DateTime.UtcNow;
             IsTesting = DetermineIsTesting(registration.Admin.Email);
         }
 
@@ -32,7 +31,7 @@ namespace CoachSeek.Domain.Entities
                            bool forceOnlinePayment = false,
                            string paymentProvider = null,
                            string merchantAccountIdentifier = null,
-                           DateTime createdOn = new DateTime(),
+                           DateTime? createdOn = null,
                            bool isTesting = true)
             : base(id, 
                    name, 
@@ -46,7 +45,7 @@ namespace CoachSeek.Domain.Entities
         {
             // Testing constructor
 
-            CreatedOn = DateTime.Now;
+            CreatedOn = createdOn ?? DateTime.UtcNow;
             IsTesting = isTesting;
         }
 

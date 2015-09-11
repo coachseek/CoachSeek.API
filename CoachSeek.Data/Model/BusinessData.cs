@@ -8,6 +8,7 @@ namespace CoachSeek.Data.Model
         public string Name { get; set; }
         public string Domain { get; set; }
         public string Sport { get; set; }
+        public DateTime CreatedOn { get; set; }
         public BusinessPaymentData Payment { get; set; }
 
         public BusinessData()

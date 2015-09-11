@@ -29,7 +29,7 @@ namespace Coachseek.DataAccess.TableStorage.Logging
 
         public void LogError(string  message)
         {
-            var logMessage = new LogMessage(Application, LogLevel.Error, message, DateTime.Now);
+            var logMessage = new LogMessage(Application, LogLevel.Error, message, DateTime.UtcNow);
             var logEntity = new LogEntity(logMessage);
             Table.Execute(TableOperation.Insert(logEntity));
         }
@@ -47,7 +47,7 @@ namespace Coachseek.DataAccess.TableStorage.Logging
 
         private void Log(string message, string data, LogLevel level)
         {
-            var logMessage = new LogMessage(Application, level, message, DateTime.Now, data);
+            var logMessage = new LogMessage(Application, level, message, DateTime.UtcNow, data);
             var logEntity = new LogEntity(logMessage);
             Table.Execute(TableOperation.Insert(logEntity));
         }
