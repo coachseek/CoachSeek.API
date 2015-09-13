@@ -7,10 +7,10 @@ namespace Coachseek.Integration.DataImport
 {
     public class DataImportReader : IDataImportReader
     {
-        public DataImportReader(string filePath, bool skipTheFirstColumn, char seperator)
+        public DataImportReader(string filePath, bool skipTheFirstColumn, char separator)
         {
             SkipTheFirstColumn = skipTheFirstColumn;
-            Seperator = seperator;
+            Separator = separator;
             FilePath = filePath;
         }
 
@@ -26,7 +26,7 @@ namespace Coachseek.Integration.DataImport
                 string line;
                 while ((line = readFile.ReadLine()) != null)
                 {
-                    var row = line.Split(Seperator);
+                    var row = line.Split(Separator);
                     var list = CovertRowToList(row);
                     yield return list;
                 }
@@ -38,7 +38,7 @@ namespace Coachseek.Integration.DataImport
             return new CsvData(row); ;
         }
 
-        public char Seperator { get; private set; }
+        public char Separator { get; private set; }
 
         public bool SkipTheFirstColumn { get; private set; }
 
