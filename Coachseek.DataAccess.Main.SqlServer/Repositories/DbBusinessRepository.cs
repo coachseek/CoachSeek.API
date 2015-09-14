@@ -131,6 +131,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@createdOn", SqlDbType.DateTime2));
+                command.Parameters.Add(new SqlParameter("@authorisedUntil", SqlDbType.DateTime2));
                 command.Parameters.Add(new SqlParameter("@isTesting", SqlDbType.Bit));
 
                 command.Parameters[0].Value = business.Id;
@@ -143,7 +144,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[7].Value = business.PaymentProvider;
                 command.Parameters[8].Value = business.MerchantAccountIdentifier;
                 command.Parameters[9].Value = business.CreatedOn;
-                command.Parameters[10].Value = business.IsTesting;
+                command.Parameters[10].Value = business.AuthorisedUntil;
+                command.Parameters[11].Value = business.IsTesting;
 
                 command.ExecuteNonQuery();
             }
@@ -837,6 +839,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var forceOnlinePayment = reader.GetBoolean(6);
             var paymentProvider = reader.GetNullableString(7);
             var merchantAccountIdentifier = reader.GetNullableString(8);
+            var authorisedUntil = reader.GetDateTime(9);
 
             return new BusinessData
             {
@@ -844,6 +847,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Name = name,
                 Domain = domain,
                 Sport = sport,
+                AuthorisedUntil = authorisedUntil,
                 Payment = new BusinessPaymentData
                 {
                     Currency = currency,

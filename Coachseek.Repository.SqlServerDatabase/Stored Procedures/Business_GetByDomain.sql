@@ -14,7 +14,8 @@ BEGIN
 		[IsOnlinePaymentEnabled],
 		[ForceOnlinePayment],
 		[PaymentProvider],
-		[MerchantAccountIdentifier]
+		[MerchantAccountIdentifier],
+		[AuthorisedUntil]
 	FROM
 		[dbo].[Business]
 	WHERE

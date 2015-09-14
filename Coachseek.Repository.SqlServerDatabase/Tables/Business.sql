@@ -11,8 +11,11 @@
     [ForceOnlinePayment]        BIT              NOT NULL,
     [IsTesting]                 BIT              NOT NULL,
     [Sport]                     NVARCHAR (100)   NULL,
+    [AuthorisedUntil]           DATETIME2 (7)    NULL,
     CONSTRAINT [PK_Business] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

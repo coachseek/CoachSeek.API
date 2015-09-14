@@ -14,7 +14,7 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
         public string Sport { get; protected set; }
-        public DateTime CreatedOn { get; protected set; }
+        public DateTime AuthorisedUntil { get; protected set; }
         public string Currency { get { return Payment.CurrencyCode; } }
         public bool IsOnlinePaymentEnabled { get { return Payment.IsOnlinePaymentEnabled; } }
         public bool? ForceOnlinePayment { get { return Payment.ForceOnlinePayment; } }

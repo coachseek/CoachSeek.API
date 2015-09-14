@@ -7,6 +7,9 @@ namespace CoachSeek.Domain.Entities
 {
     public class NewBusiness : Business
     {
+        private const int FREE_TRIAL_DURATION_IN_DAYS = 30;
+
+        public DateTime CreatedOn { get; set; }
         public bool IsTesting { get; set; }
 
         public NewBusiness(BusinessRegistrationCommand registration, 
@@ -18,8 +21,8 @@ namespace CoachSeek.Domain.Entities
             Domain = domainBuilder.BuildDomain(command.Name);
             Sport = command.Sport == null ? null : command.Sport.Trim();
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
-            CreatedOn = DateTime.UtcNow;
             IsTesting = DetermineIsTesting(registration.Admin.Email);
+            SetDates();
         }
 
         public NewBusiness(Guid id, 
@@ -45,7 +48,7 @@ namespace CoachSeek.Domain.Entities
         {
             // Testing constructor
 
-            CreatedOn = createdOn ?? DateTime.UtcNow;
+            SetDates(createdOn);
             IsTesting = isTesting;
         }
 
@@ -53,6 +56,12 @@ namespace CoachSeek.Domain.Entities
         private bool DetermineIsTesting(string email)
         {
             return email.ToLower().EndsWith("@coachseek.com");
+        }
+
+        private void SetDates(DateTime? createdOn = null)
+        {
+            CreatedOn = createdOn ?? DateTime.UtcNow;
+            AuthorisedUntil = CreatedOn.AddDays(FREE_TRIAL_DURATION_IN_DAYS);
         }
     }
 }
