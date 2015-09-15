@@ -77,7 +77,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private object WhenTryDeleteBooking(Guid bookingId)
         {
             var booking = new BookingDeleteUseCase(new BookingGetByIdUseCase());
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, BusinessRepository, SupportedCurrencyRepository, UserRepository);
             var emailContext = new EmailContext(true, false, "", null);

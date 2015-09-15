@@ -36,7 +36,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Coaches
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Get()
         {
             CoachesGetAllUseCase.Initialise(Context);
@@ -46,7 +46,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Get(Guid id)
         {
             CoachGetByIdUseCase.Initialise(Context);
@@ -56,7 +56,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Coaches
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coach)
@@ -69,7 +69,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Delete(Guid id)
         {
             CoachDeleteUseCase.Initialise(Context);

@@ -153,6 +153,7 @@
     <Compile Include="Attributes\BasicAuthenticationAttributeBase.cs" />
     <Compile Include="Attributes\BasicAuthenticationOrAnonymousAttribute.cs" />
     <Compile Include="Attributes\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Attributes\BusinessAuthorizeAttribute.cs" />
     <Compile Include="Attributes\TestingFilter.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />

@@ -7,6 +7,12 @@
 
         public const string ANONYMOUS_USER = "anonymous";
 
+        // Subscription Plans
+        public const string SUBSCRIPTION_TRIAL = "Trial";
+        public const string SUBSCRIPTION_SOLO = "Solo";
+        public const string SUBSCRIPTION_TEAM = "Team";
+        public const string SUBSCRIPTION_PRO = "Pro";
+
         // Payment Providers
         public const string PAYPAL = "PayPal";
         public const string TEST = "Test";

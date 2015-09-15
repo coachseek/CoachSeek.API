@@ -130,6 +130,7 @@
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
+    <Compile Include="Entities\Subscription.cs" />
     <Compile Include="Entities\TestPaymentProvider.cs" />
     <Compile Include="Entities\Payer.cs" />
     <Compile Include="Entities\NewPayment.cs" />

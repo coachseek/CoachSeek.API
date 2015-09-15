@@ -46,7 +46,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Customers
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Get()
         {
             CustomersGetAllUseCase.Initialise(Context);
@@ -56,7 +56,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Get(Guid id)
         {
             CustomerGetByIdUseCase.Initialise(Context);
@@ -66,7 +66,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Customers
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiCustomerSaveCommand customer)
@@ -94,7 +94,7 @@ namespace CoachSeek.Api.Controllers
         // POST: Customers/Upload
         [Route("Customers/Upload")]
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [HttpPost]
         public async Task<IHttpActionResult> ImportData()
         {

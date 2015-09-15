@@ -23,7 +23,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Business
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Get()
         {
             BusinessGetUseCase.Initialise(Context);
@@ -46,7 +46,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Business
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBusinessSaveCommand business)

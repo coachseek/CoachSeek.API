@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
@@ -23,6 +24,7 @@ namespace CoachSeek.Domain.Entities
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
             IsTesting = DetermineIsTesting(registration.Admin.Email);
             SetDates();
+            SetSubsciption();
         }
 
         public NewBusiness(Guid id, 
@@ -48,8 +50,9 @@ namespace CoachSeek.Domain.Entities
         {
             // Testing constructor
 
-            SetDates(createdOn);
             IsTesting = isTesting;
+            SetDates(createdOn);
+            SetSubsciption();
         }
 
 
@@ -62,6 +65,11 @@ namespace CoachSeek.Domain.Entities
         {
             CreatedOn = createdOn ?? DateTime.UtcNow;
             AuthorisedUntil = CreatedOn.AddDays(FREE_TRIAL_DURATION_IN_DAYS);
+        }
+
+        private void SetSubsciption()
+        {
+            Subscription = CoachSeek.Domain.Entities.Subscription.Create(Constants.SUBSCRIPTION_TRIAL);
         }
     }
 }

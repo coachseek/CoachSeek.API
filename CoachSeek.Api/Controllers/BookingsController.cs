@@ -49,7 +49,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Bookings
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBookingSaveCommand booking)
@@ -70,7 +70,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Bookings/{booking_id}
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
         {
@@ -82,7 +82,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Delete(Guid id)
         {
             var response = DeleteBooking(id);

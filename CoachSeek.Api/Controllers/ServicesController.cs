@@ -56,7 +56,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Services
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiServiceSaveCommand service)
@@ -69,7 +69,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [Authorize]
+        [BusinessAuthorize]
         public HttpResponseMessage Delete(Guid id)
         {
             ServiceDeleteUseCase.Initialise(Context);

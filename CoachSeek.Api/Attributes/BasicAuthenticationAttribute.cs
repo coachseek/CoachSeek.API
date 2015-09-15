@@ -99,7 +99,7 @@ namespace CoachSeek.Api.Attributes
 
         protected BusinessDetails ConvertToBusinessDetails(BusinessData business)
         {
-            return new BusinessDetails(business.Id, business.Name, business.Domain);
+            return new BusinessDetails(business.Id, business.Name, business.Domain, business.AuthorisedUntil);
         }
 
         protected CurrencyDetails ConvertToCurrencyDetails(CurrencyData currency)

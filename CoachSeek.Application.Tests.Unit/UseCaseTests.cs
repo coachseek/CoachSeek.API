@@ -106,7 +106,7 @@ namespace CoachSeek.Application.Tests.Unit
 
         protected ApplicationContext CreateApplicationContext()
         {
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "");
+            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
             var currency = new CurrencyDetails("NZD", "$");
             var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
             var emailContext = new EmailContext(true, false, "", null);
