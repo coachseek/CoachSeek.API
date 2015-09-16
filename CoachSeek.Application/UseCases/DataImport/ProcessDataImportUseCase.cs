@@ -1,4 +1,7 @@
-﻿using CoachSeek.Application.Contracts.UseCases.DataImport;
+﻿using System.Collections;
+using System.Collections.Generic;
+using CoachSeek.Application.Contracts.UseCases.DataImport;
+using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.UseCases.DataImport
 {
@@ -6,7 +9,11 @@ namespace CoachSeek.Application.UseCases.DataImport
     {
         public void Process()
         {
-            // TODO: Put code here for importing CSV data.
+            // Read import data from queue
+
+            // Split data into entities
+
+            // Save entity data to the database.
         }
     }
 }
