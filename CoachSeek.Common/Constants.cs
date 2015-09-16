@@ -13,6 +13,8 @@
         public const string SUBSCRIPTION_TEAM = "Team";
         public const string SUBSCRIPTION_PRO = "Pro";
 
+        public const int MAXIMUM_NUMBER_OF_COACHES = 100;
+
         // Payment Providers
         public const string PAYPAL = "PayPal";
         public const string TEST = "Test";

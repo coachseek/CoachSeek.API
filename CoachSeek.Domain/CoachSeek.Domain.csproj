@@ -152,6 +152,7 @@
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\NewTransactionDetails.cs" />
     <Compile Include="Entities\TransactionDetails.cs" />
+    <Compile Include="Entities\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />
     <Compile Include="Exceptions\BookingUpdateNotSupported.cs" />

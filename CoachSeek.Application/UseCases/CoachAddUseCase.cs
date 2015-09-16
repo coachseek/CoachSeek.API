@@ -31,6 +31,8 @@ namespace CoachSeek.Application.UseCases
                                                 && x.LastName.ToLower() == newCoach.LastName.ToLower());
             if (isExistingCoach)
                 throw new CoachDuplicate(newCoach.Name);
+
+            // TODO: Check that the business subscription allows an additional coach.
         }
     }
 }
