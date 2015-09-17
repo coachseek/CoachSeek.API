@@ -75,7 +75,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private void ValidatePayment(NewPayment newPayment, DataRepositories dataAccess)
         {
             ValidatePaymentStatus(newPayment);
-            var business = dataAccess.BusinessRepository.GetBusiness(newPayment.MerchantId);
+            var business = GetBusiness(newPayment.MerchantId, dataAccess);
             ValidateBusiness(business, newPayment);
             var customerBooking = GetCustomerBooking(dataAccess, business.Id, newPayment.ItemId);
             ValidateCustomerBooking(customerBooking, newPayment);
@@ -88,6 +88,14 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             }
             var course = dataAccess.BusinessRepository.GetCourse(business.Id, customerBooking.SessionId);
             ValidateCoursePaymentAmount(course, (CourseBookingData)booking, newPayment);
+        }
+
+        private Business GetBusiness(Guid merchantId, DataRepositories dataAccess)
+        {
+            var business = dataAccess.BusinessRepository.GetBusiness(merchantId);
+            if (business.IsNotFound())
+                return null;
+            return new Business(business, dataAccess.SupportedCurrencyRepository);
         }
 
         private NewPayment ModifyPayment(NewPayment newPayment, DataRepositories dataAccess)
@@ -112,17 +120,17 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PendingPayment();
         }
 
-        private void ValidateBusiness(BusinessData business, NewPayment newPayment)
+        private void ValidateBusiness(Business business, NewPayment newPayment)
         {
             if (business.IsNotFound())
                 throw new InvalidBusiness();
-            if (!business.Payment.IsOnlinePaymentEnabled)
+            if (!business.IsOnlinePaymentEnabled)
                 throw new OnlinePaymentNotEnabled();
-            if (newPayment.PaymentProvider != business.Payment.PaymentProvider)
+            if (newPayment.PaymentProvider != business.PaymentProvider)
                 throw new PaymentProviderMismatch();
-            if (newPayment.MerchantEmail != business.Payment.MerchantAccountIdentifier)
+            if (newPayment.MerchantEmail != business.MerchantAccountIdentifier)
                 throw new MerchantAccountIdentifierMismatch();
-            if (newPayment.ItemCurrency != business.Payment.Currency)
+            if (newPayment.ItemCurrency != business.CurrencyCode)
                 throw new PaymentCurrencyMismatch();
         }
 

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Commands;
+﻿using CoachSeek.Data.Model;
+using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Factories;
 using CoachSeek.Domain.Repositories;
@@ -11,6 +12,7 @@ namespace CoachSeek.Domain.Entities
         private PaymentProviderBase _paymentProvider;
 
         public string CurrencyCode { get { return _currency.Code; } }
+        public string CurrencySymbol { get { return _currency.Symbol; } }
         public bool IsOnlinePaymentEnabled { get; protected set; }
         public bool ForceOnlinePayment { get; protected set; }
         public string PaymentProvider { get { return _paymentProvider.ProviderName; } }
@@ -43,7 +45,8 @@ namespace CoachSeek.Domain.Entities
             validation.ThrowIfErrors();
         }
 
-        public PaymentOptions(string currency, 
+        public PaymentOptions(string currencyCode,
+                              string currencySymbol,
                               bool isOnlinePaymentEnabled, 
                               bool forceOnlinePayment, 
                               string paymentProvider, 
@@ -51,11 +54,20 @@ namespace CoachSeek.Domain.Entities
         {
             // Testing constructor
 
-            _currency = new Currency(currency);
+            _currency = new Currency(currencyCode, currencySymbol);
             IsOnlinePaymentEnabled = isOnlinePaymentEnabled;
             ForceOnlinePayment = forceOnlinePayment;
             _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(paymentProvider,
                                                                             merchantAccountIdentifier);
+        }
+
+        public PaymentOptions(BusinessPaymentData payment, ISupportedCurrencyRepository supportedCurrencyRepository)
+        {
+            _currency = new Currency(supportedCurrencyRepository.GetByCode(payment.Currency));
+            IsOnlinePaymentEnabled = payment.IsOnlinePaymentEnabled;
+            ForceOnlinePayment = payment.ForceOnlinePayment;
+            _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(payment.PaymentProvider,
+                                                                            payment.MerchantAccountIdentifier);
         }
 
 

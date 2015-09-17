@@ -1,8 +1,8 @@
 ﻿using CoachSeek.Api.Results;
-using CoachSeek.Common;
 using System.Security.Principal;
 using System.Threading;
 using System.Web.Http.Filters;
+using CoachSeek.Domain.Entities.Authentication;
 
 namespace CoachSeek.Api.Attributes
 {

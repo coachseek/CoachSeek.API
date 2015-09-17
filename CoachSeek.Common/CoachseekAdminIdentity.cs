@@ -1,11 +1,11 @@
-﻿using System.Security.Principal;
+﻿//using System.Security.Principal;
 
-namespace CoachSeek.Common
-{
-    public class CoachseekAdminIdentity : GenericIdentity
-    {
-        public CoachseekAdminIdentity()
-            : base("admin", "none")
-        { }
-    }
-}
+//namespace CoachSeek.Common
+//{
+//    public class CoachseekAdminIdentity : GenericIdentity
+//    {
+//        public CoachseekAdminIdentity()
+//            : base("admin", "none")
+//        { }
+//    }
+//}

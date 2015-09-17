@@ -33,6 +33,8 @@ namespace CoachSeek.Application.UseCases
                 throw new CoachDuplicate(newCoach.Name);
 
             // TODO: Check that the business subscription allows an additional coach.
+            //if (!Business.IsAllowedAdditionalCoach(coaches))
+            //    throw new CoachDisallowedBySubscription(newCoach.Name);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace CoachSeek.Application.Services.Emailing
         protected ApplicationContext Context { get; set; }
         protected Guid BusinessId { get { return Context.BusinessContext.Business.Id; } }
         protected string BusinessName { get { return Context.BusinessContext.Business.Name; } }
-        protected string CurrencySymbol { get { return Context.BusinessContext.Currency.Symbol; } }
+        protected string CurrencySymbol { get { return Context.BusinessContext.Business.CurrencySymbol; } }
         protected bool IsTesting { get { return Context.IsTesting; } }
         protected bool ForceEmail { get { return Context.EmailContext.ForceEmail; } }
         protected string Sender { get { return Context.EmailContext.EmailSender; } }

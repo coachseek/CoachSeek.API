@@ -289,7 +289,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(response, Is.InstanceOf<NewBusiness>());
             var newBusiness = (NewBusiness)response;
 
-            Assert.That(newBusiness.Currency, Is.EqualTo(VALID_CURRENCY));
+            Assert.That(newBusiness.CurrencyCode, Is.EqualTo(VALID_CURRENCY));
         }
 
         private void ThenSetPaymentDefaults(object response)

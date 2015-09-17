@@ -198,11 +198,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private object WhenCallSearchForSessions(Tuple<string, string, Guid?, Guid?, Guid?> criteria)
         {
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
-            var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(null, businessContext, emailContext, null, true);
+            var context = CreateApplicationContext();
             var coachGetByIdUseCase = new CoachGetByIdUseCase();
             coachGetByIdUseCase.Initialise(context);
             var locationGetByIdUseCase = new LocationGetByIdUseCase();

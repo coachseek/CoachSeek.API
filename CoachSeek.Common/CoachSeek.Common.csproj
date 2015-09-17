@@ -52,14 +52,12 @@
     <Compile Include="UserDetails.cs" />
     <Compile Include="BusinessDetails.cs" />
     <Compile Include="CoachseekAdminIdentity.cs" />
-    <Compile Include="CoachseekAnonymousIdentity.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyDetails.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="NoBusinessPrincipal.cs" />
-    <Compile Include="CoachseekIdentity.cs" />
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

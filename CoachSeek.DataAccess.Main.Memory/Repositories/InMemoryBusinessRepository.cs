@@ -107,7 +107,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
             var businessData = Mapper.Map<DbBusiness, BusinessData>(business);
 
-            businessData.Payment.Currency = business.Currency;
+            businessData.Payment.Currency = business.CurrencyCode;
             businessData.Payment.IsOnlinePaymentEnabled = business.IsOnlinePaymentEnabled;
             businessData.Payment.ForceOnlinePayment = business.ForceOnlinePayment;
             businessData.Payment.PaymentProvider = business.PaymentProvider;

@@ -102,7 +102,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var businessData = (Business)BusinessRepository.DataPassedIn;
             Assert.That(businessData.Id, Is.Not.EqualTo(Guid.Empty));
             Assert.That(businessData.Name, Is.EqualTo("Ian's Tennis Coaching"));
-            Assert.That(businessData.Currency, Is.EqualTo("NZD"));
+            Assert.That(businessData.CurrencyCode, Is.EqualTo("NZD"));
         }
     }
 }

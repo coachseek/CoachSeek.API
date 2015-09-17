@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
@@ -22,11 +23,16 @@ namespace CoachSeek.Domain.Entities
             Symbol = currency.Symbol;
         }
 
-        public Currency(string code)
+        public Currency(string code, string symbol)
         {
-            // Testing constructor
-
             Code = code;
+            Symbol = symbol;
+        }
+
+        public Currency(CurrencyData currency)
+        {
+            Code = currency.Code;
+            Symbol = currency.Symbol;
         }
     }
 }

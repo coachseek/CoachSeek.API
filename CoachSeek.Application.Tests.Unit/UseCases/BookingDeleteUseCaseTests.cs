@@ -2,6 +2,7 @@
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Common;
+using CoachSeek.Domain.Entities;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -77,12 +78,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private object WhenTryDeleteBooking(Guid bookingId)
         {
             var booking = new BookingDeleteUseCase(new BookingGetByIdUseCase());
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, BusinessRepository, SupportedCurrencyRepository, UserRepository);
-            var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(null, businessContext, emailContext, null, true);
-            booking.Initialise(context);
+            booking.Initialise(CreateApplicationContext());
             try
             {
                 return booking.DeleteBooking(bookingId);

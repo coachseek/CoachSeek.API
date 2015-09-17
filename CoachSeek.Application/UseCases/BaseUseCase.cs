@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Common;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
@@ -9,8 +9,7 @@ namespace CoachSeek.Application.UseCases
     public abstract class BaseUseCase : IApplicationContextSetter
     {
         protected ApplicationContext Context { set; get; }
-        protected BusinessDetails Business { set; get; }
-        protected CurrencyDetails Currency { set; get; }
+        protected Business Business { set; get; }
         protected IBusinessRepository BusinessRepository { set; get; }
         protected ISupportedCurrencyRepository SupportedCurrencyRepository { set; get; }
         protected IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; get; }
@@ -22,7 +21,6 @@ namespace CoachSeek.Application.UseCases
             Context = context;
 
             Business = Context.BusinessContext.Business;
-            Currency = Context.BusinessContext.Currency;
 
             BusinessRepository = Context.BusinessContext.BusinessRepository;
             SupportedCurrencyRepository = Context.BusinessContext.SupportedCurrencyRepository;

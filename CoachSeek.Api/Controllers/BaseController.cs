@@ -2,8 +2,10 @@
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models;
-using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
+using CoachSeek.Domain.Contracts;
+using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Entities.Authentication;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
@@ -11,9 +13,8 @@ namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
-        private UserDetails _user;
-        private BusinessDetails _business;
-        private CurrencyDetails _currency;
+        private User _user;
+        private Business _business;
 
         public IBusinessRepository BusinessRepository { set; protected get; }
         public IUserRepository UserRepository { set; protected get; }
@@ -21,21 +22,21 @@ namespace CoachSeek.Api.Controllers
         public IUnsubscribedEmailAddressRepository UnsubscribedEmailAddressRepository { set; protected get; }
         public ILogRepository LogRepository { set; protected get; }
 
-        public UserDetails CurrentUser
-        {
-            // Make User public and setable for unit testing.
-            set { _user = value; }
-            get
-            {
-                if (_user != null)
-                    return _user;
-                if (RequestContext.Principal.Identity is CoachseekIdentity)
-                    return ((CoachseekIdentity)RequestContext.Principal.Identity).User;
-                return null;
-            }
-        }
+        //public User CurrentUser
+        //{
+        //    // Make User public and setable for unit testing.
+        //    set { _user = value; }
+        //    get
+        //    {
+        //        if (_user != null)
+        //            return _user;
+        //        if (RequestContext.Principal.Identity is CoachseekIdentity)
+        //            return ((CoachseekIdentity)RequestContext.Principal.Identity).User;
+        //        return null;
+        //    }
+        //}
 
-        public BusinessDetails Business
+        public Business Business
         {
             // Make Business public and setable for unit testing.
             set { _business = value; }
@@ -45,19 +46,6 @@ namespace CoachSeek.Api.Controllers
                     return _business;
                 if (RequestContext.Principal.Identity is CoachseekIdentity)
                     return ((CoachseekIdentity)RequestContext.Principal.Identity).Business;
-                return null;
-            }
-        }
-
-        public CurrencyDetails Currency
-        {
-            set { _currency = value; }
-            get
-            {
-                if (_currency != null)
-                    return _currency;
-                if (RequestContext.Principal.Identity is CoachseekIdentity)
-                    return ((CoachseekIdentity)RequestContext.Principal.Identity).Currency;
                 return null;
             }
         }
@@ -103,7 +91,7 @@ namespace CoachSeek.Api.Controllers
 
         private UserContext UserContext
         {
-            get { return new UserContext(CurrentUser, UserRepository); }
+            get { return new UserContext(UserRepository); }
         }
 
         private BusinessContext BusinessContext
@@ -112,7 +100,7 @@ namespace CoachSeek.Api.Controllers
             {
                 if (Business == null)
                     return null;
-                return new BusinessContext(Business, Currency, BusinessRepository, SupportedCurrencyRepository, UserRepository);
+                return new BusinessContext(Business, BusinessRepository, SupportedCurrencyRepository, UserRepository);
             }
         }
 
@@ -151,7 +139,6 @@ namespace CoachSeek.Api.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
             return Request.CreateResponse(HttpStatusCode.BadRequest, response.Errors);
         }
-
 
         protected HttpResponseMessage CreateWebErrorResponse(IResponse response)
         {

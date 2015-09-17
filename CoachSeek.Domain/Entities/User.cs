@@ -2,16 +2,17 @@
 using AutoMapper;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class User
+    public class User : IUser
     {
         public Guid Id { get; protected set; }
 
-        public string UserName
+        public string Username
         {
             get { return Credential.Username; }
         }

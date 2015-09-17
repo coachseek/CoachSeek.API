@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Entities.Subscriptions;
 using CoachSeek.Domain.Repositories;
 using System;
 
@@ -15,9 +16,10 @@ namespace CoachSeek.Domain.Entities
         public string Name { get; protected set; }
         public string Domain { get; protected set; }
         public string Sport { get; protected set; }
-        public string SubscriptionPlan { get; protected set; }
+        public string SubscriptionPlan { get { return Subscription.Plan; } }
         public DateTime AuthorisedUntil { get; protected set; }
-        public string Currency { get { return Payment.CurrencyCode; } }
+        public string CurrencyCode { get { return Payment.CurrencyCode; } }
+        public string CurrencySymbol { get { return Payment.CurrencySymbol; } }
         public bool IsOnlinePaymentEnabled { get { return Payment.IsOnlinePaymentEnabled; } }
         public bool? ForceOnlinePayment { get { return Payment.ForceOnlinePayment; } }
         public string PaymentProvider { get { return Payment.PaymentProvider; } }
@@ -25,13 +27,27 @@ namespace CoachSeek.Domain.Entities
 
         public Business(BusinessData existingBusiness, 
                         BusinessUpdateCommand command, 
-                        ISupportedCurrencyRepository supportedCurrencyRepository)
+                        ISupportedCurrencyRepository supportedCurrencyRepository) 
+            : this (existingBusiness)
         {
-            Id = existingBusiness.Id;
             Name = command.Name.Trim();
-            Domain = existingBusiness.Domain;
-            Sport = existingBusiness.Sport;
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
+        }
+
+        public Business(BusinessData business, ISupportedCurrencyRepository supportedCurrencyRepository)
+            : this(business)
+        {
+            Payment = new PaymentOptions(business.Payment, supportedCurrencyRepository);
+        }
+
+        private Business(BusinessData business)
+        {
+            Id = business.Id;
+            Name = business.Name;
+            Domain = business.Domain;
+            Sport = business.Sport;
+            AuthorisedUntil = business.AuthorisedUntil;
+            Subscription = Subscription.Create(business.SubscriptionPlan);
         }
 
         protected Business()
@@ -45,11 +61,12 @@ namespace CoachSeek.Domain.Entities
             Id = id;
         }
 
-        public Business(Guid id, 
+        public Business(Guid id,
             string name,
             string domain,
+            string currencyCode,
+            string currencySymbol,
             string sport,
-            string currency,
             bool isOnlinePaymentEnabled = false,
             bool forceOnlinePayment = false,
             string paymentProvider = null,
@@ -61,7 +78,37 @@ namespace CoachSeek.Domain.Entities
             Name = name;
             Domain = domain;
             Sport = sport;
-            Payment = new PaymentOptions(currency, 
+            Payment = new PaymentOptions(currencyCode,
+                                         currencySymbol,
+                                         isOnlinePaymentEnabled,
+                                         forceOnlinePayment,
+                                         paymentProvider,
+                                         merchantAccountIdentifier);
+        }
+
+        public Business(Guid id, 
+            string name,
+            string domain,
+            string currencyCode,
+            string currencySymbol,
+            string sport,
+            DateTime authorisedUntil,
+            string subscription,
+            bool isOnlinePaymentEnabled = false,
+            bool forceOnlinePayment = false,
+            string paymentProvider = null,
+            string merchantAccountIdentifier = null)
+        {
+            // Testing constructor
+
+            Id = id;
+            Name = name;
+            Domain = domain;
+            Sport = sport;
+            AuthorisedUntil = authorisedUntil;
+            Subscription = Subscription.Create(subscription);
+            Payment = new PaymentOptions(currencyCode,
+                                         currencySymbol,
                                          isOnlinePaymentEnabled, 
                                          forceOnlinePayment,
                                          paymentProvider,
@@ -73,7 +120,7 @@ namespace CoachSeek.Domain.Entities
         {
             var businessData = Mapper.Map<Business, BusinessData>(this);
 
-            businessData.Payment.Currency = Currency;
+            businessData.Payment.Currency = CurrencyCode;
             businessData.Payment.IsOnlinePaymentEnabled = IsOnlinePaymentEnabled;
             businessData.Payment.ForceOnlinePayment = ForceOnlinePayment.GetValueOrDefault();
             businessData.Payment.PaymentProvider = PaymentProvider;

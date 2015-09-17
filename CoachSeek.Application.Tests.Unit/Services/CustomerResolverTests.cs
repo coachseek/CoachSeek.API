@@ -2,7 +2,6 @@
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Services;
-using CoachSeek.Common;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
@@ -39,9 +38,8 @@ namespace CoachSeek.Application.Tests.Unit.Services
             SetupBusinessRepository();
             SetupUserRepository();
 
-            var business = new BusinessDetails(BusinessId, "", "", DateTime.UtcNow.AddDays(1));
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
+            var business = new Business(BusinessId, "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
+            var businessContext = new BusinessContext(business, BusinessRepository, null, UserRepository);
             Context = new ApplicationContext(null, businessContext, null, null, true);
         }
 
@@ -69,7 +67,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             BusinessId = new Guid("111D234C-9627-4F9B-8552-8BE0AB28A558");
             var business = new NewBusiness(BusinessId, 
                                         "Ian's Tennis Academy",
-                                        "ianstennisacademy", "NZD");
+                                        "ianstennisacademy", "NZD", "$");
             BusinessRepository.AddBusiness(business);
             var customer = new Customer(new Guid("8A23F42D-9F6B-46FD-9922-3DA0E05B1A72"), 
                                         "Fred", "Flintstone", 

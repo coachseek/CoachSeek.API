@@ -207,7 +207,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 }
             };
 
-            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.CoachAddUseCase = useCase;
 
@@ -225,7 +225,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Phone = "0987654321"
             };
 
-            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.CoachUpdateUseCase = useCase;
 

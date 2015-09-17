@@ -1,4 +1,5 @@
-﻿using Coachseek.DataAccess.Main.SqlServer.Repositories;
+﻿using CoachSeek.DataAccess.Main.Memory.Repositories;
+using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Logging;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
@@ -23,6 +24,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var dbTestBusinessRepository = new DbTestBusinessRepository();
             return new DataRepositories(dbTestBusinessRepository,
                                         dbTestBusinessRepository,
+                                        new HardCodedSupportedCurrencyRepository(),
                                         new AzureTestTableLogRepository(APPLICATION));
         }
 
@@ -31,6 +33,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             var dbBusinessRepository = new DbBusinessRepository();
             return new DataRepositories(dbBusinessRepository,
                                         dbBusinessRepository,
+                                        new HardCodedSupportedCurrencyRepository(),
                                         new AzureTableLogRepository(APPLICATION));
         }
     }

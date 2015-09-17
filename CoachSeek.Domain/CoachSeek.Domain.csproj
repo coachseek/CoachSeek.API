@@ -111,6 +111,11 @@
     <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
     <Compile Include="Contracts\ICommand.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
+    <Compile Include="Contracts\IUser.cs" />
+    <Compile Include="Entities\AnonymousUser.cs" />
+    <Compile Include="Entities\Authentication\CoachseekAdminIdentity.cs" />
+    <Compile Include="Entities\Authentication\CoachseekAnonymousIdentity.cs" />
+    <Compile Include="Entities\Authentication\CoachseekIdentity.cs" />
     <Compile Include="Entities\ColourDefault.cs" />
     <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
@@ -130,7 +135,13 @@
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
-    <Compile Include="Entities\Subscription.cs" />
+    <Compile Include="Entities\Subscriptions\ProSubscription.cs" />
+    <Compile Include="Entities\Subscriptions\UnlimitedSubscription.cs" />
+    <Compile Include="Entities\Subscriptions\SoloSubscription.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities\Subscriptions\TeamSubscription.cs" />
+    <Compile Include="Entities\Subscriptions\Subscription.cs" />
     <Compile Include="Entities\TestPaymentProvider.cs" />
     <Compile Include="Entities\Payer.cs" />
     <Compile Include="Entities\NewPayment.cs" />
@@ -152,7 +163,7 @@
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\NewTransactionDetails.cs" />
     <Compile Include="Entities\TransactionDetails.cs" />
-    <Compile Include="Entities\TrialSubscription.cs" />
+    <Compile Include="Entities\Subscriptions\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />
     <Compile Include="Exceptions\BookingUpdateNotSupported.cs" />

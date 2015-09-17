@@ -2,6 +2,7 @@
 using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
+using CoachSeek.Domain.Entities.Subscriptions;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Entities
@@ -30,19 +31,21 @@ namespace CoachSeek.Domain.Entities
         public NewBusiness(Guid id, 
                            string name, 
                            string domain,
-                           string currency,
+                           string currencyCode,
+                           string currencySymbol,
                            string sport = null,
+                           DateTime? createdOn = null,
                            bool isOnlinePaymentEnabled = false,
                            bool forceOnlinePayment = false,
                            string paymentProvider = null,
                            string merchantAccountIdentifier = null,
-                           DateTime? createdOn = null,
                            bool isTesting = true)
             : base(id, 
                    name, 
                    domain, 
+                   currencyCode,
+                   currencySymbol,
                    sport,
-                   currency, 
                    isOnlinePaymentEnabled, 
                    forceOnlinePayment, 
                    paymentProvider, 
@@ -69,7 +72,7 @@ namespace CoachSeek.Domain.Entities
 
         private void SetSubsciption()
         {
-            Subscription = CoachSeek.Domain.Entities.Subscription.Create(Constants.SUBSCRIPTION_TRIAL);
+            Subscription = Subscription.Create(Constants.SUBSCRIPTION_TRIAL);
         }
     }
 }

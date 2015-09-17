@@ -177,7 +177,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.LocationAddUseCase = useCase;
 
@@ -192,7 +192,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Name = "High Street Hookers"
             };
 
-            Controller.Business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.LocationUpdateUseCase = useCase;
 

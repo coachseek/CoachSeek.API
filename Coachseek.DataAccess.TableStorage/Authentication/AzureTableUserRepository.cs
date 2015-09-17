@@ -15,7 +15,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
         public void Save(NewUser newUser)
         {
-            var user = new UserEntity(newUser.UserName)
+            var user = new UserEntity(newUser.Username)
             {
                 Id = newUser.Id,
                 FirstName = newUser.FirstName,
@@ -47,7 +47,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
         private void Update(User user)
         {
-            var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, user.UserName);
+            var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, user.Username);
             var retrievedResult = Table.Execute(retrieveOperation);
 
             var updateEntity = (UserEntity)retrievedResult.Result;

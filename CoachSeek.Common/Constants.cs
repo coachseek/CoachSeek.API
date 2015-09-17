@@ -12,6 +12,7 @@
         public const string SUBSCRIPTION_SOLO = "Solo";
         public const string SUBSCRIPTION_TEAM = "Team";
         public const string SUBSCRIPTION_PRO = "Pro";
+        public const string SUBSCRIPTION_UNLIMITED = "Unlimited";
 
         public const int MAXIMUM_NUMBER_OF_COACHES = 100;
 

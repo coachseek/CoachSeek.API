@@ -100,15 +100,14 @@ namespace CoachSeek.Application.Tests.Unit
         {
             BusinessRepository.AddBusiness(new NewBusiness(new Guid(BUSINESS_ID),
                                                            "Olaf's Tennis Coaching",
-                                                           "olafstenniscoaching", 
-                                                           "USD"));
+                                                           "olafstenniscoaching",
+                                                           "USD", "$"));
         }
 
         protected ApplicationContext CreateApplicationContext()
         {
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
+            var business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
+            var businessContext = new BusinessContext(business, BusinessRepository, SupportedCurrencyRepository, UserRepository);
             var emailContext = new EmailContext(true, false, "", null);
             return new ApplicationContext(null, businessContext, emailContext, null, true);
         }

@@ -9,7 +9,10 @@ namespace CoachSeek.DataAccess.Main.Memory.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
-        public string Currency { get; set; }
+        public string Sport { get; set; }
+        public string SubscriptionPlan { get; set; }
+        public DateTime AuthorisedUntil { get; set; }
+        public string CurrencyCode { get; set; }
         public bool IsOnlinePaymentEnabled { get; set; }
         public bool ForceOnlinePayment { get; set; }
         public string PaymentProvider { get; set; }

@@ -87,12 +87,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         private IResponse WhenUpdateLocation(LocationUpdateCommand request)
         {
             var useCase = new LocationUpdateUseCase();
-            var business = new BusinessDetails(new Guid(BUSINESS_ID), "", "", DateTime.UtcNow.AddDays(1));
-            var currency = new CurrencyDetails("NZD", "$");
-            var businessContext = new BusinessContext(business, currency, BusinessRepository, null, UserRepository);
-            var emailContext = new EmailContext(true, false, "", null);
-            var context = new ApplicationContext(null, businessContext, emailContext, null, true);
-            useCase.Initialise(context);
+            useCase.Initialise(CreateApplicationContext());
             return useCase.UpdateLocation(request);
         }
 
