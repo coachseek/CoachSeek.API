@@ -11,6 +11,7 @@ CREATE PROCEDURE [dbo].[Business_Create](
 	@merchantAccountIdentifier [nvarchar](100) = NULL,
 	@createdOn [datetime2],
 	@authorisedUntil [datetime2],
+	@subscription [nvarchar](50),
 	@isTesting [bit]
 	)
 AS
@@ -30,7 +31,8 @@ BEGIN
 		[CreatedOn],
 		[IsTesting],
 		[Sport],
-		[AuthorisedUntil]
+		[AuthorisedUntil],
+		[Subscription]
 	)
 	VALUES
 	(
@@ -45,7 +47,8 @@ BEGIN
 		@createdOn,
 		@isTesting,
 		@sport,
-		@authorisedUntil
+		@authorisedUntil,
+		@subscription
 	)
 
 END

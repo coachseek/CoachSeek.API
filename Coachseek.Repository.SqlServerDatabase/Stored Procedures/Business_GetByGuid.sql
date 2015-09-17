@@ -15,7 +15,8 @@ BEGIN
 		[ForceOnlinePayment],
 		[PaymentProvider],
 		[MerchantAccountIdentifier],
-		[AuthorisedUntil]
+		[AuthorisedUntil],
+		[Subscription]
 	FROM
 		[dbo].[Business]
 	WHERE

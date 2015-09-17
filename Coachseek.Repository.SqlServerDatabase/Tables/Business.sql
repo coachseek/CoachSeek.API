@@ -12,8 +12,11 @@
     [IsTesting]                 BIT              NOT NULL,
     [Sport]                     NVARCHAR (100)   NULL,
     [AuthorisedUntil]           DATETIME2 (7)    NULL,
+    [Subscription]              NVARCHAR (50)    CONSTRAINT [DF_Business_Subscription] DEFAULT (N'Trial') NULL,
     CONSTRAINT [PK_Business] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 
