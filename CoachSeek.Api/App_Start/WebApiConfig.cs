@@ -14,7 +14,7 @@ namespace CoachSeek.Api
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var cors = new EnableCorsAttribute("*.coachseek.com", "*", "*");
             config.EnableCors(cors);
 
             WebApiAutoMapperConfigurator.Configure();
