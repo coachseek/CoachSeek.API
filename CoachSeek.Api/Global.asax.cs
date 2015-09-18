@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
-using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Filters;
 using CoachSeek.Common.Extensions;
 using Coachseek.DataAccess.TableStorage.Logging;
@@ -29,7 +28,6 @@ namespace CoachSeek.Api
         {
             filters.Add(new RequireHttpsAttribute());
             filters.Add(new ExceptionHandlingAttribute());
-            //filters.Add(new BusinessAuthorizeAttribute());
         }
 
         protected void Application_Start()

@@ -5,23 +5,15 @@ using System.Linq;
 
 namespace Coachseek.Integration.DataImport
 {
-    public class DataImportReader : IDataImportReader
+    public class CsvDataImportReader : DataImportReader
     {
-        public bool HasHeaderRow { get; private set; }
-        public char Separator { get; private set; }
-        public string FilePath { get; private set; }
-        
-
-        public DataImportReader(string filePath, bool hasHeaderRow, char separator)
-        {
-            HasHeaderRow = hasHeaderRow;
-            Separator = separator;
-            FilePath = filePath;
-        }
+        public CsvDataImportReader(string filePath, bool hasHeaderRow)
+            : base(filePath, hasHeaderRow, ',')
+        { }
 
         public List<CsvData> ReadDataRows()
         {
-            return HasHeaderRow ? GetDataIterator().Skip(1).ToList() : GetDataIterator().ToList();
+            return GetDataIterator().Skip(1).ToList();
         }
 
         public IEnumerable<CsvData> GetDataIterator()
@@ -40,7 +32,13 @@ namespace Coachseek.Integration.DataImport
 
         public CsvData CovertRowToList(string[] row)
         {
-            return new CsvData(row);
+            return new CsvData(row); ;
         }
+
+        public char Separator { get; private set; }
+
+        public bool SkipTheFirstColumn { get; private set; }
+
+        public string FilePath { get; private set; }
     }
 }
