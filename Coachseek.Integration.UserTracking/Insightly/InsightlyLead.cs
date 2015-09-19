@@ -5,13 +5,14 @@ namespace Coachseek.Integration.UserTracking.Insightly
     [JsonObject(MemberSerialization.OptIn)]
     public class InsightlyLead
     {
-        public InsightlyLead(string firstName, string lastName, string email, string phone, string sport)
+        public InsightlyLead(string firstName, string lastName, string email, string phone, string sport, string currency)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Phone = phone;
             Sport = sport;
+            Currency = currency;
         }
 
 
@@ -29,6 +30,9 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         [JsonProperty(PropertyName = "TITLE", NullValueHandling = NullValueHandling.Ignore)]
         public string Sport { get; private set; }
+
+        [JsonProperty(PropertyName = "INDUSTRY", NullValueHandling = NullValueHandling.Ignore)]
+        public string Currency { get; private set; }
 
         // 398793 is the Insightly Status Id for 'OPEN - NEW LEAD' for the Coachseek Insightly account.   
         [JsonProperty(PropertyName = "LEAD_STATUS_ID", NullValueHandling = NullValueHandling.Ignore)]

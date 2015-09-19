@@ -15,7 +15,12 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         public void CreateTrackingUser(UserData user, BusinessData business)
         {
-            var lead = new InsightlyLead(user.FirstName, user.LastName, user.Email, user.Phone, business.Sport);
+            var lead = new InsightlyLead(user.FirstName, 
+                                         user.LastName, 
+                                         user.Email, 
+                                         user.Phone, 
+                                         business.Sport,
+                                         business.Payment.Currency);
 
             Client.PostLead(lead);
         }
