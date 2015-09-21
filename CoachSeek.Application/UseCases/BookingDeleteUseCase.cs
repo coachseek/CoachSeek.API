@@ -15,7 +15,7 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public Response DeleteBooking(Guid id)
+        public IResponse DeleteBooking(Guid id)
         {
             BookingGetByIdUseCase.Initialise(Context);
             var booking = BookingGetByIdUseCase.GetBooking(id);

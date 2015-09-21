@@ -191,6 +191,29 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public void SetAuthorisedUntil(Guid businessId, DateTime authorisedUntil)
+        {
+            var wasAlreadyOpen = false;
+
+            try
+            {
+                wasAlreadyOpen = OpenConnection();
+
+                var command = new SqlCommand("[Business_UpdateAuthorisedUntil]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters.Add(new SqlParameter("@authorisedUntil", SqlDbType.DateTime2));
+                command.Parameters[1].Value = authorisedUntil;
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+            }
+        }
+
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

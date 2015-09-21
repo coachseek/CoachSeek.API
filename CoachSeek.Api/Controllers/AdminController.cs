@@ -1,9 +1,15 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
+using CoachSeek.Api.Conversion;
+using CoachSeek.Api.Filters;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Admin;
+using CoachSeek.Application.Contracts.UseCases.Executors;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -12,17 +18,31 @@ namespace CoachSeek.Api.Controllers
         public IEmailUnsubscribeUseCase EmailUnsubscribeUseCase { get; set; }
         public IEmailIsUnsubscribedUseCase EmailIsUnsubscribedUseCase { get; set; }
         public IUserGetByEmailUserCase UserGetByEmailUserCase { get; set; }
+        public IAdminUseCaseExecutor AdminUseCaseExecutor { get; set; }
 
-        public AdminController()
-        { }
 
         public AdminController(IEmailUnsubscribeUseCase emailUnsubscribeUseCase,
                                IEmailIsUnsubscribedUseCase emailIsUnsubscribedUseCase,
-                               IUserGetByEmailUserCase userGetByEmailUserCase)
+                               IUserGetByEmailUserCase userGetByEmailUserCase,
+                               IAdminUseCaseExecutor adminUseCaseExecutor)
         {
             EmailUnsubscribeUseCase = emailUnsubscribeUseCase;
             EmailIsUnsubscribedUseCase = emailIsUnsubscribedUseCase;
             UserGetByEmailUserCase = userGetByEmailUserCase;
+            AdminUseCaseExecutor = adminUseCaseExecutor;
+        }
+
+
+        protected AdminApplicationContext AdminContext
+        {
+            get
+            {
+                return new AdminApplicationContext(UserContext,
+                                                   EmailContext,
+                                                   BusinessRepository,
+                                                   LogRepository,
+                                                   IsTesting);
+            }
         }
 
 
@@ -33,7 +53,7 @@ namespace CoachSeek.Api.Controllers
         [HttpGet]
         public HttpResponseMessage Unsubscribe(string email)
         {
-            EmailUnsubscribeUseCase.Initialise(Context);
+            EmailUnsubscribeUseCase.Initialise(AdminContext);
             var response = EmailUnsubscribeUseCase.Unsubscribe(email);
             if (response.IsSuccessful)
                 return Request.CreateResponse(HttpStatusCode.OK);
@@ -47,7 +67,7 @@ namespace CoachSeek.Api.Controllers
         [HttpGet]
         public HttpResponseMessage IsUnsubscribed(string email)
         {
-            EmailIsUnsubscribedUseCase.Initialise(Context);
+            EmailIsUnsubscribedUseCase.Initialise(AdminContext);
             var isUnsubscribed = EmailIsUnsubscribedUseCase.IsUnsubscribed(email);
             if (!isUnsubscribed)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -61,9 +81,22 @@ namespace CoachSeek.Api.Controllers
         [HttpGet]
         public HttpResponseMessage GetUser(string email)
         {
-            UserGetByEmailUserCase.Initialise(Context);
+            UserGetByEmailUserCase.Initialise(AdminContext);
             var user = UserGetByEmailUserCase.GetUser(email);
             return CreateGetWebResponse(user);
+        }
+
+        // GET: Admin/Businesses/{business_id}
+        [Route("Admin/Businesses/{id}")]
+        [BasicAdminAuthentication]
+        [BusinessAuthorize]
+        [CheckModelForNull]
+        public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
+        {
+            apiCommand.BusinessId = id;
+            ICommand command = DomainCommandConverter.Convert(apiCommand);
+            var response = AdminUseCaseExecutor.ExecuteFor(command, AdminContext);
+            return CreatePostWebResponse(response);
         }
     }
 }

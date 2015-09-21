@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\SessionsInCourseMustBelongToSameCourse.cs" />
     <Compile Include="IAdminApplicationContextSetter.cs" />
+    <Compile Include="Models\ApplicationContextBase.cs" />
     <Compile Include="Models\AdminApplicationContext.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\UserContext.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="UseCases\Admin\IEmailUnsubscribeUseCase.cs" />
     <Compile Include="UseCases\DataImport\IProcessDataImportUseCase.cs" />
     <Compile Include="UseCases\Emailing\IProcessBouncedEmailMessagesUseCase.cs" />
+    <Compile Include="UseCases\Executors\IAdminUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\IBookingUseCaseExecutor.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="UseCases\IBookingSetPaymentStatusUseCase.cs" />
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
     <Compile Include="UseCases\IBusinessRegistrationUseCase.cs" />
+    <Compile Include="UseCases\IBusinessSetAuthorisedUntilUseCase.cs" />
     <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionBookingAddUseCase.cs" />

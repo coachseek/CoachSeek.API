@@ -61,6 +61,14 @@ namespace Coachseek.API.Client.Services
             return HandleResponse<TResponse>(request);
         }
 
+        protected ApiResponse Post(HttpWebRequest request, string json)
+        {
+            PreparePostRequest(request);
+            MakeAdditionalChangesToRequest(request);
+            SendData(json, request);
+            return HandleResponse(request);
+        }
+
         protected ApiResponse Delete(HttpWebRequest request)
         {
             PrepareDeleteRequest(request);

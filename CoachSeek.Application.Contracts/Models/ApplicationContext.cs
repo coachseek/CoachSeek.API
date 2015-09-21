@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Application.Contracts.Models
 {
-    public class ApplicationContext : AdminApplicationContext
+    public class ApplicationContext : ApplicationContextBase
     {
         public BusinessContext BusinessContext { get; private set; }
 
@@ -11,7 +11,7 @@ namespace CoachSeek.Application.Contracts.Models
                                   BusinessContext businessContext, 
                                   EmailContext emailContext,
                                   ILogRepository logRepository,
-                                  bool isTesting) 
+                                  bool isTesting)
             : base(userContext, emailContext, logRepository, isTesting)
         {
             BusinessContext = businessContext;

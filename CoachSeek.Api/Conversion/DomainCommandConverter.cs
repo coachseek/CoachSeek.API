@@ -11,9 +11,11 @@ namespace CoachSeek.Api.Conversion
         {
             string commandName = apiCommand.commandName;
 
+            if (commandName == "BusinessSetAuthorisedUntil")
+                return ConvertToConcreteCommand<BusinessSetAuthorisedUntilCommand>(apiCommand);
+
             if (commandName == "BookingSetAttendance")
                 return ConvertToConcreteCommand<BookingSetAttendanceCommand>(apiCommand);
-
             if (commandName == "BookingSetPaymentStatus")
                 return ConvertToConcreteCommand<BookingSetPaymentStatusCommand>(apiCommand);
             

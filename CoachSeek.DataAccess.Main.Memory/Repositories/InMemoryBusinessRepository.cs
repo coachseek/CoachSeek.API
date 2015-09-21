@@ -139,6 +139,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses[index] = dbNewBusiness;
         }
 
+        public void SetAuthorisedUntil(Guid businessId, DateTime authorisedUntil)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

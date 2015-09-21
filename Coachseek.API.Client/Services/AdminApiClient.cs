@@ -17,6 +17,21 @@ namespace Coachseek.API.Client.Services
             return Get<TResponse>(http);
         }
 
+        public ApiResponse Post<TResponse>(string json, string relativeUrl, string scheme = "https")
+        {
+            var http = CreateWebRequest(relativeUrl, scheme);
+            SetBasicAuthHeader(http, AdminUserName, AdminPassword);
+            return Post<TResponse>(http, json);
+        }
+
+        public ApiResponse Post(string json, string relativeUrl, string scheme = "https")
+        {
+            var http = CreateWebRequest(relativeUrl, scheme);
+            SetBasicAuthHeader(http, AdminUserName, AdminPassword);
+            return Post(http, json);
+        }
+
+
         protected override Uri FormatUrl(string relativeUrl, string scheme = "https")
         {
             return new Uri(string.Format("{0}/Admin/{1}", FormatBaseUrl(scheme), relativeUrl));

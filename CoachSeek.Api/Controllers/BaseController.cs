@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Web.Http;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Common.Extensions;
-using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Entities.Authentication;
 using CoachSeek.Domain.Exceptions;
@@ -13,7 +12,6 @@ namespace CoachSeek.Api.Controllers
 {
     public abstract class BaseController : ApiController
     {
-        private User _user;
         private Business _business;
 
         public IBusinessRepository BusinessRepository { set; protected get; }
@@ -89,7 +87,7 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private UserContext UserContext
+        protected UserContext UserContext
         {
             get { return new UserContext(UserRepository); }
         }
@@ -104,7 +102,7 @@ namespace CoachSeek.Api.Controllers
             }
         }
 
-        private EmailContext EmailContext
+        protected EmailContext EmailContext
         {
             get { return new EmailContext(IsEmailingEnabled, ForceEmail, EmailSender, UnsubscribedEmailAddressRepository); }
         }

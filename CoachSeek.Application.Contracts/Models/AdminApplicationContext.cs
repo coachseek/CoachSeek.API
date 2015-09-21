@@ -2,23 +2,19 @@
 
 namespace CoachSeek.Application.Contracts.Models
 {
-    public class AdminApplicationContext
+    public class AdminApplicationContext : ApplicationContextBase
     {
-        public UserContext UserContext { get; private set; }
-        public EmailContext EmailContext { get; private set; }
-        public ILogRepository LogRepository { get; private set; }
-        public bool IsTesting { get; private set; }
+        public IBusinessRepository BusinessRepository { get; private set; }
 
 
-        public AdminApplicationContext(UserContext userContext, 
-                                       EmailContext emailContext, 
+        public AdminApplicationContext(UserContext userContext,
+                                       EmailContext emailContext,
+                                       IBusinessRepository businessRepository, 
                                        ILogRepository logRepository,
                                        bool isTesting)
+            : base(userContext, emailContext, logRepository, isTesting)
         {
-            UserContext = userContext;
-            EmailContext = emailContext;
-            LogRepository = logRepository;
-            IsTesting = isTesting;
+            BusinessRepository = businessRepository;
         }
     }
 }

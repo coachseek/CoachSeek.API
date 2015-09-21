@@ -71,6 +71,7 @@
     <Compile Include="Commands\BookingSetPaymentStatusCommand.cs" />
     <Compile Include="Commands\BookingSetAttendanceCommand.cs" />
     <Compile Include="Commands\BusinessPaymentCommand.cs" />
+    <Compile Include="Commands\BusinessSetAuthorisedUntilCommand.cs" />
     <Compile Include="Commands\EmailTemplateUpdateCommand.cs" />
     <Compile Include="Commands\BusinessSetCustomerOnlineBookingEmailCustomisationCommand.cs" />
     <Compile Include="Commands\BusinessUpdateCommand.cs" />
