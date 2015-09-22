@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Models;
@@ -268,7 +269,9 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
                 new SessionKeyData {Id = Guid.NewGuid()},
-                new CustomerKeyData {Id = Guid.NewGuid()});
+                new CustomerKeyData {Id = Guid.NewGuid()},
+                Constants.PAYMENT_STATUS_PENDING_INVOICE,
+                null);
             BusinessRepository.AddSessionBooking(business.Id, booking);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
@@ -280,7 +283,9 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
                 new SessionKeyData { Id = Guid.NewGuid() },
-                new CustomerKeyData { Id = Guid.NewGuid() });
+                new CustomerKeyData { Id = Guid.NewGuid() },
+                Constants.PAYMENT_STATUS_PENDING_INVOICE,
+                null);
             BusinessRepository.AddSessionBooking(business.Id, booking);
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));

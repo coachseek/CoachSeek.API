@@ -425,7 +425,9 @@ namespace CoachSeek.Application.Tests.Unit
             BusinessRepository.AddSessionBooking(new Guid(BUSINESS_ID),
                                                  new SingleSessionBooking(new Guid(BOOKING_FRED_SESSION_TWO_ID),
                                                                           new SessionKeyData { Id = new Guid(SESSION_TWO) },
-                                                                          new CustomerKeyData { Id = new Guid(CUSTOMER_FRED_ID) }));
+                                                                          new CustomerKeyData { Id = new Guid(CUSTOMER_FRED_ID) },
+                                                                          Constants.PAYMENT_STATUS_PENDING_INVOICE,
+                                                                          null));
         }
 
         protected void SetupCustomerFred()
