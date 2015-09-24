@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -214,6 +215,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+
+        public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
+        {
+            return await LocationRepository.GetAllLocationsAsync(businessId);
+        }
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

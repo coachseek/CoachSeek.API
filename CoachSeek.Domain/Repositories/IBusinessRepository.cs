@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Entities.EmailTemplating;
@@ -14,6 +15,7 @@ namespace CoachSeek.Domain.Repositories
         void UpdateBusiness(Business business);
         void SetAuthorisedUntil(Guid businessId, DateTime authorisedUntil);
 
+        Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId);
         IList<LocationData> GetAllLocations(Guid businessId);
         LocationData GetLocation(Guid businessId, Guid locationId);
         void AddLocation(Guid businessId, Location location);

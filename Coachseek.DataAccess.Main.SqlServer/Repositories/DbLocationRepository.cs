@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 
@@ -13,6 +14,35 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             : base(connectionStringKey) 
         { }
 
+
+        public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
+        {
+            var wasAlreadyOpen = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                wasAlreadyOpen = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Location_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var locations = new List<LocationData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    locations.Add(ReadLocationData(reader));
+
+                return locations;
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+                if (reader != null)
+                    reader.Close();
+            }
+        }
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {
@@ -42,6 +72,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     reader.Close();
             }
         }
+
 
         public LocationData GetLocation(Guid businessId, Guid locationId)
         {

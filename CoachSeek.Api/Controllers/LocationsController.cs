@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
@@ -34,13 +35,24 @@ namespace CoachSeek.Api.Controllers
         }
 
 
+        //// GET: Locations
+        //[BasicAuthenticationOrAnonymous]
+        //[Authorize]
+        //public HttpResponseMessage Get()
+        //{
+        //    LocationsGetAllUseCase.Initialise(Context);
+        //    var response = LocationsGetAllUseCase.GetLocations();
+        //    return CreateGetWebResponse(response);
+        //}
+
+
         // GET: Locations
         [BasicAuthenticationOrAnonymous]
         [Authorize]
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
             LocationsGetAllUseCase.Initialise(Context);
-            var response = LocationsGetAllUseCase.GetLocations();
+            var response = await LocationsGetAllUseCase.GetLocationsAsync();
             return CreateGetWebResponse(response);
         }
 

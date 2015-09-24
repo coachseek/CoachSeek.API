@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 {
@@ -36,6 +37,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var wasAlreadyOpen = Connection.State == ConnectionState.Open;
             if (!wasAlreadyOpen)
                 Connection.Open();
+
+            return wasAlreadyOpen;
+        }
+
+        protected async Task<bool> OpenConnectionAsync()
+        {
+            var wasAlreadyOpen = Connection.State == ConnectionState.Open;
+            if (!wasAlreadyOpen)
+                await Connection.OpenAsync();
 
             return wasAlreadyOpen;
         }

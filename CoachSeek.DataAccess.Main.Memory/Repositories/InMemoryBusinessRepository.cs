@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Main.Memory.Conversion;
 using CoachSeek.DataAccess.Main.Memory.Models;
@@ -144,6 +145,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             throw new NotImplementedException();
         }
 
+
+        public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
+        {
+            var dbLocations = GetAllDbLocations(businessId);
+
+            return Mapper.Map<IList<DbLocation>, IList<LocationData>>(dbLocations);
+        }
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 
@@ -6,9 +7,14 @@ namespace CoachSeek.Application.UseCases
 {
     public class LocationsGetAllUseCase : BaseUseCase, ILocationsGetAllUseCase
     {
-        public IList<LocationData> GetLocations()
+        public async Task<IList<LocationData>> GetLocationsAsync()
         {
-            return BusinessRepository.GetAllLocations(Business.Id);
+            return await BusinessRepository.GetAllLocationsAsync(Business.Id);
         }
+
+        //public IList<LocationData> GetLocations()
+        //{
+        //    return BusinessRepository.GetAllLocations(Business.Id);
+        //}
     }
 }
