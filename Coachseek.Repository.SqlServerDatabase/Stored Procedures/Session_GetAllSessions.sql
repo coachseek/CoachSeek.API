@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Session_GetAllSessions]
 	@businessGuid uniqueidentifier
 AS
@@ -43,8 +42,6 @@ BEGIN
 	WHERE
 		b.[Guid] = @businessGuid
 		AND s.[SessionCount] = 1
-	ORDER BY
-		s.[Name]
 END
 
 

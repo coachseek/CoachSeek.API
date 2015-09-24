@@ -17,3 +17,11 @@
 
 
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Booking_BusinessId_Cover]
+    ON [dbo].[Booking]([BusinessId] ASC)
+    INCLUDE([Id], [Guid], [CustomerId], [SessionId], [ParentId], [PaymentStatus], [HasAttended]);
+
