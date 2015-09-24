@@ -34,7 +34,15 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Coach_Guid]
     ON [dbo].[Coach]([Guid] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Coach_BusinessId_FirstName_LastName]
+    ON [dbo].[Coach]([BusinessId] ASC, [FirstName] ASC, [LastName] ASC)
+    INCLUDE([Id], [Guid], [Email], [Phone]);
 

@@ -19,7 +19,15 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Service_Guid]
     ON [dbo].[Service]([Guid] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Service_BusinessId]
+    ON [dbo].[Service]([BusinessId] ASC, [Name] ASC)
+    INCLUDE([Id], [Guid]);
 

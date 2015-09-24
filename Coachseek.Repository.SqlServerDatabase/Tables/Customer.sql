@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Customer] (
+CREATE TABLE [dbo].[Customer] (
     [Id]         INT              IDENTITY (1, 1) NOT NULL,
     [BusinessId] INT              NOT NULL,
     [Guid]       UNIQUEIDENTIFIER NOT NULL,
@@ -19,12 +19,15 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Customer_Guid]
     ON [dbo].[Customer]([Guid] ASC);
 
 
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [UX_Customer_Email_FirstName_LastName]
-    ON [dbo].[Customer]([BusinessId] ASC, [FirstName] ASC, [LastName] ASC, [Email] ASC);
+CREATE UNIQUE NONCLUSTERED INDEX [UX_Customer_BusinessId_Cover]
+    ON [dbo].[Customer]([BusinessId] ASC, [LastName] ASC, [FirstName] ASC, [Email] ASC)
+    INCLUDE([Id], [Guid], [Phone]);
 

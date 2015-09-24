@@ -10,7 +10,15 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Location_Guid]
     ON [dbo].[Location]([Guid] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Location_BusinessId_Cover]
+    ON [dbo].[Location]([BusinessId] ASC)
+    INCLUDE([Id], [Guid], [Name]);
 
