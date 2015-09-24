@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -14,6 +15,40 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             : base(connectionStringKey) 
         { }
 
+
+        public async Task<IList<SingleSessionData>> SearchForSessionsAsync(Guid businessId, string beginDate, string endDate)
+        {
+            var wasAlreadyOpen = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                wasAlreadyOpen = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@beginDate", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@endDate", SqlDbType.Date));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = beginDate;
+                command.Parameters[2].Value = endDate;
+
+                var sessions = new List<SingleSessionData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    sessions.Add(ReadSessionData(reader));
+
+                return sessions;
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+                if (reader != null)
+                    reader.Close();
+            }
+        }
 
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
         {

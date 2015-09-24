@@ -47,10 +47,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Customers
         [BasicAuthentication]
         [BusinessAuthorize]
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
             CustomersGetAllUseCase.Initialise(Context);
-            var response = CustomersGetAllUseCase.GetCustomers();
+            var response = await CustomersGetAllUseCase.GetCustomersAsync();
             return CreateGetWebResponse(response);
         }
 

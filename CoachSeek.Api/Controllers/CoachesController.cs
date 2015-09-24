@@ -1,4 +1,5 @@
-﻿using CoachSeek.Api.Attributes;
+﻿using System.Threading.Tasks;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
@@ -37,10 +38,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Coaches
         [BasicAuthentication]
         [BusinessAuthorize]
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
             CoachesGetAllUseCase.Initialise(Context);
-            var response = CoachesGetAllUseCase.GetCoaches();
+            var response = await CoachesGetAllUseCase.GetCoachesAsync();
             return CreateGetWebResponse(response);
         }
 

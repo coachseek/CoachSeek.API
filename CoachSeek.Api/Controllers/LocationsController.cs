@@ -35,17 +35,6 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        //// GET: Locations
-        //[BasicAuthenticationOrAnonymous]
-        //[Authorize]
-        //public HttpResponseMessage Get()
-        //{
-        //    LocationsGetAllUseCase.Initialise(Context);
-        //    var response = LocationsGetAllUseCase.GetLocations();
-        //    return CreateGetWebResponse(response);
-        //}
-
-
         // GET: Locations
         [BasicAuthenticationOrAnonymous]
         [Authorize]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -14,6 +15,35 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             : base(connectionStringKey) 
         { }
 
+
+        public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
+        {
+            var wasAlreadyOpen = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                wasAlreadyOpen = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Customer_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var customers = new List<CustomerData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    customers.Add(ReadCustomerData(reader));
+
+                return customers;
+            }
+            finally
+            {
+                CloseConnection(wasAlreadyOpen);
+                if (reader != null)
+                    reader.Close();
+            }
+        }
 
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {

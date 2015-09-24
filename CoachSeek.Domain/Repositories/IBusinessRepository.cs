@@ -21,21 +21,25 @@ namespace CoachSeek.Domain.Repositories
         void AddLocation(Guid businessId, Location location);
         void UpdateLocation(Guid businessId, Location location);
 
+        Task<IList<CoachData>> GetAllCoachesAsync(Guid businessId);
         IList<CoachData> GetAllCoaches(Guid businessId);
         CoachData GetCoach(Guid businessId, Guid coachId);
         void AddCoach(Guid businessId, Coach coach);
         void UpdateCoach(Guid businessId, Coach coach);
 
+        Task<IList<ServiceData>> GetAllServicesAsync(Guid businessId);
         IList<ServiceData> GetAllServices(Guid businessId);
         ServiceData GetService(Guid businessId, Guid serviceId);
         void AddService(Guid businessId, Service service);
         void UpdateService(Guid businessId, Service service);
 
+        Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId);
         IList<CustomerData> GetAllCustomers(Guid businessId);
         CustomerData GetCustomer(Guid businessId, Guid customerId);
         void AddCustomer(Guid businessId, Customer customer);
         void UpdateCustomer(Guid businessId, Customer customer);
 
+        Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
         void AddSession(Guid businessId, StandaloneSession session);

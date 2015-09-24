@@ -196,6 +196,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task<IList<CoachData>> GetAllCoachesAsync(Guid businessId)
+        {
+            var dbCoaches = GetAllDbCoaches(businessId).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
+
+            return Mapper.Map<IList<DbCoach>, IList<CoachData>>(dbCoaches);
+        }
+
         public IList<CoachData> GetAllCoaches(Guid businessId)
         {
             var dbCoaches = GetAllDbCoaches(businessId).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
@@ -239,6 +246,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task<IList<ServiceData>> GetAllServicesAsync(Guid businessId)
+        {
+            var dbServices = GetAllDbServices(businessId);
+
+            return Mapper.Map<IList<DbService>, IList<ServiceData>>(dbServices);
+        }
+
         public IList<ServiceData> GetAllServices(Guid businessId)
         {
             var dbServices = GetAllDbServices(businessId);
@@ -273,6 +287,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Services[businessId] = dbServices;
         }
 
+
+        public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
+        {
+            var dbCustomers = GetAllDbCustomers(businessId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
+
+            return Mapper.Map<IList<DbCustomer>, IList<CustomerData>>(dbCustomers);
+        }
 
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
@@ -314,6 +335,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             var dbSessions = GetAllDbSessions(businessId);
 
             return Mapper.Map<IList<DbSingleSession>, IList<SingleSessionData>>(dbSessions);
+        }
+
+        public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
+        {
+            throw new NotImplementedException();
         }
 
         public IList<SingleSessionData> GetAllSessions(Guid businessId)

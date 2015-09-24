@@ -242,6 +242,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public async Task<IList<CoachData>> GetAllCoachesAsync(Guid businessId)
+        {
+            return await CoachRepository.GetAllCoachesAsync(businessId);
+        }
+
         public IList<CoachData> GetAllCoaches(Guid businessId)
         {
             return CoachRepository.GetAllCoaches(businessId);
@@ -262,6 +267,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CoachRepository.UpdateCoach(businessId, coach);
         }
 
+
+        public async Task<IList<ServiceData>> GetAllServicesAsync(Guid businessId)
+        {
+            return await ServiceRepository.GetAllServicesAsync(businessId);
+        }
 
         public IList<ServiceData> GetAllServices(Guid businessId)
         {
@@ -284,6 +294,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
+        {
+            return await CustomerRepository.GetAllCustomersAsync(businessId);
+        }
+
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
             return CustomerRepository.GetAllCustomers(businessId);
@@ -304,6 +319,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CustomerRepository.UpdateCustomer(businessId, customer);
         }
 
+
+        public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
+        {
+            return await SessionRepository.SearchForSessionsAsync(businessId, beginDate, endDate);
+        }
 
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
         {

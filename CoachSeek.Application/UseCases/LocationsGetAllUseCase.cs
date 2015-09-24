@@ -11,10 +11,5 @@ namespace CoachSeek.Application.UseCases
         {
             return await BusinessRepository.GetAllLocationsAsync(Business.Id);
         }
-
-        //public IList<LocationData> GetLocations()
-        //{
-        //    return BusinessRepository.GetAllLocations(Business.Id);
-        //}
     }
 }
