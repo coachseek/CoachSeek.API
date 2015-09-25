@@ -41,9 +41,25 @@
   <ItemGroup>
     <Compile Include="CSVData.cs" />
     <Compile Include="CsvDataImportReader.cs" />
+    <Compile Include="DataImportMessageProcessor.cs" />
     <Compile Include="DataImportReader.cs" />
+    <Compile Include="IDataImportMessageProcessor.cs" />
     <Compile Include="IDataImportReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
+      <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
+      <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
+      <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
+      <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

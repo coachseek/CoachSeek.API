@@ -1,36 +1,45 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
 using CoachSeek.Domain.Commands;
+using Coachseek.Infrastructure.Queueing.Contracts.Import;
+using Coachseek.Integration.DataImport;
 
 namespace CoachSeek.Application.UseCases.DataImport
 {
     public class ProcessDataImportUseCase : IProcessDataImportUseCase
     {
-        private ICustomerAddUseCase CustomerAddUseCase { get; set; }
+        public IDataImportQueueClient DataImportQueueClient { get; private set; }
+        private IDataImportMessageProcessor DataImportMessageProcessor { get; set; }
 
 
-        public ProcessDataImportUseCase(ICustomerAddUseCase customerAddUseCase)
+        public ProcessDataImportUseCase(IDataImportQueueClient dataImportQueueClient,
+                                        IDataImportMessageProcessor dataImportMessageProcessor)
         {
-            CustomerAddUseCase = customerAddUseCase;
+            DataImportQueueClient = dataImportQueueClient;
+            DataImportMessageProcessor = dataImportMessageProcessor;
         }
 
         public void Process()
         {
             // Read import data from queue
-            string fileContents = "";
+            var messages = DataImportQueueClient.Peek();
 
-            // Split data into entities
-            IList<CustomerAddCommand> commands = SplitFileIntoCustomer(fileContents);
+            foreach (var message in messages)
+            {
+                try
+                {
+                    // Go to blob storage and get import data ...
 
-            foreach(var command in commands)
-                CustomerAddUseCase.AddCustomer(command);
-        }
 
-        private IList<CustomerAddCommand> SplitFileIntoCustomer(string fileContents)
-        {
-            throw new System.NotImplementedException();
+                    DataImportMessageProcessor.ProcessMessage(message);
+                    DataImportQueueClient.Pop(message);
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                }
+            }
         }
     }
 }
