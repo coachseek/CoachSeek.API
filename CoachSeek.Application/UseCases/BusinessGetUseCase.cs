@@ -1,13 +1,14 @@
-﻿using CoachSeek.Application.Contracts.UseCases;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.UseCases
 {
     public class BusinessGetUseCase : BaseUseCase, IBusinessGetUseCase
     {
-        public BusinessData GetBusiness()
+        public async Task<BusinessData> GetBusinessAsync()
         {
-            return BusinessRepository.GetBusiness(Business.Id);
+            return await BusinessRepository.GetBusinessAsync(Business.Id);
         }
     }
 }

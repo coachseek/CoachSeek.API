@@ -1,4 +1,5 @@
-﻿using CoachSeek.Api.Results;
+﻿using System.Threading.Tasks;
+using CoachSeek.Api.Results;
 using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Entities;
@@ -14,24 +15,16 @@ namespace CoachSeek.Api.Attributes
 {
     public class BasicAuthenticationAttribute : BasicAuthenticationAttributeBase
     {
-        protected override void AuthenticateUser(string username, string password, HttpAuthenticationContext context, CancellationToken cancellationToken)
+        protected override async Task AuthenticateUserAsync(string username, string password, HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             var request = context.Request;
-            var principal = Authenticate(username, password, request, cancellationToken);
-
+            var principal = await AuthenticateAsync(username, password, request, cancellationToken);
             if (principal == null)
-            {
                 context.ErrorResult = new AuthenticationFailureResult("Invalid username or password.", request);
-                return;
-            }
-
-            if (principal is NoBusinessPrincipal)
-            {
+            else if (principal is NoBusinessPrincipal)
                 context.ErrorResult = new AuthenticationFailureResult("User is not associated with a business.", request);
-                return;
-            }
-
-            context.Principal = principal;
+            else
+                context.Principal = principal;
         }
 
 
@@ -50,7 +43,7 @@ namespace CoachSeek.Api.Attributes
             return CreateDataRepositories(request).SupportedCurrencyRepository;
         }
 
-        private IPrincipal Authenticate(string username, string password, HttpRequestMessage request, CancellationToken cancellationToken)
+        private async Task<IPrincipal> AuthenticateAsync(string username, string password, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var user = GetUserByUsername(username, request, cancellationToken);
             if (user == null)
@@ -60,7 +53,7 @@ namespace CoachSeek.Api.Attributes
                 return null;
             if (!user.BusinessId.HasValue)
                 return new NoBusinessPrincipal();
-            var business = GetBusiness(user, request, cancellationToken);
+            var business = await GetBusinessAsync(user, request, cancellationToken);
             if (business == null)
                 return null;
             return CreatePrincipal(user, business, cancellationToken);
@@ -72,10 +65,10 @@ namespace CoachSeek.Api.Attributes
             return CreateUserRepository(request).GetByUsername(username);
         }
 
-        private Business GetBusiness(User user, HttpRequestMessage request, CancellationToken cancellationToken)
+        private async Task<Business> GetBusinessAsync (User user, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var business = CreateBusinessRepository(request).GetBusiness(user.BusinessId.GetValueOrDefault());
+            var business = await CreateBusinessRepository(request).GetBusinessAsync(user.BusinessId.GetValueOrDefault());
             if (business.IsNotFound())
                 return null;
             return new Business(business, CreateSupportedCurrencyRepository(request));

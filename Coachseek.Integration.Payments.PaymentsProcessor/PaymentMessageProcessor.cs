@@ -92,7 +92,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private Business GetBusiness(Guid merchantId, DataRepositories dataAccess)
         {
-            var business = dataAccess.BusinessRepository.GetBusiness(merchantId);
+            var business = dataAccess.BusinessRepository.GetBusinessAsync(merchantId).Result;
             if (business.IsNotFound())
                 return null;
             return new Business(business, dataAccess.SupportedCurrencyRepository);
@@ -108,7 +108,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private NewPayment ModifyPaymentForPaypal(NewPayment newPayment, DataRepositories dataAccess)
         {
-            var business = dataAccess.BusinessRepository.GetBusiness(newPayment.MerchantId);
+            var business = dataAccess.BusinessRepository.GetBusinessAsync(newPayment.MerchantId).Result;
             return new NewPayment(newPayment, business.Name);
         }
 

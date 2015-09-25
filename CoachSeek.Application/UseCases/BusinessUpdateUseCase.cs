@@ -1,22 +1,21 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
-using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 
 namespace CoachSeek.Application.UseCases
 {
     public class BusinessUpdateUseCase : BaseUseCase, IBusinessUpdateUseCase
     {
-        public IResponse UpdateBusiness(BusinessUpdateCommand command)
+        public async Task<IResponse> UpdateBusinessAsync(BusinessUpdateCommand command)
         {
             try
             {
-                var existingBusiness = BusinessRepository.GetBusiness(Business.Id);
+                var existingBusiness = await BusinessRepository.GetBusinessAsync(Business.Id);
                 var business = new Business(existingBusiness, command, SupportedCurrencyRepository);
-                BusinessRepository.UpdateBusiness(business);
+                await BusinessRepository.UpdateBusinessAsync(business);
                 return new Response(business.ToData());
             }
             catch (CoachseekException ex)

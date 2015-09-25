@@ -42,7 +42,7 @@ namespace CoachSeek.Api.Attributes
             var username = userNameAndPasword.Item1;
             var password = userNameAndPasword.Item2;
 
-            AuthenticateUser(username, password, context, cancellationToken);
+            await AuthenticateUserAsync(username, password, context, cancellationToken);
         }
 
         public async Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ namespace CoachSeek.Api.Attributes
         }
 
 
-        protected virtual void AuthenticateUser(string username, string password, HttpAuthenticationContext context, CancellationToken cancellationToken)
+        protected virtual async Task AuthenticateUserAsync(string username, string password, HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
 
         }

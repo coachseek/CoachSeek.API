@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
@@ -91,11 +92,11 @@ namespace CoachSeek.Api.Controllers
         [BasicAdminAuthentication]
         [BusinessAuthorize]
         [CheckModelForNull]
-        public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
+        public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
         {
             apiCommand.BusinessId = id;
             ICommand command = DomainCommandConverter.Convert(apiCommand);
-            var response = AdminUseCaseExecutor.ExecuteFor(command, AdminContext);
+            var response = await AdminUseCaseExecutor.ExecuteForAsync(command, AdminContext);
             return CreatePostWebResponse(response);
         }
     }

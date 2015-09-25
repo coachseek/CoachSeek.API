@@ -33,7 +33,6 @@ namespace CoachSeek.Domain.Services
             var isReservedDomain = ReservedDomainRepository.Contains(domain);
             if (isReservedDomain)
                 return true;
-
             return BusinessRepository.GetBusiness(domain).IsFound();
         }
 

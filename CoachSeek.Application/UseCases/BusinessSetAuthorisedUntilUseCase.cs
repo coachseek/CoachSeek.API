@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
@@ -7,12 +8,12 @@ namespace CoachSeek.Application.UseCases
 {
     public class BusinessSetAuthorisedUntilUseCase : BaseAdminUseCase, IBusinessSetAuthorisedUntilUseCase
     {
-        public IResponse SetAuthorisedUntil(BusinessSetAuthorisedUntilCommand command)
+        public async Task<IResponse> SetAuthorisedUntilAsync(BusinessSetAuthorisedUntilCommand command)
         {
-            var business = Context.BusinessRepository.GetBusiness(command.BusinessId);
+            var business = await Context.BusinessRepository.GetBusinessAsync(command.BusinessId);
             if (business.IsNotFound())
                 return new NotFoundResponse();
-            Context.BusinessRepository.SetAuthorisedUntil(command.BusinessId, command.AuthorisedUntil);
+            await Context.BusinessRepository.SetAuthorisedUntilAsync(command.BusinessId, command.AuthorisedUntil);
             return new Response();
         }
     }

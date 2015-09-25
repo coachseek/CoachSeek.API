@@ -87,11 +87,25 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task<BusinessData> GetBusinessAsync(Guid businessId)
+        {
+            WasGetBusinessByIdCalled = true;
+
+            var business = Businesses.FirstOrDefault(x => x.Id == businessId);
+            return ConvertToBusinessData(business);
+        }
+
         public BusinessData GetBusiness(Guid businessId)
         {
             WasGetBusinessByIdCalled = true;
 
             var business = Businesses.FirstOrDefault(x => x.Id == businessId);
+            return ConvertToBusinessData(business);
+        }
+
+        public async Task<BusinessData> GetBusinessAsync(string domain)
+        {
+            var business = Businesses.FirstOrDefault(x => x.Domain == domain);
             return ConvertToBusinessData(business);
         }
 
@@ -126,7 +140,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses.Add(dbBusiness);
         }
 
-        public void UpdateBusiness(Business business)
+        public async Task UpdateBusinessAsync(Business business)
         {
             WasUpdateBusinessCalled = true;
             DataPassedIn = business;
@@ -140,7 +154,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Businesses[index] = dbNewBusiness;
         }
 
-        public void SetAuthorisedUntil(Guid businessId, DateTime authorisedUntil)
+        public async Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil)
         {
             throw new NotImplementedException();
         }

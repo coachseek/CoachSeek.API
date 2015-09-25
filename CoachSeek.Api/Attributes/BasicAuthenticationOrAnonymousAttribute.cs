@@ -37,16 +37,16 @@ namespace CoachSeek.Api.Attributes
             var request = context.Request;
             if (!request.Headers.Contains(Constants.BUSINESS_DOMAIN))
                 return;
-            var business = LookupBusinessFromDomain(request);
+            var business = await LookupBusinessFromDomainAsync(request);
             if (business.IsNotFound())
                 return;
             context.Principal = CreateAnonymousPrincipal(business);
         }
 
-        private Business LookupBusinessFromDomain(HttpRequestMessage request)
+        private async Task<Business> LookupBusinessFromDomainAsync(HttpRequestMessage request)
         {
             var domain = request.Headers.GetValues(Constants.BUSINESS_DOMAIN).ToList().First();
-            var business = CreateBusinessRepository(request).GetBusiness(domain);
+            var business = await CreateBusinessRepository(request).GetBusinessAsync(domain);
             if (business.IsNotFound())
                 return null;
             return new Business(business, CreateSupportedCurrencyRepository(request));

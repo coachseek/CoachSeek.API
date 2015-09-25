@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
@@ -24,10 +25,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Business
         [BasicAuthentication]
         [BusinessAuthorize]
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
             BusinessGetUseCase.Initialise(Context);
-            var response = BusinessGetUseCase.GetBusiness();
+            var response = await BusinessGetUseCase.GetBusinessAsync();
             return CreateGetWebResponse(response);
         }
 
@@ -37,10 +38,10 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage GetOnlineBooking()
+        public async Task<HttpResponseMessage> GetOnlineBookingAsync()
         {
             BusinessGetUseCase.Initialise(Context);
-            var response = BusinessGetUseCase.GetBusiness();
+            var response = await BusinessGetUseCase.GetBusinessAsync();
             return CreateGetWebResponse(response);
         }
 
@@ -49,11 +50,11 @@ namespace CoachSeek.Api.Controllers
         [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage Post([FromBody]ApiBusinessSaveCommand business)
+        public async Task<HttpResponseMessage> PostAsync([FromBody]ApiBusinessSaveCommand business)
         {
             var command = BusinessUpdateCommandConverter.Convert(business);
             BusinessUpdateUseCase.Initialise(Context);
-            var response = BusinessUpdateUseCase.UpdateBusiness(command);
+            var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
             return CreatePostWebResponse(response);
         }
     }

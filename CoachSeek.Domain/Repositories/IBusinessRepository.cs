@@ -9,11 +9,12 @@ namespace CoachSeek.Domain.Repositories
 {
     public interface IBusinessRepository
     {
-        BusinessData GetBusiness(Guid businessId);
+        Task<BusinessData> GetBusinessAsync(Guid businessId);
+        Task<BusinessData> GetBusinessAsync(string domain);
         BusinessData GetBusiness(string domain);
         void AddBusiness(NewBusiness business);
-        void UpdateBusiness(Business business);
-        void SetAuthorisedUntil(Guid businessId, DateTime authorisedUntil);
+        Task UpdateBusinessAsync(Business business);
+        Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil);
 
         Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId);
         IList<LocationData> GetAllLocations(Guid businessId);

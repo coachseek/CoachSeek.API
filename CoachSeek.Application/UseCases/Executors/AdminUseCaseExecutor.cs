@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Executors;
@@ -17,12 +18,12 @@ namespace CoachSeek.Application.UseCases.Executors
         }
 
 
-        public IResponse ExecuteFor<T>(T command, AdminApplicationContext context) where T : ICommand
+        public async Task<IResponse> ExecuteForAsync<T>(T command, AdminApplicationContext context) where T : ICommand
         {
             if (command.GetType() == typeof(BusinessSetAuthorisedUntilCommand))
             {
                 BusinessSetAuthorisedUntilUseCase.Initialise(context);
-                return BusinessSetAuthorisedUntilUseCase.SetAuthorisedUntil(command as BusinessSetAuthorisedUntilCommand);
+                return await BusinessSetAuthorisedUntilUseCase.SetAuthorisedUntilAsync(command as BusinessSetAuthorisedUntilCommand);
             }
 
             throw new NotImplementedException();
