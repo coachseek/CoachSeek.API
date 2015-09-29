@@ -35,7 +35,7 @@ namespace CoachSeek.Application.UseCases.DataImport
                     DataImportMessageProcessor.ProcessMessage(message);
                     DataImportQueueClient.Pop(message);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Log error
                 }

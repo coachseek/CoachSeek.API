@@ -30,7 +30,7 @@ namespace CoachSeek.Application.UseCases
                     PaymentMessageProcessor.ProcessMessage(message);
                     PaymentProcessingQueueClient.Pop(message);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Log error
                 }

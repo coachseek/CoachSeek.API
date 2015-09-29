@@ -23,19 +23,19 @@ namespace CoachSeek.Api.Attributes
         private async Task<IPrincipal> AuthenticateAsync(string username, string password, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var adminUsername = AppSettings.AdminUserName;
-            var adminPassword = AppSettings.AdminPassword;
-            if (adminUsername == null || adminPassword == null)
-                return null;
+            return IsAuthenticated(username, password) ? CreateAdminPrincipal() : null;
+        }
 
-            var isAuthenticated = username == adminUsername && password == adminPassword;
-            if (!isAuthenticated)
-                return null;
+        private static bool IsAuthenticated(string username, string password)
+        {
+            if (AppSettings.AdminUserName == null || AppSettings.AdminPassword == null)
+                return false;
+            return username == AppSettings.AdminUserName && password == AppSettings.AdminPassword;
+        }
 
-            cancellationToken.ThrowIfCancellationRequested();
-            var identity = new CoachseekAdminIdentity();
-            var principal = new GenericPrincipal(identity, new[] { "Admin" });
-            return principal;
+        private static IPrincipal CreateAdminPrincipal()
+        {
+            return new GenericPrincipal(new CoachseekAdminIdentity(), new[] { "Admin" });
         }
     }
 }
