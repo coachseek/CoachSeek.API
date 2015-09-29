@@ -254,7 +254,7 @@ namespace Coachseek.API.Client.Services
                     var obj = await response.Content.ReadAsAsync<TResponse>();
                     return new ApiResponse(response.StatusCode, obj);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     if (response.StatusCode == HttpStatusCode.RequestTimeout)
                         return new ApiResponse(HttpStatusCode.RequestTimeout);
@@ -315,7 +315,7 @@ namespace Coachseek.API.Client.Services
                     var obj = await response.Content.ReadAsAsync<TResponse>();
                     return new ApiResponse(response.StatusCode, obj);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     if (response.StatusCode == HttpStatusCode.RequestTimeout)
                         return new ApiResponse(HttpStatusCode.RequestTimeout);
