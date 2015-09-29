@@ -1,18 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using CoachSeek.Data.Model;
+using Newtonsoft.Json;
 
 namespace Coachseek.Integration.UserTracking.Insightly
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class InsightlyLead : InsightlyEntity
     {
-        public InsightlyLead(string firstName, string lastName, string email, string phone, string sport, string currency)
+        public InsightlyLead(UserData user, BusinessData business)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Phone = phone;
-            Sport = sport;
-            Currency = currency;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Email = user.Email;
+            Phone = user.Phone;
+            Sport = business.Sport;
+            Currency = business.Payment.Currency;
         }
 
 
@@ -36,10 +37,10 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         // 398793 is the Insightly Status Id for 'OPEN - NEW LEAD' for the Coachseek Insightly account.   
         [JsonProperty(PropertyName = "LEAD_STATUS_ID", NullValueHandling = NullValueHandling.Ignore)]
-        public int StatusId { get { return 398793; } }
+        public virtual int StatusId { get { return 398793; } }
 
         // 420119 is the Insightly Source Id for 'Signup' for the Coachseek Insightly account.   
         [JsonProperty(PropertyName = "LEAD_SOURCE_ID", NullValueHandling = NullValueHandling.Ignore)]
-        public int SourceId { get { return 420119; } }
+        public virtual int SourceId { get { return 420119; } }
     }
 }

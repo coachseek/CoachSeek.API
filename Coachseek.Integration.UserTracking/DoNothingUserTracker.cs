@@ -9,9 +9,12 @@ namespace Coachseek.Integration.UserTracking
         public DoNothingUserTracker(string credentials)
         { }
 
+        public void CreateTrackingUser(UserData user, BusinessData business)
+        {
+        }
+
         public async Task CreateTrackingUserAsync(UserData user, BusinessData business)
         {
-            // Do nothing
             await Task.Delay(100);
         }
     }

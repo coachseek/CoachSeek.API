@@ -106,7 +106,8 @@ namespace CoachSeek.Application.UseCases
             {
                 UserTrackerFactory.Credentials = UserTrackerCredentials;
                 var userTracker = UserTrackerFactory.GetUserTracker(IsUserTrackingEnabled, IsTesting);
-                await userTracker.CreateTrackingUserAsync(user, business);
+                userTracker.CreateTrackingUser(user, business);
+                //await userTracker.CreateTrackingUserAsync(user, business);
             }
             catch (Exception)
             {

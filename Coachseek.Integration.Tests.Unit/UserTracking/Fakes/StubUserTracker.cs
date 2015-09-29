@@ -12,6 +12,15 @@ namespace Coachseek.Integration.Tests.Unit.UserTracking.Fakes
 
         public UserData User { get; private set; }
 
+
+        public void CreateTrackingUser(UserData user, BusinessData business)
+        {
+            WasCreateTrackingUserCalled = true;
+            User = user;
+            if (Exception != null)
+                throw Exception;
+        }
+
         public async Task CreateTrackingUserAsync(UserData user, BusinessData business)
         {
             WasCreateTrackingUserCalled = true;

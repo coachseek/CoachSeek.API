@@ -6,7 +6,7 @@ namespace Coachseek.Integration.UserTracking.Insightly
 {
     public class InsightlyUserTracker : IUserTracker
     {
-        private InsightlyApiWebClient Client { get; set; }
+        protected InsightlyApiWebClient Client { get; set; }
 
         public InsightlyUserTracker(string credentials)
         {
@@ -14,15 +14,15 @@ namespace Coachseek.Integration.UserTracking.Insightly
         }
 
 
-        public async Task CreateTrackingUserAsync(UserData user, BusinessData business)
+        public virtual void CreateTrackingUser(UserData user, BusinessData business)
         {
-            var lead = new InsightlyLead(user.FirstName, 
-                                         user.LastName, 
-                                         user.Email, 
-                                         user.Phone, 
-                                         business.Sport,
-                                         business.Payment.Currency);
+            var lead = new InsightlyLead(user, business);
+            Client.PostLead(lead);
+        }
 
+        public virtual async Task CreateTrackingUserAsync(UserData user, BusinessData business)
+        {
+            var lead = new InsightlyLead(user, business);
             await Client.PostLeadAsync(lead);
         }
     }

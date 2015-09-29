@@ -11,11 +11,22 @@ namespace Coachseek.Integration.UserTracking.Insightly
         { }
 
 
+        public ApiResponse PostLead(InsightlyLead lead)
+        {
+            return Post(lead, "Leads");
+        }
+
         public async Task<ApiResponse> PostLeadAsync(InsightlyLead lead)
         {
             return await PostAsync(lead, "Leads");
         }
 
+
+        private ApiResponse Post<TData>(TData data, string relativeUrl) where TData : InsightlyEntity
+        {
+            var json = JsonSerialiser.Serialise(data);
+            return base.Post(json, relativeUrl);
+        }
 
         private async Task<ApiResponse> PostAsync<TData>(TData data, string relativeUrl) where TData : InsightlyEntity
         {

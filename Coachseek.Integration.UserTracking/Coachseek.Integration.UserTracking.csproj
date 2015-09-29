@@ -47,6 +47,7 @@
     <Compile Include="DoNothingUserTracker.cs" />
     <Compile Include="Insightly\InsightlyApiWebClient.cs" />
     <Compile Include="Insightly\InsightlyEntity.cs" />
+    <Compile Include="Insightly\TestInsightlyLead.cs" />
     <Compile Include="Insightly\InsightlyLead.cs" />
     <Compile Include="Insightly\TestInsightlyUserTracker.cs" />
     <Compile Include="Insightly\InsightlyUserTracker.cs" />
