@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
@@ -15,11 +16,11 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
 
         public IUserRepository UserRepository { get; set; }
 
-        public IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
+        public async Task<IResponse> AssociateUserWithBusinessAsync(UserAssociateWithBusinessCommand command)
         {
             WasAssociateUserWithBusinessCalled = true;
             Command = command;
-
+            await Task.Delay(1000);
             if (Exception != null)
                 throw Exception;
             return Response;

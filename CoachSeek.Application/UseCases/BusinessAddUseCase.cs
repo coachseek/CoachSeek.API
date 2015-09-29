@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
@@ -19,12 +20,18 @@ namespace CoachSeek.Application.UseCases
             BusinessDomainBuilder = businessDomainBuilder;
         }
 
-        public IResponse AddBusiness(BusinessRegistrationCommand command)
+        public async Task<IResponse> AddBusinessAsync(BusinessRegistrationCommand command)
+        {
+            var newBusiness = await CreateNewBusiness(command);
+            await BusinessRepository.AddBusinessAsync(newBusiness);
+            return new Response(newBusiness.ToData());
+        }
+
+        private async Task<NewBusiness> CreateNewBusiness(BusinessRegistrationCommand command)
         {
             BusinessDomainBuilder.BusinessRepository = BusinessRepository;
-            var newBusiness = new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
-            BusinessRepository.AddBusiness(newBusiness);
-            return new Response(newBusiness.ToData());
+            //return new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
+            return await NewBusiness.CreateAsync(command, BusinessDomainBuilder, SupportedCurrencyRepository);
         }
     }
 }

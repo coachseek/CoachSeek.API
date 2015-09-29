@@ -1,4 +1,5 @@
-﻿using CoachSeek.DataAccess.Main.Memory.Repositories;
+﻿using CoachSeek.DataAccess.Authentication.Repositories;
+using CoachSeek.DataAccess.Main.Memory.Repositories;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Authentication;
 using Coachseek.DataAccess.TableStorage.Emailing;
@@ -22,7 +23,8 @@ namespace CoachSeek.Api
         {
 #if DEBUG
                                      // new InMemoryBusinessRepository()
-            return new DataRepositories(new DbTestBusinessRepository(), 
+                                     // new InMemoryUserRepository(), 
+            return new DataRepositories(new DbTestBusinessRepository(),
                                         new AzureTestTableUserRepository(), 
                                         new AzureTestTableUnsubscribedEmailAddressRepository(),
                                         new HardCodedSupportedCurrencyRepository(),

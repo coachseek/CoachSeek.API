@@ -46,7 +46,9 @@
     <Compile Include="InMemoryUserTracker.cs" />
     <Compile Include="DoNothingUserTracker.cs" />
     <Compile Include="Insightly\InsightlyApiWebClient.cs" />
+    <Compile Include="Insightly\InsightlyEntity.cs" />
     <Compile Include="Insightly\InsightlyLead.cs" />
+    <Compile Include="Insightly\TestInsightlyUserTracker.cs" />
     <Compile Include="Insightly\InsightlyUserTracker.cs" />
     <Compile Include="UserTrackerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -74,9 +74,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return BusinessRepository.GetBusiness(domain);
         }
 
-        public void AddBusiness(NewBusiness business)
+        public async Task AddBusinessAsync(NewBusiness business)
         {
-            BusinessRepository.AddBusiness(business);
+            await BusinessRepository.AddBusinessAsync(business);
         }
 
         public async Task UpdateBusinessAsync(Business business)

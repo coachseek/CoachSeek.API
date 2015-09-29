@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
@@ -20,11 +21,11 @@ namespace CoachSeek.Api.Controllers
         [AllowAnonymous]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage Post([FromBody]ApiBusinessRegistrationCommand registration)
+        public async Task<HttpResponseMessage> Post([FromBody]ApiBusinessRegistrationCommand registration)
         {
             InitialiseUseCase();
             var command = BusinessRegistrationCommandConverter.Convert(registration);
-            var response = BusinessRegistrationUseCase.RegisterBusiness(command);
+            var response = await BusinessRegistrationUseCase.RegisterBusinessAsync(command);
             return CreatePostWebResponse(response);
         }
 

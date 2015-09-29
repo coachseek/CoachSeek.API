@@ -1,21 +1,25 @@
 ﻿using System.Web;
-using Coachseek.API.Client.Interfaces;
+using CoachSeek.Common;
 
 namespace Coachseek.API.Client.Services
 {
-    public class CoachseekAdminApiClient : ICoachseekAdminApiClient
+    public class CoachseekAdminApiClient : CoachseekAuthenticatedApiClient
     {
-        private IAdminApiClient ApiClient { get; set; }
+        const string AdminUserName = "userZvFXUEmjht1hFJGn+H0YowMqO+5u5tEI";
+        const string AdminPassword = "passYBoVaaWVp1W9ywZOHK6E6QXFh3z3+OUf";
 
-        public CoachseekAdminApiClient(IAdminApiClient apiClient)
+
+        public CoachseekAdminApiClient(string scheme = "https", ApiDataFormat dataFormat = ApiDataFormat.Json)
+            : base(AdminUserName, AdminPassword, scheme, dataFormat)
         {
-            ApiClient = apiClient;
+            BaseUrl = BaseUrl + "/Admin";
         }
+
 
         public void UnsubscribeEmailAddress(string emailAddress)
         {
             var relativeUrl = string.Format("Email/Unsubscribe?email={0}", HttpUtility.UrlEncode(emailAddress));
-            var response = ApiClient.Get<string>(relativeUrl);
+            var response = Get<string>(relativeUrl);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Domain.Contracts;
+﻿using System.Threading.Tasks;
+using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Tests.Unit.Fakes
@@ -10,7 +11,7 @@ namespace CoachSeek.Domain.Tests.Unit.Fakes
 
         public IBusinessRepository BusinessRepository { get; set; }
 
-        public string BuildDomain(string businessName)
+        public async Task<string >BuildDomainAsync(string businessName)
         {
             WasBuildDomainCalled = true;
 

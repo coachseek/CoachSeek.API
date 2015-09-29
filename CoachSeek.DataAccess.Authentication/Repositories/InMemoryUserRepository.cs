@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoachSeek.DataAccess.Authentication.Conversion;
 using CoachSeek.DataAccess.Authentication.Models;
 using CoachSeek.Domain.Entities;
@@ -27,28 +28,57 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             Users.Clear();
         }
 
+        public async Task SaveAsync(NewUser newUser)
+        {
+            WasSaveNewUserCalled = true;
+            var dbUser = DbUserConverter.Convert(newUser);
+            Users.Add(dbUser);
+            await Task.Delay(2000);
+        }
+
         public void Save(NewUser newUser)
         {
             WasSaveNewUserCalled = true;
-
             var dbUser = DbUserConverter.Convert(newUser);
-
             Users.Add(dbUser);
+        }
+
+        public async Task SaveAsync(User user)
+        {
+            WasSaveUserCalled = true;
+            var dbUser = DbUserConverter.Convert(user);
+            var existingUser = Users.Single(x => x.Id == dbUser.Id);
+            var existingIndex = Users.IndexOf(existingUser);
+            Users[existingIndex] = dbUser;
+            await Task.Delay(2000);
         }
 
         public void Save(User user)
         {
             WasSaveUserCalled = true;
-
             var dbUser = DbUserConverter.Convert(user);
             var existingUser = Users.Single(x => x.Id == dbUser.Id);
             var existingIndex = Users.IndexOf(existingUser);
             Users[existingIndex] = dbUser;
         }
 
+        public async Task<User> GetAsync(Guid id)
+        {
+            await Task.Delay(1000);
+            var dbUser = Users.FirstOrDefault(x => x.Id == id);
+            return CreateUser(dbUser);
+        }
+
         public User Get(Guid id)
         {
             var dbUser = Users.FirstOrDefault(x => x.Id == id);
+            return CreateUser(dbUser);
+        }
+
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            await Task.Delay(1000);
+            var dbUser = Users.FirstOrDefault(x => x.Username == username);
             return CreateUser(dbUser);
         }
 

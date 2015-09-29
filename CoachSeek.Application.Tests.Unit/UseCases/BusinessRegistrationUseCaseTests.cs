@@ -240,7 +240,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private IResponse WhenRegisterBusiness()
         {
-            return UseCase.RegisterBusiness(Command);
+            return UseCase.RegisterBusinessAsync(Command).Result;
         }
 
 

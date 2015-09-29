@@ -190,7 +190,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             try
             {
-                return new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
+                return NewBusiness.CreateAsync(command, BusinessDomainBuilder, SupportedCurrencyRepository).Result;
             }
             catch (Exception ex)
             {
@@ -203,7 +203,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             try
             {
                 var command = GivenValidBusinessRegistrationCommand();
-                return new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
+                return NewBusiness.CreateAsync(command, BusinessDomainBuilder, SupportedCurrencyRepository).Result;
             }
             catch (Exception ex)
             {

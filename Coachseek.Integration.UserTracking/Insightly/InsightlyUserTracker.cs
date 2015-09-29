@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using System.Threading.Tasks;
+using CoachSeek.Data.Model;
 using Coachseek.Integration.Contracts.UserTracking;
 
 namespace Coachseek.Integration.UserTracking.Insightly
@@ -13,7 +14,7 @@ namespace Coachseek.Integration.UserTracking.Insightly
         }
 
 
-        public void CreateTrackingUser(UserData user, BusinessData business)
+        public async Task CreateTrackingUserAsync(UserData user, BusinessData business)
         {
             var lead = new InsightlyLead(user.FirstName, 
                                          user.LastName, 
@@ -22,7 +23,7 @@ namespace Coachseek.Integration.UserTracking.Insightly
                                          business.Sport,
                                          business.Payment.Currency);
 
-            Client.PostLead(lead);
+            await Client.PostLeadAsync(lead);
         }
     }
 }

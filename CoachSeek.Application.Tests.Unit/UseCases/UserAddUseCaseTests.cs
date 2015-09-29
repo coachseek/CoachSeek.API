@@ -71,11 +71,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
             try
             {
-                return useCase.AddUser(command);
+                return useCase.AddUserAsync(command).Result;
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
-                return ex;
+                return ex.InnerException;
             }
         }
 

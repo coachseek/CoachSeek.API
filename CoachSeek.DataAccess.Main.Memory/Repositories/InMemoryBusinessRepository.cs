@@ -90,7 +90,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public async Task<BusinessData> GetBusinessAsync(Guid businessId)
         {
             WasGetBusinessByIdCalled = true;
-
+            await Task.Delay(1000);
             var business = Businesses.FirstOrDefault(x => x.Id == businessId);
             return ConvertToBusinessData(business);
         }
@@ -98,7 +98,6 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public BusinessData GetBusiness(Guid businessId)
         {
             WasGetBusinessByIdCalled = true;
-
             var business = Businesses.FirstOrDefault(x => x.Id == businessId);
             return ConvertToBusinessData(business);
         }
@@ -106,6 +105,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public async Task<BusinessData> GetBusinessAsync(string domain)
         {
             var business = Businesses.FirstOrDefault(x => x.Domain == domain);
+            await Task.Delay(1500);
             return ConvertToBusinessData(business);
         }
 
@@ -131,11 +131,19 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessData;
         }
 
+        public async Task AddBusinessAsync(NewBusiness business)
+        {
+            WasAddBusinessCalled = true;
+            DataPassedIn = business;
+            await Task.Delay(3000);
+            var dbBusiness = DbBusinessConverter.Convert(business);
+            Businesses.Add(dbBusiness);
+        }
+
         public void AddBusiness(NewBusiness business)
         {
             WasAddBusinessCalled = true;
             DataPassedIn = business;
-
             var dbBusiness = DbBusinessConverter.Convert(business);
             Businesses.Add(dbBusiness);
         }
@@ -144,40 +152,36 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             WasUpdateBusinessCalled = true;
             DataPassedIn = business;
-
+            await Task.Delay(3000);
             var dbNewBusiness = DbBusinessConverter.Convert(business);
-
             var index = Businesses.FindIndex(x => x.Id == business.Id);
             var dbExistingBusiness = Businesses[index];
             dbNewBusiness.Domain = dbExistingBusiness.Domain;
-
             Businesses[index] = dbNewBusiness;
         }
 
         public async Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil)
         {
-            throw new NotImplementedException();
+            await Task.Delay(2000);
         }
 
 
         public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
         {
+            await Task.Delay(2000);
             var dbLocations = GetAllDbLocations(businessId);
-
             return Mapper.Map<IList<DbLocation>, IList<LocationData>>(dbLocations);
         }
 
         public IList<LocationData> GetAllLocations(Guid businessId)
         {
             var dbLocations = GetAllDbLocations(businessId);
-
             return Mapper.Map<IList<DbLocation>, IList<LocationData>>(dbLocations);
         }
 
         public LocationData GetLocation(Guid businessId, Guid locationId)
         {
             var businessLocations = GetAllLocations(businessId);
-
             return businessLocations.FirstOrDefault(x => x.Id == locationId);
         }
 
@@ -212,22 +216,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public async Task<IList<CoachData>> GetAllCoachesAsync(Guid businessId)
         {
+            await Task.Delay(2000);
             var dbCoaches = GetAllDbCoaches(businessId).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
-
             return Mapper.Map<IList<DbCoach>, IList<CoachData>>(dbCoaches);
         }
 
         public IList<CoachData> GetAllCoaches(Guid businessId)
         {
             var dbCoaches = GetAllDbCoaches(businessId).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList();
-
             return Mapper.Map<IList<DbCoach>, IList<CoachData>>(dbCoaches);
         }
 
         public CoachData GetCoach(Guid businessId, Guid coachId)
         {
             var businessCoaches = GetAllCoaches(businessId);
-
             return businessCoaches.FirstOrDefault(x => x.Id == coachId);
         }
 
@@ -262,22 +264,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public async Task<IList<ServiceData>> GetAllServicesAsync(Guid businessId)
         {
+            await Task.Delay(2000);
             var dbServices = GetAllDbServices(businessId);
-
             return Mapper.Map<IList<DbService>, IList<ServiceData>>(dbServices);
         }
 
         public IList<ServiceData> GetAllServices(Guid businessId)
         {
             var dbServices = GetAllDbServices(businessId);
-
             return Mapper.Map<IList<DbService>, IList<ServiceData>>(dbServices);
         }
 
         public ServiceData GetService(Guid businessId, Guid serviceId)
         {
             var businessServices = GetAllServices(businessId);
-
             return businessServices.FirstOrDefault(x => x.Id == serviceId);
         }
 
@@ -304,22 +304,20 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
         {
+            await Task.Delay(2000);
             var dbCustomers = GetAllDbCustomers(businessId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
-
             return Mapper.Map<IList<DbCustomer>, IList<CustomerData>>(dbCustomers);
         }
 
         public IList<CustomerData> GetAllCustomers(Guid businessId)
         {
             var dbCustomers = GetAllDbCustomers(businessId).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
-
             return Mapper.Map<IList<DbCustomer>, IList<CustomerData>>(dbCustomers);
         }
 
         public CustomerData GetCustomer(Guid businessId, Guid customerId)
         {
             var businessCustomers = GetAllCustomers(businessId);
-
             return businessCustomers.FirstOrDefault(x => x.Id == customerId);
         }
 
@@ -353,6 +351,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
         {
+            await Task.Delay(2000);
             throw new NotImplementedException();
         }
 

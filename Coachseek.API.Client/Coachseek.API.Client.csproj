@@ -45,6 +45,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,20 +64,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Services\AdminApiClient.cs" />
-    <Compile Include="Services\AnonymousApiClient.cs" />
-    <Compile Include="Services\AnonymousApiClientBase.cs" />
-    <Compile Include="Services\ApiClientBase.cs" />
+    <Compile Include="Services\BasicAuthHeaderFormatter.cs" />
+    <Compile Include="Services\CoachseekAnonymousApiClient.cs" />
     <Compile Include="Models\ApiApplicationError.cs" />
-    <Compile Include="Services\AuthenticatedApiClient.cs" />
-    <Compile Include="Services\AuthenticatedApiClientBase.cs" />
+    <Compile Include="Services\CoachseekAuthenticatedApiClient.cs" />
     <Compile Include="Interfaces\IAdminApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ApiResponse.cs" />
-    <Compile Include="Services\BasicAuthenticationApiWebClient.cs" />
-    <Compile Include="Services\BusinessAnonymousApiClient.cs" />
+    <Compile Include="Services\GenericAuthenticatedApiClient.cs" />
+    <Compile Include="Services\CoachseekBusinessAnonymousApiClient.cs" />
     <Compile Include="Services\CoachseekAdminApiClient.cs" />
-    <Compile Include="Services\ApiWebClient.cs" />
+    <Compile Include="Services\GenericApiClient.cs" />
     <Compile Include="Services\JsonSerialiser.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>

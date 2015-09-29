@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Repositories
         Task<BusinessData> GetBusinessAsync(Guid businessId);
         Task<BusinessData> GetBusinessAsync(string domain);
         BusinessData GetBusiness(string domain);
-        void AddBusiness(NewBusiness business);
+        Task AddBusinessAsync(NewBusiness business);
         Task UpdateBusinessAsync(Business business);
         Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil);
 

@@ -4,6 +4,6 @@ namespace Coachseek.API.Client.Interfaces
 {
     public interface IAdminApiClient
     {
-        ApiResponse Get<TResponse>(string relativeUrl, string scheme = "https");
+        ApiResponse Get<TResponse>(string relativeUrl);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Common;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
@@ -14,19 +15,46 @@ namespace CoachSeek.Domain.Entities
         public DateTime CreatedOn { get; set; }
         public bool IsTesting { get; set; }
 
-        public NewBusiness(BusinessRegistrationCommand registration, 
-                           IBusinessDomainBuilder domainBuilder, 
-                           ISupportedCurrencyRepository supportedCurrencyRepository)
+        //public NewBusiness(BusinessRegistrationCommand registration, 
+        //                   IBusinessDomainBuilder domainBuilder, 
+        //                   ISupportedCurrencyRepository supportedCurrencyRepository)
+        //{
+        //    var command = registration.Business;
+        //    Name = command.Name.Trim();
+        //    Domain = domainBuilder.BuildDomain(command.Name);
+        //    Sport = command.Sport == null ? null : command.Sport.Trim();
+        //    Payment = new PaymentOptions(command, supportedCurrencyRepository);
+        //    IsTesting = DetermineIsTesting(registration.Admin.Email);
+        //    SetDates();
+        //    SetSubsciption();
+        //}
+
+        private NewBusiness(BusinessRegistrationCommand registration, 
+                            ISupportedCurrencyRepository supportedCurrencyRepository)
         {
             var command = registration.Business;
             Name = command.Name.Trim();
-            Domain = domainBuilder.BuildDomain(command.Name);
             Sport = command.Sport == null ? null : command.Sport.Trim();
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
             IsTesting = DetermineIsTesting(registration.Admin.Email);
             SetDates();
             SetSubsciption();
         }
+
+        private async Task<NewBusiness> InitializeAsync(IBusinessDomainBuilder domainBuilder)
+        {
+            Domain = await domainBuilder.BuildDomainAsync(Name);
+            return this;
+        }
+
+        public static Task<NewBusiness> CreateAsync(BusinessRegistrationCommand registration,
+                                                    IBusinessDomainBuilder domainBuilder,
+                                                    ISupportedCurrencyRepository supportedCurrencyRepository)
+        {
+            var business = new NewBusiness(registration, supportedCurrencyRepository);
+            return business.InitializeAsync(domainBuilder);
+        }
+
 
         public NewBusiness(Guid id, 
                            string name, 

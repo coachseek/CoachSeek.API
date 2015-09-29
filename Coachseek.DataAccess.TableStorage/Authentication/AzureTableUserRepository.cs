@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Coachseek.DataAccess.Authentication.TableStorage;
+using Coachseek.DataAccess.TableStorage.Extensions;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 using Microsoft.WindowsAzure.Storage;
@@ -13,21 +15,31 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         protected override string TableName { get { return "users"; } }
 
 
+        public async Task SaveAsync(NewUser newUser)
+        {
+            var user = CreateUserEntity(newUser);
+            await Table.ExecuteAsync(TableOperation.Insert(user));
+        }
+
         public void Save(NewUser newUser)
         {
-            var user = new UserEntity(newUser.Username)
-            {
-                Id = newUser.Id,
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Email = newUser.Email,
-                Phone = newUser.Phone,
-                PasswordHash = newUser.PasswordHash,
-                BusinessId = newUser.BusinessId,
-                BusinessName = newUser.BusinessName,
-            };
-
+            var user = CreateUserEntity(newUser);
             Table.Execute(TableOperation.Insert(user));
+        }
+
+        public async Task SaveAsync(User user)
+        {
+            try
+            {
+                await UpdateAsync(user);
+            }
+            catch (StorageException ex)
+            {
+                if (ex.RequestInformation.HttpStatusCode == 412)
+                    Update(user);
+
+                throw;
+            }
         }
 
         public void Save(User user)
@@ -43,6 +55,20 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
                 throw;
             }
+        }
+
+        private async Task UpdateAsync(User user)
+        {
+            var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, user.Username);
+            var retrievedResult = await Table.ExecuteAsync(retrieveOperation);
+
+            var updateEntity = (UserEntity)retrievedResult.Result;
+            if (updateEntity == null)
+                throw new Exception(); // TODO
+
+            UpdateEntity(user, updateEntity);
+            var updateOperation = TableOperation.Replace(updateEntity);
+            await Table.ExecuteAsync(updateOperation);
         }
 
         private void Update(User user)
@@ -69,25 +95,39 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             updateEntity.BusinessName = user.BusinessName;
         }
 
+        public async Task<User> GetAsync(Guid id)
+        {
+            var query = new TableQuery<UserEntity>()
+                            .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
+
+            return (from user in await Table.ExecuteQueryAsync(query) 
+                    where user.Id == id 
+                    select CreateUser(user))
+                    .FirstOrDefault();
+        }
+
         public User Get(Guid id)
         {
-            var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
+            var query = new TableQuery<UserEntity>()
+                            .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
 
-            foreach (var user in Table.ExecuteQuery(query))
-            {
-                if (user.Id == id)
-                    return new User(user.Id, 
-                                    user.BusinessId, 
-                                    user.BusinessName,
-                                    user.Email,
-                                    user.Phone,
-                                    user.FirstName, 
-                                    user.LastName, 
-                                    user.RowKey, 
-                                    user.PasswordHash);
-            }
+            return (from user in Table.ExecuteQuery(query) 
+                    where user.Id == id 
+                    select CreateUser(user))
+                    .FirstOrDefault();
+        }
 
-            return null;
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            var retrieveOperation = TableOperation.Retrieve<UserEntity>(Constants.USER, username);
+
+            var retrievedResult = await Table.ExecuteAsync(retrieveOperation);
+            if (retrievedResult.Result == null)
+                return null;
+
+            var user = (UserEntity) retrievedResult.Result;
+
+            return CreateUser(user);
         }
 
         public User GetByUsername(string username)
@@ -98,17 +138,9 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             if (retrievedResult.Result == null)
                 return null;
 
-            var user = (UserEntity) retrievedResult.Result;
+            var user = (UserEntity)retrievedResult.Result;
 
-            return new User(user.Id, 
-                            user.BusinessId, 
-                            user.BusinessName,
-                            user.Email,
-                            user.Phone,
-                            user.FirstName, 
-                            user.LastName, 
-                            user.RowKey, 
-                            user.PasswordHash);
+            return CreateUser(user);
         }
 
         public User GetByBusinessId(Guid businessId)
@@ -129,14 +161,35 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
             var user = results.First();
 
-            return new User(user.Id, 
-                            user.BusinessId, 
+            return CreateUser(user);
+        }
+
+
+        private UserEntity CreateUserEntity(NewUser newUser)
+        {
+            return new UserEntity(newUser.Username)
+            {
+                Id = newUser.Id,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Email = newUser.Email,
+                Phone = newUser.Phone,
+                PasswordHash = newUser.PasswordHash,
+                BusinessId = newUser.BusinessId,
+                BusinessName = newUser.BusinessName,
+            };
+        }
+
+        private User CreateUser(UserEntity user)
+        {
+            return new User(user.Id,
+                            user.BusinessId,
                             user.BusinessName,
                             user.Email,
                             user.Phone,
-                            user.FirstName, 
-                            user.LastName, 
-                            user.RowKey, 
+                            user.FirstName,
+                            user.LastName,
+                            user.RowKey,
                             user.PasswordHash);
         }
     }

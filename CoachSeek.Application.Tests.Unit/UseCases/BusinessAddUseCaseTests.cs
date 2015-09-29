@@ -62,7 +62,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 SupportedCurrencyRepository = SupportedCurrencyRepository
             };
 
-            return useCase.AddBusiness(command);
+            return useCase.AddBusinessAsync(command).Result;
         }
 
         private void ThenBusinessAddFailsWithMissingBusinessError(IResponse response)

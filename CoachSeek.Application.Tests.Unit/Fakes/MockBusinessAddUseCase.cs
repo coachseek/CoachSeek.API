@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
@@ -18,7 +19,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
         public ISupportedCurrencyRepository SupportedCurrencyRepository { get; set; }
 
 
-        public IResponse AddBusiness(BusinessRegistrationCommand command)
+        public async Task<IResponse> AddBusinessAsync(BusinessRegistrationCommand command)
         {
             WasAddBusinessCalled = true;
             Command = command;

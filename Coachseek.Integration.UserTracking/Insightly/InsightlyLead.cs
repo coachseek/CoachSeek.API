@@ -3,7 +3,7 @@
 namespace Coachseek.Integration.UserTracking.Insightly
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class InsightlyLead
+    public class InsightlyLead : InsightlyEntity
     {
         public InsightlyLead(string firstName, string lastName, string email, string phone, string sport, string currency)
         {

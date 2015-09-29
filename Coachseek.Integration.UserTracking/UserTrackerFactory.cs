@@ -12,7 +12,7 @@ namespace Coachseek.Integration.UserTracking
             if (!isUserTrackingEnabled)
                 return new DoNothingUserTracker(Credentials);
             if (isTesting)
-                return new InMemoryUserTracker(Credentials);
+                return new TestInsightlyUserTracker();
 
             return new InsightlyUserTracker(Credentials);
         }

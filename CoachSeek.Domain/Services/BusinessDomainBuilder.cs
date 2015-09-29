@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Repositories;
 using IBusinessDomainBuilder = CoachSeek.Domain.Contracts.IBusinessDomainBuilder;
@@ -15,25 +16,22 @@ namespace CoachSeek.Domain.Services
             ReservedDomainRepository = reservedDomainRepository;
         }
 
-        public string BuildDomain(string businessName)
+        public async Task<string> BuildDomainAsync(string businessName)
         {
             if (string.IsNullOrWhiteSpace(businessName))
                 throw new ArgumentNullException("businessName");
-
             var domain = RemoveNonAlphaNumericCharacters(businessName).ToLowerInvariant();
-
-            while (IsUnavailableDomain(domain))
+            while (await IsUnavailableDomain(domain))
                 domain = AlterDomain(domain);
-
             return domain;
         }
 
-        private bool IsUnavailableDomain(string domain)
+        private async Task<bool> IsUnavailableDomain(string domain)
         {
             var isReservedDomain = ReservedDomainRepository.Contains(domain);
             if (isReservedDomain)
                 return true;
-            return BusinessRepository.GetBusiness(domain).IsFound();
+            return (await BusinessRepository.GetBusinessAsync(domain)).IsFound();
         }
 
         private static string AlterDomain(string domain)

@@ -1,4 +1,4 @@
-﻿
+﻿using System.Threading.Tasks;
 using CoachSeek.Domain.Repositories;
 
 namespace CoachSeek.Domain.Contracts
@@ -7,6 +7,6 @@ namespace CoachSeek.Domain.Contracts
     {
         IBusinessRepository BusinessRepository { get; set; }
 
-        string BuildDomain(string businessName);
+        Task<string> BuildDomainAsync(string businessName);
     }
 }

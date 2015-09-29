@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Repositories;
 
@@ -13,6 +14,6 @@ namespace CoachSeek.Application.Contracts.UseCases
         IBusinessRepository BusinessRepository { set; }
         ISupportedCurrencyRepository SupportedCurrencyRepository { set; }
 
-        IResponse RegisterBusiness(BusinessRegistrationCommand command);
+        Task<IResponse> RegisterBusinessAsync(BusinessRegistrationCommand command);
     }
 }

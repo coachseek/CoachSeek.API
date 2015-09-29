@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -11,11 +12,11 @@ namespace CoachSeek.Application.UseCases
         public IUserRepository UserRepository { get; set; }
 
 
-        public IResponse AssociateUserWithBusiness(UserAssociateWithBusinessCommand command)
+        public async Task<IResponse> AssociateUserWithBusinessAsync(UserAssociateWithBusinessCommand command)
         {
-            var user = UserRepository.Get(command.UserId);
+            var user = await UserRepository.GetAsync(command.UserId);
             SetBusinessDetailsOnUser(user, command);
-            user.Save(UserRepository);
+            await user.SaveAsync(UserRepository);
             return new Response();
         }
 

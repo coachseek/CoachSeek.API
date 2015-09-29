@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
@@ -23,7 +24,15 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public override void Save(IUserRepository repository)
+        public override async Task SaveAsync(IUserRepository repository)
+        {
+            var user = await repository.GetByUsernameAsync(Email);
+            if (user.IsExisting())
+                throw new UserDuplicate(user);
+            await repository.SaveAsync(this);
+        }
+
+        public void Save(IUserRepository repository)
         {
             var user = repository.GetByUsername(Email);
             if (user.IsExisting())

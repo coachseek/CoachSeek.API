@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
@@ -15,7 +16,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
 
         public IUserRepository UserRepository { get; set; }
         
-        public IResponse AddUser(UserAddCommand command)
+        public async Task<IResponse> AddUserAsync(UserAddCommand command)
         {
             WasAddUserCalled = true;
             Command = command;

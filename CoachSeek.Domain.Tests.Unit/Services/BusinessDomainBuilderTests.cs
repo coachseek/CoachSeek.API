@@ -179,11 +179,11 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             var builder = new BusinessDomainBuilder(ReservedDomainRepository) {BusinessRepository = BusinessRepository};
             try
             {
-                return builder.BuildDomain(businessName);
+                return builder.BuildDomainAsync(businessName).Result;
             }
-            catch(Exception ex)
+            catch(AggregateException ex)
             {
-                return ex;
+                return ex.InnerException;
             }
         }
 

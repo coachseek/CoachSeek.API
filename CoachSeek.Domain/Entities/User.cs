@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
@@ -62,12 +63,12 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public virtual void Save(IUserRepository repository)
+        public virtual async Task SaveAsync(IUserRepository repository)
         {
-            var existingUser = repository.GetByUsername(Email);
+            var existingUser = await repository.GetByUsernameAsync(Email);
             if (!existingUser.IsExisting())
                 throw new UserInvalid(Email);
-            repository.Save(this);
+            await repository.SaveAsync(this);
         }
 
         public UserData ToData()

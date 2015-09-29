@@ -131,13 +131,13 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public void AddBusiness(NewBusiness business)
+        public async Task AddBusinessAsync(NewBusiness business)
         {
             var wasAlreadyOpen = false;
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = await OpenConnectionAsync();
 
                 var command = new SqlCommand("[Business_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -169,7 +169,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[11].Value = business.SubscriptionPlan;
                 command.Parameters[12].Value = business.IsTesting;
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             finally
             {
