@@ -46,8 +46,9 @@ namespace CoachSeek.Application.UseCases
                 var userTask = AddUserAsync(command.Admin);
                 var businessTask = AddBusiness(command);
                 await Task.WhenAll(userTask, businessTask);
-                await AssociateUserWithBusiness(userTask.Result, businessTask.Result);
-                await PostProcessingAsync(userTask.Result, businessTask.Result);
+                var associateTask = AssociateUserWithBusiness(userTask.Result, businessTask.Result);
+                var postProcessingTask = PostProcessingAsync(userTask.Result, businessTask.Result);
+                await Task.WhenAll(associateTask, postProcessingTask);
                 return new Response(new RegistrationData(userTask.Result, businessTask.Result));
             }
             catch (CoachseekException ex)
@@ -106,8 +107,8 @@ namespace CoachSeek.Application.UseCases
             {
                 UserTrackerFactory.Credentials = UserTrackerCredentials;
                 var userTracker = UserTrackerFactory.GetUserTracker(IsUserTrackingEnabled, IsTesting);
-                userTracker.CreateTrackingUser(user, business);
-                //await userTracker.CreateTrackingUserAsync(user, business);
+                //userTracker.CreateTrackingUser(user, business);
+                await userTracker.CreateTrackingUserAsync(user, business);
             }
             catch (Exception)
             {

@@ -25,17 +25,9 @@ namespace Coachseek.API.Client.Services
             BasicAuthHeaderSetter.SetBasicAuthHeader(request, Username, Password);
         }
 
-
         protected override void SetOtherRequestHeaders(HttpClient client)
         {
-            //SetBasicAuthRequestHeader(client);
+            BasicAuthHeaderSetter.SetBasicAuthHeader(client, Username, Password);
         }
-
-        //private void SetBasicAuthRequestHeader(HttpClient client)
-        //{
-        //    var authInfo = string.Format("{0}:{1}", Username, Password);
-        //    authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authInfo);
-        //}
     }
 }
