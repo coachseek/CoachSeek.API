@@ -59,20 +59,20 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await BusinessRepository.GetBusinessAsync(businessId);
         }
 
-        public BusinessData GetBusiness(Guid businessId)
-        {
-            return BusinessRepository.GetBusiness(businessId);
-        }
+        //public BusinessData GetBusiness(Guid businessId)
+        //{
+        //    return BusinessRepository.GetBusiness(businessId);
+        //}
 
         public async Task<BusinessData> GetBusinessAsync(string domain)
         {
             return await BusinessRepository.GetBusinessAsync(domain);
         }
 
-        public BusinessData GetBusiness(string domain)
-        {
-            return BusinessRepository.GetBusiness(domain);
-        }
+        //public BusinessData GetBusiness(string domain)
+        //{
+        //    return BusinessRepository.GetBusiness(domain);
+        //}
 
         public async Task AddBusinessAsync(NewBusiness business)
         {

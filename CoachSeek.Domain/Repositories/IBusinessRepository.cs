@@ -11,7 +11,6 @@ namespace CoachSeek.Domain.Repositories
     {
         Task<BusinessData> GetBusinessAsync(Guid businessId);
         Task<BusinessData> GetBusinessAsync(string domain);
-        BusinessData GetBusiness(string domain);
         Task AddBusinessAsync(NewBusiness business);
         Task UpdateBusinessAsync(Business business);
         Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil);

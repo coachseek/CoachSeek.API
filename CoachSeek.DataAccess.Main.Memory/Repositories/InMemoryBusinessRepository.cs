@@ -95,40 +95,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return ConvertToBusinessData(business);
         }
 
-        public BusinessData GetBusiness(Guid businessId)
-        {
-            WasGetBusinessByIdCalled = true;
-            var business = Businesses.FirstOrDefault(x => x.Id == businessId);
-            return ConvertToBusinessData(business);
-        }
-
         public async Task<BusinessData> GetBusinessAsync(string domain)
         {
             var business = Businesses.FirstOrDefault(x => x.Domain == domain);
             await Task.Delay(1500);
             return ConvertToBusinessData(business);
-        }
-
-        public BusinessData GetBusiness(string domain)
-        {
-            var business = Businesses.FirstOrDefault(x => x.Domain == domain);
-            return ConvertToBusinessData(business);
-        }
-
-        private BusinessData ConvertToBusinessData(DbBusiness business)
-        {
-            if (business == null)
-                return null;
-
-            var businessData = Mapper.Map<DbBusiness, BusinessData>(business);
-
-            businessData.Payment.Currency = business.CurrencyCode;
-            businessData.Payment.IsOnlinePaymentEnabled = business.IsOnlinePaymentEnabled;
-            businessData.Payment.ForceOnlinePayment = business.ForceOnlinePayment;
-            businessData.Payment.PaymentProvider = business.PaymentProvider;
-            businessData.Payment.MerchantAccountIdentifier = business.MerchantAccountIdentifier;
-
-            return businessData;
         }
 
         public async Task AddBusinessAsync(NewBusiness business)
@@ -666,6 +637,23 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId)
         {
             throw new NotImplementedException();
+        }
+
+
+        private BusinessData ConvertToBusinessData(DbBusiness business)
+        {
+            if (business == null)
+                return null;
+
+            var businessData = Mapper.Map<DbBusiness, BusinessData>(business);
+
+            businessData.Payment.Currency = business.CurrencyCode;
+            businessData.Payment.IsOnlinePaymentEnabled = business.IsOnlinePaymentEnabled;
+            businessData.Payment.ForceOnlinePayment = business.ForceOnlinePayment;
+            businessData.Payment.PaymentProvider = business.PaymentProvider;
+            businessData.Payment.MerchantAccountIdentifier = business.MerchantAccountIdentifier;
+
+            return businessData;
         }
 
         private List<DbLocation> GetAllDbLocations(Guid businessId)

@@ -44,35 +44,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public BusinessData GetBusiness(Guid businessId)
-        {
-            var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
-
-                reader = command.ExecuteReader();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadBusinessData(reader);
-
-                return null;
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
         public async Task<BusinessData> GetBusinessAsync(string domain)
         {
             var wasAlreadyOpen = false;
@@ -88,35 +59,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[0].Value = domain;
 
                 reader = await command.ExecuteReaderAsync();
-
-                if (reader.HasRows && reader.Read())
-                    return ReadBusinessData(reader);
-
-                return null;
-            }
-            finally
-            {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
-            }
-        }
-
-        public BusinessData GetBusiness(string domain)
-        {
-            var wasAlreadyOpen = false;
-            SqlDataReader reader = null;
-
-            try
-            {
-                wasAlreadyOpen = OpenConnection();
-
-                var command = new SqlCommand("[Business_GetByDomain]", Connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
-                command.Parameters[0].Value = domain;
-
-                reader = command.ExecuteReader();
 
                 if (reader.HasRows && reader.Read())
                     return ReadBusinessData(reader);
