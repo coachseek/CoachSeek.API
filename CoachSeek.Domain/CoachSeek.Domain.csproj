@@ -130,6 +130,7 @@
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
+    <Compile Include="Entities\Subdomain.cs" />
     <Compile Include="Entities\Subscriptions\ProSubscription.cs" />
     <Compile Include="Entities\Subscriptions\UnlimitedSubscription.cs" />
     <Compile Include="Entities\Subscriptions\SoloSubscription.cs">
@@ -169,6 +170,8 @@
     <Compile Include="Exceptions\BookingContainsDuplicateSessions.cs" />
     <Compile Include="Exceptions\CourseMustHavePrice.cs" />
     <Compile Include="Exceptions\CourseChangeRepetitionNotSupported.cs" />
+    <Compile Include="Exceptions\SubdomainDuplicate.cs" />
+    <Compile Include="Exceptions\SubdomainFormatInvalid.cs" />
     <Compile Include="Exceptions\SessionNotOnlineBookable.cs" />
     <Compile Include="Exceptions\CourseNotOnlineBookable.cs" />
     <Compile Include="Exceptions\SessionHasBookingsCannotDelete.cs" />

@@ -131,6 +131,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sport", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@currency", SqlDbType.NChar));
                 command.Parameters.Add(new SqlParameter("@isOnlinePaymentEnabled", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
@@ -139,11 +141,13 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
-                command.Parameters[2].Value = business.CurrencyCode;
-                command.Parameters[3].Value = business.IsOnlinePaymentEnabled;
-                command.Parameters[4].Value = business.ForceOnlinePayment;
-                command.Parameters[5].Value = business.PaymentProvider;
-                command.Parameters[6].Value = business.MerchantAccountIdentifier;
+                command.Parameters[2].Value = business.Domain;
+                command.Parameters[3].Value = business.Sport;
+                command.Parameters[4].Value = business.CurrencyCode;
+                command.Parameters[5].Value = business.IsOnlinePaymentEnabled;
+                command.Parameters[6].Value = business.ForceOnlinePayment;
+                command.Parameters[7].Value = business.PaymentProvider;
+                command.Parameters[8].Value = business.MerchantAccountIdentifier;
 
                 await command.ExecuteNonQueryAsync();
             }

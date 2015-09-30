@@ -43,13 +43,12 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 SetRepositoriesOnUseCases();
-                var userTask = AddUserAsync(command.Admin);
-                var businessTask = AddBusiness(command);
-                await Task.WhenAll(userTask, businessTask);
-                var associateTask = AssociateUserWithBusiness(userTask.Result, businessTask.Result);
-                var postProcessingTask = PostProcessingAsync(userTask.Result, businessTask.Result);
+                var user = await AddUserAsync(command.Admin);
+                var business = await AddBusiness(command);
+                var associateTask = AssociateUserWithBusiness(user, business);
+                var postProcessingTask = PostProcessingAsync(user, business);
                 await Task.WhenAll(associateTask, postProcessingTask);
-                return new Response(new RegistrationData(userTask.Result, businessTask.Result));
+                return new Response(new RegistrationData(user, business));
             }
             catch (CoachseekException ex)
             {

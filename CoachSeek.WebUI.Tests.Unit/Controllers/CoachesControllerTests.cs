@@ -5,7 +5,6 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
-using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
@@ -207,7 +206,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 }
             };
 
-            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "abc123", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.CoachAddUseCase = useCase;
 
@@ -225,7 +224,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
                 Phone = "0987654321"
             };
 
-            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
+            Controller.Business = new Business(new Guid(BUSINESS_ID), "", "abc123", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             Controller.UserRepository = SetupUserRepository();
             Controller.CoachUpdateUseCase = useCase;
 

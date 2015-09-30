@@ -30,6 +30,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Session_Guid]
     ON [dbo].[Session]([Guid] ASC);
@@ -37,6 +39,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UX_Session_Guid]
 
 GO
 CREATE NONCLUSTERED INDEX [IX_Session_BusinessId_Cover]
-    ON [dbo].[Session]([BusinessId] ASC)
-    INCLUDE([Id], [Guid], [ParentId], [LocationId], [CoachId], [ServiceId], [Name], [StartDate], [StartTime], [Duration], [StudentCapacity], [IsOnlineBookable], [SessionCount], [RepeatFrequency], [SessionPrice], [CoursePrice], [Colour]);
+    ON [dbo].[Session]([BusinessId] ASC, [StartDate] ASC)
+    INCLUDE([Id], [Guid], [ParentId], [LocationId], [CoachId], [ServiceId], [Name], [StartTime], [Duration], [StudentCapacity], [IsOnlineBookable], [SessionCount], [RepeatFrequency], [SessionPrice], [CoursePrice], [Colour]);
+
+
 

@@ -84,6 +84,7 @@
     <Compile Include="Entities\PersonNameTests.cs" />
     <Compile Include="Entities\RepeatedSessionPricingTests.cs" />
     <Compile Include="Entities\StandaloneSessionPricingTests.cs" />
+    <Compile Include="Entities\SubdomainTests.cs" />
     <Compile Include="Entities\TimeOfDayTests.cs" />
     <Compile Include="Entities\PriceTests.cs" />
     <Compile Include="Entities\RepeatFrequencyTests.cs" />

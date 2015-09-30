@@ -9,12 +9,13 @@ namespace CoachSeek.Domain.Entities
 {
     public class Business
     {
+        protected Subdomain Subdomain { get; set; }
         protected PaymentOptions Payment { get; set; }
         protected Subscription Subscription { get; set; }
 
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
-        public string Domain { get; protected set; }
+        public string Domain { get { return Subdomain.Domain; } }
         public string Sport { get; protected set; }
         public string SubscriptionPlan { get { return Subscription.Plan; } }
         public DateTime AuthorisedUntil { get; protected set; }
@@ -31,6 +32,8 @@ namespace CoachSeek.Domain.Entities
             : this (existingBusiness)
         {
             Name = command.Name.Trim();
+            Subdomain = new Subdomain(command.Domain);
+            Sport = command.Sport;
             Payment = new PaymentOptions(command, supportedCurrencyRepository);
         }
 
@@ -44,7 +47,7 @@ namespace CoachSeek.Domain.Entities
         {
             Id = business.Id;
             Name = business.Name;
-            Domain = business.Domain;
+            Subdomain = new Subdomain(business.Domain);
             Sport = business.Sport;
             AuthorisedUntil = business.AuthorisedUntil;
             Subscription = Subscription.Create(business.SubscriptionPlan);
@@ -76,7 +79,7 @@ namespace CoachSeek.Domain.Entities
 
             Id = id;
             Name = name;
-            Domain = domain;
+            Subdomain = new Subdomain(domain);
             Sport = sport;
             Payment = new PaymentOptions(currencyCode,
                                          currencySymbol,
@@ -103,7 +106,7 @@ namespace CoachSeek.Domain.Entities
 
             Id = id;
             Name = name;
-            Domain = domain;
+            Subdomain = new Subdomain(domain);
             Sport = sport;
             AuthorisedUntil = authorisedUntil;
             Subscription = Subscription.Create(subscription);

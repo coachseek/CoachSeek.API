@@ -74,7 +74,7 @@ namespace Coachseek.Integration.Tests.Unit.UserTracking.Tests
 
         private void ThenReturnInMemoryUserTracker(IUserTracker userTracker)
         {
-            Assert.That(userTracker, Is.InstanceOf<InMemoryUserTracker>());
+            Assert.That(userTracker, Is.InstanceOf<TestInsightlyUserTracker>());
         }
 
         private void ThenReturnInsightlyUserTracker(IUserTracker userTracker)

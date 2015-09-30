@@ -38,7 +38,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             SetupBusinessRepository();
             SetupUserRepository();
 
-            var business = new Business(BusinessId, "", "", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
+            var business = new Business(BusinessId, "", "abc123", "NZD", "$", "", DateTime.UtcNow.AddDays(1), "Trial");
             var businessContext = new BusinessContext(business, BusinessRepository, null, UserRepository);
             Context = new ApplicationContext(null, businessContext, null, null, true);
         }

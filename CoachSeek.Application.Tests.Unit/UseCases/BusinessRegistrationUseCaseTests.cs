@@ -26,8 +26,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private BusinessRegistrationUseCase WhenConstruct()
         {
-            return new BusinessRegistrationUseCase(new MockUserAddUseCase(), 
-                                                   new MockBusinessAddUseCase(), 
+            return new BusinessRegistrationUseCase(new MockUserAddUseCase(),
+                                                   new MockBusinessAddUseCase(),
                                                    new MockUserAssociateWithBusinessUseCase(),
                                                    new StubUserTrackerFactory())
             {
@@ -188,11 +188,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
         [Test]
-        public void GivenAssociateUseCaseFails_WhenRegisterBusiness_ThenFailAndEndWorkflowAfterAssociateUseCase()
+        public void GivenAssociateUseCaseFails_WhenRegisterBusiness_ThenFailsButStillCompletesFullWorkflow()
         {
             GivenAssociateUseCaseFails();
             var response = WhenRegisterBusiness();
-            ThenFailAndEndWorkflowAfterAssociateUseCase(response);
+            ThenFailsButStillCompletesFullWorkflow(response);
         }
 
         [Test]
@@ -301,6 +301,23 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             AssertPassRelevantInfoIntoCreateTrackingUser();
 
             AssertSuccessResponse(response);
+        }
+
+        private void ThenFailsButStillCompletesFullWorkflow(IResponse response)
+        {
+            AssertWasAddUserCalled(true);
+            AssertPassRelevantInfoIntoAddUser();
+
+            AssertWasAddBusinessCalled(true);
+            AssertPassRelevantInfoIntoAddBusiness();
+
+            AssertWasAssociateUserWithBusinessCalled(true);
+            AssertPassRelevantInfoIntoAssociateUserWithBusiness();
+
+            AssertWasCreateTrackingUserCalled(true);
+            AssertPassRelevantInfoIntoCreateTrackingUser();
+
+            AssertErrorResponse(response);
         }
 
         private void ThenSucceedsAndCompletesFullWorkflow(IResponse response)

@@ -7,6 +7,9 @@
         public static string UserDuplicate { get { return "user-duplicate"; } }
         public static string UserInvalid { get { return "user-invalid"; } }
 
+        public static string SubdomainDuplicate { get { return "subdomain-duplicate"; } }
+        public static string SubdomainFormatInvalid { get { return "subdomain-format-invalid"; } }
+
         public static string CurrencyNotSupported { get { return "currency-not-supported"; } }
         public static string MerchantAccountIdentifierFormatInvalid { get { return "merchantaccountidentifier-format-invalid"; } }
         public static string PaymentProviderRequiredWhenOnlineBookingIsEnabled { get { return "paymentprovider-required-when-online-booking-is-enabled"; } }

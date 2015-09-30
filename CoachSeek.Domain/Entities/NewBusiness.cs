@@ -43,7 +43,7 @@ namespace CoachSeek.Domain.Entities
 
         private async Task<NewBusiness> InitializeAsync(IBusinessDomainBuilder domainBuilder)
         {
-            Domain = await domainBuilder.BuildDomainAsync(Name);
+            Subdomain = new Subdomain(await domainBuilder.BuildDomainAsync(Name));
             return this;
         }
 
