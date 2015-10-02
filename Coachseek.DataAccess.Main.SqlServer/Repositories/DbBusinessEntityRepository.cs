@@ -17,14 +17,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public async Task<BusinessData> GetBusinessAsync(Guid businessId)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
             SqlDataReader reader = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Business_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Business_GetByGuid]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
@@ -38,22 +38,21 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
         public async Task<BusinessData> GetBusinessAsync(string domain)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
             SqlDataReader reader = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Business_GetByDomain]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Business_GetByDomain]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@domain", SqlDbType.NVarChar));
                 command.Parameters[0].Value = domain;
@@ -67,21 +66,20 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
         public async Task AddBusinessAsync(NewBusiness business)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Business_Create]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Business_Create]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
@@ -115,19 +113,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
+                CloseConnection(connection);
             }
         }
 
         public async Task UpdateBusinessAsync(Business business)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Business_Update]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Business_Update]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@guid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
@@ -153,19 +151,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
+                CloseConnection(connection);
             }
         }
 
         public async Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Business_UpdateAuthorisedUntil]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Business_UpdateAuthorisedUntil]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@authorisedUntil", SqlDbType.DateTime2));
@@ -177,7 +175,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
+                CloseConnection(connection);
             }
         }
 

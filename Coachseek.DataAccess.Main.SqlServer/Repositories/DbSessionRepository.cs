@@ -18,14 +18,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public async Task<IList<SingleSessionData>> SearchForSessionsAsync(Guid businessId, string beginDate, string endDate)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
             SqlDataReader reader = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Session_GetAllSessions]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@beginDate", SqlDbType.Date));
@@ -44,9 +44,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
+        public async Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_GetAllSessions]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var sessions = new List<SingleSessionData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    sessions.Add(ReadSessionData(reader));
+
+                return sessions;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 

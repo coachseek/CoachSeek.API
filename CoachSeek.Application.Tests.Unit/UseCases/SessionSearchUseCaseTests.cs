@@ -1,5 +1,4 @@
 ﻿using System;
-using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.UseCases;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
@@ -211,7 +210,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
             try
             {
-                return useCase.SearchForSessions(criteria.Item1, criteria.Item2, criteria.Item3, criteria.Item4);
+                var task = useCase.SearchForSessionsAsync(criteria.Item1, criteria.Item2, criteria.Item3, criteria.Item4);
+                return task.Result;
             }
             catch (Exception ex)
             {

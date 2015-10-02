@@ -17,14 +17,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
             SqlDataReader reader = null;
 
             try
             {
-                wasAlreadyOpen = await OpenConnectionAsync();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Location_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Location_GetAll]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters[0].Value = businessId;
@@ -38,9 +38,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 

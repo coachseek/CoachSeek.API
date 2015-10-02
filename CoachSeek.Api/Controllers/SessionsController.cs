@@ -1,4 +1,5 @@
-﻿using CoachSeek.Api.Attributes;
+﻿using System.Threading.Tasks;
+using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
@@ -40,18 +41,18 @@ namespace CoachSeek.Api.Controllers
         // GET: Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [BasicAuthentication]
         [BusinessAuthorize]
-        public HttpResponseMessage Get(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public async Task<HttpResponseMessage> GetAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            return SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
+            return await SearchForSessionsAsync(startDate, endDate, coachId, locationId, serviceId);
         }
 
         // GET: OnlineBooking/Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [Route("OnlineBooking/Sessions")]
         [BasicAuthenticationOrAnonymous]
         [Authorize]
-        public HttpResponseMessage GetForOnlineBooking(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public async Task<HttpResponseMessage> GetForOnlineBooking(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
-            return SearchForOnlineBookableSessions(startDate, endDate, coachId, locationId, serviceId);
+            return await SearchForOnlineBookableSessionsAsync(startDate, endDate, coachId, locationId, serviceId);
         }
 
         // GET: Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
@@ -89,13 +90,13 @@ namespace CoachSeek.Api.Controllers
         }
 
 
-        private HttpResponseMessage SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        private async Task<HttpResponseMessage> SearchForSessionsAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             SessionSearchUseCase.Initialise(Context);
 
             try
             {
-                var response = SessionSearchUseCase.SearchForSessions(startDate, endDate, coachId, locationId, serviceId);
+                var response = await SessionSearchUseCase.SearchForSessionsAsync(startDate, endDate, coachId, locationId, serviceId);
                 var apiSearchResponse = ApiOutSessionSearchResultConverter.Convert(response);
                 return CreateGetWebResponse(apiSearchResponse);
             }
@@ -105,13 +106,13 @@ namespace CoachSeek.Api.Controllers
             }
         }
 
-        private HttpResponseMessage SearchForOnlineBookableSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        private async Task<HttpResponseMessage> SearchForOnlineBookableSessionsAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             SessionSearchUseCase.Initialise(Context);
 
             try
             {
-                var response = SessionSearchUseCase.SearchForOnlineBookableSessions(startDate, endDate, coachId, locationId, serviceId);
+                var response = await SessionSearchUseCase.SearchForOnlineBookableSessionsAsync(startDate, endDate, coachId, locationId, serviceId);
                 var apiSearchResponse = ApiOutOnlineBookingSessionSearchResultConverter.Convert(response);
                 return CreateGetWebResponse(apiSearchResponse);
             }

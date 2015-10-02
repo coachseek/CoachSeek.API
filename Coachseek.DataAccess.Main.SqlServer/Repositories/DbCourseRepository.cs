@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -41,8 +42,40 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseReader(reader);
+            }
+        }
+
+        public async Task<IList<RepeatedSessionData>> GetAllCoursesAsync(Guid businessId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_GetAllCourses]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+
+                var coursesTask = command.ExecuteReaderAsync();
+                var sessionsTask = GetAllSessionsAsync(businessId);
+                await Task.WhenAll(coursesTask, sessionsTask);
+                reader = coursesTask.Result;
+                var courses = new List<RepeatedSessionData>();
+                while (reader.Read())
+                    courses.Add(ReadCourseData(reader));
+                var sessionsInCourses = sessionsTask.Result.Where(x => x.ParentId != null).OrderBy(x => x.ParentId).ToList();
+                foreach (var course in courses)
+                    course.Sessions = sessionsInCourses.Where(x => x.ParentId == course.Id).ToList();
+                return courses;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
@@ -75,8 +108,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             finally
             {
                 CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseReader(reader);
             }
         }
 

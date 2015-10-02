@@ -58,6 +58,8 @@
     <Compile Include="Repositories\DbEmailTemplateRepository.cs" />
     <Compile Include="Repositories\DbCourseRepository.cs" />
     <Compile Include="Repositories\DbCustomerRepository.cs" />
+    <Compile Include="Repositories\DbBookingRepository.cs" />
+    <Compile Include="Repositories\DbTransactionRepository.cs" />
     <Compile Include="Repositories\DbSessionRepository.cs" />
     <Compile Include="Repositories\DbServiceRepository.cs" />
     <Compile Include="Repositories\DbCoachRepository.cs" />

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.UseCases;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -26,37 +27,44 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public SessionSearchData SearchForSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public async Task<SessionSearchData> SearchForSessionsAsync(string startDate, 
+                                                                    string endDate, 
+                                                                    Guid? coachId = null, 
+                                                                    Guid? locationId = null, 
+                                                                    Guid? serviceId = null)
         {
             var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
             Validate(parameters);
-            var matchingStandaloneSessions = FindMatchingStandaloneSessions(parameters);
 
-            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
-            AddBookingsToSessions(matchingStandaloneSessions, bookings);
+            var searchData = await GetSessionsCoursesAndBookingsAsync();
 
-            var matchingCourseSessions = FindMatchingCourseSessions(parameters);
-            var matchingCourses = FindMatchingCourses(matchingCourseSessions);
-            AddBookingsToCourses(matchingCourses, bookings);
+            var standaloneSessions = FindMatchingStandaloneSessions(searchData.Sessions, parameters);
+            AddBookingsToSessions(standaloneSessions, searchData.Bookings);
 
-            return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
+            var courseSessions = FindMatchingCourseSessions(searchData.Sessions, parameters);
+            var courses = FindMatchingCourses(searchData.Courses, courseSessions);
+            AddBookingsToCourses(courses, searchData.Bookings);
+
+            return new SessionSearchData(standaloneSessions, courses);
         }
 
-        public SessionSearchData SearchForOnlineBookableSessions(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
+        public async Task<SessionSearchData> SearchForOnlineBookableSessionsAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
             Validate(parameters);
-            var matchingStandaloneSessions = FindMatchingOnlineBookableStandaloneSessions(parameters);
 
-            var bookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
-            AddBookingsToSessions(matchingStandaloneSessions, bookings);
+            var searchData = await GetSessionsCoursesAndBookingsAsync();
 
-            var matchingCourseSessions = FindMatchingCourseSessions(parameters);
-            var matchingCourses = FindMatchingOnlineBookableCourses(matchingCourseSessions);
-            AddBookingsToCourses(matchingCourses, bookings);
+            var standaloneSessions = FindMatchingOnlineBookableStandaloneSessions(searchData.Sessions, parameters);
+            AddBookingsToSessions(standaloneSessions, searchData.Bookings);
 
-            return new SessionSearchData(matchingStandaloneSessions, matchingCourses);
+            var courseSessions = FindMatchingCourseSessions(searchData.Sessions, parameters);
+            var courses = FindMatchingOnlineBookableCourses(searchData.Courses, courseSessions);
+            AddBookingsToCourses(courses, searchData.Bookings);
+
+            return new SessionSearchData(standaloneSessions, courses);
         }
+
 
         private SearchParameters PackageUpParameters(string startDate, string endDate, Guid? coachId, Guid? locationId, Guid? serviceId)
         {
@@ -70,31 +78,39 @@ namespace CoachSeek.Application.UseCases
             };
         }
 
-        private IList<SingleSessionData> FindMatchingSessions(SearchParameters parameters)
+        private async Task<SessionsCoursesAndBookings> GetSessionsCoursesAndBookingsAsync()
         {
-            var sessions = BusinessRepository.GetAllSessions(Business.Id);
-            sessions = FilterSessionsByDate(sessions, parameters.StartDate, parameters.EndDate);
-            sessions = FilterSessionsByCoachLocationService(sessions, parameters.CoachId, parameters.LocationId, parameters.ServiceId);
-
-            return OrderSessionsByStartDateAndTime(sessions);
+            var sessionsTask = BusinessRepository.GetAllSessionsAsync(Business.Id);
+            var coursesTask = BusinessRepository.GetAllCoursesAsync(Business.Id);
+            var bookingsTask = BusinessRepository.GetAllCustomerBookingsAsync(Business.Id);
+            await Task.WhenAll(bookingsTask, sessionsTask, coursesTask);
+            return new SessionsCoursesAndBookings(sessionsTask.Result, coursesTask.Result, bookingsTask.Result);
         }
 
-        private IList<SingleSessionData> FindMatchingStandaloneSessions(SearchParameters parameters)
+        private IList<SingleSessionData> FindMatchingSessions(IList<SingleSessionData> sessions, SearchParameters parameters)
         {
-            var sessions = FindMatchingSessions(parameters);
-            return sessions.Where(x => x.ParentId == null).ToList();
+            var filteredSessions = FilterSessionsByDate(sessions, parameters.StartDate, parameters.EndDate);
+            filteredSessions = FilterSessionsByCoachLocationService(filteredSessions, parameters.CoachId, parameters.LocationId, parameters.ServiceId);
+
+            return OrderSessionsByStartDateAndTime(filteredSessions);
         }
 
-        private IList<SingleSessionData> FindMatchingOnlineBookableStandaloneSessions(SearchParameters parameters)
+        private IList<SingleSessionData> FindMatchingStandaloneSessions(IList<SingleSessionData> sessions, SearchParameters parameters)
         {
-            var sessions = FindMatchingStandaloneSessions(parameters);
-            return sessions.Where(x => x.Booking.IsOnlineBookable).ToList();
+            var matchingSessions = FindMatchingSessions(sessions, parameters);
+            return matchingSessions.Where(x => x.ParentId == null).ToList();
         }
 
-        private IList<SingleSessionData> FindMatchingCourseSessions(SearchParameters parameters)
+        private IList<SingleSessionData> FindMatchingOnlineBookableStandaloneSessions(IList<SingleSessionData> sessions, SearchParameters parameters)
         {
-            var sessions = FindMatchingSessions(parameters);
-            return sessions.Where(x => x.ParentId != null).ToList();
+            var matchingSessions = FindMatchingStandaloneSessions(sessions, parameters);
+            return matchingSessions.Where(x => x.Booking.IsOnlineBookable).ToList();
+        }
+
+        private IList<SingleSessionData> FindMatchingCourseSessions(IList<SingleSessionData> sessions, SearchParameters parameters)
+        {
+            var matchingSessions = FindMatchingSessions(sessions, parameters);
+            return matchingSessions.Where(x => x.ParentId != null).ToList();
         }
 
         private void AddBookingsToSessions(IList<SingleSessionData> sessions, IList<CustomerBookingData> bookings)
@@ -132,15 +148,14 @@ namespace CoachSeek.Application.UseCases
                            .ThenBy(x => CreateOrderableStartTime(x.Timing.StartTime)).ToList();
         }
 
-        private IList<RepeatedSessionData> FindMatchingCourses(IList<SingleSessionData> matchingSessions)
+        private IList<RepeatedSessionData> FindMatchingCourses(IList<RepeatedSessionData> courses, IList<SingleSessionData> courseSessions)
         {
-            var courses = BusinessRepository.GetAllCourses(Business.Id);
             var matchingCourses = new List<RepeatedSessionData>();
-            foreach (var matchingSession in matchingSessions)
+            foreach (var courseSession in courseSessions)
             {
-                if (matchingSession.ParentId == null)
+                if (courseSession.ParentId == null)
                     continue;
-                var matchingCourse = courses.Single(x => x.Id == matchingSession.ParentId);
+                var matchingCourse = courses.Single(x => x.Id == courseSession.ParentId);
                 if (!matchingCourses.Contains(matchingCourse))
                     matchingCourses.Add(matchingCourse);
             }
@@ -148,11 +163,11 @@ namespace CoachSeek.Application.UseCases
             return matchingCourses;
         }
 
-        private IList<RepeatedSessionData> FindMatchingOnlineBookableCourses(IList<SingleSessionData> matchingSessions)
+        private IList<RepeatedSessionData> FindMatchingOnlineBookableCourses(IList<RepeatedSessionData> courses, IList<SingleSessionData> courseSessions)
         {
-            var courses = FindMatchingCourses(matchingSessions);
+            var matchingCourses = FindMatchingCourses(courses, courseSessions);
 
-            return courses.Where(x => x.Booking.IsOnlineBookable).ToList();
+            return matchingCourses.Where(x => x.Booking.IsOnlineBookable).ToList();
         }
 
         private void AddBookingsToCourses(IList<RepeatedSessionData> courses, IList<CustomerBookingData> bookings)
@@ -267,6 +282,22 @@ namespace CoachSeek.Application.UseCases
             public Guid? CoachId;
             public Guid? LocationId;
             public Guid? ServiceId;
+        }
+
+        private class SessionsCoursesAndBookings
+        {
+            public IList<SingleSessionData> Sessions { get; set; }
+            public IList<RepeatedSessionData> Courses { get; set; }
+            public IList<CustomerBookingData> Bookings { get; set; }
+
+            public SessionsCoursesAndBookings(IList<SingleSessionData> sessions, 
+                                              IList<RepeatedSessionData> courses, 
+                                              IList<CustomerBookingData> bookings)
+            {
+                Sessions = sessions;
+                Courses = courses;
+                Bookings = bookings;
+            }
         }
     }
 }

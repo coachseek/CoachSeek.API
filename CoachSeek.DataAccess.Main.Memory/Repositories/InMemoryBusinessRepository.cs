@@ -87,6 +87,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task OpenConnectionAsync()
+        {
+            await Task.Delay(100);
+        }
+
+        public void CloseConnection()
+        {
+        }
+
         public async Task<BusinessData> GetBusinessAsync(Guid businessId)
         {
             WasGetBusinessByIdCalled = true;
@@ -323,7 +332,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
         {
             await Task.Delay(2000);
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public async Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId)
+        {
+            await Task.Delay(2000);
+            return null;
         }
 
         public IList<SingleSessionData> GetAllSessions(Guid businessId)
@@ -436,6 +451,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Sessions[businessId] = dbSessions;
         }
 
+
+        public async Task<IList<RepeatedSessionData>> GetAllCoursesAsync(Guid businessId)
+        {
+            var dbCourses = GetAllDbCourses(businessId);
+
+            return Mapper.Map<IList<DbRepeatedSession>, IList<RepeatedSessionData>>(dbCourses);
+        }
 
         public IList<RepeatedSessionData> GetAllCourses(Guid businessId)
         {
@@ -721,6 +743,32 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId)
+        {
+            WasGetAllCustomerBookingsCalled = true;
+
+            var customerBookings = new List<CustomerBookingData>();
+            var customers = GetAllCustomers(businessId);
+
+            // Sessions
+            var dbSessionBookings = GetAllDbSessionBookings(businessId);
+            foreach (var dbSessionBooking in dbSessionBookings)
+            {
+                var booking = Mapper.Map<DbSingleSessionBooking, CustomerBookingData>(dbSessionBooking);
+                booking.Customer = customers.SingleOrDefault(x => x.Id == booking.Customer.Id);
+
+                customerBookings.Add(booking);
+            }
+
+            // Courses
+            var dbCourseBookings = GetAllDbCourseBookings(businessId);
+
+            // ...
+
+
+            return customerBookings;
+        }
+
         public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
         {
             WasGetAllCustomerBookingsCalled = true;
@@ -769,6 +817,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
         public void DeleteEmailTemplate(Guid businessId, string templateType)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public BusinessData GetBusiness(string domain)
         {
             throw new NotImplementedException();
         }

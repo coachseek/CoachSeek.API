@@ -40,12 +40,14 @@ namespace CoachSeek.Domain.Repositories
         void UpdateCustomer(Guid businessId, Customer customer);
 
         Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
+        Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId);
         IList<SingleSessionData> GetAllSessions(Guid businessId);
         SingleSessionData GetSession(Guid businessId, Guid sessionId);
         void AddSession(Guid businessId, StandaloneSession session);
         void UpdateSession(Guid businessId, SingleSession session);
         void DeleteSession(Guid businessId, Guid sessionId);
 
+        Task<IList<RepeatedSessionData>> GetAllCoursesAsync(Guid businessId);
         IList<RepeatedSessionData> GetAllCourses(Guid businessId);
         RepeatedSessionData GetCourse(Guid businessId, Guid courseId);
         void AddCourse(Guid businessId, RepeatedSession course);
@@ -65,6 +67,7 @@ namespace CoachSeek.Domain.Repositories
 
         IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId);
         IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId);
+        Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId);
         IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId);
 
         IList<EmailTemplateData> GetAllEmailTemplates(Guid businessId);

@@ -11,9 +11,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private string ConnectionStringKey { get; set; }
 
-        protected SqlConnection Connection
+        public SqlConnection Connection
         {
-            get
+            protected get
             {
                 if (_connection == null)
                 {
@@ -23,6 +23,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
                 return _connection;
             }
+            set { _connection = value; }
         }
 
 
@@ -41,19 +42,30 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return wasAlreadyOpen;
         }
 
-        protected async Task<bool> OpenConnectionAsync()
-        {
-            var wasAlreadyOpen = Connection.State == ConnectionState.Open;
-            if (!wasAlreadyOpen)
-                await Connection.OpenAsync();
-
-            return wasAlreadyOpen;
-        }
-
         protected void CloseConnection(bool wasAlreadyOpen)
         {
             if (Connection != null && !wasAlreadyOpen)
                 Connection.Close();
+        }
+
+        protected async Task<SqlConnection> OpenConnectionAsync()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
+            var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+            return connection;
+        }
+
+        protected void CloseConnection(SqlConnection connection)
+        {
+            if (connection != null)
+                connection.Close();
+        }
+
+        protected void CloseReader(SqlDataReader reader)
+        {
+            if (reader != null)
+                reader.Close();
         }
     }
 }
