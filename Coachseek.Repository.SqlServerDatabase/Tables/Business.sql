@@ -28,7 +28,14 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Business_Guid]
     ON [dbo].[Business]([Guid] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [UX_Business_Domain]
+    ON [dbo].[Business]([Domain] ASC);
 
