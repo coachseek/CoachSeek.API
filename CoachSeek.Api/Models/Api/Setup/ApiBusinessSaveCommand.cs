@@ -8,7 +8,6 @@ namespace CoachSeek.Api.Models.Api.Setup
         public string Name { get; set; }
         [Required]
         public string Domain { get; set; }
-        [Required]
         public string Sport { get; set; }
         [Required]
         public ApiBusinessPaymentOptions Payment { get; set; }

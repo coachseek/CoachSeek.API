@@ -57,5 +57,18 @@ namespace CoachSeek.Api.Controllers
             var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
             return CreatePostWebResponse(response);
         }
+
+        //// POST: Business
+        //[BasicAuthentication]
+        //[BusinessAuthorize]
+        //[CheckModelForNull]
+        //[ValidateModelState]
+        //public async Task<HttpResponseMessage> PostPaymentOptionsAsync([FromBody]ApiBusinessPaymentOptionsCommand command)
+        //{
+        //    var command = BusinessUpdateCommandConverter.Convert(business);
+        //    BusinessUpdateUseCase.Initialise(Context);
+        //    var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
+        //    return CreatePostWebResponse(response);
+        //}
     }
 }

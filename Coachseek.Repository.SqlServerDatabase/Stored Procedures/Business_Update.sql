@@ -3,7 +3,7 @@ CREATE PROCEDURE [dbo].[Business_Update]
 	@guid uniqueidentifier,
 	@name [nvarchar](100),
 	@domain [nvarchar](100),
-	@sport [nvarchar](100),
+	@sport [nvarchar](100) = NULL,
 	@currency [nchar](3),
 	@isOnlinePaymentEnabled [bit],
 	@forceOnlinePayment [bit],
