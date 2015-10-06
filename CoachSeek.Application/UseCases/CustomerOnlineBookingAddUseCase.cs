@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
@@ -22,16 +23,16 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public IResponse AddCustomer(CustomerAddCommand command)
+        public async Task<IResponse> AddCustomerAsync(CustomerAddCommand command)
         {
             try
             {
                 var onlineCustomer = new Customer(command);
-                var matchingCustomer = LookupCustomer(onlineCustomer);
+                var matchingCustomer = await LookupCustomerAsync(onlineCustomer);
                 if (matchingCustomer.IsFound())
                     return new Response(matchingCustomer);
                 CustomerAddUseCase.Initialise(Context);
-                return CustomerAddUseCase.AddCustomer(command);
+                return await CustomerAddUseCase.AddCustomerAsync(command);
             }
             catch (CoachseekException ex)
             {
@@ -40,10 +41,10 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private Customer LookupCustomer(Customer onlineCustomer)
+        private async Task<Customer> LookupCustomerAsync(Customer onlineCustomer)
         {
             CustomerResolver.Initialise(Context);
-            return CustomerResolver.Resolve(onlineCustomer);
+            return await CustomerResolver.ResolveAsync(onlineCustomer);
         }
     }
 }

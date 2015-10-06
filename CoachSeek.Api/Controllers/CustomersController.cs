@@ -57,10 +57,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize]
-        public HttpResponseMessage Get(Guid id)
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             CustomerGetByIdUseCase.Initialise(Context);
-            var response = CustomerGetByIdUseCase.GetCustomer(id);
+            var response = await CustomerGetByIdUseCase.GetCustomerAsync(id);
             return CreateGetWebResponse(response);
         }
 
@@ -69,12 +69,12 @@ namespace CoachSeek.Api.Controllers
         [BusinessAuthorize]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage Post([FromBody]ApiCustomerSaveCommand customer)
+        public async Task<HttpResponseMessage> PostAsync([FromBody]ApiCustomerSaveCommand customer)
         {
             if (customer.IsNew())
-                return AddCustomer(customer);
+                return await AddCustomerAsync(customer);
 
-            return UpdateCustomer(customer);
+            return await UpdateCustomerAsync(customer);
         }
 
         // POST: OnlineBooking/Customers
@@ -83,12 +83,12 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage PostOnlineBooking([FromBody]ApiCustomerSaveCommand customer)
+        public async Task<HttpResponseMessage> PostOnlineBookingAsync([FromBody]ApiCustomerSaveCommand customer)
         {
             if (customer.IsExisting())
                 return CreateWebErrorResponse(new UseExistingCustomerForOnlineBookingNotSupported());
 
-            return AddOnlineBookingCustomer(customer);
+            return await AddOnlineBookingCustomerAsync(customer);
         }
  
         // POST: Customers/Upload
@@ -139,27 +139,27 @@ namespace CoachSeek.Api.Controllers
             return files;
         }
 
-        private HttpResponseMessage AddCustomer(ApiCustomerSaveCommand customer)
+        private async Task<HttpResponseMessage> AddCustomerAsync(ApiCustomerSaveCommand customer)
         {
             var command = CustomerAddCommandConverter.Convert(customer);
             CustomerAddUseCase.Initialise(Context);
-            var response = CustomerAddUseCase.AddCustomer(command);
+            var response = await CustomerAddUseCase.AddCustomerAsync(command);
             return CreatePostWebResponse(response);
         }
 
-        private HttpResponseMessage UpdateCustomer(ApiCustomerSaveCommand customer)
+        private async Task<HttpResponseMessage> UpdateCustomerAsync(ApiCustomerSaveCommand customer)
         {
             var command = CustomerUpdateCommandConverter.Convert(customer);
             CustomerUpdateUseCase.Initialise(Context);
-            var response = CustomerUpdateUseCase.UpdateCustomer(command);
+            var response = await CustomerUpdateUseCase.UpdateCustomerAsync(command);
             return CreatePostWebResponse(response);
         }
 
-        private HttpResponseMessage AddOnlineBookingCustomer(ApiCustomerSaveCommand customer)
+        private async Task<HttpResponseMessage> AddOnlineBookingCustomerAsync(ApiCustomerSaveCommand customer)
         {
             var command = CustomerAddCommandConverter.Convert(customer);
             CustomerOnlineBookingAddUseCase.Initialise(Context);
-            var response = CustomerOnlineBookingAddUseCase.AddCustomer(command);
+            var response = await CustomerOnlineBookingAddUseCase.AddCustomerAsync(command);
             return CreatePostWebResponse(response);
         }
 

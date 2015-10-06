@@ -20,7 +20,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
         {
             WasAssociateUserWithBusinessCalled = true;
             Command = command;
-            await Task.Delay(1000);
+            await Task.Delay(100);
             if (Exception != null)
                 throw Exception;
             return Response;

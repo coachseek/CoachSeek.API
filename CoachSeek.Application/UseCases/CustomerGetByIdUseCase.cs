@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 
@@ -6,9 +7,9 @@ namespace CoachSeek.Application.UseCases
 {
     public class CustomerGetByIdUseCase : BaseUseCase, ICustomerGetByIdUseCase
     {
-        public CustomerData GetCustomer(Guid id)
+        public async Task<CustomerData> GetCustomerAsync(Guid id)
         {
-            return BusinessRepository.GetCustomer(Business.Id, id);
+            return await BusinessRepository.GetCustomerAsync(Business.Id, id);
         }
     }
 }

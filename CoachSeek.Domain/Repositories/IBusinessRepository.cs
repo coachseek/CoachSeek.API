@@ -34,10 +34,10 @@ namespace CoachSeek.Domain.Repositories
         void UpdateService(Guid businessId, Service service);
 
         Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId);
-        IList<CustomerData> GetAllCustomers(Guid businessId);
+        Task<CustomerData> GetCustomerAsync(Guid businessId, Guid customerId);
         CustomerData GetCustomer(Guid businessId, Guid customerId);
-        void AddCustomer(Guid businessId, Customer customer);
-        void UpdateCustomer(Guid businessId, Customer customer);
+        Task AddCustomerAsync(Guid businessId, Customer customer);
+        Task UpdateCustomerAsync(Guid businessId, Customer customer);
 
         Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
         Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId);

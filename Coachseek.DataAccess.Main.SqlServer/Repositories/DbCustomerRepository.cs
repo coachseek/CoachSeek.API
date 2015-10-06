@@ -44,32 +44,33 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public IList<CustomerData> GetAllCustomers(Guid businessId)
+        public async Task<CustomerData> GetCustomerAsync(Guid businessId, Guid customerId)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
             SqlDataReader reader = null;
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Customer_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Customer_GetByGuid]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+
                 command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customerId;
 
-                var customers = new List<CustomerData>();
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                    customers.Add(ReadCustomerData(reader));
+                reader = await command.ExecuteReaderAsync();
+                if (reader.HasRows && reader.Read())
+                    return ReadCustomerData(reader);
 
-                return customers;
+                return null;
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
@@ -103,6 +104,40 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task AddCustomerAsync(Guid businessId, Customer customer)
+        {
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Customer_Create]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customer.Id;
+                command.Parameters[2].Value = customer.FirstName;
+                command.Parameters[3].Value = customer.LastName;
+                command.Parameters[4].Value = customer.Email;
+                command.Parameters[5].Value = customer.Phone;
+                command.Parameters[6].Value = customer.DateOfBirth;
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
+            }
+        }
+
         public void AddCustomer(Guid businessId, Customer customer)
         {
             var wasAlreadyOpen = false;
@@ -111,7 +146,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 wasAlreadyOpen = OpenConnection();
 
-                var command = new SqlCommand("Customer_Create", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Customer_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
@@ -119,6 +154,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = customer.Id;
@@ -126,12 +162,50 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
+                command.Parameters[6].Value = customer.DateOfBirth;
 
                 command.ExecuteNonQuery();
             }
             finally
             {
                 CloseConnection(wasAlreadyOpen);
+            }
+        }
+
+        public async Task UpdateCustomerAsync(Guid businessId, Customer customer)
+        {
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Customer_Update]", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customer.Id;
+                command.Parameters[2].Value = customer.FirstName;
+                command.Parameters[3].Value = customer.LastName;
+                command.Parameters[4].Value = customer.Email;
+                command.Parameters[5].Value = customer.Phone;
+                command.Parameters[6].Value = customer.DateOfBirth;
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
             }
         }
 
@@ -151,6 +225,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = customer.Id;
@@ -158,6 +233,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
+                command.Parameters[6].Value = customer.DateOfBirth;
 
                 command.ExecuteNonQuery();
             }
@@ -176,7 +252,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 FirstName = reader.GetString(2),
                 LastName = reader.GetString(3),
                 Email = reader.GetNullableString(4),
-                Phone = reader.GetNullableString(5)
+                Phone = reader.GetNullableString(5),
+                DateOfBirth = reader.GetNullableDate(6)
             };
         }
     }

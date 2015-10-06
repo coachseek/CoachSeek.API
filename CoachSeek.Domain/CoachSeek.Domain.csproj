@@ -129,6 +129,7 @@
     <Compile Include="Entities\EmailTemplating\IEmailTemplate.cs" />
     <Compile Include="Entities\GoodOrService.cs" />
     <Compile Include="Entities\Money.cs" />
+    <Compile Include="Entities\DateOfBirth.cs" />
     <Compile Include="Entities\SingleSessionOnlineBooking.cs" />
     <Compile Include="Entities\Subdomain.cs" />
     <Compile Include="Entities\Subscriptions\ProSubscription.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Exceptions\BookingContainsDuplicateSessions.cs" />
     <Compile Include="Exceptions\CourseMustHavePrice.cs" />
     <Compile Include="Exceptions\CourseChangeRepetitionNotSupported.cs" />
+    <Compile Include="Exceptions\DateOfBirthInvalid.cs" />
     <Compile Include="Exceptions\SubdomainDuplicate.cs" />
     <Compile Include="Exceptions\SubdomainFormatInvalid.cs" />
     <Compile Include="Exceptions\SessionNotOnlineBookable.cs" />
@@ -281,8 +283,8 @@
     <Compile Include="Exceptions\StudentCapacityInvalid.cs" />
     <Compile Include="Exceptions\InvalidWeeklyWorkingHours.cs" />
     <Compile Include="Exceptions\EmailAddressRequired.cs" />
-    <Compile Include="Exceptions\MissingFirstName.cs" />
-    <Compile Include="Exceptions\MissingLastName.cs" />
+    <Compile Include="Exceptions\FirstNameRequired.cs" />
+    <Compile Include="Exceptions\LastNameRequired.cs" />
     <Compile Include="Entities\PersonName.cs" />
     <Compile Include="Entities\PhoneNumber.cs" />
     <Compile Include="Exceptions\NoCommand.cs" />

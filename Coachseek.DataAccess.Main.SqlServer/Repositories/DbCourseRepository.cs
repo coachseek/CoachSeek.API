@@ -175,7 +175,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var serviceId = reader.GetGuid(8);
             var serviceName = reader.GetString(9);
             var name = reader.GetNullableString(10);
-            var startDate = reader.GetDateTime(11).ToString("yyyy-MM-dd");
+            var startDate = reader.GetDate(11);
             var startTime = reader.GetTimeSpan(12).ToString(@"h\:mm");
             var duration = reader.GetInt16(13);
             var studentCapacity = reader.GetByte(14);

@@ -5,7 +5,8 @@ CREATE PROCEDURE [dbo].[Customer_Update]
 	@firstName [nvarchar](50),
 	@lastName [nvarchar](50),
 	@email [nvarchar](100) = NULL,
-	@phone [nvarchar](50) = NULL
+	@phone [nvarchar](50) = NULL,
+	@dateOfBirth [date] = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -25,7 +26,8 @@ BEGIN
 		[FirstName] = @firstName,
 		[LastName] = @lastName,
 		[Email] = @email,
-		[Phone] = @phone
+		[Phone] = @phone,
+		[DateOfBirth] = @dateOfBirth
 	WHERE 
 		[BusinessId] = @businessId
 		AND [Guid] = @customerGuid

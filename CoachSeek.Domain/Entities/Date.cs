@@ -32,10 +32,15 @@ namespace CoachSeek.Domain.Entities
             _date = date;
         }
 
-        public string ToData()
+        public override string ToString()
         {
             return string.Format("{0:yyyy-MM-dd}", _date);
         }
+
+        //public string ToData()
+        //{
+        //    return ToString();
+        //}
 
         public DateTime ToDateTime()
         {

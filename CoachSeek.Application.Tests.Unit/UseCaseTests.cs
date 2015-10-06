@@ -441,7 +441,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Phone = "241241"
             };
 
-            BusinessRepository.AddCustomer(new Guid(BUSINESS_ID), new Customer(data));
+            BusinessRepository.AddCustomerAsync(new Guid(BUSINESS_ID), new Customer(data)).Wait();
         }
 
         //protected void AssertSingleError(IResponse response,

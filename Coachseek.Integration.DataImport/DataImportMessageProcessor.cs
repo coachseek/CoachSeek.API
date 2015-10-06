@@ -17,7 +17,7 @@ namespace Coachseek.Integration.DataImport
             IList<CustomerAddCommand> commands = SplitFileIntoCustomer(fileContents);
 
             foreach (var command in commands)
-                CustomerAddUseCase.AddCustomer(command);
+                CustomerAddUseCase.AddCustomerAsync(command).Wait();
         }
 
         private IList<CustomerAddCommand> SplitFileIntoCustomer(string fileContents)

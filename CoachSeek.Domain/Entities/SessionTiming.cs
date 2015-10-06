@@ -11,7 +11,7 @@ namespace CoachSeek.Domain.Entities
         private TimeOfDay _startTime;
         private SessionDuration _duration;
 
-        public string StartDate { get { return _startDate.ToData(); } }
+        public string StartDate { get { return _startDate.ToString(); } }
         public string StartTime { get { return _startTime.ToData(); } }
         public int Duration { get { return _duration.Minutes; } }
 

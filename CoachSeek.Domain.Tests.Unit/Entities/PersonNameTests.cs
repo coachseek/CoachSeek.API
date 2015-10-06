@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using NUnit.Framework;
@@ -9,19 +10,27 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
     public class PersonNameTests
     {
         [Test]
-        public void GivenNullFirstName_WhenConstructPersonName_ThenThrowMissingFirstName()
+        public void GivenNoFirstName_WhenConstructPersonName_ThenThrowFirstNameRequired()
         {
-            var names = GivenNullFirstName();
+            var names = GivenNoFirstName();
             var response = WhenConstructPersonName(names);
-            ThenThrowMissingFirstName(response);
+            ThenThrowFirstNameRequired(response);
         }
         
         [Test]
-        public void GivenNullLastName_WhenConstructPersonName_ThenThrowMissingLastName()
+        public void GivenNoLastName_WhenConstructPersonName_ThenThrowLastNameRequired()
         {
-            var names = GivenNullLastName();
+            var names = GivenNoLastName();
             var response = WhenConstructPersonName(names);
-            ThenThrowMissingLastName(response);
+            ThenThrowLastNameRequired(response);
+        }
+
+        [Test]
+        public void GivenNoFirstNameAndNoLastName_WhenConstructPersonName_ThenThrowFirstNameRequiredAndLastNameRequired()
+        {
+            var names = GivenNoFirstNameAndNoLastName();
+            var response = WhenConstructPersonName(names);
+            ThenThrowFirstNameRequiredAndLastNameRequired(response);
         }
 
         [Test]
@@ -33,14 +42,19 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private Tuple<string, string> GivenNullFirstName()
+        private Tuple<string, string> GivenNoFirstName()
         {
             return new Tuple<string, string>(null, "Thielke");
         }
 
-        private Tuple<string, string> GivenNullLastName()
+        private Tuple<string, string> GivenNoLastName()
         {
             return new Tuple<string, string>("Olaf", null);
+        }
+
+        private Tuple<string, string> GivenNoFirstNameAndNoLastName()
+        {
+            return new Tuple<string, string>(null, null);
         }
 
         private Tuple<string, string> GivenValidNames()
@@ -60,14 +74,46 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             }
         }
 
-        private void ThenThrowMissingFirstName(object response)
+        private void ThenThrowFirstNameRequired(object response)
         {
-            Assert.That(response, Is.InstanceOf<MissingFirstName>());
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var exception = (ValidationException)response;
+            var errors = exception.Errors;
+            Assert.That(errors.Count, Is.EqualTo(1));
+            AssertFirstNameRequiredError(errors[0]);
         }
 
-        private void ThenThrowMissingLastName(object response)
+        private void ThenThrowLastNameRequired(object response)
         {
-            Assert.That(response, Is.InstanceOf<MissingLastName>());
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var exception = (ValidationException)response;
+            var errors = exception.Errors;
+            Assert.That(errors.Count, Is.EqualTo(1));
+            AssertLastNameRequiredError(errors[0]);
+        }
+
+        private void ThenThrowFirstNameRequiredAndLastNameRequired(object response)
+        {
+            Assert.That(response, Is.InstanceOf<ValidationException>());
+            var exception = (ValidationException)response;
+            var errors = exception.Errors;
+            Assert.That(errors.Count, Is.EqualTo(2));
+            AssertFirstNameRequiredError(errors[0]);
+            AssertLastNameRequiredError(errors[1]);
+        }
+
+        private void AssertFirstNameRequiredError(Error error)
+        {
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.FirstNameRequired));
+            Assert.That(error.Message, Is.EqualTo("The FirstName field is required."));
+            Assert.That(error.Data, Is.Null);            
+        }
+
+        private void AssertLastNameRequiredError(Error error)
+        {
+            Assert.That(error.Code, Is.EqualTo(ErrorCodes.LastNameRequired));
+            Assert.That(error.Message, Is.EqualTo("The LastName field is required."));
+            Assert.That(error.Data, Is.Null);
         }
 
         private void ThenConstructPersonName(object response)

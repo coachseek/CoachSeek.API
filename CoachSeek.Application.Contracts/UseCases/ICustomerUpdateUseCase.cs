@@ -1,10 +1,11 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ICustomerUpdateUseCase : IApplicationContextSetter
     {
-        IResponse UpdateCustomer(CustomerUpdateCommand command);
+        Task<IResponse> UpdateCustomerAsync(CustomerUpdateCommand command);
     }
 }

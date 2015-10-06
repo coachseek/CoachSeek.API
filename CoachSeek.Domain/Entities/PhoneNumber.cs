@@ -1,6 +1,4 @@
-﻿using CoachSeek.Common.Extensions;
-
-namespace CoachSeek.Domain.Entities
+﻿namespace CoachSeek.Domain.Entities
 {
     public class PhoneNumber
     {

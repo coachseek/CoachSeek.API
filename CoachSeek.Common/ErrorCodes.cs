@@ -7,6 +7,9 @@
         public static string UserDuplicate { get { return "user-duplicate"; } }
         public static string UserInvalid { get { return "user-invalid"; } }
 
+        public static string FirstNameRequired { get { return "firstname-required"; } }
+        public static string LastNameRequired { get { return "lastname-required"; } }
+
         public static string SubdomainDuplicate { get { return "subdomain-duplicate"; } }
         public static string SubdomainFormatInvalid { get { return "subdomain-format-invalid"; } }
 
@@ -63,6 +66,7 @@
         public static string CourseExceedsMaximumNumberOfWeeklySessions { get { return "course-exceeds-maximum-number-of-weekly-sessions"; } }
         public static string CourseHasBookingsCannotDelete { get { return "course-has-bookings-cannot-delete"; } }
 
+        public static string DateOfBirthInvalid { get { return "dob-invalid"; } }
         public static string UseExistingCustomerForOnlineBookingNotSupported { get { return "existing-customer-for-online-booking-not-supported"; } }
         public static string CustomerInvalid { get { return "customer-invalid"; } }
         public static string CustomerDuplicate { get { return "customer-duplicate"; } }

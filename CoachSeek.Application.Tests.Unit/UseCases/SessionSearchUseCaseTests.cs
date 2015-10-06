@@ -213,9 +213,9 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                 var task = useCase.SearchForSessionsAsync(criteria.Item1, criteria.Item2, criteria.Item3, criteria.Item4);
                 return task.Result;
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
-                return ex;
+                return ex.InnerException;
             }
         }
 

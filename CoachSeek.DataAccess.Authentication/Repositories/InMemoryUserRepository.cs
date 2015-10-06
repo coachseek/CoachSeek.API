@@ -33,7 +33,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             WasSaveNewUserCalled = true;
             var dbUser = DbUserConverter.Convert(newUser);
             Users.Add(dbUser);
-            await Task.Delay(2000);
+            await Task.Delay(200);
         }
 
         public void Save(NewUser newUser)
@@ -50,7 +50,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             var existingUser = Users.Single(x => x.Id == dbUser.Id);
             var existingIndex = Users.IndexOf(existingUser);
             Users[existingIndex] = dbUser;
-            await Task.Delay(2000);
+            await Task.Delay(200);
         }
 
         public void Save(User user)
@@ -64,7 +64,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
 
         public async Task<User> GetAsync(Guid id)
         {
-            await Task.Delay(1000);
+            await Task.Delay(100);
             var dbUser = Users.FirstOrDefault(x => x.Id == id);
             return CreateUser(dbUser);
         }
@@ -77,7 +77,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
 
         public async Task<User> GetByUsernameAsync(string username)
         {
-            await Task.Delay(1000);
+            await Task.Delay(100);
             var dbUser = Users.FirstOrDefault(x => x.Username == username);
             return CreateUser(dbUser);
         }

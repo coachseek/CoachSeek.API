@@ -72,7 +72,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             var customer = new Customer(new Guid("8A23F42D-9F6B-46FD-9922-3DA0E05B1A72"), 
                                         "Fred", "Flintstone", 
                                         "fred@flintstones.net", "123456");
-            BusinessRepository.AddCustomer(business.Id, customer);
+            BusinessRepository.AddCustomerAsync(business.Id, customer).Wait();
         }
 
         private void SetupUserRepository()
@@ -98,7 +98,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             var resolver = new CustomerResolver();
             resolver.Initialise(Context);
             var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
-            var customer = resolver.Resolve(searchCustomer);
+            var customer = resolver.ResolveAsync(searchCustomer).Result;
             Assert.That(customer, Is.Not.Null);
         }
 
@@ -107,7 +107,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             var resolver = new CustomerResolver();
             resolver.Initialise(Context);
             var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
-            var customer = resolver.Resolve(searchCustomer);
+            var customer = resolver.ResolveAsync(searchCustomer).Result;
             Assert.That(customer, Is.Null);
         }
     }

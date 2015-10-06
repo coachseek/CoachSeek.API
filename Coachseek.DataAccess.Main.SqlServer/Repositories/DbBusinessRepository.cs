@@ -172,9 +172,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await CustomerRepository.GetAllCustomersAsync(businessId);
         }
 
-        public IList<CustomerData> GetAllCustomers(Guid businessId)
+        public async Task<CustomerData> GetCustomerAsync(Guid businessId, Guid customerId)
         {
-            return CustomerRepository.GetAllCustomers(businessId);
+            return await CustomerRepository.GetCustomerAsync(businessId, customerId);
         }
 
         public CustomerData GetCustomer(Guid businessId, Guid customerId)
@@ -182,14 +182,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return CustomerRepository.GetCustomer(businessId, customerId);
         }
 
-        public void AddCustomer(Guid businessId, Customer customer)
+        public async Task AddCustomerAsync(Guid businessId, Customer customer)
         {
-            CustomerRepository.AddCustomer(businessId, customer);
+            await CustomerRepository.AddCustomerAsync(businessId, customer);
         }
 
-        public void UpdateCustomer(Guid businessId, Customer customer)
+        public async Task UpdateCustomerAsync(Guid businessId, Customer customer)
         {
-            CustomerRepository.UpdateCustomer(businessId, customer);
+            await CustomerRepository.UpdateCustomerAsync(businessId, customer);
         }
 
 

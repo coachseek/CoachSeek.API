@@ -1,11 +1,11 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -20,13 +20,13 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public IResponse AddCustomer(CustomerAddCommand command)
+        public async Task<IResponse> AddCustomerAsync(CustomerAddCommand command)
         {
             try
             {
                 var newCustomer = new Customer(command);
-                ValidateAdd(newCustomer);
-                BusinessRepository.AddCustomer(Business.Id, newCustomer);
+                await ValidateAddAsync(newCustomer);
+                await BusinessRepository.AddCustomerAsync(Business.Id, newCustomer);
                 return new Response(newCustomer.ToData());
             }
             catch (CoachseekException ex)
@@ -35,17 +35,17 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateAdd(Customer newCustomer)
+        private async Task ValidateAddAsync(Customer newCustomer)
         {
-            var existingCustomer = LookupCustomer(newCustomer);
+            var existingCustomer = await LookupCustomerAsync(newCustomer);
             if (existingCustomer.IsFound())
                 throw new CustomerDuplicate(newCustomer);
         }
 
-        private Customer LookupCustomer(Customer newCustomer)
+        private async Task<Customer> LookupCustomerAsync(Customer newCustomer)
         {
             CustomerResolver.Initialise(Context);
-            return CustomerResolver.Resolve(newCustomer);
+            return await CustomerResolver.ResolveAsync(newCustomer);
         }
     }
 }

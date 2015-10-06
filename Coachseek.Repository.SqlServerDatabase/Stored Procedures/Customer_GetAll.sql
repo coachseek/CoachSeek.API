@@ -12,7 +12,8 @@ BEGIN
 		c.[FirstName],
 		c.[LastName],
 		c.[Email],
-		c.[Phone]
+		c.[Phone],
+		c.[DateOfBirth]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Customer] c

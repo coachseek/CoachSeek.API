@@ -1,10 +1,10 @@
-﻿using CoachSeek.Application.Contracts.UseCases;
+﻿using System.Threading.Tasks;
 using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Application.Contracts.Services
 {
     public interface ICustomerResolver : IApplicationContextSetter
     {
-        Customer Resolve(Customer customer);
+        Task<Customer> ResolveAsync(Customer customer);
     }
 }

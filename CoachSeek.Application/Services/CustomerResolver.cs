@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Common.Extensions;
@@ -14,9 +15,9 @@ namespace CoachSeek.Application.Services
         private IBusinessRepository BusinessRepository { set; get; }
 
 
-        public Customer Resolve(Customer searchCustomer)
+        public async Task<Customer> ResolveAsync(Customer searchCustomer)
         {
-            var customers = BusinessRepository.GetAllCustomers(BusinessId);
+            var customers = await BusinessRepository.GetAllCustomersAsync(BusinessId);
 
             var matchingCustomerData = customers.SingleOrDefault(x => x.Email == searchCustomer.Email
                                                               && x.FirstName.ToLower() == searchCustomer.FirstName.ToLower()

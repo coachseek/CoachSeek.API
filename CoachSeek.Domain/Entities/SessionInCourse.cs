@@ -33,7 +33,7 @@ namespace CoachSeek.Domain.Entities
 
             var updatedSessionStartDate = new Date(existingSession.Timing.StartDate, dayOffset);
 
-            _timing = new SessionTiming(new SessionTimingData(updatedSessionStartDate.ToData(), command.Timing.StartTime, command.Timing.Duration));
+            _timing = new SessionTiming(new SessionTimingData(updatedSessionStartDate.ToString(), command.Timing.StartTime, command.Timing.Duration));
         }
 
         public SessionInCourse(SingleSessionData data, CoreData coreData)
@@ -72,7 +72,7 @@ namespace CoachSeek.Domain.Entities
             sessionData.Id = Guid.NewGuid();
 
             var timing = sessionData.Timing;
-            sessionData.Timing = new SessionTimingData(startDate.ToData(), timing.StartTime, timing.Duration);
+            sessionData.Timing = new SessionTimingData(startDate.ToString(), timing.StartTime, timing.Duration);
 
             return new SessionInCourse(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
         }

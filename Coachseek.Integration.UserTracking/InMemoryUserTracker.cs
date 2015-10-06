@@ -25,7 +25,7 @@ namespace Coachseek.Integration.UserTracking
         {
             WasCreateUserCalled = true;
 
-            await Task.Delay(1000);
+            await Task.Delay(100);
         }
     }
 }

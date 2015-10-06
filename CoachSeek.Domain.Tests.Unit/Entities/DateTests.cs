@@ -33,21 +33,21 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         {
             var date = new Date(inputDate);
             Assert.That(date, Is.Not.Null);
-            Assert.That(date.ToData(), Is.EqualTo(inputDate));
+            Assert.That(date.ToString(), Is.EqualTo(inputDate));
         }
 
         private void DateCreationSuccess(string inputDate, string expectedDate)
         {
             var date = new Date(inputDate);
             Assert.That(date, Is.Not.Null);
-            Assert.That(date.ToData(), Is.EqualTo(expectedDate));
+            Assert.That(date.ToString(), Is.EqualTo(expectedDate));
         }
 
         private void DateCreationSuccess(string inputDate, int expectedMonth)
         {
             var date = new Date(inputDate);
             Assert.That(date, Is.Not.Null);
-            Assert.That(date.ToData(), Is.EqualTo(inputDate));
+            Assert.That(date.ToString(), Is.EqualTo(inputDate));
             Assert.That(date.Month, Is.EqualTo(expectedMonth));
         }
 

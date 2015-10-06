@@ -10,13 +10,22 @@ namespace CoachSeek.Domain.Entities
 
         public PersonName(string firstName, string lastName)
         {
-            if (string.IsNullOrWhiteSpace(firstName))
-                throw new MissingFirstName();
-            if (string.IsNullOrWhiteSpace(lastName))
-                throw new MissingLastName();
+            Validate(firstName, lastName);
 
             FirstName = firstName.Trim();
             LastName = lastName.Trim();
+        }
+
+        private void Validate(string firstName, string lastName)
+        {
+            var exception = new ValidationException();
+
+            if (string.IsNullOrWhiteSpace(firstName))
+                exception.Add(new FirstNameRequired()); 
+            if (string.IsNullOrWhiteSpace(lastName))
+                exception.Add(new LastNameRequired());
+
+            exception.ThrowIfErrors();
         }
     }
 }

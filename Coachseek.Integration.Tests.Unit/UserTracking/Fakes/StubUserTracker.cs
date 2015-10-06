@@ -25,7 +25,7 @@ namespace Coachseek.Integration.Tests.Unit.UserTracking.Fakes
         {
             WasCreateTrackingUserCalled = true;
             User = user;
-            await Task.Delay(500);
+            await Task.Delay(200);
             if (Exception != null)
                 throw Exception;
         }

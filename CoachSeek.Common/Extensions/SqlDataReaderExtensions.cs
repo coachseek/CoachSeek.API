@@ -60,5 +60,15 @@ namespace CoachSeek.Common.Extensions
                 return null;
             return reader.GetString(columnIndex).Trim();
         }
+
+        public static string GetDate(this SqlDataReader reader, int columnIndex)
+        {
+            return reader.GetDateTime(columnIndex).ToString("yyyy-MM-dd");
+        }
+
+        public static string GetNullableDate(this SqlDataReader reader, int columnIndex)
+        {
+            return reader.IsDBNull(columnIndex) ? null : GetDate(reader, columnIndex);
+        }
     }
 }

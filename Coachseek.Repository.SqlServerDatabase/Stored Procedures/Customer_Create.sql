@@ -6,7 +6,8 @@ CREATE PROCEDURE [dbo].[Customer_Create]
 	@firstName [nvarchar](50),
 	@lastName [nvarchar](50),
 	@email [nvarchar](100) = NULL,
-	@phone [nvarchar](50) = NULL
+	@phone [nvarchar](50) = NULL,
+	@dateOfBirth [date] = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -27,7 +28,8 @@ BEGIN
 		[FirstName],
 		[LastName],
 		[Email],
-		[Phone]
+		[Phone],
+		[DateOfBirth]
 	)
 	VALUES
 	(
@@ -36,7 +38,8 @@ BEGIN
 		@firstName,
 		@lastName,
 		@email,
-		@phone
+		@phone,
+		@dateOfBirth
 	)
 
 END
