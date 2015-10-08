@@ -87,6 +87,7 @@ namespace CoachSeek.Application.Tests.Unit
                 new User(Guid.NewGuid(), 
                          new Guid(BUSINESS_ID),
                          "Olaf's Tennis Coaching",
+                         Role.BusinessAdmin.ToString(),
                          "bgates@gmail.com", 
                          "021 234 567", 
                          "William", 

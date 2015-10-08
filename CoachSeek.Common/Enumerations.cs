@@ -7,6 +7,14 @@
         Production
     }
 
+    public enum Role
+    {
+        Anonymous,
+        CoachseekAdmin,
+        BusinessAdmin,
+        Coach
+    }
+
     public enum TransactionType
     {
         None = 0,

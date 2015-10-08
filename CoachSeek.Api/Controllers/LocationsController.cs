@@ -2,11 +2,13 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Security;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -57,7 +59,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Locations
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiLocationSaveCommand location)
@@ -70,7 +72,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Delete(Guid id)
         {
             LocationDeleteUseCase.Initialise(Context);

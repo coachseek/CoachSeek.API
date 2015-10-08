@@ -93,6 +93,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             updateEntity.LastName = user.LastName;
             updateEntity.BusinessId = user.BusinessId;
             updateEntity.BusinessName = user.BusinessName;
+            updateEntity.Role = user.Role;
         }
 
         public async Task<User> GetAsync(Guid id)
@@ -177,6 +178,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                 PasswordHash = newUser.PasswordHash,
                 BusinessId = newUser.BusinessId,
                 BusinessName = newUser.BusinessName,
+                Role = newUser.Role
             };
         }
 
@@ -185,6 +187,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             return new User(user.Id,
                             user.BusinessId,
                             user.BusinessName,
+                            user.Role,
                             user.Email,
                             user.Phone,
                             user.FirstName,

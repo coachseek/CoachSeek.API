@@ -5,6 +5,7 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
@@ -53,6 +54,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             var user = new User(Guid.NewGuid(),
                 new Guid(BUSINESS_ID),
                 "Olaf's Tennis Coaching",
+                Role.BusinessAdmin.ToString(),
                 "bgates@gmail.com",
                 "021 234 567",
                 "William",

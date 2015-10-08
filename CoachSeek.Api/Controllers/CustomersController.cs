@@ -8,6 +8,7 @@ using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
+using CoachSeek.Common;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -46,7 +47,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Customers
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public async Task<HttpResponseMessage> GetAsync()
         {
             CustomersGetAllUseCase.Initialise(Context);
@@ -56,7 +57,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Customers/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             CustomerGetByIdUseCase.Initialise(Context);
@@ -66,7 +67,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Customers
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public async Task<HttpResponseMessage> PostAsync([FromBody]ApiCustomerSaveCommand customer)
@@ -94,7 +95,7 @@ namespace CoachSeek.Api.Controllers
         // POST: Customers/Upload
         [Route("Customers/Upload")]
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [HttpPost]
         public async Task<IHttpActionResult> ImportData()
         {

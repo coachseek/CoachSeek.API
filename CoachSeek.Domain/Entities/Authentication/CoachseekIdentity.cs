@@ -1,5 +1,4 @@
 ﻿using System.Security.Principal;
-using CoachSeek.Common;
 using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Domain.Entities.Authentication

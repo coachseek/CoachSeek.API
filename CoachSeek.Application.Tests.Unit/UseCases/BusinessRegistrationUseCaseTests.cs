@@ -3,6 +3,7 @@ using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Tests.Unit.Fakes;
 using CoachSeek.Application.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
@@ -214,7 +215,11 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void GivenUserAddUseCaseFails()
         {
-            UserAddUseCase.Exception = new UserDuplicate(new User(Guid.NewGuid(), new Guid(BUSINESS_ID), BUSINESS_NAME, "x@y.z", "a", "x", "y", "z", ""));
+            UserAddUseCase.Exception = new UserDuplicate(new User(Guid.NewGuid(), 
+                                                         new Guid(BUSINESS_ID), 
+                                                         BUSINESS_NAME, 
+                                                         Role.BusinessAdmin.ToString(),
+                                                         "x@y.z", "a", "x", "y", "z", ""));
         }
 
         private void GivenBusinessAddUseCaseFails()

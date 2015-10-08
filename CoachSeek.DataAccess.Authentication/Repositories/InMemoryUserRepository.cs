@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoachSeek.Common;
 using CoachSeek.DataAccess.Authentication.Conversion;
 using CoachSeek.DataAccess.Authentication.Models;
 using CoachSeek.Domain.Entities;
@@ -103,6 +104,7 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             return new User(dbUser.Id,
                 dbUser.BusinessId,
                 dbUser.BusinessName,
+                Role.BusinessAdmin.ToString(),
                 dbUser.Email,
                 dbUser.Phone,
                 dbUser.FirstName,

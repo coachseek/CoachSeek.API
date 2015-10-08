@@ -5,6 +5,7 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -29,7 +30,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: EmailTemplates
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Get()
         {
             EmailTemplateGetAllUseCase.Initialise(Context);
@@ -39,7 +40,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Get(string id)
         {
             EmailTemplateGetByTypeUseCase.Initialise(Context);
@@ -49,7 +50,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post(string id, [FromBody] ApiEmailTemplateSaveCommand apiCommand)
@@ -63,7 +64,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: EmailTemplates/OnlineBookingCustomerSession
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Delete(string id)
         {
             EmailTemplateDeleteUseCase.Initialise(Context);

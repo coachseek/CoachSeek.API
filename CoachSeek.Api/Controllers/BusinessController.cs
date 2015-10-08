@@ -6,6 +6,7 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -24,7 +25,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Business
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public async Task<HttpResponseMessage> GetAsync()
         {
             BusinessGetUseCase.Initialise(Context);
@@ -47,7 +48,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Business
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public async Task<HttpResponseMessage> PostAsync([FromBody]ApiBusinessSaveCommand business)
@@ -57,18 +58,5 @@ namespace CoachSeek.Api.Controllers
             var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
             return CreatePostWebResponse(response);
         }
-
-        //// POST: Business
-        //[BasicAuthentication]
-        //[BusinessAuthorize]
-        //[CheckModelForNull]
-        //[ValidateModelState]
-        //public async Task<HttpResponseMessage> PostPaymentOptionsAsync([FromBody]ApiBusinessPaymentOptionsCommand command)
-        //{
-        //    var command = BusinessUpdateCommandConverter.Convert(business);
-        //    BusinessUpdateUseCase.Initialise(Context);
-        //    var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
-        //    return CreatePostWebResponse(response);
-        //}
     }
 }

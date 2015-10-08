@@ -65,6 +65,10 @@
     <Compile Include="Repositories\InMemoryUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
       <Project>{17844EAA-9E91-4E2D-A0D3-DB48AD369DE6}</Project>
       <Name>CoachSeek.Data</Name>

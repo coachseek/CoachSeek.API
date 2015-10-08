@@ -8,6 +8,7 @@ using CoachSeek.Api.Models.Api.Booking;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Executors;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
@@ -49,7 +50,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Bookings
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiBookingSaveCommand booking)
@@ -70,7 +71,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Bookings/{booking_id}
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         public HttpResponseMessage Post(Guid id, [FromBody] dynamic apiCommand)
         {
@@ -82,7 +83,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Bookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Delete(Guid id)
         {
             var response = DeleteBooking(id);

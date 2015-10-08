@@ -15,15 +15,16 @@ namespace CoachSeek.Application.UseCases
         public async Task<IResponse> AssociateUserWithBusinessAsync(UserAssociateWithBusinessCommand command)
         {
             var user = await UserRepository.GetAsync(command.UserId);
-            SetBusinessDetailsOnUser(user, command);
+            SetBusinessAndRoleOnUser(user, command);
             await user.SaveAsync(UserRepository);
-            return new Response();
+            return new Response(user.ToData());
         }
 
-        private void SetBusinessDetailsOnUser(User user, UserAssociateWithBusinessCommand command)
+        private void SetBusinessAndRoleOnUser(User user, UserAssociateWithBusinessCommand command)
         {
             user.BusinessId = command.BusinessId;
             user.BusinessName = command.BusinessName;
+            user.UserRole = command.Role;
         }
     }
 }

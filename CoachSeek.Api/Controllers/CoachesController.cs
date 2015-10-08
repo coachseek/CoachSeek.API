@@ -7,6 +7,7 @@ using CoachSeek.Application.Contracts.UseCases;
 using System;
 using System.Net.Http;
 using System.Web.Http;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -37,7 +38,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Coaches
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public async Task<HttpResponseMessage> GetAsync()
         {
             CoachesGetAllUseCase.Initialise(Context);
@@ -47,7 +48,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Get(Guid id)
         {
             CoachGetByIdUseCase.Initialise(Context);
@@ -57,7 +58,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Coaches
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiCoachSaveCommand coach)
@@ -70,7 +71,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Delete(Guid id)
         {
             CoachDeleteUseCase.Initialise(Context);

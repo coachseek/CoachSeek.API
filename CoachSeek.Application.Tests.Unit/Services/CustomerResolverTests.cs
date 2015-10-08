@@ -2,6 +2,7 @@
 using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Services;
+using CoachSeek.Common;
 using CoachSeek.DataAccess.Authentication.Repositories;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using CoachSeek.DataAccess.Main.Memory.Repositories;
@@ -82,7 +83,8 @@ namespace CoachSeek.Application.Tests.Unit.Services
             UserId = new Guid("3CE43207-4A4F-48B0-BED3-F831A3246DF3");
             var user = new User(UserId, 
                                 BusinessId, 
-                                "Ian's Tennis Academy", 
+                                "Ian's Tennis Academy",
+                                Role.BusinessAdmin.ToString(),
                                 "bob.smith@test.com", 
                                 "021 666 999", 
                                 "Bob", 

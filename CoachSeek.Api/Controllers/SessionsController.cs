@@ -5,6 +5,7 @@ using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Scheduling;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;
@@ -40,7 +41,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Sessions?startDate=2015-01-20&endDate=2015-01-26&coachId=AB73D488-2CAB-4B6D-A11A-9E98FF7A8FD8&locationId=DC39C46C-88DD-48E5-ADC4-2351634A5263
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public async Task<HttpResponseMessage> GetAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             return await SearchForSessionsAsync(startDate, endDate, coachId, locationId, serviceId);
@@ -57,7 +58,7 @@ namespace CoachSeek.Api.Controllers
 
         // GET: Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Get(Guid id)
         {
             SessionGetByIdUseCase.Initialise(Context);
@@ -68,7 +69,7 @@ namespace CoachSeek.Api.Controllers
 
         // POST: Sessions
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
         public HttpResponseMessage Post([FromBody]ApiSessionSaveCommand session)
@@ -81,7 +82,7 @@ namespace CoachSeek.Api.Controllers
 
         // DELETE: Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
-        [BusinessAuthorize]
+        [BusinessAuthorize(Role.BusinessAdmin)]
         public HttpResponseMessage Delete(Guid id)
         {
             SessionDeleteUseCase.Initialise(Context);

@@ -19,6 +19,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
         public Guid? BusinessId { get; set; }
         public string BusinessName { get; set; } // Debug
+        public string Role { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

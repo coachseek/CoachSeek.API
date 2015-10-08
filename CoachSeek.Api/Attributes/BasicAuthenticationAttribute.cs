@@ -45,8 +45,8 @@ namespace CoachSeek.Api.Attributes
 
         private async Task<IPrincipal> AuthenticateAsync(string username, string password, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var user = GetUserByUsername(username, request, cancellationToken);
-            if (user == null)
+            var user = await GetUserByUsernameAsync(username, request, cancellationToken);
+            if (user.IsNotFound())
                 return null;
             var isAuthenticated = PasswordHasher.ValidatePassword(password, user.PasswordHash);
             if (!isAuthenticated)
@@ -59,10 +59,10 @@ namespace CoachSeek.Api.Attributes
             return CreatePrincipal(user, business, cancellationToken);
         }
         
-        private User GetUserByUsername(string username, HttpRequestMessage request, CancellationToken cancellationToken)
+        private async Task<User> GetUserByUsernameAsync(string username, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return CreateUserRepository(request).GetByUsername(username);
+            return await CreateUserRepository(request).GetByUsernameAsync(username);
         }
 
         private async Task<Business> GetBusinessAsync (User user, HttpRequestMessage request, CancellationToken cancellationToken)
@@ -78,7 +78,7 @@ namespace CoachSeek.Api.Attributes
         {
             cancellationToken.ThrowIfCancellationRequested();
             var identity = new CoachseekIdentity(user, business);
-            return new GenericPrincipal(identity, new[] { "BusinessAdmin" });
+            return new GenericPrincipal(identity, new[] { user.Role });
         }
     }
 }

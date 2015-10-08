@@ -74,7 +74,6 @@
     <Compile Include="AnonymousUserDetails.cs" />
     <Compile Include="UserDetails.cs" />
     <Compile Include="BusinessDetails.cs" />
-    <Compile Include="CoachseekAdminIdentity.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CurrencyDetails.cs" />
     <Compile Include="Enumerations.cs" />

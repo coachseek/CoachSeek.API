@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
@@ -43,11 +44,13 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 SetRepositoriesOnUseCases();
+                // Register user first because it has validation that may fail (ie. unique user name / email).
                 var user = await AddUserAsync(command.Admin);
                 var business = await AddBusiness(command);
                 var associateTask = AssociateUserWithBusiness(user, business);
                 var postProcessingTask = PostProcessingAsync(user, business);
                 await Task.WhenAll(associateTask, postProcessingTask);
+                user = associateTask.Result;
                 return new Response(new RegistrationData(user, business));
             }
             catch (CoachseekException ex)
@@ -89,10 +92,11 @@ namespace CoachSeek.Application.UseCases
             return response.Data as BusinessData;
         }
 
-        private async Task AssociateUserWithBusiness(UserData user, BusinessData business)
+        private async Task<UserData> AssociateUserWithBusiness(UserData user, BusinessData business)
         {
-            var command = UserAssociateWithBusinessCommandBuilder.BuildCommand(user, business);
-            await UserAssociateWithBusinessUseCase.AssociateUserWithBusinessAsync(command);
+            var command = new UserAssociateWithBusinessCommand(user, business, Role.BusinessAdmin);
+            var response = await UserAssociateWithBusinessUseCase.AssociateUserWithBusinessAsync(command);
+            return (UserData)response.Data;
         }
 
         private async Task PostProcessingAsync(UserData user, BusinessData business)
