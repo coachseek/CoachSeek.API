@@ -110,6 +110,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.DataI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Integration.DataImport.DataImportProcessor", "Coachseek.Integration.DataImport.DataImportProcessor\Coachseek.Integration.DataImport.DataImportProcessor.csproj", "{A9575D0E-EEC3-4C51-99C9-4FFBBECB9283}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6A04D4B6-4320-4DBF-A91C-E10770822958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coachseek.Tools.UpdateAzureUsersTableTool", "Coachseek.Tools.UpdateAzureUsersTableTool\Coachseek.Tools.UpdateAzureUsersTableTool.csproj", "{C56F78CE-9442-4F76-8865-22ADBE4253CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -609,6 +613,21 @@ Global
 		{A9575D0E-EEC3-4C51-99C9-4FFBBECB9283}.Testing|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A9575D0E-EEC3-4C51-99C9-4FFBBECB9283}.Testing|Mixed Platforms.Build.0 = Release|Any CPU
 		{A9575D0E-EEC3-4C51-99C9-4FFBBECB9283}.Testing|x86.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Testing|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Testing|Mixed Platforms.Build.0 = Release|Any CPU
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC}.Testing|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -649,5 +668,6 @@ Global
 		{64A3644D-1FEA-4A7F-889E-2B4A2F1814F3} = {2F106CB1-100A-47EE-A481-A8418149846C}
 		{1B5460B6-3D64-476D-A7C8-5F430B55454A} = {64A3644D-1FEA-4A7F-889E-2B4A2F1814F3}
 		{A9575D0E-EEC3-4C51-99C9-4FFBBECB9283} = {64A3644D-1FEA-4A7F-889E-2B4A2F1814F3}
+		{C56F78CE-9442-4F76-8865-22ADBE4253CC} = {6A04D4B6-4320-4DBF-A91C-E10770822958}
 	EndGlobalSection
 EndGlobal

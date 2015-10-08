@@ -31,62 +31,32 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
 
         public async Task SaveAsync(NewUser newUser)
         {
-            WasSaveNewUserCalled = true;
-            var dbUser = DbUserConverter.Convert(newUser);
-            Users.Add(dbUser);
+            Save(newUser);
             await Task.Delay(200);
-        }
-
-        public void Save(NewUser newUser)
-        {
-            WasSaveNewUserCalled = true;
-            var dbUser = DbUserConverter.Convert(newUser);
-            Users.Add(dbUser);
         }
 
         public async Task SaveAsync(User user)
         {
-            WasSaveUserCalled = true;
-            var dbUser = DbUserConverter.Convert(user);
-            var existingUser = Users.Single(x => x.Id == dbUser.Id);
-            var existingIndex = Users.IndexOf(existingUser);
-            Users[existingIndex] = dbUser;
+            Save(user);
             await Task.Delay(200);
         }
 
-        public void Save(User user)
+        public async Task<IList<User>> GetAllAsync()
         {
-            WasSaveUserCalled = true;
-            var dbUser = DbUserConverter.Convert(user);
-            var existingUser = Users.Single(x => x.Id == dbUser.Id);
-            var existingIndex = Users.IndexOf(existingUser);
-            Users[existingIndex] = dbUser;
+            await Task.Delay(100);
+            return GetAll();
         }
 
         public async Task<User> GetAsync(Guid id)
         {
             await Task.Delay(100);
-            var dbUser = Users.FirstOrDefault(x => x.Id == id);
-            return CreateUser(dbUser);
-        }
-
-        public User Get(Guid id)
-        {
-            var dbUser = Users.FirstOrDefault(x => x.Id == id);
-            return CreateUser(dbUser);
+            return Get(id);
         }
 
         public async Task<User> GetByUsernameAsync(string username)
         {
             await Task.Delay(100);
-            var dbUser = Users.FirstOrDefault(x => x.Username == username);
-            return CreateUser(dbUser);
-        }
-
-        public User GetByUsername(string username)
-        {
-            var dbUser = Users.FirstOrDefault(x => x.Username == username);
-            return CreateUser(dbUser);
+            return GetByUsername(username);
         }
 
         public User GetByBusinessId(Guid businessId)
@@ -95,6 +65,39 @@ namespace CoachSeek.DataAccess.Authentication.Repositories
             return CreateUser(dbUser);
         }
 
+
+        private void Save(NewUser newUser)
+        {
+            WasSaveNewUserCalled = true;
+            var dbUser = DbUserConverter.Convert(newUser);
+            Users.Add(dbUser);
+        }
+
+        private void Save(User user)
+        {
+            WasSaveUserCalled = true;
+            var dbUser = DbUserConverter.Convert(user);
+            var existingUser = Users.Single(x => x.Id == dbUser.Id);
+            var existingIndex = Users.IndexOf(existingUser);
+            Users[existingIndex] = dbUser;
+        }
+
+        private IList<User> GetAll()
+        {
+            return Users.Select(CreateUser).ToList();
+        }
+
+        private User Get(Guid id)
+        {
+            var dbUser = Users.FirstOrDefault(x => x.Id == id);
+            return CreateUser(dbUser);
+        }
+
+        private User GetByUsername(string username)
+        {
+            var dbUser = Users.FirstOrDefault(x => x.Username == username);
+            return CreateUser(dbUser);
+        }
 
         private User CreateUser(DbUser dbUser)
         {

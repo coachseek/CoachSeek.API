@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Coachseek.DataAccess.Authentication.TableStorage;
@@ -21,32 +22,11 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             await Table.ExecuteAsync(TableOperation.Insert(user));
         }
 
-        public void Save(NewUser newUser)
-        {
-            var user = CreateUserEntity(newUser);
-            Table.Execute(TableOperation.Insert(user));
-        }
-
         public async Task SaveAsync(User user)
         {
             try
             {
                 await UpdateAsync(user);
-            }
-            catch (StorageException ex)
-            {
-                if (ex.RequestInformation.HttpStatusCode == 412)
-                    Update(user);
-
-                throw;
-            }
-        }
-
-        public void Save(User user)
-        {
-            try
-            {
-                Update(user);
             }
             catch (StorageException ex)
             {
@@ -96,23 +76,27 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
             updateEntity.Role = user.Role;
         }
 
-        public async Task<User> GetAsync(Guid id)
+        private async Task<IList<UserEntity>> GetAllUserEntitiesAsync()
         {
-            var query = new TableQuery<UserEntity>()
-                            .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
-
-            return (from user in await Table.ExecuteQueryAsync(query) 
-                    where user.Id == id 
-                    select CreateUser(user))
-                    .FirstOrDefault();
+            return await Table.ExecuteQueryAsync(GetAllUsersQuery());
         }
 
-        public User Get(Guid id)
+        private TableQuery<UserEntity> GetAllUsersQuery()
         {
-            var query = new TableQuery<UserEntity>()
+            return new TableQuery<UserEntity>()
                             .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
+        }
 
-            return (from user in Table.ExecuteQuery(query) 
+        public async Task<IList<User>> GetAllAsync()
+        {
+            return (from user in await GetAllUserEntitiesAsync()
+                    select CreateUser(user))
+                    .ToList();
+        }
+
+        public async Task<User> GetAsync(Guid id)
+        {
+            return (from user in await GetAllUserEntitiesAsync() 
                     where user.Id == id 
                     select CreateUser(user))
                     .FirstOrDefault();

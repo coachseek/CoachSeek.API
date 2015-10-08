@@ -73,6 +73,9 @@ namespace CoachSeek.Domain.Entities
             if (businessId.HasValue && string.IsNullOrEmpty(role))
                 return Common.Role.BusinessAdmin;
 
+            //if (string.IsNullOrEmpty(role))
+            //    return null;
+
             return role.Parse<Role>();
         }
 

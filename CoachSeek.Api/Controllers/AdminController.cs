@@ -80,10 +80,10 @@ namespace CoachSeek.Api.Controllers
         [BasicAdminAuthentication]
         [Authorize]
         [HttpGet]
-        public HttpResponseMessage GetUser(string email)
+        public async Task<HttpResponseMessage> GetUserAsync(string email)
         {
             UserGetByEmailUserCase.Initialise(AdminContext);
-            var user = UserGetByEmailUserCase.GetUser(email);
+            var user = await UserGetByEmailUserCase.GetUserAsync(email);
             return CreateGetWebResponse(user);
         }
 

@@ -32,12 +32,12 @@ namespace CoachSeek.Domain.Entities
             await repository.SaveAsync(this);
         }
 
-        public void Save(IUserRepository repository)
-        {
-            var user = repository.GetByUsername(Email);
-            if (user.IsExisting())
-                throw new UserDuplicate(user);
-            repository.Save(this);
-        }
+        //public void Save(IUserRepository repository)
+        //{
+        //    var user = repository.GetByUsername(Email);
+        //    if (user.IsExisting())
+        //        throw new UserDuplicate(user);
+        //    repository.Save(this);
+        //}
     }
 }

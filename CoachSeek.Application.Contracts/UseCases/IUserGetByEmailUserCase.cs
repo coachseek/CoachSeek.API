@@ -1,9 +1,10 @@
-﻿using CoachSeek.Domain.Entities;
+﻿using System.Threading.Tasks;
+using CoachSeek.Domain.Entities;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IUserGetByEmailUserCase : IAdminApplicationContextSetter
     {
-        User GetUser(string email);
+        Task<User> GetUserAsync(string email);
     }
 }
