@@ -67,11 +67,11 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
         private static void UpdateEntity(User user, UserEntity updateEntity)
         {
-            updateEntity.Id = user.Id;
+            updateEntity.Id = user.Id.ToString().ToLowerInvariant();
             updateEntity.Email = user.Email;
             updateEntity.FirstName = user.FirstName;
             updateEntity.LastName = user.LastName;
-            updateEntity.BusinessId = user.BusinessId;
+            updateEntity.BusinessId = user.BusinessId.ToString().ToLowerInvariant();
             updateEntity.BusinessName = user.BusinessName;
             updateEntity.Role = user.Role;
         }
@@ -97,7 +97,7 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         public async Task<User> GetAsync(Guid id)
         {
             return (from user in await GetAllUserEntitiesAsync() 
-                    where user.Id == id 
+                    where user.Id == id.ToString().ToLowerInvariant()
                     select CreateUser(user))
                     .FirstOrDefault();
         }
@@ -131,21 +131,11 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         public User GetByBusinessId(Guid businessId)
         {
             var stringBusinessId = businessId.ToString().ToLower();
-
-            //var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER));
-            var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterConditionForGuid("BusinessId", QueryComparisons.Equal, businessId));
-
-            //var query = new TableQuery<UserEntity>().Where(TableQuery.CombineFilters(
-            //                                               TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Constants.USER),
-            //                                               TableOperators.And,
-            //                                               TableQuery.GenerateFilterCondition("BusinessId", QueryComparisons.Equal, stringBusinessId)));
-
+            var query = new TableQuery<UserEntity>().Where(TableQuery.GenerateFilterCondition("BusinessId", QueryComparisons.Equal, stringBusinessId));
             var results = Table.ExecuteQuery(query).ToList();
             if (!results.Any())
                 return null;
-
             var user = results.First();
-
             return CreateUser(user);
         }
 
@@ -154,13 +144,13 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         {
             return new UserEntity(newUser.Username)
             {
-                Id = newUser.Id,
+                Id = newUser.Id.ToString().ToLowerInvariant(),
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 Email = newUser.Email,
                 Phone = newUser.Phone,
                 PasswordHash = newUser.PasswordHash,
-                BusinessId = newUser.BusinessId,
+                BusinessId = newUser.BusinessId.ToString().ToLowerInvariant(),
                 BusinessName = newUser.BusinessName,
                 Role = newUser.Role
             };
@@ -168,8 +158,8 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
 
         private User CreateUser(UserEntity user)
         {
-            return new User(user.Id,
-                            user.BusinessId,
+            return new User(new Guid(user.Id),
+                            GetBusinessId(user.BusinessId),
                             user.BusinessName,
                             user.Role,
                             user.Email,
@@ -178,6 +168,13 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
                             user.LastName,
                             user.RowKey,
                             user.PasswordHash);
+        }
+
+        private Guid? GetBusinessId(string businessId)
+        {
+            if (string.IsNullOrEmpty(businessId))
+                return null;
+            return new Guid(businessId);
         }
     }
 }

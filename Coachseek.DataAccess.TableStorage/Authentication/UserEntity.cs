@@ -1,5 +1,4 @@
-﻿using System;
-using Coachseek.DataAccess.Authentication.TableStorage;
+﻿using Coachseek.DataAccess.Authentication.TableStorage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Coachseek.DataAccess.TableStorage.Authentication
@@ -15,9 +14,9 @@ namespace Coachseek.DataAccess.TableStorage.Authentication
         public UserEntity() { }
 
 
-        public Guid Id { get; set; }
+        public string Id { get; set; } // Is really GUID
 
-        public Guid? BusinessId { get; set; }
+        public string BusinessId { get; set; } // Is really GUID
         public string BusinessName { get; set; } // Debug
         public string Role { get; set; }
 
