@@ -81,6 +81,7 @@
       <LastGenOutput>AppSettings.cs</LastGenOutput>
     </Content>
     <None Include="packages.config" />
+    <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">

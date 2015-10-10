@@ -66,6 +66,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\coachseek-testing-api %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\coachseek-testing-api.pubxml" />
+    <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Coachseek.API.Client\Coachseek.API.Client.csproj">
