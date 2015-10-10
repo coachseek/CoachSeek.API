@@ -81,6 +81,7 @@
       <LastGenOutput>AppSettings.cs</LastGenOutput>
     </Content>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\coachseek-api-production.pubxml" />
     <None Include="Properties\PublishProfiles\coachseek-testing-api.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
