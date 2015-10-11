@@ -148,8 +148,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, NewPayment newPayment)
         {
-            if (newPayment.ItemAmount != session.Pricing.SessionPrice.Value)
-                throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.Value);
+            if (newPayment.ItemAmount != session.Pricing.SessionPrice.GetValueOrDefault())
+                throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.GetValueOrDefault());
         }
 
         private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
@@ -163,7 +163,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private static void ValidateWholeCoursePaymentAmount(RepeatedSessionData course, NewPayment newPayment)
         {
             var coursePrice = course.Pricing.CoursePrice ??
-                              course.Pricing.SessionPrice.Value * course.Repetition.SessionCount;
+                              course.Pricing.SessionPrice.GetValueOrDefault() * course.Repetition.SessionCount;
 
             if (newPayment.ItemAmount != coursePrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, coursePrice);
@@ -172,7 +172,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         private static void ValidateMultipleSessionPaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
         {
             var sessionPrice = course.Pricing.SessionPrice ??
-                               Math.Round(course.Pricing.CoursePrice.Value / course.Repetition.SessionCount, 2);
+                               Math.Round(course.Pricing.CoursePrice.GetValueOrDefault() / course.Repetition.SessionCount, 2);
             var multipleSessionPrice = sessionPrice * booking.SessionBookings.Count;
 
             if (newPayment.ItemAmount != multipleSessionPrice)

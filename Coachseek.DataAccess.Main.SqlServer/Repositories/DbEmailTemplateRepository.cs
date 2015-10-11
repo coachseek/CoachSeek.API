@@ -22,7 +22,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[EmailTemplate_GetAll]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -51,7 +51,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[EmailTemplate_GetByType]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -81,7 +81,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[EmailTemplate_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -109,7 +109,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[EmailTemplate_Update]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -137,7 +137,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[EmailTemplate_DeleteByType]", Connection) { CommandType = CommandType.StoredProcedure };
 

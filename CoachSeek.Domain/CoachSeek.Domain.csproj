@@ -223,6 +223,7 @@
     <Compile Include="Repositories\ILogRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\BusinessDomainBuilder.cs" />
+    <Compile Include="Services\CourseBookingPriceCalculator.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\DurationFormatter.cs" />
     <Compile Include="Services\PasswordHash.cs" />

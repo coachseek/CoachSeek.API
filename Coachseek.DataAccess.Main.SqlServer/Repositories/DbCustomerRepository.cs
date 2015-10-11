@@ -81,7 +81,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Customer_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -144,7 +144,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Customer_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -215,7 +215,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("Customer_Update", Connection) { CommandType = CommandType.StoredProcedure };
 

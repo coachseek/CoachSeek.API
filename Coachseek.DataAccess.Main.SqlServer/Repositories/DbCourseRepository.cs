@@ -17,6 +17,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         { }
 
 
+        public async Task<RepeatedSessionData> GetCourseAsync(Guid businessId, Guid courseId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_GetCourseByGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = courseId;
+
+                reader = await command.ExecuteReaderAsync();
+                if (reader.HasRows && reader.Read())
+                    return ReadCourseAndSessionsData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
         public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
         {
             var wasAlreadyOpen = false;
@@ -24,13 +54,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_GetCourseByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = courseId;
 
                 reader = command.ExecuteReader();
@@ -86,7 +117,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_GetAllCourses]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -119,7 +150,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 AddCourseData(businessId, course);
                 foreach (var session in course.Sessions)
@@ -137,7 +168,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 UpdateCourseData(businessId, course);
                 foreach (var session in course.Sessions)

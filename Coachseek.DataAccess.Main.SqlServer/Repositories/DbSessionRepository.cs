@@ -84,7 +84,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_GetAllSessions]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -113,7 +113,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_GetSessionByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -142,7 +142,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_CreateSession]", Connection) { CommandType = CommandType.StoredProcedure };
                 SetCreateOrUpdateParameters(command, businessId, session);
@@ -161,7 +161,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_UpdateSession]", Connection) { CommandType = CommandType.StoredProcedure };
                 SetCreateOrUpdateParameters(command, businessId, session);
@@ -180,7 +180,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Session_DeleteByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 

@@ -18,16 +18,18 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)
         {
+            SqlConnection connection = null;
             SqlDataReader reader = null;
             try
             {
-                Connection.Open();
+                connection = OpenConnection();
 
-                var command = new SqlCommand("[Booking_GetSessionBookingByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Booking_GetSessionBookingByGuid]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = sessionBookingId;
 
                 reader = command.ExecuteReader();
@@ -39,10 +41,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
@@ -88,15 +88,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Booking_GetCourseBookingByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[1].Value = courseBookingId;
 
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = courseBookingId;
 
                 reader = command.ExecuteReader();
 

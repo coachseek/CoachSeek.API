@@ -33,7 +33,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        protected bool OpenConnection()
+        protected bool OpenConnectionOld()
         {
             var wasAlreadyOpen = Connection.State == ConnectionState.Open;
             if (!wasAlreadyOpen)
@@ -53,6 +53,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
             var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
+            return connection;
+        }
+
+        protected SqlConnection OpenConnection()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringKey].ConnectionString;
+            var connection = new SqlConnection(connectionString);
+            connection.Open();
             return connection;
         }
 

@@ -19,7 +19,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
                 var command = new SqlCommand("[Transaction_GetPaymentByProviderAndId]", Connection) { CommandType = CommandType.StoredProcedure };
 
@@ -49,9 +49,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
             try
             {
-                wasAlreadyOpen = OpenConnection();
+                wasAlreadyOpen = OpenConnectionOld();
 
-                var command = new SqlCommand("Transaction_Create", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Transaction_Create]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@id", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
