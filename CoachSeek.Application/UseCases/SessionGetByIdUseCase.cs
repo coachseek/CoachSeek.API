@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
@@ -10,37 +11,37 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionGetByIdUseCase : SessionBaseUseCase, ISessionGetByIdUseCase
     {
-        public SessionData GetSession(Guid id)
+        public async Task<SessionData> GetSessionAsync(Guid id)
        { 
-            var sessionOrCourse = GetExistingSessionOrCourse(id);
+            var sessionOrCourse = await GetExistingSessionOrCourseAsync(id);
             if (sessionOrCourse.IsNotFound())
                 return null;
-            return AppendCustomerBookings(sessionOrCourse);
+            return await AppendCustomerBookingsAsync(sessionOrCourse);
         }
 
 
-        private SessionData AppendCustomerBookings(Session sessionOrCourse)
+        private async Task<SessionData> AppendCustomerBookingsAsync(Session sessionOrCourse)
         {
             if (sessionOrCourse is SingleSession)
-                return AppendCustomerBookingsToSession((SingleSession)sessionOrCourse);
+                return await AppendCustomerBookingsToSessionAsync((SingleSession)sessionOrCourse);
 
             if (sessionOrCourse is RepeatedSession)
-                return AppendCustomerBookingsToCourse((RepeatedSession)sessionOrCourse);
+                return await AppendCustomerBookingsToCourseAsync((RepeatedSession)sessionOrCourse);
 
             throw new InvalidOperationException("Unexpected session type!");
         }
 
-        private SessionData AppendCustomerBookingsToSession(SingleSession session)
+        private async Task<SessionData> AppendCustomerBookingsToSessionAsync(SingleSession session)
         {
             var sessionData = session.ToData();
-            sessionData.Booking.Bookings = BusinessRepository.GetCustomerBookingsBySessionId(Business.Id, session.Id);
+            sessionData.Booking.Bookings = await BusinessRepository.GetCustomerBookingsBySessionIdAsync(Business.Id, session.Id);
             return sessionData;
         }
 
-        private SessionData AppendCustomerBookingsToCourse(RepeatedSession course)
+        private async Task<SessionData> AppendCustomerBookingsToCourseAsync(RepeatedSession course)
         {
             var courseData = course.ToData();
-            var courseAndSessionBookings = BusinessRepository.GetCustomerBookingsByCourseId(Business.Id, courseData.Id);
+            var courseAndSessionBookings = await BusinessRepository.GetCustomerBookingsByCourseIdAsync(Business.Id, courseData.Id);
 
             courseData.Booking.Bookings = ExtractCourseBookings(courseAndSessionBookings).ToList();
 

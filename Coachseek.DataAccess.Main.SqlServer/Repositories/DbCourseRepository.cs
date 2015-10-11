@@ -142,7 +142,24 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 CloseReader(reader);
             }
         }
+        
+        public async Task AddCourseAsync(Guid businessId, RepeatedSession course)
+        {
+            SqlConnection connection = null;
 
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                await AddCourseDataAsync(businessId, course, connection);
+                foreach (var session in course.Sessions)
+                    await AddSessionAsync(businessId, session, connection);
+            }
+            finally
+            {
+                CloseConnection(connection);
+            }
+        }
 
         public void AddCourse(Guid businessId, RepeatedSession course)
         {
@@ -257,9 +274,16 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return sessions;
         }
 
+        private async Task AddCourseDataAsync(Guid businessId, RepeatedSession course, SqlConnection connection)
+        {
+            var command = new SqlCommand("[Session_CreateCourse]", connection) { CommandType = CommandType.StoredProcedure };
+            SetCreateOrUpdateParameters(command, businessId, course);
+            await command.ExecuteNonQueryAsync();
+        }
+
         private void AddCourseData(Guid businessId, RepeatedSession course)
         {
-            var command = new SqlCommand("Session_CreateCourse", Connection) { CommandType = CommandType.StoredProcedure };
+            var command = new SqlCommand("[Session_CreateCourse]", Connection) { CommandType = CommandType.StoredProcedure };
             SetCreateOrUpdateParameters(command, businessId, course);
             command.ExecuteNonQuery();
         }

@@ -239,21 +239,24 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
+        public async Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)
         {
+            SqlConnection connection = null;
             SqlDataReader reader = null;
+
             try
             {
-                Connection.Open();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Booking_GetCustomerBookingsBySessionId]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Booking_GetCustomerBookingsBySessionId]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = sessionId;
 
-                reader = command.ExecuteReader();
+                reader = await command.ExecuteReaderAsync();
 
                 var customerBookings = new List<CustomerBookingData>();
 
@@ -264,28 +267,29 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 
-        public IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId)
+        public async Task<IList<CustomerBookingData>> GetCustomerBookingsByCourseIdAsync(Guid businessId, Guid courseId)
         {
+            SqlConnection connection = null;
             SqlDataReader reader = null;
+
             try
             {
-                Connection.Open();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[Booking_GetCustomerBookingsByCourseId]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Booking_GetCustomerBookingsByCourseId]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = courseId;
 
-                reader = command.ExecuteReader();
+                reader = await command.ExecuteReaderAsync();
 
                 var customerBookings = new List<CustomerBookingData>();
 
@@ -296,10 +300,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
             finally
             {
-                if (Connection != null)
-                    Connection.Close();
-                if (reader != null)
-                    reader.Close();
+                CloseConnection(connection);
+                CloseReader(reader);
             }
         }
 

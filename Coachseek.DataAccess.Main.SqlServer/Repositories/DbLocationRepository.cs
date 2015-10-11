@@ -72,6 +72,35 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task<LocationData> GetLocationAsync(Guid businessId, Guid locationId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Location_GetByGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = locationId;
+
+                reader = await command.ExecuteReaderAsync();
+                if (reader.HasRows && reader.Read())
+                    return ReadLocationData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
 
         public LocationData GetLocation(Guid businessId, Guid locationId)
         {

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ISessionDeleteUseCase : IApplicationContextSetter
     {
-        IResponse DeleteSession(Guid id);
+        Task<IResponse> DeleteSessionAsync(Guid id);
     }
 }

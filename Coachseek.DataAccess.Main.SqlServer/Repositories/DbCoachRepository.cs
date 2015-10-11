@@ -73,6 +73,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task<CoachData> GetCoachAsync(Guid businessId, Guid coachId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Coach_GetByGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@coachGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = coachId;
+
+                reader = await command.ExecuteReaderAsync();
+                if (reader.HasRows && reader.Read())
+                    return ReadCoachData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
         public CoachData GetCoach(Guid businessId, Guid coachId)
         {
             var wasAlreadyOpen = false;

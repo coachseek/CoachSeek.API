@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
@@ -13,14 +14,14 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionUpdateUseCase : SessionBaseUseCase, ISessionUpdateUseCase
     {
-        public IResponse UpdateSession(SessionUpdateCommand command)
+        public async Task<IResponse> UpdateSessionAsync(SessionUpdateCommand command)
         {
             try
             {
-                var sessionOrCourse = GetExistingSessionOrCourse(command.Id);
+                var sessionOrCourse = await GetExistingSessionOrCourseAsync(command.Id);
                 if (sessionOrCourse.IsNotFound())
                     return new NotFoundResponse();
-                return UpdateSessionOrCourse(command, sessionOrCourse);
+                return await UpdateSessionOrCourseAsync(command, sessionOrCourse);
             }
             catch (CoachseekException ex)
             {
@@ -29,43 +30,43 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private IResponse UpdateSessionOrCourse(SessionUpdateCommand command, Session existingSessionOrCourse)
+        private async Task<IResponse> UpdateSessionOrCourseAsync(SessionUpdateCommand command, Session existingSessionOrCourse)
         {
             if (existingSessionOrCourse is StandaloneSession)
-                return UpdateStandaloneSession(command, existingSessionOrCourse as StandaloneSession);
+                return await UpdateStandaloneSessionAsync(command, existingSessionOrCourse as StandaloneSession);
             if (existingSessionOrCourse is SessionInCourse)
-                return UpdateSessionInCourse(command, existingSessionOrCourse as SessionInCourse);
+                return await UpdateSessionInCourseAsync(command, existingSessionOrCourse as SessionInCourse);
             if (existingSessionOrCourse is RepeatedSession)
-                return UpdateCourse(command, (RepeatedSession)existingSessionOrCourse);
+                return await UpdateCourseAsync(command, (RepeatedSession)existingSessionOrCourse);
 
             throw new InvalidOperationException("Unexpected session type!");
         }
 
-        private IResponse UpdateStandaloneSession(SessionUpdateCommand command, StandaloneSession existingSession)
+        private async Task<IResponse> UpdateStandaloneSessionAsync(SessionUpdateCommand command, StandaloneSession existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 throw new SessionChangeToCourseNotSupported();
-            var coreData = LookupAndValidateCoreData(command);
+            var coreData = await LookupAndValidateCoreDataAsync(command);
             var updateSession = new StandaloneSession(existingSession, command, coreData);
             ValidateUpdate(updateSession);
             BusinessRepository.UpdateSession(Business.Id, updateSession);
             return new Response(updateSession.ToData());
         }
 
-        private IResponse UpdateSessionInCourse(SessionUpdateCommand command, SessionInCourse existingSession)
+        private async Task<IResponse> UpdateSessionInCourseAsync(SessionUpdateCommand command, SessionInCourse existingSession)
         {
             if (IsChangingSessionToCourse(command))
                 throw new SessionChangeToCourseNotSupported();
-            var coreData = LookupAndValidateCoreData(command);
+            var coreData = await LookupAndValidateCoreDataAsync(command);
             var updateSession = new SessionInCourse(existingSession, command, coreData);
             ValidateUpdate(updateSession);
             BusinessRepository.UpdateSession(Business.Id, updateSession);
             return new Response(updateSession.ToData());
         }
 
-        private IResponse UpdateCourse(SessionUpdateCommand command, RepeatedSession existingCourse)
+        private async Task<IResponse> UpdateCourseAsync(SessionUpdateCommand command, RepeatedSession existingCourse)
         {
-            var coreData = LookupAndValidateCoreData(command);
+            var coreData = await LookupAndValidateCoreDataAsync(command);
             var updateCourse = new RepeatedSession(existingCourse, command, coreData);
             ValidateUpdate(existingCourse, updateCourse);
             BusinessRepository.UpdateCourse(Business.Id, updateCourse);
@@ -77,20 +78,21 @@ namespace CoachSeek.Application.UseCases
             return command.Repetition != null && (command.Repetition.SessionCount != 1 || command.Repetition.RepeatFrequency != null);
         }
 
-        private CoreData LookupAndValidateCoreData(SessionUpdateCommand command)
+        private async Task<CoreData> LookupAndValidateCoreDataAsync(SessionUpdateCommand command)
         {
-            var location = BusinessRepository.GetLocation(Business.Id, command.Location.Id);
-            var coach = BusinessRepository.GetCoach(Business.Id, command.Coach.Id);
-            var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
+            var locationTask = BusinessRepository.GetLocationAsync(Business.Id, command.Location.Id);
+            var coachTask = BusinessRepository.GetCoachAsync(Business.Id, command.Coach.Id);
+            var serviceTask = BusinessRepository.GetServiceAsync(Business.Id, command.Service.Id);
+            await Task.WhenAll(locationTask, coachTask, serviceTask);
 
-            if (!location.IsExisting())
+            if (!locationTask.Result.IsExisting())
                 throw new LocationInvalid(command.Location.Id);
-            if (!coach.IsExisting())
+            if (!coachTask.Result.IsExisting())
                 throw new CoachInvalid(command.Coach.Id);
-            if (!service.IsExisting())
+            if (!serviceTask.Result.IsExisting())
                 throw new ServiceInvalid(command.Service.Id);
 
-            var coreData = new CoreData(location, coach, service);
+            var coreData = new CoreData(locationTask.Result, coachTask.Result, serviceTask.Result);
 
             ValidateCoreData(coreData);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
@@ -7,36 +8,45 @@ namespace CoachSeek.Application.UseCases
 {
     public abstract class SessionBaseUseCase : BaseUseCase
     {
-        protected Session GetExistingSessionOrCourse(Guid sessionId)
+        protected async Task<Session> GetExistingSessionOrCourseAsync(Guid sessionId)
         {
-            // Is it a Session or a Course?
-            var session = BusinessRepository.GetSession(Business.Id, sessionId);
+            var session = await BusinessRepository.GetSessionAsync(Business.Id, sessionId);
             if (session.IsExisting())
-            {
-                if (session.ParentId == null)
-                    return new StandaloneSession(session, LookupCoreData(session));
-
-                return new SessionInCourse(session, LookupCoreData(session));
-            }
-
-            var course = BusinessRepository.GetCourse(Business.Id, sessionId);
+                return await CreateSessionAsync(session);
+            var course = await BusinessRepository.GetCourseAsync(Business.Id, sessionId);
             if (course.IsExisting())
-                return new RepeatedSession(course, 
-                                           BusinessRepository.GetAllLocations(Business.Id),
-                                           BusinessRepository.GetAllCoaches(Business.Id),
-                                           BusinessRepository.GetAllServices(Business.Id));
-
+                return await CreateCourseAsync(course);
             return null;
         }
 
-
-        private CoreData LookupCoreData(SessionData data)
+        private async Task<SingleSession> CreateSessionAsync(SingleSessionData session)
         {
-            var location = BusinessRepository.GetLocation(Business.Id, data.Location.Id);
-            var coach = BusinessRepository.GetCoach(Business.Id, data.Coach.Id);
-            var service = BusinessRepository.GetService(Business.Id, data.Service.Id);
+            if (session.ParentId.IsNotFound())
+                return new StandaloneSession(session, await LookupCoreDataAsync(session));
+            return new SessionInCourse(session, await LookupCoreDataAsync(session));
+        }
 
-            return new CoreData(location, coach, service);
+        private async Task<RepeatedSession> CreateCourseAsync(RepeatedSessionData course)
+        {
+            var locationsTask = BusinessRepository.GetAllLocationsAsync(Business.Id);
+            var coachesTask = BusinessRepository.GetAllCoachesAsync(Business.Id);
+            var servicesTask = BusinessRepository.GetAllServicesAsync(Business.Id);
+            await Task.WhenAll(locationsTask, coachesTask, servicesTask);
+
+            return new RepeatedSession(course,
+                                       locationsTask.Result,
+                                       coachesTask.Result,
+                                       servicesTask.Result);
+        }
+
+        private async Task<CoreData> LookupCoreDataAsync(SessionData data)
+        {
+            var locationTask = BusinessRepository.GetLocationAsync(Business.Id, data.Location.Id);
+            var coachTask = BusinessRepository.GetCoachAsync(Business.Id, data.Coach.Id);
+            var serviceTask = BusinessRepository.GetServiceAsync(Business.Id, data.Service.Id);
+            await Task.WhenAll(locationTask, coachTask, serviceTask);
+
+            return new CoreData(locationTask.Result, coachTask.Result, serviceTask.Result);
         }
     }
 }

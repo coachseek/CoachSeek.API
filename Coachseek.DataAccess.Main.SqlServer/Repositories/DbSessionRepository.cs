@@ -106,6 +106,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task<SingleSessionData> GetSessionAsync(Guid businessId, Guid sessionId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_GetSessionByGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = sessionId;
+
+                reader = await command.ExecuteReaderAsync();
+                if (reader.HasRows && reader.Read())
+                    return ReadSessionData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
         public SingleSessionData GetSession(Guid businessId, Guid sessionId)
         {
             var wasAlreadyOpen = false;
@@ -133,6 +163,28 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 CloseConnection(wasAlreadyOpen);
                 if (reader != null)
                     reader.Close();
+            }
+        }
+
+        public async Task AddSessionAsync(Guid businessId, SingleSession session, SqlConnection connection = null)
+        {
+            var wasAlreadyOpen = false;
+            try
+            {
+                if (connection == null)
+                    connection = await OpenConnectionAsync();
+                else
+                    wasAlreadyOpen = true;
+
+                var command = new SqlCommand("[Session_CreateSession]", connection) { CommandType = CommandType.StoredProcedure };
+                SetCreateOrUpdateParameters(command, businessId, session);
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                if (!wasAlreadyOpen)
+                    CloseConnection(connection);
             }
         }
 
@@ -171,6 +223,30 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             finally
             {
                 CloseConnection(wasAlreadyOpen);
+            }
+        }
+
+        public async Task DeleteSessionAsync(Guid businessId, Guid sessionId)
+        {
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Session_DeleteByGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = sessionId;
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
             }
         }
 

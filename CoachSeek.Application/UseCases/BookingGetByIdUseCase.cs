@@ -30,6 +30,8 @@ namespace CoachSeek.Application.UseCases
         private CourseBookingData GetCourseBooking(Guid bookingId)
         {
             var booking = BusinessRepository.GetCourseBooking(Business.Id, bookingId);
+            if (booking.IsNotFound())
+                return null;
             var course = BusinessRepository.GetCourse(Business.Id, booking.Course.Id);
             booking.Price = CourseBookingPriceCalculator.CalculatePrice(booking, course);
             return booking;

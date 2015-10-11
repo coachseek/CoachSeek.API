@@ -59,10 +59,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public HttpResponseMessage Get(Guid id)
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             SessionGetByIdUseCase.Initialise(Context);
-            var response = SessionGetByIdUseCase.GetSession(id);
+            var response = await SessionGetByIdUseCase.GetSessionAsync(id);
             var apiSessionResponse = ApiOutSessionConverter.Convert(response);
             return CreateGetWebResponse(apiSessionResponse);
         }
@@ -72,21 +72,21 @@ namespace CoachSeek.Api.Controllers
         [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage Post([FromBody]ApiSessionSaveCommand session)
+        public async Task<HttpResponseMessage> Post([FromBody]ApiSessionSaveCommand session)
         {
             if (session.IsNew())
-                return AddSession(session);
+                return await AddSessionAsync(session);
 
-            return UpdateSession(session);
+            return await UpdateSessionAsync(session);
         }
 
         // DELETE: Sessions/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public HttpResponseMessage Delete(Guid id)
+        public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             SessionDeleteUseCase.Initialise(Context);
-            var response = SessionDeleteUseCase.DeleteSession(id);
+            var response = await SessionDeleteUseCase.DeleteSessionAsync(id);
             return CreateDeleteWebResponse(response);
         }
 
@@ -123,19 +123,19 @@ namespace CoachSeek.Api.Controllers
             }
         }
 
-        private HttpResponseMessage AddSession(ApiSessionSaveCommand session)
+        private async Task<HttpResponseMessage> AddSessionAsync(ApiSessionSaveCommand session)
         {
             var command = SessionAddCommandConverter.Convert(session);
             SessionAddUseCase.Initialise(Context);
-            var response = SessionAddUseCase.AddSession(command);
+            var response = await SessionAddUseCase.AddSessionAsync(command);
             return CreatePostWebResponse(response);
         }
 
-        private HttpResponseMessage UpdateSession(ApiSessionSaveCommand session)
+        private async Task<HttpResponseMessage> UpdateSessionAsync(ApiSessionSaveCommand session)
         {
             var command = SessionUpdateCommandConverter.Convert(session);
             SessionUpdateUseCase.Initialise(Context);
-            var response = SessionUpdateUseCase.UpdateSession(command);
+            var response = await SessionUpdateUseCase.UpdateSessionAsync(command);
             return CreatePostWebResponse(response);
         }
     }

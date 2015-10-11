@@ -99,6 +99,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return LocationRepository.GetAllLocations(businessId);
         }
 
+        public async Task<LocationData> GetLocationAsync(Guid businessId, Guid locationId)
+        {
+            return await LocationRepository.GetLocationAsync(businessId, locationId);
+        }
+
         public LocationData GetLocation(Guid businessId, Guid locationId)
         {
             return LocationRepository.GetLocation(businessId, locationId);
@@ -125,6 +130,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return CoachRepository.GetAllCoaches(businessId);
         }
 
+        public async Task<CoachData> GetCoachAsync(Guid businessId, Guid coachId)
+        {
+            return await CoachRepository.GetCoachAsync(businessId, coachId);
+        }
+
         public CoachData GetCoach(Guid businessId, Guid coachId)
         {
             return CoachRepository.GetCoach(businessId, coachId);
@@ -149,6 +159,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public IList<ServiceData> GetAllServices(Guid businessId)
         {
             return ServiceRepository.GetAllServices(businessId);
+        }
+
+        public async Task<ServiceData> GetServiceAsync(Guid businessId, Guid serviceId)
+        {
+            return await ServiceRepository.GetServiceAsync(businessId, serviceId);
         }
 
         public ServiceData GetService(Guid businessId, Guid serviceId)
@@ -208,9 +223,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return SessionRepository.GetAllSessions(businessId);
         }
 
+        public async Task<SingleSessionData> GetSessionAsync(Guid businessId, Guid sessionId)
+        {
+            return await SessionRepository.GetSessionAsync(businessId, sessionId);
+        }
+
         public SingleSessionData GetSession(Guid businessId, Guid sessionId)
         {
             return SessionRepository.GetSession(businessId, sessionId);
+        }
+
+        public async Task AddSessionAsync(Guid businessId, StandaloneSession session)
+        {
+            await SessionRepository.AddSessionAsync(businessId, session);
         }
 
         public void AddSession(Guid businessId, StandaloneSession session)
@@ -221,6 +246,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public void UpdateSession(Guid businessId, SingleSession session)
         {
             SessionRepository.UpdateSession(businessId, session);
+        }
+
+        public async Task DeleteSessionAsync(Guid businessId, Guid sessionId)
+        {
+            await SessionRepository.DeleteSessionAsync(businessId, sessionId);
         }
 
         public void DeleteSession(Guid businessId, Guid sessionId)
@@ -238,9 +268,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return CourseRepository.GetAllCourses(businessId);
         }
 
+        public async Task<RepeatedSessionData> GetCourseAsync(Guid businessId, Guid courseId)
+        {
+            return await CourseRepository.GetCourseAsync(businessId, courseId);
+        }
+
         public RepeatedSessionData GetCourse(Guid businessId, Guid courseId)
         {
             return CourseRepository.GetCourse(businessId, courseId);
+        }
+
+        public async Task AddCourseAsync(Guid businessId, RepeatedSession course)
+        {
+            await CourseRepository.AddCourseAsync(businessId, course);
         }
 
         public void AddCourse(Guid businessId, RepeatedSession course)
@@ -304,14 +344,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return BookingRepository.GetAllCustomerBookings(businessId);
         }
 
-        public IList<CustomerBookingData> GetCustomerBookingsBySessionId(Guid businessId, Guid sessionId)
+        public async Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)
         {
-            return BookingRepository.GetCustomerBookingsBySessionId(businessId, sessionId);
+            return await BookingRepository.GetCustomerBookingsBySessionIdAsync(businessId, sessionId);
         }
 
-        public IList<CustomerBookingData> GetCustomerBookingsByCourseId(Guid businessId, Guid courseId)
+        public async Task<IList<CustomerBookingData>> GetCustomerBookingsByCourseIdAsync(Guid businessId, Guid courseId)
         {
-            return BookingRepository.GetCustomerBookingsByCourseId(businessId, courseId);
+            return await BookingRepository.GetCustomerBookingsByCourseIdAsync(businessId, courseId);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
@@ -11,16 +12,16 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionAddUseCase : BaseUseCase, ISessionAddUseCase
     {
-        public IResponse AddSession(SessionAddCommand command)
+        public async Task<IResponse> AddSessionAsync(SessionAddCommand command)
         {
             try
             {
-                var coreData = LookupCoreData(command);
+                var coreData = await LookupCoreDataAsync(command);
 
                 if (IsStandaloneSession(command, coreData.Service))
-                    return CreateStandaloneSession(command, coreData);
+                    return await CreateStandaloneSessionAsync(command, coreData);
 
-                return CreateCourse(command, coreData);
+                return await CreateCourseAsync(command, coreData);
             }
             catch (CoachseekException ex)
             {
@@ -29,13 +30,14 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private CoreData LookupCoreData(SessionAddCommand command)
+        private async Task<CoreData> LookupCoreDataAsync(SessionAddCommand command)
         {
-            var location = BusinessRepository.GetLocation(Business.Id, command.Location.Id);
-            var coach = BusinessRepository.GetCoach(Business.Id, command.Coach.Id);
-            var service = BusinessRepository.GetService(Business.Id, command.Service.Id);
+            var locationTask = BusinessRepository.GetLocationAsync(Business.Id, command.Location.Id);
+            var coachTask = BusinessRepository.GetCoachAsync(Business.Id, command.Coach.Id);
+            var serviceTask = BusinessRepository.GetServiceAsync(Business.Id, command.Service.Id);
+            await Task.WhenAll(locationTask, coachTask, serviceTask);
 
-            return new CoreData(location, coach, service);
+            return new CoreData(locationTask.Result, coachTask.Result, serviceTask.Result);
         }
 
         private static bool IsStandaloneSession(SessionAddCommand command, ServiceData service)
@@ -46,81 +48,76 @@ namespace CoachSeek.Application.UseCases
             return service.Repetition.SessionCount == 1;
         }
 
-        private Response CreateStandaloneSession(SessionAddCommand command, CoreData coreData)
+        private async Task<Response> CreateStandaloneSessionAsync(SessionAddCommand command, CoreData coreData)
         {
             var newSession = new StandaloneSession(command, coreData);
-            ValidateAdd(newSession);
-            BusinessRepository.AddSession(Business.Id, newSession);
+            await ValidateAddAsync(newSession);
+            await BusinessRepository.AddSessionAsync(Business.Id, newSession);
             return new Response(newSession.ToData());
         }
 
-        private Response CreateCourse(SessionAddCommand command, CoreData coreData)
+        private async Task<Response> CreateCourseAsync(SessionAddCommand command, CoreData coreData)
         {
             var newCourse = new RepeatedSession(command, coreData);
-            ValidateAdd(newCourse);
-            BusinessRepository.AddCourse(Business.Id, newCourse);
+            await ValidateAddAsync(newCourse);
+            await BusinessRepository.AddCourseAsync(Business.Id, newCourse);
             return new Response(newCourse.ToData());
         }
 
-        private void ValidateAdd(StandaloneSession newSession)
+        private async Task ValidateAddAsync(StandaloneSession newSession)
         {
-            ValidateIsNotOverlapping(newSession);
+            await ValidateIsNotOverlappingAsync(newSession);
         }
 
-        private void ValidateIsNotOverlapping(SingleSession newSession)
+        private async Task ValidateIsNotOverlappingAsync(SingleSession newSession)
         {
-            ValidateIsNotOverlappingSessions(newSession);
+            await ValidateIsNotOverlappingSessionsAsync(newSession);
         }
 
-        private void ValidateIsNotOverlappingSessions(SingleSession newSession)
+        private async Task ValidateIsNotOverlappingSessionsAsync(SingleSession newSession)
         {
-            var sessions = GetAllSessions();
-
-            foreach (var session in sessions)
+            foreach (var session in await GetAllSessionsAsync())
             {
                 if (newSession.IsOverlapping(session))
                     throw new SessionClashing(session);
             }
         }
 
-        private void ValidateAdd(RepeatedSession newCourse)
+        private async Task ValidateAddAsync(RepeatedSession newCourse)
         {
-            ValidateIsNotOverlapping(newCourse);
+            await ValidateIsNotOverlappingAsync(newCourse);
         }
 
-        private void ValidateIsNotOverlapping(RepeatedSession course)
+        private async Task ValidateIsNotOverlappingAsync(RepeatedSession course)
         {
-            ValidateIsNotOverlappingSessions(course);
+            await ValidateIsNotOverlappingSessionsAsync(course);
         }
 
-        private void ValidateIsNotOverlappingSessions(RepeatedSession newCourse)
+        private async Task ValidateIsNotOverlappingSessionsAsync(RepeatedSession newCourse)
         {
-            var sessions = GetAllSessions();
-
-            foreach (var session in sessions)
+            foreach (var session in await GetAllSessionsAsync())
             {
                 if (newCourse.IsOverlapping(session))
                     throw new SessionClashing(session);
             }
         }
 
-        private List<SingleSession> GetAllSessions()
+        private async Task<List<SingleSession>> GetAllSessionsAsync()
         {
-            var locations = BusinessRepository.GetAllLocations(Business.Id);
-            var coaches = BusinessRepository.GetAllCoaches(Business.Id);
-            var services = BusinessRepository.GetAllServices(Business.Id);
-
-            var sessionDatas = BusinessRepository.GetAllSessions(Business.Id);
+            var locationsTask = BusinessRepository.GetAllLocationsAsync(Business.Id);
+            var coachesTask = BusinessRepository.GetAllCoachesAsync(Business.Id);
+            var servicesTask = BusinessRepository.GetAllServicesAsync(Business.Id);
+            var sessionsTask = BusinessRepository.GetAllSessionsAsync(Business.Id);
+            await Task.WhenAll(locationsTask, coachesTask, servicesTask, sessionsTask);
 
             var sessions = new List<SingleSession>();
-            foreach (var sessionData in sessionDatas)
+            foreach (var session in sessionsTask.Result)
             {
-                var location = locations.Single(x => x.Id == sessionData.Location.Id);
-                var coach = coaches.Single(x => x.Id == sessionData.Coach.Id);
-                var service = services.Single(x => x.Id == sessionData.Service.Id);
+                var location = locationsTask.Result.Single(x => x.Id == session.Location.Id);
+                var coach = coachesTask.Result.Single(x => x.Id == session.Coach.Id);
+                var service = servicesTask.Result.Single(x => x.Id == session.Service.Id);
 
-                var session = new SingleSession(sessionData, location, coach, service);
-                sessions.Add(session);
+                sessions.Add(new SingleSession(session, location, coach, service));
             }
 
             return sessions;

@@ -7,32 +7,30 @@ namespace CoachSeek.Domain.Services
     {
         public static decimal CalculatePrice(CourseBookingData booking, RepeatedSessionData course)
         {
-            if (IsBookingForWholeCourse(booking, course))
-                return CalculateWholeCoursePaymentAmount(course);
-         
-            return CalculateMultipleSessionPaymentAmount(booking, course);
+            return CalculatePrice(booking.SessionBookings.Count,
+                                  course.Sessions.Count, 
+                                  course.Pricing.CoursePrice,
+                                  course.Pricing.SessionPrice);
         }
 
-        private static bool IsBookingForWholeCourse(CourseBookingData booking, RepeatedSessionData course)
+        public static decimal CalculatePrice(int numberOfSessionsInBooking,
+                                             int numberOfSessionsInCourse, 
+                                             decimal? coursePrice,
+                                             decimal? sessionPrice)
         {
-            return booking.SessionBookings.Count == course.Sessions.Count;
-        }
+            if (!coursePrice.HasValue && !sessionPrice.HasValue)
+                throw new ArgumentException("Must have either session or course price.");
 
-        private static decimal CalculateWholeCoursePaymentAmount(RepeatedSessionData course)
-        {
-            return course.Pricing.CoursePrice ?? CalculateCoursePriceFromSessionPrice(course);
-        }
+            if (numberOfSessionsInBooking == numberOfSessionsInCourse)
+            {
+                if (!coursePrice.HasValue)
+                    coursePrice = numberOfSessionsInCourse * sessionPrice.GetValueOrDefault();
+                return coursePrice.Value;
+            }
 
-        private static decimal CalculateCoursePriceFromSessionPrice(RepeatedSessionData course)
-        {
-            return course.Repetition.SessionCount * course.Pricing.SessionPrice.GetValueOrDefault();
-        }
-
-        private static decimal CalculateMultipleSessionPaymentAmount(CourseBookingData booking, RepeatedSessionData course)
-        {
-            var sessionPrice = course.Pricing.SessionPrice ??
-                               Math.Round(course.Pricing.CoursePrice.GetValueOrDefault() / course.Repetition.SessionCount, 2);
-            return sessionPrice * booking.SessionBookings.Count;
+            if (!sessionPrice.HasValue)
+                sessionPrice = Math.Round(coursePrice.Value / numberOfSessionsInCourse, 2);
+            return numberOfSessionsInBooking * sessionPrice.Value;
         }
     }
 }

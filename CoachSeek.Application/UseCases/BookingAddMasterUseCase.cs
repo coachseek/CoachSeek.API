@@ -70,7 +70,7 @@ namespace CoachSeek.Application.UseCases
             var firstSession = GetSession(command.Sessions.First().Id);
             if (IsStandaloneSession(firstSession))
                 return SetupStandaloneSessionBookingAddUseCase(firstSession);
-            var course = GetCourse(firstSession.ParentId.Value);
+            var course = GetCourse(firstSession.ParentId.GetValueOrDefault());
             return SetupCourseSessionBookingAddUseCase(course);
         }
 
@@ -79,7 +79,7 @@ namespace CoachSeek.Application.UseCases
             var firstSession = GetSession(command.Sessions.First().Id);
             if (IsStandaloneSession(firstSession))
                 return SetupStandaloneSessionOnlineBookingAddUseCase(firstSession);
-            var course = GetCourse(firstSession.ParentId.Value);
+            var course = GetCourse(firstSession.ParentId.GetValueOrDefault());
             return SetupCourseSessionOnlineBookingAddUseCase(course);
         }
 

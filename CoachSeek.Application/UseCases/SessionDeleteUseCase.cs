@@ -1,5 +1,7 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -11,18 +13,14 @@ namespace CoachSeek.Application.UseCases
 {
     public class SessionDeleteUseCase : SessionBaseUseCase, ISessionDeleteUseCase
     {
-        public IResponse DeleteSession(Guid id)
+        public async Task<IResponse> DeleteSessionAsync(Guid id)
         {
-            var sessionOrCourse = GetExistingSessionOrCourse(id);
-            if (sessionOrCourse == null)
+            var sessionOrCourse = await GetExistingSessionOrCourseAsync(id);
+            if (sessionOrCourse.IsNotFound())
                 return new NotFoundResponse();
-
             try
             {
-                if (sessionOrCourse is SingleSession)
-                    TryDeleteSession((SingleSession)sessionOrCourse);
-                else if (sessionOrCourse is RepeatedSession)
-                    TryDeleteCourse((RepeatedSession)sessionOrCourse);
+                await TryDeleteSessionOrCourseAsync(sessionOrCourse);
                 return new Response();
             }
             catch (CoachseekException ex)
@@ -32,15 +30,23 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        private void TryDeleteSession(SingleSession session)
+        private async Task TryDeleteSessionOrCourseAsync(Session sessionOrCourse)
         {
-            var bookings = BusinessRepository.GetCustomerBookingsBySessionId(Business.Id, session.Id);
-            if (bookings.Count > 0)
-                throw new SessionHasBookingsCannotDelete(session.Id);
-            BusinessRepository.DeleteSession(Business.Id, session.Id);
+            if (sessionOrCourse is SingleSession)
+                await TryDeleteSessionAsync((SingleSession)sessionOrCourse);
+            else if (sessionOrCourse is RepeatedSession)
+                await TryDeleteCourseAsync((RepeatedSession)sessionOrCourse);
         }
 
-        private void TryDeleteCourse(RepeatedSession course)
+        private async Task TryDeleteSessionAsync(SingleSession session)
+        {
+            var bookings = await BusinessRepository.GetCustomerBookingsBySessionIdAsync(Business.Id, session.Id);
+            if (bookings.Count > 0)
+                throw new SessionHasBookingsCannotDelete(session.Id);
+            await BusinessRepository.DeleteSessionAsync(Business.Id, session.Id);
+        }
+
+        private async Task TryDeleteCourseAsync(RepeatedSession course)
         {
             ValidateDeleteCourse(course.ToData());
             BusinessRepository.DeleteCourse(Business.Id, course.Id);
