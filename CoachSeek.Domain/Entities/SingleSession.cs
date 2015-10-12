@@ -70,7 +70,7 @@ namespace CoachSeek.Domain.Entities
             return pointInTime.IsAfter(Start) && Finish.IsAfter(pointInTime);
         }
 
-        public SingleSessionData ToData()
+        public override SessionData ToData()
         {
             return Mapper.Map<SingleSession, SingleSessionData>(this);
         }

@@ -4,7 +4,6 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,12 +65,6 @@ namespace CoachSeek.Application.UseCases
             ValidateSpacesAvailable();
 
             ValidateAddBookingAdditional(newBooking);
-        }
-
-        private IList<CustomerBookingData> GetSessionBookings(Guid sessionId)
-        {
-            var allBookings = BusinessRepository.GetAllCustomerBookings(Business.Id);
-            return allBookings.Where(x => x.SessionId == sessionId).ToList();
         }
 
         private void ValidateIsNewBooking(SingleSessionBooking newBooking)

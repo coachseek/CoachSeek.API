@@ -99,7 +99,7 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public RepeatedSessionData ToData()
+        public override SessionData ToData()
         {
             return Mapper.Map<RepeatedSession, RepeatedSessionData>(this);
         }

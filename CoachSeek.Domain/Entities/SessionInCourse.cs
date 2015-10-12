@@ -59,7 +59,7 @@ namespace CoachSeek.Domain.Entities
 
         public SessionInCourse Clone()
         {
-            var sessionData = ToData();
+            var sessionData = (SingleSessionData)ToData();
             sessionData.Id = Guid.NewGuid();
 
             return new SessionInCourse(sessionData, _location.ToData(), _coach.ToData(), _service.ToData());
@@ -67,7 +67,7 @@ namespace CoachSeek.Domain.Entities
 
         public SessionInCourse Clone(Date startDate)
         {
-            var sessionData = ToData();
+            var sessionData = (SingleSessionData)ToData();
             sessionData.ParentId = ParentId;
             sessionData.Id = Guid.NewGuid();
 

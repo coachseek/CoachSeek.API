@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
@@ -8,15 +10,27 @@ namespace CoachSeek.Application.UseCases
 {
     public abstract class SessionBaseUseCase : BaseUseCase
     {
-        protected async Task<Session> GetExistingSessionOrCourseAsync(Guid sessionId)
+        protected async Task<Session> GetExistingSessionOrCourseAsync(Guid sessionIdOrCourseId)
         {
-            var session = await BusinessRepository.GetSessionAsync(Business.Id, sessionId);
+            var session = await LookupSessionAsync(sessionIdOrCourseId);
             if (session.IsExisting())
                 return await CreateSessionAsync(session);
-            var course = await BusinessRepository.GetCourseAsync(Business.Id, sessionId);
+            var course = await LookupCourseAsync(sessionIdOrCourseId);
             if (course.IsExisting())
                 return await CreateCourseAsync(course);
             return null;
+        }
+
+
+        private async Task<SingleSessionData> LookupSessionAsync(Guid sessionId)
+        {
+            var sessionTask = BusinessRepository.GetSessionAsync(Business.Id, sessionId);
+            var bookingsTask =  BusinessRepository.GetCustomerBookingsBySessionIdAsync(Business.Id, sessionId);
+            var session  = await sessionTask;
+            if (session.IsNotFound())
+                return null;
+            session.Booking.Bookings = await bookingsTask;
+            return session;
         }
 
         private async Task<SingleSession> CreateSessionAsync(SingleSessionData session)
@@ -24,6 +38,25 @@ namespace CoachSeek.Application.UseCases
             if (session.ParentId.IsNotFound())
                 return new StandaloneSession(session, await LookupCoreDataAsync(session));
             return new SessionInCourse(session, await LookupCoreDataAsync(session));
+        }
+
+        private async Task<RepeatedSessionData> LookupCourseAsync(Guid courseId)
+        {
+            var courseTask = BusinessRepository.GetCourseAsync(Business.Id, courseId);
+            var bookingsTask = BusinessRepository.GetCustomerBookingsByCourseIdAsync(Business.Id, courseId);
+            var course = await courseTask;
+            if (course.IsNotFound())
+                return null;
+            var bookings = await bookingsTask;
+            AddBookingsToCourse(course, bookings);
+            return course;
+        }
+
+        private void AddBookingsToCourse(RepeatedSessionData course, IList<CustomerBookingData> bookings)
+        {
+            course.Booking.Bookings = bookings.Where(x => x.SessionId == course.Id).ToList();
+            foreach (var session in course.Sessions)
+                session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
         }
 
         private async Task<RepeatedSession> CreateCourseAsync(RepeatedSessionData course)

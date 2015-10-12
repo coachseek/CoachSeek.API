@@ -69,7 +69,7 @@ namespace CoachSeek.Domain.Entities
 
         public abstract bool IsOverlapping(Session otherSession);
 
-        //public abstract SessionData ToData();
+        public abstract SessionData ToData();
 
         public SessionKeyData ToKeyData()
         {
