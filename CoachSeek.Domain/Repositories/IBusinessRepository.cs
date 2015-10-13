@@ -19,8 +19,8 @@ namespace CoachSeek.Domain.Repositories
         IList<LocationData> GetAllLocations(Guid businessId);
         Task<LocationData> GetLocationAsync(Guid businessId, Guid locationId);
         LocationData GetLocation(Guid businessId, Guid locationId);
-        void AddLocation(Guid businessId, Location location);
-        void UpdateLocation(Guid businessId, Location location);
+        Task AddLocationAsync(Guid businessId, Location location);
+        Task UpdateLocationAsync(Guid businessId, Location location);
 
         Task<IList<CoachData>> GetAllCoachesAsync(Guid businessId);
         IList<CoachData> GetAllCoaches(Guid businessId);

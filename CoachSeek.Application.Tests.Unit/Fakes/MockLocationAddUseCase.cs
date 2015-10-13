@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
@@ -20,11 +21,11 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
         {
         }
 
-        public IResponse AddLocation(LocationAddCommand command)
+        public async Task<IResponse> AddLocationAsync(LocationAddCommand command)
         {
+            await Task.Delay(100);
             WasAddLocationCalled = true;
             Command = command;
-
             return Response;
         }
     }

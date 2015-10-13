@@ -49,10 +49,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthenticationOrAnonymous]
         [Authorize]
-        public HttpResponseMessage Get(Guid id)
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             ServiceGetByIdUseCase.Initialise(Context);
-            var response = ServiceGetByIdUseCase.GetService(id);
+            var response = await ServiceGetByIdUseCase.GetServiceAsync(id);
             return CreateGetWebResponse(response);
         }
 

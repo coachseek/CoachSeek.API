@@ -88,7 +88,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var useCase = new LocationUpdateUseCase();
             useCase.Initialise(CreateApplicationContext());
-            return useCase.UpdateLocation(request);
+            return useCase.UpdateLocationAsync(request).Result;
         }
 
         private void ThenLocationUpdateFailsWithMissingLocationError(Response response)

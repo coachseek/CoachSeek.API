@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Security;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
@@ -50,10 +49,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthenticationOrAnonymous]
         [Authorize]
-        public HttpResponseMessage Get(Guid id)
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             LocationGetByIdUseCase.Initialise(Context);
-            var response = LocationGetByIdUseCase.GetLocation(id);
+            var response = await LocationGetByIdUseCase.GetLocationAsync(id);
             return CreateGetWebResponse(response);
         }
 
@@ -62,12 +61,12 @@ namespace CoachSeek.Api.Controllers
         [BusinessAuthorize(Role.BusinessAdmin)]
         [CheckModelForNull]
         [ValidateModelState]
-        public HttpResponseMessage Post([FromBody]ApiLocationSaveCommand location)
+        public async Task<HttpResponseMessage> Post([FromBody]ApiLocationSaveCommand location)
         {
             if (location.IsNew())
-                return AddLocation(location);
+                return await AddLocationAsync(location);
 
-            return UpdateLocation(location);
+            return await UpdateLocationAsync(location);
         }
 
         // DELETE: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
@@ -81,19 +80,19 @@ namespace CoachSeek.Api.Controllers
         }
 
         
-        private HttpResponseMessage AddLocation(ApiLocationSaveCommand location)
+        private async Task<HttpResponseMessage> AddLocationAsync(ApiLocationSaveCommand location)
         {
             var command = LocationAddCommandConverter.Convert(location);
             LocationAddUseCase.Initialise(Context);
-            var response = LocationAddUseCase.AddLocation(command);
+            var response = await LocationAddUseCase.AddLocationAsync(command);
             return CreatePostWebResponse(response);
         }
 
-        private HttpResponseMessage UpdateLocation(ApiLocationSaveCommand location)
+        private async Task<HttpResponseMessage> UpdateLocationAsync(ApiLocationSaveCommand location)
         {
             var command = LocationUpdateCommandConverter.Convert(location);
             LocationUpdateUseCase.Initialise(Context);
-            var response = LocationUpdateUseCase.UpdateLocation(command);
+            var response = await LocationUpdateUseCase.UpdateLocationAsync(command);
             return CreatePostWebResponse(response);
         }
     }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface ICoachGetByIdUseCase : IApplicationContextSetter
     {
-        CoachData GetCoach(Guid id);
+        Task<CoachData> GetCoachAsync(Guid id);
     }
 }

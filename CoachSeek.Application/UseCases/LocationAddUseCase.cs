@@ -1,22 +1,22 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
-using System;
 
 namespace CoachSeek.Application.UseCases
 {
     public class LocationAddUseCase : BaseUseCase, ILocationAddUseCase
     {
-        public IResponse AddLocation(LocationAddCommand command)
+        public async Task<IResponse> AddLocationAsync(LocationAddCommand command)
         {
             try
             {
                 var newLocation = new Location(command);
-                ValidateAdd(newLocation);
-                BusinessRepository.AddLocation(Business.Id, newLocation);
+                await ValidateAddAsync(newLocation);
+                await BusinessRepository.AddLocationAsync(Business.Id, newLocation);
                 return new Response(newLocation.ToData());
             }
             catch (CoachseekException ex)
@@ -25,9 +25,9 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateAdd(Location newLocation)
+        private async Task ValidateAddAsync(Location newLocation)
         {
-            var locations = BusinessRepository.GetAllLocations(Business.Id);
+            var locations = await BusinessRepository.GetAllLocationsAsync(Business.Id);
             var isExistingLocation = locations.Any(x => x.Name.ToLower() == newLocation.Name.ToLower());
             if (isExistingLocation)
                 throw new LocationDuplicate(newLocation.Name);

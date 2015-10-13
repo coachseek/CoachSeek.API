@@ -182,7 +182,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Controller.UserRepository = SetupUserRepository();
             Controller.LocationAddUseCase = useCase;
 
-            return Controller.Post(apiLocationSaveCommand);
+            return Controller.Post(apiLocationSaveCommand).Result;
         }
 
         private HttpResponseMessage WhenPost(MockLocationUpdateUseCase useCase)
@@ -197,7 +197,7 @@ namespace CoachSeek.WebUI.Tests.Unit.Controllers
             Controller.UserRepository = SetupUserRepository();
             Controller.LocationUpdateUseCase = useCase;
 
-            return Controller.Post(apiLocationSaveCommand);
+            return Controller.Post(apiLocationSaveCommand).Result;
         }
 
 

@@ -167,7 +167,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return businessLocations.FirstOrDefault(x => x.Id == locationId);
         }
 
-        public void AddLocation(Guid businessId, Location location)
+        public async Task AddLocationAsync(Guid businessId, Location location)
+        {
+            await Task.Delay(100);
+            AddLocation(businessId, location);
+        }
+
+        private void AddLocation(Guid businessId, Location location)
         {
             WasAddLocationCalled = true;
             BusinessIdPassedIn = businessId;
@@ -181,7 +187,13 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             Locations[businessId] = dbLocations;
         }
 
-        public void UpdateLocation(Guid businessId, Location location)
+        public async Task UpdateLocationAsync(Guid businessId, Location location)
+        {
+            await Task.Delay(100);
+            UpdateLocation(businessId, location);
+        }
+
+        private void UpdateLocation(Guid businessId, Location location)
         {
             WasUpdateLocationCalled = true;
             BusinessIdPassedIn = businessId;

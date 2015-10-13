@@ -114,8 +114,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 var command = new SqlCommand("[Location_GetByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = locationId;
 
                 reader = command.ExecuteReader();
@@ -132,15 +133,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public void AddLocation(Guid businessId, Location location)
+        public async Task AddLocationAsync(Guid businessId, Location location)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
 
             try
             {
-                wasAlreadyOpen = OpenConnectionOld();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("Location_Create", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[Location_Create]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
@@ -150,23 +151,23 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[1].Value = location.Id;
                 command.Parameters[2].Value = location.Name;
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
+                CloseConnection(connection);
             }
         }
 
-        public void UpdateLocation(Guid businessId, Location location)
+        public async Task UpdateLocationAsync(Guid businessId, Location location)
         {
-            var wasAlreadyOpen = false;
+            SqlConnection connection = null;
 
             try
             {
-                wasAlreadyOpen = OpenConnectionOld();
+                connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("Location_Update", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("Location_Update", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@locationGuid", SqlDbType.UniqueIdentifier));
@@ -176,11 +177,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[1].Value = location.Id;
                 command.Parameters[2].Value = location.Name;
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             finally
             {
-                CloseConnection(wasAlreadyOpen);
+                CloseConnection(connection);
             }
         }
 

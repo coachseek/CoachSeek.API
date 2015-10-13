@@ -34,7 +34,7 @@ namespace CoachSeek.Application.UseCases
                                                                     Guid? serviceId = null)
         {
             var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
-            Validate(parameters);
+            await ValidateAsync(parameters);
 
             var searchData = await GetSessionsCoursesAndBookingsAsync();
 
@@ -51,7 +51,7 @@ namespace CoachSeek.Application.UseCases
         public async Task<SessionSearchData> SearchForOnlineBookableSessionsAsync(string startDate, string endDate, Guid? coachId = null, Guid? locationId = null, Guid? serviceId = null)
         {
             var parameters = PackageUpParameters(startDate, endDate, coachId, locationId, serviceId);
-            Validate(parameters);
+            await ValidateAsync(parameters);
 
             var searchData = await GetSessionsCoursesAndBookingsAsync();
 
@@ -186,40 +186,40 @@ namespace CoachSeek.Application.UseCases
             return startTime.Length == 4 ? string.Format("0{0}", startTime) : startTime;
         }
 
-        private void Validate(SearchParameters parameters)
+        private async Task ValidateAsync(SearchParameters parameters)
         {
             ValidateDates(parameters.StartDate, parameters.EndDate);
-            ValidateCoach(parameters.CoachId);
-            ValidateLocation(parameters.LocationId);
-            ValidateService(parameters.ServiceId);
+            await ValidateCoachAsync(parameters.CoachId);
+            await ValidateLocationAsync(parameters.LocationId);
+            await ValidateServiceAsync(parameters.ServiceId);
         }
 
-        private void ValidateCoach(Guid? coachId)
+        private async Task ValidateCoachAsync(Guid? coachId)
         {
             if (!coachId.HasValue)
                 return;
             CoachGetByIdUseCase.Initialise(Context);
-            var coach = CoachGetByIdUseCase.GetCoach(coachId.Value);
+            var coach = await CoachGetByIdUseCase.GetCoachAsync(coachId.Value);
             if (coach.IsNotFound())
                 throw new CoachInvalid(coachId.Value);
         }
 
-        private void ValidateLocation(Guid? locationId)
+        private async Task ValidateLocationAsync(Guid? locationId)
         {
             if (!locationId.HasValue)
                 return;
             LocationGetByIdUseCase.Initialise(Context);
-            var location = LocationGetByIdUseCase.GetLocation(locationId.Value);
+            var location = await LocationGetByIdUseCase.GetLocationAsync(locationId.Value);
             if (location.IsNotFound())
                 throw new LocationInvalid(locationId.Value);
         }
 
-        private void ValidateService(Guid? serviceId)
+        private async Task ValidateServiceAsync(Guid? serviceId)
         {
             if (!serviceId.HasValue)
                 return;
             ServiceGetByIdUseCase.Initialise(Context);
-            var service = ServiceGetByIdUseCase.GetService(serviceId.Value);
+            var service = await ServiceGetByIdUseCase.GetServiceAsync(serviceId.Value);
             if (service.IsNotFound())
                 throw new ServiceInvalid(serviceId.Value);
         }

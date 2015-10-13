@@ -1,4 +1,5 @@
-﻿using CoachSeek.Application.Contracts.Models;
+﻿using System.Threading.Tasks;
+using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -9,13 +10,13 @@ namespace CoachSeek.Application.UseCases
 {
     public class LocationUpdateUseCase : BaseUseCase, ILocationUpdateUseCase
     {
-        public IResponse UpdateLocation(LocationUpdateCommand command)
+        public async Task<IResponse> UpdateLocationAsync(LocationUpdateCommand command)
         {
             try
             {
                 var location = new Location(command);
-                ValidateUpdate(location);
-                BusinessRepository.UpdateLocation(Business.Id, location);
+                await ValidateUpdateAsync(location);
+                await BusinessRepository.UpdateLocationAsync(Business.Id, location);
                 return new Response(location.ToData());
             }
             catch (CoachseekException ex)
@@ -24,9 +25,9 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateUpdate(Location location)
+        private async Task ValidateUpdateAsync(Location location)
         {
-            var locations = BusinessRepository.GetAllLocations(Business.Id);
+            var locations = await BusinessRepository.GetAllLocationsAsync(Business.Id);
 
             var isExistingLocation = locations.Any(x => x.Id == location.Id);
             if (!isExistingLocation)

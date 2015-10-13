@@ -70,7 +70,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             var useCase = new LocationAddUseCase();
             useCase.Initialise(CreateApplicationContext());
-            return useCase.AddLocation(command);
+            return useCase.AddLocationAsync(command).Result;
         }
 
 

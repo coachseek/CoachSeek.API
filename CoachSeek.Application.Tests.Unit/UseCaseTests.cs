@@ -159,14 +159,14 @@ namespace CoachSeek.Application.Tests.Unit
         {
             var data = new LocationData { Id = new Guid(LOCATION_BROWNS_BAY_ID), Name = "Browns Bay Racquets Club" };
 
-            BusinessRepository.AddLocation(new Guid(BUSINESS_ID), new Location(data));
+            BusinessRepository.AddLocationAsync(new Guid(BUSINESS_ID), new Location(data)).Wait();
         }
 
         protected void SetupOrakeiLocation()
         {
             var data = new LocationData { Id = new Guid(LOCATION_ORAKEI_ID), Name = "Orakei Tennis Club" };
 
-            BusinessRepository.AddLocation(new Guid(BUSINESS_ID), new Location(data));
+            BusinessRepository.AddLocationAsync(new Guid(BUSINESS_ID), new Location(data)).Wait();
         }
 
         protected void SetupCoachAlbert()

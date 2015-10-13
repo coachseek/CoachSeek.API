@@ -49,10 +49,10 @@ namespace CoachSeek.Api.Controllers
         // GET: Coaches/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public HttpResponseMessage Get(Guid id)
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             CoachGetByIdUseCase.Initialise(Context);
-            var response = CoachGetByIdUseCase.GetCoach(id);
+            var response = await CoachGetByIdUseCase.GetCoachAsync(id);
             return CreateGetWebResponse(response);
         }
 
