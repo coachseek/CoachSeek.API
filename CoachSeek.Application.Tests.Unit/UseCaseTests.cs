@@ -255,9 +255,9 @@ namespace CoachSeek.Application.Tests.Unit
         {
             return new CoreData
             {
-                Location = BusinessRepository.GetLocation(new Guid(BUSINESS_ID), sessionData.Location.Id),
-                Coach = BusinessRepository.GetCoach(new Guid(BUSINESS_ID), sessionData.Coach.Id),
-                Service = BusinessRepository.GetService(new Guid(BUSINESS_ID), sessionData.Service.Id)
+                Location = BusinessRepository.GetLocationAsync(new Guid(BUSINESS_ID), sessionData.Location.Id).Result,
+                Coach = BusinessRepository.GetCoachAsync(new Guid(BUSINESS_ID), sessionData.Coach.Id).Result,
+                Service = BusinessRepository.GetServiceAsync(new Guid(BUSINESS_ID), sessionData.Service.Id).Result
             };
         }
 

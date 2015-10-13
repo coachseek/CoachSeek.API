@@ -72,10 +72,7 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public async Task<HttpResponseMessage> PostAsync([FromBody]ApiCustomerSaveCommand customer)
         {
-            if (customer.IsNew())
-                return await AddCustomerAsync(customer);
-
-            return await UpdateCustomerAsync(customer);
+            return customer.IsNew() ? await AddCustomerAsync(customer) : await UpdateCustomerAsync(customer);
         }
 
         // POST: OnlineBooking/Customers

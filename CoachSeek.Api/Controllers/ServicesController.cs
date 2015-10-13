@@ -72,10 +72,10 @@ namespace CoachSeek.Api.Controllers
         // DELETE: Services/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public HttpResponseMessage Delete(Guid id)
+        public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             ServiceDeleteUseCase.Initialise(Context);
-            var response = ServiceDeleteUseCase.DeleteService(id);
+            var response = await ServiceDeleteUseCase.DeleteServiceAsync(id);
             return CreateDeleteWebResponse(response);
         }
 

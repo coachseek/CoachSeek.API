@@ -63,19 +63,16 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public async Task<HttpResponseMessage> Post([FromBody]ApiLocationSaveCommand location)
         {
-            if (location.IsNew())
-                return await AddLocationAsync(location);
-
-            return await UpdateLocationAsync(location);
+            return location.IsNew() ? await AddLocationAsync(location) : await UpdateLocationAsync(location);
         }
 
         // DELETE: Locations/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public HttpResponseMessage Delete(Guid id)
+        public async Task<HttpResponseMessage> DeleteAsync(Guid id)
         {
             LocationDeleteUseCase.Initialise(Context);
-            var response = LocationDeleteUseCase.DeleteLocation(id);
+            var response = await LocationDeleteUseCase.DeleteLocationAsync(id);
             return CreateDeleteWebResponse(response);
         }
 
