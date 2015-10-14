@@ -93,6 +93,7 @@ namespace CoachSeek.Api.Controllers
         [Route("Customers/Upload")]
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IHttpActionResult> ImportData()
         {
