@@ -1,5 +1,4 @@
-﻿using System.Timers;
-using CoachSeek.Application.Configuration;
+﻿using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using StructureMap;
@@ -14,7 +13,8 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             DbAutoMapperConfigurator.Configure();
             var container = new Container(new TypeRegistry());
             var useCase = container.GetInstance<IProcessPaymentsUseCase>();
-            useCase.Process();
+            useCase.ProcessAsync().Wait();
+            //useCase.Process();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Domain.Repositories;
 using Coachseek.Logging.Contracts;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -17,39 +18,55 @@ namespace Coachseek.DataAccess.TableStorage.Logging
             Application = application;
         }
 
-        public void LogError(Exception error)
+
+        public async Task LogErrorAsync(Exception error, string data = null)
         {
-            LogError(error.Message);
+            await LogErrorAsync(error.Message, data);
         }
 
-        public void LogError(Exception error, string data)
+        public async Task LogErrorAsync(string message, string data = null)
+        {
+            await LogAsync(message, data, LogLevel.Error);
+        }
+
+        public async Task LogInfoAsync(string message, string data = null)
+        {
+            await LogAsync(message, data, LogLevel.Info);
+        }
+
+
+        public void LogError(Exception error, string data = null)
         {
             LogError(error.Message, data);
         }
 
-        public void LogError(string  message)
-        {
-            var logMessage = new LogMessage(Application, LogLevel.Error, message, DateTime.UtcNow);
-            var logEntity = new LogEntity(logMessage);
-            Table.Execute(TableOperation.Insert(logEntity));
-        }
-
-        public void LogError(string message, string data)
+        public void LogError(string message, string data = null)
         {
             Log(message, data, LogLevel.Error);
         }
 
-        public void LogInfo(string message, string data)
+        public void LogInfo(string message, string data = null)
         {
             Log(message, data, LogLevel.Info);
         }
 
 
+        private async Task LogAsync(string message, string data, LogLevel level)
+        {
+            var logEntity = CreateLogEntity(message, data, level);
+            await Table.ExecuteAsync(TableOperation.Insert(logEntity));
+        }
+
         private void Log(string message, string data, LogLevel level)
         {
-            var logMessage = new LogMessage(Application, level, message, DateTime.UtcNow, data);
-            var logEntity = new LogEntity(logMessage);
+            var logEntity = CreateLogEntity(message, data, level);
             Table.Execute(TableOperation.Insert(logEntity));
+        }
+
+        private LogEntity CreateLogEntity(string message, string data, LogLevel level)
+        {
+            var logMessage = new LogMessage(Application, level, message, DateTime.UtcNow, data);
+            return new LogEntity(logMessage);
         }
     }
 }

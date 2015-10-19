@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Payments.Interfaces;
@@ -19,16 +20,16 @@ namespace CoachSeek.Application.UseCases
         }
 
 
-        public void Process()
+        public async Task ProcessAsync()
         {
-            var messages = PaymentProcessingQueueClient.Peek();
+            var messages = await PaymentProcessingQueueClient.PeekAsync();
 
             foreach (var message in messages)
             {
                 try
                 {
-                    PaymentMessageProcessor.ProcessMessage(message);
-                    PaymentProcessingQueueClient.Pop(message);
+                    await PaymentMessageProcessor.ProcessMessageAsync(message);
+                    await PaymentProcessingQueueClient.PopAsync(message);
                 }
                 catch (Exception)
                 {

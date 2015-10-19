@@ -299,6 +299,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public async Task<SingleSessionBookingData> GetSessionBookingAsync(Guid businessId, Guid sessionBookingId)
+        {
+            return await BookingRepository.GetSessionBookingAsync(businessId, sessionBookingId);
+        }
+
         public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)
         {
             return BookingRepository.GetSessionBooking(businessId, sessionBookingId);
@@ -313,7 +318,12 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         {
             return BookingRepository.AddCourseBooking(businessId, courseBooking);
         }
-        
+
+        public async Task<CourseBookingData> GetCourseBookingAsync(Guid businessId, Guid courseBookingId)
+        {
+            return await BookingRepository.GetCourseBookingAsync(businessId, courseBookingId);
+        }
+
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
             return BookingRepository.GetCourseBooking(businessId, courseBookingId);
@@ -324,6 +334,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             BookingRepository.DeleteBooking(businessId, bookingId);
         }
 
+        public async Task SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            await BookingRepository.SetBookingPaymentStatusAsync(businessId, bookingId, paymentStatus);
+        }
+
         public void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
         {
             BookingRepository.SetBookingPaymentStatus(businessId, bookingId, paymentStatus);
@@ -332,6 +347,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended)
         {
             BookingRepository.SetBookingAttendance(businessId, sessionBookingId, hasAttended);
+        }
+
+        public async Task<CustomerBookingData> GetCustomerBookingAsync(Guid businessId, Guid bookingId)
+        {
+            return await BookingRepository.GetCustomerBookingAsync(businessId, bookingId);
         }
 
         public async Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId)
@@ -381,9 +401,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
+        public async Task<Payment> GetPaymentAsync(string paymentProvider, string id)
+        {
+            return await TransactionRepository.GetPaymentAsync(paymentProvider, id);
+        }
+
         public Payment GetPayment(string paymentProvider, string id)
         {
             return TransactionRepository.GetPayment(paymentProvider, id);
+        }
+
+        public async Task AddPaymentAsync(NewPayment payment)
+        {
+            await TransactionRepository.AddPaymentAsync(payment);
         }
 
         public void AddPayment(NewPayment payment)

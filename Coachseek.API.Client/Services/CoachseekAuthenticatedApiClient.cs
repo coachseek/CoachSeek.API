@@ -1,6 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Text;
+﻿using System.Net;
+using System.Net.Http;
 using CoachSeek.Common;
 
 namespace Coachseek.API.Client.Services
@@ -23,15 +22,13 @@ namespace Coachseek.API.Client.Services
 
         protected override void ModifyRequest(HttpWebRequest request)
         {
-            SetBasicAuthHeader(request);
+            BasicAuthHeaderSetter.SetBasicAuthHeader(request, Username, Password);
         }
 
-
-        private void SetBasicAuthHeader(WebRequest request)
+        protected override void SetOtherRequestHeaders(HttpRequestMessage request)
         {
-            var authInfo = string.Format("{0}:{1}", Username, Password);
-            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-            request.Headers["Authorization"] = "Basic " + authInfo;
+            base.SetOtherRequestHeaders(request);
+            BasicAuthHeaderSetter.SetBasicAuthHeader(request, Username, Password);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Coachseek.Infrastructure.Queueing.Contracts.Payment;
+﻿using System.Threading.Tasks;
+using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Payments.Interfaces;
 
 namespace Coachseek.Integration.Payments
@@ -23,6 +24,7 @@ namespace Coachseek.Integration.Payments
         }
 
 
+        public abstract Task<bool> VerifyPaymentAsync(PaymentProcessingMessage message);
         public abstract bool VerifyPayment(PaymentProcessingMessage message);
     }
 }

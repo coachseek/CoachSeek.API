@@ -79,7 +79,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
 
         private void WhenTryProcess(ProcessPaymentsUseCase useCase)
         {
-            useCase.Process();
+            useCase.ProcessAsync().Wait();
         }
 
 

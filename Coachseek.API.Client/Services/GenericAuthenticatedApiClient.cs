@@ -25,9 +25,9 @@ namespace Coachseek.API.Client.Services
             BasicAuthHeaderSetter.SetBasicAuthHeader(request, Username, Password);
         }
 
-        protected override void SetOtherRequestHeaders(HttpClient client)
+        protected override void SetOtherRequestHeaders(HttpRequestMessage request)
         {
-            BasicAuthHeaderSetter.SetBasicAuthHeader(client, Username, Password);
+            BasicAuthHeaderSetter.SetBasicAuthHeader(request, Username, Password);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Coachseek.API.Client.Models;
 using CoachSeek.Common;
 
 namespace Coachseek.API.Client.Services
@@ -16,10 +17,10 @@ namespace Coachseek.API.Client.Services
         }
 
 
-        public void UnsubscribeEmailAddress(string emailAddress)
-        {
-            var relativeUrl = string.Format("Email/Unsubscribe?email={0}", HttpUtility.UrlEncode(emailAddress));
-            var response = Get<string>(relativeUrl);
-        }
+        //public void UnsubscribeEmailAddress(string emailAddress)
+        //{
+        //    var relativeUrl = string.Format("Email/Unsubscribe?email={0}", HttpUtility.UrlEncode(emailAddress));
+        //    var response = GetAsync<string, ApiApplicationError[]>(relativeUrl);
+        //}
     }
 }

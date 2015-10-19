@@ -24,6 +24,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         public bool WasAddCoachCalled;
         public bool WasUpdateCoachCalled;
         public bool WasGetSessionCalled;
+        public bool WasGetCustomerBookingCalled;
         public bool WasGetAllCustomerBookingsCalled;
         public bool WasSetBookingPaymentStatusCalled;
         public bool WasSetBookingAttendanceCalled;
@@ -619,12 +620,25 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         //    return booking;
         //}
 
+
+        public async Task<SingleSessionBookingData> GetSessionBookingAsync(Guid businessId, Guid sessionBookingId)
+        {
+            throw new NotImplementedException();
+        }
+
         public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)
         {
             var dbSessionBookings = GetAllDbSessionBookings(businessId);
             var dbSessionBooking = dbSessionBookings.SingleOrDefault(x => x.Id == sessionBookingId);
 
             return Mapper.Map<DbSingleSessionBooking, SingleSessionBookingData>(dbSessionBooking);
+        }
+
+
+        public async Task<CourseBookingData> GetCourseBookingAsync(Guid businessId, Guid courseBookingId)
+        {
+            await Task.Delay(100);
+            return GetCourseBooking(businessId, courseBookingId);
         }
 
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
@@ -809,6 +823,23 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
+        public async Task<CustomerBookingData> GetCustomerBookingAsync(Guid businessId, Guid bookingId)
+        {
+            await Task.Delay(10);
+            WasGetCustomerBookingCalled = true;
+            var customers = GetAllCustomers(businessId);
+            var dbSessionBooking = GetAllDbSessionBookings(businessId).SingleOrDefault(x => x.Id == bookingId);
+            if (dbSessionBooking != null)
+            {
+                var booking = Mapper.Map<DbSingleSessionBooking, CustomerBookingData>(dbSessionBooking);
+                booking.Customer = customers.SingleOrDefault(x => x.Id == booking.Customer.Id);
+                return booking;
+            }
+
+            // TODO: Course
+            return null;
+        }
+
         public async Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId)
         {
             WasGetAllCustomerBookingsCalled = true;
@@ -889,6 +920,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
 
         public BusinessData GetBusiness(string domain)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus)
         {
             throw new NotImplementedException();
         }

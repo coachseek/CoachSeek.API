@@ -62,17 +62,21 @@ namespace CoachSeek.Domain.Repositories
         void UpdateCourse(Guid businessId, RepeatedSession course);
         void DeleteCourse(Guid businessId, Guid courseId);
 
+        Task<SingleSessionBookingData> GetSessionBookingAsync(Guid businessId, Guid sessionBookingId);
         SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId);
         SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking sessionBooking);
 
+        Task<CourseBookingData> GetCourseBookingAsync(Guid businessId, Guid courseBookingId);
         CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId);
         CourseBookingData AddCourseBooking(Guid businessId, CourseBooking courseBooking);
         //void UpdateBooking(Guid businessId, BookingData booking);
         void DeleteBooking(Guid businessId, Guid bookingId);
 
+        Task SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus);
         void SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus);
         void SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended);
 
+        Task<CustomerBookingData> GetCustomerBookingAsync(Guid businessId, Guid bookingId);
         Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId);
         Task<IList<CustomerBookingData>> GetCustomerBookingsByCourseIdAsync(Guid businessId, Guid courseId);
         Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId);

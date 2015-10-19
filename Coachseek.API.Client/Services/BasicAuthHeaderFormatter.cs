@@ -13,10 +13,10 @@ namespace Coachseek.API.Client.Services
             request.Headers["Authorization"] = CalculateAuthHeaderValue(username, password);
         }
 
-        public static void SetBasicAuthHeader(HttpClient client, string username, string password)
+        public static void SetBasicAuthHeader(HttpRequestMessage request, string username, string password)
         {
             var authHeader = CalculateAuthHeaderValue(username, password);
-            client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse(authHeader);
+            request.Headers.Add("Authorization", authHeader);
         }
 
 

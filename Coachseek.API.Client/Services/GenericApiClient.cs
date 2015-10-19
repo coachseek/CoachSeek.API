@@ -11,13 +11,13 @@ using Newtonsoft.Json;
 
 namespace Coachseek.API.Client.Services
 {
-    public abstract class GenericApiClient
+    public class GenericApiClient
     {
         protected string BaseUrl { get; set; }
         private ApiDataFormat DataFormat { get; set; }
 
 
-        protected GenericApiClient(string baseUrl, ApiDataFormat dataFormat = ApiDataFormat.Json)
+        public GenericApiClient(string baseUrl, ApiDataFormat dataFormat = ApiDataFormat.Json)
         {
             BaseUrl = baseUrl;
             DataFormat = dataFormat;
@@ -242,97 +242,108 @@ namespace Coachseek.API.Client.Services
 
 
 
-        protected async Task<ApiResponse> GetAsync<TResponse>(string relativeUrl)
+        public async Task<ApiResponse> GetAsync<TResponse, TErrorResponse>(string relativeUrl)
         {
-            using (var client = CreateWebClient())
+            using (var client = new HttpClient())
             {
-                SetRequestHeaders(client);
-                var response = await client.GetAsync(relativeUrl);
-                try
+                var request = new HttpRequestMessage(HttpMethod.Get, new Uri(new Uri(BaseUrl), relativeUrl));
+                SetRequestHeaders(request);
+                var response = await client.SendAsync(request);
+
+                var contentString = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    response.EnsureSuccessStatusCode();    // Throw if not a success code.
-                    var obj = await response.Content.ReadAsAsync<TResponse>();
-                    return new ApiResponse(response.StatusCode, obj);
+                    var content = JsonSerialiser.Deserialise<TResponse>(contentString);
+                    return new ApiResponse(response.StatusCode, content);
                 }
-                catch (Exception)
-                {
-                    if (response.StatusCode == HttpStatusCode.RequestTimeout)
-                        return new ApiResponse(HttpStatusCode.RequestTimeout);
-
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                     return new ApiResponse(response.StatusCode);
-
-                    //var status = ((HttpWebResponse)ex.Response).StatusCode;
-                    //using (var stream = ex.Response.GetResponseStream())
-                    //{
-                    //    using (var reader = new StreamReader(stream))
-                    //    {
-                    //        var errors = reader.ReadToEnd();
-                    //        return new ApiResponse(status, DeserialiseErrors(errors));
-                    //    }
-                    //}
+                else
+                {
+                    var error = JsonSerialiser.Deserialise<TErrorResponse>(contentString);
+                    return new ApiResponse(response.StatusCode, error);
                 }
             }
         }
 
-        protected async Task<ApiResponse> PostAsync(string json, string relativeUrl)
+        public async Task<ApiResponse> PostFormUrlEncodedAsync(string formData)
         {
-            using (var client = CreateWebClient())
+            using (var client = new HttpClient())
             {
-                SetRequestHeaders(client);
-                var request = CreatePostRequest(json, relativeUrl);
+                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(BaseUrl));
+                SetContent(request, formData);
                 var response = await client.SendAsync(request);
-                if (response.IsSuccessStatusCode)
+
+                var contentString = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return new ApiResponse(response.StatusCode, contentString);
+                }
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                     return new ApiResponse(response.StatusCode);
-
-                if (response.StatusCode == HttpStatusCode.RequestTimeout)
-                    return new ApiResponse(HttpStatusCode.RequestTimeout);
-
-                var obj = await response.Content.ReadAsStringAsync();
-
-                return new ApiResponse(response.StatusCode);
-
-                //using (var stream = ex..GetResponseStream())
-                //{
-                //    using (var reader = new StreamReader(stream))
-                //    {
-                //        var errors = reader.ReadToEnd();
-                //        return new ApiResponse(status, DeserialiseErrors(errors));
-                //    }
-                //}
+                else
+                {
+                    return new ApiResponse(response.StatusCode, contentString);
+                }
             }
         }
 
-        protected async Task<ApiResponse> PostAsync<TResponse>(string json, string relativeUrl)
+        public async Task<ApiResponse> PostAsync<TResponse, TErrorResponse>(string data, string relativeUrl)
         {
-            using (var client = CreateWebClient())
+            using (var client = new HttpClient())
             {
-                SetRequestHeaders(client);
-                var request = CreatePostRequest(json, relativeUrl);
+                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(new Uri(BaseUrl), relativeUrl));
+                SetRequestHeaders(request);
+                SetContent(request, data);
                 var response = await client.SendAsync(request);
-                try
+
+                var contentString = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    response.EnsureSuccessStatusCode();    // Throw if not a success code.
-                    var obj = await response.Content.ReadAsAsync<TResponse>();
-                    return new ApiResponse(response.StatusCode, obj);
+                    var content = JsonSerialiser.Deserialise<TResponse>(contentString);
+                    return new ApiResponse(response.StatusCode, content);
                 }
-                catch (Exception)
-                {
-                    if (response.StatusCode == HttpStatusCode.RequestTimeout)
-                        return new ApiResponse(HttpStatusCode.RequestTimeout);
-
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                     return new ApiResponse(response.StatusCode);
-
-                    //var status = ((HttpWebResponse)ex.Response).StatusCode;
-                    //using (var stream = ex.Response.GetResponseStream())
-                    //{
-                    //    using (var reader = new StreamReader(stream))
-                    //    {
-                    //        var errors = reader.ReadToEnd();
-                    //        return new ApiResponse(status, DeserialiseErrors(errors));
-                    //    }
-                    //}
+                else
+                {
+                    var error = JsonSerialiser.Deserialise<TErrorResponse>(contentString);
+                    return new ApiResponse(response.StatusCode, error);
                 }
             }
+        }
+
+        public async Task<ApiResponse> PostAsync(string data, string relativeUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(new Uri(BaseUrl), relativeUrl));
+                SetRequestHeaders(request);
+                SetContent(request, data);
+                var response = await client.SendAsync(request);
+
+                var contentString = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return new ApiResponse(response.StatusCode, contentString);
+                }
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    return new ApiResponse(response.StatusCode);
+                else
+                {
+                    return new ApiResponse(response.StatusCode, contentString);
+                }
+            }
+        }
+
+        private void SetContent(HttpRequestMessage request, string data)
+        {
+            if (DataFormat == ApiDataFormat.Xml)
+                request.Content = new StringContent(data, Encoding.UTF8, "application/xml");
+            else if (DataFormat == ApiDataFormat.FormUrlEncoded)
+                request.Content = new StringContent(data, Encoding.UTF8, "application/x-www-form-urlencoded");
+            else
+                request.Content = new StringContent(data, Encoding.UTF8, "application/json");
         }
 
 
@@ -344,10 +355,31 @@ namespace Coachseek.API.Client.Services
             };
         }
 
-        protected void SetRequestHeaders(HttpClient client)
+        protected void SetRequestHeaders(HttpRequestMessage request)
         {
-            SetAcceptHeader(client);
-            SetOtherRequestHeaders(client);
+            SetAcceptHeader(request);
+            SetOtherRequestHeaders(request);
+        }
+
+        protected void SetContentHeaders(HttpContent content)
+        {
+            SetContentTypeHeader(content);
+        }
+
+        private void SetAcceptHeader(HttpRequestMessage request)
+        {
+            if (DataFormat == ApiDataFormat.Xml)
+                request.Headers.Add("Accept", "application/xml");
+            else
+                request.Headers.Add("Accept", "application/json");
+        }
+
+        private void SetContentTypeHeader(HttpContent content)
+        {
+            if (DataFormat == ApiDataFormat.Xml)
+                content.Headers.Add("Content-Type", "application/xml");
+            else
+                content.Headers.Add("Content-Type", "application/json");
         }
 
         private void SetAcceptHeader(HttpClient client)
@@ -359,10 +391,11 @@ namespace Coachseek.API.Client.Services
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        protected virtual void SetOtherRequestHeaders(HttpClient client)
+        protected virtual void SetOtherRequestHeaders(HttpRequestMessage request)
         {
 
         }
+
 
         private HttpRequestMessage CreatePostRequest(string json, string relativeUrl)
         {
@@ -372,14 +405,6 @@ namespace Coachseek.API.Client.Services
             };
             SetContentTypeHeader(request.Content);
             return request;
-        }
-
-        private void SetContentTypeHeader(HttpContent content)
-        {
-            if (DataFormat == ApiDataFormat.Xml)
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
-            else
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
         }
     }
 }

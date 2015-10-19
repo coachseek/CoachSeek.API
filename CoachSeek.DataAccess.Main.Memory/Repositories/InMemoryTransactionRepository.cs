@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
@@ -61,10 +62,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         }
 
 
-        public Payment GetPayment(string paymentProvider, string id)
+        public async Task<Payment> GetPaymentAsync(string paymentProvider, string id)
+        {
+            await Task.Delay(10);
+            return GetPayment(paymentProvider, id);
+        }
+
+        private Payment GetPayment(string paymentProvider, string id)
         {
             WasGetPaymentCalled = true;
-
             var payment = Transactions.SingleOrDefault(x => x.Id == id
                                                        && x.PaymentProvider == paymentProvider 
                                                        && x.Type == Constants.TRANSACTION_PAYMENT);
@@ -74,10 +80,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return new Payment(data);
         }
 
-        public void AddPayment(NewPayment newPayment)
+        public async Task AddPaymentAsync(NewPayment payment)
+        {
+            await Task.Delay(10);
+            AddPayment(payment);
+        }
+
+        private void AddPayment(NewPayment newPayment)
         {
             WasAddPaymentCalled = true;
-
             var dbTransaction = Mapper.Map<NewPayment, DbTransaction>(newPayment);
             Transactions.Add(dbTransaction);
         }

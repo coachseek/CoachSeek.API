@@ -1,7 +1,9 @@
-﻿namespace CoachSeek.Application.Contracts.UseCases
+﻿using System.Threading.Tasks;
+
+namespace CoachSeek.Application.Contracts.UseCases
 {
     public interface IProcessPaymentsUseCase
     {
-        void Process();
+        Task ProcessAsync();
     }
 }

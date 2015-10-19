@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using CoachSeek.Common;
 
 namespace Coachseek.API.Client.Services
@@ -21,11 +22,23 @@ namespace Coachseek.API.Client.Services
             SetBusinessDomainHeader(request);
         }
 
+        protected override void SetOtherRequestHeaders(HttpRequestMessage request)
+        {
+            base.SetOtherRequestHeaders(request);
+            SetBusinessDomainHeader(request);
+        }
+
 
         private void SetBusinessDomainHeader(WebRequest request)
         {
             if (BusinessDomain != null)
                 request.Headers["Business-Domain"] = BusinessDomain;
+        }
+
+        private void SetBusinessDomainHeader(HttpRequestMessage request)
+        {
+            if (BusinessDomain != null)
+                request.Headers.Add("Business-Domain", BusinessDomain);
         }
     }
 }

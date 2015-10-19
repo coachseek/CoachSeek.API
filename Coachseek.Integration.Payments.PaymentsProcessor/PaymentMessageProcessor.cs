@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using CoachSeek.Common;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
+using CoachSeek.Domain.Services;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Payments.Exceptions;
 using Coachseek.Integration.Contracts.Payments.Interfaces;
 using Environment = CoachSeek.Common.Environment;
-using InvalidBooking = Coachseek.Integration.Contracts.Payments.Exceptions.InvalidBooking;
-using InvalidBusiness = Coachseek.Integration.Contracts.Payments.Exceptions.InvalidBusiness;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
@@ -18,6 +16,11 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         public IPaymentProcessorConfiguration PaymentProcessorConfiguration { get; private set; }
         public IDataAccessFactory DataAccessFactory { get; private set; }
         public IPaymentProviderApiFactory PaymentProviderApiFactory { get; private set; }
+
+        private Environment Environment
+        {
+            get { return PaymentProcessorConfiguration.Environment; }
+        }
 
 
         public PaymentMessageProcessor(IPaymentProcessorConfiguration paymentProcessorConfiguration,
@@ -29,26 +32,22 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             PaymentProviderApiFactory = paymentProviderApiFactory;
         }
 
-        private Environment Environment
-        {
-            get { return PaymentProcessorConfiguration.Environment; }
-        }
-
-        public void ProcessMessage(PaymentProcessingMessage message)
+        public async Task ProcessMessageAsync(PaymentProcessingMessage message)
         {
             var dataAccess = GetDataAccess();
             try
             {
                 var newPayment = NewPaymentConverter.Convert(message);
-                VerifyMessage(message, newPayment.IsTesting);
-                ProcessPayment(newPayment, dataAccess);
-                dataAccess.LogRepository.LogInfo("Message successfully processed.", message.ToString());
+                await VerifyMessageAsync(message, newPayment.IsTesting);
+                await ProcessPaymentAsync(newPayment, dataAccess);
+                await dataAccess.LogRepository.LogInfoAsync("Message successfully processed.", message.ToString());
             }
             catch (PaymentProcessingException ex)
             {
-                dataAccess.LogRepository.LogError(ex, message.ToString());
+                dataAccess.LogRepository.LogErrorAsync(ex, message.ToString()).Wait();
             }
         }
+
 
         private DataRepositories GetDataAccess()
         {
@@ -56,74 +55,64 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return DataAccessFactory.CreateDataAccess(isTesting);
         }
 
-        private void VerifyMessage(PaymentProcessingMessage message, bool isTestMessage)
+        private async Task VerifyMessageAsync(PaymentProcessingMessage message, bool isTestMessage)
         {
             var paymentApi = PaymentProviderApiFactory.GetPaymentProviderApi(message, isTestMessage);
-            if (!paymentApi.VerifyPayment(message))
+            if (!await paymentApi.VerifyPaymentAsync(message))
                 throw new InvalidPaymentMessage();
         }
 
-        private void ProcessPayment(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task ProcessPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
         {
-            ValidatePayment(newPayment, dataAccess);
-            newPayment = ModifyPayment(newPayment, dataAccess);
-            var payment = SaveIfNewPayment(newPayment, dataAccess);
+            await ValidatePaymentAsync(newPayment, dataAccess);
+            newPayment = await ModifyPaymentAsync(newPayment, dataAccess);
+            var payment = await SaveIfNewPaymentAsync(newPayment, dataAccess);
             if (payment.IsCompleted)
-                SetBookingAsPaid(payment, dataAccess);
+                await SetBookingAsPaidAsync(payment, dataAccess);
         }
 
-        private void ValidatePayment(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task ValidatePaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
         {
-            ValidatePaymentStatus(newPayment);
-            var business = GetBusiness(newPayment.MerchantId, dataAccess);
-            ValidateBusiness(business, newPayment);
-            var customerBooking = GetCustomerBooking(dataAccess, business.Id, newPayment.ItemId);
-            ValidateCustomerBooking(customerBooking, newPayment);
-            var booking = GetSessionOrCourseBooking(business.Id, newPayment.ItemId, dataAccess);
-            if (booking is SingleSessionBookingData)
-            {
-                var session = dataAccess.BusinessRepository.GetSession(business.Id, customerBooking.SessionId);
-                ValidateSingleSessionPaymentAmount(session, newPayment);
-                return;
-            }
-            var course = dataAccess.BusinessRepository.GetCourse(business.Id, customerBooking.SessionId);
-            ValidateCoursePaymentAmount(course, (CourseBookingData)booking, newPayment);
+            var parameters = new PaymentParameters(newPayment);
+            ValidatePaymentStatus(parameters);
+            parameters.Business = await GetAndValidateBusinessAsync(parameters, dataAccess);
+            parameters.CustomerBooking = await GetAndValidateCustomerBookingAsync(parameters, dataAccess);
+            await ValidateBookingPaymentAmountAsync(parameters, dataAccess);
         }
 
-        private Business GetBusiness(Guid merchantId, DataRepositories dataAccess)
+        private async Task<Business> GetAndValidateBusinessAsync(PaymentParameters parameters, DataRepositories dataAccess)
         {
-            var business = dataAccess.BusinessRepository.GetBusinessAsync(merchantId).Result;
-            if (business.IsNotFound())
-                return null;
-            return new Business(business, dataAccess.SupportedCurrencyRepository);
+            var businessData = await dataAccess.BusinessRepository.GetBusinessAsync(parameters.Payment.MerchantId);
+            if (businessData.IsNotFound())
+                throw new InvalidBusiness();
+            var business = new Business(businessData, dataAccess.SupportedCurrencyRepository);
+            ValidateBusiness(business, parameters.Payment);
+            return business;
         }
 
-        private NewPayment ModifyPayment(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<NewPayment> ModifyPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
         {
             if (newPayment.PaymentProvider == Constants.PAYPAL)
-                return ModifyPaymentForPaypal(newPayment, dataAccess);
-
+                return await ModifyPaymentForPaypalAsync(newPayment, dataAccess);
             return newPayment;
         }
 
-        private NewPayment ModifyPaymentForPaypal(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<NewPayment> ModifyPaymentForPaypalAsync(NewPayment newPayment, DataRepositories dataAccess)
         {
-            var business = dataAccess.BusinessRepository.GetBusinessAsync(newPayment.MerchantId).Result;
+            var business = await dataAccess.BusinessRepository.GetBusinessAsync(newPayment.MerchantId);
             return new NewPayment(newPayment, business.Name);
         }
 
-        private void ValidatePaymentStatus(NewPayment newPayment)
+        private void ValidatePaymentStatus(PaymentParameters parameters)
         {
-            if (Environment != Environment.Production && !newPayment.IsTesting)
+            if (Environment != Environment.Production && !parameters.Payment.IsTesting)
                 throw new ProductionMessageForNonProductionEnvironment();
-            if (newPayment.IsPending)
+            if (parameters.Payment.IsPending)
                 throw new PendingPayment();
         }
 
         private void ValidateBusiness(Business business, NewPayment newPayment)
         {
-            if (business.IsNotFound())
-                throw new InvalidBusiness();
             if (!business.IsOnlinePaymentEnabled)
                 throw new OnlinePaymentNotEnabled();
             if (newPayment.PaymentProvider != business.PaymentProvider)
@@ -134,16 +123,32 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PaymentCurrencyMismatch();
         }
 
-        private CustomerBookingData GetCustomerBooking(DataRepositories dataAccess, Guid businessId, Guid itemId)
+        private async Task<CustomerBookingData> GetAndValidateCustomerBookingAsync(PaymentParameters parameters, DataRepositories dataAccess)
         {
-            var bookings = dataAccess.BusinessRepository.GetAllCustomerBookings(businessId);
-            return bookings.SingleOrDefault(x => x.Id == itemId);
+            var customerBooking = await dataAccess.BusinessRepository.GetCustomerBookingAsync(parameters.Business.Id, parameters.Payment.ItemId);
+            ValidateCustomerBooking(customerBooking, parameters.Payment);
+            return customerBooking;
         }
 
         private void ValidateCustomerBooking(CustomerBookingData customerBooking, NewPayment newPayment)
         {
             if (customerBooking.IsNotFound())
                 throw new InvalidBooking();
+        }
+
+        private async Task ValidateBookingPaymentAmountAsync(PaymentParameters parameters, DataRepositories dataAccess)
+        {
+            var booking = await GetSessionOrCourseBookingAsync(parameters, dataAccess);
+            if (booking is SingleSessionBookingData)
+            {
+                var session = await dataAccess.BusinessRepository.GetSessionAsync(parameters.Business.Id, parameters.CustomerBooking.SessionId);
+                ValidateSingleSessionPaymentAmount(session, parameters.Payment);
+            }
+            else
+            {
+                var course = await dataAccess.BusinessRepository.GetCourseAsync(parameters.Business.Id, parameters.CustomerBooking.SessionId);
+                ValidateCoursePaymentAmount(course, (CourseBookingData)booking, parameters.Payment);
+            }
         }
 
         private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, NewPayment newPayment)
@@ -154,90 +159,48 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
         {
-            if (IsBookingForWholeCourse(booking, course))
-                ValidateWholeCoursePaymentAmount(course, newPayment);
-            else
-                ValidateMultipleSessionPaymentAmount(course, booking, newPayment);
+            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course);
+            if (newPayment.ItemAmount != expectedPrice)
+                throw new PaymentAmountMismatch(newPayment.ItemAmount, expectedPrice);
         }
 
-        private static void ValidateWholeCoursePaymentAmount(RepeatedSessionData course, NewPayment newPayment)
+        private async Task<BookingData> GetSessionOrCourseBookingAsync(PaymentParameters parameters, DataRepositories dataAccess)
         {
-            var coursePrice = course.Pricing.CoursePrice ??
-                              course.Pricing.SessionPrice.GetValueOrDefault() * course.Repetition.SessionCount;
-
-            if (newPayment.ItemAmount != coursePrice)
-                throw new PaymentAmountMismatch(newPayment.ItemAmount, coursePrice);
-        }
-
-        private static void ValidateMultipleSessionPaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
-        {
-            var sessionPrice = course.Pricing.SessionPrice ??
-                               Math.Round(course.Pricing.CoursePrice.GetValueOrDefault() / course.Repetition.SessionCount, 2);
-            var multipleSessionPrice = sessionPrice * booking.SessionBookings.Count;
-
-            if (newPayment.ItemAmount != multipleSessionPrice)
-                throw new PaymentAmountMismatch(newPayment.ItemAmount, multipleSessionPrice);
-        }
-
-        private static bool IsBookingForWholeCourse(CourseBookingData booking, RepeatedSessionData course)
-        {
-            return booking.SessionBookings.Count == course.Sessions.Count;
-        }
-
-        protected BookingData GetSessionOrCourseBooking(Guid businessId, Guid bookingId, DataRepositories dataAccess)
-        {
-            var sessionBooking = dataAccess.BusinessRepository.GetSessionBooking(businessId, bookingId);
+            var sessionBooking = await dataAccess.BusinessRepository.GetSessionBookingAsync(parameters.Business.Id, parameters.CustomerBooking.Id);
             if (sessionBooking.IsFound())
                 return sessionBooking;
-            var courseBooking = dataAccess.BusinessRepository.GetCourseBooking(businessId, bookingId);
+            var courseBooking = await dataAccess.BusinessRepository.GetCourseBookingAsync(parameters.Business.Id, parameters.CustomerBooking.Id);
             return courseBooking;
         }
 
-        protected Session GetSessionOrCourse(Guid businessId, Guid sessionId, DataRepositories dataAccess)
-        {
-            // Is it a Session or a Course?
-            var session = dataAccess.BusinessRepository.GetSession(businessId, sessionId);
-            if (session.IsExisting())
-            {
-                if (session.ParentId == null)
-                    return new StandaloneSession(session, LookupCoreData(businessId, session, dataAccess));
-                return new SessionInCourse(session, LookupCoreData(businessId, session, dataAccess));
-            }
-
-            var course = dataAccess.BusinessRepository.GetCourse(businessId, sessionId);
-            if (course.IsExisting())
-                return new RepeatedSession(course,
-                                           dataAccess.BusinessRepository.GetAllLocations(businessId),
-                                           dataAccess.BusinessRepository.GetAllCoaches(businessId),
-                                           dataAccess.BusinessRepository.GetAllServices(businessId));
-
-            return null;
-        }
-
-        private CoreData LookupCoreData(Guid businessId, SessionData data, DataRepositories dataAccess)
-        {
-            var location = dataAccess.BusinessRepository.GetLocation(businessId, data.Location.Id);
-            var coach = dataAccess.BusinessRepository.GetCoach(businessId, data.Coach.Id);
-            var service = dataAccess.BusinessRepository.GetService(businessId, data.Service.Id);
-
-            return new CoreData(location, coach, service);
-        }
-
-        private Payment SaveIfNewPayment(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<Payment> SaveIfNewPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
         {
             var repository = dataAccess.TransactionRepository;
-            var payment = repository.GetPayment(newPayment.PaymentProvider, newPayment.Id);
+            var payment = await repository.GetPaymentAsync(newPayment.PaymentProvider, newPayment.Id);
             if (payment.IsNotFound())
             {
-                repository.AddPayment(newPayment);
+                await repository.AddPaymentAsync(newPayment);
                 payment = newPayment;
             }
             return payment;
         }
 
-        private void SetBookingAsPaid(Payment payment, DataRepositories dataAccess)
+        private async Task SetBookingAsPaidAsync(Payment payment, DataRepositories dataAccess)
         {
-            dataAccess.BusinessRepository.SetBookingPaymentStatus(payment.MerchantId, payment.ItemId, Constants.PAYMENT_STATUS_PAID);
+            await dataAccess.BusinessRepository.SetBookingPaymentStatusAsync(payment.MerchantId, payment.ItemId, Constants.PAYMENT_STATUS_PAID);
+        }
+
+
+        private class PaymentParameters
+        {
+            public NewPayment Payment { get; private set; }
+            public Business Business { get; set; }
+            public CustomerBookingData CustomerBooking { get; set; }
+
+            public PaymentParameters(NewPayment payment)
+            {
+                Payment = payment;
+            }
         }
     }
 }

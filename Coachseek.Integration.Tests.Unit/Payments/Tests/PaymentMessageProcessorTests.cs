@@ -313,7 +313,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
 
         private void WhenTryProcessMessage(PaymentProcessingMessage message)
         {
-            Processor.ProcessMessage(message);
+            Processor.ProcessMessageAsync(message).Wait();
         }
 
 
@@ -372,7 +372,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             AssertVerificationPassed();
 
             Assert.That(BusinessRepository.WasGetBusinessByIdCalled, Is.True);
-            Assert.That(BusinessRepository.WasGetAllCustomerBookingsCalled, Is.True);
+            Assert.That(BusinessRepository.WasGetCustomerBookingCalled, Is.True);
 
             Assert.That(LogRepository.WasLogErrorCalled, Is.True);
             Assert.That(LogRepository.PassedInMessage, Is.EqualTo("Invalid booking."));

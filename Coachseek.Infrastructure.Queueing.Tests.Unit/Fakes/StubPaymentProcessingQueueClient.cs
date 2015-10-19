@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes
@@ -26,6 +27,25 @@ namespace Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes
         public StubPaymentProcessingQueueClient(IEnumerable<PaymentProcessingMessage> messages)
         {
             Messages = new List<PaymentProcessingMessage>(messages);
+        }
+
+
+        public async Task PushAsync(PaymentProcessingMessage message)
+        {
+            await Task.Delay(10);
+            Push(message);
+        }
+
+        public async Task<IList<PaymentProcessingMessage>> PeekAsync()
+        {
+            await Task.Delay(10);
+            return Peek();
+        }
+
+        public async Task PopAsync(PaymentProcessingMessage message)
+        {
+            await Task.Delay(10);
+            Pop(message);
         }
 
 

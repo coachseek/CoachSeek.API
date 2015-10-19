@@ -1,5 +1,4 @@
-﻿using CoachSeek.DataAccess.Authentication.Repositories;
-using CoachSeek.DataAccess.Main.Memory.Repositories;
+﻿using CoachSeek.DataAccess.Main.Memory.Repositories;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Authentication;
 using Coachseek.DataAccess.TableStorage.Emailing;

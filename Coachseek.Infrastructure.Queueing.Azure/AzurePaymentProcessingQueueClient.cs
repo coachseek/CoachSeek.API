@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -24,6 +25,17 @@ namespace Coachseek.Infrastructure.Queueing.Azure
             get { return AzureQueueClient.GetQueue(QUEUE_NAME); }
         }
 
+        private async Task<Queue> GetQueueAsync()
+        {
+            return await AzureQueueClient.GetQueueAsync(QUEUE_NAME);
+        }
+
+
+        public async Task PushAsync(PaymentProcessingMessage message)
+        {
+            var azureMessage = ConvertToNewCloudQueueMessage(message);
+            await AzureQueueClient.PushAsync(Queue, azureMessage);
+        }
 
         public void Push(PaymentProcessingMessage message)
         {
@@ -31,10 +43,23 @@ namespace Coachseek.Infrastructure.Queueing.Azure
             AzureQueueClient.Push(Queue, azureMessage);
         }
 
+        public async Task<IList<PaymentProcessingMessage>> PeekAsync()
+        {
+            var queue = await GetQueueAsync();
+            var cloudMessages = await AzureQueueClient.PeekAsync(queue);
+            return ConvertToPaymentProcessingMessages(cloudMessages);
+        }
+
         public IList<PaymentProcessingMessage> Peek()
         {
             var cloudMessages = AzureQueueClient.Peek(Queue);
             return ConvertToPaymentProcessingMessages(cloudMessages);
+        }
+
+        public async Task PopAsync(PaymentProcessingMessage message)
+        {
+            var azureMessage = ConvertToExistingCloudQueueMessage(message);
+            await AzureQueueClient.PopAsync(Queue, azureMessage);
         }
 
         public void Pop(PaymentProcessingMessage message)

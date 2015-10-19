@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coachseek.API.Client\Coachseek.API.Client.csproj">
+      <Project>{BCE21902-0020-49B4-89C4-347A97055F93}</Project>
+      <Name>Coachseek.API.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>

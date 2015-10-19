@@ -39,6 +39,7 @@
     public enum ApiDataFormat
     {
         Json,
-        Xml
+        Xml,
+        FormUrlEncoded
     }
 }
