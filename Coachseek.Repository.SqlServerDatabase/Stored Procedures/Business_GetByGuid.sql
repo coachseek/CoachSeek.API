@@ -4,7 +4,24 @@ CREATE PROCEDURE [dbo].[Business_GetByGuid]
 AS
 BEGIN
 	SET NOCOUNT ON;
-	
+
+	DECLARE @businessId int
+	SELECT
+		@businessId = Id
+	FROM
+		[dbo].[Business]
+	WHERE
+		[Guid] = @businessGuid
+
+	DECLARE @totalSessions int
+	SELECT
+		@totalSessions = COUNT(*)
+	FROM
+		[dbo].[Session]
+	WHERE
+		[BusinessId] = @businessId
+		AND [SessionCount] = 1
+
 	SELECT
 		[Guid],
 		[Name],
@@ -16,9 +33,10 @@ BEGIN
 		[PaymentProvider],
 		[MerchantAccountIdentifier],
 		[AuthorisedUntil],
-		[Subscription]
+		[Subscription],
+		@totalSessions AS TotalNumberOfSessions
 	FROM
 		[dbo].[Business]
 	WHERE
-		[Guid] = @businessGuid
+		[Id] = @businessId
 END

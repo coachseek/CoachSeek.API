@@ -49,6 +49,11 @@ namespace CoachSeek.Api
 
 
             // Out
+            Mapper.CreateMap<BusinessData, ApiOutBasicBusiness>();
+            Mapper.CreateMap<BusinessData, ApiOutBusiness>();
+            Mapper.CreateMap<BusinessPaymentData, ApiOutBusinessPayment>();
+            Mapper.CreateMap<BusinessStatisticsData, ApiOutBusinessStatistics>();
+
             Mapper.CreateMap<SessionSearchData, ApiOutSessionSearchResult>();
             Mapper.CreateMap<SingleSessionData, ApiOutSingleSession>();
             Mapper.CreateMap<SessionBookingData, ApiOutSessionBooking>();

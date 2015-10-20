@@ -11,6 +11,7 @@ namespace CoachSeek.Data.Model
         public string SubscriptionPlan { get; set; }
         public DateTime AuthorisedUntil { get; set; }
         public BusinessPaymentData Payment { get; set; }
+        public BusinessStatisticsData Statistics { get; set; }
 
         public BusinessData()
         {

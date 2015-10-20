@@ -193,6 +193,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var merchantAccountIdentifier = reader.GetNullableString(8);
             var authorisedUntil = reader.GetDateTime(9);
             var subscription = reader.GetString(10);
+            var totalNumberOfSessions = reader.GetInt32(11);
 
             return new BusinessData
             {
@@ -209,6 +210,10 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     ForceOnlinePayment = forceOnlinePayment,
                     PaymentProvider = paymentProvider,
                     MerchantAccountIdentifier = merchantAccountIdentifier
+                },
+                Statistics = new BusinessStatisticsData
+                {
+                    TotalNumberOfSessions = totalNumberOfSessions
                 }
             };
         }

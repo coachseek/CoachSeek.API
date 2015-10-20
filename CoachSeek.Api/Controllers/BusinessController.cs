@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
 using CoachSeek.Api.Conversion;
+using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
@@ -29,8 +30,9 @@ namespace CoachSeek.Api.Controllers
         public async Task<HttpResponseMessage> GetAsync()
         {
             BusinessGetUseCase.Initialise(Context);
-            var response = await BusinessGetUseCase.GetBusinessAsync();
-            return CreateGetWebResponse(response);
+            var business = await BusinessGetUseCase.GetBusinessAsync();
+            var outBusiness = ApiOutBusinessConverter.ConvertToBusiness(business);
+            return CreateGetWebResponse(outBusiness);
         }
 
         // POST: OnlineBooking/Business
@@ -42,8 +44,9 @@ namespace CoachSeek.Api.Controllers
         public async Task<HttpResponseMessage> GetOnlineBookingAsync()
         {
             BusinessGetUseCase.Initialise(Context);
-            var response = await BusinessGetUseCase.GetBusinessAsync();
-            return CreateGetWebResponse(response);
+            var business = await BusinessGetUseCase.GetBusinessAsync();
+            var outBasicBusiness = ApiOutBusinessConverter.ConvertToBasicBusiness(business);
+            return CreateGetWebResponse(outBasicBusiness);
         }
 
         // POST: Business

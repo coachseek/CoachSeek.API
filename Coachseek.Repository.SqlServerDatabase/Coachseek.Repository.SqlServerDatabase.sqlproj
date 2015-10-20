@@ -132,6 +132,7 @@
     <Build Include="Stored Procedures\EmailTemplate_DeleteByType.sql" />
     <Build Include="Stored Procedures\EmailTemplate_Create.sql" />
     <Build Include="Stored Procedures\Business_UpdateAuthorisedUntil.sql" />
+    <Build Include="Stored Procedures\Booking_GetCustomerBookingByBookingId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\BusinessPaymentData.cs" />
+    <Compile Include="Model\BusinessStatisticsData.cs" />
     <Compile Include="Model\CourseBookingData.cs" />
     <Compile Include="Model\CourseKeyData.cs" />
     <Compile Include="Model\CurrencyData.cs" />

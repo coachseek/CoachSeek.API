@@ -62,9 +62,9 @@ namespace CoachSeek.Api.Controllers
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
             SessionGetByIdUseCase.Initialise(Context);
-            var response = await SessionGetByIdUseCase.GetSessionAsync(id);
-            var apiSessionResponse = ApiOutSessionConverter.Convert(response);
-            return CreateGetWebResponse(apiSessionResponse);
+            var session = await SessionGetByIdUseCase.GetSessionAsync(id);
+            var outSession = ApiOutSessionConverter.Convert(session);
+            return CreateGetWebResponse(outSession);
         }
 
         // POST: Sessions

@@ -2,11 +2,15 @@
 
 namespace CoachSeek.Api.Models.Api.Out
 {
-    public abstract class ApiOutBusiness
+    public class ApiOutBusiness : ApiOutBasicBusiness
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Domain { get; set; }
-        public string Currency { get; set; }
+        public string SubscriptionPlan { get; set; }
+        public DateTime AuthorisedUntil { get; set; }
+        public ApiOutBusinessStatistics Statistics { get; set; }
+
+        public ApiOutBusiness()
+        {
+            Statistics = new ApiOutBusinessStatistics();
+        }
     }
 }

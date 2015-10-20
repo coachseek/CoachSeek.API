@@ -5,6 +5,23 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	
+	DECLARE @businessId int
+	SELECT
+		@businessId = Id
+	FROM
+		[dbo].[Business]
+	WHERE
+		[Domain] = @domain
+
+	DECLARE @totalSessions int
+	SELECT
+		@totalSessions = COUNT(*)
+	FROM
+		[dbo].[Session]
+	WHERE
+		[BusinessId] = @businessId
+		AND [SessionCount] = 1
+
 	SELECT
 		[Guid],
 		[Name],
@@ -16,11 +33,12 @@ BEGIN
 		[PaymentProvider],
 		[MerchantAccountIdentifier],
 		[AuthorisedUntil],
-		[Subscription]
+		[Subscription],
+		@totalSessions AS TotalNumberOfSessions
 	FROM
 		[dbo].[Business]
 	WHERE
-		[Domain] = @domain
+		[Id] = @businessId
 END
 
 
