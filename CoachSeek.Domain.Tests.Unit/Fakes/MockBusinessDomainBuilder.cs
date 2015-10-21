@@ -11,10 +11,10 @@ namespace CoachSeek.Domain.Tests.Unit.Fakes
 
         public IBusinessRepository BusinessRepository { get; set; }
 
-        public async Task<string >BuildDomainAsync(string businessName)
+        public async Task<string>BuildDomainAsync(string businessName)
         {
             WasBuildDomainCalled = true;
-
+            await Task.Delay(10);
             return Domain;
         }
     }

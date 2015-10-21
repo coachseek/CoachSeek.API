@@ -1,4 +1,5 @@
 ﻿using CoachSeek.Application.UseCases;
+using CoachSeek.Application.UseCases.Payments;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes;
 using Coachseek.Integration.Tests.Unit.Payments.Fakes;
@@ -42,48 +43,48 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         }
 
 
-        private ProcessPaymentsUseCase GivenNoMessage()
+        private ProcessOnlinePaymentsUseCase GivenNoMessage()
         {
             var queue = new StubPaymentProcessingQueueClient();
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessPaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor);
         }
 
-        private ProcessPaymentsUseCase GivenSingleMessage()
+        private ProcessOnlinePaymentsUseCase GivenSingleMessage()
         {
             var queue = new StubPaymentProcessingQueueClient(new PaymentProcessingMessage("1", "PayPal", "contents"));
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessPaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor);
         }
 
-        private ProcessPaymentsUseCase GivenTwoMessages()
+        private ProcessOnlinePaymentsUseCase GivenTwoMessages()
         {
             var queue = new StubPaymentProcessingQueueClient(new[] { new PaymentProcessingMessage("1", "PayPal", "contents"), 
                                                                      new PaymentProcessingMessage("2", "PayPal", "contents too") });
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessPaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor);
         }
 
-        private ProcessPaymentsUseCase GivenTwoMessagesAndOneErrors()
+        private ProcessOnlinePaymentsUseCase GivenTwoMessagesAndOneErrors()
         {
             var queue = new StubPaymentProcessingQueueClient(new[] { new PaymentProcessingMessage("1", "Error", "contents"), 
                                                                      new PaymentProcessingMessage("2", "PayPal", "contents too") });
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessPaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor);
         }
 
 
-        private void WhenTryProcess(ProcessPaymentsUseCase useCase)
+        private void WhenTryProcess(ProcessOnlinePaymentsUseCase useCase)
         {
             useCase.ProcessAsync().Wait();
         }
 
 
-        private void ThenDoNothing(ProcessPaymentsUseCase useCase)
+        private void ThenDoNothing(ProcessOnlinePaymentsUseCase useCase)
         {
             var queue = (StubPaymentProcessingQueueClient)useCase.PaymentProcessingQueueClient;
             var processor = (StubPaymentMessageProcessor)useCase.PaymentMessageProcessor;
@@ -92,7 +93,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(queue.WasPopCalled, Is.False);
         }
 
-        private void ThenProcessAndPopMessage(ProcessPaymentsUseCase useCase)
+        private void ThenProcessAndPopMessage(ProcessOnlinePaymentsUseCase useCase)
         {
             var queue = (StubPaymentProcessingQueueClient)useCase.PaymentProcessingQueueClient;
             var processor = (StubPaymentMessageProcessor)useCase.PaymentMessageProcessor;
@@ -104,7 +105,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(queue.PopCallCount, Is.EqualTo(1));
         }
 
-        private void ThenProcessAndPopBoth(ProcessPaymentsUseCase useCase)
+        private void ThenProcessAndPopBoth(ProcessOnlinePaymentsUseCase useCase)
         {
             var queue = (StubPaymentProcessingQueueClient)useCase.PaymentProcessingQueueClient;
             var processor = (StubPaymentMessageProcessor)useCase.PaymentMessageProcessor;
@@ -116,7 +117,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             Assert.That(queue.PopCallCount, Is.EqualTo(2));
         }
 
-        private void ThenStillProcessAndPopTheOtherMessage(ProcessPaymentsUseCase useCase)
+        private void ThenStillProcessAndPopTheOtherMessage(ProcessOnlinePaymentsUseCase useCase)
         {
             var queue = (StubPaymentProcessingQueueClient)useCase.PaymentProcessingQueueClient;
             var processor = (StubPaymentMessageProcessor)useCase.PaymentMessageProcessor;

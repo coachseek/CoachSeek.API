@@ -4,9 +4,9 @@ namespace Coachseek.Infrastructure.Queueing.Contracts.Payment
 {
     public class PaymentProcessingMessage : IMessage
     {
-        public string Id { get; private set; }
-        public string PaymentProvider { get; private set; }
-        public string Contents { get; private set; }
+        public string Id { get; protected set; }
+        public string PaymentProvider { get; protected set; }
+        public string Contents { get; protected set; }
 
 
         // Testing constructor

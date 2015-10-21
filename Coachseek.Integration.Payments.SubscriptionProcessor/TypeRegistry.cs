@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Coachseek.Infrastructure.Queueing.Azure;
-using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
-namespace Coachseek.Integration.Payments.PaymentsProcessor
+namespace Coachseek.Integration.Payments.SubscriptionProcessor
 {
     public class TypeRegistry : Registry
     {
@@ -16,7 +14,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                     "CoachSeek.Application.Contracts",
                     "CoachSeek.DataAccess.Main.Memory",
                     "Coachseek.Integration.Payments",
-                    "Coachseek.Integration.Payments.PaymentsProcessor",
+                    "Coachseek.Integration.Payments.SubscriptionProcessor",
                     "Coachseek.Integration.Contracts"
                 };
 
@@ -26,7 +24,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 x.WithDefaultConventions();
             });
 
-            For<IOnlinePaymentProcessingQueueClient>().Use<AzureOnlinePaymentProcessingQueueClient>();
+            //For<IPaymentProcessingQueueClient>().Use<AzurePaymentProcessingQueueClient>();
         }
     }
 }

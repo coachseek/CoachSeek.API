@@ -83,8 +83,10 @@
     <Compile Include="UseCases\Executors\AdminUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\BookingUseCaseExecutor.cs" />
     <Compile Include="UseCases\DataImport\CustomerReceiveDataImportMessageUseCase.cs" />
-    <Compile Include="UseCases\PaypalReceivePaymentMessageUseCase.cs" />
-    <Compile Include="UseCases\ProcessPaymentsUseCase.cs" />
+    <Compile Include="UseCases\Payments\PaypalReceiveSubscriptionPaymentMessageUseCase.cs" />
+    <Compile Include="UseCases\Payments\PaypalReceiveOnlinePaymentMessageUseCase.cs" />
+    <Compile Include="UseCases\Payments\ProcessSubscriptionPaymentsUseCase.cs" />
+    <Compile Include="UseCases\Payments\ProcessOnlinePaymentsUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\BookingAddMasterUseCase.cs" />

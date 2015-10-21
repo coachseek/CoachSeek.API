@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Payments;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Integration.Contracts.Payments.Interfaces;
 
-namespace CoachSeek.Application.UseCases
+namespace CoachSeek.Application.UseCases.Payments
 {
-    public class ProcessPaymentsUseCase : IProcessPaymentsUseCase
+    public class ProcessOnlinePaymentsUseCase : IProcessOnlinePaymentsUseCase
     {
-        public IPaymentProcessingQueueClient PaymentProcessingQueueClient { get; private set; }
+        public IOnlinePaymentProcessingQueueClient PaymentProcessingQueueClient { get; private set; }
         public IPaymentMessageProcessor PaymentMessageProcessor { get; private set; }
 
 
-        public ProcessPaymentsUseCase(IPaymentProcessingQueueClient paymentProcessingQueueClient,
-                                      IPaymentMessageProcessor paymentMessageProcessor)
+        public ProcessOnlinePaymentsUseCase(IOnlinePaymentProcessingQueueClient paymentProcessingQueueClient,
+                                            IPaymentMessageProcessor paymentMessageProcessor)
         {
             PaymentProcessingQueueClient = paymentProcessingQueueClient;
             PaymentMessageProcessor = paymentMessageProcessor;

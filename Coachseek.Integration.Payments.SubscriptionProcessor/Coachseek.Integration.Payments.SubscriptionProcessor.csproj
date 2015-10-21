@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{A41748ED-BDB3-4019-853A-8B851F1499D9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Coachseek.Infrastructure.Queueing.Contracts</RootNamespace>
-    <AssemblyName>Coachseek.Infrastructure.Queueing.Contracts</AssemblyName>
+    <RootNamespace>Coachseek.Integration.Payments.SubscriptionProcessor</RootNamespace>
+    <AssemblyName>Coachseek.Integration.Payments.SubscriptionProcessor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -29,16 +31,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
-    <OutputPath>bin\Testing\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,23 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emailing\BouncedEmailMessage.cs" />
-    <Compile Include="Emailing\IBouncedEmailQueueClient.cs" />
-    <Compile Include="IMessage.cs" />
-    <Compile Include="Import\IDataImportQueueClient.cs" />
-    <Compile Include="Import\DataImportMessage.cs" />
-    <Compile Include="IQueueClient.cs" />
-    <Compile Include="Payment\IPaymentProcessingQueueClient.cs" />
-    <Compile Include="Payment\ISubscriptionPaymentProcessingQueueClient.cs" />
-    <Compile Include="Payment\IOnlinePaymentProcessingQueueClient.cs" />
-    <Compile Include="Payment\SubscriptionPaymentProcessingMessage.cs" />
-    <Compile Include="Payment\OnlinePaymentProcessingMessage.cs" />
-    <Compile Include="Payment\PaymentProcessingMessage.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queue.cs" />
+    <Compile Include="TypeRegistry.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\webjob-publish-settings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoachSeek.Application.Contracts\CoachSeek.Application.Contracts.csproj">
+      <Project>{9B38A5E3-AE19-4497-91E1-6D6F3FD6BBDF}</Project>
+      <Name>CoachSeek.Application.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.2\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.2\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

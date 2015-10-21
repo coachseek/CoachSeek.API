@@ -78,6 +78,8 @@
   <ItemGroup>
     <Compile Include="AzureDataImportQueueClient.cs" />
     <Compile Include="AzurePaymentProcessingQueueClient.cs" />
+    <Compile Include="AzureSubscriptionPaymentProcessingQueueClient.cs" />
+    <Compile Include="AzureOnlinePaymentProcessingQueueClient.cs" />
     <Compile Include="AzureQueueClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

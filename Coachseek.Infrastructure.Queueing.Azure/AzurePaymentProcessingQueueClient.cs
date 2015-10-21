@@ -7,65 +7,41 @@ using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace Coachseek.Infrastructure.Queueing.Azure
 {
-    public class AzurePaymentProcessingQueueClient : IPaymentProcessingQueueClient
+    public abstract class AzurePaymentProcessingQueueClient
     {
-        private const string QUEUE_NAME = "payments";
+        protected abstract string QueueName { get; }
 
-        private AzureQueueClient AzureQueueClient { get; set; }
+        protected AzureQueueClient AzureQueueClient { get; set; }
 
 
-        public AzurePaymentProcessingQueueClient()
+        protected AzurePaymentProcessingQueueClient()
         {
             AzureQueueClient = new AzureQueueClient();
         }
   
 
-        private Queue Queue
-        {
-            get { return AzureQueueClient.GetQueue(QUEUE_NAME); }
-        }
-
         private async Task<Queue> GetQueueAsync()
         {
-            return await AzureQueueClient.GetQueueAsync(QUEUE_NAME);
+            return await AzureQueueClient.GetQueueAsync(QueueName);
         }
 
 
         public async Task PushAsync(PaymentProcessingMessage message)
         {
             var azureMessage = ConvertToNewCloudQueueMessage(message);
-            await AzureQueueClient.PushAsync(Queue, azureMessage);
-        }
-
-        public void Push(PaymentProcessingMessage message)
-        {
-            var azureMessage = ConvertToNewCloudQueueMessage(message);
-            AzureQueueClient.Push(Queue, azureMessage);
+            await AzureQueueClient.PushAsync(await GetQueueAsync(), azureMessage);
         }
 
         public async Task<IList<PaymentProcessingMessage>> PeekAsync()
         {
-            var queue = await GetQueueAsync();
-            var cloudMessages = await AzureQueueClient.PeekAsync(queue);
-            return ConvertToPaymentProcessingMessages(cloudMessages);
-        }
-
-        public IList<PaymentProcessingMessage> Peek()
-        {
-            var cloudMessages = AzureQueueClient.Peek(Queue);
+            var cloudMessages = await AzureQueueClient.PeekAsync(await GetQueueAsync());
             return ConvertToPaymentProcessingMessages(cloudMessages);
         }
 
         public async Task PopAsync(PaymentProcessingMessage message)
         {
             var azureMessage = ConvertToExistingCloudQueueMessage(message);
-            await AzureQueueClient.PopAsync(Queue, azureMessage);
-        }
-
-        public void Pop(PaymentProcessingMessage message)
-        {
-            var azureMessage = ConvertToExistingCloudQueueMessage(message);
-            AzureQueueClient.Pop(Queue, azureMessage);
+            await AzureQueueClient.PopAsync(await GetQueueAsync(), azureMessage);
         }
 
 

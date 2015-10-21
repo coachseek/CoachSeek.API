@@ -23,7 +23,7 @@ namespace CoachSeek.Application.Tests.Unit.Fakes
         {
             WasAddBusinessCalled = true;
             Command = command;
-
+            await Task.Delay(10);
             if (Exception != null)
                 throw Exception;
             return Response;

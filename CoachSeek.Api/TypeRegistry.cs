@@ -32,7 +32,7 @@ namespace CoachSeek.Api
             });
 
             For<IReservedDomainRepository>().Use<HardCodedReservedDomainRepository>();
-            For<IPaymentProcessingQueueClient>().Use<AzurePaymentProcessingQueueClient>();
+            For<IOnlinePaymentProcessingQueueClient>().Use<AzureOnlinePaymentProcessingQueueClient>();
             For<IDataImportQueueClient>().Use<AzureDataImportQueueClient>();
             For<IUserTrackerFactory>().Use<UserTrackerFactory>();
         }

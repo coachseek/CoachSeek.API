@@ -91,8 +91,10 @@
     <Compile Include="UseCases\IEmailTemplateTypesGetAllUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateUpdateUseCase.cs" />
     <Compile Include="UseCases\DataImport\ICustomerReceiveDataImportMessageUseCase.cs" />
-    <Compile Include="UseCases\IPaypalReceivePaymentMessageUseCase.cs" />
-    <Compile Include="UseCases\IProcessPaymentsUseCase.cs" />
+    <Compile Include="UseCases\Payments\IPaypalReceiveSubscriptionPaymentMessageUseCase.cs" />
+    <Compile Include="UseCases\Payments\IPaypalReceiveOnlinePaymentMessageUseCase.cs" />
+    <Compile Include="UseCases\Payments\IProcessSubscriptionPaymentsUseCase.cs" />
+    <Compile Include="UseCases\Payments\IProcessOnlinePaymentsUseCase.cs" />
     <Compile Include="UseCases\IStandaloneSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\IStandaloneSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\IUserGetByEmailUserCase.cs" />

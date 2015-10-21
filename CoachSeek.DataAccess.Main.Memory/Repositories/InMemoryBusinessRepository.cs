@@ -623,7 +623,8 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
         public async Task<SingleSessionBookingData> GetSessionBookingAsync(Guid businessId, Guid sessionBookingId)
         {
-            throw new NotImplementedException();
+            await Task.Delay(10);
+            return GetSessionBooking(businessId, sessionBookingId);
         }
 
         public SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId)

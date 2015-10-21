@@ -1,28 +1,38 @@
-﻿using System.Net;
+﻿using CoachSeek.Application.Contracts.UseCases.Payments;
+using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using CoachSeek.Application.Contracts.UseCases;
 
 namespace CoachSeek.Api.Controllers
 {
     public class PaypalController : BaseController
     {
-        public IPaypalReceivePaymentMessageUseCase PaypalReceivePaymentMessageUseCase { get; set; }
+        public IPaypalReceiveOnlinePaymentMessageUseCase PaypalReceiveOnlinePaymentMessageUseCase { get; set; }
+        public IPaypalReceiveSubscriptionPaymentMessageUseCase PaypalReceiveSubscriptionPaymentMessageUseCase { get; set; }
 
 
-        public PaypalController(IPaypalReceivePaymentMessageUseCase paypalReceivePaymentMessageUseCase)
+        public PaypalController(IPaypalReceiveOnlinePaymentMessageUseCase paypalReceiveOnlinePaymentMessageUseCase)
         {
-            PaypalReceivePaymentMessageUseCase = paypalReceivePaymentMessageUseCase;
+            PaypalReceiveOnlinePaymentMessageUseCase = paypalReceiveOnlinePaymentMessageUseCase;
         }
 
-
+        //[Route("Paypal/Payment")]
         [AllowAnonymous]
-        public HttpResponseMessage Post()
+        public async Task<HttpResponseMessage> PostAsync()
         {
-            var task = Request.Content.ReadAsStringAsync();
+            var content = await Request.Content.ReadAsStringAsync();
+            await PaypalReceiveOnlinePaymentMessageUseCase.ReceiveAsync(content);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
 
-            PaypalReceivePaymentMessageUseCase.Receive(task.Result);
-
+        // POST: Paypal/Subscription
+        [Route("Paypal/Subscription")]
+        [AllowAnonymous]
+        public async Task<HttpResponseMessage> PostSubscriptionAsync()
+        {
+            var content = await Request.Content.ReadAsStringAsync();
+            await PaypalReceiveSubscriptionPaymentMessageUseCase.ReceiveAsync(content);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

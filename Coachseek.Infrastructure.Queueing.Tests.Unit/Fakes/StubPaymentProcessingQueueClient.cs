@@ -4,7 +4,7 @@ using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 
 namespace Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes
 {
-    public class StubPaymentProcessingQueueClient : IPaymentProcessingQueueClient
+    public class StubPaymentProcessingQueueClient : IOnlinePaymentProcessingQueueClient
     {
         public bool WasPushCalled;
         public int PushCallCount = 0;
@@ -49,19 +49,19 @@ namespace Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes
         }
 
 
-        public void Push(PaymentProcessingMessage message)
+        private void Push(PaymentProcessingMessage message)
         {
             WasPushCalled = true;
             PushCallCount++;
             PassedInMessage = message;
         }
 
-        public IList<PaymentProcessingMessage> Peek()
+        private IList<PaymentProcessingMessage> Peek()
         {
             return Messages;
         }
 
-        public void Pop(PaymentProcessingMessage message)
+        private void Pop(PaymentProcessingMessage message)
         {
             WasPopCalled = true;
             PopCallCount++;
