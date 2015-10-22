@@ -6,9 +6,6 @@
     },
     {
       "filePath": "../Coachseek.Integration.Payments.PaymentsProcessor/Coachseek.Integration.Payments.PaymentsProcessor.csproj"
-    },
-    {
-      "filePath": "../Coachseek.Integration.Payments.SubscriptionProcessor/Coachseek.Integration.Payments.SubscriptionProcessor.csproj"
     }
   ]
 }
