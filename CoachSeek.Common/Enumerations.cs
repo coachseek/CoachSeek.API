@@ -2,7 +2,7 @@
 {
     public enum Environment
     {
-        Debug = 0,
+        Debug,
         Testing,
         Production
     }

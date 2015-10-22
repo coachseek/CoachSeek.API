@@ -58,7 +58,6 @@ namespace CoachSeek.Domain.Entities
             Id = Guid.NewGuid();
         }
 
-        // Minimal Unit testing constructor.
         public Business(Guid id)
         {
             Id = id;

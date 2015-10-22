@@ -39,6 +39,7 @@
       <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,12 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs">
+      <DependentUpon>AppSettings.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DataImportProcessorConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="AppSettings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AppSettings.cs</LastGenOutput>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +75,10 @@
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Common\CoachSeek.Common.csproj">
+      <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
+      <Name>CoachSeek.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Azure\Coachseek.Infrastructure.Queueing.Azure.csproj">
       <Project>{1292845B-E1C1-479A-B050-7CA302ACC6A2}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Azure</Name>
@@ -72,6 +87,13 @@
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Coachseek.Integration.Contracts\Coachseek.Integration.Contracts.csproj">
+      <Project>{A4372B73-FD12-46C8-9E82-F798770B079D}</Project>
+      <Name>Coachseek.Integration.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

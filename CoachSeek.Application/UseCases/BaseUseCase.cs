@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
 using CoachSeek.Domain.Repositories;
@@ -24,7 +25,8 @@ namespace CoachSeek.Application.UseCases
 
             BusinessRepository = Context.BusinessContext.BusinessRepository;
             SupportedCurrencyRepository = Context.BusinessContext.SupportedCurrencyRepository;
-            UnsubscribedEmailAddressRepository = Context.EmailContext.UnsubscribedEmailAddressRepository;
+            if (Context.EmailContext.IsExisting())
+                UnsubscribedEmailAddressRepository = Context.EmailContext.UnsubscribedEmailAddressRepository;
             LogRepository = Context.LogRepository;
         }
 

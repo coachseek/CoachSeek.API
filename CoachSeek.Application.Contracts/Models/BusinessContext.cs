@@ -13,6 +13,13 @@ namespace CoachSeek.Application.Contracts.Models
         public ISupportedCurrencyRepository SupportedCurrencyRepository { get; private set; }
 
 
+        public BusinessContext(Business business,
+                               IBusinessRepository businessRepository)
+        {
+            Business = business;
+            BusinessRepository = businessRepository;
+        }
+
         public BusinessContext(Business business, 
                                IBusinessRepository businessRepository,
                                ISupportedCurrencyRepository supportedCurrencyRepository,
