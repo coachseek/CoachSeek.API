@@ -12,9 +12,11 @@ namespace CoachSeek.Api.Controllers
         public IPaypalReceiveSubscriptionPaymentMessageUseCase PaypalReceiveSubscriptionPaymentMessageUseCase { get; set; }
 
 
-        public PaypalController(IPaypalReceiveOnlinePaymentMessageUseCase paypalReceiveOnlinePaymentMessageUseCase)
+        public PaypalController(IPaypalReceiveOnlinePaymentMessageUseCase paypalReceiveOnlinePaymentMessageUseCase,
+                                IPaypalReceiveSubscriptionPaymentMessageUseCase paypalReceiveSubscriptionPaymentMessageUseCase)
         {
             PaypalReceiveOnlinePaymentMessageUseCase = paypalReceiveOnlinePaymentMessageUseCase;
+            PaypalReceiveSubscriptionPaymentMessageUseCase = paypalReceiveSubscriptionPaymentMessageUseCase;
         }
 
         //[Route("Paypal/Payment")]
