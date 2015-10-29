@@ -91,6 +91,7 @@
     <Compile Include="UseCases\IEmailTemplateTypesGetAllUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateUpdateUseCase.cs" />
     <Compile Include="UseCases\DataImport\ICustomerReceiveDataImportMessageUseCase.cs" />
+    <Compile Include="UseCases\IPriceGetUseCase.cs" />
     <Compile Include="UseCases\Payments\IPaypalReceiveSubscriptionPaymentMessageUseCase.cs" />
     <Compile Include="UseCases\Payments\IPaypalReceiveOnlinePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\Payments\IProcessSubscriptionPaymentsUseCase.cs" />

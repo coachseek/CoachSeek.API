@@ -87,6 +87,7 @@
     <Compile Include="UseCases\Payments\PaypalReceiveOnlinePaymentMessageUseCase.cs" />
     <Compile Include="UseCases\Payments\ProcessSubscriptionPaymentsUseCase.cs" />
     <Compile Include="UseCases\Payments\ProcessOnlinePaymentsUseCase.cs" />
+    <Compile Include="UseCases\PriceGetUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\StandaloneSessionBookingAddUseCase.cs" />
     <Compile Include="UseCases\BookingAddMasterUseCase.cs" />

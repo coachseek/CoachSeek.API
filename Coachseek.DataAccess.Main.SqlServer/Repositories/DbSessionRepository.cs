@@ -148,8 +148,9 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 var command = new SqlCommand("[Session_GetSessionByGuid]", Connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters[0].Value = businessId;
                 command.Parameters.Add(new SqlParameter("@sessionGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = sessionId;
 
                 reader = command.ExecuteReader();

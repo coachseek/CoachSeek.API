@@ -10,6 +10,11 @@ namespace CoachSeek.Application.UseCases
 {
     public abstract class SessionBaseUseCase : BaseUseCase
     {
+        protected bool IsStandaloneSession(SingleSessionData session)
+        {
+            return !session.ParentId.HasValue;
+        }
+
         protected async Task<Session> GetExistingSessionOrCourseAsync(Guid sessionIdOrCourseId)
         {
             var session = await LookupSessionAsync(sessionIdOrCourseId);
@@ -21,8 +26,7 @@ namespace CoachSeek.Application.UseCases
             return null;
         }
 
-
-        private async Task<SingleSessionData> LookupSessionAsync(Guid sessionId)
+        protected async Task<SingleSessionData> LookupSessionAsync(Guid sessionId)
         {
             var sessionTask = BusinessRepository.GetSessionAsync(Business.Id, sessionId);
             var bookingsTask =  BusinessRepository.GetCustomerBookingsBySessionIdAsync(Business.Id, sessionId);
@@ -40,7 +44,7 @@ namespace CoachSeek.Application.UseCases
             return new SessionInCourse(session, await LookupCoreDataAsync(session));
         }
 
-        private async Task<RepeatedSessionData> LookupCourseAsync(Guid courseId)
+        protected async Task<RepeatedSessionData> LookupCourseAsync(Guid courseId)
         {
             var courseTask = BusinessRepository.GetCourseAsync(Business.Id, courseId);
             var bookingsTask = BusinessRepository.GetCustomerBookingsByCourseIdAsync(Business.Id, courseId);

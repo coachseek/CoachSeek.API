@@ -51,6 +51,7 @@
         public static string SessionChangeToCourseNotSupported { get { return "session-change-to-course-not-supported"; } }
         public static string SessionClashing { get { return "session-clashing"; } }
         public static string SessionNotInCourse { get { return "session-not-in-course"; } }
+        public static string SessionDuplicate { get { return "session-duplicate"; } }
         public static string SessionFullyBooked { get { return "session-fully-booked"; } }
         public static string SessionNotOnlineBookable { get { return "session-not-online-bookable"; } }
         public static string SessionHasBookingsCannotDelete { get { return "session-has-bookings-cannot-delete"; } }
@@ -72,9 +73,10 @@
         public static string CustomerDuplicate { get { return "customer-duplicate"; } }
         public static string CustomerAlreadyBookedOntoSession { get { return "customer-already-booked-onto-session"; } }
 
+        public static string PricingSessionRequired { get { return "pricing-session-required"; } }
+
         public static string BookingSessionRequired { get { return "booking-session-required"; } }
         public static string BookingUpdateNotSupported { get { return "booking-update-not-supported"; } }
-        public static string BookingContainsDuplicateSessions { get { return "booking-contains-duplicate-sessions"; } }
 
         public static string PaymentStatusInvalid { get { return "paymentstatus-invalid"; } }
 

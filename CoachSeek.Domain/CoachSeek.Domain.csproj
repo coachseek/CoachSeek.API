@@ -74,6 +74,7 @@
     <Compile Include="Commands\CustomerUpdateCommand.cs" />
     <Compile Include="Commands\CustomerAddCommand.cs" />
     <Compile Include="Commands\CustomerKeyCommand.cs" />
+    <Compile Include="Commands\PriceGetCommand.cs" />
     <Compile Include="Commands\SessionKeyCommand.cs" />
     <Compile Include="Commands\UserAddCommand.cs" />
     <Compile Include="Commands\BusinessRegistrantCommand.cs" />
@@ -162,13 +163,14 @@
     <Compile Include="Entities\TransactionDetails.cs" />
     <Compile Include="Entities\Subscriptions\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Exceptions\PricingEnquirySessionRequired.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />
     <Compile Include="Exceptions\BookingUpdateNotSupported.cs" />
     <Compile Include="Exceptions\CoachseekException.cs" />
     <Compile Include="Exceptions\CourseExceedsMaximumNumberOfWeeklySessions.cs" />
     <Compile Include="Exceptions\CourseExceedsMaximumNumberOfDailySessions.cs" />
     <Compile Include="Exceptions\CourseHasBookingsCannotDelete.cs" />
-    <Compile Include="Exceptions\BookingContainsDuplicateSessions.cs" />
+    <Compile Include="Exceptions\SessionDuplicate.cs" />
     <Compile Include="Exceptions\CourseMustHavePrice.cs" />
     <Compile Include="Exceptions\CourseChangeRepetitionNotSupported.cs" />
     <Compile Include="Exceptions\DateOfBirthInvalid.cs" />
@@ -227,6 +229,7 @@
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\DurationFormatter.cs" />
     <Compile Include="Services\PasswordHash.cs" />
+    <Compile Include="Services\SessionsInCourseValidator.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />
     <Compile Include="Entities\Date.cs" />

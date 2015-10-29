@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\EmailTemplatesController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
+    <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Conversion\BusinessRegistrationCommandConverter.cs" />
     <Compile Include="Conversion\BusinessUpdateCommandConverter.cs" />
     <Compile Include="Conversion\DomainCommandConverter.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Conversion\Out\ApiOutSessionSearchResultConverter.cs" />
     <Compile Include="Conversion\Out\ApiOutSessionConverter.cs" />
     <Compile Include="Conversion\Out\ApiOutSingleSessionConverter.cs" />
+    <Compile Include="Conversion\PriceGetCommandConverter.cs" />
     <Compile Include="Conversion\UserAddCommandConverter.cs" />
     <Compile Include="Conversion\BusinessAddCommandConverter.cs" />
     <Compile Include="Conversion\CoachAddCommandConverter.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Api\ApiPriceGetCommand.cs" />
     <Compile Include="Models\Api\ApiEmailTemplateSaveCommand.cs" />
     <Compile Include="Models\Api\ApiSessionKey.cs" />
     <Compile Include="Models\Api\ApiCustomerKey.cs" />

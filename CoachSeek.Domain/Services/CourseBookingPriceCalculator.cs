@@ -13,6 +13,14 @@ namespace CoachSeek.Domain.Services
                                   course.Pricing.SessionPrice);
         }
 
+        public static decimal CalculatePrice(int sessionBookingCount, RepeatedSessionData course)
+        {
+            return CalculatePrice(sessionBookingCount,
+                                  course.Sessions.Count,
+                                  course.Pricing.CoursePrice,
+                                  course.Pricing.SessionPrice);
+        }
+
         public static decimal CalculatePrice(int numberOfSessionsInBooking,
                                              int numberOfSessionsInCourse, 
                                              decimal? coursePrice,

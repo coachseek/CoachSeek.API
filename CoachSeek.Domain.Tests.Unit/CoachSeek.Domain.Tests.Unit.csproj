@@ -103,6 +103,7 @@
     <Compile Include="Services\BusinessDomainBuilderTests.cs" />
     <Compile Include="Services\CourseBookingPriceCalculatorTests.cs" />
     <Compile Include="Services\DurationFormatterTests.cs" />
+    <Compile Include="Services\SessionsInCourseValidatorTests.cs" />
     <Compile Include="Services\SingleSessionListCalculatorTests.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>

@@ -6,6 +6,7 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
+using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Application.UseCases
 {
@@ -49,28 +50,9 @@ namespace CoachSeek.Application.UseCases
             return new CourseBooking(command, Course);
         }
 
-        private void ValidateSessions(IList<SessionKeyCommand> commandSessions, ValidationException errors)
+        private void ValidateSessions(IEnumerable<SessionKeyCommand> bookingSessions, ValidationException errors)
         {
-            ValidateSessionsInCourse(commandSessions, errors);
-            ValidateSessionsUnique(commandSessions, errors);
-        }
-
-        private void ValidateSessionsInCourse(IEnumerable<SessionKeyCommand> commandSessions, ValidationException errors)
-        {
-            foreach (var commandSession in commandSessions)
-            {
-                if (!Course.Sessions.Select(x => x.Id).Contains(commandSession.Id))
-                {
-                    errors.Add(new SessionNotInCourse(commandSession.Id, Course.Id));
-                    return;
-                }
-            }
-        }
-
-        private void ValidateSessionsUnique(IEnumerable<SessionKeyCommand> commandSessions, ValidationException errors)
-        {
-            if (commandSessions.GroupBy(x => x.Id).SelectMany(grp => grp.Skip(1)).Any())
-                errors.Add(new BookingContainsDuplicateSessions());
+            SessionsInCourseValidator.Validate(bookingSessions, Course);
         }
 
         protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
