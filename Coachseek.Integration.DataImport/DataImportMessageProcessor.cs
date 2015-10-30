@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
@@ -27,12 +28,15 @@ namespace Coachseek.Integration.DataImport
         }
 
 
-        public void ProcessMessage(DataImportMessage message)
+        public async Task ProcessMessageAsync(DataImportMessage message)
         {
             CustomerAddUseCase.Initialise(CreateApplicationContext(message.BusinessId));
             var commands = SplitMessageIntoCustomers(message);
             foreach (var command in commands)
-                CustomerAddUseCase.AddCustomerAsync(command).Wait();
+            {
+                var response = await CustomerAddUseCase.AddCustomerAsync(command);
+                
+            }
         }
 
         private IList<CustomerAddCommand> SplitMessageIntoCustomers(DataImportMessage message)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
 using CoachSeek.Domain.Commands;
 using Coachseek.Infrastructure.Queueing.Contracts.Import;
@@ -20,10 +21,10 @@ namespace CoachSeek.Application.UseCases.DataImport
             DataImportMessageProcessor = dataImportMessageProcessor;
         }
 
-        public void Process()
+        public async Task ProcessAsync()
         {
             // Read import data from queue
-            var messages = DataImportQueueClient.Peek();
+            var messages = await DataImportQueueClient.PeekAsync();
 
             foreach (var message in messages)
             {
@@ -32,8 +33,8 @@ namespace CoachSeek.Application.UseCases.DataImport
                     // Go to blob storage and get import data ...
 
 
-                    DataImportMessageProcessor.ProcessMessage(message);
-                    DataImportQueueClient.Pop(message);
+                    await DataImportMessageProcessor.ProcessMessageAsync(message);
+                    //await DataImportQueueClient.PopAsync(message);
                 }
                 catch (Exception)
                 {

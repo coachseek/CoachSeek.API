@@ -1,7 +1,9 @@
-﻿namespace CoachSeek.Application.Contracts.UseCases.DataImport
+﻿using System.Threading.Tasks;
+
+namespace CoachSeek.Application.Contracts.UseCases.DataImport
 {
     public interface IProcessDataImportUseCase
     {
-        void Process();
+        Task ProcessAsync();
     }
 }

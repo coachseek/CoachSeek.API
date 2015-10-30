@@ -1,5 +1,4 @@
 ﻿using CoachSeek.Application.Configuration;
-using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Payments;
 using CoachSeek.DataAccess.Main.Memory.Configuration;
 using StructureMap;

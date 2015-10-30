@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Coachseek.Infrastructure.Queueing.Contracts;
 using Coachseek.Infrastructure.Queueing.Contracts.Import;
 using Coachseek.Integration.Contracts.DataImport;
@@ -27,12 +28,12 @@ namespace Coachseek.Infrastructure.Queueing.Azure
         }
 
 
-        public void Push(DataImportMessage message)
+        public async Task PushAsync(DataImportMessage message)
         {
             var azureMessage = ConvertToNewCloudQueueMessage(message);
             try
             {
-                AzureQueueClient.Push(Queue, azureMessage);
+                await AzureQueueClient.PushAsync(Queue, azureMessage);
             }
             catch (Exception ex)
             {
@@ -40,16 +41,16 @@ namespace Coachseek.Infrastructure.Queueing.Azure
             }
         }
 
-        public IList<DataImportMessage> Peek()
+        public async Task<IList<DataImportMessage>> PeekAsync()
         {
-            var cloudMessages = AzureQueueClient.Peek(Queue);
+            var cloudMessages = await AzureQueueClient.PeekAsync(Queue);
             return ConvertToDataImportMessages(cloudMessages);
         }
 
-        public void Pop(DataImportMessage message)
+        public async Task PopAsync(DataImportMessage message)
         {
             var azureMessage = ConvertToExistingCloudQueueMessage(message);
-            AzureQueueClient.Pop(Queue, azureMessage);
+            await AzureQueueClient.PopAsync(Queue, azureMessage);
         }
 
 

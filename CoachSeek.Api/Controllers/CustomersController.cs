@@ -95,7 +95,7 @@ namespace CoachSeek.Api.Controllers
         [BusinessAuthorize(Role.BusinessAdmin)]
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IHttpActionResult> ImportData()
+        public async Task<IHttpActionResult> ImportDataAsync()
         {
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
@@ -107,7 +107,7 @@ namespace CoachSeek.Api.Controllers
                 foreach (var file in await ReadDataImportFiles())
                 {
                     importFile = file;
-                    CustomerReceiveDataImportMessageUseCase.Receive(Business.Id, file.Content);
+                    await CustomerReceiveDataImportMessageUseCase.ReceiveAsync(Business.Id, file.Content);
                 }
             }
             catch (DataImportException ex)

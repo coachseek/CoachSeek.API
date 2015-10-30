@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Coachseek.Infrastructure.Queueing.Contracts.Import
 {
     public interface IDataImportQueueClient
     {
-        void Push(DataImportMessage message);
-        IList<DataImportMessage> Peek();
-        void Pop(DataImportMessage message);
+        Task PushAsync(DataImportMessage message);
+        Task<IList<DataImportMessage>> PeekAsync();
+        Task PopAsync(DataImportMessage message);
     }
 }

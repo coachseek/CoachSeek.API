@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
 using Coachseek.Infrastructure.Queueing.Contracts.Import;
 
@@ -16,10 +17,10 @@ namespace CoachSeek.Application.UseCases.DataImport
             DataImportQueueClient = dataImportQueueClient;
         }
 
-        public void Receive(Guid businessId, string importData)
+        public async Task ReceiveAsync(Guid businessId, string importData)
         {
             var message = DataImportMessage.Create(businessId, importData, ENTITY_TYPE, DATA_FORMAT);
-            DataImportQueueClient.Push(message);
+            await DataImportQueueClient.PushAsync(message);
         }
     }
 }
