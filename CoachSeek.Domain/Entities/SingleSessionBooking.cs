@@ -19,7 +19,7 @@ namespace CoachSeek.Domain.Entities
             : base(customer)
         {
             ParentId = parentId;
-            Session = new SessionKeyData { Id = session.Id };
+            Session = new SessionKeyData(session.Id);
             HasAttended = null;
             PaymentStatus = paymentStatus;
         }

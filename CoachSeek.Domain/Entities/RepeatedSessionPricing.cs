@@ -64,8 +64,9 @@ namespace CoachSeek.Domain.Entities
             {
                 if (coursePrice.HasValue)
                     _coursePrice = new Price(coursePrice);
-                else
-                    _coursePrice = new Price(_sessionPrice.Amount.GetValueOrDefault(), sessionCount);
+
+                // Note: If course price does not exist DO NOT create it from session price * session count 
+                // as the prices on the sessions themselves could vary. Leave course price null.
             }
             catch (PriceInvalid ex)
             {

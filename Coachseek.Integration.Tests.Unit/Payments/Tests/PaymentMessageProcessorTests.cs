@@ -268,7 +268,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             var business = CreateNewTestBusiness(true, false, PROVIDER_TEST, "test@business.com", "USD");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
-                new SessionKeyData {Id = Guid.NewGuid()},
+                new SessionKeyData(Guid.NewGuid()),
                 new CustomerKeyData {Id = Guid.NewGuid()},
                 Constants.PAYMENT_STATUS_PENDING_INVOICE,
                 null);
@@ -282,7 +282,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             var business = CreateNewTestBusiness(true, false, "PayPal", "test@business.com");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
-                new SessionKeyData { Id = Guid.NewGuid() },
+                new SessionKeyData(Guid.NewGuid()),
                 new CustomerKeyData { Id = Guid.NewGuid() },
                 Constants.PAYMENT_STATUS_PENDING_INVOICE,
                 null);

@@ -30,11 +30,11 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void GivenCourseOnlyHasSessionPrice_WhenConstruct_ThenConstructCoursePriceFromSessionCountAndSessionPrice()
+        public void GivenCourseOnlyHasSessionPrice_WhenConstruct_ThenConstructOnlySessionPrice()
         {
             var sessionPricing = new PricingCommand(10, null);
             var response = WhenConstruct(sessionPricing, 12);
-            AssertSessionPricing(response, 10, 120);
+            AssertSessionPricing(response, 10, null);
         }
 
         [Test]

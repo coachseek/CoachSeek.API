@@ -5,10 +5,7 @@
         public decimal? SessionPrice { get; set; }
 
 
-        public SingleSessionPricingData()
-        { }
-
-        public SingleSessionPricingData(decimal? sessionPrice)
+        public SingleSessionPricingData(decimal? sessionPrice = null)
         {
             SessionPrice = sessionPrice;
         }

@@ -62,7 +62,7 @@ namespace CoachSeek.Application.UseCases
         {
             var course = await LookupCourseAsync(courseId);
             SessionsInCourseValidator.Validate(command.Sessions, course);
-            return CourseBookingPriceCalculator.CalculatePrice(command.Sessions.Count, course);
+            return CourseBookingPriceCalculator.CalculatePrice(command.Sessions, course);
         }
     }
 }

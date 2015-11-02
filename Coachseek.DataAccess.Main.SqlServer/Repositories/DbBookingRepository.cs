@@ -444,7 +444,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = id,
                 Customer = new CustomerKeyData { Id = customerId, Name = customerName },
-                Course = new SessionKeyData { Id = courseId, Name = courseName },
+                Course = new SessionKeyData(courseId, courseName),
                 SessionBookings = sessionBookings,
                 PaymentStatus = paymentStatus
             };
@@ -552,11 +552,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = id,
                 ParentId = parentId,
-                Session = new SessionKeyData
-                {
-                    Id = sessionId,
-                    Name = sessionName
-                },
+                Session = new SessionKeyData(sessionId, sessionName),
                 Customer = new CustomerKeyData
                 {
                     Id = customerId,
