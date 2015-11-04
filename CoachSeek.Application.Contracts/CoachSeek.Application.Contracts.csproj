@@ -65,6 +65,7 @@
     <Compile Include="Models\NotFoundResponse.cs" />
     <Compile Include="Models\PaymentContext.cs" />
     <Compile Include="Services\Emailing\IBusinessRegistrationEmailer.cs" />
+    <Compile Include="Services\Emailing\IDataImportProcessEmailer.cs" />
     <Compile Include="Services\Emailing\IOnlineBookingEmailer.cs" />
     <Compile Include="Services\ICustomerResolver.cs" />
     <Compile Include="UseCases\Admin\IEmailIsUnsubscribedUseCase.cs" />

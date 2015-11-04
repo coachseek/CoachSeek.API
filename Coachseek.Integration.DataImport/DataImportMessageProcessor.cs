@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
+using CoachSeek.Application.Contracts.Services.Emailing;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -17,26 +18,35 @@ namespace Coachseek.Integration.DataImport
         public IDataImportProcessorConfiguration DataImportProcessorConfiguration { get; private set; }
         public IDataAccessFactory DataAccessFactory { get; private set; }
         private ICustomerAddUseCase CustomerAddUseCase { get; set; }
+        private IDataImportProcessEmailer DataImportProcessEmailer { get; set; }
 
         public DataImportMessageProcessor(IDataImportProcessorConfiguration dataImportProcessorConfiguration,
                                           IDataAccessFactory dataAccessFactory,
-                                          ICustomerAddUseCase customerAddUseCase)
+                                          ICustomerAddUseCase customerAddUseCase,
+                                          IDataImportProcessEmailer dataImportProcessEmailer)
         {
             DataImportProcessorConfiguration = dataImportProcessorConfiguration;
             DataAccessFactory = dataAccessFactory;
             CustomerAddUseCase = customerAddUseCase;
+            DataImportProcessEmailer = dataImportProcessEmailer;
         }
 
 
         public async Task ProcessMessageAsync(DataImportMessage message)
         {
-            CustomerAddUseCase.Initialise(CreateApplicationContext(message.BusinessId));
+            var context = CreateApplicationContext(message.BusinessId);
+
+            CustomerAddUseCase.Initialise(context);
             var commands = SplitMessageIntoCustomers(message);
             foreach (var command in commands)
             {
                 var response = await CustomerAddUseCase.AddCustomerAsync(command);
                 
             }
+
+
+            DataImportProcessEmailer.Initialise(context);
+            DataImportProcessEmailer.SendProcessingSuccessfulEmail();
         }
 
         private IList<CustomerAddCommand> SplitMessageIntoCustomers(DataImportMessage message)

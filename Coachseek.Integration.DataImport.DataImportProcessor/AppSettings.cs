@@ -9,6 +9,8 @@ namespace Coachseek.Integration.DataImport.DataImportProcessor
     public static class AppSettings
     {
         public static string Environment { get { return GetConfigSettingItem("Environment"); } }
+        public static string EmailSender { get { return GetConfigSettingItem("EmailSender"); } }
+        public static string IsEmailingEnabled { get { return GetConfigSettingItem("IsEmailingEnabled"); } }
     
         private const string MISSING_CONFIG = "Invalid configuration. Required AppSettings section is missing";
         private const string INVALID_CONFIG_SETTING = "Invalid configuration setting name: {0}";
