@@ -1,63 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Domain.Entities
 {
     public class CourseBooking : Booking
     {
+        protected CourseSessionBookingCollection BookingCollection;
+
         public RepeatedSessionData Course { get; protected set; }
-        public IList<SingleSessionBooking> SessionBookings { get; protected set; }
         public decimal BookingPrice { get; protected set; }
 
+        public IReadOnlyCollection<SingleSessionBookingData> SessionBookings
+        {
+            get { return BookingCollection.Bookings; }
+        }
 
-        public CourseBooking(BookingAddCommand command, RepeatedSessionData course)
-            : base(command.Customer)
+
+        public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer)
+            : base(customer.ToKeyData())
         {
             Course = course;
-            CreateSessionBookings(command, course);
+
+            BookingCollection = CreateCourseSessionBookingCollection();
+            BookingCollection.Add(command);
             CalculateBookingPrice();
         }
 
-
-        protected void CreateSessionBookings(BookingAddCommand command, RepeatedSessionData course)
+        public CourseBooking(CourseBookingData data, RepeatedSessionData course)
+            : base(data)
         {
-            // Create session bookings in the course's session order.
-            SessionBookings = new List<SingleSessionBooking>();
-            foreach (var session in course.Sessions)
-                if (command.Sessions.Select(x => x.Id).Contains(session.Id))
-                    SessionBookings.Add(CreateSingleSessionBooking(session, command.Customer, Id));
+            Course = course;
+
+            BookingCollection = CreateCourseSessionBookingCollection();
+            BookingCollection.Add(data);
+            CalculateBookingPrice();
         }
 
-        protected virtual SingleSessionBooking CreateSingleSessionBooking(SingleSessionData session, CustomerKeyCommand customer, Guid parentId)
+        public CourseBooking(CourseBooking courseBooking)
+            : base(courseBooking.ToData())
         {
-            return new SingleSessionBooking(new SessionKeyCommand(session.Id), customer, parentId);
+            Course = courseBooking.Course;
+
+            BookingCollection = CreateCourseSessionBookingCollection();
+            BookingCollection.Add((CourseBookingData)courseBooking.ToData());
+            CalculateBookingPrice();
+        }
+
+        private CourseSessionBookingCollection CreateCourseSessionBookingCollection()
+        {
+            return new CourseSessionBookingCollection(Id, Course, Customer);
+        }
+
+        public bool Contains(SingleSessionBookingData sessionBooking)
+        {
+            return BookingCollection.Contains(sessionBooking.Session.Id);
+        }
+
+        public bool ContainsNot(SingleSessionBookingData sessionBooking)
+        {
+            return BookingCollection.ContainsNot(sessionBooking.Session.Id);
+        }
+
+        public override BookingData ToData()
+        {
+            return new CourseBookingData
+            {
+                Id = Id,
+                Course = Course.ToKeyData(),
+                Customer = Customer,
+                PaymentStatus = PaymentStatus,
+                Price = BookingPrice,
+                SessionBookings = SessionBookings.ToList()
+            };
+        }
+
+        public void AppendSessionBookings(BookingAddCommand command)
+        {
+            BookingCollection.Add(command);
+        }
+
+
+        protected void CreateSessionBookings(CourseBookingData data)
+        {
+            BookingCollection.Add(data);
         }
 
         protected void CalculateBookingPrice()
         {
-            BookingPrice = IsBookingForWholeCourse ? CalculateCoursePrice() : CalculateMultiSessionPrice();
-        }
-
-        private bool IsBookingForWholeCourse
-        {
-            get { return SessionBookings.Count == Course.Sessions.Count; }
-        }
-
-        private decimal CalculateCoursePrice()
-        {
-            return Course.Pricing.CoursePrice ??
-                   Course.Pricing.SessionPrice.GetValueOrDefault() * Course.Repetition.SessionCount;
-        }
-
-        private decimal CalculateMultiSessionPrice()
-        {
-            var sessionPrice = Course.Pricing.SessionPrice ??
-                               Math.Round(Course.Pricing.CoursePrice.GetValueOrDefault() / Course.Repetition.SessionCount, 2);
-
-            return sessionPrice * SessionBookings.Count;
+            BookingPrice = CourseBookingPriceCalculator.CalculatePrice(SessionBookings.Select(x => x.Session).AsReadOnly(), 
+                                                                       Course.Sessions.AsReadOnly(), 
+                                                                       Course.Pricing.CoursePrice);
         }
     }
 }

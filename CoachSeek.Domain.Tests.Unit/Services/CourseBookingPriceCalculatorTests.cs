@@ -64,58 +64,28 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         }
 
 
-        private List<SingleSessionBookingData> BookNoSessionsInCourse()
+        private List<BookingSessionData> BookNoSessionsInCourse()
         {
-            return new List<SingleSessionBookingData>();
+            return new List<BookingSessionData>();
         }
 
-        private List<SingleSessionBookingData> BookOneSessionInCourse()
+        private List<BookingSessionData> BookOneSessionInCourse()
         {
-            return new List<SingleSessionBookingData>
+            return new List<BookingSessionData>
             {
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_TWO_ID))
-                }
+                new BookingSessionData { Id = new Guid(SESSION_TWO_ID) }
             };
         }
 
-        private List<SingleSessionBookingData> BookAllSessionsInCourse()
+        private List<BookingSessionData> BookAllSessionsInCourse()
         {
-            return new List<SingleSessionBookingData>
+            return new List<BookingSessionData>
             {
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_ONE_ID))
-                },
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_TWO_ID))
-                },
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_THREE_ID))
-                },
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_FOUR_ID))
-                },
-                new SingleSessionBookingData
-                {
-                    Id = Guid.NewGuid(),
-                    ParentId = new Guid(COURSE_ID),
-                    Session = new SessionKeyData(new Guid(SESSION_FIVE_ID))
-                },
+                new BookingSessionData { Id = new Guid(SESSION_ONE_ID) },
+                new BookingSessionData { Id = new Guid(SESSION_TWO_ID) },
+                new BookingSessionData { Id = new Guid(SESSION_THREE_ID) },
+                new BookingSessionData { Id = new Guid(SESSION_FOUR_ID) },
+                new BookingSessionData { Id = new Guid(SESSION_FIVE_ID) }
             };
         }
 
@@ -253,8 +223,8 @@ namespace CoachSeek.Domain.Tests.Unit.Services
 
         private decimal WhenTryCalculateBookingPrice(Parameters parameters)
         {
-            return CourseBookingPriceCalculator.CalculatePrice(parameters.SessionBookings, 
-                                                               parameters.SessionsInCourse,
+            return CourseBookingPriceCalculator.CalculatePrice(parameters.BookedSessions, 
+                                                               parameters.CourseSessions,
                                                                parameters.CoursePrice);
         }
 
@@ -298,16 +268,16 @@ namespace CoachSeek.Domain.Tests.Unit.Services
 
         private class Parameters
         {
-            public List<SingleSessionBookingData> SessionBookings { get; private set; }
-            public List<SingleSessionData> SessionsInCourse { get; private set; }
+            public List<BookingSessionData> BookedSessions { get; private set; }
+            public List<SingleSessionData> CourseSessions { get; private set; }
             public decimal? CoursePrice { get; private set; }
 
-            public Parameters(List<SingleSessionBookingData> sessionBookings,
-                              List<SingleSessionData> sessionsInCourse,
+            public Parameters(List<BookingSessionData> bookedSessions,
+                              List<SingleSessionData> courseSessions,
                               decimal? coursePrice = null)
             {
-                SessionBookings = sessionBookings;
-                SessionsInCourse = sessionsInCourse;
+                BookedSessions = bookedSessions;
+                CourseSessions = courseSessions;
                 CoursePrice = coursePrice;
             }
         }

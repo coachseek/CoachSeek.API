@@ -84,6 +84,14 @@
       <Project>{64BDE56F-D7E8-4103-B5C4-CA10EE93366D}</Project>
       <Name>CoachSeek.Application</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Data\CoachSeek.Data.csproj">
+      <Project>{17844eaa-9e91-4e2d-a0d3-db48ad369de6}</Project>
+      <Name>CoachSeek.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Amazon\Coachseek.Infrastructure.Queueing.Amazon.csproj">
       <Project>{34E62A74-B76E-4A1E-B692-9698D57D7C53}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Amazon</Name>

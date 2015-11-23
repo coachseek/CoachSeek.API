@@ -53,6 +53,10 @@ namespace CoachSeek.Domain.Entities
             _pricing = new SingleSessionPricing(pricing.SessionPrice);
         }
 
+        public bool IsFull
+        {
+            get { return Booking.BookingCount >= Booking.StudentCapacity; }
+        }
 
         public override bool IsOverlapping(Session otherSession)
         {

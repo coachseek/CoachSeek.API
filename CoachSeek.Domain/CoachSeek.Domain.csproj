@@ -112,9 +112,12 @@
     <Compile Include="Entities\Authentication\CoachseekAdminIdentity.cs" />
     <Compile Include="Entities\Authentication\CoachseekAnonymousIdentity.cs" />
     <Compile Include="Entities\Authentication\CoachseekIdentity.cs" />
+    <Compile Include="Entities\BookingSession.cs" />
     <Compile Include="Entities\ColourDefault.cs" />
     <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />
+    <Compile Include="Entities\CourseSessionOnlineBookingCollection.cs" />
+    <Compile Include="Entities\CourseSessionBookingCollection.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\BouncedEmail.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
@@ -229,6 +232,7 @@
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\DurationFormatter.cs" />
     <Compile Include="Services\PasswordHash.cs" />
+    <Compile Include="Services\SessionNamer.cs" />
     <Compile Include="Services\SessionsInCourseValidator.cs" />
     <Compile Include="Services\SingleSessionListCalculator.cs" />
     <Compile Include="Services\WeeklySingleSessionListCalculator.cs" />

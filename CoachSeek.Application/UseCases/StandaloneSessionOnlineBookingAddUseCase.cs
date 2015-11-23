@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services.Emailing;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -22,8 +23,8 @@ namespace CoachSeek.Application.UseCases
             ValidateIsOnlineBookable(errors);
         }
 
-        protected override SingleSessionBooking CreateSingleSessionBooking(SessionKeyCommand session,
-                                                                           CustomerKeyCommand customer)
+        protected override SingleSessionBooking CreateSessionBooking(BookingSession session,
+                                                                     CustomerKeyData customer)
         {
             return new SingleSessionOnlineBooking(session, customer);
         }

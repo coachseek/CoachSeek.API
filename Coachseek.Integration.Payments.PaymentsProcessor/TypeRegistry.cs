@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Coachseek.DataAccess.Main.SqlServer.Repositories;
+using CoachSeek.Domain.Repositories;
 using Coachseek.Infrastructure.Queueing.Azure;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using StructureMap.Configuration.DSL;

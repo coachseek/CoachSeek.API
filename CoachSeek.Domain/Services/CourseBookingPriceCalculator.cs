@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 
@@ -8,87 +9,105 @@ namespace CoachSeek.Domain.Services
 {
     public static class CourseBookingPriceCalculator
     {
-        public static decimal CalculatePrice(CourseBookingData booking, RepeatedSessionData course)
+        public static decimal CalculatePrice(CourseBookingData booking, 
+                                             RepeatedSessionData course)
         {
-            return CalculatePrice(booking.SessionBookings,
-                                  course.Sessions, 
+            return CalculatePrice(booking.BookedSessions.AsReadOnly(),
+                                  course.Sessions.AsReadOnly(), 
                                   course.Pricing.CoursePrice);
         }
 
-        public static decimal CalculatePrice(IList<SessionKeyCommand> sessions, RepeatedSessionData course)
+        public static decimal CalculatePrice(IReadOnlyCollection<SessionKeyCommand> bookedSessions, 
+                                             RepeatedSessionData course)
         {
-            var sessionBookings = sessions.Select(x => new SingleSessionBookingData {Session = new SessionKeyData(x.Id)});
-            return CalculatePrice(sessionBookings.ToList(),
-                                  course.Sessions,
+            return CalculatePrice(bookedSessions.Select(x => x.ToData()).AsReadOnly(),
+                                  course.Sessions.AsReadOnly(),
                                   course.Pricing.CoursePrice);
         }
 
-        public static decimal CalculatePrice(IList<SingleSessionBookingData> sessionBookings,
-                                             IList<SingleSessionData> sessionsInCourse,
+        public static decimal CalculatePrice(IReadOnlyCollection<BookingSessionData> bookedSessions, 
+                                             RepeatedSessionData course)
+        {
+            return CalculatePrice(bookedSessions,
+                                  course.Sessions.AsReadOnly(),
+                                  course.Pricing.CoursePrice);
+        }
+
+        public static decimal CalculatePrice(IReadOnlyCollection<BookingSessionData> bookedSessions,
+                                             IReadOnlyCollection<SingleSessionData> courseSessions,
                                              decimal? coursePrice = null)
         {
-            if (!sessionBookings.Any())
-                return 0;
-            ValidateCanCalculatePrice(sessionBookings, sessionsInCourse, coursePrice);
-            if (sessionBookings.Count == sessionsInCourse.Count)
-                return CalculateWholeCoursePrice(sessionBookings, sessionsInCourse, coursePrice);
-            return CalculatePartialCoursePrice(sessionBookings, sessionsInCourse, coursePrice);
+            return CalculatePrice(bookedSessions.Select(x => new SessionKeyData(x.Id)).AsReadOnly(),
+                                  courseSessions,
+                                  coursePrice);
         }
 
-        private static void ValidateCanCalculatePrice(IList<SingleSessionBookingData> sessionBookings,
-                                                      IList<SingleSessionData> sessionsInCourse,
+        public static decimal CalculatePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                             IReadOnlyCollection<SingleSessionData> courseSessions,
+                                             decimal? coursePrice = null)
+        {
+            if (!bookedSessions.Any())
+                return 0;
+            ValidateCanCalculatePrice(bookedSessions, courseSessions, coursePrice);
+            if (bookedSessions.Count == courseSessions.Count)
+                return CalculateWholeCoursePrice(bookedSessions, courseSessions, coursePrice);
+            return CalculatePartialCoursePrice(bookedSessions, courseSessions, coursePrice);
+        }
+
+        private static void ValidateCanCalculatePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                                      IReadOnlyCollection<SingleSessionData> courseSessions,
                                                       decimal? coursePrice)
         {
             if (coursePrice.HasValue)
                 return;
-            foreach (var sessionBooking in sessionBookings)
+            foreach (var bookedSession in bookedSessions)
             {
-                var sessionPrice = sessionsInCourse.Single(x => x.Id == sessionBooking.Session.Id).Pricing.SessionPrice;
+                var sessionPrice = courseSessions.Single(x => x.Id == bookedSession.Id).Pricing.SessionPrice;
                 if (!sessionPrice.HasValue)
                     throw new ArgumentException("Must have either session or course price.");
             }
         }
 
-        private static decimal CalculateWholeCoursePrice(IList<SingleSessionBookingData> sessionBookings,
-                                                         IList<SingleSessionData> sessionsInCourse,
+        private static decimal CalculateWholeCoursePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                                         IReadOnlyCollection<SingleSessionData> courseSessions,
                                                          decimal? coursePrice)
         {
             if (coursePrice.HasValue)
                 return coursePrice.Value;
-            return SumUpSessionPricesForWholeCourse(sessionBookings, sessionsInCourse);
+            return SumUpSessionPricesForWholeCourse(bookedSessions, courseSessions);
         }
 
-        private static decimal CalculatePartialCoursePrice(IList<SingleSessionBookingData> sessionBookings,
-                                                           IList<SingleSessionData> sessionsInCourse,
+        private static decimal CalculatePartialCoursePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                                           IReadOnlyCollection<SingleSessionData> courseSessions,
                                                            decimal? coursePrice)
         {
-            return SumUpSessionPricesForPartialCourse(sessionBookings, sessionsInCourse, coursePrice);
+            return SumUpSessionPricesForPartialCourse(bookedSessions, courseSessions, coursePrice);
         }
 
-        private static decimal SumUpSessionPricesForWholeCourse(IList<SingleSessionBookingData> sessionBookings,
-                                                                IList<SingleSessionData> sessionsInCourse)
+        private static decimal SumUpSessionPricesForWholeCourse(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                                                IReadOnlyCollection<SingleSessionData> courseSessions)
         {
-            return sessionBookings.Sum(sessionBooking => sessionsInCourse.Single(x => x.Id == sessionBooking.Session.Id).Pricing.SessionPrice.GetValueOrDefault());
+            return bookedSessions.Sum(bookedSession => courseSessions.Single(x => x.Id == bookedSession.Id).Pricing.SessionPrice.GetValueOrDefault());
         }
 
-        private static decimal SumUpSessionPricesForPartialCourse(IList<SingleSessionBookingData> sessionBookings,
-                                                                  IList<SingleSessionData> sessionsInCourse,
+        private static decimal SumUpSessionPricesForPartialCourse(IReadOnlyCollection<SessionKeyData> bookedSessions,
+                                                                  IReadOnlyCollection<SingleSessionData> courseSessions,
                                                                   decimal? coursePrice)
         {
             decimal price = 0;
-            foreach (var sessionBooking in sessionBookings)
+            foreach (var bookedSession in bookedSessions)
             {
-                var sessionPrice = sessionsInCourse.Single(x => x.Id == sessionBooking.Session.Id).Pricing.SessionPrice;
+                var sessionPrice = courseSessions.Single(x => x.Id == bookedSession.Id).Pricing.SessionPrice;
                 if (!sessionPrice.HasValue)
-                    sessionPrice = ProRataCoursePrice(coursePrice.Value, sessionsInCourse);
+                    sessionPrice = ProRataCoursePrice(coursePrice.Value, courseSessions);
                 price += sessionPrice.Value;
             }
             return price;
         }
 
-        private static decimal ProRataCoursePrice(decimal coursePrice, IList<SingleSessionData> sessionsInCourse)
+        private static decimal ProRataCoursePrice(decimal coursePrice, IReadOnlyCollection<SingleSessionData> courseSessions)
         {
-            return Math.Round(coursePrice / sessionsInCourse.Count, 2);
+            return Math.Round(coursePrice / courseSessions.Count, 2);
         }
     }
 }

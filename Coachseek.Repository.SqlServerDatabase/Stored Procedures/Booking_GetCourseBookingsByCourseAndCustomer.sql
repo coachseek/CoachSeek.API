@@ -1,10 +1,36 @@
 ﻿
-CREATE PROCEDURE [dbo].[Booking_GetCourseBookingByGuid]
+CREATE PROCEDURE [dbo].[Booking_GetCourseBookingsByCourseAndCustomer]
 	@businessGuid uniqueidentifier,
-	@bookingGuid uniqueidentifier
+	@courseGuid uniqueidentifier,
+	@customerGuid uniqueidentifier
 AS
 BEGIN
 	SET NOCOUNT ON;
+
+	DECLARE @businessId int
+	DECLARE @courseId int
+	DECLARE @customerId int
+
+	SELECT
+		@businessId = Id
+	FROM
+		[dbo].[Business]
+	WHERE
+		[Guid] = @businessGuid
+
+	SELECT
+		@courseId = Id
+	FROM
+		[dbo].[Session]
+	WHERE
+		[Guid] = @courseGuid
+
+	SELECT
+		@customerId = Id
+	FROM
+		[dbo].[Customer]
+	WHERE
+		[Guid] = @customerGuid;
 	
 	WITH CourseBooking AS 
 	( 
@@ -16,8 +42,9 @@ BEGIN
 			INNER JOIN [dbo].[Business] b
 				ON b.[Id] = bk.[BusinessId] 
 		WHERE
-			bk.[Guid] = @bookingGuid
-			AND b.[Guid] = @businessGuid
+			b.[Guid] = @businessGuid
+			AND bk.[SessionId] = @courseId
+			AND bk.[CustomerId] = @customerId
 		UNION ALL 
 		SELECT
 			bk2.[Id], 

@@ -6,6 +6,7 @@ namespace CoachSeek.Data.Model
     public abstract class SessionData
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
 
         public LocationKeyData Location { get; set; }
         public CoachKeyData Coach { get; set; }

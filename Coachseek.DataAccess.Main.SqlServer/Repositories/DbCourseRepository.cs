@@ -224,7 +224,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var serviceName = reader.GetString(9);
             var name = reader.GetNullableString(10);
             var startDate = reader.GetDate(11);
-            var startTime = reader.GetTimeSpan(12).ToString(@"h\:mm");
+            var startTime = reader.GetTimeSpan(12).ToString(@"hh\:mm");
             var duration = reader.GetInt16(13);
             var studentCapacity = reader.GetByte(14);
             var isOnlineBookable = reader.GetBoolean(15);
@@ -244,6 +244,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return new RepeatedSessionData
             {
                 Id = id,
+                Name = name,
                 Location = new LocationKeyData { Id = locationId, Name = locationName },
                 Coach = new CoachKeyData { Id = coachId, Name = string.Format("{0} {1}", coachFirstName, coachLastName) },
                 Service = new ServiceKeyData { Id = serviceId, Name = serviceName },

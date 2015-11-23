@@ -12,6 +12,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
         public static void Configure()
         {
             Mapper.CreateMap<Booking, DbBooking>();
+            Mapper.CreateMap<BookingSessionData, DbSessionKey>();
             Mapper.CreateMap<Business, DbBusiness>();
             Mapper.CreateMap<BusinessAdminData, DbBusinessAdmin>();
             Mapper.CreateMap<Coach, DbCoach>();
@@ -41,7 +42,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<SessionTimingData, DbSessionTiming>();
             Mapper.CreateMap<SingleRepetitionData, DbRepetition>();
             Mapper.CreateMap<SingleSession, DbSingleSession>();
-            Mapper.CreateMap<SingleSessionBooking, DbSingleSessionBooking>();
+            Mapper.CreateMap<SingleSessionBookingData, DbSingleSessionBooking>();
             Mapper.CreateMap<SingleSessionData, DbSingleSession>();
             Mapper.CreateMap<SingleSessionPricingData, DbSingleSessionPricing>();
             Mapper.CreateMap<StandaloneSession, DbSingleSession>();
@@ -72,6 +73,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Configuration
             Mapper.CreateMap<DbServiceKey, ServiceKeyData>();
             Mapper.CreateMap<DbServiceTiming, ServiceTimingData>();
             Mapper.CreateMap<DbSessionBooking, SessionBookingData>();
+            Mapper.CreateMap<DbSessionKey, BookingSessionData>();
             Mapper.CreateMap<DbSessionKey, SessionKeyData>();
             Mapper.CreateMap<DbSessionTiming, SessionTimingData>();
             Mapper.CreateMap<DbSingleSession, SingleSessionData>();

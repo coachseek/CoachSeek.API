@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Entities
         private SessionDuration _duration;
 
         public string StartDate { get { return _startDate.ToString(); } }
-        public string StartTime { get { return _startTime.ToData(); } }
+        public string StartTime { get { return _startTime.ToString(); } }
         public int Duration { get { return _duration.Minutes; } }
 
         public PointInTime Start { get { return new PointInTime(_startDate, _startTime); } }

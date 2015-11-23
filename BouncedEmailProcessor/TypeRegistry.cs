@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using Coachseek.API.Client.Interfaces;
-using Coachseek.API.Client.Services;
 using Coachseek.Infrastructure.Queueing.Amazon;
 using Coachseek.Infrastructure.Queueing.Contracts.Emailing;
-using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 

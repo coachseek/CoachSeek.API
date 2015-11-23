@@ -14,6 +14,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<Coach, CoachData>();
             Mapper.CreateMap<Coach, CoachKeyData>();
             Mapper.CreateMap<Customer, CustomerData>();
+            Mapper.CreateMap<CustomerData, CustomerKeyData>();
             Mapper.CreateMap<DailyWorkingHours, DailyWorkingHoursData>();
             Mapper.CreateMap<Location, LocationData>();
             Mapper.CreateMap<Location, LocationKeyData>();

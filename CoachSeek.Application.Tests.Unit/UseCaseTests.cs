@@ -424,11 +424,14 @@ namespace CoachSeek.Application.Tests.Unit
         protected void SetupBookingForCustomerFredOnSessionBillMiniRedBrownsBayOnJan21From14To15()
         {
             BusinessRepository.AddSessionBooking(new Guid(BUSINESS_ID),
-                                                 new SingleSessionBooking(new Guid(BOOKING_FRED_SESSION_TWO_ID),
-                                                                          new SessionKeyData(new Guid(SESSION_TWO)),
-                                                                          new CustomerKeyData { Id = new Guid(CUSTOMER_FRED_ID) },
-                                                                          Constants.PAYMENT_STATUS_PENDING_INVOICE,
-                                                                          null));
+                                                 new SingleSessionBookingData
+                                                 {
+                                                     Id = new Guid(BOOKING_FRED_SESSION_TWO_ID),
+                                                     Session = new BookingSessionData { Id = new Guid(SESSION_TWO) },
+                                                     Customer = new CustomerKeyData(new Guid(CUSTOMER_FRED_ID)),
+                                                     PaymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE,
+                                                     HasAttended = null
+                                                 });
         }
 
         protected void SetupCustomerFred()

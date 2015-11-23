@@ -98,11 +98,6 @@ namespace CoachSeek.Application.UseCases
             session.Booking.Bookings = bookings.Where(x => x.SessionId == session.Id).ToList();
         }
 
-        private bool IsStandaloneSession(SingleSessionData session)
-        {
-            return !session.ParentId.HasValue;
-        }
-
         private IStandaloneSessionBookingAddUseCase SetupStandaloneSessionBookingAddUseCase(SingleSessionData session)
         {
             StandaloneSessionBookingAddUseCase.Session = session;

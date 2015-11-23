@@ -11,8 +11,8 @@ namespace CoachSeek.Domain.Entities
         private TimeOfDay _finish;
 
         public bool IsAvailable { get; private set; }
-        public string StartTime { get { return _start != null ? _start.ToData() : null; } }
-        public string FinishTime { get { return _finish != null ? _finish.ToData() : null; } }
+        public string StartTime { get { return _start != null ? _start.ToString() : null; } }
+        public string FinishTime { get { return _finish != null ? _finish.ToString() : null; } }
 
 
         public DailyWorkingHours(DailyWorkingHoursCommand command, string dayOfWeek)

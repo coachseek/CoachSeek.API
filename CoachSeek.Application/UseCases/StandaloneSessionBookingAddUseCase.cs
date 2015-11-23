@@ -19,9 +19,11 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 ValidateCommand(command);
-                var newBooking = CreateSingleSessionBooking(command.Sessions[0], command.Customer);
+                var bookingSession = new BookingSession(Session);
+                var customer = BusinessRepository.GetCustomer(Business.Id, command.Customer.Id);
+                var newBooking = CreateSessionBooking(bookingSession, customer.ToKeyData());
                 ValidateAddBooking(newBooking);
-                var data = BusinessRepository.AddSessionBooking(Business.Id, newBooking);
+                var data = BusinessRepository.AddSessionBooking(Business.Id, (SingleSessionBookingData)newBooking.ToData());
                 PostProcessing(newBooking);
                 return new Response(data);
             }
@@ -43,11 +45,17 @@ namespace CoachSeek.Application.UseCases
             errors.ThrowIfErrors();
         }
 
-        protected virtual SingleSessionBooking CreateSingleSessionBooking(SessionKeyCommand session, 
-                                                                          CustomerKeyCommand customer)
+        protected virtual SingleSessionBooking CreateSessionBooking(BookingSession session,
+                                                                    CustomerKeyData customer)
         {
             return new SingleSessionBooking(session, customer);
         }
+
+        //protected virtual SingleSessionBooking CreateSessionBooking(SessionKeyCommand session, 
+        //                                                            CustomerKeyCommand customer)
+        //{
+        //    return new SingleSessionBooking(session, customer);
+        //}
 
         private void ValidateSessionCount(IList<SessionKeyCommand> sessions, ValidationException errors)
         {

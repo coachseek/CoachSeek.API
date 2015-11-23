@@ -1,15 +1,20 @@
 ﻿using System;
+using CoachSeek.Data.Model;
 
 namespace CoachSeek.Domain.Commands
 {
     public class SessionKeyCommand : KeyCommand
     {
-        public SessionKeyCommand()
+        public SessionKeyCommand() 
         { }
 
-        public SessionKeyCommand(Guid sessionId)
+        public SessionKeyCommand(Guid id) 
+            : base(id)
+        { }
+
+        public SessionKeyData ToData()
         {
-            Id = sessionId;
+            return new SessionKeyData(Id);
         }
     }
 }

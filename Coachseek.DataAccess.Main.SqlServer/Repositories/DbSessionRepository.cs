@@ -288,7 +288,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var serviceName = reader.GetString(9);
             var name = reader.GetNullableString(10);
             var startDate = reader.GetDate(11);
-            var startTime = reader.GetTimeSpan(12).ToString(@"h\:mm");
+            var startTime = reader.GetTimeSpan(12).ToString(@"hh\:mm");
             var duration = reader.GetInt16(13);
             var studentCapacity = reader.GetByte(14);
             var isOnlineBookable = reader.GetBoolean(15);

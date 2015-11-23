@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Session_GetSessionByGuid]
 	@businessGuid uniqueidentifier,
 	@sessionGuid uniqueidentifier
@@ -17,7 +18,21 @@ BEGIN
 		c.[LastName] AS CoachLastName,
 		svc.[Guid] AS ServiceGuid,
 		svc.[Name] AS ServiceName,
-		s.[Name],
+		svc.[Name] + ' at ' + l.[Name] 
+				   + ' with ' +  c.[FirstName] + ' ' + c.[LastName] 
+				   + CASE 
+						WHEN s.SessionCount = 1 THEN
+							  ' on ' + CONVERT(NVARCHAR(24), s.[StartDate]) 
+							+ ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) 
+						ELSE
+						      ' starting on ' + CONVERT(NVARCHAR(24), s.[StartDate]) 
+						    + ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) 
+						    + ' for ' + CONVERT(NVARCHAR(4), s.[SessionCount])
+						    + CASE s.RepeatFrequency
+								WHEN 'd' THEN ' days'
+								WHEN 'w' THEN ' weeks'
+							 END 
+						END AS [Name],
 		s.[StartDate],
 		s.[StartTime],
 		s.[Duration],

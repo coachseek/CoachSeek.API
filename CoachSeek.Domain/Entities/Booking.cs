@@ -1,7 +1,6 @@
 ﻿using System;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
-using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Domain.Entities
 {
@@ -10,15 +9,14 @@ namespace CoachSeek.Domain.Entities
     {
         public Guid Id { get; private set; }
         public string PaymentStatus { get; set; }
-        public CustomerKeyData Customer { get; set; }
+        public CustomerKeyData Customer { get; private set; }
 
 
-        // Command parameters denote that it's data from outside the application (ie. user input).
-        protected Booking(CustomerKeyCommand customer)
+        protected Booking(CustomerKeyData customer)
         {
             Id = Guid.NewGuid();
             PaymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE;
-            Customer = new CustomerKeyData { Id = customer.Id };
+            Customer = customer;
         }
 
         // Data parameters denote that it's data from inside the application (ie. database).
@@ -28,5 +26,12 @@ namespace CoachSeek.Domain.Entities
             PaymentStatus = paymentStatus;
             Customer = customer;
         }
+
+        protected Booking(BookingData data)
+            : this(data.Id, data.PaymentStatus, data.Customer)
+        { }
+
+
+        public abstract BookingData ToData();
     }
 }

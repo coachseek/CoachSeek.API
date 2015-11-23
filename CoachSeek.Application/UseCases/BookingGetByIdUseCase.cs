@@ -2,6 +2,7 @@
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Application.UseCases
@@ -33,8 +34,7 @@ namespace CoachSeek.Application.UseCases
             if (booking.IsNotFound())
                 return null;
             var course = BusinessRepository.GetCourse(Business.Id, booking.Course.Id);
-            booking.Price = CourseBookingPriceCalculator.CalculatePrice(booking, course);
-            return booking;
+            return (CourseBookingData)new CourseBooking(booking, course).ToData();
         }
     }
 }

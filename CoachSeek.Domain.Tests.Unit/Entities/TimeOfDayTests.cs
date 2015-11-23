@@ -114,28 +114,28 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
         [Test]
-        public void TestToData()
+        public void TestToString()
         {
-            AssertToData("0:00");
-            AssertToData("0:15");
-            AssertToData("0:30");
-            AssertToData("0:45");
-            AssertToData("1:00");
+            AssertToString("00:00");
+            AssertToString("00:15");
+            AssertToString("00:30");
+            AssertToString("00:45");
+            AssertToString("01:00");
 
-            AssertToData("6:00");
-            AssertToData("6:15");
-            AssertToData("6:30");
-            AssertToData("6:45");
+            AssertToString("06:00");
+            AssertToString("06:15");
+            AssertToString("06:30");
+            AssertToString("06:45");
 
-            AssertToData("10:00");
-            AssertToData("10:15");
-            AssertToData("10:30");
-            AssertToData("10:45");
+            AssertToString("10:00");
+            AssertToString("10:15");
+            AssertToString("10:30");
+            AssertToString("10:45");
 
-            AssertToData("23:00");
-            AssertToData("23:15");
-            AssertToData("23:30");
-            AssertToData("23:45");
+            AssertToString("23:00");
+            AssertToString("23:15");
+            AssertToString("23:30");
+            AssertToString("23:45");
         }
 
 
@@ -242,9 +242,9 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(laterPit.IsAfter(earlierPit), Is.EqualTo(isAfter));
         }
 
-        private void AssertToData(string time)
+        private void AssertToString(string time)
         {
-            Assert.That(new TimeOfDay(time).ToData(), Is.EqualTo(time));
+            Assert.That(new TimeOfDay(time).ToString(), Is.EqualTo(time));
         }
 
 

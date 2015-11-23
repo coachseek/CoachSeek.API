@@ -64,11 +64,14 @@ namespace CoachSeek.Domain.Repositories
 
         Task<SingleSessionBookingData> GetSessionBookingAsync(Guid businessId, Guid sessionBookingId);
         SingleSessionBookingData GetSessionBooking(Guid businessId, Guid sessionBookingId);
-        SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking sessionBooking);
+        SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBookingData sessionBooking);
 
         Task<CourseBookingData> GetCourseBookingAsync(Guid businessId, Guid courseBookingId);
+        Task<IList<CourseBookingData>> GetCourseBookingsAsync(Guid businessId, Guid courseId, Guid customerId);
         CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId);
+        IList<CourseBookingData> GetCourseBookings(Guid businessId, Guid courseId, Guid customerId);
         CourseBookingData AddCourseBooking(Guid businessId, CourseBooking courseBooking);
+        //void AppendToCourseBooking(Guid businessId, CourseBooking courseBooking, SingleSessionBooking sessionBooking);
         //void UpdateBooking(Guid businessId, BookingData booking);
         void DeleteBooking(Guid businessId, Guid bookingId);
 
@@ -81,6 +84,7 @@ namespace CoachSeek.Domain.Repositories
         Task<IList<CustomerBookingData>> GetCustomerBookingsByCourseIdAsync(Guid businessId, Guid courseId);
         Task<IList<CustomerBookingData>> GetAllCustomerBookingsAsync(Guid businessId);
         IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId);
+        IList<CustomerBookingData> GetAllCustomerSessionBookingsByCustomerId(Guid businessId, Guid customerId);
 
         IList<EmailTemplateData> GetAllEmailTemplates(Guid businessId);
         EmailTemplateData GetEmailTemplate(Guid businessId, string templateType);

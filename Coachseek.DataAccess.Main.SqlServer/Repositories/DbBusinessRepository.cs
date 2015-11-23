@@ -309,7 +309,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return BookingRepository.GetSessionBooking(businessId, sessionBookingId);
         }
 
-        public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking booking)
+        public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBookingData booking)
         {
             return BookingRepository.AddSessionBooking(businessId, booking);
         }
@@ -324,9 +324,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await BookingRepository.GetCourseBookingAsync(businessId, courseBookingId);
         }
 
+        public async Task<IList<CourseBookingData>> GetCourseBookingsAsync(Guid businessId, Guid courseId, Guid customerId)
+        {
+            return await BookingRepository.GetCourseBookingsAsync(businessId, courseId, customerId);
+        }
+
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
             return BookingRepository.GetCourseBooking(businessId, courseBookingId);
+        }
+
+        public IList<CourseBookingData> GetCourseBookings(Guid businessId, Guid courseId, Guid customerId)
+        {
+            return BookingRepository.GetCourseBookings(businessId, courseId, customerId);
         }
 
         public void DeleteBooking(Guid businessId, Guid bookingId)
@@ -362,6 +372,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public IList<CustomerBookingData> GetAllCustomerBookings(Guid businessId)
         {
             return BookingRepository.GetAllCustomerBookings(businessId);
+        }
+
+        public IList<CustomerBookingData> GetAllCustomerSessionBookingsByCustomerId(Guid businessId, Guid customerId)
+        {
+            return BookingRepository.GetAllCustomerSessionBookingsByCustomerId(businessId, customerId);
         }
 
         public async Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)

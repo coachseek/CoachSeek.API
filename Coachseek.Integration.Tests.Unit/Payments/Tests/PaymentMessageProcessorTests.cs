@@ -268,11 +268,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             var business = CreateNewTestBusiness(true, false, PROVIDER_TEST, "test@business.com", "USD");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
-                new SessionKeyData(Guid.NewGuid()),
-                new CustomerKeyData {Id = Guid.NewGuid()},
+                new BookingSessionData { Id = Guid.NewGuid(), Date = "2020-01-01", StartTime = "09:45", StudentCapacity = 3, BookingCount = 2},
+                new CustomerKeyData(Guid.NewGuid()),
                 Constants.PAYMENT_STATUS_PENDING_INVOICE,
                 null);
-            BusinessRepository.AddSessionBooking(business.Id, booking);
+            BusinessRepository.AddSessionBooking(business.Id, (SingleSessionBookingData)booking.ToData());
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }
@@ -282,11 +282,11 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             var business = CreateNewTestBusiness(true, false, "PayPal", "test@business.com");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
-                new SessionKeyData(Guid.NewGuid()),
-                new CustomerKeyData { Id = Guid.NewGuid() },
+                new BookingSessionData { Id = Guid.NewGuid() },
+                new CustomerKeyData(Guid.NewGuid()),
                 Constants.PAYMENT_STATUS_PENDING_INVOICE,
                 null);
-            BusinessRepository.AddSessionBooking(business.Id, booking);
+            BusinessRepository.AddSessionBooking(business.Id, (SingleSessionBookingData)booking.ToData());
 
             return new PaymentProcessingMessage(NEW_MSG_ID, PROVIDER_TEST, string.Format(TEST_MESSAGE, "Completed", BUSINESS_ID, BOOKING_ID));
         }

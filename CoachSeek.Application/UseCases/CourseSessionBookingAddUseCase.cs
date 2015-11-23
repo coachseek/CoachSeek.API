@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
@@ -20,11 +22,13 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 ValidateCommand(command);
-                var newBooking = CreateCourseBooking(command);
-                ValidateAddBooking(newBooking);
-                var data = BusinessRepository.AddCourseBooking(Business.Id, newBooking);
-                PostProcessing(newBooking);
-                return new Response(data);
+                var courseBooking = LookupCourseBooking(command.Customer);
+                if (courseBooking.IsExisting())
+                    courseBooking = AppendSessionBookingsToCourseBooking(courseBooking, command);
+                else
+                    courseBooking = AddCourseBooking(command);
+                PostProcessing(courseBooking);
+                return new Response(courseBooking.ToData());
             }
             catch (CoachseekException ex)
             {
@@ -45,14 +49,65 @@ namespace CoachSeek.Application.UseCases
             errors.ThrowIfErrors();
         }
 
-        protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command)
+        private CourseBooking AppendSessionBookingsToCourseBooking(CourseBooking originalCourseBooking, BookingAddCommand command)
         {
-            return new CourseBooking(command, Course);
+            var updatedCourseBooking = new CourseBooking(originalCourseBooking);
+            updatedCourseBooking.AppendSessionBookings(command);
+            foreach (var sessionBooking in updatedCourseBooking.SessionBookings)
+                if (originalCourseBooking.ContainsNot(sessionBooking))
+                    BusinessRepository.AddSessionBooking(Business.Id, sessionBooking);
+            return LookupCourseBooking(originalCourseBooking.Id);
+        }
+
+        private CourseBooking AddCourseBooking(BookingAddCommand command)
+        {
+            var customer = BusinessRepository.GetCustomer(Business.Id, command.Customer.Id);
+            var courseBooking = CreateCourseBooking(command, customer);
+            ValidateAddBooking(courseBooking);
+            var data = BusinessRepository.AddCourseBooking(Business.Id, courseBooking);
+            return CreateCourseBooking(data);
+        }
+
+        protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command, CustomerData customer)
+        {
+            return new CourseBooking(command, Course, customer);
+        }
+
+        protected virtual CourseBooking CreateCourseBooking(CourseBookingData data)
+        {
+            if (data == null)
+                return null;
+            return new CourseBooking(data, Course);
+        }
+
+        private CourseBooking LookupCourseBooking(CustomerKeyCommand customer)
+        {
+            // Note: GetCourseBookings() still returns multiple course bookings because that used to be allowed.
+            // Once we have merged all multiple course bookings we should remove the call to First(). 
+            var courseBookings = BusinessRepository.GetCourseBookings(Business.Id, Course.Id, customer.Id);
+            if (!courseBookings.Any())
+                return null;
+            return new CourseBooking(courseBookings.First(), Course);
+        }
+
+        private CourseBooking LookupCourseBooking(Guid courseBookingId)
+        {
+            var courseBookingData = BusinessRepository.GetCourseBooking(Business.Id, courseBookingId);
+            if (courseBookingData == null)
+                return null;
+            return new CourseBooking(courseBookingData, Course);
         }
 
         private void ValidateSessions(IEnumerable<SessionKeyCommand> bookingSessions, ValidationException errors)
         {
-            SessionsInCourseValidator.Validate(bookingSessions, Course);
+            try
+            {
+                SessionsInCourseValidator.Validate(bookingSessions, Course);
+            }
+            catch (ValidationException ex)
+            {
+                errors.Add(ex);
+            }
         }
 
         protected virtual void ValidateCommandAdditional(BookingAddCommand newBooking, ValidationException errors)
@@ -68,11 +123,14 @@ namespace CoachSeek.Application.UseCases
             ValidateAddBookingAdditional(newBooking);
         }
 
+        private void ValidateAppendBooking(CourseBooking courseBooking)
+        {
+            ValidateSpacesAvailable(courseBooking);
+        }
+
         private void ValidateIsNewBooking(CourseBooking newBooking)
         {
-            var customerSessionBookings = BusinessRepository.GetAllCustomerBookings(Business.Id)
-                                                            .Where(x => x.Customer.Id == newBooking.Customer.Id)
-                                                            .Where(x => x.ParentId != null)
+            var customerSessionBookings = BusinessRepository.GetAllCustomerSessionBookingsByCustomerId(Business.Id, newBooking.Customer.Id)
                                                             .ToList();
 
             foreach (var customerSessionBooking in customerSessionBookings)

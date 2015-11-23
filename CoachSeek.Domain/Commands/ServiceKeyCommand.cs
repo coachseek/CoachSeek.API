@@ -4,12 +4,11 @@ namespace CoachSeek.Domain.Commands
 {
     public class ServiceKeyCommand : KeyCommand
     {
-        public ServiceKeyCommand()
+        public ServiceKeyCommand() 
         { }
 
-        public ServiceKeyCommand(Guid id)
-        {
-            Id = id;
-        }
+        public ServiceKeyCommand(Guid id) 
+            : base(id)
+        { }
     }
 }

@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\BookingSessionData.cs" />
     <Compile Include="Model\BusinessPaymentData.cs" />
     <Compile Include="Model\BusinessStatisticsData.cs" />
     <Compile Include="Model\CourseBookingData.cs" />

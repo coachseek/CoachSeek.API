@@ -642,6 +642,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return GetCourseBooking(businessId, courseBookingId);
         }
 
+        public Task<IList<CourseBookingData>> GetCourseBookingsAsync(Guid businessId, Guid courseId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public CourseBookingData GetCourseBooking(Guid businessId, Guid courseBookingId)
         {
             var dbCourseBookings = GetAllDbCourseBookings(businessId);
@@ -650,10 +655,15 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             return Mapper.Map<DbCourseBooking, CourseBookingData>(dbCourseBooking);
         }
 
-
-        public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBooking booking)
+        public IList<CourseBookingData> GetCourseBookings(Guid businessId, Guid courseId, Guid customerId)
         {
-            var dbBooking = Mapper.Map<SingleSessionBooking, DbSingleSessionBooking>(booking);
+            throw new NotImplementedException();
+        }
+
+
+        public SingleSessionBookingData AddSessionBooking(Guid businessId, SingleSessionBookingData booking)
+        {
+            var dbBooking = Mapper.Map<SingleSessionBookingData, DbSingleSessionBooking>(booking);
 
             var dbBookings = GetAllDbSessionBookings(businessId);
             dbBookings.Add(dbBooking);
@@ -927,6 +937,12 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
 
 
         public Task SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IList<CustomerBookingData> GetAllCustomerSessionBookingsByCustomerId(Guid businessId, Guid customerId)
         {
             throw new NotImplementedException();
         }

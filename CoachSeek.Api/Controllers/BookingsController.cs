@@ -129,6 +129,7 @@ namespace CoachSeek.Api.Controllers
 
         private IResponse AddOnlineBooking(BookingAddCommand command)
         {
+            command.IsOnlineBooking = true;
             BookingAddMasterUseCase.Initialise(Context);
             return BookingAddMasterUseCase.AddOnlineBooking(command);
         }

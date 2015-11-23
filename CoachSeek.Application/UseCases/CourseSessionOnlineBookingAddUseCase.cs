@@ -1,5 +1,6 @@
 ﻿using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Services.Emailing;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -21,10 +22,10 @@ namespace CoachSeek.Application.UseCases
             ValidateIsOnlineBookable(errors);
         }
 
-        protected override CourseBooking CreateCourseBooking(BookingAddCommand command)
-        {
-            return new CourseOnlineBooking(command, Course);
-        }
+        //protected override CourseBooking CreateCourseBooking(BookingAddCommand command, CustomerData customer)
+        //{
+        //    return new CourseOnlineBooking(command, Course, customer);
+        //}
 
         private void ValidateIsOnlineBookable(ValidationException errors)
         {
