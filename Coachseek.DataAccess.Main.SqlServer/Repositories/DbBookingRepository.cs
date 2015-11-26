@@ -246,9 +246,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[2].Value = customerId;
 
                 reader = command.ExecuteReader();
-                var courseBookings = ReadCourseBookingsData(reader);
-
-                return courseBookings;
+                return ReadCourseBookingsData(reader);
             }
             finally
             {
@@ -591,13 +589,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 
         private CourseBookingData ConvertToCourseBooking(CourseOrSessionBookingData booking)
         {
-            // TODO: Payment Status should be calculated from session payment status
             return new CourseBookingData
             {
                 Id = booking.Id,
                 Course = new SessionKeyData(booking.CourseOrSessionId, booking.CourseOrSessionName),
-                Customer = new CustomerKeyData(booking.CustomerId, booking.CustomerName),
-                PaymentStatus = booking.PaymentStatus
+                Customer = new CustomerKeyData(booking.CustomerId, booking.CustomerName)
             };
         }
 
@@ -610,7 +606,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Session = new BookingSessionData { Id = booking.CourseOrSessionId, Name = booking.CourseOrSessionName },
                 Customer = new CustomerKeyData(booking.CustomerId, booking.CustomerName),
                 PaymentStatus = booking.PaymentStatus,
-                HasAttended = booking.HasAttended
+                HasAttended = booking.HasAttended,
+                IsOnlineBooking = booking.IsOnlineBooking
             };
         }
 
@@ -624,6 +621,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var customerName = reader.GetString(6);
             var paymentStatus = reader.GetNullableString(7);
             var hasAttended = reader.GetNullableBool(8);
+            var isOnlineBooking = reader.GetNullableBool(9);
 
             return new CourseOrSessionBookingData
             {
@@ -634,7 +632,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 CustomerId = customerId,
                 CustomerName = customerName,
                 PaymentStatus = paymentStatus,
-                HasAttended = hasAttended
+                HasAttended = hasAttended,
+                IsOnlineBooking = isOnlineBooking
             };
         }
 
@@ -683,6 +682,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@hasAttended", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@isOnlineBooking", SqlDbType.Bit));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = booking.Id;
@@ -691,6 +691,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[4].Value = booking.Customer.Id;
                 command.Parameters[5].Value = booking.PaymentStatus;
                 command.Parameters[6].Value = booking.HasAttended;
+                command.Parameters[7].Value = booking.IsOnlineBooking;
 
                 reader = command.ExecuteReader();
 
@@ -714,13 +715,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
-            command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = courseBooking.Id;
             command.Parameters[2].Value = courseBooking.Course.Id;
             command.Parameters[3].Value = courseBooking.Customer.Id;
-            command.Parameters[4].Value = courseBooking.PaymentStatus;
 
             command.ExecuteNonQuery();
         }
@@ -735,6 +734,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var customerName = reader.GetString(6);
             var paymentStatus = reader.GetNullableString(7);
             var hasAttended = reader.GetNullableBool(8);
+            var isOnlineBooking = reader.GetNullableBool(9);
 
             return new SingleSessionBookingData
             {
@@ -743,7 +743,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Session = new BookingSessionData { Id = sessionId, Name = sessionName },
                 Customer = new CustomerKeyData(customerId, customerName),
                 PaymentStatus = paymentStatus,
-                HasAttended = hasAttended
+                HasAttended = hasAttended,
+                IsOnlineBooking = isOnlineBooking
             };
         }
 
@@ -758,6 +759,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             public string CustomerName;
             public string PaymentStatus;
             public bool? HasAttended;
+            public bool? IsOnlineBooking;
 
             public bool IsCourseBooking
             {

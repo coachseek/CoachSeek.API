@@ -3,8 +3,7 @@ CREATE PROCEDURE [dbo].[Booking_CreateCourseBooking]
 	@businessGuid uniqueidentifier,
 	@bookingGuid uniqueidentifier,
 	@courseGuid uniqueidentifier,
-	@customerGuid uniqueidentifier,
-	@paymentStatus nvarchar(50) = null
+	@customerGuid uniqueidentifier
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -51,7 +50,7 @@ BEGIN
 		@courseId,
 		@customerId,
 		NULL,
-		@paymentStatus,
+		NULL,
 		NULL
 	)
 	

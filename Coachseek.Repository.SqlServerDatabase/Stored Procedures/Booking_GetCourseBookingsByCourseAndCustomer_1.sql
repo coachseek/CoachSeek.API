@@ -79,8 +79,9 @@ BEGIN
 						END AS SessionName,
 		c.[Guid] AS CustomerGuid,
 		c.[FirstName] + ' ' + c.[LastName] As CustomerName,
-		bk.PaymentStatus,
-		bk.HasAttended
+		bk.[PaymentStatus],
+		bk.[HasAttended],
+		bk.[IsOnlineBooking]
 	FROM
 		CourseBooking cbk
 		INNER JOIN [dbo].[Booking] bk

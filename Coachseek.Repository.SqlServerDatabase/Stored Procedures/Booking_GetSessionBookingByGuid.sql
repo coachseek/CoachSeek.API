@@ -49,8 +49,9 @@ BEGIN
 					   + ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) AS SessionName,
 			c.[Guid] AS CustomerGuid,
 			c.[FirstName] + ' ' + c.[LastName] As CustomerName,
-			bk.PaymentStatus,
-			bk.HasAttended
+			bk.[PaymentStatus],
+			bk.[HasAttended],
+			bk.[IsOnlineBooking]
 		FROM
 			[dbo].[Business] b
 			INNER JOIN [dbo].[Booking] bk
@@ -84,8 +85,9 @@ BEGIN
 					   + ' at ' + CONVERT(NVARCHAR(5), s.[StartTime], 108) AS SessionName,
 			c.[Guid] AS CustomerGuid,
 			c.[FirstName] + ' ' + c.[LastName] As CustomerName,
-			bk.PaymentStatus,
-			bk.HasAttended
+			bk.[PaymentStatus],
+			bk.[HasAttended],
+			bk.[IsOnlineBooking]
 		FROM
 			[dbo].[Business] b
 			INNER JOIN [dbo].[Booking] bk

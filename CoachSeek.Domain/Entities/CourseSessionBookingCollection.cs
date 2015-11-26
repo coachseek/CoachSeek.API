@@ -96,7 +96,14 @@ namespace CoachSeek.Domain.Entities
 
         protected virtual SingleSessionBooking CreateSessionBooking(SingleSessionBookingData data, BookingSession session)
         {
+            if (IsOnlineBooking(data))
+                return new SingleSessionOnlineBooking(data.Id, session.ToData(), Customer, data.PaymentStatus, data.HasAttended, CourseBookingId);
             return new SingleSessionBooking(data.Id, session.ToData(), Customer, data.PaymentStatus, data.HasAttended, CourseBookingId);
+        }
+
+        private bool IsOnlineBooking(SingleSessionBookingData data)
+        {
+            return data.IsOnlineBooking.HasValue && data.IsOnlineBooking.Value;
         }
     }
 }

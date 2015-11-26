@@ -106,6 +106,7 @@
     <Compile Include="Commands\WeeklyWorkingHoursCommand.cs" />
     <Compile Include="Contracts\IBusinessDomainBuilder.cs" />
     <Compile Include="Contracts\ICommand.cs" />
+    <Compile Include="Contracts\IPaymentStatusGetter.cs" />
     <Compile Include="Contracts\ISingleSessionListCalculator.cs" />
     <Compile Include="Contracts\IUser.cs" />
     <Compile Include="Entities\AnonymousUser.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Repositories\ILogRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\BusinessDomainBuilder.cs" />
+    <Compile Include="Services\CourseBookingPaymentStatusCalculator.cs" />
     <Compile Include="Services\CourseBookingPriceCalculator.cs" />
     <Compile Include="Services\DailySingleSessionListCalculator.cs" />
     <Compile Include="Services\DurationFormatter.cs" />

@@ -1,16 +1,20 @@
 ﻿using System;
 using CoachSeek.Common;
 using CoachSeek.Data.Model;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class SingleSessionBooking : Booking
+    public class SingleSessionBooking : Booking, IPaymentStatusGetter
     {
         public Guid? ParentId { get; set; }
         public bool? HasAttended { get; set; } // Null is 'not marked off', true is 'attended', false is 'absent'.
         public BookingSession Session { get; private set; }
         public Date Date { get { return Session.Date; } }
         public TimeOfDay StartTime { get { return Session.StartTime; } }
+        public string PaymentStatus { get; set; }
+
+        public virtual bool IsOnlineBooking { get { return false; } }
 
         public SingleSessionBooking(BookingSession session,
                                     CustomerKeyData customer, 
@@ -31,7 +35,7 @@ namespace CoachSeek.Domain.Entities
                                     string paymentStatus, 
                                     bool? hasAttended, 
                                     Guid? parentId = null)
-            : base(id, paymentStatus, customer)
+            : base(id, customer)
         {
             ParentId = parentId;
             Session = new BookingSession(session);
@@ -48,11 +52,12 @@ namespace CoachSeek.Domain.Entities
             return new SingleSessionBookingData
             {
                 Id = Id,
+                ParentId = ParentId,
                 Session = Session.ToData(),
                 Customer = Customer,
                 PaymentStatus = PaymentStatus,
                 HasAttended = HasAttended,
-                ParentId = ParentId
+                IsOnlineBooking = IsOnlineBooking
             };
         }
     }

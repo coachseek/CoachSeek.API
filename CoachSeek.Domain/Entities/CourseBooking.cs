@@ -3,16 +3,19 @@ using System.Linq;
 using CoachSeek.Common.Extensions;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
+using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Services;
 
 namespace CoachSeek.Domain.Entities
 {
-    public class CourseBooking : Booking
+    public class CourseBooking : Booking, IPaymentStatusGetter
     {
         protected CourseSessionBookingCollection BookingCollection;
 
         public RepeatedSessionData Course { get; protected set; }
         public decimal BookingPrice { get; protected set; }
+        public string PaymentStatus { get { return CalculateCourseBookingPaymentStatus(); } }
+
 
         public IReadOnlyCollection<SingleSessionBookingData> SessionBookings
         {
@@ -94,6 +97,11 @@ namespace CoachSeek.Domain.Entities
             BookingPrice = CourseBookingPriceCalculator.CalculatePrice(SessionBookings.Select(x => x.Session).AsReadOnly(), 
                                                                        Course.Sessions.AsReadOnly(), 
                                                                        Course.Pricing.CoursePrice);
+        }
+
+        private string CalculateCourseBookingPaymentStatus()
+        {
+            return CourseBookingPaymentStatusCalculator.CalculatePaymentStatus(SessionBookings);
         }
     }
 }
