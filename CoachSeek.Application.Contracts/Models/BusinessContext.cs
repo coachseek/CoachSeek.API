@@ -22,13 +22,13 @@ namespace CoachSeek.Application.Contracts.Models
 
         public BusinessContext(Business business, 
                                IBusinessRepository businessRepository,
-                               ISupportedCurrencyRepository supportedCurrencyRepository,
-                               IUserRepository userRepository)
+                               IUserRepository userRepository,
+                               ISupportedCurrencyRepository supportedCurrencyRepository = null)
         {
             Business = business;
             BusinessRepository = businessRepository;
-            SupportedCurrencyRepository = supportedCurrencyRepository;
             AdminEmail = LookupBusinessAdminUser(userRepository).Email;
+            SupportedCurrencyRepository = supportedCurrencyRepository;
         }
 
         private User LookupBusinessAdminUser(IUserRepository userRepository)

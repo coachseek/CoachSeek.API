@@ -1,4 +1,5 @@
 ﻿using System;
+using CoachSeek.Common.Extensions;
 using Coachseek.Integration.Contracts.DataImport.Interfaces;
 using Environment = CoachSeek.Common.Environment;
 
@@ -20,6 +21,17 @@ namespace Coachseek.Integration.DataImport.DataImportProcessor
 
                 return Environment.Debug;
             }
+        }
+
+
+        public string EmailSender
+        {
+            get { return AppSettings.EmailSender; }
+        }
+
+        public bool IsEmailingEnabled
+        {
+            get { return AppSettings.IsEmailingEnabled.Parse(true); }
         }
     }
 }

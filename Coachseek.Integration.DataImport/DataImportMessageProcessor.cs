@@ -20,6 +20,9 @@ namespace Coachseek.Integration.DataImport
         private ICustomerAddUseCase CustomerAddUseCase { get; set; }
         private IDataImportProcessEmailer DataImportProcessEmailer { get; set; }
 
+        private string EmailSender { get { return DataImportProcessorConfiguration.EmailSender; } }
+        private bool IsEmailingEnabled { get { return DataImportProcessorConfiguration.IsEmailingEnabled; } }
+
         public DataImportMessageProcessor(IDataImportProcessorConfiguration dataImportProcessorConfiguration,
                                           IDataAccessFactory dataAccessFactory,
                                           ICustomerAddUseCase customerAddUseCase,
@@ -40,8 +43,15 @@ namespace Coachseek.Integration.DataImport
             var commands = SplitMessageIntoCustomers(message);
             foreach (var command in commands)
             {
-                var response = await CustomerAddUseCase.AddCustomerAsync(command);
-                
+                try
+                {
+                    var response = await CustomerAddUseCase.AddCustomerAsync(command);
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw;
+                }
             }
 
 
@@ -80,8 +90,15 @@ namespace Coachseek.Integration.DataImport
 
         private ApplicationContext CreateApplicationContext(Guid businessId)
         {
-            var businessContext = new BusinessContext(new Business(businessId), GetDataAccess().BusinessRepository);
-            return new ApplicationContext(businessContext);
+            var userContext = new UserContext(GetDataAccess().UserRepository);
+            var businessContext = new BusinessContext(new Business(businessId), 
+                                                      GetDataAccess().BusinessRepository,
+                                                      GetDataAccess().UserRepository);
+            var emailContext = new EmailContext(IsEmailingEnabled, 
+                                                false, 
+                                                EmailSender, 
+                                                GetDataAccess().UnsubscribedEmailAddressRepository);
+            return new ApplicationContext(userContext, businessContext, emailContext, GetDataAccess().LogRepository, false);
         }
     }
 }

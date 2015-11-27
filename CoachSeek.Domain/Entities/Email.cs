@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CoachSeek.Domain.Entities
 {
-    public abstract class Email
+    public class Email
     {
         public string Sender { get; private set; }
         public IList<string> Recipients { get; private set; }
@@ -11,7 +11,7 @@ namespace CoachSeek.Domain.Entities
         public string Body { get; private set; }
 
 
-        protected Email(string sender, string recipient, string subject, string body, string footer = null)
+        public Email(string sender, string recipient, string subject, string body, string footer = null)
         {
             Sender = sender;
             Recipients = new List<string> { recipient };
@@ -19,7 +19,7 @@ namespace CoachSeek.Domain.Entities
             Body = AppendFooterToBody(body, footer);
         }
 
-        protected Email(string sender, IList<string> recipients, string subject, string body, string footer = null)
+        public Email(string sender, IList<string> recipients, string subject, string body, string footer = null)
         {
             Sender = sender;
             Recipients = recipients;

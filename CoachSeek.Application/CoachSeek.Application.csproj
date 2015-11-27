@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApplicationAutoMapperConfigurator.cs" />
+    <Compile Include="Services\Emailing\DataImportProcessEmailer.cs" />
     <Compile Include="Services\UserAssociateWithBusinessCommandBuilder.cs" />
     <Compile Include="UseCases\BaseAdminUseCase.cs" />
     <Compile Include="UseCases\BusinessSetAuthorisedUntilUseCase.cs" />

@@ -98,7 +98,7 @@ namespace CoachSeek.Api.Controllers
             {
                 if (Business == null)
                     return null;
-                return new BusinessContext(Business, BusinessRepository, SupportedCurrencyRepository, UserRepository);
+                return new BusinessContext(Business, BusinessRepository, UserRepository, SupportedCurrencyRepository);
             }
         }
 
