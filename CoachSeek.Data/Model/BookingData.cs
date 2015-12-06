@@ -7,6 +7,7 @@ namespace CoachSeek.Data.Model
         public Guid Id { get; set; }
         public decimal Price { get; set; }
         public string PaymentStatus { get; set; }
+        public bool? IsOnlineBooking { get; set; }
         public CustomerKeyData Customer { get; set; }
     }
 }

@@ -178,7 +178,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             Assert.That(response, Is.InstanceOf<DailyWorkingHours>());
             var workingHours = (DailyWorkingHours)response;
             Assert.That(workingHours.IsAvailable, Is.True);
-            Assert.That(workingHours.StartTime, Is.EqualTo("8:30"));
+            Assert.That(workingHours.StartTime, Is.EqualTo("08:30"));
             Assert.That(workingHours.FinishTime, Is.EqualTo("17:45"));
         }
 

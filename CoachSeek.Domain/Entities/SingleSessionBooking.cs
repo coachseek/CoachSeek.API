@@ -14,7 +14,7 @@ namespace CoachSeek.Domain.Entities
         public TimeOfDay StartTime { get { return Session.StartTime; } }
         public string PaymentStatus { get; set; }
 
-        public virtual bool IsOnlineBooking { get { return false; } }
+        public override bool IsOnlineBooking { get { return false; } }
 
         public SingleSessionBooking(BookingSession session,
                                     CustomerKeyData customer, 

@@ -649,6 +649,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var phone = reader.GetNullableString(8);
             var paymentStatus = reader.GetNullableString(9);
             var hasAttended = reader.GetNullableBool(10);
+            var isOnlineBooking = reader.GetBoolean(11);
 
             return new CustomerBookingData
             {
@@ -664,7 +665,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     Phone = phone
                 },
                 PaymentStatus = paymentStatus,
-                HasAttended = hasAttended
+                HasAttended = hasAttended,
+                IsOnlineBooking = isOnlineBooking
             };
         }
 
@@ -715,11 +717,15 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@bookingGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@courseGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+            command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
+            command.Parameters.Add(new SqlParameter("@isOnlineBooking", SqlDbType.Bit));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = courseBooking.Id;
             command.Parameters[2].Value = courseBooking.Course.Id;
             command.Parameters[3].Value = courseBooking.Customer.Id;
+            command.Parameters[4].Value = courseBooking.PaymentStatus;
+            command.Parameters[5].Value = courseBooking.IsOnlineBooking;
 
             command.ExecuteNonQuery();
         }

@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Booking_GetCustomerBookingsByCourseId]
 	@businessGuid uniqueidentifier,
 	@courseGuid uniqueidentifier
@@ -39,8 +38,9 @@ BEGIN
 		c.[LastName],
 		c.[Email],
 		c.[Phone],
-		bk.PaymentStatus,
-		bk.HasAttended
+		bk.[PaymentStatus],
+		bk.[HasAttended],
+		bk.[IsOnlineBooking]
 	FROM
 		Course crs
 		INNER JOIN [dbo].[Booking] bk

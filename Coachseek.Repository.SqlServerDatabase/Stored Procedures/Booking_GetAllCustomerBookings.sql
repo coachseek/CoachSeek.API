@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Booking_GetAllCustomerBookings]
 	@businessGuid uniqueidentifier
 AS
@@ -16,8 +15,9 @@ BEGIN
 		c.[LastName],
 		c.[Email],
 		c.[Phone],
-		bk.PaymentStatus,
-		bk.HasAttended
+		bk.[PaymentStatus],
+		bk.[HasAttended],
+		bk.[IsOnlineBooking]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk

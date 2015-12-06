@@ -115,7 +115,8 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
         {
             AssertSingleError(response, 
                               ErrorCodes.SessionDuplicate, 
-                              "Duplicate session.");
+                              "Duplicate session.",
+                              COURSE_ONE_SESSION_THREE.ToLowerInvariant());
         }
 
         private void ThenReturnInvalidCustomerError(IResponse response, Guid customerId)

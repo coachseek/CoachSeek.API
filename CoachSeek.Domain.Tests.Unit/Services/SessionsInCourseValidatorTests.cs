@@ -250,7 +250,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             var errors = ((ValidationException)response).Errors;
             Assert.That(errors.Count, Is.EqualTo(1));
 
-            AssertDuplicateSessionError(errors[0]);
+            AssertDuplicateSessionError(errors[0], new Guid(duplicateSessionId));
         }
 
         private void ThenValidationFailsWithSeveralErrors(object response, Guid randomSessionId, Guid randomSession2Id)
@@ -262,7 +262,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
 
             AssertSessionNotInCourseError(errors[0], randomSessionId);
             AssertSessionNotInCourseError(errors[1], randomSession2Id);
-            AssertDuplicateSessionError(errors[2]);
+            AssertDuplicateSessionError(errors[2], new Guid(SESSION_ONE_ID));
         }
 
         private void AssertSessionNotInCourseError(Error error, Guid sessionId)
@@ -274,11 +274,19 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             Assert.That(error.Message, Is.EqualTo("Session is not in course."));
         }
 
-        private void AssertDuplicateSessionError(Error error)
+        private void AssertDuplicateSessionError(Error error, params Guid[] duplicateSessionIds)
         {
             Assert.That(error.Code, Is.EqualTo(ErrorCodes.SessionDuplicate));
-            Assert.That(error.Data, Is.Null);
+            Assert.That(error.Data, Is.EqualTo(BuildDuplicateSessionsIdString(duplicateSessionIds)));
             Assert.That(error.Message, Is.EqualTo("Duplicate session."));
+        }
+
+        private string BuildDuplicateSessionsIdString(IEnumerable<Guid> sessionIds)
+        {
+            var output = string.Empty;
+            foreach (var sessionId in sessionIds)
+                output += string.Format("{0},", sessionId);
+            return output.TrimEnd(',').ToLowerInvariant();
         }
     }
 }

@@ -22,11 +22,11 @@ namespace CoachSeek.Application.UseCases
             try
             {
                 ValidateCommand(command);
-                var courseBooking = LookupCourseBooking(command.Customer);
-                if (courseBooking.IsExisting())
-                    courseBooking = AppendSessionBookingsToCourseBooking(courseBooking, command);
-                else
-                    courseBooking = AddCourseBooking(command);
+                //var courseBooking = LookupCourseBooking(command.Customer);
+                //if (courseBooking.IsExisting())
+                //    courseBooking = AppendSessionBookingsToCourseBooking(courseBooking, command);
+                //else
+                var courseBooking = AddCourseBooking(command);
                 PostProcessing(courseBooking);
                 return new Response(courseBooking.ToData());
             }

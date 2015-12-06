@@ -16,6 +16,11 @@ namespace CoachSeek.Domain.Entities
         public decimal BookingPrice { get; protected set; }
         public string PaymentStatus { get { return CalculateCourseBookingPaymentStatus(); } }
 
+        public override bool IsOnlineBooking
+        {
+            get { return SessionBookings.First().IsOnlineBooking.GetValueOrDefault(); }
+        }
+
 
         public IReadOnlyCollection<SingleSessionBookingData> SessionBookings
         {
@@ -76,6 +81,7 @@ namespace CoachSeek.Domain.Entities
                 Course = Course.ToKeyData(),
                 Customer = Customer,
                 PaymentStatus = PaymentStatus,
+                IsOnlineBooking = IsOnlineBooking,
                 Price = BookingPrice,
                 SessionBookings = SessionBookings.ToList()
             };

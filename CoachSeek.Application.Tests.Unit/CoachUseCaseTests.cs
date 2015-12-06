@@ -75,7 +75,7 @@ namespace CoachSeek.Application.Tests.Unit
         private void AssertWorkingDay(DailyWorkingHoursData day)
         {
             Assert.That(day.IsAvailable, Is.True);
-            Assert.That(day.StartTime, Is.EqualTo("9:00"));
+            Assert.That(day.StartTime, Is.EqualTo("09:00"));
             Assert.That(day.FinishTime, Is.EqualTo("17:00"));
         }
 

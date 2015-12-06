@@ -1,4 +1,5 @@
-﻿using CoachSeek.Data.Model;
+﻿using System.Runtime.CompilerServices;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
 using System.Collections.Generic;
@@ -32,8 +33,13 @@ namespace CoachSeek.Domain.Services
 
         private static void ValidateSessionsAreUnique(IEnumerable<SessionKeyCommand> sessionsToCheck, ValidationException errors)
         {
-            if (sessionsToCheck.GroupBy(x => x.Id).SelectMany(grp => grp.Skip(1)).Any())
-                errors.Add(new SessionDuplicate());
+            var duplicates = sessionsToCheck.GroupBy(x => x.Id)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+                
+            if (duplicates.Any())
+                errors.Add(new SessionDuplicate(duplicates));
         }
     }
 }
