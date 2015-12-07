@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Services
         public static decimal CalculatePrice(CourseBookingData booking, 
                                              RepeatedSessionData course)
         {
-            return CalculatePrice(booking.BookedSessions.AsReadOnly(),
+            return CalculatePrice(booking.SessionBookings.Select(x => x.Session).AsReadOnly(),
                                   course.Sessions.AsReadOnly(), 
                                   course.Pricing.CoursePrice);
         }
@@ -21,14 +21,6 @@ namespace CoachSeek.Domain.Services
                                              RepeatedSessionData course)
         {
             return CalculatePrice(bookedSessions.Select(x => x.ToData()).AsReadOnly(),
-                                  course.Sessions.AsReadOnly(),
-                                  course.Pricing.CoursePrice);
-        }
-
-        public static decimal CalculatePrice(IReadOnlyCollection<BookingSessionData> bookedSessions, 
-                                             RepeatedSessionData course)
-        {
-            return CalculatePrice(bookedSessions,
                                   course.Sessions.AsReadOnly(),
                                   course.Pricing.CoursePrice);
         }
