@@ -63,6 +63,10 @@
       <Project>{2D91E32D-170C-4E38-A9E5-C5232DAA9552}</Project>
       <Name>CoachSeek.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CoachSeek.Domain\CoachSeek.Domain.csproj">
+      <Project>{2BCE0E8A-CF47-448E-B78E-50A2BF1BD99A}</Project>
+      <Name>CoachSeek.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coachseek.Infrastructure.Queueing.Contracts\Coachseek.Infrastructure.Queueing.Contracts.csproj">
       <Project>{7E834247-E081-4B11-87C9-7AE8DD0CF68F}</Project>
       <Name>Coachseek.Infrastructure.Queueing.Contracts</Name>

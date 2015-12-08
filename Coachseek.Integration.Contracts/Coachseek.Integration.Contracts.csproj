@@ -66,9 +66,11 @@
     <Compile Include="Payments\Exceptions\UnexpectedPaymentStatus.cs" />
     <Compile Include="Payments\Exceptions\UnexpectedPaymentProvider.cs" />
     <Compile Include="Emailing\Interfaces\IEmailer.cs" />
+    <Compile Include="Payments\Interfaces\IDataAccessFactory.cs" />
     <Compile Include="Payments\Interfaces\IPaymentMessageProcessor.cs" />
     <Compile Include="Payments\Interfaces\IPaymentProcessorConfiguration.cs" />
     <Compile Include="Payments\Interfaces\IPaymentProviderApi.cs" />
+    <Compile Include="Payments\Models\DataRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTracking\IUserTracker.cs" />
     <Compile Include="UserTracking\IUserTrackerFactory.cs" />

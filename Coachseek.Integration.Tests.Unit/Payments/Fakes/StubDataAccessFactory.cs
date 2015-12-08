@@ -1,7 +1,6 @@
 ﻿using CoachSeek.DataAccess.Main.Memory.Repositories;
 using CoachSeek.Domain.Repositories;
-using Coachseek.Integration.Payments.PaymentsProcessor;
-using DataRepositories = Coachseek.Integration.Payments.PaymentsProcessor.DataRepositories;
+using Coachseek.Integration.Contracts.Payments.Interfaces;
 
 namespace Coachseek.Integration.Tests.Unit.Payments.Fakes
 {
@@ -14,18 +13,18 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Fakes
         public ILogRepository LogRepository;
 
 
-        public DataRepositories CreateDataAccess(bool isTesting)
+        public Contracts.Payments.Models.DataRepositories CreateDataAccess(bool isTesting)
         {
             WasCreateDataAccessCalled = true;
 
-            return new DataRepositories(BusinessRepository, TransactionRepository, new HardCodedSupportedCurrencyRepository(), LogRepository);
+            return new Contracts.Payments.Models.DataRepositories(BusinessRepository, TransactionRepository, new HardCodedSupportedCurrencyRepository(), LogRepository);
         }
 
-        public DataRepositories CreateProductionDataAccess()
+        public Contracts.Payments.Models.DataRepositories CreateProductionDataAccess()
         {
             WasCreateProductionDataAccessCalled = true;
 
-            return new DataRepositories(BusinessRepository, TransactionRepository, new HardCodedSupportedCurrencyRepository(), LogRepository);
+            return new Contracts.Payments.Models.DataRepositories(BusinessRepository, TransactionRepository, new HardCodedSupportedCurrencyRepository(), LogRepository);
         }
     }
 }

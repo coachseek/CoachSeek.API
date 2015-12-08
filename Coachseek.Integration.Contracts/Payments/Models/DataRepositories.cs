@@ -1,6 +1,6 @@
 ﻿using CoachSeek.Domain.Repositories;
 
-namespace Coachseek.Integration.Payments.PaymentsProcessor
+namespace Coachseek.Integration.Contracts.Payments.Models
 {
     public class DataRepositories
     {

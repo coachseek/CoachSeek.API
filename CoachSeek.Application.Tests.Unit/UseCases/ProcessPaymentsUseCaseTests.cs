@@ -1,8 +1,8 @@
-﻿using CoachSeek.Application.UseCases;
-using CoachSeek.Application.UseCases.Payments;
+﻿using CoachSeek.Application.UseCases.Payments;
 using Coachseek.Infrastructure.Queueing.Contracts.Payment;
 using Coachseek.Infrastructure.Queueing.Tests.Unit.Fakes;
 using Coachseek.Integration.Tests.Unit.Payments.Fakes;
+using Coachseek.Logging.Tests.Unit.Fakes;
 using NUnit.Framework;
 
 namespace CoachSeek.Application.Tests.Unit.UseCases
@@ -48,7 +48,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var queue = new StubPaymentProcessingQueueClient();
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessOnlinePaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor, null, null);
         }
 
         private ProcessOnlinePaymentsUseCase GivenSingleMessage()
@@ -56,7 +56,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var queue = new StubPaymentProcessingQueueClient(new PaymentProcessingMessage("1", "PayPal", "contents"));
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessOnlinePaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor, null, null);
         }
 
         private ProcessOnlinePaymentsUseCase GivenTwoMessages()
@@ -65,7 +65,7 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
                                                                      new PaymentProcessingMessage("2", "PayPal", "contents too") });
             var processor = new StubPaymentMessageProcessor();
 
-            return new ProcessOnlinePaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor, null, null);
         }
 
         private ProcessOnlinePaymentsUseCase GivenTwoMessagesAndOneErrors()
@@ -73,8 +73,10 @@ namespace CoachSeek.Application.Tests.Unit.UseCases
             var queue = new StubPaymentProcessingQueueClient(new[] { new PaymentProcessingMessage("1", "Error", "contents"), 
                                                                      new PaymentProcessingMessage("2", "PayPal", "contents too") });
             var processor = new StubPaymentMessageProcessor();
+            var config = new StubPaymentProcessorConfiguration();
+            var dataAccessFactory = new StubDataAccessFactory { LogRepository = new StubLogRepository() };
 
-            return new ProcessOnlinePaymentsUseCase(queue, processor);
+            return new ProcessOnlinePaymentsUseCase(queue, processor, dataAccessFactory, config);
         }
 
 

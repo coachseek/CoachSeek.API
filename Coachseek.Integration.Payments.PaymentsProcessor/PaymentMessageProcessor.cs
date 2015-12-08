@@ -49,7 +49,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
         }
 
 
-        private DataRepositories GetDataAccess()
+        private Contracts.Payments.Models.DataRepositories GetDataAccess()
         {
             var isTesting = PaymentProcessorConfiguration.Environment != Environment.Production;
             return DataAccessFactory.CreateDataAccess(isTesting);
@@ -62,7 +62,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new InvalidPaymentMessage();
         }
 
-        private async Task ProcessPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task ProcessPaymentAsync(NewPayment newPayment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             await ValidatePaymentAsync(newPayment, dataAccess);
             newPayment = await ModifyPaymentAsync(newPayment, dataAccess);
@@ -71,7 +71,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 await SetBookingAsPaidAsync(payment, dataAccess);
         }
 
-        private async Task ValidatePaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task ValidatePaymentAsync(NewPayment newPayment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var parameters = new PaymentParameters(newPayment);
             ValidatePaymentStatus(parameters);
@@ -80,7 +80,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             await ValidateBookingPaymentAmountAsync(parameters, dataAccess);
         }
 
-        private async Task<Business> GetAndValidateBusinessAsync(PaymentParameters parameters, DataRepositories dataAccess)
+        private async Task<Business> GetAndValidateBusinessAsync(PaymentParameters parameters, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var businessData = await dataAccess.BusinessRepository.GetBusinessAsync(parameters.Payment.MerchantId);
             if (businessData.IsNotFound())
@@ -90,14 +90,14 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return business;
         }
 
-        private async Task<NewPayment> ModifyPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<NewPayment> ModifyPaymentAsync(NewPayment newPayment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             if (newPayment.PaymentProvider == Constants.PAYPAL)
                 return await ModifyPaymentForPaypalAsync(newPayment, dataAccess);
             return newPayment;
         }
 
-        private async Task<NewPayment> ModifyPaymentForPaypalAsync(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<NewPayment> ModifyPaymentForPaypalAsync(NewPayment newPayment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var business = await dataAccess.BusinessRepository.GetBusinessAsync(newPayment.MerchantId);
             return new NewPayment(newPayment, business.Name);
@@ -123,7 +123,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PaymentCurrencyMismatch();
         }
 
-        private async Task<CustomerBookingData> GetAndValidateCustomerBookingAsync(PaymentParameters parameters, DataRepositories dataAccess)
+        private async Task<CustomerBookingData> GetAndValidateCustomerBookingAsync(PaymentParameters parameters, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var customerBooking = await dataAccess.BusinessRepository.GetCustomerBookingAsync(parameters.Business.Id, parameters.Payment.ItemId);
             ValidateCustomerBooking(customerBooking, parameters.Payment);
@@ -136,7 +136,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new InvalidBooking();
         }
 
-        private async Task ValidateBookingPaymentAmountAsync(PaymentParameters parameters, DataRepositories dataAccess)
+        private async Task ValidateBookingPaymentAmountAsync(PaymentParameters parameters, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var booking = await GetSessionOrCourseBookingAsync(parameters, dataAccess);
             if (booking is SingleSessionBookingData)
@@ -164,7 +164,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, expectedPrice);
         }
 
-        private async Task<BookingData> GetSessionOrCourseBookingAsync(PaymentParameters parameters, DataRepositories dataAccess)
+        private async Task<BookingData> GetSessionOrCourseBookingAsync(PaymentParameters parameters, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var sessionBooking = await dataAccess.BusinessRepository.GetSessionBookingAsync(parameters.Business.Id, parameters.CustomerBooking.Id);
             if (sessionBooking.IsFound())
@@ -173,7 +173,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return courseBooking;
         }
 
-        private async Task<Payment> SaveIfNewPaymentAsync(NewPayment newPayment, DataRepositories dataAccess)
+        private async Task<Payment> SaveIfNewPaymentAsync(NewPayment newPayment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             var repository = dataAccess.TransactionRepository;
             var payment = await repository.GetPaymentAsync(newPayment.PaymentProvider, newPayment.Id);
@@ -185,7 +185,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             return payment;
         }
 
-        private async Task SetBookingAsPaidAsync(Payment payment, DataRepositories dataAccess)
+        private async Task SetBookingAsPaidAsync(Payment payment, Contracts.Payments.Models.DataRepositories dataAccess)
         {
             await dataAccess.BusinessRepository.SetBookingPaymentStatusAsync(payment.MerchantId, payment.ItemId, Constants.PAYMENT_STATUS_PAID);
         }

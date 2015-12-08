@@ -65,8 +65,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="DataAccessFactory.cs" />
-    <Compile Include="DataRepositories.cs" />
-    <Compile Include="IDataAccessFactory.cs" />
     <Compile Include="NewPaymentConverter.cs" />
     <Compile Include="PaymentMessageProcessor.cs" />
     <Compile Include="PaymentProcessorConfiguration.cs" />

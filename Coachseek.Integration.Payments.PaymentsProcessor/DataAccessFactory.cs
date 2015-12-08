@@ -1,6 +1,7 @@
 ﻿using CoachSeek.DataAccess.Main.Memory.Repositories;
 using Coachseek.DataAccess.Main.SqlServer.Repositories;
 using Coachseek.DataAccess.TableStorage.Logging;
+using Coachseek.Integration.Contracts.Payments.Interfaces;
 
 namespace Coachseek.Integration.Payments.PaymentsProcessor
 {
@@ -8,30 +9,30 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
     {
         private const string APPLICATION = "Payments Processor";
 
-        public DataRepositories CreateDataAccess(bool isTesting)
+        public Contracts.Payments.Models.DataRepositories CreateDataAccess(bool isTesting)
         {
             return isTesting ? CreateTestingRepositories() : CreateProductionRepositories();
         }
 
-        public DataRepositories CreateProductionDataAccess()
+        public Contracts.Payments.Models.DataRepositories CreateProductionDataAccess()
         {
             return CreateProductionRepositories();
         }
 
 
-        private DataRepositories CreateTestingRepositories()
+        private Contracts.Payments.Models.DataRepositories CreateTestingRepositories()
         {
             var dbTestBusinessRepository = new DbTestBusinessRepository();
-            return new DataRepositories(dbTestBusinessRepository,
+            return new Contracts.Payments.Models.DataRepositories(dbTestBusinessRepository,
                                         dbTestBusinessRepository,
                                         new HardCodedSupportedCurrencyRepository(),
                                         new AzureTestTableLogRepository(APPLICATION));
         }
 
-        private static DataRepositories CreateProductionRepositories()
+        private static Contracts.Payments.Models.DataRepositories CreateProductionRepositories()
         {
             var dbBusinessRepository = new DbBusinessRepository();
-            return new DataRepositories(dbBusinessRepository,
+            return new Contracts.Payments.Models.DataRepositories(dbBusinessRepository,
                                         dbBusinessRepository,
                                         new HardCodedSupportedCurrencyRepository(),
                                         new AzureTableLogRepository(APPLICATION));
