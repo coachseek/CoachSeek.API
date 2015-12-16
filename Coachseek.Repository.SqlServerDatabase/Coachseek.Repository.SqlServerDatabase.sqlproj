@@ -135,6 +135,7 @@
     <Build Include="Stored Procedures\Booking_GetCustomerBookingByBookingId.sql" />
     <Build Include="Stored Procedures\Booking_GetCourseBookingsByCourseAndCustomer_1.sql" />
     <Build Include="Stored Procedures\Booking_GetAllCustomerSessionBookingsByCustomerId_1.sql" />
+    <Build Include="Tables\CustomerData.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />
