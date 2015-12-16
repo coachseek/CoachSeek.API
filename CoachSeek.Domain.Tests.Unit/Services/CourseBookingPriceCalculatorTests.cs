@@ -137,6 +137,14 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         }
 
         [Test]
+        public void GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesAndHaveCoursePriceAndUseProRataPricingIsOff_WhenTryCalculateBookingPrice_ThenReturnSumOfBookedSessionPrices()
+        {
+            var parameters = GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesAndHaveCoursePriceAndUseProRataPricingIsOff();
+            var price = WhenTryCalculateBookingPrice(parameters);
+            ThenReturnSumOfBookedSessionPrices(price);
+        }
+
+        [Test]
         public void GivenBookingSomeSessionsInCourseAndAreMissingSessionPricesButHaveCoursePrice_WhenTryCalculateBookingPrice_ThenReturnProRataOfCoursePrice()
         {
             var parameters = GivenBookingSomeSessionsInCourseAndAreMissingSessionPricesButHaveCoursePrice();
@@ -201,6 +209,14 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             bookedSessions.RemoveAt(1);
             bookedSessions.RemoveAt(2);
             return new Parameters(bookedSessions, CreateSessionsInCourse());
+        }
+
+        private Parameters GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesAndHaveCoursePriceAndUseProRataPricingIsOff()
+        {
+            var bookedSessions = BookAllSessionsInCourse();
+            bookedSessions.RemoveAt(1);
+            bookedSessions.RemoveAt(2);
+            return new Parameters(bookedSessions, CreateSessionsInCourse(), false, 200);
         }
 
         private Parameters GivenBookingSomeSessionsInCourseAndAreMissingSessionPricesButHaveCoursePrice()

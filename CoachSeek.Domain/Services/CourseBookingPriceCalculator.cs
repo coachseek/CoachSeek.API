@@ -95,14 +95,16 @@ namespace CoachSeek.Domain.Services
                                                                   decimal? coursePrice,
                                                                   bool useProRataPricing)
         {
-            if (coursePrice.HasValue && !useProRataPricing)
-                return coursePrice.Value;
             decimal price = 0;
             foreach (var bookedSession in bookedSessions)
             {
                 var sessionPrice = courseSessions.Single(x => x.Id == bookedSession.Id).Pricing.SessionPrice;
                 if (!sessionPrice.HasValue)
-                    sessionPrice = ProRataCoursePrice(coursePrice.Value, courseSessions);
+                {
+                    if (coursePrice.HasValue && !useProRataPricing)
+                        return coursePrice.Value;
+                    sessionPrice = ProRataCoursePrice(coursePrice.Value, courseSessions);                    
+                }
                 price += sessionPrice.Value;
             }
             return price;
