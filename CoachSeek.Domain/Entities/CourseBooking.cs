@@ -28,34 +28,34 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer)
+        public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer, Business business)
             : base(customer.ToKeyData())
         {
             Course = course;
 
             BookingCollection = CreateCourseSessionBookingCollection();
             BookingCollection.Add(command);
-            CalculateBookingPrice();
+            CalculateBookingPrice(business.UseProRataPricing);
         }
 
-        public CourseBooking(CourseBookingData data, RepeatedSessionData course)
+        public CourseBooking(CourseBookingData data, RepeatedSessionData course, Business business)
             : base(data)
         {
             Course = course;
 
             BookingCollection = CreateCourseSessionBookingCollection();
             BookingCollection.Add(data);
-            CalculateBookingPrice();
+            CalculateBookingPrice(business.UseProRataPricing);
         }
 
-        public CourseBooking(CourseBooking courseBooking)
+        public CourseBooking(CourseBooking courseBooking, Business business)
             : base(courseBooking.ToData())
         {
             Course = courseBooking.Course;
 
             BookingCollection = CreateCourseSessionBookingCollection();
             BookingCollection.Add((CourseBookingData)courseBooking.ToData());
-            CalculateBookingPrice();
+            CalculateBookingPrice(business.UseProRataPricing);
         }
 
         private CourseSessionBookingCollection CreateCourseSessionBookingCollection()
@@ -98,10 +98,11 @@ namespace CoachSeek.Domain.Entities
             BookingCollection.Add(data);
         }
 
-        protected void CalculateBookingPrice()
+        protected void CalculateBookingPrice(bool useProRataPricing)
         {
             BookingPrice = CourseBookingPriceCalculator.CalculatePrice(SessionBookings.Select(x => x.Session).AsReadOnly(), 
-                                                                       Course.Sessions.AsReadOnly(), 
+                                                                       Course.Sessions.AsReadOnly(),
+                                                                       useProRataPricing,
                                                                        Course.Pricing.CoursePrice);
         }
 

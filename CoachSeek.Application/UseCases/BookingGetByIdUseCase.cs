@@ -34,7 +34,7 @@ namespace CoachSeek.Application.UseCases
             if (booking.IsNotFound())
                 return null;
             var course = BusinessRepository.GetCourse(Business.Id, booking.Course.Id);
-            return (CourseBookingData)new CourseBooking(booking, course).ToData();
+            return (CourseBookingData)new CourseBooking(booking, course, Business).ToData();
         }
     }
 }

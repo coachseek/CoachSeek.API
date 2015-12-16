@@ -34,6 +34,7 @@ BEGIN
 		[MerchantAccountIdentifier],
 		[AuthorisedUntil],
 		[Subscription],
+		[UseProRataPricing],
 		@totalSessions AS TotalNumberOfSessions
 	FROM
 		[dbo].[Business]

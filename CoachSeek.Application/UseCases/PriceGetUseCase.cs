@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
@@ -62,7 +61,7 @@ namespace CoachSeek.Application.UseCases
         {
             var course = await LookupCourseAsync(courseId);
             SessionsInCourseValidator.Validate(command.Sessions, course);
-            return CourseBookingPriceCalculator.CalculatePrice(command.Sessions.AsReadOnly(), course);
+            return CourseBookingPriceCalculator.CalculatePrice(command.Sessions.AsReadOnly(), course, Business.UseProRataPricing);
         }
     }
 }

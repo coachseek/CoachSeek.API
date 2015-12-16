@@ -17,6 +17,7 @@
         public static string MerchantAccountIdentifierFormatInvalid { get { return "merchantaccountidentifier-format-invalid"; } }
         public static string PaymentProviderRequiredWhenOnlineBookingIsEnabled { get { return "paymentprovider-required-when-online-booking-is-enabled"; } }
         public static string PaymentProviderNotSupported { get { return "paymentprovider-not-supported"; } }
+        public static string UseProRataPricingRequired { get { return "useproratapricing-required"; } }
         
         public static string LocationInvalid { get { return "location-invalid"; } }
         public static string LocationDuplicate { get { return "location-duplicate"; } }

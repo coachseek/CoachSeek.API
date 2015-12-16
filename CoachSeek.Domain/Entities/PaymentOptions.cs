@@ -17,6 +17,7 @@ namespace CoachSeek.Domain.Entities
         public bool ForceOnlinePayment { get; protected set; }
         public string PaymentProvider { get { return _paymentProvider.ProviderName; } }
         public string MerchantAccountIdentifier { get { return _paymentProvider.MerchantAccountIdentifier; } }
+        public bool UseProRataPricing { get; protected set; }
 
 
         public PaymentOptions(BusinessAddCommand command,
@@ -28,6 +29,7 @@ namespace CoachSeek.Domain.Entities
             IsOnlinePaymentEnabled = false;
             ForceOnlinePayment = false;
             _paymentProvider = PaymentProviderFactory.CreateDefaultPaymentProvider();
+            UseProRataPricing = true;
 
             validation.ThrowIfErrors();
         }
@@ -41,6 +43,7 @@ namespace CoachSeek.Domain.Entities
             IsOnlinePaymentEnabled = command.Payment.IsOnlinePaymentEnabled;
             ForceOnlinePayment = command.Payment.ForceOnlinePayment;
             SetPaymentProvider(command.Payment, validation);
+            UseProRataPricing = command.Payment.UseProRataPricing;
 
             validation.ThrowIfErrors();
         }
@@ -50,7 +53,8 @@ namespace CoachSeek.Domain.Entities
                               bool isOnlinePaymentEnabled, 
                               bool forceOnlinePayment, 
                               string paymentProvider, 
-                              string merchantAccountIdentifier)
+                              string merchantAccountIdentifier,
+                              bool useProRataPricing = true)
         {
             // Testing constructor
 
@@ -59,6 +63,7 @@ namespace CoachSeek.Domain.Entities
             ForceOnlinePayment = forceOnlinePayment;
             _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(paymentProvider,
                                                                             merchantAccountIdentifier);
+            UseProRataPricing = useProRataPricing;
         }
 
         public PaymentOptions(BusinessPaymentData payment, ISupportedCurrencyRepository supportedCurrencyRepository)
@@ -68,6 +73,7 @@ namespace CoachSeek.Domain.Entities
             ForceOnlinePayment = payment.ForceOnlinePayment;
             _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(payment.PaymentProvider,
                                                                             payment.MerchantAccountIdentifier);
+            UseProRataPricing = payment.UseProRataPricing;
         }
 
 

@@ -147,7 +147,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             else
             {
                 var course = await dataAccess.BusinessRepository.GetCourseAsync(parameters.Business.Id, parameters.CustomerBooking.SessionId);
-                ValidateCoursePaymentAmount(course, (CourseBookingData)booking, parameters.Payment);
+                ValidateCoursePaymentAmount(course, (CourseBookingData)booking, parameters.Payment, parameters.Business.UseProRataPricing);
             }
         }
 
@@ -157,9 +157,9 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.GetValueOrDefault());
         }
 
-        private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment)
+        private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment, bool useProRataPricing)
         {
-            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course);
+            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course, useProRataPricing);
             if (newPayment.ItemAmount != expectedPrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, expectedPrice);
         }

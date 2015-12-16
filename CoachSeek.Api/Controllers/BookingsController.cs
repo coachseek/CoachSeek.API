@@ -90,6 +90,15 @@ namespace CoachSeek.Api.Controllers
             return CreateDeleteWebResponse(response);
         }
 
+        //// DELETE: Bookings?customerId=D65BA9FE-D2C9-4C05-8E1A-326B1476DE08&courseId=028CE759-1643-4DD3-9A0D-65C4B80D0B48
+        //[BasicAuthentication]
+        //[BusinessAuthorize(Role.BusinessAdmin)]
+        //public HttpResponseMessage Delete(Guid customerId, Guid courseId)
+        //{
+        //    var response = DeleteBooking(customerId);
+        //    return CreateDeleteWebResponse(response);
+        //}
+
 
         private HttpResponseMessage AddBooking(ApiBookingSaveCommand booking)
         {

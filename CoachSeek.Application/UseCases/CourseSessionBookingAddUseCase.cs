@@ -51,7 +51,7 @@ namespace CoachSeek.Application.UseCases
 
         private CourseBooking AppendSessionBookingsToCourseBooking(CourseBooking originalCourseBooking, BookingAddCommand command)
         {
-            var updatedCourseBooking = new CourseBooking(originalCourseBooking);
+            var updatedCourseBooking = new CourseBooking(originalCourseBooking, Business);
             updatedCourseBooking.AppendSessionBookings(command);
             foreach (var sessionBooking in updatedCourseBooking.SessionBookings)
                 if (originalCourseBooking.ContainsNot(sessionBooking))
@@ -70,14 +70,14 @@ namespace CoachSeek.Application.UseCases
 
         protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command, CustomerData customer)
         {
-            return new CourseBooking(command, Course, customer);
+            return new CourseBooking(command, Course, customer, Business);
         }
 
         protected virtual CourseBooking CreateCourseBooking(CourseBookingData data)
         {
             if (data == null)
                 return null;
-            return new CourseBooking(data, Course);
+            return new CourseBooking(data, Course, Business);
         }
 
         private CourseBooking LookupCourseBooking(CustomerKeyCommand customer)
@@ -87,7 +87,7 @@ namespace CoachSeek.Application.UseCases
             var courseBookings = BusinessRepository.GetCourseBookings(Business.Id, Course.Id, customer.Id);
             if (!courseBookings.Any())
                 return null;
-            return new CourseBooking(courseBookings.First(), Course);
+            return new CourseBooking(courseBookings.First(), Course, Business);
         }
 
         private CourseBooking LookupCourseBooking(Guid courseBookingId)
@@ -95,7 +95,7 @@ namespace CoachSeek.Application.UseCases
             var courseBookingData = BusinessRepository.GetCourseBooking(Business.Id, courseBookingId);
             if (courseBookingData == null)
                 return null;
-            return new CourseBooking(courseBookingData, Course);
+            return new CourseBooking(courseBookingData, Course, Business);
         }
 
         private void ValidateSessions(IEnumerable<SessionKeyCommand> bookingSessions, ValidationException errors)

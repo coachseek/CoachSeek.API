@@ -25,6 +25,7 @@ namespace CoachSeek.Domain.Entities
         public bool? ForceOnlinePayment { get { return Payment.ForceOnlinePayment; } }
         public string PaymentProvider { get { return Payment.PaymentProvider; } }
         public string MerchantAccountIdentifier { get { return Payment.MerchantAccountIdentifier; } }
+        public bool UseProRataPricing { get { return Payment.UseProRataPricing; } }
 
         public Business(BusinessData existingBusiness, 
                         BusinessUpdateCommand command, 
@@ -127,6 +128,7 @@ namespace CoachSeek.Domain.Entities
             businessData.Payment.ForceOnlinePayment = ForceOnlinePayment.GetValueOrDefault();
             businessData.Payment.PaymentProvider = PaymentProvider;
             businessData.Payment.MerchantAccountIdentifier = MerchantAccountIdentifier;
+            businessData.Payment.UseProRataPricing = UseProRataPricing;
 
             return businessData;
         }

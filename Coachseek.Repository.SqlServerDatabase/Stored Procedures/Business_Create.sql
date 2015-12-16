@@ -9,6 +9,7 @@ CREATE PROCEDURE [dbo].[Business_Create](
 	@forceOnlinePayment [bit],
 	@paymentProvider [nvarchar](50) = NULL,
 	@merchantAccountIdentifier [nvarchar](100) = NULL,
+	@useProRataPricing [bit],
 	@createdOn [datetime2],
 	@authorisedUntil [datetime2],
 	@subscription [nvarchar](50),
@@ -32,7 +33,8 @@ BEGIN
 		[IsTesting],
 		[Sport],
 		[AuthorisedUntil],
-		[Subscription]
+		[Subscription],
+		[UseProRataPricing]
 	)
 	VALUES
 	(
@@ -48,7 +50,8 @@ BEGIN
 		@isTesting,
 		@sport,
 		@authorisedUntil,
-		@subscription
+		@subscription,
+		@useProRataPricing
 	)
 
 END

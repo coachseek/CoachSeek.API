@@ -15,20 +15,6 @@ namespace CoachSeek.Domain.Entities
         public DateTime CreatedOn { get; set; }
         public bool IsTesting { get; set; }
 
-        //public NewBusiness(BusinessRegistrationCommand registration, 
-        //                   IBusinessDomainBuilder domainBuilder, 
-        //                   ISupportedCurrencyRepository supportedCurrencyRepository)
-        //{
-        //    var command = registration.Business;
-        //    Name = command.Name.Trim();
-        //    Domain = domainBuilder.BuildDomain(command.Name);
-        //    Sport = command.Sport == null ? null : command.Sport.Trim();
-        //    Payment = new PaymentOptions(command, supportedCurrencyRepository);
-        //    IsTesting = DetermineIsTesting(registration.Admin.Email);
-        //    SetDates();
-        //    SetSubsciption();
-        //}
-
         private NewBusiness(BusinessRegistrationCommand registration, 
                             ISupportedCurrencyRepository supportedCurrencyRepository)
         {

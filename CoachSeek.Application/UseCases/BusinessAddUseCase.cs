@@ -30,7 +30,6 @@ namespace CoachSeek.Application.UseCases
         private async Task<NewBusiness> CreateNewBusiness(BusinessRegistrationCommand command)
         {
             BusinessDomainBuilder.BusinessRepository = BusinessRepository;
-            //return new NewBusiness(command, BusinessDomainBuilder, SupportedCurrencyRepository);
             return await NewBusiness.CreateAsync(command, BusinessDomainBuilder, SupportedCurrencyRepository);
         }
     }

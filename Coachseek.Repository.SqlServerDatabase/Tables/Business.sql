@@ -13,8 +13,11 @@
     [Sport]                     NVARCHAR (100)   NULL,
     [AuthorisedUntil]           DATETIME2 (7)    NULL,
     [Subscription]              NVARCHAR (50)    NULL,
+    [UseProRataPricing]         BIT              NULL,
     CONSTRAINT [PK_Business] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

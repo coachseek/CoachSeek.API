@@ -8,7 +8,8 @@ CREATE PROCEDURE [dbo].[Business_Update]
 	@isOnlinePaymentEnabled [bit],
 	@forceOnlinePayment [bit],
 	@paymentProvider [nvarchar](50) = NULL,
-	@merchantAccountIdentifier [nvarchar](100) = NULL
+	@merchantAccountIdentifier [nvarchar](100) = NULL,
+	@useProRataPricing [bit]
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -23,7 +24,8 @@ BEGIN
 		[IsOnlinePaymentEnabled] = @isOnlinePaymentEnabled,
 		[ForceOnlinePayment] = @forceOnlinePayment,
 		[PaymentProvider] = @paymentProvider,
-		[MerchantAccountIdentifier] = @merchantAccountIdentifier
+		[MerchantAccountIdentifier] = @merchantAccountIdentifier,
+		[UseProRataPricing] = @useProRataPricing
 	WHERE 
 		[Guid] = @guid
 

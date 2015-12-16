@@ -90,6 +90,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@useProRataPricing", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@createdOn", SqlDbType.DateTime2));
                 command.Parameters.Add(new SqlParameter("@authorisedUntil", SqlDbType.DateTime2));
                 command.Parameters.Add(new SqlParameter("@subscription", SqlDbType.NVarChar));
@@ -104,10 +105,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[6].Value = business.ForceOnlinePayment;
                 command.Parameters[7].Value = business.PaymentProvider;
                 command.Parameters[8].Value = business.MerchantAccountIdentifier;
-                command.Parameters[9].Value = business.CreatedOn;
-                command.Parameters[10].Value = business.AuthorisedUntil;
-                command.Parameters[11].Value = business.SubscriptionPlan;
-                command.Parameters[12].Value = business.IsTesting;
+                command.Parameters[9].Value = business.UseProRataPricing;
+                command.Parameters[10].Value = business.CreatedOn;
+                command.Parameters[11].Value = business.AuthorisedUntil;
+                command.Parameters[12].Value = business.SubscriptionPlan;
+                command.Parameters[13].Value = business.IsTesting;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -136,6 +138,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@forceOnlinePayment", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@paymentProvider", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@merchantAccountIdentifier", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@useProRataPricing", SqlDbType.Bit));
 
                 command.Parameters[0].Value = business.Id;
                 command.Parameters[1].Value = business.Name;
@@ -146,6 +149,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[6].Value = business.ForceOnlinePayment;
                 command.Parameters[7].Value = business.PaymentProvider;
                 command.Parameters[8].Value = business.MerchantAccountIdentifier;
+                command.Parameters[9].Value = business.UseProRataPricing;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -193,7 +197,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var merchantAccountIdentifier = reader.GetNullableString(8);
             var authorisedUntil = reader.GetDateTime(9);
             var subscription = reader.GetString(10);
-            var totalNumberOfSessions = reader.GetInt32(11);
+            var useProRataPricing = reader.GetBoolean(11);
+            var totalNumberOfSessions = reader.GetInt32(12);
 
             return new BusinessData
             {
@@ -209,7 +214,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     IsOnlinePaymentEnabled = isOnlinePaymentEnabled,
                     ForceOnlinePayment = forceOnlinePayment,
                     PaymentProvider = paymentProvider,
-                    MerchantAccountIdentifier = merchantAccountIdentifier
+                    MerchantAccountIdentifier = merchantAccountIdentifier,
+                    UseProRataPricing = useProRataPricing
                 },
                 Statistics = new BusinessStatisticsData
                 {
