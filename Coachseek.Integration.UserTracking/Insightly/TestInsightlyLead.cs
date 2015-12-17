@@ -13,10 +13,10 @@ namespace Coachseek.Integration.UserTracking.Insightly
 
         // 475333 is the Insightly Status Id for 'OPEN - NEW LEAD' for the Coachseek Insightly Test account.   
         [JsonProperty(PropertyName = "LEAD_STATUS_ID", NullValueHandling = NullValueHandling.Ignore)]
-        public override int StatusId { get { return 475333; } }
+        public override int StatusId { get { return 663668; } }
 
         // 476459 is the Insightly Source Id for 'Signup' for the Coachseek Insightly Test account.   
         [JsonProperty(PropertyName = "LEAD_SOURCE_ID", NullValueHandling = NullValueHandling.Ignore)]
-        public override int SourceId { get { return 476459; } }
+        public override int SourceId { get { return 667542; } }
     }
 }
