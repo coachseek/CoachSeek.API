@@ -946,5 +946,34 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task DeleteCustomFieldTemplatesAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

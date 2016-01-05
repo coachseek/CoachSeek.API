@@ -27,6 +27,7 @@ namespace CoachSeek.Api
             Mapper.CreateMap<ApiCustomerKey, CustomerKeyCommand>();
             Mapper.CreateMap<ApiCustomerSaveCommand, CustomerAddCommand>();
             Mapper.CreateMap<ApiCustomerSaveCommand, CustomerUpdateCommand>();
+            Mapper.CreateMap<ApiCustomFieldSaveCommand, CustomFieldAddCommand>();
             Mapper.CreateMap<ApiDailyWorkingHours, DailyWorkingHoursCommand>();
             Mapper.CreateMap<ApiEmailTemplateSaveCommand, EmailTemplateUpdateCommand>();
             Mapper.CreateMap<ApiLocationKey, LocationKeyCommand>();

@@ -45,7 +45,14 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.HBase.Client">
+      <HintPath>..\packages\Microsoft.HBase.Client.0.2.2\lib\net45\Microsoft.HBase.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +67,10 @@
     <Compile Include="UseCases\BaseAdminUseCase.cs" />
     <Compile Include="UseCases\BusinessSetAuthorisedUntilUseCase.cs" />
     <Compile Include="UseCases\BusinessRegistrationUseCase.cs" />
+    <Compile Include="UseCases\CustomFieldUpdateUseCase.cs" />
+    <Compile Include="UseCases\CustomFieldAddUseCase.cs" />
+    <Compile Include="UseCases\CustomFieldDeleteUseCase.cs" />
+    <Compile Include="UseCases\CustomFieldGetByTypeAndKeyUseCase.cs" />
     <Compile Include="UseCases\DataImport\ProcessDataImportUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateDeleteUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateGetAllUseCase.cs" />

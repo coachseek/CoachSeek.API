@@ -11,9 +11,12 @@
     [CreatedOn]       DATETIME2 (7)    CONSTRAINT [DF_Booking_CreatedOn] DEFAULT (getutcdate()) NULL,
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Booking_Booking] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Booking] ([Id]),
+    CONSTRAINT [FK_Booking_Business] FOREIGN KEY ([BusinessId]) REFERENCES [dbo].[Business] ([Id]),
     CONSTRAINT [FK_Booking_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([Id]),
     CONSTRAINT [FK_Booking_Session] FOREIGN KEY ([SessionId]) REFERENCES [dbo].[Session] ([Id])
 );
+
+
 
 
 

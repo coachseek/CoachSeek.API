@@ -35,6 +35,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbCoachRepository CoachRepository { get; set; }
         private DbServiceRepository ServiceRepository { get; set; }
         private DbCustomerRepository CustomerRepository { get; set; }
+        private DbCustomFieldTemplateRepository CustomFieldTemplateRepository { get; set; }
         private DbSessionRepository SessionRepository { get; set; }
         private DbCourseRepository CourseRepository { get; set; }
         private DbBookingRepository BookingRepository { get; set; }
@@ -49,6 +50,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CoachRepository = new DbCoachRepository(ConnectionStringKey);
             ServiceRepository = new DbServiceRepository(ConnectionStringKey);
             CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
+            CustomFieldTemplateRepository = new DbCustomFieldTemplateRepository(ConnectionStringKey);
             SessionRepository = new DbSessionRepository(ConnectionStringKey);
             CourseRepository = new DbCourseRepository(ConnectionStringKey);
             BookingRepository = new DbBookingRepository(ConnectionStringKey);
@@ -205,6 +207,22 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public async Task UpdateCustomerAsync(Guid businessId, Customer customer)
         {
             await CustomerRepository.UpdateCustomerAsync(businessId, customer);
+        }
+
+
+        public async Task AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            await CustomFieldTemplateRepository.AddCustomFieldTemplateAsync(businessId, template);
+        }
+
+        public async Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key)
+        {
+            return await CustomFieldTemplateRepository.GetCustomFieldTemplatesAsync(businessId, type, key);
+        }
+
+        public async Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key)
+        {
+            await CustomFieldTemplateRepository.DeleteCustomFieldTemplateAsync(businessId, type, key);
         }
 
 

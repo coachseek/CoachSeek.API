@@ -73,6 +73,8 @@
         public static string CustomerInvalid { get { return "customer-invalid"; } }
         public static string CustomerDuplicate { get { return "customer-duplicate"; } }
         public static string CustomerAlreadyBookedOntoSession { get { return "customer-already-booked-onto-session"; } }
+        public static string CustomFieldTemplateTypeInvalid { get { return "customfieldtemplatetype-invalid"; } }
+        public static string CustomFieldTemplateDuplicate { get { return "customfieldtemplate-duplicate"; } }
 
         public static string PricingSessionRequired { get { return "pricing-session-required"; } }
 

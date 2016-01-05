@@ -52,6 +52,13 @@ namespace Coachseek.API.Client.Services
             return Delete(request);
         }
 
+        public ApiResponse Delete(string relativeUrl)
+        {
+            var request = CreateWebRequest(relativeUrl);
+            ModifyRequest(request);
+            return Delete(request);
+        }
+
 
         protected HttpWebRequest CreateWebRequest(string relativeUrl)
         {

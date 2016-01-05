@@ -162,11 +162,14 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CoachesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CustomFieldsController.cs" />
     <Compile Include="Controllers\EmailTemplatesController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Conversion\BusinessRegistrationCommandConverter.cs" />
     <Compile Include="Conversion\BusinessUpdateCommandConverter.cs" />
+    <Compile Include="Conversion\CustomFieldAddCommandConverter.cs" />
+    <Compile Include="Conversion\CustomFieldUpdateCommandConverter.cs" />
     <Compile Include="Conversion\DomainCommandConverter.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -229,6 +232,7 @@
     <Compile Include="Models\Api\Out\ApiOutSessionBooking.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessSaveCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiCustomFieldSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomerSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiBusinessPaymentOptions.cs" />
     <Compile Include="Models\Api\Setup\ApiPresentation.cs" />

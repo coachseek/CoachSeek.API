@@ -85,7 +85,11 @@
     <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionBookingAddUseCase.cs" />
+    <Compile Include="UseCases\ICustomFieldAddUseCase.cs" />
     <Compile Include="UseCases\ICustomerOnlineBookingAddUseCase.cs" />
+    <Compile Include="UseCases\ICustomFieldDeleteUseCase.cs" />
+    <Compile Include="UseCases\ICustomFieldGetByTypeAndKeyUseCase.cs" />
+    <Compile Include="UseCases\ICustomFieldUpdateUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateDeleteUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateGetAllUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateGetByTypeUseCase.cs" />
