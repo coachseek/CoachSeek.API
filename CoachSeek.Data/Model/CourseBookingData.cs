@@ -6,6 +6,7 @@ namespace CoachSeek.Data.Model
     {
         public SessionKeyData Course { get; set; }
         public IList<SingleSessionBookingData> SessionBookings { get; set; }
+        // Possible future extension.
         //public IList<BookingSessionData> BookedSessions { get; set; }
 
         public CourseBookingData()

@@ -135,6 +135,10 @@
     <Build Include="Stored Procedures\Booking_GetCustomerBookingByBookingId.sql" />
     <Build Include="Stored Procedures\Booking_GetCourseBookingsByCourseAndCustomer_1.sql" />
     <Build Include="Stored Procedures\Booking_GetAllCustomerSessionBookingsByCustomerId_1.sql" />
+    <Build Include="Tables\CustomFieldTemplate.sql" />
+    <Build Include="Stored Procedures\CustomFieldTemplate_GetByTypeAndKey.sql" />
+    <Build Include="Stored Procedures\CustomFieldTemplate_DeleteByTypeAndKey.sql" />
+    <Build Include="Stored Procedures\CustomFieldTemplate_Create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

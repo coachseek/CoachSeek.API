@@ -27,6 +27,17 @@ namespace CoachSeek.Domain.Entities
             get { return BookingCollection.Bookings; }
         }
 
+        //public IReadOnlyCollection<BookingSessionData> BookedSessions
+        //{
+        //    get
+        //    {
+        //        return BookingCollection.Bookings.Select(booking => booking.Session)
+        //                                         .OrderBy(x => x.Date)
+        //                                         .ThenBy(x => x.StartTime)
+        //                                         .AsReadOnly();
+        //    }
+        //}
+
 
         public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer, Business business)
             : base(customer.ToKeyData())
@@ -83,7 +94,8 @@ namespace CoachSeek.Domain.Entities
                 PaymentStatus = PaymentStatus,
                 IsOnlineBooking = IsOnlineBooking,
                 Price = BookingPrice,
-                SessionBookings = SessionBookings.ToList()
+                SessionBookings = SessionBookings.ToList(),
+                //BookedSessions = BookedSessions.ToList()
             };
         }
 
