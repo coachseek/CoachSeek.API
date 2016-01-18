@@ -21,6 +21,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             CreateCurrencySuccess("ZAR", "ZAR", "R");
             CreateCurrencySuccess("CNY", "CNY", "¥");
             CreateCurrencySuccess("SGD", "SGD", "$");
+            CreateCurrencySuccess("CAD", "CAD", "$");
 
             CreateCurrencyError("XXX");
             CreateCurrencyError("IsNotFoundCurrency");

@@ -24,6 +24,7 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
                 new CurrencyData("GBP", "£"),
                 new CurrencyData("EUR", "€"),
                 new CurrencyData("CNY", "¥"),
+                new CurrencyData("CAD", "$"),
                 new CurrencyData("SEK", "kr"),
                 new CurrencyData("SGD", "$"),
                 new CurrencyData("ZAR", "R")
