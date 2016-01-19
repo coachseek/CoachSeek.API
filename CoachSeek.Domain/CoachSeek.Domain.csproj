@@ -171,6 +171,8 @@
     <Compile Include="Entities\Subscriptions\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateDuplicate.cs" />
+    <Compile Include="Exceptions\CustomFieldTemplateIdInvalid.cs" />
+    <Compile Include="Exceptions\CustomFieldTemplateKeyRequired.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateTypeInvalid.cs" />
     <Compile Include="Exceptions\PricingEnquirySessionRequired.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />

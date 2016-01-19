@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
@@ -12,20 +13,34 @@ namespace CoachSeek.Api.Controllers
 {
     public class CustomFieldsController : BaseController
     {
+        public ICustomFieldGetByIdUseCase CustomFieldGetByIdUseCase { get; set; }
         public ICustomFieldGetByTypeAndKeyUseCase CustomFieldGetByTypeAndKeyUseCase { get; set; }
         public ICustomFieldAddUseCase CustomFieldAddUseCase { get; set; }
         public ICustomFieldUpdateUseCase CustomFieldUpdateUseCase { get; set; }
         public ICustomFieldDeleteUseCase CustomFieldDeleteUseCase { get; set; }
 
-        public CustomFieldsController(ICustomFieldGetByTypeAndKeyUseCase customFieldGetByTypeAndKeyUseCase,
+        public CustomFieldsController(ICustomFieldGetByIdUseCase customFieldGetByIdUseCase,
+                                      ICustomFieldGetByTypeAndKeyUseCase customFieldGetByTypeAndKeyUseCase,
                                       ICustomFieldAddUseCase customFieldAddUseCase,
+                                      ICustomFieldUpdateUseCase customFieldUpdateUseCase,
                                       ICustomFieldDeleteUseCase customFieldDeleteUseCase)
         {
+            CustomFieldGetByIdUseCase = customFieldGetByIdUseCase;
             CustomFieldGetByTypeAndKeyUseCase = customFieldGetByTypeAndKeyUseCase;
             CustomFieldAddUseCase = customFieldAddUseCase;
+            CustomFieldUpdateUseCase = customFieldUpdateUseCase;
             CustomFieldDeleteUseCase = customFieldDeleteUseCase;
         }
 
+
+        [BasicAuthenticationOrAnonymous]
+        [Authorize]
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
+        {
+            CustomFieldGetByIdUseCase.Initialise(Context);
+            var response = await CustomFieldGetByIdUseCase.GetCustomFieldAsync(id);
+            return CreateGetWebResponse(response);
+        }
 
         [BasicAuthenticationOrAnonymous]
         [Authorize]

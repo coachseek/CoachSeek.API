@@ -1,6 +1,7 @@
 ﻿
-CREATE PROCEDURE [dbo].[CustomFieldTemplate_Create]	
+CREATE PROCEDURE [dbo].[CustomFieldTemplate_Create]
 	@businessGuid uniqueidentifier,
+	@templateGuid uniqueidentifier,
 	@type [nvarchar](50),
 	@key [nvarchar](50),
 	@name [nvarchar](50),
@@ -21,6 +22,7 @@ BEGIN
 	INSERT INTO [dbo].[CustomFieldTemplate]
 	(
 		[BusinessId],
+		[Guid],
 		[Type],
 		[Key],
 		[Name],
@@ -29,6 +31,7 @@ BEGIN
 	VALUES
 	(
 		@businessId,
+		@templateGuid,
 		@type,
 		@key,
 		@name,

@@ -8,6 +8,8 @@ namespace CoachSeek.Api.Conversion
     {
         public static CustomFieldUpdateCommand Convert(ApiCustomFieldSaveCommand apiCommand)
         {
+            apiCommand.Type = apiCommand.Type.ToLowerInvariant();
+
             return Mapper.Map<ApiCustomFieldSaveCommand, CustomFieldUpdateCommand>(apiCommand);
         }
     }

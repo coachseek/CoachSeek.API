@@ -1,5 +1,7 @@
 
 -- Drop Constraints
+ALTER TABLE [dbo].[CustomFieldValue] DROP CONSTRAINT [FK_CustomFieldValue_Business]
+ALTER TABLE [dbo].[CustomFieldTemplate] DROP CONSTRAINT [FK_CustomFieldTemplate_Business]
 ALTER TABLE [dbo].[Location] DROP CONSTRAINT [FK_Location_Business]
 ALTER TABLE [dbo].[Coach] DROP CONSTRAINT [FK_Coach_Business]
 ALTER TABLE [dbo].[Service] DROP CONSTRAINT [FK_Service_Business]
@@ -9,12 +11,15 @@ ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Location]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Coach]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Service]
 ALTER TABLE [dbo].[Session] DROP CONSTRAINT [FK_Session_Session]
+ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Business]
 ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Customer]
 ALTER TABLE [dbo].[Booking] DROP CONSTRAINT [FK_Booking_Session]
 ALTER TABLE [dbo].[EmailTemplate] DROP CONSTRAINT [FK_EmailTemplate_Business]
 GO
 
 -- Truncate Tables
+TRUNCATE TABLE [dbo].[CustomFieldValue]
+TRUNCATE TABLE [dbo].[CustomFieldTemplate]
 TRUNCATE TABLE [dbo].[EmailTemplate]
 TRUNCATE TABLE [dbo].[Transaction]
 TRUNCATE TABLE [dbo].[Location]
@@ -27,6 +32,10 @@ TRUNCATE TABLE [dbo].[Business]
 GO
 
 -- Recreate Constraints
+ALTER TABLE [dbo].[CustomFieldValue]  WITH CHECK ADD  CONSTRAINT [FK_CustomFieldValue_Business] FOREIGN KEY([BusinessId])
+	REFERENCES [dbo].[Business] ([Id])
+ALTER TABLE [dbo].[CustomFieldTemplate]  WITH CHECK ADD  CONSTRAINT [FK_CustomFieldTemplate_Business] FOREIGN KEY([BusinessId])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Location]  WITH CHECK ADD CONSTRAINT [FK_Location_Business] FOREIGN KEY([BusinessId])
 	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Coach]  WITH CHECK ADD CONSTRAINT [FK_Coach_Business] FOREIGN KEY([BusinessId])
@@ -47,10 +56,12 @@ ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Session] FOR
 	REFERENCES [dbo].[Session] ([Id])	
 ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Customer] FOREIGN KEY([CustomerId])
 	REFERENCES [dbo].[Customer] ([Id])
+ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Business] FOREIGN KEY([BusinessId])
+	REFERENCES [dbo].[Business] ([Id])
 ALTER TABLE [dbo].[Booking]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Session] FOREIGN KEY([SessionId])
 	REFERENCES [dbo].[Session] ([Id])
 ALTER TABLE [dbo].[EmailTemplate]  WITH CHECK ADD  CONSTRAINT [FK_EmailTemplate_Business] FOREIGN KEY([BusinessId])
 	REFERENCES [dbo].[Business] ([Id])
 GO
 
-GO
+

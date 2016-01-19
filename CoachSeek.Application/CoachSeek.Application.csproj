@@ -67,6 +67,7 @@
     <Compile Include="UseCases\BaseAdminUseCase.cs" />
     <Compile Include="UseCases\BusinessSetAuthorisedUntilUseCase.cs" />
     <Compile Include="UseCases\BusinessRegistrationUseCase.cs" />
+    <Compile Include="UseCases\CustomFieldGetByIdUseCase.cs" />
     <Compile Include="UseCases\CustomFieldUpdateUseCase.cs" />
     <Compile Include="UseCases\CustomFieldAddUseCase.cs" />
     <Compile Include="UseCases\CustomFieldDeleteUseCase.cs" />

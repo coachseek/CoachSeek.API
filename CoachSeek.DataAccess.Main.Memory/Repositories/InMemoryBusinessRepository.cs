@@ -975,5 +975,370 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+        Task<BusinessData> IBusinessRepository.GetBusinessAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<BusinessData> IBusinessRepository.GetBusinessAsync(string domain)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddBusinessAsync(NewBusiness business)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.UpdateBusinessAsync(Business business)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<LocationData>> IBusinessRepository.GetAllLocationsAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<LocationData> IBusinessRepository.GetAllLocations(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<LocationData> IBusinessRepository.GetLocationAsync(Guid businessId, Guid locationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        LocationData IBusinessRepository.GetLocation(Guid businessId, Guid locationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddLocationAsync(Guid businessId, Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.UpdateLocationAsync(Guid businessId, Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CoachData>> IBusinessRepository.GetAllCoachesAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<CoachData> IBusinessRepository.GetAllCoaches(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<CoachData> IBusinessRepository.GetCoachAsync(Guid businessId, Guid coachId)
+        {
+            throw new NotImplementedException();
+        }
+
+        CoachData IBusinessRepository.GetCoach(Guid businessId, Guid coachId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.AddCoach(Guid businessId, Coach coach)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.UpdateCoach(Guid businessId, Coach coach)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<ServiceData>> IBusinessRepository.GetAllServicesAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<ServiceData> IBusinessRepository.GetAllServices(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ServiceData> IBusinessRepository.GetServiceAsync(Guid businessId, Guid serviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        ServiceData IBusinessRepository.GetService(Guid businessId, Guid serviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.AddService(Guid businessId, Service service)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.UpdateService(Guid businessId, Service service)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CustomerData>> IBusinessRepository.GetAllCustomersAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<CustomerData> IBusinessRepository.GetCustomerAsync(Guid businessId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        CustomerData IBusinessRepository.GetCustomer(Guid businessId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddCustomerAsync(Guid businessId, Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.UpdateCustomerAsync(Guid businessId, Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<CustomFieldTemplateData> IBusinessRepository.GetCustomFieldTemplateAsync(Guid businessId, Guid templateId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CustomFieldTemplateData>> IBusinessRepository.GetCustomFieldTemplatesAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<SingleSessionData>> IBusinessRepository.SearchForSessions(Guid businessId, string beginDate, string endDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<SingleSessionData>> IBusinessRepository.GetAllSessionsAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<SingleSessionData> IBusinessRepository.GetAllSessions(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<SingleSessionData> IBusinessRepository.GetSessionAsync(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        SingleSessionData IBusinessRepository.GetSession(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddSessionAsync(Guid businessId, StandaloneSession session)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.AddSession(Guid businessId, StandaloneSession session)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.UpdateSession(Guid businessId, SingleSession session)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.DeleteSessionAsync(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.DeleteSession(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<RepeatedSessionData>> IBusinessRepository.GetAllCoursesAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<RepeatedSessionData> IBusinessRepository.GetAllCourses(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<RepeatedSessionData> IBusinessRepository.GetCourseAsync(Guid businessId, Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        RepeatedSessionData IBusinessRepository.GetCourse(Guid businessId, Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.AddCourseAsync(Guid businessId, RepeatedSession course)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.AddCourse(Guid businessId, RepeatedSession course)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.UpdateCourse(Guid businessId, RepeatedSession course)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.DeleteCourse(Guid businessId, Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<SingleSessionBookingData> IBusinessRepository.GetSessionBookingAsync(Guid businessId, Guid sessionBookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        SingleSessionBookingData IBusinessRepository.GetSessionBooking(Guid businessId, Guid sessionBookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        SingleSessionBookingData IBusinessRepository.AddSessionBooking(Guid businessId, SingleSessionBookingData sessionBooking)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<CourseBookingData> IBusinessRepository.GetCourseBookingAsync(Guid businessId, Guid courseBookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CourseBookingData>> IBusinessRepository.GetCourseBookingsAsync(Guid businessId, Guid courseId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        CourseBookingData IBusinessRepository.GetCourseBooking(Guid businessId, Guid courseBookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<CourseBookingData> IBusinessRepository.GetCourseBookings(Guid businessId, Guid courseId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        CourseBookingData IBusinessRepository.AddCourseBooking(Guid businessId, CourseBooking courseBooking)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.DeleteBooking(Guid businessId, Guid bookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBusinessRepository.SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.SetBookingPaymentStatus(Guid businessId, Guid bookingId, string paymentStatus)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.SetBookingAttendance(Guid businessId, Guid sessionBookingId, bool? hasAttended)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<CustomerBookingData> IBusinessRepository.GetCustomerBookingAsync(Guid businessId, Guid bookingId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CustomerBookingData>> IBusinessRepository.GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CustomerBookingData>> IBusinessRepository.GetCustomerBookingsByCourseIdAsync(Guid businessId, Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<CustomerBookingData>> IBusinessRepository.GetAllCustomerBookingsAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<CustomerBookingData> IBusinessRepository.GetAllCustomerBookings(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<CustomerBookingData> IBusinessRepository.GetAllCustomerSessionBookingsByCustomerId(Guid businessId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IList<EmailTemplateData> IBusinessRepository.GetAllEmailTemplates(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
+
+        EmailTemplateData IBusinessRepository.GetEmailTemplate(Guid businessId, string templateType)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.AddEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.UpdateEmailTemplate(Guid businessId, EmailTemplate emailTemplate)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBusinessRepository.DeleteEmailTemplate(Guid businessId, string templateType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

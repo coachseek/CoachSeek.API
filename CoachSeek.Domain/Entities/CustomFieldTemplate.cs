@@ -10,6 +10,8 @@ namespace CoachSeek.Domain.Entities
     {
         const string TYPE_CUSTOMER = "customer";
 
+        public Guid Id { get; private set; }
+
         public string Type { get; private set; }
         public string Key { get; private set; }
         public string Name { get; private set; }
@@ -18,12 +20,24 @@ namespace CoachSeek.Domain.Entities
 
         public CustomFieldTemplate(CustomFieldAddCommand command)
         {
+            Id = Guid.NewGuid();
             Type = command.Type;
             Name = command.Name;
             Key = CreateKeyFromName(command.Name);
             IsRequired = command.IsRequired;
 
-            Validate();
+            ValidateAdd();
+        }
+
+        public CustomFieldTemplate(CustomFieldUpdateCommand command)
+        {
+            Id = command.Id;
+            Type = command.Type;
+            Name = command.Name;
+            Key = command.Key;
+            IsRequired = command.IsRequired;
+
+            ValidateUpdate();
         }
 
         public CustomFieldTemplateData ToData()
@@ -32,10 +46,27 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void Validate()
+        private void ValidateAdd()
+        {
+            ValidateType();
+        }
+
+        private void ValidateUpdate()
+        {
+            ValidateType();
+            ValidateKey();
+        }
+
+        private void ValidateType()
         {
             if (Type != TYPE_CUSTOMER)
                 throw new CustomFieldTemplateTypeInvalid(Type);
+        }
+
+        private void ValidateKey()
+        {
+            if (string.IsNullOrEmpty(Key))
+                throw new CustomFieldTemplateKeyRequired();
         }
 
         private string CreateKeyFromName(string name)

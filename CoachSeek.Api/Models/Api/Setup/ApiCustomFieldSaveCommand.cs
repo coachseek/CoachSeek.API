@@ -2,7 +2,7 @@
 
 namespace CoachSeek.Api.Models.Api.Setup
 {
-    public class ApiCustomFieldSaveCommand
+    public class ApiCustomFieldSaveCommand : ApiSaveCommand
     {
         [Required, StringLength(50)]
         public string Type { get; set; }
@@ -11,10 +11,5 @@ namespace CoachSeek.Api.Models.Api.Setup
         public string Name { get; set; }
         [Required]
         public bool? IsRequired { get; set; }
-
-
-        public bool IsNew() { return string.IsNullOrEmpty(Key); }
-        public bool IsExisting() { return !IsNew(); }
-
     }
 }

@@ -43,6 +43,7 @@ namespace CoachSeek.Domain.Repositories
         Task UpdateCustomerAsync(Guid businessId, Customer customer);
 
         Task AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template);
+        Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, Guid templateId);
         Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key);
         Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key);
 
