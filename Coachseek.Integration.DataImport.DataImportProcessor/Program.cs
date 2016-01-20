@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using CoachSeek.Application.Configuration;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
 using CoachSeek.Common.Extensions;
 using StructureMap;
@@ -9,6 +10,7 @@ namespace Coachseek.Integration.DataImport.DataImportProcessor
     {
         static void Main(string[] args)
         {
+            ApplicationAutoMapperConfigurator.Configure();
             var container = new Container(new TypeRegistry());
             var useCase = container.GetInstance<IProcessDataImportUseCase>();
             useCase.ProcessAsync().Wait();
