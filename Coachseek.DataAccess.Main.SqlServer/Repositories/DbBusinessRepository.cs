@@ -215,6 +215,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             await CustomFieldTemplateRepository.AddCustomFieldTemplateAsync(businessId, template);
         }
 
+        public async Task UpdateCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            await CustomFieldTemplateRepository.UpdateCustomFieldTemplateAsync(businessId, template);
+        }
+
 
         public async Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, Guid templateId)
         {

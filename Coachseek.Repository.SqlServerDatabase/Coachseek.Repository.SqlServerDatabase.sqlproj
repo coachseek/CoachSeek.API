@@ -141,6 +141,7 @@
     <Build Include="Stored Procedures\CustomFieldTemplate_Create.sql" />
     <Build Include="Tables\CustomFieldValue.sql" />
     <Build Include="Stored Procedures\CustomFieldTemplate_GetByGuid.sql" />
+    <Build Include="Stored Procedures\CustomFieldTemplate_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

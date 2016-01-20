@@ -137,39 +137,37 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        //public void AddCustomer(Guid businessId, Customer customer)
-        //{
-        //    var wasAlreadyOpen = false;
+        public async Task UpdateCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            SqlConnection connection = null;
 
-        //    try
-        //    {
-        //        wasAlreadyOpen = OpenConnectionOld();
+            try
+            {
+                connection = await OpenConnectionAsync();
 
-        //        var command = new SqlCommand("[Customer_Create]", Connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[CustomFieldTemplate_Update]", connection) { CommandType = CommandType.StoredProcedure };
 
-        //        command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@templateGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@isRequired", SqlDbType.Bit));
 
-        //        command.Parameters[0].Value = businessId;
-        //        command.Parameters[1].Value = customer.Id;
-        //        command.Parameters[2].Value = customer.FirstName;
-        //        command.Parameters[3].Value = customer.LastName;
-        //        command.Parameters[4].Value = customer.Email;
-        //        command.Parameters[5].Value = customer.Phone;
-        //        command.Parameters[6].Value = customer.DateOfBirth;
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = template.Id;
+                command.Parameters[2].Value = template.Type;
+                command.Parameters[3].Value = template.Key;
+                command.Parameters[4].Value = template.Name;
+                command.Parameters[5].Value = template.IsRequired;
 
-        //        command.ExecuteNonQuery();
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection(wasAlreadyOpen);
-        //    }
-        //}
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
+            }
+        }
 
         //public async Task UpdateCustomerAsync(Guid businessId, Customer customer)
         //{

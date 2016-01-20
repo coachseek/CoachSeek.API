@@ -34,7 +34,7 @@ namespace CoachSeek.Domain.Entities
             Id = command.Id;
             Type = command.Type;
             Name = command.Name;
-            Key = command.Key;
+            Key = CreateKeyFromName(command.Name);
             IsRequired = command.IsRequired;
 
             ValidateUpdate();
@@ -54,19 +54,12 @@ namespace CoachSeek.Domain.Entities
         private void ValidateUpdate()
         {
             ValidateType();
-            ValidateKey();
         }
 
         private void ValidateType()
         {
             if (Type != TYPE_CUSTOMER)
                 throw new CustomFieldTemplateTypeInvalid(Type);
-        }
-
-        private void ValidateKey()
-        {
-            if (string.IsNullOrEmpty(Key))
-                throw new CustomFieldTemplateKeyRequired();
         }
 
         private string CreateKeyFromName(string name)

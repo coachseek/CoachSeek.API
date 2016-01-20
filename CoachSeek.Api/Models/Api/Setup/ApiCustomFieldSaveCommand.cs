@@ -6,7 +6,6 @@ namespace CoachSeek.Api.Models.Api.Setup
     {
         [Required, StringLength(50)]
         public string Type { get; set; }
-        public string Key { get; set; }
         [Required, StringLength(100)]
         public string Name { get; set; }
         [Required]
