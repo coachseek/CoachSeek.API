@@ -168,6 +168,7 @@
     <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Conversion\BusinessRegistrationCommandConverter.cs" />
     <Compile Include="Conversion\BusinessUpdateCommandConverter.cs" />
+    <Compile Include="Conversion\CustomFieldValuesUpdateCommandConverter.cs" />
     <Compile Include="Conversion\CustomFieldAddCommandConverter.cs" />
     <Compile Include="Conversion\CustomFieldUpdateCommandConverter.cs" />
     <Compile Include="Conversion\DomainCommandConverter.cs" />
@@ -204,6 +205,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Api\Setup\ApiCustomFieldValueSaveCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiCustomFieldValueListSaveCommand.cs" />
     <Compile Include="Models\Api\ApiPriceGetCommand.cs" />
     <Compile Include="Models\Api\ApiEmailTemplateSaveCommand.cs" />
     <Compile Include="Models\Api\ApiSessionKey.cs" />

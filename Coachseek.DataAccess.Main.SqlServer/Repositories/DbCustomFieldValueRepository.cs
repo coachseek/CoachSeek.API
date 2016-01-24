@@ -8,41 +8,13 @@ using CoachSeek.Domain.Entities;
 
 namespace Coachseek.DataAccess.Main.SqlServer.Repositories
 {
-    public class DbCustomFieldTemplateRepository : DbRepositoryBase
+    public class DbCustomFieldValueRepository : DbRepositoryBase
     {
-        public DbCustomFieldTemplateRepository(string connectionStringKey)
+        public DbCustomFieldValueRepository(string connectionStringKey)
             : base(connectionStringKey) 
         { }
 
-        //public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
-        //{
-        //    SqlConnection connection = null;
-        //    SqlDataReader reader = null;
-
-        //    try
-        //    {
-        //        connection = await OpenConnectionAsync();
-
-        //        var command = new SqlCommand("[Customer_GetAll]", connection) { CommandType = CommandType.StoredProcedure };
-
-        //        command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters[0].Value = businessId;
-
-        //        var customers = new List<CustomerData>();
-        //        reader = await command.ExecuteReaderAsync();
-        //        while (reader.Read())
-        //            customers.Add(ReadCustomerData(reader));
-
-        //        return customers;
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection(connection);
-        //        CloseReader(reader);
-        //    }
-        //}
-
-        public async Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key = null)
+        public async Task<CustomFieldValueData> GetCustomFieldValueAsync(Guid businessId, string type, Guid typeId, string key)
         {
             SqlConnection connection = null;
             SqlDataReader reader = null;
@@ -51,50 +23,21 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[CustomFieldTemplate_GetByTypeAndKey]", connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[CustomFieldValue_Get]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@typeGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = type;
-                command.Parameters[2].Value = key;
-
-                var templates = new List<CustomFieldTemplateData>();
-                reader = await command.ExecuteReaderAsync();
-                while (reader.Read())
-                    templates.Add(ReadCustomerFieldTemplateData(reader));
-
-                return templates;
-            }
-            finally
-            {
-                CloseConnection(connection);
-                CloseReader(reader);
-            }
-        }
-
-        public async Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, Guid templateId)
-        {
-            SqlConnection connection = null;
-            SqlDataReader reader = null;
-
-            try
-            {
-                connection = await OpenConnectionAsync();
-
-                var command = new SqlCommand("[CustomFieldTemplate_GetByGuid]", connection) { CommandType = CommandType.StoredProcedure };
-
-                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@templateGuid", SqlDbType.UniqueIdentifier));
-
-                command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = templateId;
+                command.Parameters[2].Value = typeId;
+                command.Parameters[3].Value = key;
 
                 reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows && reader.Read())
-                    return ReadCustomerFieldTemplateData(reader);
+                    return ReadCustomerFieldValueData(reader);
 
                 return null;
             }
@@ -105,7 +48,40 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public async Task AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[CustomFieldValue_GetByTypeGuid]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@typeGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = type;
+                command.Parameters[2].Value = typeId;
+
+                var values = new List<CustomFieldValueData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    values.Add(ReadCustomerFieldValueData(reader));
+
+                return values;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
+        public async Task AddCustomFieldValueAsync(Guid businessId, CustomFieldValue fieldValue)
         {
             SqlConnection connection = null;
 
@@ -113,21 +89,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[CustomFieldTemplate_Create]", connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[CustomFieldValue_Create]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@templateGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@typeGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@isRequired", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@value", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = template.Id;
-                command.Parameters[2].Value = template.Type;
-                command.Parameters[3].Value = template.Key;
-                command.Parameters[4].Value = template.Name;
-                command.Parameters[5].Value = template.IsRequired;
+                command.Parameters[1].Value = fieldValue.Type;
+                command.Parameters[2].Value = fieldValue.TypeId;
+                command.Parameters[3].Value = fieldValue.Key;
+                command.Parameters[4].Value = fieldValue.Value;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -137,7 +111,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public async Task UpdateCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        public async Task UpdateCustomFieldValueAsync(Guid businessId, CustomFieldValue fieldValue)
         {
             SqlConnection connection = null;
 
@@ -145,21 +119,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[CustomFieldTemplate_Update]", connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[CustomFieldValue_Update]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-                command.Parameters.Add(new SqlParameter("@templateGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@typeGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@isRequired", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@value", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = template.Id;
-                command.Parameters[2].Value = template.Type;
-                command.Parameters[3].Value = template.Key;
-                command.Parameters[4].Value = template.Name;
-                command.Parameters[5].Value = template.IsRequired;
+                command.Parameters[1].Value = fieldValue.Type;
+                command.Parameters[2].Value = fieldValue.TypeId;
+                command.Parameters[3].Value = fieldValue.Key;
+                command.Parameters[4].Value = fieldValue.Value;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -267,15 +239,19 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         }
 
 
-        private CustomFieldTemplateData ReadCustomerFieldTemplateData(SqlDataReader reader)
+        private CustomFieldValueData ReadCustomerFieldValueData(SqlDataReader reader)
         {
-            return new CustomFieldTemplateData
+            var type = reader.GetString(1);
+            var typeId = reader.GetGuid(2);
+            var key = reader.GetString(3);
+            var value = reader.GetString(4);
+
+            return new CustomFieldValueData
             {
-                Id = reader.GetGuid(1),
-                Type = reader.GetString(2),
-                Key = reader.GetString(3),
-                Name = reader.GetString(4),
-                IsRequired = reader.GetBoolean(5)
+                Type = type,
+                TypeId = typeId,
+                Key = key,
+                Value = value
             };
         }
     }

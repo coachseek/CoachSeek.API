@@ -1346,5 +1346,28 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task<CustomFieldValueData> GetCustomFieldValueAsync(Guid businessId, string type, Guid typeId, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task UpdateCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
