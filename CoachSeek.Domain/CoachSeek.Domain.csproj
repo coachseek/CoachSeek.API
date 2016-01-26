@@ -66,6 +66,7 @@
     <Compile Include="Commands\BookingSetAttendanceCommand.cs" />
     <Compile Include="Commands\BusinessPaymentCommand.cs" />
     <Compile Include="Commands\BusinessSetAuthorisedUntilCommand.cs" />
+    <Compile Include="Commands\CustomFieldTemplateSetIsActiveCommand.cs" />
     <Compile Include="Commands\CustomFieldValueListUpdateCommand.cs" />
     <Compile Include="Commands\CustomFieldAddCommand.cs" />
     <Compile Include="Commands\CustomFieldUpdateCommand.cs" />

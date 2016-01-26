@@ -141,78 +141,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        //public async Task UpdateCustomerAsync(Guid businessId, Customer customer)
-        //{
-        //    SqlConnection connection = null;
-
-        //    try
-        //    {
-        //        connection = await OpenConnectionAsync();
-
-        //        var command = new SqlCommand("[Customer_Update]", connection)
-        //        {
-        //            CommandType = CommandType.StoredProcedure
-        //        };
-
-        //        command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
-
-        //        command.Parameters[0].Value = businessId;
-        //        command.Parameters[1].Value = customer.Id;
-        //        command.Parameters[2].Value = customer.FirstName;
-        //        command.Parameters[3].Value = customer.LastName;
-        //        command.Parameters[4].Value = customer.Email;
-        //        command.Parameters[5].Value = customer.Phone;
-        //        command.Parameters[6].Value = customer.DateOfBirth;
-
-        //        await command.ExecuteNonQueryAsync();
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection(connection);
-        //    }
-        //}
-
-        //public void UpdateCustomer(Guid businessId, Customer customer)
-        //{
-        //    var wasAlreadyOpen = false;
-
-        //    try
-        //    {
-        //        wasAlreadyOpen = OpenConnectionOld();
-
-        //        var command = new SqlCommand("Customer_Update", Connection) { CommandType = CommandType.StoredProcedure };
-
-        //        command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters.Add(new SqlParameter("@firstName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
-        //        command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
-
-        //        command.Parameters[0].Value = businessId;
-        //        command.Parameters[1].Value = customer.Id;
-        //        command.Parameters[2].Value = customer.FirstName;
-        //        command.Parameters[3].Value = customer.LastName;
-        //        command.Parameters[4].Value = customer.Email;
-        //        command.Parameters[5].Value = customer.Phone;
-        //        command.Parameters[6].Value = customer.DateOfBirth;
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection(wasAlreadyOpen);
-        //    }
-        //}
-
-        public async Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key)
+        public async Task DeleteCustomFieldValueAsync(Guid businessId, CustomFieldValue fieldValue)
         {
             SqlConnection connection = null;
 
@@ -220,15 +149,17 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 connection = await OpenConnectionAsync();
 
-                var command = new SqlCommand("[CustomFieldTemplate_DeleteByTypeAndKey]", connection) { CommandType = CommandType.StoredProcedure };
+                var command = new SqlCommand("[CustomFieldValue_Delete]", connection) { CommandType = CommandType.StoredProcedure };
 
                 command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@typeGuid", SqlDbType.UniqueIdentifier));
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
 
                 command.Parameters[0].Value = businessId;
-                command.Parameters[1].Value = type;
-                command.Parameters[2].Value = key;
+                command.Parameters[1].Value = fieldValue.Type;
+                command.Parameters[2].Value = fieldValue.TypeId;
+                command.Parameters[3].Value = fieldValue.Key;
 
                 await command.ExecuteNonQueryAsync();
             }

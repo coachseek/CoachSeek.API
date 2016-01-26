@@ -9,5 +9,6 @@ namespace CoachSeek.Data.Model
         public string Key { get; set; }
         public string Name { get; set; }
         public bool IsRequired { get; set; }
+        public bool IsActive { get; set; }
     }
 }

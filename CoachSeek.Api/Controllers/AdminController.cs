@@ -87,7 +87,6 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(user);
         }
 
-        // GET: Admin/Businesses/{business_id}
         [Route("Admin/Businesses/{id}")]
         [BasicAdminAuthentication]
         [BusinessAuthorize]

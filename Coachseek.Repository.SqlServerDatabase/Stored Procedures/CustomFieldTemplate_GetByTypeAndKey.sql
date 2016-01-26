@@ -13,7 +13,8 @@ BEGIN
 		cft.[Type],
 		cft.[Key],
 		cft.[Name],
-		cft.[IsRequired]
+		cft.[IsRequired],
+		cft.[IsActive]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[CustomFieldTemplate] cft

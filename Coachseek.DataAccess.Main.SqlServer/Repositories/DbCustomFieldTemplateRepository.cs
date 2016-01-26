@@ -14,33 +14,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             : base(connectionStringKey) 
         { }
 
-        //public async Task<IList<CustomerData>> GetAllCustomersAsync(Guid businessId)
-        //{
-        //    SqlConnection connection = null;
-        //    SqlDataReader reader = null;
-
-        //    try
-        //    {
-        //        connection = await OpenConnectionAsync();
-
-        //        var command = new SqlCommand("[Customer_GetAll]", connection) { CommandType = CommandType.StoredProcedure };
-
-        //        command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
-        //        command.Parameters[0].Value = businessId;
-
-        //        var customers = new List<CustomerData>();
-        //        reader = await command.ExecuteReaderAsync();
-        //        while (reader.Read())
-        //            customers.Add(ReadCustomerData(reader));
-
-        //        return customers;
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection(connection);
-        //        CloseReader(reader);
-        //    }
-        //}
 
         public async Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key = null)
         {
@@ -121,6 +94,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@isRequired", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@isActive", SqlDbType.Bit));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = template.Id;
@@ -128,6 +102,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = template.Key;
                 command.Parameters[4].Value = template.Name;
                 command.Parameters[5].Value = template.IsRequired;
+                command.Parameters[6].Value = template.IsActive;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -266,6 +241,32 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task SetCustomFieldTemplateIsActiveAsync(Guid businessId, Guid templateId, bool isActive)
+        {
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[CustomFieldTemplate_UpdateIsActive]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@templateGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@isActive", SqlDbType.Bit));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = templateId;
+                command.Parameters[2].Value = isActive;
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
+            }
+        }
+
 
         private CustomFieldTemplateData ReadCustomerFieldTemplateData(SqlDataReader reader)
         {
@@ -275,7 +276,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 Type = reader.GetString(2),
                 Key = reader.GetString(3),
                 Name = reader.GetString(4),
-                IsRequired = reader.GetBoolean(5)
+                IsRequired = reader.GetBoolean(5),
+                IsActive = reader.GetBoolean(6)
             };
         }
     }

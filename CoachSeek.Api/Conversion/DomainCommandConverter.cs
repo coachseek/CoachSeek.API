@@ -14,6 +14,9 @@ namespace CoachSeek.Api.Conversion
             if (commandName == "BusinessSetAuthorisedUntil")
                 return ConvertToConcreteCommand<BusinessSetAuthorisedUntilCommand>(apiCommand);
 
+            if (commandName == "CustomFieldTemplateSetIsActive")
+                return ConvertToConcreteCommand<CustomFieldTemplateSetIsActiveCommand>(apiCommand);
+
             if (commandName == "BookingSetAttendance")
                 return ConvertToConcreteCommand<BookingSetAttendanceCommand>(apiCommand);
             if (commandName == "BookingSetPaymentStatus")

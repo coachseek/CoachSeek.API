@@ -22,11 +22,12 @@ namespace CoachSeek.Application.UseCases
             var cmdList = SplitIntoAddUpdateDeleteCommands(command, templates, values);
             foreach (var cmd in cmdList)
             {
-                //var existingValue = await BusinessRepository.GetCustomFieldValueAsync(Business.Id, value.Type, value.TypeId, value.Key);
-                //if (existingValue.IsNotFound())
-                //    await AddCustomFieldValueAsync(value);
-                //else
-                //    await UpdateCustomFieldValueAsync(value);
+                if (cmd is AddCustomFieldValueCommand)
+                    await AddCustomFieldValueAsync(cmd);
+                if (cmd is UpdateCustomFieldValueCommand)
+                    await UpdateCustomFieldValueAsync(cmd);
+                if (cmd is DeleteCustomFieldValueCommand)
+                    await DeleteCustomFieldValueAsync(cmd);
             }
 
             // TODO: Return list of validation errors.
@@ -103,14 +104,38 @@ namespace CoachSeek.Application.UseCases
 
         private async Task AddCustomFieldValueAsync(CustomFieldValueCommand command)
         {
-            var fieldValue = new CustomFieldValue();
+            var fieldValue = new CustomFieldValue
+            {
+                Type = command.Type,
+                TypeId = command.TypeId,
+                Key = command.Key,
+                Value = command.Value
+            };
             await BusinessRepository.AddCustomFieldValueAsync(Business.Id, fieldValue);
         }
 
         private async Task UpdateCustomFieldValueAsync(CustomFieldValueCommand command)
         {
-            var fieldValue = new CustomFieldValue();
+            var fieldValue = new CustomFieldValue
+            {
+                Type = command.Type,
+                TypeId = command.TypeId,
+                Key = command.Key,
+                Value = command.Value
+            };
             await BusinessRepository.UpdateCustomFieldValueAsync(Business.Id, fieldValue);
+        }
+
+        private async Task DeleteCustomFieldValueAsync(CustomFieldValueCommand command)
+        {
+            var fieldValue = new CustomFieldValue
+            {
+                Type = command.Type,
+                TypeId = command.TypeId,
+                Key = command.Key,
+                Value = command.Value
+            };
+            await BusinessRepository.DeleteCustomFieldValueAsync(Business.Id, fieldValue);
         }
 
 

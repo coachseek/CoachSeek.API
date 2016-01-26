@@ -6,7 +6,10 @@
     [Key]        NVARCHAR (50)    NOT NULL,
     [Name]       NVARCHAR (50)    NOT NULL,
     [IsRequired] BIT              NOT NULL,
+    [IsActive]   BIT              CONSTRAINT [DF_CustomFieldTemplate_IsActive] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_CustomFieldTemplate] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_CustomFieldTemplate_Business] FOREIGN KEY ([BusinessId]) REFERENCES [dbo].[Business] ([Id])
 );
+
+
 

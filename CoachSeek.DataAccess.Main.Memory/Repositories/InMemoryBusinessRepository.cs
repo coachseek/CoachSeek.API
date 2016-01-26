@@ -1369,5 +1369,17 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task DeleteCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task SetCustomFieldTemplateIsActiveAsync(Guid businessId, Guid templateId, bool isActive)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

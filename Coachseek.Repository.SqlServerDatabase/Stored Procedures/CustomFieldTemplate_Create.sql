@@ -5,7 +5,8 @@ CREATE PROCEDURE [dbo].[CustomFieldTemplate_Create]
 	@type [nvarchar](50),
 	@key [nvarchar](50),
 	@name [nvarchar](50),
-	@isRequired [bit]
+	@isRequired [bit],
+	@isActive [bit]
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -26,7 +27,8 @@ BEGIN
 		[Type],
 		[Key],
 		[Name],
-		[IsRequired]
+		[IsRequired],
+		[IsActive]
 	)
 	VALUES
 	(
@@ -35,7 +37,8 @@ BEGIN
 		@type,
 		@key,
 		@name,
-		@isRequired
+		@isRequired,
+		@isActive
 	)
 
 END

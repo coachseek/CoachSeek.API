@@ -15,6 +15,7 @@ namespace CoachSeek.Domain.Entities
         public string Key { get; private set; }
         public string Name { get; private set; }
         public bool IsRequired { get; private set; }
+        public bool IsActive { get; private set; }
 
 
         public CustomFieldTemplate(CustomFieldAddCommand command)
@@ -24,6 +25,7 @@ namespace CoachSeek.Domain.Entities
             Name = command.Name;
             Key = CreateKeyFromName(command.Name);
             IsRequired = command.IsRequired;
+            IsActive = true;
 
             ValidateAdd();
         }

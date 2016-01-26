@@ -238,6 +238,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             await CustomFieldTemplateRepository.DeleteCustomFieldTemplateAsync(businessId, type, key);
         }
 
+        public async Task SetCustomFieldTemplateIsActiveAsync(Guid businessId, Guid templateId, bool isActive)
+        {
+            await CustomFieldTemplateRepository.SetCustomFieldTemplateIsActiveAsync(businessId, templateId, isActive);
+        }
+
         public async Task AddCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
         {
             await CustomFieldValueRepository.AddCustomFieldValueAsync(businessId, value);
@@ -246,6 +251,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public async Task UpdateCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
         {
             await CustomFieldValueRepository.UpdateCustomFieldValueAsync(businessId, value);
+        }
+
+        public async Task DeleteCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            await CustomFieldValueRepository.DeleteCustomFieldValueAsync(businessId, value);
         }
 
         public async Task<CustomFieldValueData> GetCustomFieldValueAsync(Guid businessId, string type, Guid typeId, string key)
