@@ -66,8 +66,11 @@
     <Compile Include="Commands\BookingSetAttendanceCommand.cs" />
     <Compile Include="Commands\BusinessPaymentCommand.cs" />
     <Compile Include="Commands\BusinessSetAuthorisedUntilCommand.cs" />
+    <Compile Include="Commands\CustomFieldTemplateSetIsActiveCommand.cs" />
+    <Compile Include="Commands\CustomFieldValueListUpdateCommand.cs" />
     <Compile Include="Commands\CustomFieldAddCommand.cs" />
     <Compile Include="Commands\CustomFieldUpdateCommand.cs" />
+    <Compile Include="Commands\CustomFieldValueUpdateCommand.cs" />
     <Compile Include="Commands\EmailTemplateUpdateCommand.cs" />
     <Compile Include="Commands\BusinessSetCustomerOnlineBookingEmailCustomisationCommand.cs" />
     <Compile Include="Commands\BusinessUpdateCommand.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\BouncedEmail.cs" />
     <Compile Include="Entities\CustomFieldTemplate.cs" />
+    <Compile Include="Entities\CustomFieldValue.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
     <Compile Include="Entities\NullPrice.cs" />
     <Compile Include="Entities\OnlineBookingEmail.cs" />
@@ -171,7 +175,12 @@
     <Compile Include="Entities\Subscriptions\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateDuplicate.cs" />
+    <Compile Include="Exceptions\CustomFieldTemplateIdInvalid.cs" />
+    <Compile Include="Exceptions\CustomFieldValueRequired.cs" />
+    <Compile Include="Exceptions\CustomFieldValueKeyInvalud.cs" />
+    <Compile Include="Exceptions\CustomFieldTemplateKeyRequired.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateTypeInvalid.cs" />
+    <Compile Include="Exceptions\NotEnoughDataParts.cs" />
     <Compile Include="Exceptions\PricingEnquirySessionRequired.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />
     <Compile Include="Exceptions\BookingUpdateNotSupported.cs" />

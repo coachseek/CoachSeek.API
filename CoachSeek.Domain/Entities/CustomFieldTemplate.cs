@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using CoachSeek.Common;
 using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Exceptions;
@@ -8,22 +9,36 @@ namespace CoachSeek.Domain.Entities
 {
     public class CustomFieldTemplate
     {
-        const string TYPE_CUSTOMER = "customer";
+        public Guid Id { get; private set; }
 
         public string Type { get; private set; }
         public string Key { get; private set; }
         public string Name { get; private set; }
         public bool IsRequired { get; private set; }
+        public bool IsActive { get; private set; }
 
 
         public CustomFieldTemplate(CustomFieldAddCommand command)
         {
+            Id = Guid.NewGuid();
+            Type = command.Type;
+            Name = command.Name;
+            Key = CreateKeyFromName(command.Name);
+            IsRequired = command.IsRequired;
+            IsActive = true;
+
+            ValidateAdd();
+        }
+
+        public CustomFieldTemplate(CustomFieldUpdateCommand command)
+        {
+            Id = command.Id;
             Type = command.Type;
             Name = command.Name;
             Key = CreateKeyFromName(command.Name);
             IsRequired = command.IsRequired;
 
-            Validate();
+            ValidateUpdate();
         }
 
         public CustomFieldTemplateData ToData()
@@ -32,9 +47,19 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        private void Validate()
+        private void ValidateAdd()
         {
-            if (Type != TYPE_CUSTOMER)
+            ValidateType();
+        }
+
+        private void ValidateUpdate()
+        {
+            ValidateType();
+        }
+
+        private void ValidateType()
+        {
+            if (Type != Constants.CUSTOM_FIELD_TYPE_CUSTOMER)
                 throw new CustomFieldTemplateTypeInvalid(Type);
         }
 

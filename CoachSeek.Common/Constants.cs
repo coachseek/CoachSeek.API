@@ -31,5 +31,8 @@
         // Email Templates
         public const string EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_SESSION = "OnlineBookingCustomerSession";
         public const string EMAIL_TEMPLATE_ONLINE_BOOKING_CUSTOMER_COURSE = "OnlineBookingCustomerCourse";
+
+        // Custom Field Types
+        public const string CUSTOM_FIELD_TYPE_CUSTOMER = "customer";
     }
 }

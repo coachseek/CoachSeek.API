@@ -36,6 +36,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbServiceRepository ServiceRepository { get; set; }
         private DbCustomerRepository CustomerRepository { get; set; }
         private DbCustomFieldTemplateRepository CustomFieldTemplateRepository { get; set; }
+        private DbCustomFieldValueRepository CustomFieldValueRepository { get; set; }
         private DbSessionRepository SessionRepository { get; set; }
         private DbCourseRepository CourseRepository { get; set; }
         private DbBookingRepository BookingRepository { get; set; }
@@ -51,6 +52,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             ServiceRepository = new DbServiceRepository(ConnectionStringKey);
             CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
             CustomFieldTemplateRepository = new DbCustomFieldTemplateRepository(ConnectionStringKey);
+            CustomFieldValueRepository = new DbCustomFieldValueRepository(ConnectionStringKey);
             SessionRepository = new DbSessionRepository(ConnectionStringKey);
             CourseRepository = new DbCourseRepository(ConnectionStringKey);
             BookingRepository = new DbBookingRepository(ConnectionStringKey);
@@ -215,6 +217,17 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             await CustomFieldTemplateRepository.AddCustomFieldTemplateAsync(businessId, template);
         }
 
+        public async Task UpdateCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template)
+        {
+            await CustomFieldTemplateRepository.UpdateCustomFieldTemplateAsync(businessId, template);
+        }
+
+
+        public async Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, Guid templateId)
+        {
+            return await CustomFieldTemplateRepository.GetCustomFieldTemplateAsync(businessId, templateId);
+        }
+
         public async Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key)
         {
             return await CustomFieldTemplateRepository.GetCustomFieldTemplatesAsync(businessId, type, key);
@@ -223,6 +236,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         public async Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key)
         {
             await CustomFieldTemplateRepository.DeleteCustomFieldTemplateAsync(businessId, type, key);
+        }
+
+        public async Task SetCustomFieldTemplateIsActiveAsync(Guid businessId, Guid templateId, bool isActive)
+        {
+            await CustomFieldTemplateRepository.SetCustomFieldTemplateIsActiveAsync(businessId, templateId, isActive);
+        }
+
+        public async Task AddCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            await CustomFieldValueRepository.AddCustomFieldValueAsync(businessId, value);
+        }
+
+        public async Task UpdateCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            await CustomFieldValueRepository.UpdateCustomFieldValueAsync(businessId, value);
+        }
+
+        public async Task DeleteCustomFieldValueAsync(Guid businessId, CustomFieldValue value)
+        {
+            await CustomFieldValueRepository.DeleteCustomFieldValueAsync(businessId, value);
+        }
+
+        public async Task<CustomFieldValueData> GetCustomFieldValueAsync(Guid businessId, string type, Guid typeId, string key)
+        {
+            return await CustomFieldValueRepository.GetCustomFieldValueAsync(businessId, type, typeId, key);
+        }
+
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId)
+        {
+            return await CustomFieldValueRepository.GetCustomFieldValuesAsync(businessId, type, typeId);
         }
 
 

@@ -1,8 +1,7 @@
 ﻿
-CREATE PROCEDURE [dbo].[CustomFieldTemplate_GetByTypeAndKey]
+CREATE PROCEDURE [dbo].[CustomFieldTemplate_GetByGuid]
 	@businessGuid uniqueidentifier,
-	@type [nvarchar](50) = NULL,
-	@key [nvarchar](50) = NULL
+	@templateGuid uniqueidentifier
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -21,6 +20,5 @@ BEGIN
 			ON b.Id = cft.BusinessId
 	WHERE
 		b.[Guid] = @businessGuid
-		AND (@type IS NULL OR cft.[Type] = @type)
-		AND (@key IS NULL OR cft.[Key] = @key)
+		AND cft.[Guid] = @templateGuid
 END

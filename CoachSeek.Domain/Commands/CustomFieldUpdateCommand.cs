@@ -1,7 +1,9 @@
-﻿namespace CoachSeek.Domain.Commands
+﻿using System;
+
+namespace CoachSeek.Domain.Commands
 {
-    public class CustomFieldUpdateCommand : CustomFieldAddCommand
+    public class CustomFieldUpdateCommand : CustomFieldAddCommand, IIdentifiable
     {
-        public string Key { get; set; }
+        public Guid Id { get; set; }
     }
 }

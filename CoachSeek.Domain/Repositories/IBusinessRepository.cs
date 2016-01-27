@@ -43,8 +43,17 @@ namespace CoachSeek.Domain.Repositories
         Task UpdateCustomerAsync(Guid businessId, Customer customer);
 
         Task AddCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template);
-        Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key);
+        Task UpdateCustomFieldTemplateAsync(Guid businessId, CustomFieldTemplate template);
+        Task<CustomFieldTemplateData> GetCustomFieldTemplateAsync(Guid businessId, Guid templateId);
+        Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesAsync(Guid businessId, string type, string key = null);
         Task DeleteCustomFieldTemplateAsync(Guid businessId, string type, string key);
+        Task SetCustomFieldTemplateIsActiveAsync(Guid businessId, Guid templateId, bool isActive);
+
+        Task AddCustomFieldValueAsync(Guid businessId, CustomFieldValue value);
+        Task UpdateCustomFieldValueAsync(Guid businessId, CustomFieldValue value);
+        Task DeleteCustomFieldValueAsync(Guid businessId, CustomFieldValue value);
+        Task<CustomFieldValueData> GetCustomFieldValueAsync(Guid businessId, string type, Guid typeId, string key);
+        Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId);
 
         Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
         Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId);

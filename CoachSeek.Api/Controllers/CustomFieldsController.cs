@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using CoachSeek.Api.Attributes;
@@ -6,26 +7,45 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Executors;
 using CoachSeek.Common;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
     public class CustomFieldsController : BaseController
     {
+        public ICustomFieldGetByIdUseCase CustomFieldGetByIdUseCase { get; set; }
         public ICustomFieldGetByTypeAndKeyUseCase CustomFieldGetByTypeAndKeyUseCase { get; set; }
         public ICustomFieldAddUseCase CustomFieldAddUseCase { get; set; }
         public ICustomFieldUpdateUseCase CustomFieldUpdateUseCase { get; set; }
         public ICustomFieldDeleteUseCase CustomFieldDeleteUseCase { get; set; }
+        public ICustomFieldUseCaseExecutor CustomFieldUseCaseExecutor { get; set; }
 
-        public CustomFieldsController(ICustomFieldGetByTypeAndKeyUseCase customFieldGetByTypeAndKeyUseCase,
+        public CustomFieldsController(ICustomFieldGetByIdUseCase customFieldGetByIdUseCase,
+                                      ICustomFieldGetByTypeAndKeyUseCase customFieldGetByTypeAndKeyUseCase,
                                       ICustomFieldAddUseCase customFieldAddUseCase,
-                                      ICustomFieldDeleteUseCase customFieldDeleteUseCase)
+                                      ICustomFieldUpdateUseCase customFieldUpdateUseCase,
+                                      ICustomFieldDeleteUseCase customFieldDeleteUseCase,
+                                      ICustomFieldUseCaseExecutor customFieldUseCaseExecutor)
         {
+            CustomFieldGetByIdUseCase = customFieldGetByIdUseCase;
             CustomFieldGetByTypeAndKeyUseCase = customFieldGetByTypeAndKeyUseCase;
             CustomFieldAddUseCase = customFieldAddUseCase;
+            CustomFieldUpdateUseCase = customFieldUpdateUseCase;
             CustomFieldDeleteUseCase = customFieldDeleteUseCase;
+            CustomFieldUseCaseExecutor = customFieldUseCaseExecutor;
         }
 
+
+        [BasicAuthenticationOrAnonymous]
+        [Authorize]
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
+        {
+            CustomFieldGetByIdUseCase.Initialise(Context);
+            var response = await CustomFieldGetByIdUseCase.GetCustomFieldAsync(id);
+            return CreateGetWebResponse(response);
+        }
 
         [BasicAuthenticationOrAnonymous]
         [Authorize]
@@ -47,12 +67,23 @@ namespace CoachSeek.Api.Controllers
 
         [BasicAuthentication]
         [BusinessAuthorize(Role.BusinessAdmin)]
-        public async Task<HttpResponseMessage> DeleteAsync(string type, string key)
+        [CheckModelForNull]
+        public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
         {
-            CustomFieldDeleteUseCase.Initialise(Context);
-            var response = await CustomFieldDeleteUseCase.DeleteCustomFieldAsync(type, key);
-            return CreateDeleteWebResponse(response);
+            apiCommand.TemplateId = id;
+            ICommand command = DomainCommandConverter.Convert(apiCommand);
+            var response = await CustomFieldUseCaseExecutor.ExecuteForAsync(command, Context);
+            return CreatePostWebResponse(response);
         }
+
+        //[BasicAuthentication]
+        //[BusinessAuthorize(Role.BusinessAdmin)]
+        //public async Task<HttpResponseMessage> DeleteAsync(string type, string key)
+        //{
+        //    CustomFieldDeleteUseCase.Initialise(Context);
+        //    var response = await CustomFieldDeleteUseCase.DeleteCustomFieldAsync(type, key);
+        //    return CreateDeleteWebResponse(response);
+        //}
 
 
         private async Task<HttpResponseMessage> AddCustomFieldAsync(ApiCustomFieldSaveCommand customField)

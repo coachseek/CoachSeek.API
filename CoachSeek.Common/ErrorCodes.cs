@@ -73,8 +73,12 @@
         public static string CustomerInvalid { get { return "customer-invalid"; } }
         public static string CustomerDuplicate { get { return "customer-duplicate"; } }
         public static string CustomerAlreadyBookedOntoSession { get { return "customer-already-booked-onto-session"; } }
+        public static string CustomFieldTemplateIdInvalid { get { return "customfieldtemplateid-invalid"; } }
+        public static string CustomFieldTemplateKeyRequired { get { return "customfieldtemplatekey-required"; } }
         public static string CustomFieldTemplateTypeInvalid { get { return "customfieldtemplatetype-invalid"; } }
         public static string CustomFieldTemplateDuplicate { get { return "customfieldtemplate-duplicate"; } }
+        public static string CustomFieldValueKeyInvalid { get { return "customfieldvaluekey-invalid"; } }
+        public static string CustomFieldValueRequired { get { return "customfieldvalue-required"; } }
 
         public static string PricingSessionRequired { get { return "pricing-session-required"; } }
 

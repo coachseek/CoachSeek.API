@@ -24,6 +24,7 @@ namespace CoachSeek.Api.Controllers
         public ICustomerAddUseCase CustomerAddUseCase { get; set; }
         public ICustomerUpdateUseCase CustomerUpdateUseCase { get; set; }
         public ICustomerOnlineBookingAddUseCase CustomerOnlineBookingAddUseCase { get; set; }
+        public ICustomerCustomFieldValuesUpdateUseCase CustomerCustomFieldValuesUpdateUseCase { get; set; }
         public ICustomerReceiveDataImportMessageUseCase CustomerReceiveDataImportMessageUseCase { get; set; }
 
         public CustomersController()
@@ -34,6 +35,7 @@ namespace CoachSeek.Api.Controllers
                                    ICustomerAddUseCase customerAddUseCase,
                                    ICustomerUpdateUseCase customerUpdateUseCase,
                                    ICustomerOnlineBookingAddUseCase customerOnlineBookingAddUseCase,
+                                   ICustomerCustomFieldValuesUpdateUseCase customerCustomFieldValuesUpdateUseCase,
                                    ICustomerReceiveDataImportMessageUseCase customerReceiveDataImportMessageUseCase)
         {
             CustomersGetAllUseCase = customersGetAllUseCase;
@@ -41,6 +43,7 @@ namespace CoachSeek.Api.Controllers
             CustomerAddUseCase = customerAddUseCase;
             CustomerUpdateUseCase = customerUpdateUseCase;
             CustomerOnlineBookingAddUseCase = customerOnlineBookingAddUseCase;
+            CustomerCustomFieldValuesUpdateUseCase = customerCustomFieldValuesUpdateUseCase;
             CustomerReceiveDataImportMessageUseCase = customerReceiveDataImportMessageUseCase;
         }
 
@@ -87,6 +90,17 @@ namespace CoachSeek.Api.Controllers
                 return CreateWebErrorResponse(new UseExistingCustomerForOnlineBookingNotSupported());
 
             return await AddOnlineBookingCustomerAsync(customer);
+        }
+
+        // POST: OnlineBooking/Customers
+        [Route("OnlineBooking/Customers/{id}")]
+        [BasicAuthenticationOrAnonymous]
+        [Authorize]
+        [CheckModelForNull]
+        [ValidateModelState]
+        public async Task<HttpResponseMessage> PostOnlineBookingCustomFieldValuesAsync(Guid id, [FromBody]ApiCustomFieldValueListSaveCommand values)
+        {
+            return await UpdateOnlineBookingCustomFieldValuesAsync(id, values);
         }
  
         // POST: Customers/Upload
@@ -159,6 +173,14 @@ namespace CoachSeek.Api.Controllers
             var command = CustomerAddCommandConverter.Convert(customer);
             CustomerOnlineBookingAddUseCase.Initialise(Context);
             var response = await CustomerOnlineBookingAddUseCase.AddCustomerAsync(command);
+            return CreatePostWebResponse(response);
+        }
+
+        private async Task<HttpResponseMessage> UpdateOnlineBookingCustomFieldValuesAsync(Guid customerId, ApiCustomFieldValueListSaveCommand values)
+        {
+            var command = CustomFieldValuesUpdateCommandConverter.Convert(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, customerId, values);
+            CustomerCustomFieldValuesUpdateUseCase.Initialise(Context);
+            var response = await CustomerCustomFieldValuesUpdateUseCase.UpdateCustomerCustomFieldValuesAsync(command);
             return CreatePostWebResponse(response);
         }
 
