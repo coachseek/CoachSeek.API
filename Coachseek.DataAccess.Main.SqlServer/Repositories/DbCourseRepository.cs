@@ -98,7 +98,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 var courses = new List<RepeatedSessionData>();
                 while (reader.Read())
                     courses.Add(ReadCourseData(reader));
-                var sessionsInCourses = sessionsTask.Result.Where(x => x.ParentId != null).OrderBy(x => x.ParentId).ToList();
+                var sessionsInCourses = sessionsTask.Result
+                                                    .Where(x => x.ParentId != null)
+                                                    .OrderBy(x => x.ParentId)
+                                                    .ThenBy(x => x.Timing.StartDate)
+                                                    .ToList();
                 foreach (var course in courses)
                     course.Sessions = sessionsInCourses.Where(x => x.ParentId == course.Id).ToList();
                 return courses;
