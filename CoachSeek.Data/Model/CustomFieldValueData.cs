@@ -8,5 +8,10 @@ namespace CoachSeek.Data.Model
         public Guid TypeId { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
+
+        public CustomFieldKeyValueData ToKeyValue()
+        {
+            return new CustomFieldKeyValueData(Key, Value);
+        }
     }
 }

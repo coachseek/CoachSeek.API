@@ -4,8 +4,8 @@ using CoachSeek.Domain.Commands;
 
 namespace CoachSeek.Application.Contracts.UseCases
 {
-    public interface ICustomFieldAddUseCase : IApplicationContextSetter
+    public interface ICustomFieldTemplateUpdateUseCase : IApplicationContextSetter
     {
-        Task<IResponse> AddCustomFieldAsync(CustomFieldAddCommand command);
+        Task<IResponse> UpdateCustomFieldTemplateAsync(CustomFieldUpdateCommand command);
     }
 }

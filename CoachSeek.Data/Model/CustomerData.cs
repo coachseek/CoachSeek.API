@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 
 namespace CoachSeek.Data.Model
@@ -12,6 +13,12 @@ namespace CoachSeek.Data.Model
         public string Email { get; set; }
         public string Phone { get; set; }
         public string DateOfBirth { get; set; }
+        public List<CustomFieldKeyValueData> CustomFields { get; set; }
+
+        public CustomerData()
+        {
+            CustomFields = new List<CustomFieldKeyValueData>();
+        }
 
 
         public CustomerKeyData ToKeyData()

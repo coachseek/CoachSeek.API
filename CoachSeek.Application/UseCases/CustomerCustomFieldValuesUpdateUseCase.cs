@@ -54,11 +54,11 @@ namespace CoachSeek.Application.UseCases
 
         private void ValidateValueKeys(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
         {
-            foreach (var fieldValue in command.Values)
+            foreach (var customField in command.CustomFields)
             {
-                var isFound = templates.Any(template => template.Key == fieldValue.Key);
+                var isFound = templates.Any(template => template.Key == customField.Key);
                 if (!isFound)
-                    errors.Add(new CustomFieldValueKeyInvalid(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, fieldValue.Key));
+                    errors.Add(new CustomFieldValueKeyInvalid(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, customField.Key));
             }
         }
 
@@ -66,7 +66,7 @@ namespace CoachSeek.Application.UseCases
         {
             foreach (var template in templates)
             {
-                var isFound = command.Values.Any(fieldValue => template.Key == fieldValue.Key);
+                var isFound = command.CustomFields.Any(customField => template.Key == customField.Key);
                 if (!isFound && template.IsRequired)
                     errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
             }
@@ -78,7 +78,7 @@ namespace CoachSeek.Application.UseCases
         {
             var cmdList = new List<CustomFieldValueCommand>();
 
-            foreach (var newValue in command.Values)
+            foreach (var newValue in command.CustomFields)
             {
                 var isFoundInTemplates = templates.Any(x => x.Key == newValue.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == newValue.Key);
@@ -93,7 +93,7 @@ namespace CoachSeek.Application.UseCases
 
             foreach (var template in templates)
             {
-                var isFoundInTemplates = command.Values.Any(x => x.Key == template.Key);
+                var isFoundInTemplates = command.CustomFields.Any(x => x.Key == template.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == template.Key);
                 if (!isFoundInTemplates && isFoundInValues)
                     cmdList.Add(new DeleteCustomFieldValueCommand(command.Type, command.TypeId, template.Key));
