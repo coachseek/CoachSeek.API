@@ -8,8 +8,6 @@ using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Executors;
-using CoachSeek.Common;
-using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -53,6 +51,24 @@ namespace CoachSeek.Api.Controllers
             return CreateGetWebResponse(response);
         }
 
+        //[BasicAuthentication]
+        //[Authorize]
+        //[CheckModelForNull]
+        //[ValidateModelState]
+        //public async Task<HttpResponseMessage> PostAddAsync([FromBody]ApiCustomFieldAddCommand customField)
+        //{
+        //    return await AddCustomFieldAsync(customField);
+        //}
+
+        //[BasicAuthentication]
+        //[Authorize]
+        //[CheckModelForNull]
+        //[ValidateModelState]
+        //public async Task<HttpResponseMessage> PostUpdateAsync([FromBody]ApiCustomFieldUpdateCommand customField)
+        //{
+        //    return await UpdateCustomFieldAsync(customField);
+        //}
+
         [BasicAuthentication]
         [Authorize]
         [CheckModelForNull]
@@ -62,16 +78,16 @@ namespace CoachSeek.Api.Controllers
             return customField.IsNew() ? await AddCustomFieldAsync(customField) : await UpdateCustomFieldAsync(customField);
         }
 
-        [BasicAuthentication]
-        [BusinessAuthorize(Role.BusinessAdmin)]
-        [CheckModelForNull]
-        public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
-        {
-            apiCommand.TemplateId = id;
-            ICommand command = DomainCommandConverter.Convert(apiCommand);
-            var response = await CustomFieldUseCaseExecutor.ExecuteForAsync(command, Context);
-            return CreatePostWebResponse(response);
-        }
+        //[BasicAuthentication]
+        //[BusinessAuthorize(Role.BusinessAdmin)]
+        //[CheckModelForNull]
+        //public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
+        //{
+        //    apiCommand.TemplateId = id;
+        //    ICommand command = DomainCommandConverter.Convert(apiCommand);
+        //    var response = await CustomFieldUseCaseExecutor.ExecuteForAsync(command, Context);
+        //    return CreatePostWebResponse(response);
+        //}
 
 
         private async Task<HttpResponseMessage> AddCustomFieldAsync(ApiCustomFieldSaveCommand customField)

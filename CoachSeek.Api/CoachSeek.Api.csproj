@@ -205,6 +205,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Api\Setup\ApiCustomFieldUpdateCommand.cs" />
+    <Compile Include="Models\Api\Setup\ApiCustomFieldAddCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomFieldValueSaveCommand.cs" />
     <Compile Include="Models\Api\Setup\ApiCustomFieldValueListSaveCommand.cs" />
     <Compile Include="Models\Api\ApiPriceGetCommand.cs" />

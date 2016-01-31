@@ -5,7 +5,8 @@ CREATE PROCEDURE [dbo].[CustomFieldTemplate_Update]
 	@type [nvarchar](50),
 	@key [nvarchar](50),
 	@name [nvarchar](50),
-	@isRequired [bit]
+	@isRequired [bit],
+	@isActive [bit]
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -25,7 +26,8 @@ BEGIN
 		[Type] = @type,
 		[Key] = @key,
 		[Name] = @name,
-		[IsRequired] = @isRequired
+		[IsRequired] = @isRequired,
+		[IsActive] = @isActive
 	WHERE 
 		[BusinessId] = @businessId
 		AND [Guid] = @templateGuid

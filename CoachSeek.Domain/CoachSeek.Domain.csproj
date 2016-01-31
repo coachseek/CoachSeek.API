@@ -176,6 +176,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateDuplicate.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateIdInvalid.cs" />
+    <Compile Include="Exceptions\CustomFieldTemplateIsActiveRequired.cs" />
     <Compile Include="Exceptions\CustomFieldValueRequired.cs" />
     <Compile Include="Exceptions\CustomFieldValueKeyInvalud.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateKeyRequired.cs" />

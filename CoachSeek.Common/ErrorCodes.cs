@@ -76,6 +76,7 @@
         public static string CustomFieldTemplateIdInvalid { get { return "customfieldtemplateid-invalid"; } }
         public static string CustomFieldTemplateKeyRequired { get { return "customfieldtemplatekey-required"; } }
         public static string CustomFieldTemplateTypeInvalid { get { return "customfieldtemplatetype-invalid"; } }
+        public static string CustomFieldTemplateIsActiveRequired { get { return "customfieldtemplateisactive-required"; } }
         public static string CustomFieldTemplateDuplicate { get { return "customfieldtemplate-duplicate"; } }
         public static string CustomFieldValueKeyInvalid { get { return "customfieldvaluekey-invalid"; } }
         public static string CustomFieldValueRequired { get { return "customfieldvalue-required"; } }

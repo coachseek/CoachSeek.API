@@ -128,6 +128,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@key", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@name", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@isRequired", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@isActive", SqlDbType.Bit));
 
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = template.Id;
@@ -135,6 +136,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = template.Key;
                 command.Parameters[4].Value = template.Name;
                 command.Parameters[5].Value = template.IsRequired;
+                command.Parameters[6].Value = template.IsActive;
 
                 await command.ExecuteNonQueryAsync();
             }
