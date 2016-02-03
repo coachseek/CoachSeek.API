@@ -14,24 +14,46 @@ namespace CoachSeek.Application.UseCases
 {
     public class CustomerCustomFieldValuesUpdateUseCase : BaseUseCase, ICustomerCustomFieldValuesUpdateUseCase
     {
+        private ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
+
+        public CustomerCustomFieldValuesUpdateUseCase(ICustomerGetByIdUseCase customerGetByIdUseCase)
+        {
+            CustomerGetByIdUseCase = customerGetByIdUseCase;
+        }
+
+
         public async Task<IResponse> UpdateCustomerCustomFieldValuesAsync(CustomFieldValueListUpdateCommand command)
         {
-            var templates = await LookupCustomFieldTemplatesForTypeAsync();
-            var values = await LookupCustomFieldValuesByTypeIdAsync(command);
-            ValidateUpdate(command, templates);
-            var cmdList = SplitIntoAddUpdateDeleteCommands(command, templates, values);
-            foreach (var cmd in cmdList)
+            try
             {
-                if (cmd is AddCustomFieldValueCommand)
-                    await AddCustomFieldValueAsync(cmd);
-                if (cmd is UpdateCustomFieldValueCommand)
-                    await UpdateCustomFieldValueAsync(cmd);
-                if (cmd is DeleteCustomFieldValueCommand)
-                    await DeleteCustomFieldValueAsync(cmd);
+                var templates = await LookupCustomFieldTemplatesForTypeAsync();
+                var values = await LookupCustomFieldValuesByTypeIdAsync(command);
+                ValidateUpdate(command, templates);
+                var cmdList = SplitIntoAddUpdateDeleteCommands(command, templates, values);
+                foreach (var cmd in cmdList)
+                    await ExecuteAddUpdateOrDeleteCommandAsync(cmd);
+                return new Response(await GetCustomerAsync(command.TypeId));
             }
+            catch (CoachseekException ex)
+            {
+                return HandleException(ex);
+            }
+        }
 
-            // TODO: Return list of validation errors.
-            return new Response();
+        private async Task ExecuteAddUpdateOrDeleteCommandAsync(CustomFieldValueCommand cmd)
+        {
+            if (cmd is AddCustomFieldValueCommand)
+                await AddCustomFieldValueAsync(cmd);
+            if (cmd is UpdateCustomFieldValueCommand)
+                await UpdateCustomFieldValueAsync(cmd);
+            if (cmd is DeleteCustomFieldValueCommand)
+                await DeleteCustomFieldValueAsync(cmd);            
+        }
+
+        private async Task<CustomerData> GetCustomerAsync(Guid customerId)
+        {
+            CustomerGetByIdUseCase.Initialise(Context);
+            return await CustomerGetByIdUseCase.GetCustomerAsync(customerId);    
         }
 
         private async Task<IList<CustomFieldTemplateData>> LookupCustomFieldTemplatesForTypeAsync()
