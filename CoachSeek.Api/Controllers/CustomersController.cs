@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.DataImport;
 using CoachSeek.Common;
-using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Exceptions;
 using System;
 using System.Net.Http;

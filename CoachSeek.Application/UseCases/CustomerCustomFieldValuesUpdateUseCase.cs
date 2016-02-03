@@ -70,7 +70,7 @@ namespace CoachSeek.Application.UseCases
         {
             var errors = new ValidationException();
             ValidateValueKeys(command, templates, errors);
-            ValidateRequiredValues(command, templates, errors);
+            //ValidateRequiredValues(command, templates, errors);
             errors.ThrowIfErrors();
         }
 
@@ -84,15 +84,15 @@ namespace CoachSeek.Application.UseCases
             }
         }
 
-        private void ValidateRequiredValues(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
-        {
-            foreach (var template in templates)
-            {
-                var isFound = command.CustomFields.Any(customField => template.Key == customField.Key);
-                if (!isFound && template.IsRequired && template.IsActive)
-                    errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
-            }
-        }
+        //private void ValidateRequiredValues(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
+        //{
+        //    foreach (var template in templates)
+        //    {
+        //        var isFound = command.CustomFields.Any(customField => template.Key == customField.Key);
+        //        if (!isFound && template.IsRequired && template.IsActive)
+        //            errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
+        //    }
+        //}
 
         private IList<CustomFieldValueCommand> SplitIntoAddUpdateDeleteCommands(CustomFieldValueListUpdateCommand command, 
                                                                                 IList<CustomFieldTemplateData> templates, 
