@@ -63,7 +63,7 @@ namespace CoachSeek.Application.UseCases
 
         private async Task<IList<CustomFieldValueData>> LookupCustomFieldValuesByTypeIdAsync(CustomFieldValueListUpdateCommand command)
         {
-            return await BusinessRepository.GetCustomFieldValuesAsync(Business.Id, command.Type, command.TypeId);
+            return await BusinessRepository.GetCustomFieldValuesByTypeIdAsync(Business.Id, command.Type, command.TypeId);
         }
 
         private void ValidateUpdate(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates)

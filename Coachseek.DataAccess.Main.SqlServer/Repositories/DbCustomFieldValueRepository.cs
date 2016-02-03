@@ -48,7 +48,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
-        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId)
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeIdAsync(Guid businessId, string type, Guid typeId)
         {
             SqlConnection connection = null;
             SqlDataReader reader = null;
@@ -66,6 +66,37 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[0].Value = businessId;
                 command.Parameters[1].Value = type;
                 command.Parameters[2].Value = typeId;
+
+                var values = new List<CustomFieldValueData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    values.Add(ReadCustomerFieldValueData(reader));
+
+                return values;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeAsync(Guid businessId, string type)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[CustomFieldValue_GetByType]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@type", SqlDbType.NVarChar));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = type;
 
                 var values = new List<CustomFieldValueData>();
                 reader = await command.ExecuteReaderAsync();

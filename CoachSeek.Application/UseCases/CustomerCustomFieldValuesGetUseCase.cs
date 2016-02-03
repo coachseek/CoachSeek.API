@@ -48,9 +48,9 @@ namespace CoachSeek.Application.UseCases
 
         private async Task<IList<CustomFieldValueData>> LookupCustomerCustomFieldValuesAsync(Guid customerId)
         {
-            return await BusinessRepository.GetCustomFieldValuesAsync(Business.Id,
-                                                                      Constants.CUSTOM_FIELD_TYPE_CUSTOMER,
-                                                                      customerId);
+            return await BusinessRepository.GetCustomFieldValuesByTypeIdAsync(Business.Id,
+                                                                              Constants.CUSTOM_FIELD_TYPE_CUSTOMER,
+                                                                              customerId);
         }
     }
 }

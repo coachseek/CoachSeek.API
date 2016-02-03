@@ -263,9 +263,14 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await CustomFieldValueRepository.GetCustomFieldValueAsync(businessId, type, typeId, key);
         }
 
-        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesAsync(Guid businessId, string type, Guid typeId)
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeIdAsync(Guid businessId, string type, Guid typeId)
         {
-            return await CustomFieldValueRepository.GetCustomFieldValuesAsync(businessId, type, typeId);
+            return await CustomFieldValueRepository.GetCustomFieldValuesByTypeIdAsync(businessId, type, typeId);
+        }
+
+        public async Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeAsync(Guid businessId, string type)
+        {
+            return await CustomFieldValueRepository.GetCustomFieldValuesByTypeAsync(businessId, type);
         }
 
 
