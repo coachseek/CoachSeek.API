@@ -89,7 +89,7 @@ namespace CoachSeek.Application.UseCases
             foreach (var template in templates)
             {
                 var isFound = command.CustomFields.Any(customField => template.Key == customField.Key);
-                if (!isFound && template.IsRequired)
+                if (!isFound && template.IsRequired && template.IsActive)
                     errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
             }
         }
