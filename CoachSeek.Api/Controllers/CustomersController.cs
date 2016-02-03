@@ -94,7 +94,6 @@ namespace CoachSeek.Api.Controllers
             return await AddOnlineBookingCustomerAsync(customer);
         }
 
-        // POST: OnlineBooking/Customers
         [Route("OnlineBooking/Customers/{id}")]
         [BasicAuthenticationOrAnonymous]
         [Authorize]
@@ -102,7 +101,16 @@ namespace CoachSeek.Api.Controllers
         [ValidateModelState]
         public async Task<HttpResponseMessage> PostOnlineBookingCustomFieldValuesAsync(Guid id, [FromBody]ApiCustomFieldValueListSaveCommand values)
         {
-            return await UpdateOnlineBookingCustomFieldValuesAsync(id, values);
+            return await UpdateCustomFieldValuesAsync(id, values);
+        }
+
+        [BasicAuthentication]
+        [BusinessAuthorize(Role.BusinessAdmin)]
+        [CheckModelForNull]
+        [ValidateModelState]
+        public async Task<HttpResponseMessage> PostCustomFieldValuesAsync(Guid id, [FromBody]ApiCustomFieldValueListSaveCommand values)
+        {
+            return await UpdateCustomFieldValuesAsync(id, values);
         }
 
         //// POST: OnlineBooking/Customers
@@ -192,7 +200,7 @@ namespace CoachSeek.Api.Controllers
             return CreatePostWebResponse(response);
         }
 
-        private async Task<HttpResponseMessage> UpdateOnlineBookingCustomFieldValuesAsync(Guid customerId, ApiCustomFieldValueListSaveCommand values)
+        private async Task<HttpResponseMessage> UpdateCustomFieldValuesAsync(Guid customerId, ApiCustomFieldValueListSaveCommand values)
         {
             var command = CustomFieldValuesUpdateCommandConverter.Convert(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, customerId, values);
             CustomerCustomFieldValuesUpdateUseCase.Initialise(Context);
