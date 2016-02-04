@@ -104,7 +104,7 @@ namespace CoachSeek.Application.UseCases
             {
                 var isFoundInTemplates = templates.Any(x => x.Key == newValue.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == newValue.Key);
-                if (isFoundInTemplates)
+                if (isFoundInTemplates && newValue.Value != null)
                 {
                     if (!isFoundInValues)
                         cmdList.Add(new AddCustomFieldValueCommand(command.Type, command.TypeId, newValue.Key, newValue.Value));
@@ -115,9 +115,10 @@ namespace CoachSeek.Application.UseCases
 
             foreach (var template in templates)
             {
-                var isFoundInTemplates = command.CustomFields.Any(x => x.Key == template.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == template.Key);
-                if (!isFoundInTemplates && isFoundInValues)
+                var isFoundInTemplates = command.CustomFields.Any(x => x.Key == template.Key);
+                var newValue = command.CustomFields.SingleOrDefault(x => x.Key == template.Key);
+                if (isFoundInValues && (!isFoundInTemplates || newValue.Value == null))
                     cmdList.Add(new DeleteCustomFieldValueCommand(command.Type, command.TypeId, template.Key));
             }
 
