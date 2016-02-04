@@ -46,7 +46,7 @@ namespace CoachSeek.Application.UseCases
                 throw new CustomerDuplicate(newCustomer);
         }
 
-        private async Task<Customer> LookupCustomerAsync(Customer newCustomer)
+        private async Task<CustomerData> LookupCustomerAsync(Customer newCustomer)
         {
             CustomerResolver.Initialise(Context);
             return await CustomerResolver.ResolveAsync(newCustomer);
