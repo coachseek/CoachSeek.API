@@ -4,6 +4,11 @@ namespace CoachSeek.Api.Models.Api.Setup
 {
     public class ApiCustomFieldValueListSaveCommand
     {
-        public List<ApiCustomFieldValueSaveCommand> Values { get; set; }
+        public List<ApiCustomFieldValueSaveCommand> CustomFields { get; set; }
+
+        public ApiCustomFieldValueListSaveCommand()
+        {
+            CustomFields = new List<ApiCustomFieldValueSaveCommand>();
+        }
     }
 }

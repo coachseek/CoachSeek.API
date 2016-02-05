@@ -14,24 +14,46 @@ namespace CoachSeek.Application.UseCases
 {
     public class CustomerCustomFieldValuesUpdateUseCase : BaseUseCase, ICustomerCustomFieldValuesUpdateUseCase
     {
+        private ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
+
+        public CustomerCustomFieldValuesUpdateUseCase(ICustomerGetByIdUseCase customerGetByIdUseCase)
+        {
+            CustomerGetByIdUseCase = customerGetByIdUseCase;
+        }
+
+
         public async Task<IResponse> UpdateCustomerCustomFieldValuesAsync(CustomFieldValueListUpdateCommand command)
         {
-            var templates = await LookupCustomFieldTemplatesForTypeAsync();
-            var values = await LookupCustomFieldValuesByTypeIdAsync(command);
-            ValidateUpdate(command, templates);
-            var cmdList = SplitIntoAddUpdateDeleteCommands(command, templates, values);
-            foreach (var cmd in cmdList)
+            try
             {
-                if (cmd is AddCustomFieldValueCommand)
-                    await AddCustomFieldValueAsync(cmd);
-                if (cmd is UpdateCustomFieldValueCommand)
-                    await UpdateCustomFieldValueAsync(cmd);
-                if (cmd is DeleteCustomFieldValueCommand)
-                    await DeleteCustomFieldValueAsync(cmd);
+                var templates = await LookupCustomFieldTemplatesForTypeAsync();
+                var values = await LookupCustomFieldValuesByTypeIdAsync(command);
+                ValidateUpdate(command, templates);
+                var cmdList = SplitIntoAddUpdateDeleteCommands(command, templates, values);
+                foreach (var cmd in cmdList)
+                    await ExecuteAddUpdateOrDeleteCommandAsync(cmd);
+                return new Response(await GetCustomerAsync(command.TypeId));
             }
+            catch (CoachseekException ex)
+            {
+                return HandleException(ex);
+            }
+        }
 
-            // TODO: Return list of validation errors.
-            return new Response();
+        private async Task ExecuteAddUpdateOrDeleteCommandAsync(CustomFieldValueCommand cmd)
+        {
+            if (cmd is AddCustomFieldValueCommand)
+                await AddCustomFieldValueAsync(cmd);
+            if (cmd is UpdateCustomFieldValueCommand)
+                await UpdateCustomFieldValueAsync(cmd);
+            if (cmd is DeleteCustomFieldValueCommand)
+                await DeleteCustomFieldValueAsync(cmd);            
+        }
+
+        private async Task<CustomerData> GetCustomerAsync(Guid customerId)
+        {
+            CustomerGetByIdUseCase.Initialise(Context);
+            return await CustomerGetByIdUseCase.GetCustomerAsync(customerId);    
         }
 
         private async Task<IList<CustomFieldTemplateData>> LookupCustomFieldTemplatesForTypeAsync()
@@ -41,36 +63,36 @@ namespace CoachSeek.Application.UseCases
 
         private async Task<IList<CustomFieldValueData>> LookupCustomFieldValuesByTypeIdAsync(CustomFieldValueListUpdateCommand command)
         {
-            return await BusinessRepository.GetCustomFieldValuesAsync(Business.Id, command.Type, command.TypeId);
+            return await BusinessRepository.GetCustomFieldValuesByTypeIdAsync(Business.Id, command.Type, command.TypeId);
         }
 
         private void ValidateUpdate(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates)
         {
             var errors = new ValidationException();
             ValidateValueKeys(command, templates, errors);
-            ValidateRequiredValues(command, templates, errors);
+            //ValidateRequiredValues(command, templates, errors);
             errors.ThrowIfErrors();
         }
 
         private void ValidateValueKeys(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
         {
-            foreach (var fieldValue in command.Values)
+            foreach (var customField in command.CustomFields)
             {
-                var isFound = templates.Any(template => template.Key == fieldValue.Key);
+                var isFound = templates.Any(template => template.Key == customField.Key);
                 if (!isFound)
-                    errors.Add(new CustomFieldValueKeyInvalid(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, fieldValue.Key));
+                    errors.Add(new CustomFieldValueKeyInvalid(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, customField.Key));
             }
         }
 
-        private void ValidateRequiredValues(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
-        {
-            foreach (var template in templates)
-            {
-                var isFound = command.Values.Any(fieldValue => template.Key == fieldValue.Key);
-                if (!isFound && template.IsRequired)
-                    errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
-            }
-        }
+        //private void ValidateRequiredValues(CustomFieldValueListUpdateCommand command, IList<CustomFieldTemplateData> templates, ValidationException errors)
+        //{
+        //    foreach (var template in templates)
+        //    {
+        //        var isFound = command.CustomFields.Any(customField => template.Key == customField.Key);
+        //        if (!isFound && template.IsRequired && template.IsActive)
+        //            errors.Add(new CustomFieldValueRequired(Constants.CUSTOM_FIELD_TYPE_CUSTOMER, template.Key));
+        //    }
+        //}
 
         private IList<CustomFieldValueCommand> SplitIntoAddUpdateDeleteCommands(CustomFieldValueListUpdateCommand command, 
                                                                                 IList<CustomFieldTemplateData> templates, 
@@ -78,11 +100,11 @@ namespace CoachSeek.Application.UseCases
         {
             var cmdList = new List<CustomFieldValueCommand>();
 
-            foreach (var newValue in command.Values)
+            foreach (var newValue in command.CustomFields)
             {
                 var isFoundInTemplates = templates.Any(x => x.Key == newValue.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == newValue.Key);
-                if (isFoundInTemplates)
+                if (isFoundInTemplates && newValue.Value != null)
                 {
                     if (!isFoundInValues)
                         cmdList.Add(new AddCustomFieldValueCommand(command.Type, command.TypeId, newValue.Key, newValue.Value));
@@ -93,9 +115,10 @@ namespace CoachSeek.Application.UseCases
 
             foreach (var template in templates)
             {
-                var isFoundInTemplates = command.Values.Any(x => x.Key == template.Key);
                 var isFoundInValues = existingValues.Any(x => x.Key == template.Key);
-                if (!isFoundInTemplates && isFoundInValues)
+                var isFoundInTemplates = command.CustomFields.Any(x => x.Key == template.Key);
+                var newValue = command.CustomFields.SingleOrDefault(x => x.Key == template.Key);
+                if (isFoundInValues && (!isFoundInTemplates || newValue.Value == null))
                     cmdList.Add(new DeleteCustomFieldValueCommand(command.Type, command.TypeId, template.Key));
             }
 

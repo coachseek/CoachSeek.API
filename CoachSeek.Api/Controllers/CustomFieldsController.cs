@@ -8,32 +8,27 @@ using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Application.Contracts.UseCases.Executors;
-using CoachSeek.Common;
-using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
     public class CustomFieldsController : BaseController
     {
-        public ICustomFieldGetByIdUseCase CustomFieldGetByIdUseCase { get; set; }
-        public ICustomFieldGetByTypeAndKeyUseCase CustomFieldGetByTypeAndKeyUseCase { get; set; }
-        public ICustomFieldAddUseCase CustomFieldAddUseCase { get; set; }
-        public ICustomFieldUpdateUseCase CustomFieldUpdateUseCase { get; set; }
-        public ICustomFieldDeleteUseCase CustomFieldDeleteUseCase { get; set; }
+        public ICustomFieldTemplateGetByIdUseCase CustomFieldTemplateGetByIdUseCase { get; set; }
+        public ICustomFieldTemplatesGetByTypeAndKeyUseCase CustomFieldTemplatesGetByTypeAndKeyUseCase { get; set; }
+        public ICustomFieldTemplateAddUseCase CustomFieldTemplateAddUseCase { get; set; }
+        public ICustomFieldTemplateUpdateUseCase CustomFieldTemplateUpdateUseCase { get; set; }
         public ICustomFieldUseCaseExecutor CustomFieldUseCaseExecutor { get; set; }
 
-        public CustomFieldsController(ICustomFieldGetByIdUseCase customFieldGetByIdUseCase,
-                                      ICustomFieldGetByTypeAndKeyUseCase customFieldGetByTypeAndKeyUseCase,
-                                      ICustomFieldAddUseCase customFieldAddUseCase,
-                                      ICustomFieldUpdateUseCase customFieldUpdateUseCase,
-                                      ICustomFieldDeleteUseCase customFieldDeleteUseCase,
+        public CustomFieldsController(ICustomFieldTemplateGetByIdUseCase customFieldTemplateGetByIdUseCase,
+                                      ICustomFieldTemplatesGetByTypeAndKeyUseCase customFieldTemplatesGetByTypeAndKeyUseCase,
+                                      ICustomFieldTemplateAddUseCase customFieldTemplateAddUseCase,
+                                      ICustomFieldTemplateUpdateUseCase customFieldTemplateUpdateUseCase,
                                       ICustomFieldUseCaseExecutor customFieldUseCaseExecutor)
         {
-            CustomFieldGetByIdUseCase = customFieldGetByIdUseCase;
-            CustomFieldGetByTypeAndKeyUseCase = customFieldGetByTypeAndKeyUseCase;
-            CustomFieldAddUseCase = customFieldAddUseCase;
-            CustomFieldUpdateUseCase = customFieldUpdateUseCase;
-            CustomFieldDeleteUseCase = customFieldDeleteUseCase;
+            CustomFieldTemplateGetByIdUseCase = customFieldTemplateGetByIdUseCase;
+            CustomFieldTemplatesGetByTypeAndKeyUseCase = customFieldTemplatesGetByTypeAndKeyUseCase;
+            CustomFieldTemplateAddUseCase = customFieldTemplateAddUseCase;
+            CustomFieldTemplateUpdateUseCase = customFieldTemplateUpdateUseCase;
             CustomFieldUseCaseExecutor = customFieldUseCaseExecutor;
         }
 
@@ -42,8 +37,8 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public async Task<HttpResponseMessage> GetAsync(Guid id)
         {
-            CustomFieldGetByIdUseCase.Initialise(Context);
-            var response = await CustomFieldGetByIdUseCase.GetCustomFieldAsync(id);
+            CustomFieldTemplateGetByIdUseCase.Initialise(Context);
+            var response = await CustomFieldTemplateGetByIdUseCase.GetCustomFieldTemplateAsync(id);
             return CreateGetWebResponse(response);
         }
 
@@ -51,10 +46,28 @@ namespace CoachSeek.Api.Controllers
         [Authorize]
         public async Task<HttpResponseMessage> GetAsync(string type = null, string key = null)
         {
-            CustomFieldGetByTypeAndKeyUseCase.Initialise(Context);
-            var response = await CustomFieldGetByTypeAndKeyUseCase.GetCustomFieldsByTypeAndKeyAsync(type, key);
+            CustomFieldTemplatesGetByTypeAndKeyUseCase.Initialise(Context);
+            var response = await CustomFieldTemplatesGetByTypeAndKeyUseCase.GetCustomFieldTemplatesByTypeAndKeyAsync(type, key);
             return CreateGetWebResponse(response);
         }
+
+        //[BasicAuthentication]
+        //[Authorize]
+        //[CheckModelForNull]
+        //[ValidateModelState]
+        //public async Task<HttpResponseMessage> PostAddAsync([FromBody]ApiCustomFieldAddCommand customField)
+        //{
+        //    return await AddCustomFieldAsync(customField);
+        //}
+
+        //[BasicAuthentication]
+        //[Authorize]
+        //[CheckModelForNull]
+        //[ValidateModelState]
+        //public async Task<HttpResponseMessage> PostUpdateAsync([FromBody]ApiCustomFieldUpdateCommand customField)
+        //{
+        //    return await UpdateCustomFieldAsync(customField);
+        //}
 
         [BasicAuthentication]
         [Authorize]
@@ -65,40 +78,31 @@ namespace CoachSeek.Api.Controllers
             return customField.IsNew() ? await AddCustomFieldAsync(customField) : await UpdateCustomFieldAsync(customField);
         }
 
-        [BasicAuthentication]
-        [BusinessAuthorize(Role.BusinessAdmin)]
-        [CheckModelForNull]
-        public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
-        {
-            apiCommand.TemplateId = id;
-            ICommand command = DomainCommandConverter.Convert(apiCommand);
-            var response = await CustomFieldUseCaseExecutor.ExecuteForAsync(command, Context);
-            return CreatePostWebResponse(response);
-        }
-
         //[BasicAuthentication]
         //[BusinessAuthorize(Role.BusinessAdmin)]
-        //public async Task<HttpResponseMessage> DeleteAsync(string type, string key)
+        //[CheckModelForNull]
+        //public async Task<HttpResponseMessage> PostAsync(Guid id, [FromBody] dynamic apiCommand)
         //{
-        //    CustomFieldDeleteUseCase.Initialise(Context);
-        //    var response = await CustomFieldDeleteUseCase.DeleteCustomFieldAsync(type, key);
-        //    return CreateDeleteWebResponse(response);
+        //    apiCommand.TemplateId = id;
+        //    ICommand command = DomainCommandConverter.Convert(apiCommand);
+        //    var response = await CustomFieldUseCaseExecutor.ExecuteForAsync(command, Context);
+        //    return CreatePostWebResponse(response);
         //}
 
 
         private async Task<HttpResponseMessage> AddCustomFieldAsync(ApiCustomFieldSaveCommand customField)
         {
             var command = CustomFieldAddCommandConverter.Convert(customField);
-            CustomFieldAddUseCase.Initialise(Context);
-            var response = await CustomFieldAddUseCase.AddCustomFieldAsync(command);
+            CustomFieldTemplateAddUseCase.Initialise(Context);
+            var response = await CustomFieldTemplateAddUseCase.AddCustomFieldTemplateAsync(command);
             return CreatePostWebResponse(response);
         }
 
         private async Task<HttpResponseMessage> UpdateCustomFieldAsync(ApiCustomFieldSaveCommand customField)
         {
             var command = CustomFieldUpdateCommandConverter.Convert(customField);
-            CustomFieldUpdateUseCase.Initialise(Context);
-            var response = await CustomFieldUpdateUseCase.UpdateCustomFieldAsync(command);
+            CustomFieldTemplateUpdateUseCase.Initialise(Context);
+            var response = await CustomFieldTemplateUpdateUseCase.UpdateCustomFieldTemplateAsync(command);
             return CreatePostWebResponse(response);
         }
     }

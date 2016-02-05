@@ -10,9 +10,9 @@ using CoachSeek.Domain.Exceptions;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CustomFieldUpdateUseCase : BaseUseCase, ICustomFieldUpdateUseCase
+    public class CustomFieldTemplateUpdateUseCase : BaseUseCase, ICustomFieldTemplateUpdateUseCase
     {
-        public async Task<IResponse> UpdateCustomFieldAsync(CustomFieldUpdateCommand command)
+        public async Task<IResponse> UpdateCustomFieldTemplateAsync(CustomFieldUpdateCommand command)
         {
             try
             {

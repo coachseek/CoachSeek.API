@@ -5,9 +5,9 @@ using CoachSeek.Data.Model;
 
 namespace CoachSeek.Application.UseCases
 {
-    public class CustomFieldGetByTypeAndKeyUseCase : BaseUseCase, ICustomFieldGetByTypeAndKeyUseCase
+    public class CustomFieldTemplatesGetByTypeAndKeyUseCase : BaseUseCase, ICustomFieldTemplatesGetByTypeAndKeyUseCase
     {
-        public async Task<IList<CustomFieldTemplateData>> GetCustomFieldsByTypeAndKeyAsync(string type, string key)
+        public async Task<IList<CustomFieldTemplateData>> GetCustomFieldTemplatesByTypeAndKeyAsync(string type, string key = null)
         {
             return await BusinessRepository.GetCustomFieldTemplatesAsync(Business.Id, type, key);
         }

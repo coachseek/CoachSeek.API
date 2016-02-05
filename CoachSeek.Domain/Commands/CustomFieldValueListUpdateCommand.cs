@@ -8,7 +8,7 @@ namespace CoachSeek.Domain.Commands
         public string Type { get; set; }
         public Guid TypeId { get; set; }
 
-        public List<CustomFieldValueUpdateCommand> Values { get; set; }
+        public List<CustomFieldValueUpdateCommand> CustomFields { get; set; }
 
         //public string Type
         //{
@@ -30,7 +30,7 @@ namespace CoachSeek.Domain.Commands
 
         CustomFieldValueListUpdateCommand()
         {
-            Values = new List<CustomFieldValueUpdateCommand>();
+            CustomFields = new List<CustomFieldValueUpdateCommand>();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Repositories;
 
@@ -15,7 +16,7 @@ namespace CoachSeek.Application.Services
         private IBusinessRepository BusinessRepository { set; get; }
 
 
-        public async Task<Customer> ResolveAsync(Customer searchCustomer)
+        public async Task<CustomerData> ResolveAsync(Customer searchCustomer)
         {
             var customers = await BusinessRepository.GetAllCustomersAsync(BusinessId);
 
@@ -26,7 +27,7 @@ namespace CoachSeek.Application.Services
             if (matchingCustomerData.IsNotFound())
                 return null;
 
-            return new Customer(matchingCustomerData);
+            return matchingCustomerData;
         }
 
         public void Initialise(ApplicationContext context)

@@ -10,5 +10,6 @@ namespace CoachSeek.Api.Models.Api.Setup
         public string Name { get; set; }
         [Required]
         public bool? IsRequired { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

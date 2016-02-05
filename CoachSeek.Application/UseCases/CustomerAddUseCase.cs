@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CoachSeek.Application.Contracts.Models;
 using CoachSeek.Application.Contracts.Services;
 using CoachSeek.Application.Contracts.UseCases;
 using CoachSeek.Common.Extensions;
+using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Entities;
 using CoachSeek.Domain.Exceptions;
@@ -12,11 +14,13 @@ namespace CoachSeek.Application.UseCases
     public class CustomerAddUseCase : BaseUseCase, ICustomerAddUseCase
     {
         private ICustomerResolver CustomerResolver { get; set; }
+        private ICustomerGetByIdUseCase CustomerGetByIdUseCase { get; set; }
 
-
-        public CustomerAddUseCase(ICustomerResolver customerResolver)
+        public CustomerAddUseCase(ICustomerResolver customerResolver,
+                                  ICustomerGetByIdUseCase customerGetByIdUseCase)
         {
             CustomerResolver = customerResolver;
+            CustomerGetByIdUseCase = customerGetByIdUseCase;
         }
 
 
@@ -27,7 +31,7 @@ namespace CoachSeek.Application.UseCases
                 var newCustomer = new Customer(command);
                 await ValidateAddAsync(newCustomer);
                 await BusinessRepository.AddCustomerAsync(Business.Id, newCustomer);
-                return new Response(newCustomer.ToData());
+                return new Response(await GetCustomerAsync(newCustomer.Id));
             }
             catch (CoachseekException ex)
             {
@@ -42,10 +46,16 @@ namespace CoachSeek.Application.UseCases
                 throw new CustomerDuplicate(newCustomer);
         }
 
-        private async Task<Customer> LookupCustomerAsync(Customer newCustomer)
+        private async Task<CustomerData> LookupCustomerAsync(Customer newCustomer)
         {
             CustomerResolver.Initialise(Context);
             return await CustomerResolver.ResolveAsync(newCustomer);
+        }
+
+        private async Task<CustomerData> GetCustomerAsync(Guid customerId)
+        {
+            CustomerGetByIdUseCase.Initialise(Context);
+            return await CustomerGetByIdUseCase.GetCustomerAsync(customerId);
         }
     }
 }
