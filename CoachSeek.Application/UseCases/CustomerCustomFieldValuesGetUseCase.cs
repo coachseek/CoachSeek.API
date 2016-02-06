@@ -27,8 +27,9 @@ namespace CoachSeek.Application.UseCases
 
             foreach (var template in templates)
             {
-                if (!template.IsActive)
-                    continue;
+                // Always return even inactive template values.
+                //if (!template.IsActive)
+                //    continue;
                 var value = values.SingleOrDefault(x => x.Key == template.Key);
                 if (value.IsFound())
                     customFields.Add(value.ToKeyValue());
