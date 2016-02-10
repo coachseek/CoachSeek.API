@@ -22,7 +22,7 @@ BEGIN
 	WITH Course AS 
 	( 
 		SELECT 
-			s.[ID], 
+			s.[Id], 
 			s.[ParentId]
 		FROM 
 			[dbo].[Session] s
@@ -33,12 +33,12 @@ BEGIN
 			AND b.[Guid] = @businessGuid
 		UNION ALL 
 		SELECT
-			s2.[ID], 
+			s2.[Id], 
 			s2.[ParentId]
 		FROM
 			[Session] s2
 			INNER JOIN Course 
-				ON Course.[ID] = s2.[ParentId] 
+				ON Course.[Id] = s2.[ParentId] 
 	)
 
 	DELETE 
