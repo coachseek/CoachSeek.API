@@ -3,7 +3,7 @@ GO
 
 BULK
 INSERT CustomerData
-FROM 'C:\Data\Import\Jim Wid Contacts 2a.csv'
+FROM 'C:\Data\Import\perales customers 2.csv'
 WITH
 (
 FIELDTERMINATOR = ',',
