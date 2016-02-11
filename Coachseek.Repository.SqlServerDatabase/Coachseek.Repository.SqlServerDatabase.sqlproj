@@ -149,6 +149,7 @@
     <Build Include="Stored Procedures\CustomFieldValue_Delete.sql" />
     <Build Include="Stored Procedures\CustomFieldTemplate_UpdateIsActive.sql" />
     <Build Include="Stored Procedures\CustomFieldValue_GetByType.sql" />
+    <Build Include="Stored Procedures\Business_UpdateUseProRataPricing.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />
