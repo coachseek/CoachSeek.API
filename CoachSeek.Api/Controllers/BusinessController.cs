@@ -7,7 +7,10 @@ using CoachSeek.Api.Conversion.Out;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Application.Contracts.UseCases.Executors;
+using CoachSeek.Application.UseCases.Executors;
 using CoachSeek.Common;
+using CoachSeek.Domain.Contracts;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -15,12 +18,15 @@ namespace CoachSeek.Api.Controllers
     {
         public IBusinessGetUseCase BusinessGetUseCase { get; set; }
         public IBusinessUpdateUseCase BusinessUpdateUseCase { get; set; }
+        public IBusinessUseCaseExecutor BusinessUseCaseExecutor { get; set; }
 
         public BusinessController(IBusinessGetUseCase businessGetUseCase, 
-                                  IBusinessUpdateUseCase businessUpdateUseCase)
+                                  IBusinessUpdateUseCase businessUpdateUseCase,
+                                  IBusinessUseCaseExecutor businessUseCaseExecutor)
         {
             BusinessGetUseCase = businessGetUseCase;
             BusinessUpdateUseCase = businessUpdateUseCase;
+            BusinessUseCaseExecutor = businessUseCaseExecutor;
         }
 
 
@@ -59,6 +65,19 @@ namespace CoachSeek.Api.Controllers
             var command = BusinessUpdateCommandConverter.Convert(business);
             BusinessUpdateUseCase.Initialise(Context);
             var response = await BusinessUpdateUseCase.UpdateBusinessAsync(command);
+            return CreatePostWebResponse(response);
+        }
+
+
+        // POST: Business
+        [Route("Business/Settings")]
+        [BasicAuthentication]
+        [BusinessAuthorize(Role.BusinessAdmin)]
+        [CheckModelForNull]
+        public async Task<HttpResponseMessage> PostAsync([FromBody] dynamic apiCommand)
+        {
+            ICommand command = DomainCommandConverter.Convert(apiCommand);
+            var response = await BusinessUseCaseExecutor.ExecuteForAsync(command, Context);
             return CreatePostWebResponse(response);
         }
     }

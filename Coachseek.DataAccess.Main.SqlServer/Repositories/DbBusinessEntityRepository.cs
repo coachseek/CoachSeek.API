@@ -183,6 +183,30 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task SetUseProRataPricingAsync(Guid businessId, bool useProRataPricing)
+        {
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[Business_UpdateUseProRataPricing]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@useProRataPricing", SqlDbType.Bit));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = useProRataPricing;
+
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                CloseConnection(connection);
+            }
+        }
+
 
         private BusinessData ReadBusinessData(SqlDataReader reader)
         {

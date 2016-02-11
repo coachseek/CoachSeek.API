@@ -92,6 +92,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             await BusinessRepository.SetAuthorisedUntilAsync(businessId, authorisedUntil);
         }
 
+        public async Task SetUseProRataPricingAsync(Guid businessId, bool useProRataPricing)
+        {
+            await BusinessRepository.SetUseProRataPricingAsync(businessId, useProRataPricing);
+        }
+
 
         public async Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId)
         {

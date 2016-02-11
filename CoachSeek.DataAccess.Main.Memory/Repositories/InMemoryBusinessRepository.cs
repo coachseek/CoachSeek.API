@@ -998,5 +998,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task SetUseProRataPricingAsync(Guid businessId, bool useProRataPricing)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
