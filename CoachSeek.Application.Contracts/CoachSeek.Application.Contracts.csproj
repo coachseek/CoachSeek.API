@@ -74,6 +74,7 @@
     <Compile Include="UseCases\Emailing\IProcessBouncedEmailMessagesUseCase.cs" />
     <Compile Include="UseCases\Executors\IAdminUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\IBookingUseCaseExecutor.cs" />
+    <Compile Include="UseCases\Executors\IBusinessUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\ICustomFieldUseCaseExecutor.cs" />
     <Compile Include="UseCases\Factories\IBookingAddUseCaseFactory.cs" />
     <Compile Include="UseCases\IBookingAddMasterUseCase.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="UseCases\IBusinessGetUseCase.cs" />
     <Compile Include="UseCases\IBusinessRegistrationUseCase.cs" />
     <Compile Include="UseCases\IBusinessSetAuthorisedUntilUseCase.cs" />
+    <Compile Include="UseCases\IBusinessSetUseProRataPricingUseCase.cs" />
     <Compile Include="UseCases\IBusinessUpdateUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionOnlineBookingAddUseCase.cs" />
     <Compile Include="UseCases\ICourseSessionBookingAddUseCase.cs" />

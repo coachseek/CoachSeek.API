@@ -67,6 +67,7 @@
     <Compile Include="UseCases\BaseAdminUseCase.cs" />
     <Compile Include="UseCases\BusinessSetAuthorisedUntilUseCase.cs" />
     <Compile Include="UseCases\BusinessRegistrationUseCase.cs" />
+    <Compile Include="UseCases\BusinessSetUseProRataPricingUseCase.cs" />
     <Compile Include="UseCases\CustomerCustomFieldValuesGetUseCase.cs" />
     <Compile Include="UseCases\CustomerCustomFieldValuesUpdateUseCase.cs" />
     <Compile Include="UseCases\CustomFieldTemplateGetByIdUseCase.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="UseCases\Executors\AdminUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\BookingUseCaseExecutor.cs" />
     <Compile Include="UseCases\DataImport\CustomerReceiveDataImportMessageUseCase.cs" />
+    <Compile Include="UseCases\Executors\BusinessUseCaseExecutor.cs" />
     <Compile Include="UseCases\Executors\CustomFieldUseCaseExecutor.cs" />
     <Compile Include="UseCases\Payments\PaypalReceiveSubscriptionPaymentMessageUseCase.cs" />
     <Compile Include="UseCases\Payments\PaypalReceiveOnlinePaymentMessageUseCase.cs" />

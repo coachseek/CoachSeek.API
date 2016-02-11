@@ -14,6 +14,7 @@ namespace CoachSeek.Domain.Repositories
         Task AddBusinessAsync(NewBusiness business);
         Task UpdateBusinessAsync(Business business);
         Task SetAuthorisedUntilAsync(Guid businessId, DateTime authorisedUntil);
+        Task SetUseProRataPricingAsync(Guid businessId, bool useProRataPricing);
 
         Task<IList<LocationData>> GetAllLocationsAsync(Guid businessId);
         IList<LocationData> GetAllLocations(Guid businessId);
