@@ -3,7 +3,7 @@
     public class NullPaymentProvider : PaymentProviderBase
     {
         public NullPaymentProvider() 
-            : base(null)
+            : base(true, null)
         { }
 
         public override string ProviderName { get { return null; } }
