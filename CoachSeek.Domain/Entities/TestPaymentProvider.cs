@@ -2,8 +2,8 @@
 {
     public class TestPaymentProvider : PaymentProviderBase
     {
-        public TestPaymentProvider(string merchantAccountIdentifier)
-            : base(merchantAccountIdentifier)
+        public TestPaymentProvider(bool isOnlinePaymentEnabled, string merchantAccountIdentifier)
+            : base(isOnlinePaymentEnabled, merchantAccountIdentifier)
         { }
 
         public override string ProviderName { get { return "Test"; } }

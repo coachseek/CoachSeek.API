@@ -61,7 +61,8 @@ namespace CoachSeek.Domain.Entities
             _currency = new Currency(currencyCode, currencySymbol);
             IsOnlinePaymentEnabled = isOnlinePaymentEnabled;
             ForceOnlinePayment = forceOnlinePayment;
-            _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(paymentProvider,
+            _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(IsOnlinePaymentEnabled,
+                                                                            paymentProvider,
                                                                             merchantAccountIdentifier);
             UseProRataPricing = useProRataPricing;
         }
@@ -71,7 +72,8 @@ namespace CoachSeek.Domain.Entities
             _currency = new Currency(supportedCurrencyRepository.GetByCode(payment.Currency));
             IsOnlinePaymentEnabled = payment.IsOnlinePaymentEnabled;
             ForceOnlinePayment = payment.ForceOnlinePayment;
-            _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(payment.PaymentProvider,
+            _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(IsOnlinePaymentEnabled,
+                                                                            payment.PaymentProvider,
                                                                             payment.MerchantAccountIdentifier);
             UseProRataPricing = payment.UseProRataPricing;
         }
@@ -109,7 +111,8 @@ namespace CoachSeek.Domain.Entities
         {
             try
             {
-                _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(payment.PaymentProvider,
+                _paymentProvider = PaymentProviderFactory.CreatePaymentProvider(IsOnlinePaymentEnabled,
+                                                                                payment.PaymentProvider,
                                                                                 payment.MerchantAccountIdentifier);
 
                 if (IsOnlinePaymentEnabled && _paymentProvider is NullPaymentProvider)

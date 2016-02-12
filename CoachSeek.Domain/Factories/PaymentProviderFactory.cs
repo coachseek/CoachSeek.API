@@ -12,16 +12,16 @@ namespace CoachSeek.Domain.Factories
             return new NullPaymentProvider();
         }
 
-        public static PaymentProviderBase CreatePaymentProvider(string providerType, string merchantAccountIdentifier)
+        public static PaymentProviderBase CreatePaymentProvider(bool isOnlinePaymentEnabled, string providerType, string merchantAccountIdentifier)
         {
             if (providerType == null)
                 return CreateDefaultPaymentProvider();
 
             if (providerType.CompareIgnoreCase(PaymentProvider.Test.ToString()))
-                return new TestPaymentProvider(merchantAccountIdentifier);
+                return new TestPaymentProvider(isOnlinePaymentEnabled, merchantAccountIdentifier);
 
             if (providerType.CompareIgnoreCase(PaymentProvider.PayPal.ToString()))
-                return new PaypalPaymentProvider(merchantAccountIdentifier);
+                return new PaypalPaymentProvider(isOnlinePaymentEnabled, merchantAccountIdentifier);
 
             throw new PaymentProviderNotSupported(providerType);
         }
