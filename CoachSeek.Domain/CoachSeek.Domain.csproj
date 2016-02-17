@@ -72,6 +72,8 @@
     <Compile Include="Commands\CustomFieldAddCommand.cs" />
     <Compile Include="Commands\CustomFieldUpdateCommand.cs" />
     <Compile Include="Commands\CustomFieldValueUpdateCommand.cs" />
+    <Compile Include="Commands\DiscountCodeAddCommand.cs" />
+    <Compile Include="Commands\DiscountCodeUpdateCommand.cs" />
     <Compile Include="Commands\EmailTemplateUpdateCommand.cs" />
     <Compile Include="Commands\BusinessSetCustomerOnlineBookingEmailCustomisationCommand.cs" />
     <Compile Include="Commands\BusinessUpdateCommand.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Entities\CourseSessionBookingCollection.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\BouncedEmail.cs" />
+    <Compile Include="Entities\DiscountCode.cs" />
     <Compile Include="Entities\CustomFieldTemplate.cs" />
     <Compile Include="Entities\CustomFieldValue.cs" />
     <Compile Include="Entities\NewBusiness.cs" />
@@ -175,6 +178,9 @@
     <Compile Include="Entities\TransactionDetails.cs" />
     <Compile Include="Entities\Subscriptions\TrialSubscription.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Exceptions\DiscountCodeInvalid.cs" />
+    <Compile Include="Exceptions\DiscountCodeIsActiveRequired.cs" />
+    <Compile Include="Exceptions\DiscountCodeDuplicate.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateDuplicate.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateIdInvalid.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateIsActiveRequired.cs" />

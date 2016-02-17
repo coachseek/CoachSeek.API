@@ -150,6 +150,9 @@
     <Build Include="Stored Procedures\CustomFieldTemplate_UpdateIsActive.sql" />
     <Build Include="Stored Procedures\CustomFieldValue_GetByType.sql" />
     <Build Include="Stored Procedures\Business_UpdateUseProRataPricing.sql" />
+    <Build Include="Tables\DiscountCode.sql" />
+    <Build Include="Stored Procedures\DiscountCode_GetByCode.sql" />
+    <Build Include="Stored Procedures\DiscountCode_Create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

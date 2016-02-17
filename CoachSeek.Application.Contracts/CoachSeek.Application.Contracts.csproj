@@ -97,6 +97,8 @@
     <Compile Include="UseCases\ICustomFieldTemplatesGetByTypeAndKeyUseCase.cs" />
     <Compile Include="UseCases\ICustomFieldTemplateSetIsActiveUseCase.cs" />
     <Compile Include="UseCases\ICustomFieldTemplateUpdateUseCase.cs" />
+    <Compile Include="UseCases\IDiscountCodeAddUseCase.cs" />
+    <Compile Include="UseCases\IDiscountCodeUpdateUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateDeleteUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateGetAllUseCase.cs" />
     <Compile Include="UseCases\IEmailTemplateGetByTypeUseCase.cs" />

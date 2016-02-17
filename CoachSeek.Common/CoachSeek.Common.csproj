@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AnonymousUserDetails.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Services\RandomStringGenerator.cs" />
     <Compile Include="UserDetails.cs" />
     <Compile Include="BusinessDetails.cs" />
     <Compile Include="Constants.cs" />

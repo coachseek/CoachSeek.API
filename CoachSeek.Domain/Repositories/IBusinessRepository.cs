@@ -57,6 +57,11 @@ namespace CoachSeek.Domain.Repositories
         Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeIdAsync(Guid businessId, string type, Guid typeId);
         Task<IList<CustomFieldValueData>> GetCustomFieldValuesByTypeAsync(Guid businessId, string type);
 
+        Task AddDiscountCodeAsync(Guid businessId, DiscountCode discountCode);
+        Task UpdateDiscountCodeAsync(Guid businessId, DiscountCode discountCode);
+        Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code);
+        Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, Guid discountCodeId);
+
         Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
         Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId);
         IList<SingleSessionData> GetAllSessions(Guid businessId);
