@@ -10,5 +10,11 @@ namespace CoachSeek.Domain.Exceptions
                    "This discount code does not exist.",
                    discountCodeId.ToString())
         { }
+
+        public DiscountCodeInvalid(string discountCode)
+            : base(ErrorCodes.DiscountCodeInvalid,
+                   "This discount code does not exist.",
+                   discountCode)
+        { }
     }
 }

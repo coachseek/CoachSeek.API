@@ -159,7 +159,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment, bool useProRataPricing)
         {
-            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course, useProRataPricing);
+            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course, useProRataPricing, 0);
             if (newPayment.ItemAmount != expectedPrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, expectedPrice);
         }

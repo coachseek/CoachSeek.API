@@ -153,6 +153,8 @@
     <Build Include="Tables\DiscountCode.sql" />
     <Build Include="Stored Procedures\DiscountCode_GetByCode.sql" />
     <Build Include="Stored Procedures\DiscountCode_Create.sql" />
+    <Build Include="Stored Procedures\DiscountCode_Update.sql" />
+    <Build Include="Stored Procedures\DiscountCode_GetByGuid.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local_CoachseekLocal-Test.publish.xml" />

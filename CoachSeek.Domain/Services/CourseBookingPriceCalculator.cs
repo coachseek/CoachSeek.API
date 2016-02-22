@@ -11,46 +11,53 @@ namespace CoachSeek.Domain.Services
     {
         public static decimal CalculatePrice(CourseBookingData booking,
                                              RepeatedSessionData course,
-                                             bool useProRataPricing)
+                                             bool useProRataPricing,
+                                             int discountPercent)
         {
             return CalculatePrice(booking.SessionBookings.Select(x => x.Session).AsReadOnly(),
                                   course.Sessions.AsReadOnly(),
                                   useProRataPricing,
+                                  discountPercent,
                                   course.Pricing.CoursePrice);
         }
 
         public static decimal CalculatePrice(IReadOnlyCollection<SessionKeyCommand> bookedSessions, 
                                              RepeatedSessionData course,
-                                             bool useProRataPricing)
+                                             bool useProRataPricing,
+                                             int discountPercent)
         {
             return CalculatePrice(bookedSessions.Select(x => x.ToData()).AsReadOnly(),
                                   course.Sessions.AsReadOnly(),
                                   useProRataPricing,
+                                  discountPercent,
                                   course.Pricing.CoursePrice);
         }
 
         public static decimal CalculatePrice(IReadOnlyCollection<BookingSessionData> bookedSessions,
                                              IReadOnlyCollection<SingleSessionData> courseSessions,
                                              bool useProRataPricing,
+                                             int discountPercent,
                                              decimal? coursePrice = null)
         {
             return CalculatePrice(bookedSessions.Select(x => new SessionKeyData(x.Id)).AsReadOnly(),
                                   courseSessions,
                                   useProRataPricing,
+                                  discountPercent,
                                   coursePrice);
         }
 
         private static decimal CalculatePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
                                               IReadOnlyCollection<SingleSessionData> courseSessions,
-                                              bool useProRataPricing,
+                                              bool useProRataPricing, 
+                                              int discountPercent,
                                               decimal? coursePrice = null)
         {
             if (!bookedSessions.Any())
                 return 0;
             ValidateCanCalculatePrice(bookedSessions, courseSessions, coursePrice);
             if (bookedSessions.Count == courseSessions.Count)
-                return CalculateWholeCoursePrice(bookedSessions, courseSessions, coursePrice);
-            return CalculatePartialCoursePrice(bookedSessions, courseSessions, coursePrice, useProRataPricing);
+                return CalculateWholeCoursePrice(bookedSessions, courseSessions, coursePrice, discountPercent);
+            return CalculatePartialCoursePrice(bookedSessions, courseSessions, coursePrice, useProRataPricing, discountPercent);
         }
 
         private static void ValidateCanCalculatePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
@@ -69,19 +76,21 @@ namespace CoachSeek.Domain.Services
 
         private static decimal CalculateWholeCoursePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
                                                          IReadOnlyCollection<SingleSessionData> courseSessions,
-                                                         decimal? coursePrice)
+                                                         decimal? coursePrice,
+                                                         int discountPercent)
         {
             if (coursePrice.HasValue)
-                return coursePrice.Value;
-            return SumUpSessionPricesForWholeCourse(bookedSessions, courseSessions);
+                return coursePrice.Value.ApplyDiscount(discountPercent);
+            return SumUpSessionPricesForWholeCourse(bookedSessions, courseSessions).ApplyDiscount(discountPercent);
         }
 
         private static decimal CalculatePartialCoursePrice(IReadOnlyCollection<SessionKeyData> bookedSessions,
                                                            IReadOnlyCollection<SingleSessionData> courseSessions,
                                                            decimal? coursePrice,
-                                                           bool useProRataPricing)
+                                                           bool useProRataPricing,
+                                                           int discountPercent)
         {
-            return SumUpSessionPricesForPartialCourse(bookedSessions, courseSessions, coursePrice, useProRataPricing);
+            return SumUpSessionPricesForPartialCourse(bookedSessions, courseSessions, coursePrice, useProRataPricing).ApplyDiscount(discountPercent);
         }
 
         private static decimal SumUpSessionPricesForWholeCourse(IReadOnlyCollection<SessionKeyData> bookedSessions,
