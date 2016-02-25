@@ -291,6 +291,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             await DiscountCodeRepository.UpdateDiscountCodeAsync(businessId, discountCode);
         }
 
+        public DiscountCodeData GetDiscountCode(Guid businessId, string code)
+        {
+            return DiscountCodeRepository.GetDiscountCode(businessId, code);
+        }
+
         public async Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code)
         {
             return await DiscountCodeRepository.GetDiscountCodeAsync(businessId, code);

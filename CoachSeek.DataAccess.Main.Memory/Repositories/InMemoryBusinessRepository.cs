@@ -1027,5 +1027,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public DiscountCodeData GetDiscountCode(Guid businessId, string code)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

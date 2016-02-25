@@ -12,5 +12,14 @@ namespace CoachSeek.Application.UseCases
             if (customer.IsNotFound())
                 errors.Add(new CustomerInvalid(customerId));
         }
+
+        protected void ValidateDiscountCode(string discountCode, ValidationException errors)
+        {
+            if (discountCode == null)
+                return;
+            var discount = BusinessRepository.GetDiscountCode(Business.Id, discountCode);
+            if (discount.IsNotFound())
+                errors.Add(new DiscountCodeInvalid(discountCode));
+        }
     }
 }

@@ -59,6 +59,7 @@ namespace CoachSeek.Domain.Repositories
 
         Task AddDiscountCodeAsync(Guid businessId, DiscountCode discountCode);
         Task UpdateDiscountCodeAsync(Guid businessId, DiscountCode discountCode);
+        DiscountCodeData GetDiscountCode(Guid businessId, string code);
         Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code);
         Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, Guid discountCodeId);
 

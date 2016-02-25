@@ -74,6 +74,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public DiscountCodeData GetDiscountCode(Guid businessId, string code)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = OpenConnection();
+
+                var command = new SqlCommand("[DiscountCode_GetByCode]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@code", SqlDbType.NChar));
+
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = code;
+
+                reader = command.ExecuteReader();
+                if (reader.HasRows && reader.Read())
+                    return ReadDiscountCodeData(reader);
+
+                return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
         public async Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code)
         {
             SqlConnection connection = null;

@@ -70,7 +70,7 @@ namespace CoachSeek.Application.UseCases
             var fullPrice = session.Pricing.SessionPrice.GetValueOrDefault();
             if (discountCode == null)
                 return fullPrice;
-            return fullPrice * (1 - discountCode.DiscountPercent / 100);
+            return fullPrice.ApplyDiscount(discountCode.DiscountPercent);
         }
 
         private async Task<decimal> CalculateCoursePriceAsync(PriceGetCommand command, Guid courseId, DiscountCodeData discountCode)

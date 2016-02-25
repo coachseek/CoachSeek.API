@@ -85,13 +85,13 @@ namespace CoachSeek.Domain.Entities
         protected virtual SingleSessionBooking CreateNewSessionBooking(BookingSession session, bool isOnlineBooking)
         {
             if (isOnlineBooking)
-                return new SingleSessionOnlineBooking(session, Customer, CourseBookingId);
-            return new SingleSessionBooking(session, Customer, CourseBookingId);
+                return new SingleSessionOnlineBooking(session, Customer, 0, CourseBookingId);
+            return new SingleSessionBooking(session, Customer, 0, CourseBookingId);
         }
 
         protected virtual SingleSessionBooking CreateSessionBooking(BookingSession session)
         {
-            return new SingleSessionBooking(session, Customer, CourseBookingId);
+            return new SingleSessionBooking(session, Customer, 0, CourseBookingId);
         }
 
         protected virtual SingleSessionBooking CreateSessionBooking(SingleSessionBookingData data, BookingSession session)
