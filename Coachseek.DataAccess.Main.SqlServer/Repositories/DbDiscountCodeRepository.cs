@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -156,6 +157,35 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                     return ReadDiscountCodeData(reader);
 
                 return null;
+            }
+            finally
+            {
+                CloseConnection(connection);
+                CloseReader(reader);
+            }
+        }
+
+        public async Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId)
+        {
+            SqlConnection connection = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                connection = await OpenConnectionAsync();
+
+                var command = new SqlCommand("[DiscountCode_GetAll]", connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+
+                command.Parameters[0].Value = businessId;
+
+                var discountCodes = new List<DiscountCodeData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    discountCodes.Add(ReadDiscountCodeData(reader));
+
+                return discountCodes;
             }
             finally
             {

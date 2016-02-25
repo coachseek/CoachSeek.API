@@ -306,6 +306,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await DiscountCodeRepository.GetDiscountCodeAsync(businessId, discountCodeId);
         }
 
+        public async Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId)
+        {
+            return await DiscountCodeRepository.GetDiscountCodesAsync(businessId);
+        }
+
         public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
         {
             return await SessionRepository.SearchForSessionsAsync(businessId, beginDate, endDate);

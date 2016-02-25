@@ -6,19 +6,33 @@ using CoachSeek.Api.Conversion;
 using CoachSeek.Api.Filters;
 using CoachSeek.Api.Models.Api.Setup;
 using CoachSeek.Application.Contracts.UseCases;
+using CoachSeek.Common;
 
 namespace CoachSeek.Api.Controllers
 {
     public class DiscountCodesController : BaseController
     {
+        public IDiscountCodeGetAllUseCase DiscountCodeGetAllUseCase { get; set; }
         public IDiscountCodeAddUseCase DiscountCodeAddUseCase { get; set; }
         public IDiscountCodeUpdateUseCase DiscountCodeUpdateUseCase { get; set; }
 
-        public DiscountCodesController(IDiscountCodeAddUseCase discountCodeAddUseCase,
+        public DiscountCodesController(IDiscountCodeGetAllUseCase discountCodeGetAllUseCase, 
+                                       IDiscountCodeAddUseCase discountCodeAddUseCase,
                                        IDiscountCodeUpdateUseCase discountCodeUpdateUseCase)
         {
+            DiscountCodeGetAllUseCase = discountCodeGetAllUseCase;
             DiscountCodeAddUseCase = discountCodeAddUseCase;
             DiscountCodeUpdateUseCase = discountCodeUpdateUseCase;
+        }
+
+        // GET: DiscountCodes
+        [BasicAuthentication]
+        [BusinessAuthorize(Role.BusinessAdmin)]
+        public async Task<HttpResponseMessage> GetAsync()
+        {
+            DiscountCodeGetAllUseCase.Initialise(Context);
+            var response = await DiscountCodeGetAllUseCase.GetDiscountCodesAsync();
+            return CreateGetWebResponse(response);
         }
 
         [BasicAuthentication]

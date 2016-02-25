@@ -62,6 +62,7 @@ namespace CoachSeek.Domain.Repositories
         DiscountCodeData GetDiscountCode(Guid businessId, string code);
         Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code);
         Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, Guid discountCodeId);
+        Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId);
 
         Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate);
         Task<IList<SingleSessionData>> GetAllSessionsAsync(Guid businessId);

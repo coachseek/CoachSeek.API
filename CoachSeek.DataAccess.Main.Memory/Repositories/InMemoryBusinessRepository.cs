@@ -1033,5 +1033,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

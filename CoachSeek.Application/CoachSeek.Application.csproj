@@ -77,6 +77,7 @@
     <Compile Include="UseCases\CustomFieldDeleteUseCase.cs" />
     <Compile Include="UseCases\CustomFieldTemplatesGetByTypeAndKeyUseCase.cs" />
     <Compile Include="UseCases\DataImport\ProcessDataImportUseCase.cs" />
+    <Compile Include="UseCases\DiscountCodeGetAllUseCase.cs" />
     <Compile Include="UseCases\DiscountCodeUpdateUseCase.cs" />
     <Compile Include="UseCases\DiscountCodeAddUseCase.cs" />
     <Compile Include="UseCases\EmailTemplateDeleteUseCase.cs" />
