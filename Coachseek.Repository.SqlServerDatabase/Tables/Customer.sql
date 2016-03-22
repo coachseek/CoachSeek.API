@@ -7,9 +7,12 @@
     [Email]       NVARCHAR (100)   NULL,
     [Phone]       NVARCHAR (50)    NULL,
     [DateOfBirth] DATE             NULL,
+    [Sex]         NVARCHAR (10)    NULL,
     CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Customer_Business] FOREIGN KEY ([BusinessId]) REFERENCES [dbo].[Business] ([Id])
 );
+
+
 
 
 

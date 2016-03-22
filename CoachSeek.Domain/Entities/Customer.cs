@@ -16,11 +16,13 @@ namespace CoachSeek.Domain.Entities
         public string Name { get { return Person.Name; } }
         public string Email { get { return EmailAddress.IsExisting() ?  EmailAddress.Email : null; } }
         public string Phone { get { return PhoneNumber.IsExisting() ? PhoneNumber.Phone : null; } }
+        public string SexType { get { return Sex.IsExisting() ? Sex.SexType : null; } }
         public string DateOfBirth { get { return DOB.IsExisting() ? DOB.ToString() : null; } }
 
         private PersonName Person { get; set; }
         private EmailAddress EmailAddress { get; set; }
         private PhoneNumber PhoneNumber { get; set; }
+        private Sex Sex { get; set; }
         private DateOfBirth DOB { get; set; }
 
 
@@ -30,6 +32,7 @@ namespace CoachSeek.Domain.Entities
                    command.LastName,
                    command.Email,
                    command.Phone,
+                   command.Sex,
                    command.DateOfBirth)
         { }
 
@@ -39,6 +42,7 @@ namespace CoachSeek.Domain.Entities
                    command.LastName,
                    command.Email,
                    command.Phone,
+                   command.Sex,
                    command.DateOfBirth)
         { }
 
@@ -48,13 +52,14 @@ namespace CoachSeek.Domain.Entities
                    data.LastName,
                    data.Email,
                    data.Phone,
+                   data.Sex,
                    data.DateOfBirth)
         { }
 
-        public Customer(Guid id, string firstName, string lastName, string email, string phone, string dateOfBirth = null)
+        public Customer(Guid id, string firstName, string lastName, string email, string phone, string sex, string dateOfBirth = null)
         {
             Validate(firstName, lastName, email, dateOfBirth);
-            SetProperties(id, firstName, lastName, email, phone, dateOfBirth);
+            SetProperties(id, firstName, lastName, email, phone, sex, dateOfBirth);
         }
 
 
@@ -68,7 +73,8 @@ namespace CoachSeek.Domain.Entities
                                    string firstName, 
                                    string lastName, 
                                    string email, 
-                                   string phone, 
+                                   string phone,
+                                   string sex,
                                    string dateOfBirth = null)
         {
             Id = id;
@@ -79,6 +85,8 @@ namespace CoachSeek.Domain.Entities
                 PhoneNumber = new PhoneNumber(phone);
             if (dateOfBirth.IsExisting())
                 DOB = new DateOfBirth(dateOfBirth);
+            if (sex.IsExisting())
+                Sex = new Sex(sex);
         }
 
         private void Validate(string firstName, 
