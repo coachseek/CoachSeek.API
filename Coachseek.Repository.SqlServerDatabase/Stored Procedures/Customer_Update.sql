@@ -6,6 +6,7 @@ CREATE PROCEDURE [dbo].[Customer_Update]
 	@lastName [nvarchar](50),
 	@email [nvarchar](100) = NULL,
 	@phone [nvarchar](50) = NULL,
+	@sex [nvarchar](10) = NULL,
 	@dateOfBirth [date] = NULL
 AS
 BEGIN
@@ -27,6 +28,7 @@ BEGIN
 		[LastName] = @lastName,
 		[Email] = @email,
 		[Phone] = @phone,
+		[Sex] = @sex,
 		[DateOfBirth] = @dateOfBirth
 	WHERE 
 		[BusinessId] = @businessId

@@ -120,6 +120,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sex", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
@@ -128,7 +129,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
-                command.Parameters[6].Value = customer.DateOfBirth;
+                command.Parameters[6].Value = customer.SexType;
+                command.Parameters[7].Value = customer.DateOfBirth;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -154,6 +156,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sex", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
@@ -162,7 +165,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
-                command.Parameters[6].Value = customer.DateOfBirth;
+                command.Parameters[6].Value = customer.SexType;
+                command.Parameters[7].Value = customer.DateOfBirth;
 
                 command.ExecuteNonQuery();
             }
@@ -191,6 +195,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sex", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
@@ -199,7 +204,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
-                command.Parameters[6].Value = customer.DateOfBirth;
+                command.Parameters[6].Value = customer.SexType;
+                command.Parameters[7].Value = customer.DateOfBirth;
 
                 await command.ExecuteNonQueryAsync();
             }
@@ -225,6 +231,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters.Add(new SqlParameter("@lastName", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@email", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@phone", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sex", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.Date));
 
                 command.Parameters[0].Value = businessId;
@@ -233,7 +240,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 command.Parameters[3].Value = customer.LastName;
                 command.Parameters[4].Value = customer.Email;
                 command.Parameters[5].Value = customer.Phone;
-                command.Parameters[6].Value = customer.DateOfBirth;
+                command.Parameters[6].Value = customer.SexType;
+                command.Parameters[7].Value = customer.DateOfBirth;
 
                 command.ExecuteNonQuery();
             }
@@ -253,7 +261,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 LastName = reader.GetString(3),
                 Email = reader.GetNullableString(4),
                 Phone = reader.GetNullableString(5),
-                DateOfBirth = reader.GetNullableDate(6)
+                Sex = reader.GetNullableString(6),
+                DateOfBirth = reader.GetNullableDate(7)
             };
         }
     }

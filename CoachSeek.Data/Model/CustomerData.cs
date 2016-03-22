@@ -12,6 +12,7 @@ namespace CoachSeek.Data.Model
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Sex { get; set; }
         public string DateOfBirth { get; set; }
         public List<CustomFieldKeyValueData> CustomFields { get; set; }
 

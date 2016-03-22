@@ -120,6 +120,7 @@
     <Compile Include="Entities\Authentication\CoachseekAnonymousIdentity.cs" />
     <Compile Include="Entities\Authentication\CoachseekIdentity.cs" />
     <Compile Include="Entities\BookingSession.cs" />
+    <Compile Include="Entities\Sex.cs" />
     <Compile Include="Entities\ColourDefault.cs" />
     <Compile Include="Entities\CourseOnlineBooking.cs" />
     <Compile Include="Entities\CourseBooking.cs" />

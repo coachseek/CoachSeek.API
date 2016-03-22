@@ -12,6 +12,8 @@ namespace CoachSeek.Api.Models.Api.Setup
         public string Email { get; set; }
         [StringLength(50)]
         public string Phone { get; set; }
+        public string Sex { get; set; }
+        [StringLength(10)]
         public string DateOfBirth { get; set; }
     }
 }

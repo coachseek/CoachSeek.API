@@ -13,6 +13,7 @@ BEGIN
 		c.[LastName],
 		c.[Email],
 		c.[Phone],
+		c.[Sex],
 		c.[DateOfBirth]
 	FROM
 		[dbo].[Business] b
