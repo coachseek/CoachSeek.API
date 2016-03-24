@@ -16,7 +16,8 @@ CREATE PROCEDURE [dbo].[Session_UpdateSession]
 	@repeatFrequency [char](1) = NULL,
 	@sessionPrice [decimal](19, 4) = NULL,
 	@coursePrice [decimal](19, 4) = NULL,
-	@colour [char](12)
+	@colour [char](12),
+	@bookUntil [tinyint]
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -71,7 +72,8 @@ BEGIN
 		[RepeatFrequency] = @repeatFrequency,
 		[SessionPrice] = @sessionPrice,
 		[CoursePrice] = @coursePrice,
-		[Colour] = @colour
+		[Colour] = @colour,
+		[BookUntil] = @bookUntil
 	WHERE 
 		[BusinessId] = @businessId
 		AND [Guid] = @sessionGuid

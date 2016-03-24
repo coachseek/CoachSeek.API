@@ -10,10 +10,12 @@ namespace CoachSeek.Domain.Entities
         private Date _startDate;
         private TimeOfDay _startTime;
         private SessionDuration _duration;
+        private BookUntil _bookUntil;
 
         public string StartDate { get { return _startDate.ToString(); } }
         public string StartTime { get { return _startTime.ToString(); } }
         public int Duration { get { return _duration.Minutes; } }
+        public int BookUntil { get { return _bookUntil.Minutes; } }
 
         public PointInTime Start { get { return new PointInTime(_startDate, _startTime); } }
         public PointInTime Finish 
@@ -52,6 +54,7 @@ namespace CoachSeek.Domain.Entities
             ValidateAndCreateStartDate(command.StartDate, errors);
             ValidateAndCreateStartTime(command.StartTime, errors);
             ValidateAndCreateDuration(command.Duration, errors);
+            ValidateAndCreateBookUntil(command.BookUntil, errors);
 
             errors.ThrowIfErrors();
         }
@@ -61,6 +64,7 @@ namespace CoachSeek.Domain.Entities
             _startDate = new Date(data.StartDate);
             _startTime = new TimeOfDay(data.StartTime);
             _duration = new SessionDuration(data.Duration);
+            _bookUntil = new BookUntil(data.BookUntil);
         }
 
         private void ValidateAndCreateStartDate(string startDate, ValidationException errors)
@@ -97,6 +101,18 @@ namespace CoachSeek.Domain.Entities
             {
                 errors.Add(ex);
             }
+        }
+
+        private void ValidateAndCreateBookUntil(int bookUntil, ValidationException errors)
+        {
+            //try
+            //{
+                _bookUntil = new BookUntil(bookUntil);
+            //}
+            //catch (DurationInvalid ex)
+            //{
+            //    errors.Add(ex);
+            //}
         }
     }
 }

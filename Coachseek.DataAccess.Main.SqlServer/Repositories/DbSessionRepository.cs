@@ -297,6 +297,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var sessionPrice = reader.GetNullableDecimal(18);   // Nullable because for a course session this can be null.
             var coursePrice = reader.GetNullableDecimal(19);
             var colour = reader.GetNullableStringTrimmed(20);
+            var bookUntil = reader.GetByte(21);
 
             if (sessionCount != 1)
                 throw new InvalidOperationException("Single session must have only a single session.");
@@ -316,7 +317,8 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 {
                     StartDate = startDate,
                     StartTime = startTime,
-                    Duration = duration
+                    Duration = duration,
+                    BookUntil = bookUntil
                 },
                 Booking = new SessionBookingData
                 {
@@ -347,6 +349,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@sessionPrice", SqlDbType.Decimal));
             command.Parameters.Add(new SqlParameter("@coursePrice", SqlDbType.Decimal));
             command.Parameters.Add(new SqlParameter("@colour", SqlDbType.Char));
+            command.Parameters.Add(new SqlParameter("@bookUntil", SqlDbType.TinyInt));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = session.Id;
@@ -365,6 +368,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters[14].Value = session.Pricing.SessionPrice;
             command.Parameters[15].Value = null;    // CoursePrice
             command.Parameters[16].Value = session.Presentation.Colour;
+            command.Parameters[17].Value = session.Timing.BookUntil;
         }
     }
 }
