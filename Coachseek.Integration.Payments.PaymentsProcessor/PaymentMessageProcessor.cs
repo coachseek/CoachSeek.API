@@ -142,7 +142,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             if (booking is SingleSessionBookingData)
             {
                 var session = await dataAccess.BusinessRepository.GetSessionAsync(parameters.Business.Id, parameters.CustomerBooking.SessionId);
-                ValidateSingleSessionPaymentAmount(session, parameters.Payment);
+                ValidateSingleSessionPaymentAmount(session, (SingleSessionBookingData)booking, parameters.Payment);
             }
             else
             {
@@ -151,15 +151,16 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
             }
         }
 
-        private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, NewPayment newPayment)
+        private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, SingleSessionBookingData booking, NewPayment newPayment)
         {
-            if (newPayment.ItemAmount != session.Pricing.SessionPrice.GetValueOrDefault())
+            var expectedPrice = session.Pricing.SessionPrice.Value.ApplyDiscount(booking.DiscountPercent);
+            if (newPayment.ItemAmount != expectedPrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.GetValueOrDefault());
         }
 
         private static void ValidateCoursePaymentAmount(RepeatedSessionData course, CourseBookingData booking, NewPayment newPayment, bool useProRataPricing)
         {
-            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course, useProRataPricing, 0);
+            var expectedPrice = CourseBookingPriceCalculator.CalculatePrice(booking, course, useProRataPricing, booking.DiscountPercent);
             if (newPayment.ItemAmount != expectedPrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, expectedPrice);
         }
