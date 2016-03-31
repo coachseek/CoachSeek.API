@@ -40,7 +40,8 @@ BEGIN
 		c.[Phone],
 		bk.[PaymentStatus],
 		bk.[HasAttended],
-		bk.[IsOnlineBooking]
+		bk.[IsOnlineBooking],
+		bk.[DiscountPercent]
 	FROM
 		Course crs
 		INNER JOIN [dbo].[Booking] bk

@@ -44,7 +44,7 @@ namespace CoachSeek.Domain.Entities
                 var bookingSession = CreateBookingSession(commandSession.Id);
                 if (bookingSession.IsFull)
                     throw new SessionFullyBooked(bookingSession);
-                var sessionBooking = CreateNewSessionBooking(bookingSession, command.IsOnlineBooking);
+                var sessionBooking = CreateNewSessionBooking(bookingSession, command.IsOnlineBooking, command.DiscountPercent);
                 SessionBookings.Add(sessionBooking);
             }
         }
@@ -82,10 +82,10 @@ namespace CoachSeek.Domain.Entities
         }
 
 
-        protected virtual SingleSessionBooking CreateNewSessionBooking(BookingSession session, bool isOnlineBooking)
+        protected virtual SingleSessionBooking CreateNewSessionBooking(BookingSession session, bool isOnlineBooking, int discountPercent)
         {
             if (isOnlineBooking)
-                return new SingleSessionOnlineBooking(session, Customer, 0, CourseBookingId);
+                return new SingleSessionOnlineBooking(session, Customer, discountPercent, CourseBookingId);
             return new SingleSessionBooking(session, Customer, 0, CourseBookingId);
         }
 

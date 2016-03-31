@@ -37,6 +37,8 @@ namespace CoachSeek.Application.UseCases
             var discountCode = await BusinessRepository.GetDiscountCodeAsync(Business.Id, command.DiscountCode);
             if (discountCode.IsNotFound())
                 throw new DiscountCodeInvalid(command.DiscountCode);
+            if (!discountCode.IsActive)
+                throw new DiscountCodeNotActive(command.DiscountCode);
             return discountCode;
         }
 
