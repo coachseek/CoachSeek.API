@@ -9,7 +9,6 @@ namespace CoachSeek.Domain.Entities
         public Guid Id { get; private set; }
         public CustomerKeyData Customer { get; private set; }
         public abstract bool IsOnlineBooking { get; }
-        public int DiscountPercent { get; set; }
 
 
         protected Booking(CustomerKeyData customer)

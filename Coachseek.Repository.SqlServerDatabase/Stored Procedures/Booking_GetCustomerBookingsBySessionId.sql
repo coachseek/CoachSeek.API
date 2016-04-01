@@ -18,8 +18,7 @@ BEGIN
 		c.[Phone],
 		bk.[PaymentStatus],
 		bk.[HasAttended],
-		bk.[IsOnlineBooking],
-		bk.[DiscountPercent]
+		bk.[IsOnlineBooking]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk

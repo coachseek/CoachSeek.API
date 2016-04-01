@@ -593,8 +593,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 Id = booking.Id,
                 Course = new SessionKeyData(booking.CourseOrSessionId, booking.CourseOrSessionName),
-                Customer = new CustomerKeyData(booking.CustomerId, booking.CustomerName),
-                DiscountPercent = booking.DiscountPercent
+                Customer = new CustomerKeyData(booking.CustomerId, booking.CustomerName)
             };
         }
 
@@ -623,7 +622,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             var paymentStatus = reader.GetNullableString(7);
             var hasAttended = reader.GetNullableBool(8);
             var isOnlineBooking = reader.GetNullableBool(9);
-            var discountPercent = reader.GetInt32(10);
 
             return new CourseOrSessionBookingData
             {
@@ -635,8 +633,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
                 CustomerName = customerName,
                 PaymentStatus = paymentStatus,
                 HasAttended = hasAttended,
-                IsOnlineBooking = isOnlineBooking,
-                DiscountPercent = discountPercent
+                IsOnlineBooking = isOnlineBooking
             };
         }
 
@@ -724,7 +721,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
             command.Parameters.Add(new SqlParameter("@paymentStatus", SqlDbType.NVarChar));
             command.Parameters.Add(new SqlParameter("@isOnlineBooking", SqlDbType.Bit));
-            command.Parameters.Add(new SqlParameter("@discountPercent", SqlDbType.Int));
 
             command.Parameters[0].Value = businessId;
             command.Parameters[1].Value = courseBooking.Id;
@@ -732,7 +728,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             command.Parameters[3].Value = courseBooking.Customer.Id;
             command.Parameters[4].Value = courseBooking.PaymentStatus;
             command.Parameters[5].Value = courseBooking.IsOnlineBooking;
-            command.Parameters[6].Value = courseBooking.DiscountPercent;
 
             command.ExecuteNonQuery();
         }
@@ -780,8 +775,6 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             {
                 get { return ParentId == null; }
             }
-
-            public int DiscountPercent;
         }
     }
 }

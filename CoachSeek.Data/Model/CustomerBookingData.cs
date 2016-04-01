@@ -11,6 +11,5 @@ namespace CoachSeek.Data.Model
         public bool? HasAttended { get; set; }
         public string PaymentStatus { get; set; }
         public bool IsOnlineBooking { get; set; }
-        public int DiscountPercent { get; set; }
     }
 }

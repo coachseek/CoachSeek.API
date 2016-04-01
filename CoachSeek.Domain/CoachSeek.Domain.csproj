@@ -190,7 +190,6 @@
     <Compile Include="Exceptions\CustomFieldValueKeyInvalud.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateKeyRequired.cs" />
     <Compile Include="Exceptions\CustomFieldTemplateTypeInvalid.cs" />
-    <Compile Include="Exceptions\DiscountCodeNotActive.cs" />
     <Compile Include="Exceptions\NotEnoughDataParts.cs" />
     <Compile Include="Exceptions\PricingEnquirySessionRequired.cs" />
     <Compile Include="Exceptions\BookingSessionRequired.cs" />

@@ -5,8 +5,7 @@ CREATE PROCEDURE [dbo].[Booking_CreateCourseBooking]
 	@courseGuid uniqueidentifier,
 	@customerGuid uniqueidentifier,
 	@paymentStatus nvarchar(50) = null,
-	@isOnlineBooking bit = null,
-	@discountPercent [int] = 0
+	@isOnlineBooking bit = null
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -45,8 +44,7 @@ BEGIN
 		[ParentId],
 		[PaymentStatus],
 		[HasAttended],
-		[IsOnlineBooking],
-		[DiscountPercent]
+		[IsOnlineBooking]
 	)
 	VALUES
 	(
@@ -57,8 +55,7 @@ BEGIN
 		NULL,
 		@paymentStatus,
 		NULL,
-		@isOnlineBooking,
-		@discountPercent
+		@isOnlineBooking
 	)
 	
 END

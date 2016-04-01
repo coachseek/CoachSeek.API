@@ -54,8 +54,7 @@ BEGIN
 		c.[FirstName] + ' ' + c.[LastName] As CustomerName,
 		bk.[PaymentStatus],
 		bk.[HasAttended],
-		bk.[IsOnlineBooking],
-		bk.[DiscountPercent]
+		bk.[IsOnlineBooking]
 	FROM
 		CourseBooking cbk
 		INNER JOIN [dbo].[Booking] bk
