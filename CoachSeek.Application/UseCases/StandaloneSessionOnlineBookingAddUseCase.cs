@@ -24,9 +24,10 @@ namespace CoachSeek.Application.UseCases
         }
 
         protected override SingleSessionBooking CreateSessionBooking(BookingSession session,
-                                                                     CustomerKeyData customer)
+                                                                     CustomerKeyData customer,
+                                                                     int discountPercent)
         {
-            return new SingleSessionOnlineBooking(session, customer);
+            return new SingleSessionOnlineBooking(session, customer, discountPercent);
         }
 
 

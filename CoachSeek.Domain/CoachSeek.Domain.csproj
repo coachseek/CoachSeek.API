@@ -72,6 +72,8 @@
     <Compile Include="Commands\CustomFieldAddCommand.cs" />
     <Compile Include="Commands\CustomFieldUpdateCommand.cs" />
     <Compile Include="Commands\CustomFieldValueUpdateCommand.cs" />
+    <Compile Include="Commands\DiscountCodeAddCommand.cs" />
+    <Compile Include="Commands\DiscountCodeUpdateCommand.cs" />
     <Compile Include="Commands\EmailTemplateUpdateCommand.cs" />
     <Compile Include="Commands\BusinessSetCustomerOnlineBookingEmailCustomisationCommand.cs" />
     <Compile Include="Commands\BusinessUpdateCommand.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Entities\Authentication\CoachseekAnonymousIdentity.cs" />
     <Compile Include="Entities\Authentication\CoachseekIdentity.cs" />
     <Compile Include="Entities\BookingSession.cs" />
+    <Compile Include="Entities\BookUntil.cs" />
     <Compile Include="Entities\Sex.cs" />
     <Compile Include="Entities\ColourDefault.cs" />
     <Compile Include="Entities\CourseOnlineBooking.cs" />

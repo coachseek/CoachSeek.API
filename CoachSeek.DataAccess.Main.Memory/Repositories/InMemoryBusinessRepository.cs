@@ -1004,5 +1004,40 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public Task AddDiscountCodeAsync(Guid businessId, DiscountCode discountCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateDiscountCodeAsync(Guid businessId, DiscountCode discountCode)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, Guid discountCodeId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DiscountCodeData GetDiscountCode(Guid businessId, string code)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

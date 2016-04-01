@@ -8,6 +8,7 @@ namespace CoachSeek.Data.Model
         public decimal Price { get; set; }
         public string PaymentStatus { get; set; }
         public bool? IsOnlineBooking { get; set; }
+        public int DiscountPercent { get; set; }
         public CustomerKeyData Customer { get; set; }
     }
 }

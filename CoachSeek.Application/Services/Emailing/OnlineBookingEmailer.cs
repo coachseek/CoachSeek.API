@@ -169,7 +169,7 @@ namespace CoachSeek.Application.Services.Emailing
                 {"StartTime", session.Timing.StartTime},
                 {"Duration", FormatDuration(session.Timing.Duration)},
                 {"CurrencySymbol", CurrencySymbol},
-                {"SessionPrice", CalculateSessionPrice(session).ToString("0.00")}
+                {"SessionPrice", CalculateSessionPrice(session, booking).ToString("0.00")}
             };
 
             return sessionValues;
@@ -214,10 +214,10 @@ namespace CoachSeek.Application.Services.Emailing
             return DurationFormatter.Format(duration);
         }
 
-        private decimal CalculateSessionPrice(SingleSessionData session)
+        private decimal CalculateSessionPrice(SingleSessionData session, SingleSessionBooking booking)
         {
             if (session.Pricing.SessionPrice.HasValue)
-                return session.Pricing.SessionPrice.Value;
+                return session.Pricing.SessionPrice.Value.ApplyDiscount(booking.DiscountPercent);
 
             return 0;
         }

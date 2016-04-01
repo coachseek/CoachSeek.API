@@ -13,11 +13,13 @@ namespace CoachSeek.Domain.Entities
         public Date Date { get { return Session.Date; } }
         public TimeOfDay StartTime { get { return Session.StartTime; } }
         public string PaymentStatus { get; set; }
+        public int DiscountPercent { get; set; }
 
         public override bool IsOnlineBooking { get { return false; } }
 
         public SingleSessionBooking(BookingSession session,
                                     CustomerKeyData customer, 
+                                    int discountPercent,
                                     Guid? parentId = null,
                                     string paymentStatus = Constants.PAYMENT_STATUS_PENDING_INVOICE)
             : base(customer)
@@ -26,6 +28,7 @@ namespace CoachSeek.Domain.Entities
             Session = session;
             HasAttended = null;
             PaymentStatus = paymentStatus;
+            DiscountPercent = discountPercent;
         }
 
         // Data parameters denote that it's data from inside the application (ie. database).
@@ -57,7 +60,8 @@ namespace CoachSeek.Domain.Entities
                 Customer = Customer,
                 PaymentStatus = PaymentStatus,
                 HasAttended = HasAttended,
-                IsOnlineBooking = IsOnlineBooking
+                IsOnlineBooking = IsOnlineBooking,
+                DiscountPercent = DiscountPercent
             };
         }
     }

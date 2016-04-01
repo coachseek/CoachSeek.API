@@ -9,5 +9,7 @@ namespace CoachSeek.Api.Models.Api.Booking
         public IList<ApiSessionKey> Sessions { get; set; }
         [Required]
         public ApiCustomerKey Customer { get; set; }
+        [Required]
+        public int DiscountPercent { get; set; }
     }
 }

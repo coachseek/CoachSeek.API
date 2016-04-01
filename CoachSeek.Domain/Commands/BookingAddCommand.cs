@@ -9,6 +9,7 @@ namespace CoachSeek.Domain.Commands
         public IList<SessionKeyCommand> Sessions { get; set; }
         public CustomerKeyCommand Customer { get; set; }
         public bool IsOnlineBooking { get; set; }
+        public int DiscountPercent { get; set; }
 
         public BookingAddCommand()
         {

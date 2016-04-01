@@ -5,9 +5,10 @@ CREATE PROCEDURE [dbo].[Booking_CreateSessionBooking]
 	@parentGuid uniqueidentifier = NULL,
 	@sessionGuid uniqueidentifier,
 	@customerGuid uniqueidentifier,
-	@paymentStatus nvarchar(50) = null,
-	@hasAttended bit = null,
-	@isOnlineBooking bit = null
+	@paymentStatus nvarchar(50) = NULL,
+	@hasAttended bit = NULL,
+	@isOnlineBooking bit = NULL,
+	@discountPercent int = 0
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -54,7 +55,8 @@ BEGIN
 		[ParentId],
 		[PaymentStatus],
 		[HasAttended],
-		[IsOnlineBooking]
+		[IsOnlineBooking],
+		[DiscountPercent]
 	)
 	VALUES
 	(
@@ -65,7 +67,8 @@ BEGIN
 		@parentId,
 		@paymentStatus,
 		@hasAttended,
-		@isOnlineBooking
+		@isOnlineBooking,
+		@discountPercent
 	)
 	
 	SELECT
@@ -81,7 +84,8 @@ BEGIN
 		c.[FirstName] + ' ' + c.[LastName] As CustomerName,
 		bk.[PaymentStatus],
 		bk.[HasAttended],
-		bk.[IsOnlineBooking]
+		bk.[IsOnlineBooking],
+		bk.[DiscountPercent]
 	FROM
 		[dbo].[Business] b
 		INNER JOIN [dbo].[Booking] bk

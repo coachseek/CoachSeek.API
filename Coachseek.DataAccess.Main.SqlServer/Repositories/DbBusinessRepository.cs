@@ -37,6 +37,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
         private DbCustomerRepository CustomerRepository { get; set; }
         private DbCustomFieldTemplateRepository CustomFieldTemplateRepository { get; set; }
         private DbCustomFieldValueRepository CustomFieldValueRepository { get; set; }
+        private DbDiscountCodeRepository DiscountCodeRepository { get; set; }
         private DbSessionRepository SessionRepository { get; set; }
         private DbCourseRepository CourseRepository { get; set; }
         private DbBookingRepository BookingRepository { get; set; }
@@ -53,6 +54,7 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             CustomerRepository = new DbCustomerRepository(ConnectionStringKey);
             CustomFieldTemplateRepository = new DbCustomFieldTemplateRepository(ConnectionStringKey);
             CustomFieldValueRepository = new DbCustomFieldValueRepository(ConnectionStringKey);
+            DiscountCodeRepository = new DbDiscountCodeRepository(ConnectionStringKey);
             SessionRepository = new DbSessionRepository(ConnectionStringKey);
             CourseRepository = new DbCourseRepository(ConnectionStringKey);
             BookingRepository = new DbBookingRepository(ConnectionStringKey);
@@ -278,6 +280,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return await CustomFieldValueRepository.GetCustomFieldValuesByTypeAsync(businessId, type);
         }
 
+
+        public async Task AddDiscountCodeAsync(Guid businessId, DiscountCode discountCode)
+        {
+            await DiscountCodeRepository.AddDiscountCodeAsync(businessId, discountCode);
+        }
+
+        public async Task UpdateDiscountCodeAsync(Guid businessId, DiscountCode discountCode)
+        {
+            await DiscountCodeRepository.UpdateDiscountCodeAsync(businessId, discountCode);
+        }
+
+        public DiscountCodeData GetDiscountCode(Guid businessId, string code)
+        {
+            return DiscountCodeRepository.GetDiscountCode(businessId, code);
+        }
+
+        public async Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, string code)
+        {
+            return await DiscountCodeRepository.GetDiscountCodeAsync(businessId, code);
+        }
+
+        public async Task<DiscountCodeData> GetDiscountCodeAsync(Guid businessId, Guid discountCodeId)
+        {
+            return await DiscountCodeRepository.GetDiscountCodeAsync(businessId, discountCodeId);
+        }
+
+        public async Task<IList<DiscountCodeData>> GetDiscountCodesAsync(Guid businessId)
+        {
+            return await DiscountCodeRepository.GetDiscountCodesAsync(businessId);
+        }
 
         public async Task<IList<SingleSessionData>> SearchForSessions(Guid businessId, string beginDate, string endDate)
         {

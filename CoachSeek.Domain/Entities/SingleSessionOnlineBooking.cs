@@ -9,8 +9,15 @@ namespace CoachSeek.Domain.Entities
         public override bool IsOnlineBooking { get { return true; } }
 
         // Command parameters denote that it's data from outside the application (ie. user input).
-        public SingleSessionOnlineBooking(BookingSession session, CustomerKeyData customer, Guid? parentId = null)
-            : base(session, customer, parentId, Constants.PAYMENT_STATUS_PENDING_PAYMENT)
+        public SingleSessionOnlineBooking(BookingSession session, 
+                                          CustomerKeyData customer,
+                                          int discountPercent,
+                                          Guid? parentId = null)
+            : base(session, 
+                   customer, 
+                   discountPercent, 
+                   parentId, 
+                   Constants.PAYMENT_STATUS_PENDING_PAYMENT)
         { }
 
         public SingleSessionOnlineBooking(Guid id, 

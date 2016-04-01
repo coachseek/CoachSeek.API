@@ -81,6 +81,11 @@
         public static string CustomFieldValueKeyInvalid { get { return "customfieldvaluekey-invalid"; } }
         public static string CustomFieldValueRequired { get { return "customfieldvalue-required"; } }
 
+        public static string DiscountCodeIsActiveRequired { get { return "discountcodeisactive-required"; } }
+        public static string DiscountCodeDuplicate { get { return "discountcode-duplicate"; } }
+        public static string DiscountCodeInvalid { get { return "discountcode-invalid"; } }
+        public static string DiscountCodeNotActive { get { return "discountcode-not-active"; } }
+
         public static string PricingSessionRequired { get { return "pricing-session-required"; } }
 
         public static string BookingSessionRequired { get { return "booking-session-required"; } }

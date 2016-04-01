@@ -5,6 +5,7 @@ namespace CoachSeek.Domain.Commands
     public class PriceGetCommand
     {
         public IList<SessionKeyCommand> Sessions { get; set; }
+        public string DiscountCode { get; set; }
 
         public PriceGetCommand()
         {

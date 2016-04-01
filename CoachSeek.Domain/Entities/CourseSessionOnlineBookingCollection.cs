@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Entities
 
         protected override SingleSessionBooking CreateSessionBooking(BookingSession session)
         {
-            return new SingleSessionOnlineBooking(session, Customer, CourseBookingId);
+            return new SingleSessionOnlineBooking(session, Customer, 0, CourseBookingId);
         }
 
         protected override SingleSessionBooking CreateSessionBooking(SingleSessionBookingData data, BookingSession session)

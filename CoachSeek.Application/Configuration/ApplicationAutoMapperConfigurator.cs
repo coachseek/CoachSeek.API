@@ -17,6 +17,7 @@ namespace CoachSeek.Application.Configuration
             Mapper.CreateMap<CustomerData, CustomerKeyData>();
             Mapper.CreateMap<CustomFieldTemplate, CustomFieldTemplateData>();
             Mapper.CreateMap<DailyWorkingHours, DailyWorkingHoursData>();
+            Mapper.CreateMap<DiscountCode, DiscountCodeData>();
             Mapper.CreateMap<Location, LocationData>();
             Mapper.CreateMap<Location, LocationKeyData>();
             Mapper.CreateMap<RepeatedSessionPricing, RepeatedSessionPricingData>();

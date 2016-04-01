@@ -16,7 +16,8 @@
     [RepeatFrequency]  CHAR (1)         NULL,
     [SessionPrice]     DECIMAL (19, 4)  NULL,
     [CoursePrice]      DECIMAL (19, 4)  NULL,
-    [Colour]           CHAR (12)        NOT NULL,
+    [Colour]           CHAR (12)        NULL,
+    [BookUntil]        TINYINT          CONSTRAINT [DF_Session_BookUntil] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_Session] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Session_Business] FOREIGN KEY ([BusinessId]) REFERENCES [dbo].[Business] ([Id]),
     CONSTRAINT [FK_Session_Coach] FOREIGN KEY ([CoachId]) REFERENCES [dbo].[Coach] ([Id]),
@@ -24,6 +25,10 @@
     CONSTRAINT [FK_Session_Service] FOREIGN KEY ([ServiceId]) REFERENCES [dbo].[Service] ([Id]),
     CONSTRAINT [FK_Session_Session] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Session] ([Id])
 );
+
+
+
+
 
 
 

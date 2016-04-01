@@ -63,6 +63,7 @@
     <Compile Include="Model\CustomFieldKeyValueData.cs" />
     <Compile Include="Model\CustomFieldValueData.cs" />
     <Compile Include="Model\CustomFieldTemplateData.cs" />
+    <Compile Include="Model\DiscountCodeData.cs" />
     <Compile Include="Model\EmailTemplateData.cs" />
     <Compile Include="Model\TransactionData.cs" />
     <Compile Include="Model\PaymentData.cs" />

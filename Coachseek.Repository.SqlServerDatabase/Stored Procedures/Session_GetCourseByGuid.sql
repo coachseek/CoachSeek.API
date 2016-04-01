@@ -64,7 +64,8 @@ BEGIN
 		s.[RepeatFrequency],
 		s.[SessionPrice],
 		s.[CoursePrice],
-		s.[Colour]
+		s.[Colour],
+		s.[BookUntil]
 	FROM
 		Course crs
 		INNER JOIN [dbo].[Session] s

@@ -21,7 +21,7 @@ namespace CoachSeek.Application.UseCases
                 ValidateCommand(command);
                 var bookingSession = new BookingSession(Session);
                 var customer = BusinessRepository.GetCustomer(Business.Id, command.Customer.Id);
-                var newBooking = CreateSessionBooking(bookingSession, customer.ToKeyData());
+                var newBooking = CreateSessionBooking(bookingSession, customer.ToKeyData(), command.DiscountPercent);
                 ValidateAddBooking(newBooking);
                 var data = BusinessRepository.AddSessionBooking(Business.Id, (SingleSessionBookingData)newBooking.ToData());
                 PostProcessing(newBooking);
@@ -40,15 +40,24 @@ namespace CoachSeek.Application.UseCases
 
             ValidateSessionCount(newBooking.Sessions, errors);
             ValidateCustomer(newBooking.Customer.Id, errors);
+
             ValidateCommandAdditional(newBooking, errors);
 
             errors.ThrowIfErrors();
         }
 
-        protected virtual SingleSessionBooking CreateSessionBooking(BookingSession session,
-                                                                    CustomerKeyData customer)
+        private DiscountCodeData LookupDiscountCode(string discountCode)
         {
-            return new SingleSessionBooking(session, customer);
+            if (discountCode == null)
+                return null;
+            return BusinessRepository.GetDiscountCode(Business.Id, discountCode);
+        }
+
+        protected virtual SingleSessionBooking CreateSessionBooking(BookingSession session,
+                                                                    CustomerKeyData customer,
+                                                                    int discountPercent)
+        {
+            return new SingleSessionBooking(session, customer, discountPercent);
         }
 
         //protected virtual SingleSessionBooking CreateSessionBooking(SessionKeyCommand session, 

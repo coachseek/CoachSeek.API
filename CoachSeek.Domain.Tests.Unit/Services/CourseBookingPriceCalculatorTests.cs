@@ -121,6 +121,14 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         }
 
         [Test]
+        public void GivenBookingAllSessionsInCourseAndHaveCoursePriceAndDiscount_WhenTryCalculateBookingPrice_ThenReturnCoursePriceWithDiscount()
+        {
+            var parameters = GivenBookingAllSessionsInCourseAndHaveCoursePriceAndDiscount();
+            var price = WhenTryCalculateBookingPrice(parameters);
+            ThenReturnCoursePriceWithDiscount(price);
+        }
+
+        [Test]
         public void GivenBookingAllSessionsInCourseAndHaveNoCoursePrice_WhenTryCalculateBookingPrice_ThenReturnSumOfAllSessionPrices()
         {
             var parameters = GivenBookingAllSessionsInCourseAndHaveNoCoursePrice();
@@ -129,11 +137,27 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         }
 
         [Test]
+        public void GivenBookingAllSessionsInCourseAndHaveNoCoursePriceAndDiscount_WhenTryCalculateBookingPrice_ThenReturnSumOfAllSessionPricesWithDiscount()
+        {
+            var parameters = GivenBookingAllSessionsInCourseAndHaveNoCoursePriceAndDiscount();
+            var price = WhenTryCalculateBookingPrice(parameters);
+            ThenReturnSumOfAllSessionPricesWithDiscount(price);
+        }
+
+        [Test]
         public void GivenBookingSomeSessionsInCourseAndHaveAllSessionPrices_WhenTryCalculateBookingPrice_ThenReturnSumOfBookedSessionPrices()
         {
             var parameters = GivenBookingSomeSessionsInCourseAndHaveAllSessionPrices();
             var price = WhenTryCalculateBookingPrice(parameters);
             ThenReturnSumOfBookedSessionPrices(price);
+        }
+
+        [Test]
+        public void GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesAndDiscount_WhenTryCalculateBookingPrice_ThenReturnSumOfBookedSessionPricesWithDiscount()
+        {
+            var parameters = GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesWithDiscount();
+            var price = WhenTryCalculateBookingPrice(parameters);
+            ThenReturnSumOfBookedSessionPricesWithDiscount(price);
         }
 
         [Test]
@@ -182,11 +206,17 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             var sessionsInCourse = CreateSessionsInCourse();
             return new Parameters(BookNoSessionsInCourse(), sessionsInCourse);
         }
-
+        
         private Parameters GivenBookingAllSessionsInCourseAndHaveCoursePrice()
         {
             var sessionsInCourse = CreateSessionsInCourse();
-            return new Parameters(BookAllSessionsInCourse(), sessionsInCourse, true, 225);
+            return new Parameters(BookAllSessionsInCourse(), sessionsInCourse, true, 0, 225);
+        }
+
+        private Parameters GivenBookingAllSessionsInCourseAndHaveCoursePriceAndDiscount()
+        {
+            var sessionsInCourse = CreateSessionsInCourse();
+            return new Parameters(BookAllSessionsInCourse(), sessionsInCourse, true, 17, 234.67m);
         }
 
         private Parameters GivenNoCoursePriceAndNoSessionPriceInSession()
@@ -203,6 +233,12 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             return new Parameters(BookAllSessionsInCourse(), sessionsInCourse);
         }
 
+        private Parameters GivenBookingAllSessionsInCourseAndHaveNoCoursePriceAndDiscount()
+        {
+            var sessionsInCourse = CreateSessionsInCourse();
+            return new Parameters(BookAllSessionsInCourse(), sessionsInCourse, true, 23);
+        }
+
         private Parameters GivenBookingSomeSessionsInCourseAndHaveAllSessionPrices()
         {
             var bookedSessions = BookAllSessionsInCourse();
@@ -211,12 +247,20 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             return new Parameters(bookedSessions, CreateSessionsInCourse());
         }
 
+        private Parameters GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesWithDiscount()
+        {
+            var bookedSessions = BookAllSessionsInCourse();
+            bookedSessions.RemoveAt(1);
+            bookedSessions.RemoveAt(2);
+            return new Parameters(bookedSessions, CreateSessionsInCourse(), true, 29);
+        }
+
         private Parameters GivenBookingSomeSessionsInCourseAndHaveAllSessionPricesAndHaveCoursePriceAndUseProRataPricingIsOff()
         {
             var bookedSessions = BookAllSessionsInCourse();
             bookedSessions.RemoveAt(1);
             bookedSessions.RemoveAt(2);
-            return new Parameters(bookedSessions, CreateSessionsInCourse(), false, 200);
+            return new Parameters(bookedSessions, CreateSessionsInCourse(), false, 0, 200);
         }
 
         private Parameters GivenBookingSomeSessionsInCourseAndAreMissingSessionPricesButHaveCoursePrice()
@@ -229,7 +273,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             sessionsInCourse[0].Pricing.SessionPrice = null;
             sessionsInCourse[2].Pricing.SessionPrice = null;
 
-            return new Parameters(bookedSessions, sessionsInCourse, true, 200);
+            return new Parameters(bookedSessions, sessionsInCourse, true, 0, 200);
         }
 
         private Parameters GivenBookingOneSessionInCourseAndHaveSessionPrice()
@@ -241,14 +285,14 @@ namespace CoachSeek.Domain.Tests.Unit.Services
         {
             var sessionsInCourse = CreateSessionsInCourse();
             sessionsInCourse[1].Pricing.SessionPrice = null;
-            return new Parameters(BookOneSessionInCourse(), sessionsInCourse, true, 200);
+            return new Parameters(BookOneSessionInCourse(), sessionsInCourse, true, 0, 200);
         }
 
         private Parameters GivenBookingOneSessionInCourseAndHaveCoursePriceOnlyAndUseProRataPricingIsOff()
         {
             var sessionsInCourse = CreateSessionsInCourse();
             sessionsInCourse[1].Pricing.SessionPrice = null;
-            return new Parameters(BookOneSessionInCourse(), sessionsInCourse, false, 225);
+            return new Parameters(BookOneSessionInCourse(), sessionsInCourse, false, 0, 225);
         }
 
 
@@ -257,6 +301,7 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             return CourseBookingPriceCalculator.CalculatePrice(parameters.BookedSessions, 
                                                                parameters.CourseSessions,
                                                                parameters.UseProRataPricing,
+                                                               parameters.DiscountPercent,
                                                                parameters.CoursePrice);
         }
 
@@ -271,14 +316,29 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             Assert.That(price, Is.EqualTo(225));
         }
 
+        private void ThenReturnCoursePriceWithDiscount(decimal price)
+        {
+            Assert.That(price, Is.EqualTo(194.78m));
+        }
+
         private void ThenReturnSumOfAllSessionPrices(decimal price)
         {
             Assert.That(price, Is.EqualTo(275));
         }
 
+        private void ThenReturnSumOfAllSessionPricesWithDiscount(decimal price)
+        {
+            Assert.That(price, Is.EqualTo(211.75m));
+        }
+        
         private void ThenReturnSumOfBookedSessionPrices(decimal price)
         {
             Assert.That(price, Is.EqualTo(175));
+        }
+
+        private void ThenReturnSumOfBookedSessionPricesWithDiscount(decimal price)
+        {
+            Assert.That(price, Is.EqualTo(124.25m));
         }
 
         private void ThenReturnProRataOfCoursePrice(decimal price)
@@ -303,16 +363,19 @@ namespace CoachSeek.Domain.Tests.Unit.Services
             public List<BookingSessionData> BookedSessions { get; private set; }
             public List<SingleSessionData> CourseSessions { get; private set; }
             public bool UseProRataPricing { get; private set; }
+            public int DiscountPercent { get; private set; }
             public decimal? CoursePrice { get; private set; }
 
             public Parameters(List<BookingSessionData> bookedSessions,
                               List<SingleSessionData> courseSessions,
                               bool useProRataPricing = true,
+                              int discountPercent = 0,
                               decimal? coursePrice = null)
             {
                 BookedSessions = bookedSessions;
                 CourseSessions = courseSessions;
                 UseProRataPricing = useProRataPricing;
+                DiscountPercent = discountPercent;
                 CoursePrice = coursePrice;
             }
         }
