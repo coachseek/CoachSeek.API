@@ -964,6 +964,11 @@ namespace CoachSeek.DataAccess.Main.Memory.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<IList<CustomerBookingData>> GetAllCustomerSessionBookingsByCustomerIdAsync(Guid businessId, Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task SetBookingPaymentStatusAsync(Guid businessId, Guid bookingId, string paymentStatus)
         {
             throw new NotImplementedException();

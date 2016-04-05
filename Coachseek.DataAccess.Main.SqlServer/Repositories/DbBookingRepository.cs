@@ -468,6 +468,36 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             }
         }
 
+        public async Task<IList<CustomerBookingData>> GetAllCustomerSessionBookingsByCustomerIdAsync(Guid businessId, Guid customerId)
+        {
+            SqlDataReader reader = null;
+            try
+            {
+                Connection.Open();
+
+                var command = new SqlCommand("[Booking_GetAllCustomerSessionBookingsByCustomerId]", Connection) { CommandType = CommandType.StoredProcedure };
+
+                command.Parameters.Add(new SqlParameter("@businessGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters.Add(new SqlParameter("@customerGuid", SqlDbType.UniqueIdentifier));
+                command.Parameters[0].Value = businessId;
+                command.Parameters[1].Value = customerId;
+
+                var customerBookings = new List<CustomerBookingData>();
+                reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                    customerBookings.Add(ReadCustomerBookingData(reader));
+
+                return customerBookings;
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
         public async Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)
         {
             SqlConnection connection = null;

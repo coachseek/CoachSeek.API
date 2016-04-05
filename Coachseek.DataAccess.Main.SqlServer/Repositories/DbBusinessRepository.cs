@@ -482,6 +482,11 @@ namespace Coachseek.DataAccess.Main.SqlServer.Repositories
             return BookingRepository.GetAllCustomerSessionBookingsByCustomerId(businessId, customerId);
         }
 
+        public async Task<IList<CustomerBookingData>> GetAllCustomerSessionBookingsByCustomerIdAsync(Guid businessId, Guid customerId)
+        {
+            return await BookingRepository.GetAllCustomerSessionBookingsByCustomerIdAsync(businessId, customerId);
+        }
+
         public async Task<IList<CustomerBookingData>> GetCustomerBookingsBySessionIdAsync(Guid businessId, Guid sessionId)
         {
             return await BookingRepository.GetCustomerBookingsBySessionIdAsync(businessId, sessionId);
