@@ -9,7 +9,7 @@
     [HasAttended]     BIT              NULL,
     [IsOnlineBooking] BIT              NULL,
     [CreatedOn]       DATETIME2 (7)    CONSTRAINT [DF_Booking_CreatedOn] DEFAULT (getutcdate()) NULL,
-    [DiscountPercent] INT              NULL,
+    [DiscountPercent] INT              NULL DEFAULT 0,
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Booking_Booking] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Booking] ([Id]),
     CONSTRAINT [FK_Booking_Business] FOREIGN KEY ([BusinessId]) REFERENCES [dbo].[Business] ([Id]),
