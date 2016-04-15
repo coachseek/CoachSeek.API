@@ -282,7 +282,7 @@ namespace Coachseek.Integration.Tests.Unit.Payments.Tests
             var business = CreateNewTestBusiness(true, false, "PayPal", "test@business.com");
             BusinessRepository.AddBusiness(business);
             var booking = new SingleSessionBooking(new Guid(BOOKING_ID),
-                new BookingSessionData { Id = Guid.NewGuid() },
+                new BookingSessionData { Id = Guid.NewGuid(), Date = "2020-01-01", StartTime = "09:45", StudentCapacity = 3, BookingCount = 2 },
                 new CustomerKeyData(Guid.NewGuid()),
                 Constants.PAYMENT_STATUS_PENDING_INVOICE,
                 null);

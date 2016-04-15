@@ -48,16 +48,16 @@ namespace CoachSeek.Application.Tests.Unit.Services
         [Test]
         public void ResolveTests()
         {
-            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", "123456");
-            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", null);
-            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", "666 999");
-            AssertCustomerMatched(" fred", "flintstone ", " Fred@Flintstones.net ", null);
-            AssertCustomerMatched(" fred", "flintstone ", " Fred@Flintstones.net ", "888");
+            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", "123456", "male");
+            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", null, "male");
+            AssertCustomerMatched("Fred", "Flintstone", "fred@flintstones.net", "666 999", "male");
+            AssertCustomerMatched(" fred", "flintstone ", " Fred@Flintstones.net ", null, "male");
+            AssertCustomerMatched(" fred", "flintstone ", " Fred@Flintstones.net ", "888", "male");
 
-            AssertCustomerNotMatched("Fred", "Flintstone", "fred@flintstones.com", "123456");
-            AssertCustomerNotMatched("Fred", "Flintstone", null, null);
-            AssertCustomerNotMatched("bob", "Flintstone", "fred@flintstones.com", "0800 HOT CHICKS");
-            AssertCustomerNotMatched("Fred", "Holder", "fred@flintstones.com", "123456");
+            AssertCustomerNotMatched("Fred", "Flintstone", "fred@flintstones.com", "123456", null);
+            AssertCustomerNotMatched("Fred", "Flintstone", null, null, null);
+            AssertCustomerNotMatched("bob", "Flintstone", "fred@flintstones.com", "0800 HOT CHICKS", null);
+            AssertCustomerNotMatched("Fred", "Holder", "fred@flintstones.com", "123456", null);
         }
 
 
@@ -72,7 +72,7 @@ namespace CoachSeek.Application.Tests.Unit.Services
             BusinessRepository.AddBusiness(business);
             var customer = new Customer(new Guid("8A23F42D-9F6B-46FD-9922-3DA0E05B1A72"), 
                                         "Fred", "Flintstone", 
-                                        "fred@flintstones.net", "123456");
+                                        "fred@flintstones.net", "123456", "male");
             BusinessRepository.AddCustomerAsync(business.Id, customer).Wait();
         }
 
@@ -95,20 +95,20 @@ namespace CoachSeek.Application.Tests.Unit.Services
         }
 
 
-        private void AssertCustomerMatched(string firstName, string lastName, string email, string phone)
+        private void AssertCustomerMatched(string firstName, string lastName, string email, string phone, string sex)
         {
             var resolver = new CustomerResolver();
             resolver.Initialise(Context);
-            var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
+            var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone, sex);
             var customer = resolver.ResolveAsync(searchCustomer).Result;
             Assert.That(customer, Is.Not.Null);
         }
 
-        private void AssertCustomerNotMatched(string firstName, string lastName, string email, string phone)
+        private void AssertCustomerNotMatched(string firstName, string lastName, string email, string phone, string sex)
         {
             var resolver = new CustomerResolver();
             resolver.Initialise(Context);
-            var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone);
+            var searchCustomer = new Customer(Guid.Empty, firstName, lastName, email, phone, sex);
             var customer = resolver.ResolveAsync(searchCustomer).Result;
             Assert.That(customer, Is.Null);
         }

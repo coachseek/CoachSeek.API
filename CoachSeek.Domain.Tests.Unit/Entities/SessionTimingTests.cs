@@ -12,7 +12,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenInvalidStartDate_WhenConstruct_ThenThrowValidationException()
         {
-            var sessionTiming = new SessionTimingCommand("2014-02-31", "12:45", 75);
+            var sessionTiming = new SessionTimingCommand("2014-02-31", "12:45", 75, 100);
             var response = WhenConstruct(sessionTiming);
             AssertSingleError(response,
                               ErrorCodes.StartDateInvalid,
@@ -23,7 +23,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenInvalidStartTime_WhenConstruct_ThenThrowValidationException()
         {
-            var sessionTiming = new SessionTimingCommand("2014-02-28", "25:00", 75);
+            var sessionTiming = new SessionTimingCommand("2014-02-28", "25:00", 75, 100);
             var response = WhenConstruct(sessionTiming);
             AssertSingleError(response, 
                               ErrorCodes.StartTimeInvalid,
@@ -34,7 +34,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenInvalidDuration_WhenConstruct_ThenThrowValidationException()
         {
-            var sessionTiming = new SessionTimingCommand("2014-02-28", "23:00", 69);
+            var sessionTiming = new SessionTimingCommand("2014-02-28", "23:00", 69, 100);
             var response = WhenConstruct(sessionTiming);
             AssertSingleError(response, 
                               ErrorCodes.DurationInvalid,
@@ -45,7 +45,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         [Test]
         public void GivenMultipleErrorsInTiming_WhenConstruct_ThenThrowValidationExceptionWithMultipleErrors()
         {
-            var sessionTiming = new SessionTimingCommand("2014-15-15", "27:45", 35);
+            var sessionTiming = new SessionTimingCommand("2014-15-15", "27:45", 35, 100);
             var response = WhenConstruct(sessionTiming);
             AssertMultipleErrors(response, new[,] { { ErrorCodes.StartDateInvalid, "'2014-15-15' is not a valid start date.", "2014-15-15", null },
                                                     { ErrorCodes.StartTimeInvalid, "'27:45' is not a valid start time.", "27:45", null },
