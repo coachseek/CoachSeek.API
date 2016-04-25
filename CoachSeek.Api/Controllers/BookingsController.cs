@@ -13,6 +13,7 @@ using CoachSeek.Data.Model;
 using CoachSeek.Domain.Commands;
 using CoachSeek.Domain.Contracts;
 using CoachSeek.Domain.Exceptions;
+using System.Threading.Tasks;
 
 namespace CoachSeek.Api.Controllers
 {
@@ -45,6 +46,16 @@ namespace CoachSeek.Api.Controllers
         public HttpResponseMessage Get(Guid id)
         {
             var response = GetBooking(id);
+            return CreateGetWebResponse(response);
+        }
+
+        // GET: CustomerBookings/D65BA9FE-D2C9-4C05-8E1A-326B1476DE08
+        [Route("CustomerBookings/{id}")]
+        [BasicAuthentication]
+        [BusinessAuthorize(Role.BusinessAdmin)]
+        public async Task<HttpResponseMessage> GetAsync(Guid id)
+        {
+            var response = await BusinessRepository.GetAllCustomerSessionBookingsByCustomerIdAsync(Business.Id, id);
             return CreateGetWebResponse(response);
         }
 

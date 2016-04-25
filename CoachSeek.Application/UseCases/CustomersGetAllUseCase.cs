@@ -31,7 +31,6 @@ namespace CoachSeek.Application.UseCases
                         customFields.Add(new CustomFieldKeyValueData(template.Key));
                 }
                 customer.CustomFields = customFields;
-                customer.CustomerBookings = await BusinessRepository.GetAllCustomerSessionBookingsByCustomerIdAsync(Business.Id, customer.Id);
             }
 
             return customers;
