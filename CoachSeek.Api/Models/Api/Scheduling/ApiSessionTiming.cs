@@ -10,5 +10,6 @@ namespace CoachSeek.Api.Models.Api.Scheduling
         public string StartTime { get; set; }
         [Required]
         public int? Duration { get; set; }
+        public int? BookUntil { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        protected RepeatedSession CreateCourse(Guid courseId, Guid coachId, Guid locationId, Guid serviceId, string startTime, int duration)
+        protected RepeatedSession CreateCourse(Guid courseId, Guid coachId, Guid locationId, Guid serviceId, string startTime, int duration, int bookUntil)
         {
             var data = new RepeatedSessionData
             {
@@ -39,7 +39,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Coach = new CoachKeyData { Id = coachId },
                 Location = new LocationKeyData { Id = locationId },
                 Service = new ServiceKeyData { Id = serviceId },
-                Timing = new SessionTimingData("2015-05-01", startTime, duration),
+                Timing = new SessionTimingData("2015-05-01", startTime, duration, bookUntil),
                 Booking = new SessionBookingData(10, true),
                 Pricing = new RepeatedSessionPricingData(25, 50),
                 Repetition = new RepetitionData(2, "d"),
@@ -53,7 +53,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                         Coach = new CoachKeyData { Id = coachId },
                         Location = new LocationKeyData { Id = locationId },
                         Service = new ServiceKeyData { Id = serviceId },
-                        Timing = new SessionTimingData("2015-05-01", startTime, duration),
+                        Timing = new SessionTimingData("2015-05-01", startTime, duration, bookUntil),
                         Booking = new SessionBookingData(10, true),
                         Pricing = new SingleSessionPricingData(25),
                         Repetition = new SingleRepetitionData(),
@@ -66,7 +66,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                         Coach = new CoachKeyData { Id = coachId },
                         Location = new LocationKeyData { Id = locationId },
                         Service = new ServiceKeyData { Id = serviceId },
-                        Timing = new SessionTimingData("2015-05-02", startTime, duration),
+                        Timing = new SessionTimingData("2015-05-02", startTime, duration, bookUntil),
                         Booking = new SessionBookingData(10, true),
                         Pricing = new SingleSessionPricingData(25),
                         Repetition = new SingleRepetitionData(),
@@ -118,8 +118,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void SameCourseShouldBeOverlapping()
             {
-                var course1 = CreateCourse(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var course2 = CreateCourse(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
+                var course1 = CreateCourse(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var course2 = CreateCourse(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
 
                 Assert.That(course1.IsOverlapping(course2), Is.True);
                 Assert.That(course2.IsOverlapping(course1), Is.True);

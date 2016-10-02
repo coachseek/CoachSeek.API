@@ -6,8 +6,8 @@ namespace CoachSeek.Domain.Entities
 {
     public abstract class Repetition
     {
-        protected const int MAXIMUM_WEEKLY_REPEAT = 26;
-        protected const int MAXIMUM_DAILY_REPEAT = 30;
+        protected const int MAXIMUM_WEEKLY_REPEAT = 255;
+        protected const int MAXIMUM_DAILY_REPEAT = 255;
 
         public int SessionCount { get { return _sessionCount.Count; } }
         public string RepeatFrequency { get { return _frequency.Frequency; } }

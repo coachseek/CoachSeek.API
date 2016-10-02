@@ -30,7 +30,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
         }
 
 
-        private SingleSession CreateSingleSession(Guid sessionId, Guid coachId, Guid locationId, Guid serviceId, string startTime, int duration)
+        private SingleSession CreateSingleSession(Guid sessionId, Guid coachId, Guid locationId, Guid serviceId, string startTime, int duration, int bookUntil)
         {
             var data = new SingleSessionData
             {
@@ -38,7 +38,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
                 Coach = new CoachKeyData { Id = coachId },
                 Location = new LocationKeyData { Id = locationId },
                 Service = new ServiceKeyData { Id = serviceId },
-                Timing = new SessionTimingData("2015-04-01", startTime, duration),
+                Timing = new SessionTimingData("2015-04-01", startTime, duration, bookUntil),
                 Booking = new SessionBookingData(10, true),
                 Pricing = new SingleSessionPricingData(25),
                 Repetition = new SingleRepetitionData(),
@@ -77,8 +77,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToBeforeSessionNotTouching()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "8:00", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "8:00", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -88,8 +88,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToBeforeSessionButTouching()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "9:00", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "9:00", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -99,8 +99,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToBeforeSessionButOverlapping()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "9:30", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "9:30", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -110,7 +110,7 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void SameSession()
             {
                 var sessionId = Guid.NewGuid();
-                var session = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
+                var session = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
 
                 Assert.That(session.IsOverlapping(session), Is.False);
             }
@@ -119,8 +119,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToAfterSessionButOverlapping()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:30", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:30", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -130,8 +130,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToAfterSessionButTouching()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "11:00", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "11:00", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -141,8 +141,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             public void MovedSessionToAfterSessionNotTouching()
             {
                 var sessionId = Guid.NewGuid();
-                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "12:00", 60);
+                var sessionNow = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var sessionMoved = CreateSingleSession(sessionId, ZoeId, WaitomoId, MiniBlackId, "12:00", 60, 100);
 
                 Assert.That(sessionNow.IsOverlapping(sessionMoved), Is.False);
                 Assert.That(sessionMoved.IsOverlapping(sessionNow), Is.False);
@@ -156,8 +156,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentCoachSessionsNotTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "8:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "8:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -166,8 +166,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentCoachSessionsTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "9:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "9:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -176,8 +176,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentCoachSessionsPartiallyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "9:30", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "9:30", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -186,8 +186,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentCoachSessionsFullyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "10:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), YolandaId, WaitomoId, MiniBlackId, "10:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -201,8 +201,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentLocationSessionsNotTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "8:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "8:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -211,8 +211,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentLocationSessionsTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "9:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "9:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -221,8 +221,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentLocationSessionsPartiallyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "9:30", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "9:30", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.True);
                 Assert.That(session2.IsOverlapping(session1), Is.True);
@@ -231,8 +231,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentLocationSessionsFullyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "10:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, PaeroaId, MiniBlackId, "10:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.True);
                 Assert.That(session2.IsOverlapping(session1), Is.True);
@@ -246,8 +246,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentServiceSessionsNotTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "8:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "8:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -256,8 +256,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentServiceSessionsTouching()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "9:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "9:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.False);
                 Assert.That(session2.IsOverlapping(session1), Is.False);
@@ -266,8 +266,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentServiceSessionsPartiallyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "9:30", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "9:30", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.True);
                 Assert.That(session2.IsOverlapping(session1), Is.True);
@@ -276,8 +276,8 @@ namespace CoachSeek.Domain.Tests.Unit.Entities
             [Test]
             public void DifferentServiceSessionsFullyOverlapping()
             {
-                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60);
-                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "10:00", 60);
+                var session1 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniBlackId, "10:00", 60, 100);
+                var session2 = CreateSingleSession(Guid.NewGuid(), ZoeId, WaitomoId, MiniWhiteId, "10:00", 60, 100);
 
                 Assert.That(session1.IsOverlapping(session2), Is.True);
                 Assert.That(session2.IsOverlapping(session1), Is.True);

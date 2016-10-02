@@ -15,7 +15,8 @@ CREATE PROCEDURE [dbo].[Session_CreateCourse]
 	@repeatFrequency [char](1),
 	@sessionPrice [decimal](19, 4) = NULL,
 	@coursePrice [decimal](19, 4) = NULL,
-	@colour [char](12)
+	@colour [char](12),
+	@bookUntil [tinyint]
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -71,7 +72,8 @@ BEGIN
 		[RepeatFrequency],
 		[SessionPrice],
 		[CoursePrice],
-		[Colour]
+		[Colour],
+		[BookUntil]
 	)
 	VALUES
 	(
@@ -91,7 +93,8 @@ BEGIN
 		@repeatFrequency,
 		@sessionPrice,
 		@coursePrice,
-		@colour
+		@colour,
+		@bookUntil
 	)
 
 END

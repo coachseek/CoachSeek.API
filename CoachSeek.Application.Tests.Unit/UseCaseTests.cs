@@ -269,7 +269,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-20", "9:00", 60),
+                Timing = new SessionTimingData("2015-01-20", "9:00", 60, 60),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
@@ -286,7 +286,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                Timing = new SessionTimingData("2015-01-21", "14:00", 60, 100),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
@@ -303,7 +303,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-23", "11:00", 60),
+                Timing = new SessionTimingData("2015-01-23", "11:00", 60, 100),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
@@ -320,7 +320,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-25", "18:00", 60),
+                Timing = new SessionTimingData("2015-01-25", "18:00", 60, 0),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
@@ -337,7 +337,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_BROWNS_BAY_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_ALBERT_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-26", "13:00", 60),
+                Timing = new SessionTimingData("2015-01-26", "13:00", 60, 100),
                 Booking = new SessionBookingData(8, true),
                 Presentation = new PresentationData { Colour = "Red" },
                 Pricing = new SingleSessionPricingData(20)
@@ -371,7 +371,7 @@ namespace CoachSeek.Application.Tests.Unit
                 Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                 Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                 Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                Timing = new SessionTimingData("2015-01-21", "14:00", 60, 100),
                 Repetition = new RepetitionData(3, "d"),
                 Booking = new SessionBookingData(10, true),
                 Presentation = new PresentationData { Colour = "Red" },
@@ -385,7 +385,7 @@ namespace CoachSeek.Application.Tests.Unit
                         Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                         Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                         Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                        Timing = new SessionTimingData("2015-01-21", "14:00", 60),
+                        Timing = new SessionTimingData("2015-01-21", "14:00", 60, 100),
                         Booking = new SessionBookingData(10, true),
                         Presentation = new PresentationData { Colour = "Red" },
                         Pricing = new SingleSessionPricingData(20)
@@ -397,7 +397,7 @@ namespace CoachSeek.Application.Tests.Unit
                         Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                         Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                         Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                        Timing = new SessionTimingData("2015-01-22", "14:00", 60),
+                        Timing = new SessionTimingData("2015-01-22", "14:00", 60, 100),
                         Booking = new SessionBookingData(10, true),
                         Presentation = new PresentationData { Colour = "Red" },
                         Pricing = new SingleSessionPricingData(20)
@@ -409,7 +409,7 @@ namespace CoachSeek.Application.Tests.Unit
                         Location = new LocationKeyData { Id = new Guid(LOCATION_ORAKEI_ID) },
                         Coach = new CoachKeyData { Id = new Guid(COACH_BILL_ID) },
                         Service = new ServiceKeyData { Id = new Guid(SERVICE_MINI_RED_ID) },
-                        Timing = new SessionTimingData("2015-01-23", "14:00", 60),
+                        Timing = new SessionTimingData("2015-01-23", "14:00", 60, 100),
                         Booking = new SessionBookingData(10, true),
                         Presentation = new PresentationData { Colour = "Red" },
                         Pricing = new SingleSessionPricingData(20)

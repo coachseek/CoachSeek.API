@@ -39,24 +39,24 @@ namespace CoachSeek.Domain.Entities
         //}
 
 
-        public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer, Business business)
+        public CourseBooking(BookingAddCommand command, RepeatedSessionData course, CustomerData customer, Business business, int discountPercent)
             : base(customer.ToKeyData())
         {
             Course = course;
-
+            DiscountPercent = discountPercent;
             BookingCollection = CreateCourseSessionBookingCollection();
             BookingCollection.Add(command);
-            CalculateBookingPrice(business.UseProRataPricing, 0);
+            CalculateBookingPrice(business.UseProRataPricing, discountPercent);
         }
 
         public CourseBooking(CourseBookingData data, RepeatedSessionData course, Business business)
             : base(data)
         {
             Course = course;
-
+            DiscountPercent = data.DiscountPercent;
             BookingCollection = CreateCourseSessionBookingCollection();
             BookingCollection.Add(data);
-            CalculateBookingPrice(business.UseProRataPricing, 0);
+            CalculateBookingPrice(business.UseProRataPricing, data.DiscountPercent);
         }
 
         public CourseBooking(CourseBooking courseBooking, Business business)
@@ -95,6 +95,7 @@ namespace CoachSeek.Domain.Entities
                 IsOnlineBooking = IsOnlineBooking,
                 Price = BookingPrice,
                 SessionBookings = SessionBookings.ToList(),
+                DiscountPercent = DiscountPercent
                 //BookedSessions = BookedSessions.ToList()
             };
         }

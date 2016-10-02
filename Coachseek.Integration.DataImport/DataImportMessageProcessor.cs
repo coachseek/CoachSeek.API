@@ -99,9 +99,9 @@ namespace Coachseek.Integration.DataImport
         {
             // Assume it's CSV for now.
             var parts = line.Split(',');
-            if (parts.Length != 4)
+            if (parts.Length != 5)
                 throw new NotEnoughDataParts();
-            return new CustomerAddCommand(parts[0], parts[1], parts[2], parts[3]);
+            return new CustomerAddCommand(parts[0], parts[1], parts[2], parts[3], parts[4]);
         }
 
         private DataRepositories GetDataAccess()

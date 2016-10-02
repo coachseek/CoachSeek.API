@@ -62,15 +62,15 @@ namespace CoachSeek.Application.UseCases
         private CourseBooking AddCourseBooking(BookingAddCommand command)
         {
             var customer = BusinessRepository.GetCustomer(Business.Id, command.Customer.Id);
-            var courseBooking = CreateCourseBooking(command, customer);
+            var courseBooking = CreateCourseBooking(command, customer, command.DiscountPercent);
             ValidateAddBooking(courseBooking);
             var data = BusinessRepository.AddCourseBooking(Business.Id, courseBooking);
             return CreateCourseBooking(data);
         }
 
-        protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command, CustomerData customer)
+        protected virtual CourseBooking CreateCourseBooking(BookingAddCommand command, CustomerData customer, int discountPercent)
         {
-            return new CourseBooking(command, Course, customer, Business);
+            return new CourseBooking(command, Course, customer, Business, discountPercent);
         }
 
         protected virtual CourseBooking CreateCourseBooking(CourseBookingData data)

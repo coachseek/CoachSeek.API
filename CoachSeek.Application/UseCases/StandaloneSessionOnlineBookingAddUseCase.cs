@@ -25,9 +25,8 @@ namespace CoachSeek.Application.UseCases
 
         protected override SingleSessionBooking CreateSessionBooking(BookingSession session,
                                                                      CustomerKeyData customer,
-                                                                     DiscountCodeData discountCode)
+                                                                     int discountPercent)
         {
-            var discountPercent = discountCode != null ? discountCode.DiscountPercent : 0;
             return new SingleSessionOnlineBooking(session, customer, discountPercent);
         }
 
