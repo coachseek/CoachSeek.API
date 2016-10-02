@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Coachseek.Integration.Payments
             : base(isTestMessage)
         {
             PaypalApiClient = new GenericApiClient(Url, ApiDataFormat.FormUrlEncoded);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
 
