@@ -153,7 +153,7 @@ namespace Coachseek.Integration.Payments.PaymentsProcessor
 
         private static void ValidateSingleSessionPaymentAmount(SingleSessionData session, SingleSessionBookingData booking, NewPayment newPayment)
         {
-            var expectedPrice = session.Pricing.SessionPrice?.ApplyDiscount(booking.DiscountPercent) ?? session.Pricing.SessionPrice.GetValueOrDefault();
+            var expectedPrice = session.Pricing.SessionPrice.GetValueOrDefault().ApplyDiscount(booking.DiscountPercent);
             if (newPayment.ItemAmount != expectedPrice)
                 throw new PaymentAmountMismatch(newPayment.ItemAmount, session.Pricing.SessionPrice.GetValueOrDefault());
         }
